@@ -1,0 +1,46 @@
+{
+  "round": 0,
+  "baseline_date": "2026-04-14",
+  "baseline_time_et": "11:49",
+  "account_value_at_entry": 3453.83,
+  "peak_value": 4825.03,
+  "peak_date": "2026-01-31",
+  "drawdown_pct_from_peak": -28.3,
+  "pending_cash": 107.67,
+  "buckets": {
+    "A_bigtech_quantum":  { "label": "Big-tech quantum (survivorship)", "target_pct": 45, "owner_agents": ["bear", "bull", "historian"] },
+    "B_theme_etf":        { "label": "Thematic ETF (diversified theme)", "target_pct": 20, "owner_agents": ["historian", "flow"] },
+    "C_pureplay":         { "label": "Pure-play quantum (asymmetric)", "target_pct": 20, "owner_agents": ["bull"] },
+    "D_power_macro":      { "label": "Power-for-compute (macro)", "target_pct": 10, "owner_agents": ["macro"] },
+    "E_drypowder":        { "label": "Dry powder", "target_pct": 5, "owner_agents": ["bear"] }
+  },
+  "holdings": [
+    { "ticker": "QTUM", "name": "Defiance Quantum ETF",        "bucket": "B_theme_etf",       "owner_agent": "historian", "shares": 5.509,  "entry_price": 121.67,   "entry_value": 670.28, "target_pct": 20.0, "tier": "core" },
+    { "ticker": "MSFT", "name": "Microsoft",                   "bucket": "A_bigtech_quantum", "owner_agent": "bear",      "shares": 1.022,  "entry_price": 393.41,   "entry_value": 402.06, "target_pct": 12.0, "tier": "core" },
+    { "ticker": "GOOG", "name": "Alphabet",                    "bucket": "A_bigtech_quantum", "owner_agent": "bear",      "shares": 1.219,  "entry_price": 329.53,   "entry_value": 401.69, "target_pct": 12.0, "tier": "core" },
+    { "ticker": "IONQ", "name": "IonQ (trapped-ion)",          "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 11.336, "entry_price": 35.34,    "entry_value": 400.61, "target_pct": 12.0, "tier": "satellite", "note": "legacy basis ~$41/sh — held through reset to avoid wash-sale" },
+    { "ticker": "IBM",  "name": "IBM",                         "bucket": "A_bigtech_quantum", "owner_agent": "historian", "shares": 1.532,  "entry_price": 240.055,  "entry_value": 367.76, "target_pct": 11.0, "tier": "core" },
+    { "ticker": "NVDA", "name": "NVIDIA",                      "bucket": "A_bigtech_quantum", "owner_agent": "bull",      "shares": 1.725,  "entry_price": 194.195,  "entry_value": 334.98, "target_pct": 10.0, "tier": "core" },
+    { "ticker": "CEG",  "name": "Constellation Energy",        "bucket": "D_power_macro",     "owner_agent": "macro",     "shares": 1.133,  "entry_price": 295.585,  "entry_value": 334.89, "target_pct": 10.0, "tier": "satellite" },
+    { "ticker": "RGTI", "name": "Rigetti (superconducting)",   "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 9.806,  "entry_price": 17.03,    "entry_value": 166.99, "target_pct": 5.0,  "tier": "satellite" },
+    { "ticker": "SGOV", "name": "T-bill ETF (dry powder)",     "bucket": "E_drypowder",       "owner_agent": "bear",      "shares": 1.661,  "entry_price": 100.5164, "entry_value": 166.95, "target_pct": 5.0,  "tier": "reserve" },
+    { "ticker": "QBTS", "name": "D-Wave (annealing)",          "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 5.873,  "entry_price": 17.02,    "entry_value": 99.95,  "target_pct": 3.0,  "tier": "lottery" }
+  ],
+  "triggers": {
+    "trim_single_name_above_pct": 15.0,
+    "trim_pureplay_above_pct": 12.0,
+    "deploy_drypowder_on_qtum_drawdown_pct": -30.0,
+    "sell_half_on_price_multiple": 10.0,
+    "kill_position_on_ATM_offering": true,
+    "panel_kill_switch_trades_per_year": 2
+  },
+  "history": {
+    "account_value_jan_2025_start": 1296.08,
+    "account_value_dec_2025_end":   4311.55,
+    "account_value_peak_2026":      4825.03,
+    "account_value_mar_2026_end":   3348.94,
+    "realized_gain_loss_ytd_2026_pre_reset": 638.27,
+    "approximate_realized_today_reset":     -1050.00,
+    "approximate_realized_ytd_2026_post_reset": -411.73
+  }
+}

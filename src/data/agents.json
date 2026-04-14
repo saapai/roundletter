@@ -1,0 +1,11 @@
+{
+  "agents": [
+    { "id": "bull",      "name": "the Bull",       "mandate": "Steelman the 10yr quantum thesis. Maximize upside. Sized IONQ biggest of the panel.", "owns_buckets": ["C_pureplay", "part of A_bigtech_quantum (NVDA)"] },
+    { "id": "bear",      "name": "the Bear",       "mandate": "Survive the drawdowns. Favor trillion-dollar balance sheets. Hold dry powder.", "owns_buckets": ["A_bigtech_quantum (MSFT, GOOG)", "E_drypowder (SGOV)"] },
+    { "id": "macro",     "name": "Macro",          "mandate": "Position for the backdrop, not the theme. Power is the binding constraint on AI+quantum compute.", "owns_buckets": ["D_power_macro (CEG)"] },
+    { "id": "flow",      "name": "Flow",           "mandate": "Own flow-clean vehicles. Avoid names with active ATM shelves and retail crowding.", "owns_buckets": ["partial in B_theme_etf"] },
+    { "id": "historian", "name": "the Historian",  "mandate": "Apply base rates from prior thematic waves — most pure-plays go to zero over 10yr.", "owns_buckets": ["B_theme_etf (QTUM)", "A_bigtech_quantum (IBM)"] }
+  ],
+  "round_0_weights": { "bull": 0.2, "bear": 0.2, "macro": 0.2, "flow": 0.2, "historian": 0.2 },
+  "scoring": "Brier + log-loss on T+30 / T+90 / T+365 direction calls, locked thesis hash at prediction time. Re-weight after >=20 resolved predictions per agent."
+}

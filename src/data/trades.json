@@ -1,0 +1,19 @@
+{
+  "trades": [
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "SELL", "ticker": "SMR",  "qty": 37.937,  "price": null,     "rationale": "liquidate to reset portfolio per Round 0 panel decision — harvest loss", "pnl_realized_approx": -267 },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "SELL", "ticker": "QNC",  "qty": 247.636, "price": null,     "rationale": "liquidate to reset — harvest loss, remove low-liquidity Canadian pure-play", "pnl_realized_approx": -296 },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "SELL", "ticker": "RIME", "qty": 234.036, "price": null,     "rationale": "liquidate — not quantum, not in thesis", "pnl_realized_approx": -208 },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "SELL", "ticker": "SRFM", "qty": 302.741, "price": null,     "rationale": "liquidate — not quantum, biggest ongoing drag", "pnl_realized_approx": -301 },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "SELL", "ticker": "TENX", "qty": 41.811,  "price": null,     "rationale": "liquidate — not quantum, locked small gain", "pnl_realized_approx": 104 },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "TRIM", "ticker": "IONQ", "qty": 7.171,   "price": 35.34,    "rationale": "trim to 12% target weight; held through to avoid wash-sale", "pnl_realized_approx": -42 },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "QTUM", "qty": 5.509,   "price": 121.67,   "rationale": "thematic ETF ballast — 20% target per panel consensus" },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "MSFT", "qty": 1.022,   "price": 393.41,   "rationale": "big-tech quantum (Azure Quantum / Majorana); survivorship core" },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "GOOG", "qty": 1.219,   "price": 329.53,   "rationale": "big-tech quantum (Willow); survivorship core" },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "IBM",  "qty": 1.532,   "price": 240.06,   "rationale": "most credible FTQ roadmap; dividend-paying" },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "NVDA", "qty": 1.725,   "price": 194.20,   "rationale": "CUDA-Q hybrid compute; AI cashflow cushion" },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "CEG",  "qty": 1.133,   "price": 295.59,   "rationale": "power-for-compute macro bet — nuclear PPAs" },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "RGTI", "qty": 9.806,   "price": 17.03,    "rationale": "superconducting pure-play — architecture diversifier" },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "SGOV", "qty": 1.661,   "price": 100.52,   "rationale": "dry powder for QTUM −30% kill-switch buy" },
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "QBTS", "qty": 5.873,   "price": 17.02,    "rationale": "annealing lottery — small architecture diversifier" }
+  ]
+}
