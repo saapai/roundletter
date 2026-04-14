@@ -213,6 +213,32 @@ h1, h2, h3 {
   border-radius: 2px;
 }
 
+/* Inline path-links — elegant, obviously clickable, no monospace box */
+.article a.pathlink {
+  color: var(--ink);
+  font-family: inherit;
+  font-style: italic;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 1px;
+  transition: color 220ms ease;
+}
+.article a.pathlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+  transform: scaleX(0.28);
+  transform-origin: left center;
+  transition: transform 320ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+}
+.article a.pathlink:hover { color: var(--rust); }
+.article a.pathlink:hover::after { transform: scaleX(1); opacity: 1; }
+
 /* Trench cards (receipts) — quieter */
 .trench {
   background: var(--parchment);

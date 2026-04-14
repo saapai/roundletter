@@ -28,7 +28,12 @@ export function renderMarkdown(md: string): string {
     esc(s)
       .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
       .replace(/\*(.+?)\*/g, "<em>$1</em>")
-      .replace(/`(.+?)`/g, "<code>$1</code>");
+      .replace(/`(.+?)`/g, (_: string, c: string) => {
+        if (/^\/[\w\-\/#?=&]*$/.test(c)) {
+          return `<a class="pathlink" href="${c}">${c}</a>`;
+        }
+        return `<code>${c}</code>`;
+      });
 
   for (const raw of lines) {
     const line = raw.trimEnd();
