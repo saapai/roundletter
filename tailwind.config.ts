@@ -15,6 +15,8 @@ const config: Config = {
       fontFamily: {
         serif: ["ui-serif", "Georgia", "Cambria", "Times New Roman", "serif"],
         mono: ["ui-monospace", "Menlo", "Monaco", "Courier New", "monospace"],
+        display: ["var(--font-display)", "ui-serif", "Georgia", "serif"],
+        body: ["var(--font-body)", "ui-serif", "Georgia", "serif"],
       },
     },
   },
