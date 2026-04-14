@@ -246,6 +246,36 @@ h1, h2, h3 {
 .article a.pathlink:hover { color: var(--rust); }
 .article a.pathlink:hover::after { transform: scaleX(1); opacity: 1; }
 
+/* ── AI-authored article (v1 colophon) — subtle signal ──── */
+.article-ai {
+  position: relative;
+}
+.article-ai::before {
+  content: "";
+  position: absolute;
+  left: -1rem;
+  top: 1.2rem;
+  bottom: 1.2rem;
+  width: 1px;
+  background: color-mix(in srgb, var(--anno-historian, #733B43) 35%, transparent);
+  pointer-events: none;
+}
+.ai-stamp {
+  text-align: center;
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--anno-historian, #733B43) 75%, var(--graphite) 25%);
+  margin-top: 0.45rem;
+  margin-bottom: 0.2rem;
+}
+.article-ai .byline {
+  color: color-mix(in srgb, var(--anno-historian, #733B43) 65%, var(--graphite) 35%);
+  font-style: italic;
+  letter-spacing: 0.12em;
+}
+
 /* ── Five-agent editorial system ──────────────────────────── */
 :root {
   --anno-bull:      #A67A3A;   /* warm ochre — was too yellow */

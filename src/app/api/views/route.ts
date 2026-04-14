@@ -4,7 +4,7 @@ export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 const NAMESPACE = "aureliex-prod";
-const SLUGS = ["round-0", "paradigm", "math"];
+const SLUGS = ["round-0", "paradigm", "math", "v1"];
 const BASE = "https://abacus.jasoncameron.dev";
 
 async function hit(slug: string): Promise<number | null> {
