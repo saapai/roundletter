@@ -2,6 +2,7 @@ import { getLetter, getPortfolio } from "@/lib/data";
 import { renderMarkdown } from "@/lib/md";
 import ViewTracker from "@/components/ViewTracker";
 import ViewsBadge from "@/components/ViewsBadge";
+import AgentsLegend from "@/components/AgentsLegend";
 
 export default function ParadigmPage() {
   const letter = getLetter("paradigm");
@@ -10,6 +11,7 @@ export default function ParadigmPage() {
   return (
     <article className="article">
       <div className="eyebrow">P.S. · The Paradigm · {letter.frontmatter.date}</div>
+      <AgentsLegend />
       <div dangerouslySetInnerHTML={{ __html: renderMarkdown(letter.body) }} />
       <div className="byline">by {p.author?.name ?? "saapai"}</div>
       <div className="meta-chips">

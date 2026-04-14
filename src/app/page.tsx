@@ -3,6 +3,7 @@ import { renderMarkdown } from "@/lib/md";
 import ViewTracker from "@/components/ViewTracker";
 import ViewsBadge from "@/components/ViewsBadge";
 import Countdown from "@/components/Countdown";
+import AgentsLegend from "@/components/AgentsLegend";
 
 const ARTICLES = ["round-0", "paradigm", "math"];
 
@@ -17,6 +18,7 @@ export default function Home() {
       {round0 && (
         <article className="article">
           <div className="eyebrow">Round Letter · {round0.frontmatter.round} · {round0.frontmatter.date}</div>
+          <AgentsLegend />
           <div dangerouslySetInnerHTML={{ __html: renderMarkdown(round0.body) }} />
           <div className="byline">by {p.author?.name ?? "saapai"}</div>
           <div className="meta-chips">
@@ -32,6 +34,7 @@ export default function Home() {
       {paradigm && (
         <article className="article" style={{ marginTop: 0 }}>
           <div className="eyebrow">P.S. · The Paradigm · {paradigm.frontmatter.date}</div>
+          <AgentsLegend />
           <div dangerouslySetInnerHTML={{ __html: renderMarkdown(paradigm.body) }} />
           <div className="byline">by {p.author?.name ?? "saapai"}</div>
           <div className="meta-chips">
@@ -46,11 +49,12 @@ export default function Home() {
       {math && (
         <article className="article" style={{ marginTop: 0 }}>
           <div className="eyebrow">The Math · {math.frontmatter.date}</div>
+          <AgentsLegend />
           <div dangerouslySetInnerHTML={{ __html: renderMarkdown(math.body) }} />
           <div className="byline">by {p.author?.name ?? "saapai"}</div>
           <div className="meta-chips">
             <ViewsBadge slugs={["math"]} mode="per-slug" />
-            <ViewsBadge slugs={ARTICLES} mode="per-slug" label="total read to the end" />
+            <ViewsBadge slugs={ARTICLES} mode="aggregate" />
           </div>
           <ViewTracker slug="math" />
         </article>

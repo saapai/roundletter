@@ -27,7 +27,7 @@ export default function ViewsBadge({
   }, []);
 
   const n = store ? slugs.reduce((a, s) => a + (store.counts[s] || 0), 0) : null;
-  const suffix = label ?? (mode === "aggregate" ? "read to the end (total)" : "read to the end");
+  const suffix = label ?? (mode === "aggregate" ? "cumulative (double-counts)" : "read to here");
 
   return (
     <span className="inline-flex items-baseline gap-2">

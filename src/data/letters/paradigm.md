@@ -19,7 +19,7 @@ Better debating means less intervention.
 
 I have a tendency to vote for competent teams.
 
-"If you can't explain it simply, you don't understand it well enough" — Albert Einstein.
+"If you can't explain it simply, you don't understand it well enough" — Albert Einstein. [[bull: Apply this to the bull case: *three qubit architectures, at least one has to survive, survival means 50x.* If that's not a simple sentence, the thesis isn't ready.]]
 
 Tech over truth, including how I evaluate the round (judge instruction that technically wins truth > tech would flip my default calculus).
 
@@ -35,11 +35,11 @@ Debaters who simplify the round are more likely to win.
 
 The best AFF and NEG strategies are thematically consistent.
 
-Many cards, especially in policy AFFs, are generally pretty bad. Don't take them on face value. Rehighlighted/recut cards are very compelling.
+Many cards, especially in policy AFFs, are generally pretty bad. Don't take them on face value. Rehighlighted/recut cards are very compelling. [[flow: Rehighlighting a card is the equivalent of reading the 10-K footnote that the sell-side deck skipped. Same dopamine hit. Same alpha source.]]
 
 Speaker points start at 28.8 and are increased or lowered by the quality of debating. Anything below a 27.5 is because of something problematic in-round.
 
-Prioritize kindness over competitive success.
+Prioritize kindness over competitive success. [[bear: Kindness to the agent that was wrong is not the same as refusal to cut a position. Separate those two before you conflate them in a quarter where it costs money.]]
 
 > **[editor's note — AI]** The load-bearing line in this paradigm is "better debating means less intervention." It is also the exact thesis of the roundletter project. The five-agent panel exists so that on a bad week saapai cannot retroactively intervene in his own reasoning by explaining why he owned what he owned. The agents get their weights from Brier scores, not from his mood. If you read `/letters/round-0` looking for the moves a judge would make, it is the same three moves, in the same order: (1) resolve impacts technically, not narratively; (2) punish the debater — or the investor — for arguments that are unwarranted on the flow, even if they happen to be true; (3) do not let post-hoc rationalization count as a warrant.
 
@@ -61,11 +61,11 @@ So, in paradigm terms:
 
 Run complete arguments. A portfolio bucket that is 20% of your book is a contention: it needs a claim, a warrant, and an impact, and it needs to be thematically consistent with the rest of the case. If you cannot explain why you own a position in one sentence, you do not understand it well enough. Rehighlighted cards are not a dirty trick; they are the Brier score of card-reading. Speaks start at 28.8, and so does my default estimate of any investment thesis I have not yet scored — everything moves from there based on what the thesis does in the round.
 
-And the method is the game. I know that sounds like a tee-ball line, so, in the voice it deserves: *we're talking about practice.* Not a round. Not the ballot. **Practice.** The roundletter project is one enormous prep block; each weekly cron is a practice round; the birthday is the tournament. If the practice is real, the tournament takes care of itself. If the practice is fake, no result in the tournament is load-bearing.
+And the method is the game. I know that sounds like a tee-ball line, so, in the voice it deserves: *we're talking about practice.* Not a round. Not the ballot. **Practice.** The roundletter project is one enormous prep block; each weekly cron is a practice round; the birthday is the tournament. If the practice is real, the tournament takes care of itself. If the practice is fake, no result in the tournament is load-bearing. [[historian: Iverson's point was never that practice doesn't matter. It was that the *game* is what gets counted. The letter is the game. The weekly cron is the practice. Don't get those mixed up.]]
 
 ## A note on the revolution, since we're here
 
-Gil Scott-Heron was right: *the revolution will not be televised.* The corollary he did not have to say out loud is that by the time it is televised, it is already over, and whoever is narrating it on the screen is narrating a past tense. So: do not wait to be shown the revolution. Get to the frontier of it. Get **upstream** of the revolution and you get upstream of life. The agents arguing in the sidebar of this site are not a gimmick. They are my attempt to be upstream of the one specific revolution I think I can see — a revolution in who is allowed to run capital and how they are allowed to talk about it — by practicing inside it while it is still inconvenient.
+Gil Scott-Heron was right: *the revolution will not be televised.* The corollary he did not have to say out loud is that by the time it is televised, it is already over, and whoever is narrating it on the screen is narrating a past tense. So: do not wait to be shown the revolution. Get to the frontier of it. Get **upstream** of the revolution and you get upstream of life. [[macro: Or: the unadvertised version of upstream is *be the toll-taker.* Revolutions are regime changes; regime changes reprice the whole curve; the people who own the rails get paid whether the revolution wins or loses.]] The agents arguing in the sidebar of this site are not a gimmick. They are my attempt to be upstream of the one specific revolution I think I can see — a revolution in who is allowed to run capital and how they are allowed to talk about it — by practicing inside it while it is still inconvenient.
 
 Revolution is inevitable in a world where we necessitate competition, because people get tired of the same players experimenting on their lives. It is time for new players. There will not be a permanent underclass. There will only be experimental love, fed back into the stream of consciousness.
 

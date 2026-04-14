@@ -239,6 +239,136 @@ h1, h2, h3 {
 .article a.pathlink:hover { color: var(--rust); }
 .article a.pathlink:hover::after { transform: scaleX(1); opacity: 1; }
 
+/* ── Five-agent editorial system ──────────────────────────── */
+:root {
+  --anno-bull:      #B8873F;
+  --anno-bear:      #3F6B4A;
+  --anno-macro:     #4A5A78;
+  --anno-flow:      #8B3A2E;
+  --anno-historian: #7A3B4F;
+}
+
+.agents-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  margin: 1rem auto 0;
+  padding: 0 0.5rem;
+}
+.legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--anno-color, currentColor);
+  display: inline-block;
+}
+.legend-bull      { --anno-color: var(--anno-bull); }
+.legend-bear      { --anno-color: var(--anno-bear); }
+.legend-macro     { --anno-color: var(--anno-macro); }
+.legend-flow      { --anno-color: var(--anno-flow); }
+.legend-historian { --anno-color: var(--anno-historian); }
+
+/* Annotation dot + hover note */
+.article .anno {
+  position: relative;
+  display: inline;
+  outline: none;
+}
+.article .anno-dot {
+  display: inline-block;
+  width: 0.46em;
+  height: 0.46em;
+  border-radius: 50%;
+  margin-left: 0.3em;
+  vertical-align: middle;
+  background: var(--anno-color, var(--ink));
+  transform: translateY(-0.1em);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+  cursor: help;
+  box-shadow: 0 0 0 0 var(--anno-color);
+}
+.article .anno:hover .anno-dot,
+.article .anno:focus-within .anno-dot {
+  transform: translateY(-0.1em) scale(1.35);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--anno-color) 20%, transparent);
+}
+.article .anno-note {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.75em);
+  transform: translate(-50%, 6px);
+  min-width: 14rem;
+  max-width: min(22rem, calc(100vw - 2rem));
+  padding: 0.7rem 0.9rem 0.75rem;
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--anno-color) 55%, transparent);
+  border-left: 3px solid var(--anno-color);
+  border-radius: 2px;
+  box-shadow: 1px 2px 0 rgba(28,26,23,0.08), 0 8px 24px -12px rgba(28,26,23,0.25);
+  font-family: var(--font-body), serif;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--ink);
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 8;
+  transition: opacity 220ms ease, transform 220ms cubic-bezier(.2,.7,.2,1);
+}
+.article .anno-note .anno-name {
+  display: block;
+  font-family: var(--font-body), serif;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--anno-color);
+  margin-bottom: 0.35rem;
+}
+.article .anno-note .anno-body {
+  display: block;
+  font-style: italic;
+  color: var(--ink);
+}
+.article .anno:hover .anno-note,
+.article .anno:focus-within .anno-note {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+.article .anno-bull      { --anno-color: var(--anno-bull); }
+.article .anno-bear      { --anno-color: var(--anno-bear); }
+.article .anno-macro     { --anno-color: var(--anno-macro); }
+.article .anno-flow      { --anno-color: var(--anno-flow); }
+.article .anno-historian { --anno-color: var(--anno-historian); }
+
+@media (max-width: 520px) {
+  .article .anno-note {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%) scale(0.98);
+    max-width: none;
+    min-width: 0;
+  }
+  .article .anno:hover .anno-note,
+  .article .anno:focus-within .anno-note {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
 /* Trench cards (receipts) — quieter */
 .trench {
   background: var(--parchment);

@@ -19,7 +19,7 @@ Arithmetic expected return is the wrong objective when outcomes compound. If I f
 
 `max E[log(1 + R)]`
 
-Kelly (1956) derived the optimal fraction to bet on a favorable edge:
+Kelly (1956) derived the optimal fraction to bet on a favorable edge: [[historian: Kelly's original paper is about *signal transmission over a noisy channel*, not betting. Thorp translated it to blackjack in the 1960s and to the market in the 1970s. The fraction is the same. The provenance matters because most people who cite Kelly are actually citing Thorp.]]
 
 `f* = (b·p − q) / b`
 
@@ -39,7 +39,7 @@ The life analogue: your reliable income. Do not over-bet it. Size it so that it 
 
 ## Bucket B — Diversified theme (20% · QTUM)
 
-This is the 1999-lesson bucket. The historian agent owns it. If you had a theme conviction in 1999 — *the internet matters* — and you expressed it by picking individual dot-coms, your expected survival-probability-weighted return was approximately zero: most of the names you could have picked went to zero, and the ones that survived (MSFT, AMZN) were not obviously identifiable ex-ante. If instead you expressed the same conviction by owning QQQ, you captured the theme at roughly a 10× compounded return over twenty years, because the index has a **built-in survivorship filter**: names that fail get delisted and replaced by names that are winning now.
+This is the 1999-lesson bucket. The historian agent owns it. If you had a theme conviction in 1999 — *the internet matters* — and you expressed it by picking individual dot-coms, your expected survival-probability-weighted return was approximately zero: most of the names you could have picked went to zero, and the ones that survived (MSFT, AMZN) were not obviously identifiable ex-ante. If instead you expressed the same conviction by owning QQQ, you captured the theme at roughly a 10× compounded return over twenty years, because the index has a **built-in survivorship filter**: names that fail get delisted and replaced by names that are winning now. [[bull: Also a *momentum* filter. Delisted = recently weak; added = recently strong. The index is long a rolling winner-buyer. You are paying 40bps to be momentum-long the theme by construction.]]
 
 Formally, let `X_i` be the return of dot-com `i` with survival probability `s_i`. The ex-ante expected return of picking one at random is:
 
@@ -63,7 +63,7 @@ The probability that **at least one** name survives and hits a multi-bagger is:
 
 A coin flip on finding the pearl. Conditional expected return, given at least one hit, is of order `E[M | hit] ≈ 25×` on that sub-bucket. Since the sub-bucket is 20% of the book, a successful Bucket C returns roughly **5× the whole portfolio**, on a bucket whose worst case is a 20% total loss. That is the **convexity** — capped downside, uncapped upside.
 
-*Why three, not one.* If I bet the whole bucket on IONQ, the expected return is higher in the single-winner case but the probability of at least one hit collapses from 49% to 25%. The value of diversifying across three architectures is not return — it is **raising the probability that the convex tail event happens at all.** The expected log-utility is maximized near three names, not one, because `log` is concave and penalizes the no-hit outcomes more than it rewards the jackpot.
+*Why three, not one.* If I bet the whole bucket on IONQ, the expected return is higher in the single-winner case but the probability of at least one hit collapses from 49% to 25%. The value of diversifying across three architectures is not return — it is **raising the probability that the convex tail event happens at all.** The expected log-utility is maximized near three names, not one, because `log` is concave and penalizes the no-hit outcomes more than it rewards the jackpot. [[flow: The three names are *not* independent in the short run. Pre-revenue quantum small-caps trade as one sector on every dilution day. Write down the realized correlation next rebalance; I will bet it is north of 0.55.]]
 
 The life analogue: make three speculative bets on yourself at a time, not one. One startup idea, one creative project, one new domain of expertise. Fail cheaply on the ones that don't work. The math does not reward your conviction about which one will hit. It rewards your sizing so that at least one *can*.
 
@@ -73,7 +73,7 @@ Nuclear power is not quantum. Its correlation to Bucket A over any 10-year windo
 
 `σ²_portfolio = w_A²σ_A² + w_D²σ_D² + 2·w_A·w_D·ρ·σ_A·σ_D`
 
-Every unit of `ρ` less than 1 is a free reduction in variance. That reduction in variance is the same thing as an increase in geometric-mean return — which is the one return I care about. A 10% allocation to an asset with `ρ ≈ 0.5` to the rest of the book adds roughly `+0.2–0.4%` per year to geometric return, for no reduction in arithmetic return. It is the closest thing to a free lunch in finance.
+Every unit of `ρ` less than 1 is a free reduction in variance. That reduction in variance is the same thing as an increase in geometric-mean return — which is the one return I care about. A 10% allocation to an asset with `ρ ≈ 0.5` to the rest of the book adds roughly `+0.2–0.4%` per year to geometric return, for no reduction in arithmetic return. It is the closest thing to a free lunch in finance. [[macro: Check CEG's realized correlation to NVDA before you call it decorrelated. The AI capex narrative pulls both. In a regime change where hyperscaler capex rolls over, the "hedge" stops hedging. Diversification is a regime-dependent property.]]
 
 The life analogue: a genuinely different pursuit alongside your main one. Not a hobby — a second *bet* in a different domain. The decorrelation is the point. If your main bet is rates-sensitive, your second should not be. If your main discipline is analytical, your second should be something embodied.
 
@@ -100,7 +100,7 @@ The five buckets are a **barbell** (Taleb, 2007): a heavy survivorship floor (A 
 - **The buckets are decorrelated enough that their variances do not stack.** (Geometric return is protected.)
 - **There is always powder to deploy into dislocations.** (The optionality never expires.)
 
-This is not a portfolio shape. This is the shape of any strategy that compounds multiplicatively, survives with probability one, and has an uncapped upside tail. The asset can be dollars. It can also be hours of the week, or relationships, or ideas.
+This is not a portfolio shape. This is the shape of any strategy that compounds multiplicatively, survives with probability one, and has an uncapped upside tail. [[bear: The barbell assumes you can *actually hold the convex tail* for ten years without touching it. The site exists. You publish every week. You will touch it. The math breaks the moment a reader is watching.]] The asset can be dollars. It can also be hours of the week, or relationships, or ideas.
 
 ## The life-level claim, without hedging
 
