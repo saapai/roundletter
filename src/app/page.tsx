@@ -5,13 +5,13 @@ import ViewsBadge from "@/components/ViewsBadge";
 import Countdown from "@/components/Countdown";
 import AgentsLegend from "@/components/AgentsLegend";
 
-const ARTICLES = ["round-0", "paradigm", "math"];
+const ARTICLES = ["round-0", "math", "paradigm"];
 
 export default function Home() {
   const p = getPortfolio();
   const round0 = getLetter("round-0");
-  const paradigm = getLetter("paradigm");
   const math = getLetter("math");
+  const paradigm = getLetter("paradigm");
 
   return (
     <>
@@ -31,21 +31,6 @@ export default function Home() {
 
       <div className="article"><div className="ornament" style={{ margin: "5rem 0" }}>❦</div></div>
 
-      {paradigm && (
-        <article className="article" style={{ marginTop: 0 }}>
-          <div className="eyebrow">P.S. · The Paradigm · {paradigm.frontmatter.date}</div>
-          <AgentsLegend />
-          <div dangerouslySetInnerHTML={{ __html: renderMarkdown(paradigm.body) }} />
-          <div className="byline">by {p.author?.name ?? "saapai"}</div>
-          <div className="meta-chips">
-            <ViewsBadge slugs={["paradigm"]} mode="per-slug" />
-          </div>
-          <ViewTracker slug="paradigm" />
-        </article>
-      )}
-
-      <div className="article"><div className="ornament" style={{ margin: "5rem 0" }}>❦</div></div>
-
       {math && (
         <article className="article" style={{ marginTop: 0 }}>
           <div className="eyebrow">The Math · {math.frontmatter.date}</div>
@@ -54,9 +39,24 @@ export default function Home() {
           <div className="byline">by {p.author?.name ?? "saapai"}</div>
           <div className="meta-chips">
             <ViewsBadge slugs={["math"]} mode="per-slug" />
-            <ViewsBadge slugs={ARTICLES} mode="aggregate" />
           </div>
           <ViewTracker slug="math" />
+        </article>
+      )}
+
+      <div className="article"><div className="ornament" style={{ margin: "5rem 0" }}>❦</div></div>
+
+      {paradigm && (
+        <article className="article" style={{ marginTop: 0 }}>
+          <div className="eyebrow">P.S. · The Paradigm · {paradigm.frontmatter.date}</div>
+          <AgentsLegend />
+          <div dangerouslySetInnerHTML={{ __html: renderMarkdown(paradigm.body) }} />
+          <div className="byline">by {p.author?.name ?? "saapai"}</div>
+          <div className="meta-chips">
+            <ViewsBadge slugs={["paradigm"]} mode="per-slug" />
+            <ViewsBadge slugs={ARTICLES} mode="aggregate" />
+          </div>
+          <ViewTracker slug="paradigm" />
         </article>
       )}
     </>
