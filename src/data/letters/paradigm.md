@@ -79,7 +79,7 @@ That is the judge paradigm too, now that I read it back. "Better debating means 
 
 Senior at West SLC. Judge. Occasional investor. Currently letting an AI edit my articles because the AI is better than I am at "tech," I am better than the AI at "truth," and I am trying to see how those trade.
 
-Theodore Roosevelt said the credit belongs to the one actually in the arena — *whose face is marred by dust and sweat and blood.* I am not pretending a brokerage account is the arena the way a round is. But it is **an** arena, and it is mine, and the critic who says my speaks should be a 28.9 does not count. If I strive valiantly and fail, at least I will fail while daring greatly, with my flows timestamped.
+Theodore Roosevelt said the credit belongs to the one actually in the arena — *whose face is marred by dust and sweat and blood.* I am not pretending a brokerage account is the arena the way a round is. But it is **an** arena, and it is mine, and the critic who says my speaks should be a 28.7 does not count. If I strive valiantly and fail, at least I will fail while daring greatly, with my flows timestamped.
 
 ∇f(x, y, z) = ∂f/∂x **i** + ∂f/∂y **j** + ∂f/∂z **k**
 
