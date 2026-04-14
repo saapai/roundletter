@@ -17,7 +17,7 @@ export default function Home() {
         <article className="article">
           <div className="eyebrow">Round Letter · {round0.frontmatter.round} · {round0.frontmatter.date}</div>
           <div dangerouslySetInnerHTML={{ __html: renderMarkdown(round0.body) }} />
-          <div className="byline">by {p.author?.name ?? "Gopalakrishna Pai"} · @{p.author?.handle ?? "saapai"}</div>
+          <div className="byline">by {p.author?.name ?? "saapai"}</div>
           <div className="meta-chips">
             {p.birthdate && <Countdown birthdate={p.birthdate} />}
             <ViewsBadge slugs={["round-0"]} mode="per-slug" />
@@ -32,7 +32,7 @@ export default function Home() {
         <article className="article" style={{ marginTop: 0 }}>
           <div className="eyebrow">P.S. · The Paradigm · {paradigm.frontmatter.date}</div>
           <div dangerouslySetInnerHTML={{ __html: renderMarkdown(paradigm.body) }} />
-          <div className="byline">by {p.author?.name ?? "Gopalakrishna Pai"} · @{p.author?.handle ?? "saapai"}</div>
+          <div className="byline">by {p.author?.name ?? "saapai"}</div>
           <div className="meta-chips">
             <ViewsBadge slugs={["paradigm"]} mode="per-slug" />
             <ViewsBadge slugs={ARTICLES} mode="per-slug" label="total read to the end" />
