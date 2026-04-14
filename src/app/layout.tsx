@@ -48,7 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TableOfContents />
         <header className="masthead">
           <Link href="/" className="wordmark">aureliex<span className="dot">.</span></Link>
-          <div className="tagline">a portfolio kept in public · round letter</div>
+          <div className="tagline">a portfolio kept in public</div>
           <div className="rule" />
           <nav className="nav">
             <Link href="/">letters</Link>
