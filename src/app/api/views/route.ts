@@ -1,57 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "node:fs";
-import path from "node:path";
 
-export const runtime = "nodejs";
+export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const LOG_DIR = path.join(process.cwd(), "data");
-const LOG_FILE = path.join(LOG_DIR, "views.json");
+const NAMESPACE = "aureliex-prod";
+const SLUGS = ["round-0", "paradigm"];
+const BASE = "https://abacus.jasoncameron.dev";
 
-type ViewEntry = { ts: string; slug: string; ip: string | null; ua: string | null; referrer: string | null };
-type ViewStore = { counts: Record<string, number>; events: ViewEntry[] };
-
-function read(): ViewStore {
+async function hit(slug: string): Promise<number | null> {
   try {
-    if (!fs.existsSync(LOG_FILE)) return { counts: {}, events: [] };
-    return JSON.parse(fs.readFileSync(LOG_FILE, "utf8"));
-  } catch {
-    return { counts: {}, events: [] };
-  }
+    const r = await fetch(`${BASE}/hit/${NAMESPACE}/${encodeURIComponent(slug)}`, { cache: "no-store" });
+    if (!r.ok) return null;
+    const j = (await r.json()) as { value?: number };
+    return typeof j.value === "number" ? j.value : null;
+  } catch { return null; }
 }
 
-function write(store: ViewStore) {
-  fs.mkdirSync(LOG_DIR, { recursive: true });
-  fs.writeFileSync(LOG_FILE, JSON.stringify(store, null, 2));
+async function read(slug: string): Promise<number> {
+  try {
+    const r = await fetch(`${BASE}/get/${NAMESPACE}/${encodeURIComponent(slug)}`, { cache: "no-store" });
+    if (!r.ok) return 0;
+    const j = (await r.json()) as { value?: number };
+    return typeof j.value === "number" ? j.value : 0;
+  } catch { return 0; }
 }
 
 export async function POST(req: NextRequest) {
-  let body: { slug?: string; referrer?: string | null } = {};
+  let body: { slug?: string } = {};
   try { body = await req.json(); } catch {}
-  const slug = typeof body.slug === "string" ? body.slug : null;
-  if (!slug) return NextResponse.json({ ok: false, error: "slug required" }, { status: 400 });
-
-  const entry: ViewEntry = {
-    ts: new Date().toISOString(),
-    slug,
-    ip: req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || null,
-    ua: req.headers.get("user-agent"),
-    referrer: body.referrer ?? null,
-  };
-
-  try {
-    const store = read();
-    store.counts[slug] = (store.counts[slug] || 0) + 1;
-    store.events.push(entry);
-    write(store);
-    return NextResponse.json({ ok: true, count: store.counts[slug] });
-  } catch (e) {
-    console.log("[views]", JSON.stringify(entry));
-    return NextResponse.json({ ok: true, count: null, logged: "stderr" });
-  }
+  const slug = typeof body.slug === "string" && SLUGS.includes(body.slug) ? body.slug : null;
+  if (!slug) return NextResponse.json({ ok: false, error: "unknown slug" }, { status: 400 });
+  const count = await hit(slug);
+  return NextResponse.json({ ok: true, slug, count });
 }
 
 export async function GET() {
-  const store = read();
-  return NextResponse.json(store);
+  const entries = await Promise.all(SLUGS.map(async s => [s, await read(s)] as const));
+  const counts: Record<string, number> = {};
+  for (const [s, n] of entries) counts[s] = n;
+  return NextResponse.json({ counts });
 }
