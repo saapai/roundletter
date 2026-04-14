@@ -102,6 +102,26 @@ The five buckets are a **barbell** (Taleb, 2007): a heavy survivorship floor (A 
 
 This is not a portfolio shape. This is the shape of any strategy that compounds multiplicatively, survives with probability one, and has an uncapped upside tail. [[bear: The barbell assumes you can *actually hold the convex tail* for ten years without touching it. The site exists. You publish every week. You will touch it. The math breaks the moment a reader is watching.]] The asset can be dollars. It can also be hours of the week, or relationships, or ideas.
 
+## The algorithm under all of this is a gradient
+
+Kelly's fraction is the one-dimensional case. The real portfolio is the five-dimensional case. With weights `w = (w_A, w_B, w_C, w_D, w_E)` and returns `R = (R_A, R_B, R_C, R_D, R_E)`, the optimization is:
+
+`max_w  E[ log(1 + w · R) ]`   subject to   `Σ w_i = 1`
+
+At the optimum, the gradient with respect to `w` is zero, because the gradient of the objective points in the direction of steepest ascent — and at the optimum, there is no direction left to move in:
+
+`∇_w E[ log(1 + w · R) ] = 0`
+
+I do not know what `R` actually is. I have priors, the priors are noisy, and the only way to sharpen them is to observe outcomes. The algorithm is therefore **not** "solve for the optimum." It cannot be. The algorithm is **stochastic gradient ascent**: observe each round's noisy realization of returns, estimate the local slope of expected log-utility with respect to each bucket weight, step a small amount in that direction, repeat.
+
+The weekly cron is the update step. The Brier score each agent accumulates is the coordinate of the gradient that corresponds to that agent's bucket. [[historian: Stochastic gradient descent is also the algorithm behind every neural network in this decade. The math is old — Robbins and Monro wrote it down in 1951. What is new is the objective function and the hardware. The algorithm has outlasted every theory it has been embedded in.]] The whole site is running that loop, with weekly granularity, in public. Less intervention — in gradient language — means: take small steps, keep the step size small relative to the noise in the signal, and trust the process enough to not hand-tune a coordinate on a Thursday because you had a gut feeling.
+
+This is why the formula at the bottom of `/letters/paradigm` is **not** decorative.
+
+`∇f(x, y, z) = (∂f/∂x) i + (∂f/∂y) j + (∂f/∂z) k`
+
+— is the algorithm this project is implementing, written in three basis vectors for compactness. For the five-bucket portfolio the formula has five terms. For a life, it has as many as you are willing to keep track of. It is the mathematical content of "better debating means less intervention." The gradient tells you which weight to nudge up, which to nudge down, and how hard. You do not get to skip to the answer. You are required to take the step.
+
 ## The life-level claim, without hedging
 
 Most people's lives are shaped like **concentrated Kelly with no dry powder**. One job, one relationship, one intellectual domain, no optionality, no decorrelated pursuit, no convex side-bet. Arithmetic expected return may be fine. Geometric expected return is being eaten alive by variance. When the dislocation comes — and it always comes — there is no powder to deploy, no decorrelated bucket that is still doing well, and the convex bet that would have mattered was never made.

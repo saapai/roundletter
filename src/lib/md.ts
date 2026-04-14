@@ -1,3 +1,12 @@
+export function slugify(s: string): string {
+  return s.toLowerCase()
+    .replace(/[^\w\s-]+/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 80);
+}
+
 function esc(s: string) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -70,8 +79,8 @@ export function renderMarkdown(md: string): string {
   for (const raw of lines) {
     const line = raw.trimEnd();
 
-    if (line.startsWith("# "))  { closePara(); sawH1 = true; out.push(`<h1>${esc(line.slice(2))}</h1>`); continue; }
-    if (line.startsWith("## ")) { closePara(); out.push(`<h2>${esc(line.slice(3))}</h2>`); continue; }
+    if (line.startsWith("# "))  { closePara(); sawH1 = true; const t = line.slice(2); out.push(`<h1 id="${slugify(t)}">${esc(t)}</h1>`); continue; }
+    if (line.startsWith("## ")) { closePara(); const t = line.slice(3); out.push(`<h2 id="${slugify(t)}">${esc(t)}</h2>`); continue; }
     if (line.startsWith("> "))  { closePara(); out.push(`<blockquote>${inlineFormat(line.slice(2))}</blockquote>`); continue; }
     if (line.startsWith("- "))  { closePara(); out.push(`<li class="list-disc ml-6">${inlineFormat(line.slice(2))}</li>`); continue; }
     if (line === "---")         { closePara(); sawFirstHr = true; out.push("<hr/>"); continue; }
