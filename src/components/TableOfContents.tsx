@@ -7,7 +7,7 @@ type Section = { article: Entry; subs: Entry[] };
 export default function TableOfContents() {
   const [sections, setSections] = useState<Section[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const io = useRef<IntersectionObserver | null>(null);
 
   // Build the tree once, after content mounts

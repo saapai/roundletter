@@ -409,9 +409,15 @@ h1, h2, h3 {
 .toc-collapsed {
   width: 1.6rem;
   padding: 0 0 0 0.6rem;
+  border-left-color: transparent;
 }
 .toc-collapsed .toc-title,
 .toc-collapsed .toc-list { display: none; }
+.toc-collapsed .toc-header {
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
 
 .toc-header {
   display: flex;
