@@ -44,25 +44,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body className="min-h-screen font-body">
         <ReaderMode />
-        <header className="max-w-3xl mx-auto px-6 pt-10 pb-4">
-          <div className="flex items-baseline justify-between">
-            <Link href="/" className="text-xl tracking-tight font-display italic">aureliex<span className="text-graphite">.</span></Link>
-            <nav className="flex gap-5 text-[13px] text-graphite tracking-wide">
-              <Link href="/positions">positions</Link>
-              <Link href="/trades">trades</Link>
-              <Link href="/canvas">canvas</Link>
-              <Link href="/about-the-method">method</Link>
-            </nav>
-          </div>
-          <div className="ink-rule mt-3" />
+        <header className="masthead">
+          <Link href="/" className="wordmark">aureliex<span className="dot">.</span></Link>
+          <div className="tagline">a portfolio kept in public · round letter</div>
+          <div className="rule" />
+          <nav className="nav">
+            <Link href="/">letters</Link>
+            <Link href="/positions">positions</Link>
+            <Link href="/trades">trades</Link>
+            <Link href="/canvas">canvas</Link>
+            <Link href="/about-the-method">method</Link>
+          </nav>
         </header>
-        <main className="max-w-3xl mx-auto px-6 pb-24">{children}</main>
-        <footer className="max-w-3xl mx-auto px-6 pb-10 text-xs text-graphite">
-          <div className="ink-rule mb-3" />
-          <div className="flex justify-between">
-            <span>aureliex.com — real money, published in full</span>
-            <span>not investment advice. a logbook, not a newsletter.</span>
-          </div>
+        <main>{children}</main>
+        <footer className="max-w-[40rem] mx-auto px-6 py-12 text-[11px] tracking-[0.2em] uppercase text-graphite text-center">
+          <div className="ink-rule mb-6" />
+          <div>aureliex.com · real money · published in full · not investment advice</div>
         </footer>
       </body>
     </html>

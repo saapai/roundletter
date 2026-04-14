@@ -12,7 +12,7 @@ portfolio_value: 3453.83
 
 ---
 
-The account is at **$3,453.83**. The goal is **$100,000 by my birthday**. The plan is to let five AI agents argue about stocks while I sit on the couch and refuse to get a job. The party is already booked in my head — rooftop, open bar, a printed copy of this letter taped to the door at eye level.
+The account is at **$3,453.83**. The goal is **$100,000 by June 21** — my birthday. That is about **ten weeks.** The plan is to let five AI agents argue about stocks while I sit on the couch and refuse to get a job. The party is already booked in my head — rooftop, open bar, a printed copy of this letter taped to the door at eye level.
 
 I need a **29x**. The S&P does 10x in roughly 25 years. The gap between those two numbers is the entire joke. It is also the entire point. This is not an investment plan. This is an **ego mini-game** with a P&L attached, and the mini-game is the product. The money is the scoreboard.
 
@@ -21,7 +21,7 @@ I am publishing the pre-mortem so that later, when the account is at $4,100 and 
 ## The mini-game, stated plainly
 
 - **Stake**: $3,453.83.
-- **Goal**: $100,000 by my birthday.
+- **Goal**: $100,000 by June 21 (my birthday — roughly ten weeks out).
 - **Required multiple**: ~29x.
 - **Jobs held during game**: zero, by design.
 - **Counsel**: five AI agents — the Bull, the Bear, Macro, Flow, the Historian — equal-weighted until they earn their weights by being right about things in public.
@@ -75,7 +75,7 @@ Barber & Odean (1999, 2001) found retail investors who trade most underperform b
 
 ## Failure mode 4 — Quantum takes 20 years, not 1, and so does the party
 
-The bear agent's core thesis. Commercial quantum advantage may well arrive outside this portfolio's horizon — which, for the mini-game, is specifically one year. In that world, the pure-plays are mostly flat, QTUM is roughly flat, and the big-tech bucket carries the book through its own AI cashflows without any quantum contribution. I end up on my birthday with a portfolio that returned something like the Nasdaq because I owned mostly the Nasdaq. That is not a failure of risk-management — that is the thesis being early, which, as the saying goes, is indistinguishable from the thesis being wrong, which, for party-planning purposes, is indistinguishable from the thesis being wrong.
+The bear agent's core thesis. Commercial quantum advantage may well arrive outside this portfolio's horizon — which, for the mini-game, is specifically ten weeks. In that world, the pure-plays are mostly flat, QTUM is roughly flat, and the big-tech bucket carries the book through its own AI cashflows without any quantum contribution. I end up on my birthday with a portfolio that returned something like the Nasdaq because I owned mostly the Nasdaq. That is not a failure of risk-management — that is the thesis being early, which, as the saying goes, is indistinguishable from the thesis being wrong, which, for party-planning purposes, is indistinguishable from the thesis being wrong.
 
 **If it happens**, the lesson is in the agent weights. The bear and historian were right; the bull was expensive. The reweighting mechanism built into the prediction log is what catches this over 2-3 years of Brier scoring. The point of this entire exercise is to produce data to settle exactly this question. The point of the *party* was never going to be settled by this portfolio; the party was a framing device I used to trick myself into writing everything down. It worked.
 
@@ -94,4 +94,4 @@ I will be wrong about the specific failure modes above. The value of writing the
 **Drawdown as of publication**: 0.0% (baseline day). Peak was 2026-01-31 at $4,825.03.
 **Distance to $100K**: 28.95x and counting down.
 
-*This is not investment advice. This is one person thinking in public, with real money, on a 10-year horizon, with a one-year party deadline stapled to the front.*
+*This is not investment advice. This is one person thinking in public, with real money, on a 10-year horizon, with a ten-week party deadline stapled to the front.*

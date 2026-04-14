@@ -49,8 +49,8 @@ The reason it is worth reposting here — and the reason I am letting an AI anno
 
 So, in paradigm terms:
 
-- **The round**: one year, $3,453.83 to $100,000, five agents on the flow, me as the judge of last resort.
-- **The AFF**: the mini-game — that a retail account with no salary behind it can be made to 29x in twelve months if the agent panel is right about quantum and I do not intervene in my own framework.
+- **The round**: ten weeks, $3,453.83 to $100,000, five agents on the flow, me as the judge of last resort.
+- **The AFF**: the mini-game — that a retail account with no salary behind it can be made to 29x before June 21 if the agent panel is right about quantum and I do not intervene in my own framework.
 - **The NEG**: the adversarial agent's Barber-Odean block — retail traders who trade most underperform buy-and-hold by ~6.5%/yr, and publishing in public manufactures the urge to trade.
 - **The impact calculus**: the loss condition is not "lose money." It is losing *illegibly*. The paradigm says the team that resolves the largest impact with the least intervention wins. The largest impact in this round is method, not money. The logbook is the ballot.
 - **The kindness clause**: prioritize kindness over competitive success — which, in portfolio terms, means do not dunk on the agent that was wrong this week. Reweight it. Move on. Ted Lasso playing darts: *be curious, not judgmental*. The bull agent was wrong about Q1. Curious, not judgmental. Next round.
