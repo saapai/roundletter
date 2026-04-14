@@ -81,6 +81,7 @@ export function renderMarkdown(md: string): string {
 
     if (line.startsWith("# "))  { closePara(); sawH1 = true; const t = line.slice(2); out.push(`<h1 id="${slugify(t)}">${esc(t)}</h1>`); continue; }
     if (line.startsWith("## ")) { closePara(); const t = line.slice(3); out.push(`<h2 id="${slugify(t)}">${esc(t)}</h2>`); continue; }
+    if (line.startsWith("### ")) { closePara(); const t = line.slice(4); out.push(`<h3 id="${slugify(t)}">${esc(t)}</h3>`); continue; }
     if (line.startsWith("> "))  { closePara(); out.push(`<blockquote>${inlineFormat(line.slice(2))}</blockquote>`); continue; }
     if (line.startsWith("- "))  { closePara(); out.push(`<li class="list-disc ml-6">${inlineFormat(line.slice(2))}</li>`); continue; }
     if (line === "---")         { closePara(); sawFirstHr = true; out.push("<hr/>"); continue; }
