@@ -103,7 +103,7 @@ export default function TableOfContents() {
           aria-label={open ? "Close contents" : "Open contents"}
           onClick={() => setOpen(o => !o)}
         >
-          {open ? "×" : "☰"}
+          {open ? "×" : "⋮"}
         </button>
       </div>
       {open && (
