@@ -599,13 +599,21 @@ body.pitch-mode > main {
   margin: 0;
 }
 
-.pitch-root { background: #0E0E10; min-height: 100vh; }
+.pitch-root {
+  background: #0E0E10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .pitch-deck {
   color: #EDE8DC;
   font-family: "Menlo", ui-monospace, monospace;
-  max-width: 68rem;
+  width: 100%;
+  max-width: 62rem;
   margin: 0 auto;
-  padding: 0 1.75rem;
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+  box-sizing: border-box;
 }
 
 .pitch-slide {
@@ -855,18 +863,21 @@ body.pitch-mode > main {
 }
 .pitch-slide.zone-warm-dark .accent { color: #E5A764; }
 
-/* Zone 3 (pivot) — slide 6, literal gradient (seamless from warm-dark bottom, seamless to warm-cream top) */
+/* Zone 3 (pivot) — slide 6, smooth tri-layer gradient + radial overlay to kill banding */
 .pitch-slide.zone-pivot {
-  background: linear-gradient(
-    180deg,
-    #141215 0%,
-    #2A1F18 18%,
-    #4F3A24 36%,
-    #8B6E4A 54%,
-    #C9B088 70%,
-    #E3D5BA 84%,
-    #EEE5D0 100%
-  );
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in srgb, #C0392B 5%, transparent) 0%, transparent 60%),
+    linear-gradient(
+      180deg,
+      #141215 0%,
+      #1D1815 15%,
+      #342819 32%,
+      #6B5438 50%,
+      #A88F65 66%,
+      #D4C195 80%,
+      #EEE0BF 92%,
+      #F0E8D6 100%
+    );
   color: #EDE8DC;
   padding: 4rem 0;
   gap: 2rem;
@@ -921,11 +932,11 @@ body.pitch-mode > main {
   margin-top: 0.75rem;
 }
 
-/* Zone 4 (warm-cream) — slide 7, serif in, mono-callback markers */
+/* Zone 4 (warm-cream) — slide 7, serif in, mono-callback markers — less yellow, more paper */
 .pitch-slide.zone-warm-cream {
   background:
-    radial-gradient(ellipse at 30% 20%, color-mix(in srgb, #A67A3A 4%, transparent) 0%, transparent 55%),
-    #EEE5D0;
+    radial-gradient(ellipse at 30% 20%, color-mix(in srgb, #8B3A2E 3%, transparent) 0%, transparent 55%),
+    #F0E8D6;
   color: #1C1A17;
   font-family: var(--font-body), serif;
 }
@@ -986,9 +997,9 @@ body.pitch-mode > main {
   margin-top: 0.4rem;
 }
 
-/* Zone 5 (cream) — slide 8, fully literary — seamless with warm-cream above via linear */
+/* Zone 5 (cream) — slide 8, fully literary — seamless with warm-cream above */
 .pitch-slide.zone-cream {
-  background: linear-gradient(180deg, #EEE5D0 0%, #F4EFE6 30%, #F4EFE6 100%);
+  background: linear-gradient(180deg, #F0E8D6 0%, #F4EFE6 35%, #F4EFE6 100%);
   color: #1C1A17;
   font-family: var(--font-body), serif;
   padding-left: 2rem;
