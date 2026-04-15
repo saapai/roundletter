@@ -1366,6 +1366,24 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   font-style: italic;
   font-size: 0.95rem;
   margin-top: 0.75rem;
+  margin-bottom: 0;
+}
+.gate-err-block {
+  text-align: center;
+  margin-top: 1rem;
+  animation: gate-err-pop 350ms cubic-bezier(.2,.7,.2,1);
+}
+.gate-err-sub {
+  text-align: center;
+  color: var(--graphite);
+  font-style: italic;
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+  letter-spacing: 0.01em;
+}
+@keyframes gate-err-pop {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* Ledger */
