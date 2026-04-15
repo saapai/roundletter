@@ -56,7 +56,7 @@ export default function Deck() {
           <p className="pitch-hero">they are one thing —</p>
           <p className="pitch-hero accent">sep's infrastructure.</p>
           <div className="pitch-rule pitch-rule-muted" />
-          <p className="pitch-comment">built by one person, quietly, across three rushes.</p>
+          <p className="pitch-comment">// one person. three rushes. quietly.</p>
         </section>
 
         {/* 05 — Range · zone-warm-dark (first warming) */}
@@ -87,7 +87,7 @@ export default function Deck() {
             <h2 className="serif-h2"><em>every frat whispers too.</em></h2>
             <p className="serif-line muted">right now, sep whispers <em>smart</em>.</p>
             <p className="serif-line accent"><em>i want us to whisper ship — and <span className="love-caps">LOVE</span>.</em></p>
-            <p className="serif-comment">— paul graham, 2008. the president sets the next whisper.</p>
+            <p className="serif-comment">— paul graham, 2008.</p>
           </div>
         </section>
 
@@ -129,7 +129,7 @@ export default function Deck() {
           <h2 className="cream-hero accent"><em>the tooling is. it already exists.</em></h2>
           <div className="cream-rule" />
           <p className="cream-line">
-            <em>i'll keep maintaining the tools whether you elect me or not. the presidency only adds a mandate — to train the next person to be as invisible as i have been.</em>
+            <em>i'll maintain the tools whether you elect me or not. the presidency only adds a mandate — to train the next person to be as invisible as i have been.</em>
           </p>
         </section>
 
@@ -176,7 +176,6 @@ export default function Deck() {
 
             {/* The ask */}
             <div className="m2-ask">
-              <p className="m2-ask-line muted"><em>i have been building for us for two years without being asked.</em></p>
               <p className="m2-ask-line accent"><em>i am asking for the year where i train someone else to.</em></p>
             </div>
 

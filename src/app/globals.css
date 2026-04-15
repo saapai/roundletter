@@ -571,9 +571,11 @@ body:has(.friday-root) > .friday-mark { display: none !important; }
 /* ── Pitch deck (at /pitch, terminal-dark, fullscreen) ── */
 /* Server-rendered CSS-only chrome suppression via :has() — no client-JS flash */
 body:has(.pitch-root) {
-  background: #16110C; /* warm charcoal — matches pitch-root; fixes overscroll hard-cut */
+  background: #16110C;
   color: #EDE8DC;
+  overscroll-behavior-y: none;
 }
+html:has(.pitch-root) { overscroll-behavior-y: none; }
 body:has(.pitch-root) > header,
 body:has(.pitch-root) > footer,
 body:has(.pitch-root) > .insignia,
@@ -600,8 +602,26 @@ body.pitch-mode > main {
 }
 
 .pitch-root {
-  /* Warm charcoal — eliminates the cold-dark / warm-cream clash at slide boundaries */
-  background: #16110C;
+  /* One continuous dawn — no per-slide backgrounds. The page itself is the gradient;
+     you scroll through it rather than between framed slides. Stops are tuned to the
+     narrative arc: dark for 1–4, first warm at 5, pivot at 6, cream at 7–9, aurora at 10. */
+  background:
+    radial-gradient(ellipse 90% 30vh at 50% 5vh, rgba(40, 32, 24, 0.45) 0%, transparent 70%),
+    linear-gradient(
+      180deg,
+      #0B0B0D 0%,
+      #0E0E10 10%,
+      #0E0E10 30%,
+      #121115 42%,
+      #1D1815 50%,
+      #4A3A25 56%,
+      #A88F65 60%,
+      #E4D4A8 64%,
+      #F0E8D6 68%,
+      #F4EFE6 78%,
+      #F2ECDF 92%,
+      #E8DECA 100%
+    );
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -611,31 +631,33 @@ body.pitch-mode > main {
   color: #EDE8DC;
   font-family: "Menlo", ui-monospace, monospace;
   width: 100%;
-  max-width: 62rem;
-  margin: 0 auto;
-  padding: 0 clamp(1.25rem, 4vw, 3rem);
+  max-width: none;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 .pitch-slide {
   min-height: 100vh;
-  /* Horizontal padding gives every element (title, page mark, rule) real breathing room */
-  padding: 5rem clamp(1.75rem, 6vw, 4.5rem) 4rem;
+  /* Full-bleed background + column-inset content: background reaches viewport edges,
+     text stays centered in a 62rem column. Kills the "framed rectangle" sharpness
+     at zone boundaries while keeping slide 1's breathing room consistent everywhere. */
+  padding-top: 5rem;
+  padding-bottom: 4rem;
+  padding-left: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
+  padding-right: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
   position: relative;
-  border-bottom: 1px solid #1f1f21;
   box-sizing: border-box;
 }
-.pitch-slide:last-child { border-bottom: 0; }
 
 .pitch-page {
   position: absolute;
   top: clamp(1.5rem, 4vw, 2.5rem);
-  /* matches .pitch-slide horizontal padding — symmetric with left content inset */
-  right: clamp(1.75rem, 6vw, 4.5rem);
+  right: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
   font-size: 10px;
   letter-spacing: 0.22em;
   color: #6E6A62;
@@ -850,7 +872,7 @@ body.pitch-mode > main {
   letter-spacing: -0.005em;
 }
 .pitch-slide.zone-dark {
-  background: #0E0E10;
+  background: transparent;
   color: #EDE8DC;
 }
 
@@ -867,28 +889,16 @@ body.pitch-mode > main {
   letter-spacing: -0.005em;
 }
 .pitch-slide.zone-warm-dark {
-  background: linear-gradient(180deg, #0E0E10 0%, #141215 100%);
+  background: transparent;
   color: #EDE8DC;
 }
 .pitch-slide.zone-warm-dark .accent { color: #E5A764; }
 
-/* Zone 3 (pivot) — slide 6, smooth tri-layer gradient + radial overlay to kill banding */
+/* Zone 3 (pivot) — slide 6. Background comes from .pitch-root continuous gradient;
+   this slide just carries the mono→serif content over the dusk portion. */
 .pitch-slide.zone-pivot {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in srgb, #C0392B 5%, transparent) 0%, transparent 60%),
-    linear-gradient(
-      180deg,
-      #141215 0%,
-      #1D1815 15%,
-      #342819 32%,
-      #6B5438 50%,
-      #A88F65 66%,
-      #D4C195 80%,
-      #EEE0BF 92%,
-      #F0E8D6 100%
-    );
+  background: transparent;
   color: #EDE8DC;
-  padding: 4rem 0;
   gap: 2rem;
 }
 .pitch-slide.zone-pivot .pivot-top {
@@ -953,8 +963,7 @@ body.pitch-mode > main {
 /* Zone 4 (warm-cream) — slide 7, serif in, mono-callback markers — less yellow, more paper */
 .pitch-slide.zone-warm-cream {
   background:
-    radial-gradient(ellipse at 30% 20%, color-mix(in srgb, #8B3A2E 3%, transparent) 0%, transparent 55%),
-    #F0E8D6;
+    radial-gradient(ellipse at 30% 20%, color-mix(in srgb, #8B3A2E 3%, transparent) 0%, transparent 55%);
   color: #1C1A17;
   font-family: var(--font-body), serif;
 }
@@ -1017,15 +1026,9 @@ body.pitch-mode > main {
 
 /* Zone 5 (cream) — slide 8, fully literary — seamless with warm-cream above; soft warm rim bleeds into warm-charcoal surround */
 .pitch-slide.zone-cream {
-  background:
-    linear-gradient(180deg, #F0E8D6 0%, #F4EFE6 12%, #F4EFE6 88%, #EEE5D0 100%);
+  background: transparent;
   color: #1C1A17;
   font-family: var(--font-body), serif;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  box-shadow:
-    inset 0 20px 28px -18px rgba(22, 17, 12, 0.18),
-    inset 0 -20px 28px -18px rgba(22, 17, 12, 0.18);
 }
 .pitch-slide.zone-cream .cream-eyebrow {
   font-size: 10.5px;
@@ -1067,8 +1070,7 @@ body.pitch-mode > main {
 .pitch-slide.zone-cream-final {
   background:
     radial-gradient(ellipse at 50% 38%, color-mix(in srgb, #8B3A2E 5%, transparent) 0%, transparent 55%),
-    radial-gradient(ellipse at 50% 90%, color-mix(in srgb, #A67A3A 4%, transparent) 0%, transparent 50%),
-    linear-gradient(180deg, #EEE5D0 0%, #F4EFE6 10%, #F4EFE6 90%, #EEE5D0 100%);
+    radial-gradient(ellipse at 50% 90%, color-mix(in srgb, #A67A3A 4%, transparent) 0%, transparent 50%);
   color: #1C1A17;
   font-family: var(--font-body), serif;
   padding-left: 2rem;
@@ -1357,11 +1359,10 @@ body.pitch-mode > main {
 .pitch-slide.zone-cream .pitch-page,
 .pitch-slide.zone-cream-final .pitch-page { color: #6B6560; }
 
-/* On cream pages, remove the bottom-border dividers we used in dark zones */
+/* No sub-slide dividers — continuous-gradient deck */
 .pitch-slide.zone-warm-cream,
 .pitch-slide.zone-cream,
-.pitch-slide.zone-cream-final { border-bottom: 1px solid rgba(28,26,23,0.08); }
-.pitch-slide.zone-cream-final:last-child { border-bottom: 0; }
+.pitch-slide.zone-cream-final { border-bottom: 0; }
 
 /* Mobile — zone fixes */
 @media (max-width: 720px) {
@@ -1495,8 +1496,7 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   background:
     radial-gradient(ellipse at 50% 45%, color-mix(in srgb, #8B3A2E 9%, transparent) 0%, transparent 55%),
     radial-gradient(ellipse at 20% 80%, color-mix(in srgb, #A67A3A 7%, transparent) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 30%, color-mix(in srgb, #733B43 6%, transparent) 0%, transparent 55%),
-    linear-gradient(180deg, #EEE5D0 0%, #F4EFE6 8%, #F2ECDF 92%, #E8DECA 100%);
+    radial-gradient(ellipse at 85% 30%, color-mix(in srgb, #733B43 6%, transparent) 0%, transparent 55%);
   color: #1C1A17;
   font-family: var(--font-body), serif;
   display: flex;
@@ -1504,14 +1504,9 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 4rem 2rem 3rem;
   gap: 1rem;
-  border-bottom: 0;
   position: relative;
   overflow: hidden;
-  box-shadow:
-    inset 0 20px 32px -20px rgba(22, 17, 12, 0.22),
-    inset 0 -20px 32px -20px rgba(22, 17, 12, 0.22);
 }
 .pitch-slide.zone-aurora::before {
   content: "";
