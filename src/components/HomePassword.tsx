@@ -134,6 +134,16 @@ export default function HomePassword() {
     return (
       <div className="home-pw home-pw-global-solved">
         <Link href="/positions" className="coming-soon-trailer" aria-label="polymarket — coming soon">
+          <span className="cst-scaffold cst-scaffold-tl" aria-hidden="true" />
+          <span className="cst-scaffold cst-scaffold-br" aria-hidden="true" />
+          <span className="cst-tape cst-tape-1" aria-hidden="true">//// under construction ////</span>
+          <span className="cst-frame" aria-hidden="true">
+            <span className="cst-corner cst-corner-tl" />
+            <span className="cst-corner cst-corner-tr" />
+            <span className="cst-corner cst-corner-bl" />
+            <span className="cst-corner cst-corner-br" />
+          </span>
+          <span className="cst-build">// build: 0.1.0-alpha</span>
           <span className="cst-coming">
             <span className="cst-coming-word">COMING</span>
             <span className="cst-coming-word cst-coming-word-2">SOON</span>
@@ -144,6 +154,9 @@ export default function HomePassword() {
           </span>
           <span className="cst-tagline"><em>every revolution needs its counterculture.</em></span>
           <span className="cst-glow" aria-hidden="true" />
+          <span className="cst-ticker" aria-hidden="true">
+            <span>// WARN: positions not reconciled · live prices offline · method &gt; outcome · attention is all you need · pick your revolution</span>
+          </span>
         </Link>
         <button
           type="button"

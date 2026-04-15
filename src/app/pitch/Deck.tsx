@@ -125,6 +125,20 @@ export default function Deck() {
               <span className="num">[03]</span>
               <span className="body"><em>attention becomes the metric. what someone looked at carefully counts more than what they shipped loudly.</em></span>
             </li>
+            <li className="move move-04" aria-label="move four — unannotated">
+              <span className="num m4-num">[04]</span>
+              <span className="body m4-body">
+                <em>
+                  i will make{" "}
+                  <span className="m4-everyone">&ldquo;everyone&rdquo;</span>
+                  {" "}
+                  <span className="m4-thousand">a thousand dollars</span>
+                  {" "}by the end of this calendar year.
+                  <sup className="m4-asterisk" aria-hidden="true">*</sup>
+                </em>
+                <span className="m4-fineprint" aria-hidden="true">// not a promise. not a method. not a hedge. // * no footnote.</span>
+              </span>
+            </li>
           </ol>
         </section>
 

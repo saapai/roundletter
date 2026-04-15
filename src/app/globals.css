@@ -3782,6 +3782,77 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   text-shadow: 0 0 16px color-mix(in srgb, #8B3A2E 32%, transparent);
 }
 
+/* Slide 7 · [04] — the inexplicable one. Rust pulse on the number;
+   "everyone" in scare-quotes italic; "a thousand dollars" big/tracked/gold
+   glow; a dangling asterisk that points to nothing; fineprint that
+   contradicts itself. Designed to provoke questions. */
+.pitch-slide.zone-warm-cream .move-04 {
+  position: relative;
+  padding-top: 1.4rem;
+  margin-top: 0.4rem;
+  border-top: 1px dashed rgba(139, 58, 46, 0.28);
+}
+.pitch-slide.zone-warm-cream .m4-num {
+  color: #8B3A2E !important;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  animation: m4-pulse 2.6s ease-in-out infinite;
+  text-shadow: 0 0 14px color-mix(in srgb, #8B3A2E 40%, transparent);
+}
+@keyframes m4-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.55; }
+}
+.pitch-slide.zone-warm-cream .m4-body {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.4;
+  color: #F5EAD0;
+  font-weight: 500;
+  display: block;
+}
+.pitch-slide.zone-warm-cream .m4-everyone {
+  font-style: italic;
+  color: #D4C195;
+  opacity: 0.86;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-decoration: underline;
+  text-decoration-color: rgba(212, 193, 149, 0.4);
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
+}
+.pitch-slide.zone-warm-cream .m4-thousand {
+  font-family: var(--font-display), serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: 1.18em;
+  letter-spacing: 0.02em;
+  color: #E8B06C;
+  text-shadow:
+    0 0 20px color-mix(in srgb, #E8B06C 55%, transparent),
+    0 0 48px color-mix(in srgb, #E8B06C 22%, transparent);
+  padding: 0 0.05em;
+}
+.pitch-slide.zone-warm-cream .m4-asterisk {
+  color: #8B3A2E;
+  font-weight: 700;
+  margin-left: 2px;
+  font-size: 0.85em;
+  vertical-align: super;
+  animation: m4-pulse 2.6s ease-in-out infinite;
+}
+.pitch-slide.zone-warm-cream .m4-fineprint {
+  display: block;
+  margin-top: 0.55rem;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  color: rgba(181, 165, 130, 0.72);
+  text-transform: lowercase;
+  font-style: normal;
+}
+
 /* Zone 5 (cream) — slide 8, fully literary — seamless with warm-cream above; soft warm rim bleeds into warm-charcoal surround */
 .pitch-slide.zone-cream {
   background: transparent;

@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { V1_THEMES } from "@/lib/v1data";
 import { syncRiddleRound } from "@/lib/riddle-sync";
 
