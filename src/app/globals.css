@@ -1878,6 +1878,142 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   background: color-mix(in srgb, #3B7A4A 6%, transparent);
 }
 
+/* /positions — savings hero at the top */
+.savings-hero {
+  max-width: 58rem;
+  margin: 1.5rem auto 2.5rem;
+  padding: 1.5rem clamp(1rem, 3vw, 2rem);
+  border: 1px solid rgba(28, 26, 23, 0.1);
+  border-radius: 10px;
+  background:
+    radial-gradient(ellipse at 15% 10%, color-mix(in srgb, #3B7A4A 4%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 90%, color-mix(in srgb, #A67A3A 3%, transparent) 0%, transparent 55%),
+    rgba(255, 255, 255, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.savings-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+  text-transform: lowercase;
+}
+.savings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+.savings-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.5rem 0.6rem;
+  border-left: 2px solid rgba(28, 26, 23, 0.1);
+}
+.savings-cell-main {
+  border-left-color: #3B7A4A;
+  background: color-mix(in srgb, #3B7A4A 5%, transparent);
+  border-radius: 4px;
+}
+.savings-cell-label {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #6B6560;
+  text-transform: uppercase;
+}
+.savings-cell-value {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
+  color: #1C1A17;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+.savings-cell-value.savings-peak { color: #A67A3A; }
+.savings-cell-value.savings-draw { color: #8B3A2E; }
+.savings-cell-value.savings-goal { color: #3B7A4A; }
+.savings-cell-note {
+  font-size: 0.78rem;
+  color: #6B6560;
+  line-height: 1.4;
+}
+.savings-up { color: #3B7A4A; font-weight: 700; }
+
+/* Visual journey bar — log-scaled from started ($1,296) to goal ($100,000) */
+.savings-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+.savings-bar-track {
+  position: relative;
+  height: 18px;
+  background: rgba(28, 26, 23, 0.06);
+  border-radius: 999px;
+  overflow: visible;
+}
+.savings-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #3B7A4A 0%, #5E9E4B 60%, #A67A3A 100%);
+  border-radius: 999px;
+  box-shadow: 0 0 18px color-mix(in srgb, #5E9E4B 38%, transparent);
+  animation: savings-bar-grow 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes savings-bar-grow {
+  from { width: 0 !important; }
+}
+.savings-bar-peak-mark,
+.savings-bar-now-mark {
+  position: absolute;
+  top: -6px;
+  width: 2px;
+  height: 30px;
+  transform: translateX(-50%);
+}
+.savings-bar-peak-mark { background: #A67A3A; opacity: 0.75; }
+.savings-bar-now-mark {
+  background: #1C1A17;
+  box-shadow: 0 0 10px color-mix(in srgb, #3B7A4A 60%, transparent);
+}
+.savings-bar-now-mark::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3B7A4A;
+  box-shadow: 0 0 14px #3B7A4A;
+}
+.savings-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  color: #6B6560;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+}
+.savings-bar-label-goal { text-align: right; color: #3B7A4A; font-weight: 700; }
+.savings-caveat {
+  font-size: 0.8rem;
+  color: #6B6560;
+  font-style: italic;
+  line-height: 1.55;
+  margin: 0;
+  padding-top: 0.25rem;
+  border-top: 1px dashed rgba(28,26,23,0.08);
+}
+
 /* /argument — the daily five-agent debate */
 .argument-root {
   min-height: 100vh;

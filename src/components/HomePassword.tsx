@@ -56,11 +56,12 @@ export default function HomePassword() {
             setGlobal({ solved: true, count: j.count });
             if (j.wasFirst) {
               setPlayAnim(true);
-              // after full celebration, route to the payoff
-              setTimeout(() => router.push("/argument"), 3800);
+              // after full celebration, route to the payoff — positions is
+              // where the savings story actually lives
+              setTimeout(() => router.push("/positions"), 3800);
             } else {
               // not first — straight through, no animation
-              router.push("/argument");
+              router.push("/positions");
             }
           })
           .catch(() => {});
@@ -69,7 +70,10 @@ export default function HomePassword() {
   }, [chars, solvedLocally, router]);
 
   const onCharChange = (i: number, v: string) => {
-    const c = v.slice(-1);
+    // Uppercase-normalize so "polymarket" (lowercase typing) also matches the
+    // POLYMARKET constant. Previously only the CSS text-transform made it look
+    // uppercase — the underlying value stayed lowercase and the compare failed.
+    const c = v.slice(-1).toUpperCase();
     const next = [...chars];
     next[i] = c;
     setChars(next);
