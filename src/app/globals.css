@@ -1094,6 +1094,131 @@ body.pitch-mode > main {
   flex-direction: column;
   gap: 0.85rem;
 }
+
+/* ── Manifesto v2 — 1+3 fractal with real breathing ────────── */
+.m2 {
+  text-align: center;
+  max-width: 42rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+/* Hero — the three setup lines */
+.m2-hero {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 1rem 0 0.5rem;
+}
+.m2-hero-line {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  margin: 0;
+}
+.m2-hero-line.muted { color: #6B6560; }
+.m2-hero-line.faint { color: color-mix(in srgb, #6B6560 75%, var(--paper)); }
+.m2-hero-line.accent { color: #8B3A2E; }
+
+/* Ornament separators — small, muted, decorative */
+.m2-orn {
+  text-align: center;
+  font-family: var(--font-display), serif;
+  font-size: 1.1rem;
+  color: color-mix(in srgb, #8B3A2E 30%, transparent);
+  margin: 2.25rem 0;
+  line-height: 1;
+}
+
+/* Beats — three stanzas */
+.m2-beats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+.m2-beat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.m2-beat-main {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  line-height: 1.4;
+  color: #1C1A17;
+  margin: 0;
+}
+.m2-beat-sub {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: clamp(0.92rem, 1.4vw, 1.05rem);
+  line-height: 1.55;
+  color: #6B6560;
+  margin: 0;
+}
+.m2-beat-sub.accent {
+  color: #8B3A2E;
+  font-weight: 600;
+}
+
+/* Triad styling already works; ensure it sizes with beat-main */
+.m2-beat-main.triad {
+  font-size: clamp(1.05rem, 1.9vw, 1.4rem);
+}
+
+/* Tail — the medicine line */
+.m2-tail {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  line-height: 1.65;
+  color: #6B6560;
+  margin: 0;
+  text-wrap: balance;
+}
+.m2-tail-accent {
+  color: #8B3A2E;
+  font-weight: 600;
+}
+
+/* Rule before the ask */
+.m2-rule {
+  width: 3rem;
+  height: 1px;
+  background: color-mix(in srgb, #8B3A2E 55%, transparent);
+  margin: 2.5rem auto 1.75rem;
+  border: 0;
+}
+
+/* Ask — the load-bearing couplet */
+.m2-ask {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-width: 36rem;
+  margin: 0 auto 1.5rem;
+}
+.m2-ask-line {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.25rem, 2.3vw, 1.75rem);
+  line-height: 1.35;
+  margin: 0;
+}
+.m2-ask-line.muted { color: #6B6560; }
+.m2-ask-line.accent {
+  color: #8B3A2E;
+  font-weight: 600;
+}
 .pitch-slide.zone-cream-final .manifesto-line {
   font-family: var(--font-display), serif;
   font-size: clamp(1.25rem, 2.2vw, 1.7rem);
@@ -1335,20 +1460,20 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   color: rgba(28, 26, 23, 0.85);
 }
 
-/* ── Love lines on the aurora slide ── */
+/* ── Love lines on the aurora slide — three beats descending, breathing ── */
 .pitch-slide.zone-aurora .love-stack {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
   max-width: 44rem;
 }
 .pitch-slide.zone-aurora .love-line {
   font-family: var(--font-display), serif;
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.2rem, 2.3vw, 1.75rem);
+  font-size: clamp(1.15rem, 2.1vw, 1.55rem);
   line-height: 1.45;
   color: #1C1A17;
   margin: 0;
@@ -1360,7 +1485,7 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   width: 2.5rem;
   height: 1px;
   background: rgba(139, 58, 46, 0.3);
-  margin: 1.25rem auto;
+  margin: 2rem auto;
   border: 0;
 }
 

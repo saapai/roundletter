@@ -133,36 +133,53 @@ export default function Deck() {
           </p>
         </section>
 
-        {/* 09 — Manifesto + Ask · zone-cream-final (penultimate) */}
+        {/* 09 — Manifesto + Ask — recomposed for 1+3 fractal */}
         <section className="pitch-slide zone-cream-final" id="s9">
           <span className="pitch-page">09 / 10</span>
           <p className="cream-eyebrow">what sep is, when you take the surface away</p>
 
-          <div className="manifesto">
-            <p className="manifesto-line"><em>sep is not a tech frat.</em></p>
-            <p className="manifesto-line muted"><em>startups are the surface.</em></p>
+          <div className="m2">
 
-            <p className="manifesto-line"><em>underneath — a way of attention.</em></p>
-            <p className="manifesto-line"><em>a counterculture for the ai revolution.</em></p>
-            <p className="manifesto-line muted"><em>the revolution will not be televised.<br/>that is why this letter is not a post.</em></p>
+            {/* Hero — the take-the-surface-away claim, three lines */}
+            <div className="m2-hero">
+              <p className="m2-hero-line muted"><em>sep is not a tech frat.</em></p>
+              <p className="m2-hero-line faint"><em>startups are the surface.</em></p>
+              <p className="m2-hero-line accent"><em>underneath — a way of attention.</em></p>
+            </div>
 
-            <p className="manifesto-line dye-line"><em>dye stains what it touches. <span className="dye-poison">poison vanishes into it.</span></em></p>
-            <p className="manifesto-line accent"><em>we choose <span className="dye-word">dye</span>.</em></p>
+            <div className="m2-orn">❦</div>
 
-            <p className="manifesto-line triad"><em><span className="t-love">love</span> is the motive. <span className="t-empathy">empathy</span> is the method. <span className="t-polymath">polymath</span> is the proof.</em></p>
+            {/* Three beats */}
+            <div className="m2-beats">
+              <div className="m2-beat">
+                <p className="m2-beat-main"><em>a counterculture for the ai revolution.</em></p>
+                <p className="m2-beat-sub"><em>the revolution will not be televised. this letter is not a post.</em></p>
+              </div>
 
-            <p className="manifesto-line muted"><em>people doing the hard, weird thing together,<br/>even when the city whispers otherwise.</em></p>
+              <div className="m2-beat">
+                <p className="m2-beat-main"><em>dye stains what it touches. <span className="dye-poison">poison vanishes into it.</span></em></p>
+                <p className="m2-beat-sub accent"><em>we choose <span className="dye-word">dye</span>.</em></p>
+              </div>
 
-            <p className="manifesto-line"><em>a way to communicate across cities. across dimensions.</em></p>
+              <div className="m2-beat">
+                <p className="m2-beat-main triad"><em><span className="t-love">love</span> is the motive. <span className="t-empathy">empathy</span> is the method. <span className="t-polymath">polymath</span> is the proof.</em></p>
+                <p className="m2-beat-sub"><em>people doing the hard, weird thing — even when the city whispers otherwise.</em></p>
+              </div>
+            </div>
 
-            <p className="manifesto-line accent"><em>even when the work is bullshit — especially then.<br/>the method is the medicine.</em></p>
-          </div>
+            <div className="m2-orn">❦</div>
 
-          <div className="cream-rule" />
+            {/* Tail — the medicine line */}
+            <p className="m2-tail"><em>even when the work is bullshit — especially then. <span className="m2-tail-accent">the method is the medicine.</span></em></p>
 
-          <div className="close-ask">
-            <p className="close-line muted"><em>i have been building for us for two years without being asked.</em></p>
-            <p className="close-line accent"><em>i am asking for the year where i train someone else to.</em></p>
+            <div className="m2-rule" />
+
+            {/* The ask */}
+            <div className="m2-ask">
+              <p className="m2-ask-line muted"><em>i have been building for us for two years without being asked.</em></p>
+              <p className="m2-ask-line accent"><em>i am asking for the year where i train someone else to.</em></p>
+            </div>
+
           </div>
         </section>
 
