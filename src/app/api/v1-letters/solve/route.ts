@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getRiddleRound, letterNamespace } from "@/lib/riddle-round";
 
 // POST /api/v1-letters/solve — body: { slug: "polymath" | ... }
-// Increments the global counter for that letter. Validates the slug
-// against the known list so we don't accept arbitrary writes.
+// Increments the current-round letter counter in abacus.
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const NAMESPACE = "aureliex-riddle-r1";
 const BASE = "https://abacus.jasoncameron.dev";
 
 const SLUGS = new Set([
@@ -25,15 +24,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "unknown slug" }, { status: 400 });
   }
   try {
-    const r = await fetch(
-      `${BASE}/hit/${NAMESPACE}/${encodeURIComponent(`v1-letter-${slug}`)}`,
-      { cache: "no-store" },
-    );
+    const round = await getRiddleRound();
+    const ns = letterNamespace(round);
+    const r = await fetch(`${BASE}/hit/${ns}/${encodeURIComponent(slug)}`, { cache: "no-store" });
     if (!r.ok) {
       return NextResponse.json({ ok: false, error: "upstream" }, { status: 502 });
     }
     const j = (await r.json()) as { value?: number };
-    return NextResponse.json({ ok: true, slug, count: typeof j.value === "number" ? j.value : 0 });
+    return NextResponse.json({
+      ok: true,
+      slug,
+      round,
+      count: typeof j.value === "number" ? j.value : 0,
+    });
   } catch {
     return NextResponse.json({ ok: false, error: "network" }, { status: 502 });
   }
