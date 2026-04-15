@@ -2,65 +2,106 @@
 import { useEffect, useState } from "react";
 import { V1_THEMES } from "@/lib/v1data";
 
-// Hangman-style GLOBAL earned-letters display at the bottom of /positions.
-// Shows the letters that ANYONE has solved on /v1/{n} pages — aggregated
-// across all visitors via the abacus counter service (/api/v1-letters).
-// No empty placeholders, no count display. Just the letters that have
-// been discovered, floating in theme order.
+// Two-row hangman earned-letters display at the bottom of /positions:
+//  1. "what we've found" — GLOBAL aggregation of every letter any visitor has
+//     solved on /v1/{n} pages. Polled from /api/v1-letters every 15s.
+//  2. "what you've found" — PERSONAL: the letters this specific viewer has
+//     solved. Reads localStorage v1-solved-{slug} flags, updates in real time
+//     when this tab fires the v1-solved event.
 
-type Earned = { slug: string; letter: string; green: string };
+type Row = { slug: string; letter: string; green: string };
+
+const solvedKey = (slug: string) => `v1-solved-${slug}`;
 
 export default function SolvedLetters() {
-  const [earned, setEarned] = useState<Earned[]>([]);
+  const [globalRows, setGlobalRows] = useState<Row[]>([]);
+  const [personalRows, setPersonalRows] = useState<Row[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  const load = async () => {
+  const loadGlobal = async () => {
     try {
       const r = await fetch("/api/v1-letters", { cache: "no-store" });
       if (!r.ok) return;
-      const j = (await r.json()) as { solved?: Array<{ slug: string; letter: string }> };
+      const j = (await r.json()) as { solved?: Array<{ slug: string }> };
       const solvedSet = new Set((j.solved ?? []).map((s) => s.slug));
       const rows = V1_THEMES.filter((t) => solvedSet.has(t.slug)).map((t) => ({
         slug: t.slug,
         letter: t.letter,
         green: t.green,
       }));
-      setEarned(rows);
+      setGlobalRows(rows);
     } catch {
-      // stay empty on network error
+      // keep last known state on error
+    }
+  };
+
+  const loadPersonal = () => {
+    try {
+      const rows = V1_THEMES.filter((t) => localStorage.getItem(solvedKey(t.slug)) === "1").map(
+        (t) => ({ slug: t.slug, letter: t.letter, green: t.green }),
+      );
+      setPersonalRows(rows);
+    } catch {
+      setPersonalRows([]);
     }
   };
 
   useEffect(() => {
     setMounted(true);
-    load();
-    // refresh periodically so letters appear live as other visitors solve
-    const t = setInterval(load, 15000);
-    // also refresh when this tab solves a letter locally
-    const onSolved = () => load();
+    loadGlobal();
+    loadPersonal();
+    const globalTimer = setInterval(loadGlobal, 15000);
+    const onSolved = () => {
+      loadGlobal();
+      loadPersonal();
+    };
     window.addEventListener("v1-solved", onSolved as EventListener);
+    window.addEventListener("storage", onSolved);
     return () => {
-      clearInterval(t);
+      clearInterval(globalTimer);
       window.removeEventListener("v1-solved", onSolved as EventListener);
+      window.removeEventListener("storage", onSolved);
     };
   }, []);
 
-  if (!mounted || earned.length === 0) return null;
+  if (!mounted) return null;
+  if (globalRows.length === 0 && personalRows.length === 0) return null;
 
   return (
     <section className="solved-letters" aria-hidden="true">
-      <p className="solved-letters-eyebrow">// what you&rsquo;ve found</p>
-      <div className="solved-letters-row">
-        {earned.map((e) => (
-          <span
-            key={e.slug}
-            className="solved-letter"
-            style={{ ["--letter-green" as string]: e.green }}
-          >
-            {e.letter}
-          </span>
-        ))}
-      </div>
+      {globalRows.length > 0 && (
+        <div className="solved-letters-block">
+          <p className="solved-letters-eyebrow">// what we&rsquo;ve found</p>
+          <div className="solved-letters-row">
+            {globalRows.map((e) => (
+              <span
+                key={`g-${e.slug}`}
+                className="solved-letter"
+                style={{ ["--letter-green" as string]: e.green }}
+              >
+                {e.letter}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {personalRows.length > 0 && (
+        <div className="solved-letters-block solved-letters-personal">
+          <p className="solved-letters-eyebrow">// what you&rsquo;ve found</p>
+          <div className="solved-letters-row">
+            {personalRows.map((e) => (
+              <span
+                key={`p-${e.slug}`}
+                className="solved-letter"
+                style={{ ["--letter-green" as string]: e.green }}
+              >
+                {e.letter}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

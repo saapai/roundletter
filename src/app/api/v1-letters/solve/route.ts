@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const NAMESPACE = "aureliex-prod";
+const NAMESPACE = "aureliex-riddle-r1";
 const BASE = "https://abacus.jasoncameron.dev";
 
 const SLUGS = new Set([
