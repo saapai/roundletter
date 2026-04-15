@@ -3183,6 +3183,30 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   .cli-bar .cli-title { display: none; }
 }
 
+/* trailer-reveal — subtle flicker + scanline overlay for the
+   social-network × hackathon × movie-trailer portal on /positions */
+.trailer-reveal {
+  position: relative;
+  overflow: hidden;
+}
+.trailer-reveal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(95, 139, 78, 0.035) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: screen;
+  z-index: 2;
+}
+.trailer-reveal .cli-bar .cli-pid {
+  color: #E88368;
+  animation: cli-blink 1.4s steps(2, end) infinite;
+}
+
 /* CompleteReveal — shown at bottom of /positions when all 10 global letters
    found. Bloomberg-terminal sharp, money/markets implicit. */
 .complete-reveal {

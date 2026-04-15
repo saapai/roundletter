@@ -189,42 +189,55 @@ export default function SolvedLetters() {
   );
 }
 
-// CompleteReveal — command-line wordle terminal. Sharp, analytical, techy.
-// Single link to /argument (the ONLY link to /argument on the site besides
-// the /6969 page). No URL recursion; the 6969 depth game lives on /argument.
+// CompleteReveal — social-network × hackathon × movie-trailer portal.
+// Single link to /argument (the ONLY non-URL-hint link to /argument on
+// the site besides the /6969 page nav). Green CRT terminal aesthetic,
+// hackathon stat block (commits / uptime / coffee / beer count ???),
+// trailer tagline at bottom. Night 3, Red Bull and coincidence.
 function CompleteReveal() {
   return (
-    <Link href="/argument" className="cli-reveal" aria-label="polymarket — argument">
+    <Link href="/argument" className="cli-reveal trailer-reveal" aria-label="polymarket — argument">
       <header className="cli-bar">
         <span className="cli-dot cli-dot-r" />
         <span className="cli-dot cli-dot-y" />
         <span className="cli-dot cli-dot-g" />
-        <span className="cli-title">~ / polymarket / wordle.sh</span>
-        <span className="cli-pid">pid 0010</span>
+        <span className="cli-title">~ / polymarket / hackathon · night 3</span>
+        <span className="cli-pid">live</span>
       </header>
 
       <pre className="cli-body">
-{`$ ./wordle --decode POLYMARKET
-[ ok ] crowd signal · 10/10 letters discovered
-[ ok ] consensus · unanimous
-[ .. ] listing    · pending
+{`$ ./hackathon --night 3 --status
+[ live ] running on red bull + coincidence
+[ ok   ] crowd signal · 10/10 letters · unanimous
+[ .... ] listing      · pending
+[ ???? ] sleep        · not found in this shell
 
         ╔══════════════════════════════════════════════╗
         ║                                              ║
         ║   >_ P O L Y M A R K E T${"\u00A0"}`}<span className="cli-cursor" aria-hidden="true">_</span>{`          ║
         ║                                              ║
+        ║      every revolution needs its              ║
+        ║      counterculture                          ║
+        ║                                              ║
         ╚══════════════════════════════════════════════╝
 
-$ status
-  bid         ask         last        open_interest
-  —           —           —           10 / 10
+$ stats
+  commits         412   uptime          72:14:03
+  contributors      6   open prs               0
+  coffee           16   red bulls              9
+  ship date        --   beer count          ???
 
-$ next
-  → /argument`}
+$ trailer
+  FROM THE PEOPLE WHO BUILT IT QUIETLY
+  ONE MARKET · FIVE AGENTS · ONE MODERATOR
+  NO SLEEP · NO METHOD BUT THE METHOD
+  THIS QUARTER.
+
+$ ./enter`}
       </pre>
 
       <div className="cli-footer">
-        <span className="cli-k">next call</span>
+        <span className="cli-k">press enter</span>
         <span className="cli-v">→ /argument</span>
       </div>
     </Link>
