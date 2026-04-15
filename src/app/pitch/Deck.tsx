@@ -144,6 +144,7 @@ export default function Deck() {
 
             <p className="manifesto-line"><em>underneath — a way of attention.</em></p>
             <p className="manifesto-line"><em>a counterculture for the ai revolution.</em></p>
+            <p className="manifesto-line muted"><em>the revolution will not be televised.<br/>that is why this letter is not a post.</em></p>
 
             <p className="manifesto-line muted"><em>people doing the hard, weird thing together,<br/>even when the city whispers otherwise.</em></p>
 
