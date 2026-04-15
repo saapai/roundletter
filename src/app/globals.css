@@ -1790,6 +1790,22 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   margin: 0;
   text-wrap: balance;
 }
+/* Mid-size beat between "let's cut through the bullshit" (largest) and
+   "together." (medium) — preserves the descending hierarchy */
+.pitch-slide.zone-aurora .aurora-mid {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.3rem, 5.8vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: #1C1A17;
+  margin: 1rem 0 0.5rem;
+  text-align: center;
+  max-width: 44rem;
+  position: relative;
+  z-index: 1;
+}
 .pitch-slide.zone-aurora .aurora-tag {
   font-family: var(--font-display), serif;
   font-style: italic;
