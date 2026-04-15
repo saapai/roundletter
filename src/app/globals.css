@@ -246,6 +246,231 @@ h1, h2, h3 {
 .article a.pathlink:hover { color: var(--rust); }
 .article a.pathlink:hover::after { transform: scaleX(1); opacity: 1; }
 
+/* ── Non-letter pages (positions / trades / canvas / method) ─ */
+.page .deck { margin-bottom: 2rem; }
+
+.page-section { margin-top: 2.75rem; }
+.page-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.page-section-head h2 { margin-top: 0; margin-bottom: 0; }
+.page-section-meta {
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.page-section p {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  margin-top: 0.9rem;
+}
+
+/* Card grid (positions + method panel) */
+.page-cards,
+.panel-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+@media (min-width: 640px) {
+  .page-cards, .panel-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.page-card,
+.panel-card {
+  padding: 0.95rem 1.05rem;
+  border-left: 2px solid var(--row-color, var(--rule));
+  background: color-mix(in srgb, var(--row-color, var(--parchment)) 4%, var(--paper) 96%);
+}
+
+.card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.card-ticker {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1.55rem;
+  line-height: 1;
+  color: var(--ink);
+}
+.card-agent {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.card-agent em {
+  color: var(--row-color, var(--ink));
+  font-style: italic;
+  font-weight: 500;
+}
+.card-name {
+  font-size: 0.85rem;
+  color: var(--graphite);
+  margin-top: 0.1rem;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem 0.75rem;
+  margin-top: 0.7rem;
+}
+@media (min-width: 400px) {
+  .card-grid { grid-template-columns: repeat(5, 1fr); }
+}
+.card-grid .k {
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.card-grid .v {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 13px;
+  color: var(--ink);
+  margin-top: 1px;
+}
+.card-note {
+  font-size: 0.85rem;
+  color: var(--graphite);
+  font-style: italic;
+  margin-top: 0.55rem;
+}
+
+/* Panel card (method) */
+.panel-id {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--row-color, var(--graphite));
+}
+.panel-name {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-top: 0.15rem;
+}
+.panel-mandate {
+  font-size: 0.98rem;
+  line-height: 1.55;
+  margin-top: 0.5rem;
+}
+.panel-owns {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-top: 0.55rem;
+}
+
+/* Kill-switches list */
+.kill-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+.kill-list li {
+  position: relative;
+  padding: 0.55rem 0 0.6rem 1.4rem;
+  border-top: 1px solid var(--rule);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+.kill-list li:last-child { border-bottom: 1px solid var(--rule); }
+.kill-list li::before {
+  content: "⚑";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  color: var(--rust);
+  font-size: 0.95rem;
+}
+
+/* Trades ledger */
+.trades {
+  margin: 1.25rem 0 2.5rem;
+}
+.trade-row {
+  padding: 0.7rem 0 0.8rem;
+  border-top: 1px solid var(--rule);
+}
+.trade-row:last-child { border-bottom: 1px solid var(--rule); }
+.trade-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.8rem;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+.trade-date { color: var(--graphite); }
+.trade-action {
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  min-width: 2.5rem;
+}
+.action-buy  { color: var(--anno-bear); }
+.action-sell { color: var(--anno-flow); }
+.action-trim { color: var(--graphite); }
+.trade-ticker {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink);
+  letter-spacing: 0;
+}
+.trade-qty { color: var(--graphite); }
+.trade-price { color: var(--graphite); }
+.trade-pnl {
+  margin-left: auto;
+  font-weight: 600;
+}
+.pnl-pos { color: var(--anno-bear); }
+.pnl-neg { color: var(--anno-flow); }
+.trade-rationale {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--ink) 75%, var(--paper) 25%);
+  margin-top: 0.35rem;
+}
+
+/* Canvas frame */
+.canvas-frame {
+  width: 100%;
+  margin: 1.25rem 0 0.75rem;
+  background: color-mix(in srgb, var(--parchment) 70%, var(--paper) 30%);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px -24px rgba(28,26,23,0.25);
+}
+.canvas-frame svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.canvas-caption {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--graphite);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
 /* ── Closed / locked-room page ─────────────────────────── */
 .gate-form {
   display: flex;
