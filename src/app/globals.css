@@ -792,14 +792,15 @@ body.pitch-mode > main {
   min-height: 100vh;
   justify-content: center;
 }
-/* Four-pointed sparkle (Hubble / anime-twinkle shape) in the upper-right.
-   More abstract than a round moon. Composite = soft amber halo behind +
-   SVG sparkle path in the cream→amber palette. */
+/* Four-pointed sparkle (Hubble / anime-twinkle shape) centered on the
+   rule-of-thirds upper-right power point: (66.67% x, 33.33% y).
+   Sparkle center lands exactly on the intersection; the title at the
+   left-center-ish gets the visual balance the composition wants. */
 .pitch-slide#s1::before {
   content: "";
   position: absolute;
-  top: clamp(2.5rem, 6vh, 6rem);
-  right: clamp(2.5rem, 7vw, 8rem);
+  top: calc(33.33% - clamp(45px, 7vw, 85px));
+  right: calc(33.33% - clamp(45px, 7vw, 85px));
   width: clamp(90px, 14vw, 170px);
   aspect-ratio: 1 / 1;
   pointer-events: none;
