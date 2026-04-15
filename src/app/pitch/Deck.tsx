@@ -1,9 +1,13 @@
 import { logoutPitch } from "./actions";
+import AutoScroll from "@/components/AutoScroll";
+import SlideReveal from "@/components/SlideReveal";
 
 export default function Deck() {
   return (
     <main className="pitch-root">
       <PitchModeBody />
+      <AutoScroll />
+      <SlideReveal />
       <div className="pitch-deck">
 
         {/* 01 — Title · zone-dark */}
@@ -156,11 +160,19 @@ export default function Deck() {
           </div>
         </section>
 
-        {/* 10 — Final · zone-aurora (the resolution) */}
+        {/* 10 — Final · zone-aurora (love + resolution) */}
         <section className="pitch-slide zone-aurora" id="s10">
           <span className="pitch-page">10 / 10</span>
 
           <div className="aurora-wrap">
+            <div className="love-stack">
+              <p className="love-line"><em>a little love in the heart — and good things happen.</em></p>
+              <p className="love-line muted"><em>i love love. so love is inevitable.</em></p>
+              <p className="love-line faint"><em>especially because i love the people who love loving love.</em></p>
+            </div>
+
+            <div className="love-rule" />
+
             <p className="aurora-line"><em>let's cut through the bullshit.</em></p>
             <p className="aurora-tag"><em>together.</em></p>
           </div>

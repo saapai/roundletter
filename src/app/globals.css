@@ -650,7 +650,7 @@ body.pitch-mode > main {
   font-size: 0.75rem;
   letter-spacing: 0.22em;
   color: #6E6A62;
-  margin-top: auto;
+  margin-top: 2.5rem;
 }
 
 .pitch-rule {
@@ -791,7 +791,7 @@ body.pitch-mode > main {
   color: #EDE8DC;
 }
 
-/* Zone 2 (warm-dark) — slide 5, first warming */
+/* Zone 2 (warm-dark) — slide 5, first warming — bottom color matches zone-pivot top */
 .pitch-slide.zone-warm-dark,
 .pitch-slide.zone-warm-dark h1,
 .pitch-slide.zone-warm-dark h2,
@@ -804,23 +804,22 @@ body.pitch-mode > main {
   letter-spacing: -0.005em;
 }
 .pitch-slide.zone-warm-dark {
-  background:
-    radial-gradient(ellipse at 50% 0%, #141214 0%, transparent 60%),
-    linear-gradient(180deg, #0F0E0F 0%, #1B1612 100%);
+  background: linear-gradient(180deg, #0E0E10 0%, #141215 100%);
   color: #EDE8DC;
 }
 .pitch-slide.zone-warm-dark .accent { color: #E5A764; }
 
-/* Zone 3 (pivot) — slide 6, literal gradient charcoal → cream */
+/* Zone 3 (pivot) — slide 6, literal gradient (seamless from warm-dark bottom, seamless to warm-cream top) */
 .pitch-slide.zone-pivot {
   background: linear-gradient(
     180deg,
-    #0F0E0F 0%,
-    #1E1712 22%,
-    #4A3725 42%,
-    #A8896A 58%,
-    #DCC7A8 74%,
-    #F4EFE6 100%
+    #141215 0%,
+    #2A1F18 18%,
+    #4F3A24 36%,
+    #8B6E4A 54%,
+    #C9B088 70%,
+    #E3D5BA 84%,
+    #EEE5D0 100%
   );
   color: #EDE8DC;
   padding: 4rem 0;
@@ -941,9 +940,9 @@ body.pitch-mode > main {
   margin-top: 0.4rem;
 }
 
-/* Zone 5 (cream) — slide 8, fully literary */
+/* Zone 5 (cream) — slide 8, fully literary — seamless with warm-cream above via linear */
 .pitch-slide.zone-cream {
-  background: #F4EFE6;
+  background: linear-gradient(180deg, #EEE5D0 0%, #F4EFE6 30%, #F4EFE6 100%);
   color: #1C1A17;
   font-family: var(--font-body), serif;
   padding-left: 2rem;
@@ -1097,13 +1096,126 @@ body.pitch-mode > main {
   .pitch-slide.zone-pivot {
     background: linear-gradient(
       180deg,
-      #0F0E0F 0%,
-      #1E1712 20%,
-      #4A3725 45%,
-      #DCC7A8 72%,
-      #F4EFE6 100%
+      #141215 0%,
+      #2A1F18 18%,
+      #4F3A24 38%,
+      #C9B088 72%,
+      #EEE5D0 100%
     );
   }
+}
+
+/* ── Framing · every slide fits a single viewport ─── */
+.pitch-root { overflow-x: hidden; }
+.pitch-deck { overflow-x: hidden; }
+.pitch-slide {
+  min-height: 100vh;
+  min-height: 100dvh; /* respect iOS URL bar */
+  box-sizing: border-box;
+}
+.pitch-slide > :first-child:not(.pitch-page) { margin-top: 0; }
+
+/* ── Slide entrance transitions (IntersectionObserver-driven) ── */
+.pitch-slide {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 900ms cubic-bezier(.2,.7,.2,1),
+              transform 900ms cubic-bezier(.2,.7,.2,1);
+}
+.pitch-slide.in-view,
+.pitch-slide#s1 { /* first slide is always visible on mount */
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pitch-slide, .pitch-slide.in-view {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── AutoScroll UI (play button + progress bar) ── */
+.autoscroll-btn {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 8px 14px;
+  background: rgba(14, 14, 16, 0.68);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  border: 1px solid rgba(237, 232, 220, 0.18);
+  color: rgba(237, 232, 220, 0.88);
+  border-radius: 999px;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  z-index: 20;
+  transition: background 220ms ease, color 220ms ease, border-color 220ms ease, transform 220ms ease;
+}
+.autoscroll-btn:hover {
+  background: rgba(14, 14, 16, 0.88);
+  color: #EDE8DC;
+  border-color: rgba(216, 154, 92, 0.6);
+  transform: translateY(-1px);
+}
+.autoscroll-btn.is-active {
+  border-color: #D89A5C;
+  color: #D89A5C;
+}
+.autoscroll-glyph { font-size: 10px; line-height: 1; }
+.autoscroll-label { font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; }
+
+.autoscroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #D89A5C 0%, #8B3A2E 100%);
+  z-index: 20;
+  pointer-events: none;
+  box-shadow: 0 0 12px rgba(216, 154, 92, 0.6);
+}
+
+/* On cream-dominant slides, swap autoscroll button to dark-on-light */
+body:has(.pitch-slide.zone-cream-final.in-view:last-of-type) .autoscroll-btn,
+body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
+  background: rgba(244, 239, 230, 0.78);
+  border-color: rgba(139, 58, 46, 0.25);
+  color: rgba(28, 26, 23, 0.85);
+}
+
+/* ── Love lines on the aurora slide ── */
+.pitch-slide.zone-aurora .love-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+  max-width: 44rem;
+}
+.pitch-slide.zone-aurora .love-line {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.2rem, 2.3vw, 1.75rem);
+  line-height: 1.45;
+  color: #1C1A17;
+  margin: 0;
+  text-wrap: balance;
+}
+.pitch-slide.zone-aurora .love-line.muted { color: #3F382F; }
+.pitch-slide.zone-aurora .love-line.faint { color: #6B6560; }
+.pitch-slide.zone-aurora .love-rule {
+  width: 2.5rem;
+  height: 1px;
+  background: rgba(139, 58, 46, 0.3);
+  margin: 1.25rem auto;
+  border: 0;
 }
 
 /* Zone 6 (aurora-final) — slide 10, the resolution  */
@@ -1112,7 +1224,7 @@ body.pitch-mode > main {
     radial-gradient(ellipse at 50% 45%, color-mix(in srgb, #8B3A2E 9%, transparent) 0%, transparent 55%),
     radial-gradient(ellipse at 20% 80%, color-mix(in srgb, #A67A3A 7%, transparent) 0%, transparent 50%),
     radial-gradient(ellipse at 85% 30%, color-mix(in srgb, #733B43 6%, transparent) 0%, transparent 55%),
-    linear-gradient(180deg, #F6F1E7 0%, #F2ECDF 100%);
+    linear-gradient(180deg, #F4EFE6 0%, #F2ECDF 100%);
   color: #1C1A17;
   font-family: var(--font-body), serif;
   display: flex;
@@ -1120,7 +1232,8 @@ body.pitch-mode > main {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 5rem 2rem 4rem;
+  padding: 4rem 2rem 3rem;
+  gap: 1rem;
   border-bottom: 0;
   position: relative;
   overflow: hidden;
