@@ -1616,6 +1616,26 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   100% { opacity: 0; transform: translate(-50%, -50%) rotate(calc(var(--i, 0) * 15deg)) translate(0, -60vmax) scale(1.2); }
 }
 
+/* Abacus iteration counter — quiet mono line at the very top of home.
+   Updates every 10s via /api/v1-letters round field. */
+.abacus-iter {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.25rem auto 1.5rem;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #8A8278;
+  text-transform: lowercase;
+}
+.abacus-iter-k { opacity: 0.75; }
+.abacus-iter-v {
+  color: #3F382F;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Cumulative views badge at the top of home — big, mono, quiet */
 .home-views {
   max-width: 44rem;

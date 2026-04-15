@@ -5,6 +5,7 @@ import ViewsBadge from "@/components/ViewsBadge";
 import Countdown from "@/components/Countdown";
 import AgentsLegend from "@/components/AgentsLegend";
 import HomePassword from "@/components/HomePassword";
+import AbacusIteration from "@/components/AbacusIteration";
 
 const ARTICLES = ["round-0", "math", "paradigm", "v1"];
 
@@ -17,6 +18,7 @@ export default function Home() {
 
   return (
     <>
+      <AbacusIteration />
       <HomePassword />
       <div className="home-views">
         <ViewsBadge slugs={ARTICLES} mode="aggregate" label="cumulative reads" />
