@@ -70,7 +70,7 @@ export default function Deck() {
           </table>
           <div className="pitch-rule pitch-rule-muted" />
           <p className="pitch-line">résumés lie. commit counts don't.</p>
-          <p className="pitch-comment accent">// but ball don't lie.</p>
+          <p className="pitch-comment accent">// ball don't lie.</p>
         </section>
 
         {/* 05 — Punchline · zone-warm-dark (synthesis: one thing — and the warming starts) */}
