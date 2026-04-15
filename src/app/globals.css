@@ -1180,6 +1180,75 @@ body.pitch-mode > main {
   margin-top: 0.4rem;
 }
 
+/* ── Slide 7 "three moves" — each move gets its own visual character ── */
+
+/* [01] — the conditional-with-a-question: spike the final "whose failure?" */
+.pitch-slide.zone-warm-cream .move-01 .spike-question {
+  color: #8B3A2E;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  margin-left: 0.15em;
+}
+
+/* [02] — cascade: the chain-of-consequences colloquial rhythm.
+   Each "so" clause on its own line, slightly tighter, with the final
+   "toolmaking becomes the norm." landing full-weight in rust. */
+.pitch-slide.zone-warm-cream .move-02 .body-cascade { line-height: 1.5; }
+.pitch-slide.zone-warm-cream .cascade-line {
+  display: block;
+  font-size: clamp(1rem, 1.65vw, 1.3rem);
+  color: #2A231D;
+  margin: 0.15rem 0;
+}
+.pitch-slide.zone-warm-cream .cascade-line.faint {
+  color: #8A8278;
+  font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+  margin-top: 0.35rem;
+}
+.pitch-slide.zone-warm-cream .cascade-line.final {
+  color: #8B3A2E;
+  font-weight: 700;
+  font-style: italic;
+  font-size: clamp(1.15rem, 1.95vw, 1.5rem);
+  margin-top: 0.45rem;
+  letter-spacing: -0.005em;
+}
+
+/* [03] — aphoristic triad: two italic lines, each hit-word colored. Green for
+   empathy (echoes slide 9 t-empathy), amber-gold for polymathy (echoes
+   slide 9 t-polymath). A bigger size + more breath than other moves. */
+.pitch-slide.zone-warm-cream .move-03 .body-triad {
+  display: block;
+  line-height: 1.4;
+}
+.pitch-slide.zone-warm-cream .triad-line {
+  display: block;
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  margin: 0.25rem 0;
+  color: #1C1A17;
+  font-weight: 500;
+}
+.pitch-slide.zone-warm-cream .t-empathy-hit {
+  color: #5F7058;
+  font-weight: 700;
+  text-shadow: 0 0 12px color-mix(in srgb, #5F7058 22%, transparent);
+}
+.pitch-slide.zone-warm-cream .t-polymath-hit {
+  color: #A67A3A;
+  font-weight: 700;
+  text-shadow: 0 0 12px color-mix(in srgb, #A67A3A 25%, transparent);
+}
+
+/* Slide 9 ATTENTION emphasis — caps tracked, rust-glow like LOVE on slide 6 */
+.pitch-slide.zone-cream-final .m2-attention {
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #8B3A2E;
+  text-shadow: 0 0 14px color-mix(in srgb, #8B3A2E 26%, transparent);
+}
+
 /* Zone 5 (cream) — slide 8, fully literary — seamless with warm-cream above; soft warm rim bleeds into warm-charcoal surround */
 .pitch-slide.zone-cream {
   background: transparent;

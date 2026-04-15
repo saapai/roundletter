@@ -101,17 +101,27 @@ export default function Deck() {
           <h2 className="warm-h2">if i'm president —</h2>
 
           <ol className="warm-moves">
-            <li>
+            <li className="move move-01">
               <span className="num">[01]</span>
-              <span className="body"><em>every pledge class ships directionally correctly and at scale for at least one thing they could never have done if not for our pledging — or we deem our experiment of pledging a failure. whose failure?</em></span>
+              <span className="body"><em>every pledge class ships directionally correctly and at scale for at least one thing they could never have done if not for our pledging — or we deem our experiment of pledging a failure. <span className="spike-question">whose failure?</span></em></span>
             </li>
-            <li>
+            <li className="move move-02">
               <span className="num">[02]</span>
-              <span className="body"><em>toolmaking becomes the norm.</em></span>
+              <span className="body body-cascade"><em>
+                <span className="cascade-line">more people talk about their projects.</span>
+                <span className="cascade-line">so more people present.</span>
+                <span className="cascade-line">so more people argue about shit.</span>
+                <span className="cascade-line">so more people build the tool, and get people to use it, to prove they&rsquo;re right about their shit.</span>
+                <span className="cascade-line faint">don&rsquo;t matter who&rsquo;s right or wrong.</span>
+                <span className="cascade-line final">toolmaking becomes the norm.</span>
+              </em></span>
             </li>
-            <li>
+            <li className="move move-03">
               <span className="num">[03]</span>
-              <span className="body"><em>love becomes a language.</em></span>
+              <span className="body body-triad"><em>
+                <span className="triad-line">empathy is how you borrow a <span className="t-empathy-hit">life</span>.</span>
+                <span className="triad-line">polymathy is how many you end up <span className="t-polymath-hit">keeping</span>.</span>
+              </em></span>
             </li>
           </ol>
         </section>
@@ -141,7 +151,7 @@ export default function Deck() {
             <div className="m2-hero">
               <p className="m2-hero-line muted"><em>sep is not a tech frat.</em></p>
               <p className="m2-hero-line faint"><em>startups are the surface.</em></p>
-              <p className="m2-hero-line accent"><em>underneath — a way of attention.</em></p>
+              <p className="m2-hero-line accent"><em>but <span className="m2-attention">ATTENTION</span> is what matters the most.</em></p>
             </div>
 
             <div className="m2-orn">❦</div>
@@ -149,7 +159,7 @@ export default function Deck() {
             {/* Three beats */}
             <div className="m2-beats">
               <div className="m2-beat">
-                <p className="m2-beat-main"><em>a counterculture for the ai revolution.</em></p>
+                <p className="m2-beat-main"><em>every revolution needs its counterculture. pick your revolution and pick your counterculture.</em></p>
                 <p className="m2-beat-sub"><em>the revolution will not be televised. this letter is not a post.</em></p>
               </div>
 
