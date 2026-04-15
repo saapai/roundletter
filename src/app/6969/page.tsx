@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-// /trailer — a cinematic "pretend 404" page. Framed as a playable credits
+// /6969 — a cinematic "pretend 404" page. Framed as a playable credits
 // roll for everything built in the 2026-04-15 session: the pitch deck, the
 // POLYMARKET cipher, the /v1 letter pages, the agent panel and moderator,
 // the scorecards, the 2-day portfolio chart, the CLI wordle, the recursion
