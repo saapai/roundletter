@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { POLYMARKET, V1_THEMES } from "@/lib/v1data";
 
 // 10 single-character inputs at the top of the home page, one per POLYMARKET
@@ -11,6 +12,7 @@ const solvedKey = (slug: string) => `v1-solved-${slug}`;
 const seenHomeKey = "home-green-seen";
 
 export default function HomePassword() {
+  const router = useRouter();
   const [chars, setChars] = useState<string[]>(Array.from({ length: 10 }, () => ""));
   const [solvedAll, setSolvedAll] = useState(false);
   const [playAnim, setPlayAnim] = useState(false);
@@ -49,9 +51,16 @@ export default function HomePassword() {
         seen = localStorage.getItem(seenHomeKey) === "1";
         localStorage.setItem(seenHomeKey, "1");
       } catch {}
-      if (!seen) setPlayAnim(true);
+      if (!seen) {
+        setPlayAnim(true);
+        // After the green celebration, route to the live agent debate
+        setTimeout(() => router.push("/argument"), 3200);
+      } else {
+        // already seen the animation — straight to the argument
+        router.push("/argument");
+      }
     }
-  }, [chars, solvedAll]);
+  }, [chars, solvedAll, router]);
 
   useEffect(() => {
     if (!playAnim) return;

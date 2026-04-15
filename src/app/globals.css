@@ -1793,6 +1793,220 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   background: color-mix(in srgb, #3B7A4A 6%, transparent);
 }
 
+/* /argument — the daily five-agent debate */
+.argument-root {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 15% 10%, color-mix(in srgb, #3B7A4A 4%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 90%, color-mix(in srgb, #8B3A2E 3%, transparent) 0%, transparent 55%),
+    #F4EFE6;
+  color: #1C1A17;
+  padding: 3rem clamp(1.25rem, 4vw, 3rem);
+}
+.argument-wrap {
+  max-width: 64rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.argument-head { display: flex; flex-direction: column; gap: 0.5rem; }
+.argument-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+  margin: 0;
+}
+.argument-title {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  line-height: 1.15;
+  margin: 0;
+  color: #1C1A17;
+}
+.argument-sub {
+  font-family: var(--font-body), serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #3F382F;
+  margin: 0;
+  max-width: 48rem;
+}
+.argument-empty {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: #6B6560;
+  border: 1px dashed rgba(28,26,23,0.15);
+  border-radius: 6px;
+  font-style: italic;
+}
+
+.argument-current-head {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(28,26,23,0.1);
+  margin-bottom: 1.25rem;
+}
+.cur-ticker {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1C1A17;
+}
+.cur-ts {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 11px;
+  color: #6B6560;
+  letter-spacing: 0.1em;
+}
+.cur-consensus {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-left: auto;
+}
+.cur-up, .hist-up { background: color-mix(in srgb, #3B7A4A 14%, white); color: #2E5F3B; }
+.cur-down, .hist-down { background: color-mix(in srgb, #8B3A2E 14%, white); color: #6B2A20; }
+.cur-flat, .hist-flat { background: color-mix(in srgb, #6B6560 18%, white); color: #3F382F; }
+.cur-split, .hist-split { background: color-mix(in srgb, #A67A3A 14%, white); color: #6B5032; font-style: italic; }
+
+.round-block { margin-bottom: 1.75rem; }
+.round-heading {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #8A8278;
+  text-transform: uppercase;
+  margin: 0 0 0.6rem;
+}
+.round-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+}
+.agent-card {
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(28,26,23,0.08);
+  border-radius: 6px;
+  padding: 0.8rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  font-family: var(--font-body), serif;
+}
+.agent-card.is-empty { background: transparent; border-color: transparent; }
+.agent-card.agent-bull { border-left: 3px solid #3B7A4A; }
+.agent-card.agent-bear { border-left: 3px solid #8B3A2E; }
+.agent-card.agent-macro { border-left: 3px solid #A67A3A; }
+.agent-card.agent-flow { border-left: 3px solid #5E7098; }
+.agent-card.agent-historian { border-left: 3px solid #6B6560; }
+.agent-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.agent-name { font-weight: 700; color: #1C1A17; }
+.agent-pred { padding: 1px 7px; border-radius: 999px; font-weight: 700; }
+.agent-pred-up { background: color-mix(in srgb, #3B7A4A 16%, white); color: #2E5F3B; }
+.agent-pred-down { background: color-mix(in srgb, #8B3A2E 16%, white); color: #6B2A20; }
+.agent-pred-flat { background: color-mix(in srgb, #6B6560 18%, white); color: #3F382F; }
+.agent-conf { color: #8A8278; margin-left: auto; letter-spacing: 0.1em; }
+.agent-claim {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  margin: 0;
+  color: #1C1A17;
+}
+.agent-warrant {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #3F382F;
+  margin: 0;
+}
+.agent-rebuttal {
+  font-size: 0.8rem;
+  color: #6B6560;
+  margin: 0;
+  padding-top: 0.3rem;
+  border-top: 1px dotted rgba(28,26,23,0.1);
+}
+
+.argument-history { padding-top: 1.25rem; border-top: 1px solid rgba(28,26,23,0.1); }
+.argument-history-title {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+  text-transform: uppercase;
+  margin: 0 0 0.75rem;
+}
+.argument-history-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.argument-history-item {
+  display: grid;
+  grid-template-columns: 80px 110px 1fr 40px;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding: 0.5rem 0.5rem;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(28,26,23,0.06);
+}
+.hist-ticker { font-weight: 700; color: #1C1A17; }
+.hist-ts { color: #6B6560; letter-spacing: 0.08em; }
+.hist-consensus {
+  justify-self: start;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.hist-rounds { color: #8A8278; text-align: right; }
+
+.argument-nav {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(28,26,23,0.08);
+}
+.argument-back { color: #3B7A4A; text-decoration: none; }
+.argument-back:hover { color: #1C1A17; }
+.argument-dot { color: #8A8278; }
+
+/* PolymarketLink — subtle underline on hover, inherits color otherwise */
+.polymarket-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(59,122,74,0.5);
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.polymarket-link:hover {
+  color: #3B7A4A;
+  border-bottom-color: #3B7A4A;
+}
+
 /* /attention easter egg stub */
 .attention-root {
   min-height: 100vh;

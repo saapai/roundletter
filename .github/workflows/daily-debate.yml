@@ -1,0 +1,46 @@
+name: daily debate
+
+on:
+  schedule:
+    # 13:00 UTC daily = ~6a Pacific, ~9a Eastern
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+    inputs:
+      ticker:
+        description: "override ticker (optional — defaults to round-robin)"
+        required: false
+
+concurrency:
+  group: daily-debate
+  cancel-in-progress: false
+
+jobs:
+  debate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: run debate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TICKER: ${{ github.event.inputs.ticker }}
+        run: npx tsx scripts/run-daily-debate.ts
+      - name: commit + push
+        run: |
+          git config user.name "daily-debate-bot"
+          git config user.email "noreply@anthropic.com"
+          if [ -n "$(git status --porcelain src/data/debates.json)" ]; then
+            git add src/data/debates.json
+            git commit -m "daily debate · $(date -u +%Y-%m-%d)"
+            git push
+          else
+            echo "no changes"
+          fi

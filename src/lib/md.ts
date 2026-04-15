@@ -28,7 +28,12 @@ function formatPlain(s: string): string {
     .replace(/`(.+?)`/g, (_, c: string) => {
       if (/^\/[\w\-\/#?=&]*$/.test(c)) return `<a class="pathlink" href="${c}">${c}</a>`;
       return `<code>${c}</code>`;
-    });
+    })
+    // Auto-link any occurrence of "polymarket" (case-insensitive, whole word) to /argument
+    .replace(
+      /\b(polymarket)\b/gi,
+      '<a class="polymarket-link" href="/argument">$1</a>',
+    );
 }
 
 function renderAnno(agent: string, note: string): string {
