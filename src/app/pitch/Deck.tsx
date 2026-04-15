@@ -29,7 +29,7 @@ export default function Deck() {
         <section className="pitch-slide zone-dark pitch-stars-reveal" id="s2">
           <span className="pitch-page">02 / 10</span>
           <p className="pitch-eyebrow"># thesis</p>
-          <h2 className="pitch-h2">sep is the frat where smart ucla students<span className="thesis-break" /><span className="thesis-second">build real things.</span></h2>
+          <h2 className="pitch-h2"><span className="thesis-first">sep is the frat where smart ucla students</span><span className="thesis-break" /><span className="thesis-second">build real things.</span></h2>
           <div className="pitch-rule pitch-rule-muted" />
           <p className="pitch-line muted">we are strong on the first half of that sentence.</p>
           <p className="pitch-line accent">this pitch is about the second half.</p>
