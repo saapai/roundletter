@@ -1,5 +1,7 @@
 import { getPortfolio } from "@/lib/data";
 import SolvedLetters from "@/components/SolvedLetters";
+import StockAnalysisGraph from "@/components/StockAnalysisGraph";
+import TodayDebate from "@/components/TodayDebate";
 
 const AGENT_COLOR: Record<string, string> = {
   bull: "var(--anno-bull)",
@@ -41,7 +43,6 @@ export default function Positions() {
   return (
     <article className="article page">
       <div className="eyebrow">Stocks · Round {p.round} · {p.baseline_date}</div>
-      <h1 style={{ textAlign: "center" }}>Stocks</h1>
 
       <section className="savings-hero">
         <div className="savings-eyebrow">// the savings story</div>
@@ -94,6 +95,8 @@ export default function Positions() {
         </p>
       </section>
 
+      <StockAnalysisGraph />
+
       <p className="deck">Target weights are panel-consensus; actuals drift until rebalance.</p>
 
       {Object.entries(p.buckets).map(([bucket_id, bucket]: any) => (
@@ -123,6 +126,10 @@ export default function Positions() {
           </div>
         </section>
       ))}
+
+      <h1 className="stocks-title-footer">Stocks</h1>
+
+      <TodayDebate />
 
       <SolvedLetters />
     </article>

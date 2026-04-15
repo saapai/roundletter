@@ -58,14 +58,39 @@ export default function HomePassword() {
   };
 
   // After the celebration, swap the grid for the COMING SOON · polymarket
-  // payoff card. Links to /positions. Refresh resets back to boxes.
+  // movie-trailer × hackathon-under-construction card. Asymmetric, odd,
+  // green. Links to /positions. Refresh resets back to boxes.
   if (showLink) {
     return (
       <div className="home-pw home-pw-global-solved">
-        <Link href="/positions" className="home-pw-coming-soon" aria-label="polymarket — coming soon">
-          <span className="cs-eyebrow">coming soon</span>
-          <span className="cs-word">polymarket</span>
-          <span className="cs-glow" aria-hidden="true" />
+        <Link href="/positions" className="coming-soon-trailer" aria-label="polymarket — coming soon">
+          <span className="cst-scaffold cst-scaffold-tl" aria-hidden="true" />
+          <span className="cst-scaffold cst-scaffold-br" aria-hidden="true" />
+          <span className="cst-tape cst-tape-1" aria-hidden="true">//// under construction ////</span>
+          <span className="cst-frame" aria-hidden="true">
+            <span className="cst-corner cst-corner-tl" />
+            <span className="cst-corner cst-corner-tr" />
+            <span className="cst-corner cst-corner-bl" />
+            <span className="cst-corner cst-corner-br" />
+          </span>
+          <span className="cst-build">// build: 0.1.0-alpha</span>
+          <span className="cst-coming">
+            <span className="cst-coming-word">COMING</span>
+            <span className="cst-coming-word cst-coming-word-2">SOON</span>
+          </span>
+          <span className="cst-polymarket">
+            polymarket
+            <span className="cst-cursor" aria-hidden="true" />
+          </span>
+          <span className="cst-tagline"><em>every revolution needs its counterculture.</em></span>
+          <span className="cst-glow" aria-hidden="true" />
+          <span className="cst-ticker" aria-hidden="true">
+            <span>// WARN: positions not reconciled</span>
+            <span>· live prices offline</span>
+            <span>· method &gt; outcome</span>
+            <span>· attention is all you need</span>
+            <span>· pick your revolution</span>
+          </span>
         </Link>
       </div>
     );
