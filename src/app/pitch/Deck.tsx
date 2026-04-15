@@ -92,9 +92,9 @@ export default function Deck() {
             <p className="mono-sub">new york whispers money. cambridge whispers know-more. the valley whispers power.</p>
           </div>
           <div className="pivot-bottom">
-            <h2 className="serif-h2"><em>every talent density therefore must whisper to some extent.</em></h2>
-            <p className="serif-line muted">akpsi, dsp, ttau whisper <em>LARPers</em>. sep are the performers.</p>
-            <p className="serif-line accent"><em>but instead i believe we should whisper <span className="pivot-alignment">alignment</span>, because that&rsquo;s how you <span className="pivot-transcend">transcend</span>.</em></p>
+            <h2 className="serif-h2"><em>every mind whispers what it rewards too.</em></h2>
+            <p className="serif-line muted">most of us whisper status. speed. appearance.</p>
+            <p className="serif-line accent"><em>the whisper worth making is <span className="pivot-alignment">alignment</span> — because that&rsquo;s how you <span className="pivot-transcend">transcend</span>.</em></p>
             <p className="serif-comment">— paul graham, 2008.</p>
           </div>
         </section>
@@ -123,7 +123,7 @@ export default function Deck() {
             </li>
             <li className="move move-03">
               <span className="num">[03]</span>
-              <span className="body"><em>ted lasso darts scene.</em></span>
+              <span className="body"><em>attention becomes the metric. what someone looked at carefully counts more than what they shipped loudly.</em></span>
             </li>
           </ol>
         </section>
@@ -155,7 +155,7 @@ export default function Deck() {
             <div className="m2-hero">
               <p className="m2-hero-line muted"><em>sep is not a tech frat.</em></p>
               <p className="m2-hero-line faint"><em>startups are the surface.</em></p>
-              <p className="m2-hero-line accent"><em>but <Link href="/v1/6" className="m2-link"><span className="m2-attention">ATTENTION</span></Link> is what matters the most.</em></p>
+              <p className="m2-hero-line accent"><em><Link href="/v1/6" className="m2-link"><span className="m2-attention">attention</span></Link> is all you need.</em></p>
             </div>
 
             <div className="m2-orn">❦</div>
@@ -163,8 +163,8 @@ export default function Deck() {
             {/* Three beats */}
             <div className="m2-beats">
               <div className="m2-beat">
-                <p className="m2-beat-main"><em>every <Link href="/v1/7" className="m2-link">revolution</Link> needs its counterculture. pick your revolution and pick your counterculture.</em></p>
-                <p className="m2-beat-sub"><em>the revolution will not be televised. this letter is not a <Link href="/v1/2" className="m2-link m2-link-subtle">post</Link>.</em></p>
+                <p className="m2-beat-main"><em>pick what you attend to. not what attends to you.</em></p>
+                <p className="m2-beat-sub"><em>the <Link href="/v1/7" className="m2-link m2-link-subtle">revolution</Link> will not be televised. this letter is not a <Link href="/v1/2" className="m2-link m2-link-subtle">post</Link>.</em></p>
               </div>
 
               <div className="m2-beat">
@@ -207,7 +207,7 @@ export default function Deck() {
             <div className="love-rule" />
 
             <p className="aurora-opener"><em>let&rsquo;s cut through the bullshit. <span className="aurora-together">together.</span></em></p>
-            <p className="aurora-final"><em>so poison the water <span className="aurora-upstream">upstream</span>.</em></p>
+            <p className="aurora-final"><em>the <span className="aurora-poison">poison</span> won&rsquo;t cure itself. get <span className="aurora-upstream">upstream</span>.</em></p>
           </div>
 
           <p className="aurora-sig">— saapai · 04.2026 · aureliex.com</p>

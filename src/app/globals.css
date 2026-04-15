@@ -1861,13 +1861,12 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   background: transparent;
 }
 
-/* Slide 9 ATTENTION emphasis — caps tracked, rust-glow like LOVE on slide 6 */
+/* Slide 9 "attention is all you need" — lowercase italic, rust-glowed so the
+   transformer-paper callback lands without caps shouting */
 .pitch-slide.zone-cream-final .m2-attention {
-  font-style: normal;
   font-weight: 700;
-  letter-spacing: 0.14em;
   color: #8B3A2E;
-  text-shadow: 0 0 14px color-mix(in srgb, #8B3A2E 26%, transparent);
+  text-shadow: 0 0 16px color-mix(in srgb, #8B3A2E 32%, transparent);
 }
 
 /* Zone 5 (cream) — slide 8, fully literary — seamless with warm-cream above; soft warm rim bleeds into warm-charcoal surround */
