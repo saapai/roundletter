@@ -102,6 +102,8 @@ export default function Positions() {
           shares: h.shares,
           entry_value: h.entry_value,
         }))}
+        baselineTs={new Date(p.baseline_date + "T14:00:00Z").getTime()}
+        accountValueAtEntry={p.account_value_at_entry ?? 3453.83}
       />
 
       <StockAnalysisGraph

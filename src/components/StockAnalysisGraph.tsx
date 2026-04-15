@@ -26,11 +26,29 @@ export default function StockAnalysisGraph({ holdings }: { holdings: Holding[] }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Shared session cache with PortfolioChart — one /api/prices hit per
+    // 10min, so back/forward navigation doesn't re-fetch.
+    const CACHE_KEY = "prices-cache-v1";
+    const FRESH_MS = 10 * 60 * 1000;
+    try {
+      const raw = sessionStorage.getItem(CACHE_KEY);
+      if (raw) {
+        const cached = JSON.parse(raw) as PricesResponse & { _savedAt: number };
+        if (cached._savedAt && Date.now() - cached._savedAt < FRESH_MS) {
+          setPrices(cached);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch {}
     fetch("/api/prices", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         setPrices(j);
         setLoading(false);
+        if (j) {
+          try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ...j, _savedAt: Date.now() })); } catch {}
+        }
       })
       .catch(() => setLoading(false));
   }, []);

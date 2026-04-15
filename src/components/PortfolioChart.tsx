@@ -32,11 +32,28 @@ export default function PortfolioChart({ holdings, baselineTs, accountValueAtEnt
   const [tf, setTf] = useState<Timeframe>("2D");
 
   useEffect(() => {
+    // Session cache (10min freshness) so back/forward navigation is instant.
+    const CACHE_KEY = "prices-cache-v1";
+    const FRESH_MS = 10 * 60 * 1000;
+    try {
+      const raw = sessionStorage.getItem(CACHE_KEY);
+      if (raw) {
+        const cached = JSON.parse(raw) as PricesResponse & { _savedAt: number };
+        if (cached._savedAt && Date.now() - cached._savedAt < FRESH_MS) {
+          setPrices(cached);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch {}
     fetch("/api/prices", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
         setPrices(j);
         setLoading(false);
+        if (j) {
+          try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ...j, _savedAt: Date.now() })); } catch {}
+        }
       })
       .catch(() => setLoading(false));
   }, []);

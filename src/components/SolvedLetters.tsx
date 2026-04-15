@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { V1_THEMES } from "@/lib/v1data";
+
+const CROWD_SOLVED_KEY = "crowd-solved-v1";
+const POLYMARKET_DEPTH_KEY = "polymarket-depth";
+const MAX_DEPTH = 10;
 
 // Two-row hangman earned-letters display at the bottom of /positions:
 //  1. "what we've found" — GLOBAL aggregation of every letter any visitor has
@@ -18,6 +22,11 @@ export default function SolvedLetters() {
   const [globalRows, setGlobalRows] = useState<Row[]>([]);
   const [personalRows, setPersonalRows] = useState<Row[]>([]);
   const [mounted, setMounted] = useState(false);
+  // Optimistic crowd-solved state: once this browser has ever seen 10/10
+  // globally, we render the CompleteReveal immediately on future mounts —
+  // no flash, no API wait. The API still runs and reconciles in the
+  // background, but the UI is instant.
+  const [crowdSolvedSticky, setCrowdSolvedSticky] = useState<boolean>(false);
 
   const loadGlobal = async () => {
     try {
@@ -70,6 +79,13 @@ export default function SolvedLetters() {
   useEffect(() => {
     setMounted(true);
     loadPersonal();
+    // Read sticky flag immediately so the CompleteReveal renders on first
+    // paint if this browser has ever seen all 10.
+    try {
+      if (localStorage.getItem(CROWD_SOLVED_KEY) === "1") {
+        setCrowdSolvedSticky(true);
+      }
+    } catch {}
     // initial global load + one-time retroactive sync
     (async () => {
       try {
@@ -83,6 +99,10 @@ export default function SolvedLetters() {
           green: t.green,
         }));
         setGlobalRows(rows);
+        if (rows.length === 10) {
+          try { localStorage.setItem(CROWD_SOLVED_KEY, "1"); } catch {}
+          setCrowdSolvedSticky(true);
+        }
 
         const localSlugs = V1_THEMES.filter(
           (t) => localStorage.getItem(solvedKey(t.slug)) === "1",
@@ -109,7 +129,10 @@ export default function SolvedLetters() {
   if (!mounted) return null;
   if (globalRows.length === 0 && personalRows.length === 0) return null;
 
-  const allGlobalFound = globalRows.length === 10;
+  // CompleteReveal shows when either (a) we see 10/10 in the current API
+  // response, or (b) the sticky localStorage flag says we've seen it before.
+  // Sticky stays true forever on this browser — "permanent once solved."
+  const allGlobalFound = globalRows.length === 10 || crowdSolvedSticky;
 
   return (
     <section className="solved-letters" aria-hidden="true">
@@ -154,47 +177,75 @@ export default function SolvedLetters() {
   );
 }
 
-// CompleteReveal — rendered at the bottom of /positions once all 10 letters
-// have been crowd-solved globally. Sharp, techy, market-themed COMING SOON
-// card. Bloomberg-terminal vibes: tabular monospace, box-drawing borders,
-// bid/ask/spread readout, ticker tape. Implicit money/markets language.
+// CompleteReveal — command-line wordle abacus. Sharp, analytical, techy.
+// Cumulative polymarket recursion: each click increments a session-scoped
+// depth counter (max 10), navigating to /polymarket[/polymarket]*/argument.
+// Counter persists across back/forward navigation within the session.
 function CompleteReveal() {
+  const router = useRouter();
+  const [depth, setDepth] = useState(0);
+
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(POLYMARKET_DEPTH_KEY);
+      const n = raw ? parseInt(raw, 10) : 0;
+      if (Number.isFinite(n) && n >= 0) setDepth(Math.min(n, MAX_DEPTH));
+    } catch {}
+  }, []);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const next = Math.min(depth + 1, MAX_DEPTH);
+    try { sessionStorage.setItem(POLYMARKET_DEPTH_KEY, String(next)); } catch {}
+    setDepth(next);
+    const prefix = Array(next).fill("polymarket").join("/");
+    const path = prefix ? `/${prefix}/argument` : `/argument`;
+    router.push(path);
+  };
+
+  const progress = Math.min(depth, MAX_DEPTH);
+  const progressBar = "█".repeat(progress) + "░".repeat(MAX_DEPTH - progress);
+
   return (
-    <Link href="/argument" className="complete-reveal" aria-label="polymarket — coming soon">
-      <div className="cr-top">
-        <span className="cr-tkr">TKR · POLYMARKET</span>
-        <span className="cr-status">LISTING · PENDING</span>
-      </div>
+    <a href="/argument" onClick={handleClick} className="cli-reveal" aria-label="polymarket — coming soon">
+      <header className="cli-bar">
+        <span className="cli-dot cli-dot-r" />
+        <span className="cli-dot cli-dot-y" />
+        <span className="cli-dot cli-dot-g" />
+        <span className="cli-title">~ / polymarket / wordle.sh</span>
+        <span className="cli-pid">pid 00{Math.max(1, progress)}</span>
+      </header>
 
-      <div className="cr-headline">
-        <span className="cr-eyebrow">// crowd discovery complete · 10/10</span>
-        <div className="cr-coming">
-          <span>COMING</span>
-          <span>SOON</span>
-        </div>
-        <div className="cr-symbol">
-          POLYMARKET
-          <span className="cr-cursor" aria-hidden="true" />
-        </div>
-      </div>
+      <pre className="cli-body">
+{`$ ./wordle --decode POLYMARKET
+[ ok ] crowd signal · 10/10 letters discovered
+[ ok ] consensus · unanimous
+[ .. ] listing    · pending
 
-      <div className="cr-grid">
-        <div className="cr-cell"><span className="cr-k">bid</span><span className="cr-v">—</span></div>
-        <div className="cr-cell"><span className="cr-k">ask</span><span className="cr-v">—</span></div>
-        <div className="cr-cell"><span className="cr-k">last</span><span className="cr-v">—</span></div>
-        <div className="cr-cell"><span className="cr-k">open</span><span className="cr-v">—</span></div>
-        <div className="cr-cell"><span className="cr-k">high</span><span className="cr-v">—</span></div>
-        <div className="cr-cell"><span className="cr-k">low</span><span className="cr-v">—</span></div>
-        <div className="cr-cell"><span className="cr-k">open interest</span><span className="cr-v cr-v-up">10 / 10</span></div>
-        <div className="cr-cell"><span className="cr-k">depth</span><span className="cr-v cr-v-up">100%</span></div>
-        <div className="cr-cell"><span className="cr-k">spread</span><span className="cr-v">tightening</span></div>
-      </div>
+        ╔══════════════════════════════════════════════╗
+        ║                                              ║
+        ║   >_ P O L Y M A R K E T${"\u00A0"}`}<span className="cli-cursor" aria-hidden="true">_</span>{`          ║
+        ║                                              ║
+        ╚══════════════════════════════════════════════╝
 
-      <div className="cr-ticker" aria-hidden="true">
-        <span>
-          ── OPEN INTEREST 10/10 ── DEPTH 100% ── SPREAD TIGHTENING ── SETTLEMENT TBD ── MARKET IS MAKING ── METHOD &gt; OUTCOME ── ATTENTION IS PRICED IN ── PICK YOUR REVOLUTION ── CONVICTION ≠ EDGE ── KELLY SAYS SIZE BY EDGE ── BASE RATES HOLD ── THE METHOD IS THE MEDICINE ──
+$ status
+  bid         ask         last        open_interest
+  —           —           —           10 / 10
+
+$ recurse --depth=${progress}/${MAX_DEPTH}
+  ${progressBar}
+
+$ _`}
+      </pre>
+
+      <div className="cli-footer">
+        <span className="cli-k">next call</span>
+        <span className="cli-v">
+          {progress >= MAX_DEPTH
+            ? "→ /polymarket × 10 / argument"
+            : `→ /polymarket × ${progress + 1} / argument`}
         </span>
       </div>
-    </Link>
+    </a>
   );
 }

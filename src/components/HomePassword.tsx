@@ -42,20 +42,49 @@ export default function HomePassword() {
   const refs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
-    // On mount, check global state + detect back/forward navigation. Back
-    // nav from /positions means: let them play again without server effect.
+    // On mount: detect back/forward nav, then seed global state from cache
+    // so the card renders on first paint (no flash on back-traversal), then
+    // reconcile with the server in the background.
     try {
       const entries = performance.getEntriesByType("navigation");
       const nav = entries[0] as PerformanceNavigationTiming | undefined;
       if (nav?.type === "back_forward") setRetryLocal(true);
     } catch {}
+
+    // Optimistic render from localStorage (sticky — once we've ever seen
+    // solved on this browser, render solved). Refresh re-checks server.
+    try {
+      if (localStorage.getItem("polymarket-global-solved-sticky") === "1") {
+        setGlobalSolved(true);
+      }
+    } catch {}
+    // Also use a sessionStorage cache for speed (shorter TTL than sticky).
+    try {
+      const raw = sessionStorage.getItem("polymarket-global-cache");
+      if (raw) {
+        const cached = JSON.parse(raw) as { solved: boolean; _savedAt: number };
+        if (cached._savedAt && Date.now() - cached._savedAt < 5 * 60 * 1000) {
+          setGlobalSolved(cached.solved);
+        }
+      }
+    } catch {}
+
     fetch("/api/polymarket", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : null))
       .then((j: { solved?: boolean } | null) => {
-        if (j && typeof j.solved === "boolean") setGlobalSolved(j.solved);
-        else setGlobalSolved(false);
+        const solved = !!(j && j.solved);
+        setGlobalSolved(solved);
+        try {
+          sessionStorage.setItem(
+            "polymarket-global-cache",
+            JSON.stringify({ solved, _savedAt: Date.now() }),
+          );
+          if (solved) localStorage.setItem("polymarket-global-solved-sticky", "1");
+        } catch {}
       })
-      .catch(() => setGlobalSolved(false));
+      .catch(() => {
+        // on network fail, keep whatever optimistic state we had
+      });
   }, []);
 
   useEffect(() => {
@@ -78,7 +107,16 @@ export default function HomePassword() {
           body: JSON.stringify({ password: full }),
           keepalive: true,
         })
-          .then(() => setGlobalSolved(true))
+          .then(() => {
+            setGlobalSolved(true);
+            try {
+              sessionStorage.setItem(
+                "polymarket-global-cache",
+                JSON.stringify({ solved: true, _savedAt: Date.now() }),
+              );
+              localStorage.setItem("polymarket-global-solved-sticky", "1");
+            } catch {}
+          })
           .catch(() => {});
       }
     }
