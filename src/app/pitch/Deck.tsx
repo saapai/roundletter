@@ -123,10 +123,7 @@ export default function Deck() {
             </li>
             <li className="move move-03">
               <span className="num">[03]</span>
-              <span className="body body-triad"><em>
-                <span className="triad-line">empathy is how you borrow a <span className="t-empathy-hit">life</span>.</span>
-                <span className="triad-line">polymathy is how many you end up <span className="t-polymath-hit">keeping</span>.</span>
-              </em></span>
+              <span className="body"><em>ted lasso darts scene.</em></span>
             </li>
           </ol>
         </section>
