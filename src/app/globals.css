@@ -1071,6 +1071,104 @@ body.pitch-mode > main {
   }
 }
 
+/* Zone 6 (aurora-final) — slide 10, the resolution  */
+.pitch-slide.zone-aurora {
+  background:
+    radial-gradient(ellipse at 50% 45%, color-mix(in srgb, #8B3A2E 9%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, color-mix(in srgb, #A67A3A 7%, transparent) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 30%, color-mix(in srgb, #733B43 6%, transparent) 0%, transparent 55%),
+    linear-gradient(180deg, #F6F1E7 0%, #F2ECDF 100%);
+  color: #1C1A17;
+  font-family: var(--font-body), serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5rem 2rem 4rem;
+  border-bottom: 0;
+  position: relative;
+  overflow: hidden;
+}
+.pitch-slide.zone-aurora::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 55%, color-mix(in srgb, #8B3A2E 3%, transparent) 0%, transparent 40%);
+  pointer-events: none;
+  animation: aurora-shift 18s ease-in-out infinite;
+}
+@keyframes aurora-shift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; }
+  50% { transform: translate(2%, -1%) scale(1.04); opacity: 0.85; }
+}
+.pitch-slide.zone-aurora .pitch-page {
+  color: #8B8579;
+}
+.pitch-slide.zone-aurora .aurora-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 48rem;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.pitch-slide.zone-aurora .aurora-line {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: #1C1A17;
+  margin: 0;
+  text-wrap: balance;
+}
+.pitch-slide.zone-aurora .aurora-tag {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #8B3A2E;
+  margin: 0;
+}
+.pitch-slide.zone-aurora .aurora-sig {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body), serif;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+  margin-top: 3rem;
+}
+.pitch-slide.zone-aurora .pitch-footer-form {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.5rem;
+}
+.pitch-slide.zone-aurora .pitch-logout-cream {
+  background: transparent;
+  color: #6B6560;
+  border: 1px solid rgba(139,58,46,0.30);
+  border-radius: 999px;
+  padding: 7px 20px;
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 240ms cubic-bezier(.2,.7,.2,1);
+}
+.pitch-slide.zone-aurora .pitch-logout-cream:hover {
+  color: #8B3A2E;
+  border-color: #8B3A2E;
+  background: color-mix(in srgb, #8B3A2E 5%, transparent);
+}
+
 /* ── Closed / locked-room page ─────────────────────────── */
 .gate-form {
   display: flex;

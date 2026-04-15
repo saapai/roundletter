@@ -8,7 +8,7 @@ export default function Deck() {
 
         {/* 01 — Title · zone-dark */}
         <section className="pitch-slide zone-dark" id="s1">
-          <span className="pitch-page">01 / 09</span>
+          <span className="pitch-page">01 / 10</span>
           <h1 className="pitch-title">a quiet case.</h1>
           <div className="pitch-rule" />
           <p className="pitch-sub">// built mostly from git history.</p>
@@ -17,7 +17,7 @@ export default function Deck() {
 
         {/* 02 — Thesis · zone-dark */}
         <section className="pitch-slide zone-dark" id="s2">
-          <span className="pitch-page">02 / 09</span>
+          <span className="pitch-page">02 / 10</span>
           <p className="pitch-eyebrow"># thesis</p>
           <h2 className="pitch-h2">sep is the frat where smart ucla students build real things.</h2>
           <div className="pitch-rule pitch-rule-muted" />
@@ -27,7 +27,7 @@ export default function Deck() {
 
         {/* 03 — Receipts · zone-dark */}
         <section className="pitch-slide zone-dark" id="s3">
-          <span className="pitch-page">03 / 09</span>
+          <span className="pitch-page">03 / 10</span>
           <p className="pitch-eyebrow"># receipts / three rush cycles</p>
           <h2 className="pitch-h2 small">what i have built for us, quietly.</h2>
           <table className="pitch-table">
@@ -47,7 +47,7 @@ export default function Deck() {
 
         {/* 04 — Punchline · zone-dark (last full-dark slide) */}
         <section className="pitch-slide zone-dark" id="s4">
-          <span className="pitch-page">04 / 09</span>
+          <span className="pitch-page">04 / 10</span>
           <p className="pitch-hero muted">these are not three things.</p>
           <p className="pitch-hero">they are one thing —</p>
           <p className="pitch-hero accent">sep's infrastructure.</p>
@@ -57,7 +57,7 @@ export default function Deck() {
 
         {/* 05 — Range · zone-warm-dark (first warming) */}
         <section className="pitch-slide zone-warm-dark" id="s5">
-          <span className="pitch-page">05 / 09</span>
+          <span className="pitch-page">05 / 10</span>
           <p className="pitch-eyebrow"># range / outside the frat, twelve months</p>
           <h2 className="pitch-h2 small">what i build when no one is asking.</h2>
           <ul className="pitch-list">
@@ -73,7 +73,7 @@ export default function Deck() {
 
         {/* 06 — Cities and Ambition · zone-pivot (gradient + mixed type) */}
         <section className="pitch-slide zone-pivot" id="s6">
-          <span className="pitch-page">06 / 09</span>
+          <span className="pitch-page">06 / 10</span>
           <div className="pivot-top">
             <p className="pitch-eyebrow"># cities and ambition — a microcosm</p>
             <h2 className="mono-h2">every city whispers what it rewards.</h2>
@@ -89,7 +89,7 @@ export default function Deck() {
 
         {/* 07 — Three Moves · zone-warm-cream (serif starts winning) */}
         <section className="pitch-slide zone-warm-cream" id="s7">
-          <span className="pitch-page">07 / 09</span>
+          <span className="pitch-page">07 / 10</span>
           <p className="warm-eyebrow">three moves — to change the whisper</p>
           <h2 className="warm-h2">if i'm president —</h2>
 
@@ -119,7 +119,7 @@ export default function Deck() {
 
         {/* 08 — Reframe · zone-cream (compressed to two italic lines) */}
         <section className="pitch-slide zone-cream" id="s8">
-          <span className="pitch-page">08 / 09</span>
+          <span className="pitch-page">08 / 10</span>
           <p className="cream-eyebrow">on not making this about me</p>
           <h2 className="cream-hero"><em>the presidency is not the product of my labor.</em></h2>
           <h2 className="cream-hero accent"><em>the tooling is. it already exists.</em></h2>
@@ -129,9 +129,9 @@ export default function Deck() {
           </p>
         </section>
 
-        {/* 09 — Manifesto + Close · zone-cream-final (full aureliex) */}
+        {/* 09 — Manifesto + Ask · zone-cream-final (penultimate) */}
         <section className="pitch-slide zone-cream-final" id="s9">
-          <span className="pitch-page">09 / 09</span>
+          <span className="pitch-page">09 / 10</span>
           <p className="cream-eyebrow">what sep is, when you take the surface away</p>
 
           <div className="manifesto">
@@ -154,8 +154,18 @@ export default function Deck() {
             <p className="close-line muted"><em>i have been building for us for two years without being asked.</em></p>
             <p className="close-line accent"><em>i am asking for the year where i train someone else to.</em></p>
           </div>
+        </section>
 
-          <p className="close-sig">— saapai · 04.2026 · aureliex.com</p>
+        {/* 10 — Final · zone-aurora (the resolution) */}
+        <section className="pitch-slide zone-aurora" id="s10">
+          <span className="pitch-page">10 / 10</span>
+
+          <div className="aurora-wrap">
+            <p className="aurora-line"><em>let's cut through the bullshit.</em></p>
+            <p className="aurora-tag"><em>together.</em></p>
+          </div>
+
+          <p className="aurora-sig">— saapai · 04.2026 · aureliex.com</p>
 
           <form action={logoutPitch} className="pitch-footer-form">
             <button type="submit" className="pitch-logout-cream">close the door</button>
