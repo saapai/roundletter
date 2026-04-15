@@ -189,45 +189,18 @@ export default function SolvedLetters() {
   );
 }
 
-// CompleteReveal — command-line wordle abacus. Sharp, analytical, techy.
-// Cumulative polymarket recursion: each click increments a session-scoped
-// depth counter (max 10), navigating to /polymarket[/polymarket]*/argument.
-// Counter persists across back/forward navigation within the session.
+// CompleteReveal — command-line wordle terminal. Sharp, analytical, techy.
+// Single link to /argument (the ONLY link to /argument on the site besides
+// the /6969 page). No URL recursion; the 6969 depth game lives on /argument.
 function CompleteReveal() {
-  const router = useRouter();
-  const [depth, setDepth] = useState(0);
-
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem(POLYMARKET_DEPTH_KEY);
-      const n = raw ? parseInt(raw, 10) : 0;
-      if (Number.isFinite(n) && n >= 0) setDepth(Math.min(n, MAX_DEPTH));
-    } catch {}
-  }, []);
-
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    // Intentionally uncapped — past 10 the catch-all serves the "6969" page
-    // (until depth 25). Past 25 it's a real 404. The counter just keeps going.
-    const next = depth + 1;
-    try { sessionStorage.setItem(POLYMARKET_DEPTH_KEY, String(next)); } catch {}
-    setDepth(next);
-    const prefix = Array(next).fill("polymarket").join("/");
-    const path = prefix ? `/${prefix}/argument` : `/argument`;
-    router.push(path);
-  };
-
-  const progress = Math.min(depth, MAX_DEPTH);
-  const progressBar = "█".repeat(progress) + "░".repeat(MAX_DEPTH - progress);
-
   return (
-    <a href="/argument" onClick={handleClick} className="cli-reveal" aria-label="polymarket — coming soon">
+    <Link href="/argument" className="cli-reveal" aria-label="polymarket — argument">
       <header className="cli-bar">
         <span className="cli-dot cli-dot-r" />
         <span className="cli-dot cli-dot-y" />
         <span className="cli-dot cli-dot-g" />
         <span className="cli-title">~ / polymarket / wordle.sh</span>
-        <span className="cli-pid">pid 00{Math.max(1, progress)}</span>
+        <span className="cli-pid">pid 0010</span>
       </header>
 
       <pre className="cli-body">
@@ -246,20 +219,14 @@ $ status
   bid         ask         last        open_interest
   —           —           —           10 / 10
 
-$ recurse --depth=${progress}/${MAX_DEPTH}
-  ${progressBar}
-
-$ _`}
+$ next
+  → /argument`}
       </pre>
 
       <div className="cli-footer">
         <span className="cli-k">next call</span>
-        <span className="cli-v">
-          {progress >= MAX_DEPTH
-            ? "→ /polymarket × 10 / argument"
-            : `→ /polymarket × ${progress + 1} / argument`}
-        </span>
+        <span className="cli-v">→ /argument</span>
       </div>
-    </a>
+    </Link>
   );
 }

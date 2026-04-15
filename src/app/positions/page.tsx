@@ -2,6 +2,7 @@ import { getPortfolio } from "@/lib/data";
 import SolvedLetters from "@/components/SolvedLetters";
 import StockAnalysisGraph from "@/components/StockAnalysisGraph";
 import PortfolioChart from "@/components/PortfolioChart";
+import SavingsHero from "@/components/SavingsHero";
 import TodayDebate from "@/components/TodayDebate";
 
 const AGENT_COLOR: Record<string, string> = {
@@ -45,56 +46,18 @@ export default function Positions() {
     <article className="article page">
       <div className="eyebrow">Stocks · Round {p.round} · {p.baseline_date}</div>
 
-      <section className="savings-hero">
-        <div className="savings-eyebrow">// the savings story</div>
-
-        <div className="savings-grid">
-          <div className="savings-cell savings-cell-main">
-            <div className="savings-cell-label">current account</div>
-            <div className="savings-cell-value">${fmt$(current)}</div>
-            <div className="savings-cell-note">
-              <span className="savings-up">+${fmt$(gainFromStart)}</span>
-              {" "}({gainPctFromStart.toFixed(0)}%) since jan 2025
-            </div>
-          </div>
-
-          <div className="savings-cell">
-            <div className="savings-cell-label">peak</div>
-            <div className="savings-cell-value savings-peak">${fmt$(peak)}</div>
-            <div className="savings-cell-note">
-              +${fmt$(peakGain)} ({peakGainPct.toFixed(0)}%) · {p.peak_date ?? p.history?.peak_date ?? "2026-01-31"}
-            </div>
-          </div>
-
-          <div className="savings-cell">
-            <div className="savings-cell-label">vs peak</div>
-            <div className="savings-cell-value savings-draw">{drawPctFromPeak.toFixed(1)}%</div>
-            <div className="savings-cell-note">${fmt$(drawFromPeak)} (gave back)</div>
-          </div>
-
-          <div className="savings-cell">
-            <div className="savings-cell-label">to $100k</div>
-            <div className="savings-cell-value savings-goal">{multipleToGoal.toFixed(1)}x</div>
-            <div className="savings-cell-note">${fmt$(toGoal)} to go</div>
-          </div>
-        </div>
-
-        <div className="savings-bar-wrap" aria-hidden="true">
-          <div className="savings-bar-track">
-            <div className="savings-bar-fill" style={{ width: `${posPct}%` }} />
-            <div className="savings-bar-peak-mark" style={{ left: `${peakPct}%` }} title={`peak $${fmt$(peak)}`} />
-            <div className="savings-bar-now-mark" style={{ left: `${posPct}%` }} title={`now $${fmt$(current)}`} />
-          </div>
-          <div className="savings-bar-labels">
-            <span>${fmt$(started)}<br/><em>jan 2025</em></span>
-            <span className="savings-bar-label-goal">${fmt$(goal)}<br/><em>june 21</em></span>
-          </div>
-        </div>
-
-        <p className="savings-caveat">
-          <em>live prices aren&rsquo;t wired in yet; these are the last reconciled numbers. the real savings story is the one held through the drawdown — not the one at peak.</em>
-        </p>
-      </section>
+      <SavingsHero
+        holdings={p.holdings.map((h: any) => ({
+          ticker: h.ticker,
+          shares: h.shares,
+          entry_value: h.entry_value,
+        }))}
+        startedValue={started}
+        peakValue={peak}
+        peakDate={p.peak_date ?? p.history?.peak_date ?? "2026-01-31"}
+        baselineValue={current}
+        goal={goal}
+      />
 
       <PortfolioChart
         holdings={p.holdings.map((h: any) => ({
