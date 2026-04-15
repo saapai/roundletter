@@ -195,7 +195,9 @@ function CompleteReveal() {
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const next = Math.min(depth + 1, MAX_DEPTH);
+    // Intentionally uncapped — past 10 the catch-all serves the "6969" page
+    // (until depth 25). Past 25 it's a real 404. The counter just keeps going.
+    const next = depth + 1;
     try { sessionStorage.setItem(POLYMARKET_DEPTH_KEY, String(next)); } catch {}
     setDepth(next);
     const prefix = Array(next).fill("polymarket").join("/");

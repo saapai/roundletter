@@ -2736,6 +2736,45 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   margin: 0;
 }
 
+/* 6969 "nice" error page — served for polymarket recursion depth 11..25.
+   Full-page green terminal; real 404 takes over at depth 26+. */
+.six9-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0B0B0D;
+  padding: 2rem 1rem;
+}
+.six9-card {
+  max-width: 720px;
+  width: 100%;
+  background: #0E0E10;
+  border: 1px solid rgba(95, 139, 78, 0.45);
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, #5F8B4E 10%, transparent),
+    0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  color: #C6E6B5;
+  font-family: "Menlo", ui-monospace, monospace;
+}
+.six9-bar { background: #141416; }
+.six9-body { padding: 1.5rem 1.5rem 0.5rem; font-size: 13px; }
+.six9-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.5rem 1.3rem;
+  border-top: 1px dashed rgba(95, 139, 78, 0.22);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.six9-back { color: #5FC173; text-decoration: none; }
+.six9-back:hover { color: #C6E6B5; }
+.six9-dot { color: #6F9A5C; opacity: 0.6; }
+
 /* cli-reveal — command-line wordle abacus. Sharper than the homepage card:
    a fake terminal window with stoplight dots, title bar, pre-formatted
    ASCII content, progress bar for cumulative polymarket recursion. Clicks

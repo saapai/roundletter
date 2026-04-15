@@ -150,10 +150,23 @@ export default function HomePassword() {
   // Card shows when globally solved OR when this visitor just solved locally,
   // UNLESS they're in retry mode (came back from /positions or clicked the
   // "try again" link). Refresh clears retryLocal and the card returns.
+  const handleCardRecurse = (e: React.MouseEvent) => {
+    e.preventDefault();
+    let current = 0;
+    try {
+      const raw = sessionStorage.getItem("polymarket-depth");
+      current = raw ? parseInt(raw, 10) : 0;
+    } catch {}
+    const next = current + 1; // allow past 10 — the catch-all serves 6969 until 25
+    try { sessionStorage.setItem("polymarket-depth", String(next)); } catch {}
+    const prefix = Array(next).fill("polymarket").join("/");
+    router.push(prefix ? `/${prefix}/positions` : "/positions");
+  };
+
   if ((globalSolved || showLink) && !retryLocal) {
     return (
       <div className="home-pw home-pw-global-solved">
-        <Link href="/positions" className="coming-soon-trailer" aria-label="polymarket — coming soon">
+        <a href="/positions" onClick={handleCardRecurse} className="coming-soon-trailer" aria-label="polymarket — coming soon">
           <span className="cst-scaffold cst-scaffold-tl" aria-hidden="true" />
           <span className="cst-scaffold cst-scaffold-br" aria-hidden="true" />
           <span className="cst-tape cst-tape-1" aria-hidden="true">//// under construction ////</span>
@@ -181,7 +194,7 @@ export default function HomePassword() {
             <span>· attention is all you need</span>
             <span>· pick your revolution</span>
           </span>
-        </Link>
+        </a>
         <button
           type="button"
           className="home-pw-retry"
