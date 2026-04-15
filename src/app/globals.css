@@ -2545,19 +2545,43 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
    agent that does the work); "poison" muted but readable (the thing being
    undone, receding without disappearing); period crisp-black so the
    sentence terminates cleanly instead of trailing off into gray. */
+/* Real vertical air between bullshit/together opener and the final landing
+   so each beat gets room to land instead of blurring into one block */
+.pitch-slide.zone-aurora .aurora-break {
+  height: clamp(2rem, 5vh, 4rem);
+}
+/* Final — two stacked lines. Setup line sets the claim, landing line
+   towers. Single peak on the whole deck. */
 .pitch-slide.zone-aurora .aurora-final {
-  font-family: var(--font-display), serif;
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(2.8rem, 8vw, 6rem);
-  line-height: 1.02;
-  letter-spacing: -0.025em;
-  color: #1C1A17;
-  margin: 1.2rem 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  margin: 0 auto 0.5rem;
   text-align: center;
   position: relative;
   z-index: 1;
-  max-width: 50rem;
+  max-width: 62rem;
+}
+.pitch-slide.zone-aurora .aurora-final-pre {
+  display: block;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2rem, 5.6vw, 3.9rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: #1C1A17;
+}
+.pitch-slide.zone-aurora .aurora-final-land {
+  display: block;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(3.4rem, 10vw, 7.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  color: #1C1A17;
 }
 .pitch-slide.zone-aurora .aurora-cure {
   color: #8B3A2E;

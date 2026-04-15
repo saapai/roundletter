@@ -207,7 +207,13 @@ export default function Deck() {
             <div className="love-rule" />
 
             <p className="aurora-opener"><em>let&rsquo;s cut through the bullshit. <span className="aurora-together">together.</span></em></p>
-            <p className="aurora-final"><em>the <span className="aurora-poison">poison</span> won&rsquo;t cure itself. get <span className="aurora-upstream">upstream</span>.</em></p>
+
+            <div className="aurora-break" aria-hidden="true" />
+
+            <p className="aurora-final">
+              <span className="aurora-final-pre"><em>the <span className="aurora-poison">poison</span> won&rsquo;t cure itself.</em></span>
+              <span className="aurora-final-land"><em>get <span className="aurora-upstream">upstream</span>.</em></span>
+            </p>
           </div>
 
           <p className="aurora-sig">— saapai · 04.2026 · aureliex.com</p>
