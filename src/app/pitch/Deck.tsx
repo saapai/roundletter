@@ -212,7 +212,7 @@ export default function Deck() {
               <span><em>pick your revolution.</em></span>
               <span><em>pick your counterculture.</em></span>
             </p>
-            <p className="aurora-tag"><em>together.</em></p>
+            <p className="aurora-tag"><em>but let&rsquo;s do it together.</em></p>
           </div>
 
           <p className="aurora-sig">— saapai · 04.2026 · aureliex.com</p>
