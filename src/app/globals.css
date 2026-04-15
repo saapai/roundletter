@@ -2420,23 +2420,34 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   position: relative;
   z-index: 1;
 }
-/* Final word — biggest thing on the slide. Rust, heavy glow, tight tracking.
-   Inverts the deck-wide size hierarchy so the punchline towers. */
+/* Final line — biggest thing on the slide. Inverts the deck-wide size
+   hierarchy so the punchline towers. "cure" and "poison" are inline-spiked
+   — cure in rust-glow (the agent), poison in faded gray (the thing undone). */
 .pitch-slide.zone-aurora .aurora-final {
   font-family: var(--font-display), serif;
   font-style: italic;
-  font-weight: 700;
-  font-size: clamp(4rem, 12vw, 9rem);
-  line-height: 0.92;
-  letter-spacing: -0.035em;
-  color: #8B3A2E;
-  margin: 0 0 0.5rem;
+  font-weight: 600;
+  font-size: clamp(2.6rem, 7.5vw, 5.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: #1C1A17;
+  margin: 0.3rem 0 0.5rem;
   text-align: center;
   position: relative;
   z-index: 1;
+  max-width: 48rem;
+}
+.pitch-slide.zone-aurora .aurora-cure {
+  color: #8B3A2E;
+  font-weight: 700;
   text-shadow:
-    0 0 24px color-mix(in srgb, #8B3A2E 42%, transparent),
-    0 0 60px color-mix(in srgb, #8B3A2E 22%, transparent);
+    0 0 20px color-mix(in srgb, #8B3A2E 45%, transparent),
+    0 0 48px color-mix(in srgb, #8B3A2E 22%, transparent);
+}
+.pitch-slide.zone-aurora .aurora-poison {
+  color: color-mix(in srgb, #6B6560 72%, transparent);
+  font-weight: 400;
+  /* very light stroke — the poison almost vanishes; it's being cured */
 }
 /* Legacy .aurora-tag (kept for backward compat if any slide variant uses it) */
 .pitch-slide.zone-aurora .aurora-tag {

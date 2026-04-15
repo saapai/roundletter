@@ -207,13 +207,13 @@ export default function Deck() {
 
             <div className="love-rule" />
 
-            <p className="aurora-line"><em>let's cut through the bullshit.</em></p>
+            <p className="aurora-line"><em>no more bullshit.</em></p>
             <p className="aurora-mid aurora-mid-split">
               <span><em>pick your revolution.</em></span>
-              <span><em>pick your counterculture.</em></span>
+              <span><em>and your counterculture.</em></span>
             </p>
-            <p className="aurora-tag-lead"><em>but let&rsquo;s do it</em></p>
-            <p className="aurora-final"><em>together.</em></p>
+            <p className="aurora-tag-lead"><em>the point is not which dye you&rsquo;re infecting the water with.</em></p>
+            <p className="aurora-final"><em>it will <span className="aurora-cure">cure</span> the <span className="aurora-poison">poison</span>.</em></p>
           </div>
 
           <p className="aurora-sig">— saapai · 04.2026 · aureliex.com</p>
