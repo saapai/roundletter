@@ -101,25 +101,17 @@ export default function Deck() {
           <ol className="warm-moves">
             <li>
               <span className="num">[01]</span>
-              <span className="body"><em>every pledge class ships one real thing, together, publicly.</em></span>
+              <span className="body"><em>every pledge class ships directionally correctly and at scale for at least one thing they could never have done if not for our pledging — or we deem our experiment of pledging a failure. whose failure?</em></span>
             </li>
             <li>
               <span className="num">[02]</span>
-              <span className="body"><em>the tool suite becomes actively-owned — a rotating tech-deacon role.</em></span>
+              <span className="body"><em>toolmaking becomes the norm.</em></span>
             </li>
             <li>
               <span className="num">[03]</span>
-              <span className="body"><em>rush becomes an apprenticeship in doing, not only a social screen.</em></span>
+              <span className="body"><em>love becomes a language.</em></span>
             </li>
           </ol>
-
-          <div className="warm-four">
-            <span className="num faint">[04]</span>
-            <div>
-              <span className="body faint"><em>and the layer underneath — social memory on imessage, opt-in.</em></span>
-              <span className="comment faint">// built on friday + jarvis. i'll show anyone who asks.</span>
-            </div>
-          </div>
         </section>
 
         {/* 08 — Reframe · zone-cream (compressed to two italic lines) */}

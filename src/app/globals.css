@@ -626,7 +626,64 @@ body.pitch-mode > main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
+
+/* Hubble-telescope starfield — scattered over the dark top of the deck, fades out
+   before the warming begins. Mix of sizes, warm/cool temperatures, and two faint
+   milky-way glow bands. Effortlessly ambient: no animation, no hard edges. */
+.pitch-root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    radial-gradient(ellipse 70vw 22vh at 28% 14%, rgba(180, 200, 255, 0.035) 0%, transparent 70%),
+    radial-gradient(ellipse 55vw 18vh at 72% 26%, rgba(220, 190, 255, 0.028) 0%, transparent 70%),
+    radial-gradient(ellipse 40vw 14vh at 50% 36%, rgba(255, 220, 190, 0.022) 0%, transparent 70%),
+    radial-gradient(2.5px 2.5px at 12% 7%,  rgba(255,255,255,0.95) 40%, rgba(255,255,255,0.18) 60%, transparent 100%),
+    radial-gradient(2.5px 2.5px at 48% 14%, rgba(255,248,220,0.92) 40%, rgba(255,248,220,0.16) 60%, transparent 100%),
+    radial-gradient(2px 2px   at 78% 22%,  rgba(220,230,255,0.90) 40%, rgba(220,230,255,0.14) 60%, transparent 100%),
+    radial-gradient(2px 2px   at 22% 34%,  rgba(255,255,255,0.85) 40%, rgba(255,255,255,0.13) 65%, transparent 100%),
+    radial-gradient(2px 2px   at 88% 40%,  rgba(255,240,210,0.80) 40%, rgba(255,240,210,0.12) 65%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 5% 12%,  rgba(255,255,255,0.75) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 18% 4%,  rgba(255,255,255,0.72) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 33% 22%, rgba(255,248,230,0.70) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 45% 8%,  rgba(255,255,255,0.68) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 58% 17%, rgba(230,240,255,0.70) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 65% 5%,  rgba(255,255,255,0.76) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 72% 32%, rgba(255,255,255,0.60) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 85% 11%, rgba(255,250,240,0.80) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 92% 25%, rgba(255,255,255,0.65) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 38% 38%, rgba(255,255,255,0.50) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 52% 30%, rgba(220,230,255,0.58) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 7% 32%,  rgba(255,255,255,0.55) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 28% 9%,  rgba(255,240,220,0.62) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 62% 40%, rgba(240,245,255,0.55) 50%, transparent 100%),
+    radial-gradient(1.2px 1.2px at 80% 5%,  rgba(255,255,255,0.60) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 10% 19%, rgba(255,255,255,0.50) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 16% 28%, rgba(255,255,255,0.45) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 26% 16%, rgba(255,250,230,0.55) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 36% 6%,  rgba(255,255,255,0.48) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 42% 27%, rgba(230,240,255,0.50) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 50% 21%, rgba(255,255,255,0.40) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 55% 38%, rgba(255,248,230,0.45) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 68% 11%, rgba(255,255,255,0.55) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 75% 18%, rgba(255,255,255,0.42) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 82% 30%, rgba(230,240,255,0.48) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 90% 8%,  rgba(255,255,255,0.55) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 95% 38%, rgba(255,250,230,0.42) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 3% 7%,   rgba(255,255,255,0.50) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 14% 37%, rgba(255,255,255,0.40) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 30% 41%, rgba(255,255,255,0.45) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 46% 42%, rgba(240,245,255,0.42) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 64% 26%, rgba(255,255,255,0.40) 50%, transparent 100%),
+    radial-gradient(0.8px 0.8px at 76% 40%, rgba(255,248,230,0.45) 50%, transparent 100%);
+  mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 36%, rgba(0,0,0,0) 46%);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 36%, rgba(0,0,0,0) 46%);
+}
+
 .pitch-deck {
   color: #EDE8DC;
   font-family: "Menlo", ui-monospace, monospace;
@@ -651,6 +708,7 @@ body.pitch-mode > main {
   justify-content: center;
   gap: 1rem;
   position: relative;
+  z-index: 1;
   box-sizing: border-box;
 }
 
