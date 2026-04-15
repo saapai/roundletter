@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { V1_THEMES } from "@/lib/v1data";
+import { syncRiddleRound } from "@/lib/riddle-sync";
 
 const CROWD_SOLVED_KEY = "crowd-solved-v1";
 const POLYMARKET_DEPTH_KEY = "polymarket-depth";
@@ -78,16 +79,20 @@ export default function SolvedLetters() {
 
   useEffect(() => {
     setMounted(true);
-    loadPersonal();
-    // Read sticky flag immediately so the CompleteReveal renders on first
-    // paint if this browser has ever seen all 10.
-    try {
-      if (localStorage.getItem(CROWD_SOLVED_KEY) === "1") {
-        setCrowdSolvedSticky(true);
-      }
-    } catch {}
-    // initial global load + one-time retroactive sync
     (async () => {
+      // Invalidate all riddle-related local/session state if the server's
+      // round counter has advanced since we last checked.
+      await syncRiddleRound();
+      loadPersonal();
+      // Read sticky flag immediately so the CompleteReveal renders on first
+      // paint if this browser has ever seen all 10 in the CURRENT round.
+      try {
+        if (localStorage.getItem(CROWD_SOLVED_KEY) === "1") {
+          setCrowdSolvedSticky(true);
+        } else {
+          setCrowdSolvedSticky(false);
+        }
+      } catch {}
       try {
         const r = await fetch("/api/v1-letters", { cache: "no-store" });
         if (!r.ok) return;
@@ -110,6 +115,7 @@ export default function SolvedLetters() {
         await backfillGlobal(localSlugs, globalSlugs);
       } catch {}
     })();
+    // (the async IIFE above is closed just below)
 
     const globalTimer = setInterval(loadGlobal, 15000);
     const onSolved = () => {

@@ -1,28 +1,19 @@
 "use client";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-// Renders inside the 6969 error page. Each click pushes one level deeper
-// (up to depth 25, after which the catch-all returns a real 404). Also
-// syncs sessionStorage so home + CLI + 6969 share one depth counter.
+// Rendered inside the 6969 error page. Instead of recursing further into
+// /polymarket × N, clicking sends the visitor to /trailer — the "pretend
+// 404" cinematic montage of everything built in the 2026-04-15 session.
+// URL-level depth > 25 still returns a real 404 via the catch-all.
 
 export default function RecurseButton({ currentDepth }: { currentDepth: number }) {
-  const router = useRouter();
-  const next = currentDepth + 1;
-
-  const handle = () => {
-    try { sessionStorage.setItem("polymarket-depth", String(next)); } catch {}
-    const prefix = Array(next).fill("polymarket").join("/");
-    router.push(`/${prefix}/argument`);
-  };
-
   const label =
-    next > 25
-      ? `[ 404 at depth ${next} · the void awaits ]`
-      : `[ recurse → depth ${next}/25 ]`;
-
+    currentDepth >= 25
+      ? "[ exit · the trailer ]"
+      : `[ exit depth ${currentDepth} · roll the trailer ]`;
   return (
-    <button onClick={handle} className="six9-recurse" type="button">
+    <Link href="/trailer" className="six9-recurse">
       {label}
-    </button>
+    </Link>
   );
 }

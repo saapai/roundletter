@@ -2736,6 +2736,246 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   margin: 0;
 }
 
+/* /trailer — cinematic pretend-404 montage of the session. Dark canvas,
+   tone-tinted beat sections, minimal credits roll. Read-once aesthetic. */
+.trailer-root {
+  min-height: 100vh;
+  background: #0A0A0C;
+  color: #E8DECA;
+  font-family: var(--font-body), serif;
+  padding: 4rem 0 6rem;
+  position: relative;
+  overflow-x: hidden;
+}
+.trailer-film {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 30% at 50% 0%, color-mix(in srgb, #E8B06C 7%, transparent) 0%, transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.015) 0 1px,
+      transparent 1px 3px
+    );
+  opacity: 0.85;
+}
+
+.trailer-hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: clamp(3rem, 10vw, 7rem) clamp(1.25rem, 4vw, 3rem);
+  max-width: 70rem;
+  margin: 0 auto;
+}
+.trailer-hero-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #8A8278;
+  margin: 0 0 1.5rem;
+}
+.trailer-hero-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.6rem 1.2rem;
+  font-family: var(--font-display), serif;
+  margin: 0 auto 1.5rem;
+  max-width: 58rem;
+}
+.trailer-hero-404 {
+  font-size: clamp(4rem, 14vw, 10rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #E8B06C;
+  text-shadow:
+    0 0 24px color-mix(in srgb, #E8B06C 38%, transparent),
+    0 0 56px color-mix(in srgb, #E8B06C 18%, transparent);
+  line-height: 0.9;
+}
+.trailer-hero-dash {
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: #6B6560;
+  font-weight: 300;
+}
+.trailer-hero-word, .trailer-hero-yet {
+  font-style: italic;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  color: #E8DECA;
+  font-weight: 500;
+}
+.trailer-hero-yet {
+  color: #E8B06C;
+  text-shadow: 0 0 18px color-mix(in srgb, #E8B06C 30%, transparent);
+}
+.trailer-hero-sub {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: clamp(1rem, 1.7vw, 1.2rem);
+  line-height: 1.55;
+  color: #A89A80;
+  max-width: 44rem;
+  margin: 0 auto 3rem;
+}
+.trailer-hero-hint {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: #6B6560;
+  animation: trailer-bob 2.4s ease-in-out infinite;
+}
+@keyframes trailer-bob {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%      { transform: translateY(6px); opacity: 1; }
+}
+
+.trailer-beats {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3rem, 8vh, 6rem);
+  max-width: 58rem;
+  margin: clamp(3rem, 8vh, 6rem) auto;
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
+}
+.trailer-beat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem 1.8rem;
+  border-left: 2px solid rgba(232, 222, 202, 0.12);
+  animation: trailer-fade 900ms ease-out both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+@keyframes trailer-fade {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.trailer-beat-dark  { border-left-color: #8A8278; }
+.trailer-beat-warm  { border-left-color: #D4C195; }
+.trailer-beat-amber { border-left-color: #E8B06C; }
+.trailer-beat-green { border-left-color: #5F8B4E; }
+.trailer-beat-rust  { border-left-color: #8B3A2E; }
+
+.trailer-kicker {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #8A8278;
+}
+.trailer-beat-amber .trailer-kicker { color: #E8B06C; }
+.trailer-beat-green .trailer-kicker { color: #9EBF8A; }
+.trailer-beat-rust  .trailer-kicker { color: #C08274; }
+
+.trailer-line {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 3.4vw, 2.4rem);
+  line-height: 1.2;
+  color: #F4EFE6;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.trailer-beat-amber .trailer-line { color: #F0DCA8; }
+.trailer-beat-green .trailer-line { color: #C6E6B5; }
+.trailer-beat-rust  .trailer-line { color: #E8B3A5; }
+.trailer-sub {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  line-height: 1.6;
+  color: #A89A80;
+  margin: 0;
+  max-width: 44rem;
+}
+
+.trailer-credits {
+  position: relative;
+  z-index: 1;
+  max-width: 58rem;
+  margin: clamp(3rem, 8vh, 6rem) auto 0;
+  padding: 2rem clamp(1.5rem, 4vw, 3rem);
+  border-top: 1px dashed rgba(232, 222, 202, 0.15);
+}
+.trailer-credits-eye {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: lowercase;
+  color: #8A8278;
+  margin: 0 0 1.25rem;
+}
+.trailer-credits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.trailer-credits-list li {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px dotted rgba(232, 222, 202, 0.08);
+  font-family: var(--font-body), serif;
+  font-size: 0.9rem;
+}
+.trailer-credits-list li span:first-child {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8A8278;
+}
+.trailer-credits-list li span:last-child { color: #E8DECA; text-align: right; }
+
+.trailer-nav {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 2.5rem clamp(1.5rem, 4vw, 3rem) 1rem;
+  max-width: 58rem;
+  margin: 0 auto;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.trailer-back { color: #E8B06C; text-decoration: none; }
+.trailer-back:hover { color: #F4EFE6; }
+.trailer-dot { color: #6B6560; }
+
+.trailer-outro {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem clamp(1.5rem, 4vw, 3rem) 1rem;
+  max-width: 58rem;
+  margin: 0 auto;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+}
+.trailer-outro p { margin: 0.35rem 0; color: #A89A80; font-size: 1rem; }
+.trailer-outro-accent {
+  color: #E8B06C !important;
+  font-size: clamp(1.2rem, 2.6vw, 1.8rem) !important;
+  font-weight: 600;
+  text-shadow: 0 0 16px color-mix(in srgb, #E8B06C 30%, transparent);
+}
+
 /* 6969 "nice" error page — served for polymarket recursion depth 11..25.
    Full-page green terminal; real 404 takes over at depth 26+. */
 .six9-root {

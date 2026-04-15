@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { POLYMARKET, V1_THEMES } from "@/lib/v1data";
+import { syncRiddleRound } from "@/lib/riddle-sync";
 
 type Props = {
   // When true, skip the global check and render the card immediately.
@@ -51,13 +52,15 @@ export default function HomePassword() {
       if (nav?.type === "back_forward") setRetryLocal(true);
     } catch {}
 
-    // Optimistic render from localStorage (sticky — once we've ever seen
-    // solved on this browser, render solved). Refresh re-checks server.
-    try {
-      if (localStorage.getItem("polymarket-global-solved-sticky") === "1") {
-        setGlobalSolved(true);
-      }
-    } catch {}
+    // Round-invalidation: if the server's round has advanced since this
+    // browser last saw, wipe all sticky state before we read it.
+    syncRiddleRound().then(() => {
+      try {
+        if (localStorage.getItem("polymarket-global-solved-sticky") === "1") {
+          setGlobalSolved(true);
+        }
+      } catch {}
+    });
     // Also use a sessionStorage cache for speed (shorter TTL than sticky).
     try {
       const raw = sessionStorage.getItem("polymarket-global-cache");
