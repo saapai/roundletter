@@ -1,0 +1,32 @@
+{
+  "note": "Every bet I place with a friend, public to the friend who guessed the password. Edit this file to add new rows; redeploy to publish.",
+  "bets": [
+    {
+      "date": "2026-02-14",
+      "counterparty": "Alex",
+      "stake": "$20",
+      "claim": "I'll break 3.3 by spring quarter.",
+      "resolved": true,
+      "won": false,
+      "note": "landed at 3.156. eat the loss. the gradient is more honest than the number."
+    },
+    {
+      "date": "2026-03-05",
+      "counterparty": "Jordan",
+      "stake": "dinner at Night + Market",
+      "claim": "aureliex.com will be live and publicly shareable before the end of April.",
+      "resolved": true,
+      "won": true,
+      "note": "shipped 2026-04-14. collected."
+    },
+    {
+      "date": "2026-04-14",
+      "counterparty": "myself",
+      "stake": "the entire $3,453.83",
+      "claim": "I can get to $100,000 by June 21 with five AI agents and no job.",
+      "resolved": false,
+      "won": null,
+      "note": "the actual round 0 bet. resolves on my birthday."
+    }
+  ]
+}

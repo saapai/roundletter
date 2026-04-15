@@ -1,0 +1,25 @@
+{
+  "note": "A timeline, not a résumé. Edit this file to add rows; redeploy to publish.",
+  "entries": [
+    {
+      "date": "2024-05",
+      "label": "Valedictorian, West HS, Salt Lake — 4.74 GPA",
+      "tag": "academic"
+    },
+    {
+      "date": "2024-09",
+      "label": "Enrolled at UCLA — class of 2028",
+      "tag": "academic"
+    },
+    {
+      "date": "2025-11",
+      "label": "Refined tabroom policy-debate paradigm; began judging rounds for West",
+      "tag": "debate"
+    },
+    {
+      "date": "2026-04-14",
+      "label": "Shipped aureliex.com v1 — pre-mortem + five-agent panel + AI-annotated paradigm, in public",
+      "tag": "project"
+    }
+  ]
+}
