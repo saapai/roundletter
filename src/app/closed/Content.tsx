@@ -61,6 +61,20 @@ export default function Content() {
       <p>Not a résumé. A graph. Dates on the left, entries on the right, the rule in the middle is the line of my life so far.</p>
       <Timeline entries={accomps} />
 
+      <h2>The cabinet</h2>
+      <p>
+        There's another door inside this one. It lives at <a className="pathlink" href="/closed/medicine">/closed/medicine</a>.
+        The password is <em>one word, lowercase, eight letters</em>, and the clues on the gate spell it out in pieces if
+        you're willing to sit with them. Nothing behind the door — the door is the point.
+      </p>
+      <ul className="herrings">
+        <li><strong>things that do not open the cabinet:</strong></li>
+        <li>cure · remedy · rx · tonic · dose · pill · pharma · heal</li>
+        <li>drugs · capsule · balm · salve · lozenge · therapy</li>
+        <li>pretty sure it isn't <em>ambrosia</em> either</li>
+        <li>it is not a brand name. it is not a molecule. it is what you call the whole category at dinner.</li>
+      </ul>
+
       <form action={logout} className="closed-footer">
         <button type="submit" className="logout-btn">sign out of the locked room</button>
       </form>

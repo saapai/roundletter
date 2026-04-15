@@ -1492,6 +1492,141 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
 .tag-debate   { color: var(--anno-macro);     border-color: color-mix(in srgb, var(--anno-macro) 40%, transparent); }
 .tag-project  { color: var(--anno-bull);      border-color: color-mix(in srgb, var(--anno-bull) 40%, transparent); }
 
+/* Red-herrings list on /closed */
+.herrings {
+  list-style: none;
+  padding: 0.9rem 1rem;
+  margin: 1.25rem 0 1.75rem;
+  background: color-mix(in srgb, var(--rust) 3%, transparent);
+  border-left: 2px solid color-mix(in srgb, var(--rust) 35%, transparent);
+  border-radius: 2px;
+}
+.herrings li {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--graphite);
+  font-style: italic;
+  margin: 0.2rem 0;
+}
+.herrings li strong {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  font-size: 0.88rem;
+}
+
+/* ── Cabinet (medicine) gate — cryptic clue field ── */
+.clue-field {
+  margin-top: 2.5rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--rule);
+}
+.clue-heading {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-bottom: 1.25rem;
+}
+.clue-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+}
+@media (min-width: 600px) {
+  .clue-grid { grid-template-columns: 1fr 1fr; }
+}
+.clue {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  border-left: 2px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 96%, transparent);
+  border-radius: 2px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  font-style: italic;
+  color: var(--ink);
+}
+.clue-dot {
+  flex: 0 0 auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  margin-top: 0.65rem;
+  background: currentColor;
+  opacity: 0.6;
+}
+.clue-body { flex: 1; }
+
+.clue-true {
+  border-left-color: color-mix(in srgb, var(--anno-bear) 55%, transparent);
+  color: var(--ink);
+}
+.clue-pitch {
+  border-left-color: color-mix(in srgb, var(--anno-bull) 55%, transparent);
+  color: var(--ink);
+}
+.clue-cryptic {
+  border-left-color: color-mix(in srgb, var(--anno-macro) 55%, transparent);
+  color: color-mix(in srgb, var(--ink) 78%, var(--paper) 22%);
+}
+.clue-herring {
+  border-left-color: color-mix(in srgb, var(--anno-flow) 55%, transparent);
+  color: var(--graphite);
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--graphite) 35%, transparent);
+}
+
+.clue-footer {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--graphite);
+  text-align: center;
+  line-height: 1.65;
+}
+
+/* Koan (after unlocking the cabinet) */
+.article-koan .koan {
+  text-align: center;
+  max-width: 34rem;
+  margin: 2.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.article-koan .koan-line {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0;
+}
+.article-koan .koan-line.muted { color: var(--graphite); }
+.article-koan .koan-rule {
+  width: 3rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--rust) 60%, transparent);
+  margin: 2rem auto;
+  border: 0;
+}
+.article-koan .koan-postscript {
+  text-align: center;
+  max-width: 32rem;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  font-style: italic;
+  color: var(--graphite);
+}
+
 /* Footer — logout + fineprint */
 .closed-footer {
   margin-top: 3rem;
