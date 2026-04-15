@@ -46,10 +46,50 @@ export default function SolvedLetters() {
     }
   };
 
+  // Retroactive sync: any letter the viewer has in localStorage but that
+  // isn't yet in the global state gets POSTed so everyone else sees it.
+  // This catches legacy solves made before the global endpoint existed.
+  const backfillGlobal = async (localSlugs: string[], globalSlugs: Set<string>) => {
+    const missing = localSlugs.filter((s) => !globalSlugs.has(s));
+    if (missing.length === 0) return;
+    await Promise.all(
+      missing.map((slug) =>
+        fetch("/api/v1-letters/solve", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ slug }),
+          keepalive: true,
+        }).catch(() => {}),
+      ),
+    );
+    // reload once after the backfill settles
+    setTimeout(() => loadGlobal(), 400);
+  };
+
   useEffect(() => {
     setMounted(true);
-    loadGlobal();
     loadPersonal();
+    // initial global load + one-time retroactive sync
+    (async () => {
+      try {
+        const r = await fetch("/api/v1-letters", { cache: "no-store" });
+        if (!r.ok) return;
+        const j = (await r.json()) as { solved?: Array<{ slug: string; letter: string }> };
+        const globalSlugs = new Set((j.solved ?? []).map((s) => s.slug));
+        const rows = V1_THEMES.filter((t) => globalSlugs.has(t.slug)).map((t) => ({
+          slug: t.slug,
+          letter: t.letter,
+          green: t.green,
+        }));
+        setGlobalRows(rows);
+
+        const localSlugs = V1_THEMES.filter(
+          (t) => localStorage.getItem(solvedKey(t.slug)) === "1",
+        ).map((t) => t.slug);
+        await backfillGlobal(localSlugs, globalSlugs);
+      } catch {}
+    })();
+
     const globalTimer = setInterval(loadGlobal, 15000);
     const onSolved = () => {
       loadGlobal();
@@ -62,6 +102,7 @@ export default function SolvedLetters() {
       window.removeEventListener("v1-solved", onSolved as EventListener);
       window.removeEventListener("storage", onSolved);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!mounted) return null;
