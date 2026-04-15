@@ -2406,36 +2406,74 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   display: block;
   white-space: nowrap;
 }
-/* Lead-in for the final punch — smaller, charcoal, sets up the word below */
-.pitch-slide.zone-aurora .aurora-tag-lead {
+/* Single-peak ending. The whole passage is a slow descent through setup
+   levels (opener → couplet → meditation) that then rebounds into one
+   towering landing. Only one thing on the slide is big. */
+
+/* Opener: "no more bullshit." — medium, charcoal, declarative but quieter
+   than it used to be so it doesn't compete with the final line */
+.pitch-slide.zone-aurora .aurora-opener {
   font-family: var(--font-display), serif;
   font-style: italic;
-  font-weight: 400;
-  font-size: clamp(1.35rem, 3.2vw, 2.1rem);
-  line-height: 1.1;
-  letter-spacing: -0.005em;
-  color: #3F382F;
-  margin: 1.2rem 0 0.35rem;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #1C1A17;
+  margin: 0.4rem 0 0.75rem;
   text-align: center;
   position: relative;
   z-index: 1;
 }
-/* Final line — biggest thing on the slide. Inverts the deck-wide size
-   hierarchy so the punchline towers. "cure" and "poison" are inline-spiked
-   — cure in rust-glow (the agent), poison in faded gray (the thing undone). */
+
+/* Couplet: "pick your revolution. / and your counterculture." — a quiet
+   whisper between opener and meditation. Same split geometry as before
+   (shared "pick your" prefix anchor), just smaller. */
+.pitch-slide.zone-aurora .aurora-couplet {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.05rem, 2vw, 1.45rem);
+  line-height: 1.3;
+  color: #3F382F;
+  margin: 0.35rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* Meditation: "the point is not which dye..." — smallest, most muted.
+   The reader descends into this before the rebound. */
+.pitch-slide.zone-aurora .aurora-meditation {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+  line-height: 1.5;
+  color: #5A5048;
+  margin: 1.1rem auto 0.4rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  max-width: 38rem;
+}
+
+/* Final — the only peak. Towers. Inline spikes: "cure" rust-glowed (the
+   agent that does the work); "poison" muted but readable (the thing being
+   undone, receding without disappearing); period crisp-black so the
+   sentence terminates cleanly instead of trailing off into gray. */
 .pitch-slide.zone-aurora .aurora-final {
   font-family: var(--font-display), serif;
   font-style: italic;
   font-weight: 600;
-  font-size: clamp(2.6rem, 7.5vw, 5.6rem);
+  font-size: clamp(2.8rem, 8vw, 6rem);
   line-height: 1.02;
   letter-spacing: -0.025em;
   color: #1C1A17;
-  margin: 0.3rem 0 0.5rem;
+  margin: 1.2rem 0 0.5rem;
   text-align: center;
   position: relative;
   z-index: 1;
-  max-width: 48rem;
+  max-width: 50rem;
 }
 .pitch-slide.zone-aurora .aurora-cure {
   color: #8B3A2E;
@@ -2445,9 +2483,15 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
     0 0 48px color-mix(in srgb, #8B3A2E 22%, transparent);
 }
 .pitch-slide.zone-aurora .aurora-poison {
-  color: color-mix(in srgb, #6B6560 72%, transparent);
+  color: #8A8278;
   font-weight: 400;
-  /* very light stroke — the poison almost vanishes; it's being cured */
+  /* readable-muted. recedes vs cure, doesn't look like a render bug */
+}
+.pitch-slide.zone-aurora .aurora-stop {
+  color: #1C1A17;
+  font-weight: 600;
+  /* crisp terminating period — the sentence lands on punctuation, not on
+     a fading word */
 }
 /* Legacy .aurora-tag (kept for backward compat if any slide variant uses it) */
 .pitch-slide.zone-aurora .aurora-tag {
