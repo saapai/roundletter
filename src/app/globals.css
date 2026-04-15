@@ -505,6 +505,23 @@ h1, h2, h3 {
   text-shadow: 0 0 10px color-mix(in srgb, var(--rust) 50%, transparent);
 }
 
+/* Authenticated — the door is already open for this reader */
+.insignia.insignia-open {
+  color: var(--rust);
+}
+.insignia.insignia-open .insignia-mark {
+  text-shadow: 0 0 8px color-mix(in srgb, var(--rust) 40%, transparent);
+  animation: door-pulse 4.5s ease-in-out infinite;
+}
+.insignia.insignia-open:hover {
+  color: var(--rust);
+  transform: scale(1.2) rotate(45deg);
+}
+@keyframes door-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
 /* ── Pitch deck (at /pitch, terminal-dark, fullscreen) ── */
 body.pitch-mode {
   background: #0E0E10;
@@ -739,6 +756,319 @@ body.pitch-mode > main {
     gap: 0.2rem 0.75rem;
   }
   .pitch-list .desc { grid-column: 1 / -1; }
+}
+
+/* ── Zone aesthetics — the gradient arc of the deck ─────── */
+/* Zone 1 (dark) — slides 1–4, pure terminal */
+.pitch-slide.zone-dark {
+  background: #0E0E10;
+  color: #EDE8DC;
+  font-family: "Menlo", ui-monospace, monospace;
+}
+
+/* Zone 2 (warm-dark) — slide 5, first warming */
+.pitch-slide.zone-warm-dark {
+  background:
+    radial-gradient(ellipse at 50% 0%, #141214 0%, transparent 60%),
+    linear-gradient(180deg, #0F0E0F 0%, #1B1612 100%);
+  color: #EDE8DC;
+  font-family: "Menlo", ui-monospace, monospace;
+}
+.pitch-slide.zone-warm-dark .accent { color: #E5A764; }
+
+/* Zone 3 (pivot) — slide 6, literal gradient charcoal → cream */
+.pitch-slide.zone-pivot {
+  background: linear-gradient(
+    180deg,
+    #0F0E0F 0%,
+    #1E1712 22%,
+    #4A3725 42%,
+    #A8896A 58%,
+    #DCC7A8 74%,
+    #F4EFE6 100%
+  );
+  color: #EDE8DC;
+  padding: 4rem 0;
+  gap: 2rem;
+}
+.pitch-slide.zone-pivot .pivot-top {
+  font-family: "Menlo", ui-monospace, monospace;
+  color: #EDE8DC;
+}
+.pitch-slide.zone-pivot .pivot-top .pitch-eyebrow { color: #6E6A62; }
+.pitch-slide.zone-pivot .mono-h2 {
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0.4rem 0;
+}
+.pitch-slide.zone-pivot .mono-sub {
+  font-size: 0.92rem;
+  color: #8B8579;
+  margin: 0.4rem 0;
+}
+
+.pitch-slide.zone-pivot .pivot-bottom {
+  font-family: var(--font-display), serif;
+  color: #1C1A17;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+.pitch-slide.zone-pivot .serif-h2 {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.15;
+  margin: 0 0 0.75rem;
+  color: #1C1A17;
+  letter-spacing: -0.01em;
+}
+.pitch-slide.zone-pivot .serif-line {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.1rem, 1.9vw, 1.5rem);
+  line-height: 1.4;
+  margin: 0.35rem 0;
+  color: #1C1A17;
+}
+.pitch-slide.zone-pivot .serif-line.muted { color: #3F382F; }
+.pitch-slide.zone-pivot .serif-line.accent { color: #8B3A2E; }
+.pitch-slide.zone-pivot .serif-comment {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #6B6560;
+  margin-top: 0.75rem;
+}
+
+/* Zone 4 (warm-cream) — slide 7, serif in, mono-callback markers */
+.pitch-slide.zone-warm-cream {
+  background:
+    radial-gradient(ellipse at 30% 20%, color-mix(in srgb, #8B3A2E 3%, transparent) 0%, transparent 50%),
+    #EDE5D5;
+  color: #1C1A17;
+  font-family: var(--font-body), serif;
+}
+.pitch-slide.zone-warm-cream .warm-eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #6B6560;
+  margin: 0 0 1rem;
+}
+.pitch-slide.zone-warm-cream .warm-h2 {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  font-weight: 500;
+  margin: 0 0 1.5rem;
+  color: #1C1A17;
+}
+.pitch-slide.zone-warm-cream .warm-moves {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.pitch-slide.zone-warm-cream .warm-moves li,
+.pitch-slide.zone-warm-cream .warm-four {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: 0.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(28,26,23,0.12);
+  align-items: baseline;
+}
+.pitch-slide.zone-warm-cream .warm-four { border-bottom: 0; }
+.pitch-slide.zone-warm-cream .num {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #8B3A2E;
+  letter-spacing: 0.05em;
+}
+.pitch-slide.zone-warm-cream .body {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  line-height: 1.35;
+  color: #1C1A17;
+  font-weight: 500;
+}
+.pitch-slide.zone-warm-cream .faint {
+  color: #6B6560;
+}
+.pitch-slide.zone-warm-cream .faint.body { color: #6B6560; font-size: clamp(1.05rem, 1.7vw, 1.35rem); }
+.pitch-slide.zone-warm-cream .comment {
+  display: block;
+  font-family: var(--font-body), serif;
+  font-size: 0.85rem;
+  color: #6B6560;
+  font-style: italic;
+  margin-top: 0.4rem;
+}
+
+/* Zone 5 (cream) — slide 8, fully literary */
+.pitch-slide.zone-cream {
+  background: #F4EFE6;
+  color: #1C1A17;
+  font-family: var(--font-body), serif;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.pitch-slide.zone-cream .cream-eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #6B6560;
+  margin: 0 0 1.25rem;
+  text-align: center;
+}
+.pitch-slide.zone-cream .cream-hero {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+  font-weight: 500;
+  line-height: 1.15;
+  margin: 0.35rem 0;
+  text-align: center;
+  color: #1C1A17;
+}
+.pitch-slide.zone-cream .cream-hero.accent { color: #8B3A2E; }
+.pitch-slide.zone-cream .cream-rule {
+  width: 3rem;
+  height: 1px;
+  background: #8B3A2E;
+  margin: 1.5rem auto;
+  border: 0;
+}
+.pitch-slide.zone-cream .cream-line {
+  font-family: var(--font-body), serif;
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  line-height: 1.75;
+  text-align: center;
+  color: #3F382F;
+  max-width: 38rem;
+  margin: 0 auto;
+}
+
+/* Zone 5-final (cream-final) — slide 9, the manifesto, soft halo */
+.pitch-slide.zone-cream-final {
+  background:
+    radial-gradient(ellipse at 50% 38%, color-mix(in srgb, #8B3A2E 5%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 90%, color-mix(in srgb, #A67A3A 4%, transparent) 0%, transparent 50%),
+    #F4EFE6;
+  color: #1C1A17;
+  font-family: var(--font-body), serif;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  justify-content: flex-start;
+  padding-top: 4rem;
+}
+.pitch-slide.zone-cream-final .cream-eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #6B6560;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+.pitch-slide.zone-cream-final .manifesto {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.pitch-slide.zone-cream-final .manifesto-line {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.25rem, 2.2vw, 1.7rem);
+  line-height: 1.45;
+  margin: 0;
+  color: #1C1A17;
+  font-weight: 500;
+}
+.pitch-slide.zone-cream-final .manifesto-line.muted { color: #6B6560; }
+.pitch-slide.zone-cream-final .manifesto-line.accent {
+  color: #8B3A2E;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+.pitch-slide.zone-cream-final .cream-rule {
+  width: 3rem;
+  height: 1px;
+  background: color-mix(in srgb, #8B3A2E 60%, transparent);
+  margin: 2.5rem auto 2rem;
+  border: 0;
+}
+.pitch-slide.zone-cream-final .close-ask {
+  text-align: center;
+  max-width: 36rem;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.pitch-slide.zone-cream-final .close-line {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+  line-height: 1.35;
+  margin: 0;
+  font-weight: 500;
+}
+.pitch-slide.zone-cream-final .close-line.muted { color: #6B6560; }
+.pitch-slide.zone-cream-final .close-line.accent { color: #8B3A2E; }
+.pitch-slide.zone-cream-final .close-sig {
+  text-align: center;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+  margin: 2rem 0 1.25rem;
+}
+.pitch-slide.zone-cream-final .pitch-footer-form {
+  text-align: center;
+  margin: 0 auto;
+}
+.pitch-slide.zone-cream-final .pitch-logout-cream {
+  background: transparent;
+  color: #6B6560;
+  border: 1px solid rgba(139,58,46,0.35);
+  border-radius: 999px;
+  padding: 8px 22px;
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 220ms cubic-bezier(.2,.7,.2,1);
+}
+.pitch-slide.zone-cream-final .pitch-logout-cream:hover {
+  color: #8B3A2E;
+  border-color: #8B3A2E;
+  background: color-mix(in srgb, #8B3A2E 4%, transparent);
+}
+
+/* Page-number markers — muted on cream zones */
+.pitch-slide.zone-warm-cream .pitch-page,
+.pitch-slide.zone-cream .pitch-page,
+.pitch-slide.zone-cream-final .pitch-page { color: #6B6560; }
+
+/* On cream pages, remove the bottom-border dividers we used in dark zones */
+.pitch-slide.zone-warm-cream,
+.pitch-slide.zone-cream,
+.pitch-slide.zone-cream-final { border-bottom: 1px solid rgba(28,26,23,0.08); }
+.pitch-slide.zone-cream-final:last-child { border-bottom: 0; }
+
+/* Mobile — zone fixes */
+@media (max-width: 720px) {
+  .pitch-slide.zone-pivot {
+    background: linear-gradient(
+      180deg,
+      #0F0E0F 0%,
+      #1E1712 20%,
+      #4A3725 45%,
+      #DCC7A8 72%,
+      #F4EFE6 100%
+    );
+  }
 }
 
 /* ── Closed / locked-room page ─────────────────────────── */

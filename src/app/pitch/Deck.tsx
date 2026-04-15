@@ -6,8 +6,8 @@ export default function Deck() {
       <PitchModeBody />
       <div className="pitch-deck">
 
-        {/* 01 — Title */}
-        <section className="pitch-slide" id="s1">
+        {/* 01 — Title · zone-dark */}
+        <section className="pitch-slide zone-dark" id="s1">
           <span className="pitch-page">01 / 09</span>
           <h1 className="pitch-title">a quiet case.</h1>
           <div className="pitch-rule" />
@@ -15,8 +15,8 @@ export default function Deck() {
           <p className="pitch-meta">sep · spring 2026 · saapai</p>
         </section>
 
-        {/* 02 — Thesis */}
-        <section className="pitch-slide" id="s2">
+        {/* 02 — Thesis · zone-dark */}
+        <section className="pitch-slide zone-dark" id="s2">
           <span className="pitch-page">02 / 09</span>
           <p className="pitch-eyebrow"># thesis</p>
           <h2 className="pitch-h2">sep is the frat where smart ucla students build real things.</h2>
@@ -25,8 +25,8 @@ export default function Deck() {
           <p className="pitch-line accent">this pitch is about the second half.</p>
         </section>
 
-        {/* 03 — Receipts */}
-        <section className="pitch-slide" id="s3">
+        {/* 03 — Receipts · zone-dark */}
+        <section className="pitch-slide zone-dark" id="s3">
           <span className="pitch-page">03 / 09</span>
           <p className="pitch-eyebrow"># receipts / three rush cycles</p>
           <h2 className="pitch-h2 small">what i have built for us, quietly.</h2>
@@ -45,8 +45,8 @@ export default function Deck() {
           <p className="pitch-comment accent">// ball don't lie.</p>
         </section>
 
-        {/* 04 — Punchline */}
-        <section className="pitch-slide" id="s4">
+        {/* 04 — Punchline · zone-dark (last full-dark slide) */}
+        <section className="pitch-slide zone-dark" id="s4">
           <span className="pitch-page">04 / 09</span>
           <p className="pitch-hero muted">these are not three things.</p>
           <p className="pitch-hero">they are one thing —</p>
@@ -55,8 +55,8 @@ export default function Deck() {
           <p className="pitch-comment">built by one person, quietly, across three rushes.</p>
         </section>
 
-        {/* 05 — Range */}
-        <section className="pitch-slide" id="s5">
+        {/* 05 — Range · zone-warm-dark (first warming) */}
+        <section className="pitch-slide zone-warm-dark" id="s5">
           <span className="pitch-page">05 / 09</span>
           <p className="pitch-eyebrow"># range / outside the frat, twelve months</p>
           <h2 className="pitch-h2 small">what i build when no one is asking.</h2>
@@ -71,60 +71,94 @@ export default function Deck() {
           <p className="pitch-line">none of this is sep. all of it is rehearsal for what sep could be.</p>
         </section>
 
-        {/* 06 — Cities and Ambition */}
-        <section className="pitch-slide" id="s6">
+        {/* 06 — Cities and Ambition · zone-pivot (gradient + mixed type) */}
+        <section className="pitch-slide zone-pivot" id="s6">
           <span className="pitch-page">06 / 09</span>
-          <p className="pitch-eyebrow"># cities and ambition / a microcosm</p>
-          <h2 className="pitch-h2">every city whispers what it rewards.</h2>
-          <p className="pitch-sub muted">new york whispers money. cambridge whispers know-more. the valley whispers power.</p>
-          <div className="pitch-rule pitch-rule-muted" />
-          <h2 className="pitch-h2">every frat whispers too.</h2>
-          <p className="pitch-line muted">right now, sep whispers <strong>smart</strong>.</p>
-          <p className="pitch-line accent"><strong>i want us to whisper ship.</strong></p>
-          <p className="pitch-comment">// paul graham, 2008. the president sets the next whisper.</p>
+          <div className="pivot-top">
+            <p className="pitch-eyebrow"># cities and ambition — a microcosm</p>
+            <h2 className="mono-h2">every city whispers what it rewards.</h2>
+            <p className="mono-sub">new york whispers money. cambridge whispers know-more. the valley whispers power.</p>
+          </div>
+          <div className="pivot-bottom">
+            <h2 className="serif-h2"><em>every frat whispers too.</em></h2>
+            <p className="serif-line muted">right now, sep whispers <em>smart</em>.</p>
+            <p className="serif-line accent"><em>i want us to whisper ship — and more.</em></p>
+            <p className="serif-comment">— paul graham, 2008. the president sets the next whisper.</p>
+          </div>
         </section>
 
-        {/* 07 — Three Moves + [04] */}
-        <section className="pitch-slide" id="s7">
+        {/* 07 — Three Moves · zone-warm-cream (serif starts winning) */}
+        <section className="pitch-slide zone-warm-cream" id="s7">
           <span className="pitch-page">07 / 09</span>
-          <p className="pitch-eyebrow"># three moves / to change the whisper</p>
-          <h2 className="pitch-h2 small">if i'm president —</h2>
-          <ol className="pitch-moves">
-            <li><span className="num accent">[01]</span><span className="body">every pledge class ships one real thing, together, publicly.</span></li>
-            <li><span className="num accent">[02]</span><span className="body">the tool suite becomes actively-owned — a rotating tech-deacon role.</span></li>
-            <li><span className="num accent">[03]</span><span className="body">rush becomes an apprenticeship in shipping, not only a social screen.</span></li>
+          <p className="warm-eyebrow">three moves — to change the whisper</p>
+          <h2 className="warm-h2">if i'm president —</h2>
+
+          <ol className="warm-moves">
+            <li>
+              <span className="num">[01]</span>
+              <span className="body"><em>every pledge class ships one real thing, together, publicly.</em></span>
+            </li>
+            <li>
+              <span className="num">[02]</span>
+              <span className="body"><em>the tool suite becomes actively-owned — a rotating tech-deacon role.</em></span>
+            </li>
+            <li>
+              <span className="num">[03]</span>
+              <span className="body"><em>rush becomes an apprenticeship in doing, not only a social screen.</em></span>
+            </li>
           </ol>
-          <div className="implicit-four">
-            <span className="num">[04]</span>
+
+          <div className="warm-four">
+            <span className="num faint">[04]</span>
             <div>
-              <span className="body">and the layer underneath — social memory on imessage, opt-in.</span>
-              <span className="comment">// built on friday + jarvis. i'll show anyone who asks.</span>
+              <span className="body faint"><em>and the layer underneath — social memory on imessage, opt-in.</em></span>
+              <span className="comment faint">// built on friday + jarvis. i'll show anyone who asks.</span>
             </div>
           </div>
         </section>
 
-        {/* 08 — Reframe */}
-        <section className="pitch-slide" id="s8">
+        {/* 08 — Reframe · zone-cream (compressed to two italic lines) */}
+        <section className="pitch-slide zone-cream" id="s8">
           <span className="pitch-page">08 / 09</span>
-          <p className="pitch-eyebrow"># on not making this about me</p>
-          <h2 className="pitch-h2">the presidency is not the product of my labor.</h2>
-          <h2 className="pitch-h2 accent">the tooling is. it already exists.</h2>
-          <div className="pitch-rule pitch-rule-muted" />
-          <p className="pitch-line muted small">
-            i'll keep maintaining rush-react, sep-ats, and the check-in system whether you elect me or not. they are infrastructure, not résumé. the only thing the presidency adds is a mandate to train the next person to be invisible the way i have been.
+          <p className="cream-eyebrow">on not making this about me</p>
+          <h2 className="cream-hero"><em>the presidency is not the product of my labor.</em></h2>
+          <h2 className="cream-hero accent"><em>the tooling is. it already exists.</em></h2>
+          <div className="cream-rule" />
+          <p className="cream-line">
+            <em>i'll keep maintaining the tools whether you elect me or not. the presidency only adds a mandate — to train the next person to be as invisible as i have been.</em>
           </p>
         </section>
 
-        {/* 09 — Close */}
-        <section className="pitch-slide" id="s9">
+        {/* 09 — Manifesto + Close · zone-cream-final (full aureliex) */}
+        <section className="pitch-slide zone-cream-final" id="s9">
           <span className="pitch-page">09 / 09</span>
-          <p className="pitch-hero muted">i have been building for us for two years without being asked.</p>
-          <p className="pitch-hero accent">i am asking for the year where i train someone else to.</p>
-          <div className="pitch-rule" />
-          <p className="pitch-comment">— saapai · 04.2026 · aureliex.com</p>
+          <p className="cream-eyebrow">what sep is, when you take the surface away</p>
+
+          <div className="manifesto">
+            <p className="manifesto-line"><em>sep is not a tech frat.</em></p>
+            <p className="manifesto-line muted"><em>startups are the surface.</em></p>
+
+            <p className="manifesto-line"><em>underneath — a way of attention.</em></p>
+            <p className="manifesto-line"><em>a counterculture for the ai revolution.</em></p>
+
+            <p className="manifesto-line muted"><em>people doing the hard, weird thing together,<br/>even when the city whispers otherwise.</em></p>
+
+            <p className="manifesto-line"><em>a way to communicate across cities. across dimensions.</em></p>
+
+            <p className="manifesto-line accent"><em>even when the work is bullshit — especially then.<br/>the method is the medicine.</em></p>
+          </div>
+
+          <div className="cream-rule" />
+
+          <div className="close-ask">
+            <p className="close-line muted"><em>i have been building for us for two years without being asked.</em></p>
+            <p className="close-line accent"><em>i am asking for the year where i train someone else to.</em></p>
+          </div>
+
+          <p className="close-sig">— saapai · 04.2026 · aureliex.com</p>
 
           <form action={logoutPitch} className="pitch-footer-form">
-            <button type="submit" className="pitch-logout">close the door</button>
+            <button type="submit" className="pitch-logout-cream">close the door</button>
           </form>
         </section>
 
@@ -134,7 +168,6 @@ export default function Deck() {
 }
 
 function PitchModeBody() {
-  // Sets body class so layout chrome (masthead, footer, insignia, toc) hides on /pitch
   return (
     <script
       dangerouslySetInnerHTML={{
