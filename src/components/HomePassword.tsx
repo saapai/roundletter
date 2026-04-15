@@ -169,7 +169,7 @@ export default function HomePassword() {
             <span>· attention is all you need</span>
             <span>· pick your revolution</span>
           </span>
-        </a>
+        </Link>
         <button
           type="button"
           className="home-pw-retry"
