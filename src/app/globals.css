@@ -471,6 +471,276 @@ h1, h2, h3 {
   margin-top: 0.5rem;
 }
 
+/* ── Insignia (easter-egg diamond, every page) ─────────── */
+.insignia {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  font-family: var(--font-body), serif;
+  color: color-mix(in srgb, var(--rust) 40%, transparent);
+  text-decoration: none;
+  transition: color 400ms cubic-bezier(.2,.7,.2,1), transform 400ms cubic-bezier(.2,.7,.2,1);
+  z-index: 4;
+  border-radius: 50%;
+}
+.insignia:hover {
+  color: var(--rust);
+  transform: scale(1.2) rotate(45deg);
+}
+.insignia:focus-visible {
+  outline: 1px solid var(--rust);
+  outline-offset: 4px;
+}
+.insignia-mark {
+  font-size: 14px;
+  line-height: 1;
+  transition: text-shadow 400ms ease;
+}
+.insignia:hover .insignia-mark {
+  text-shadow: 0 0 10px color-mix(in srgb, var(--rust) 50%, transparent);
+}
+
+/* ── Pitch deck (at /pitch, terminal-dark, fullscreen) ── */
+body.pitch-mode {
+  background: #0E0E10;
+  color: #EDE8DC;
+  font-family: "Menlo", ui-monospace, monospace;
+}
+body.pitch-mode > header,
+body.pitch-mode > footer,
+body.pitch-mode .insignia,
+body.pitch-mode .toc { display: none !important; }
+body.pitch-mode > main {
+  padding: 0;
+  max-width: none;
+  margin: 0;
+}
+
+.pitch-root { background: #0E0E10; min-height: 100vh; }
+.pitch-deck {
+  color: #EDE8DC;
+  font-family: "Menlo", ui-monospace, monospace;
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 1.75rem;
+}
+
+.pitch-slide {
+  min-height: 100vh;
+  padding: 5rem 0 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  position: relative;
+  border-bottom: 1px solid #1f1f21;
+}
+.pitch-slide:last-child { border-bottom: 0; }
+
+.pitch-page {
+  position: absolute;
+  top: 1.5rem;
+  right: 0;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: #6E6A62;
+}
+
+.pitch-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: #6E6A62;
+  margin: 0 0 1rem;
+}
+
+.pitch-title {
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1.02;
+  margin: 0;
+  color: #EDE8DC;
+  letter-spacing: -0.01em;
+}
+
+.pitch-h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0.25rem 0;
+  color: #EDE8DC;
+}
+.pitch-h2.small {
+  font-size: clamp(1.25rem, 2.3vw, 1.7rem);
+  font-weight: 600;
+}
+.pitch-h2.accent { color: #D89A5C; }
+
+.pitch-hero {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  margin: 0;
+  color: #EDE8DC;
+}
+.pitch-hero.muted { color: #6E6A62; }
+.pitch-hero.accent { color: #D89A5C; }
+
+.pitch-line {
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  line-height: 1.55;
+  color: #EDE8DC;
+  margin: 0;
+}
+.pitch-line.muted { color: #6E6A62; }
+.pitch-line.accent { color: #D89A5C; font-weight: 700; }
+.pitch-line.small { font-size: 0.92rem; line-height: 1.6; }
+
+.pitch-sub {
+  font-size: 0.95rem;
+  color: #6E6A62;
+  margin: 0;
+}
+
+.pitch-comment {
+  font-size: 0.85rem;
+  color: #6E6A62;
+  font-style: italic;
+  margin: 0.25rem 0 0;
+}
+.pitch-comment.accent { color: #D89A5C; }
+
+.pitch-meta {
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  color: #6E6A62;
+  margin-top: auto;
+}
+
+.pitch-rule {
+  height: 1.2px;
+  background: #D89A5C;
+  width: 3rem;
+  margin: 0.5rem 0;
+  border: 0;
+}
+.pitch-rule-muted {
+  background: #2A2A2B;
+  width: 100%;
+  height: 1px;
+  margin: 1rem 0;
+}
+
+/* Table on receipts slide */
+.pitch-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  margin-top: 0.5rem;
+}
+.pitch-table th {
+  text-align: left;
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: #6E6A62;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid #2A2A2B;
+}
+.pitch-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid #1b1b1d;
+  color: #EDE8DC;
+}
+.pitch-table td.accent { color: #D89A5C; font-weight: 700; }
+.pitch-table td:first-child { font-weight: 700; }
+
+/* Range list */
+.pitch-list { list-style: none; padding: 0; margin: 0.75rem 0; }
+.pitch-list li {
+  display: grid;
+  grid-template-columns: 12rem 4rem 1fr;
+  gap: 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid #1b1b1d;
+  font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+  align-items: baseline;
+}
+.pitch-list .name { font-weight: 700; color: #EDE8DC; }
+.pitch-list .count { font-weight: 700; }
+.pitch-list .desc { color: #6E6A62; }
+.pitch-list .accent { color: #D89A5C; }
+
+/* Moves ordered list */
+.pitch-moves { list-style: none; padding: 0; margin: 1rem 0; }
+.pitch-moves li {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: 0.5rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #1b1b1d;
+  align-items: baseline;
+}
+.pitch-moves .num { font-weight: 700; }
+.pitch-moves .accent { color: #D89A5C; }
+.pitch-moves .body { font-size: clamp(1rem, 1.8vw, 1.3rem); font-weight: 700; }
+
+.implicit-four {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  align-items: baseline;
+  opacity: 0.72;
+}
+.implicit-four .num { color: #6E6A62; font-weight: 700; }
+.implicit-four .body {
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  font-style: italic;
+  color: #6E6A62;
+  display: block;
+}
+.implicit-four .comment {
+  display: block;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #6E6A62;
+  margin-top: 0.25rem;
+}
+
+/* Footer / close */
+.pitch-footer-form { margin-top: 2rem; }
+.pitch-logout {
+  background: transparent;
+  color: #6E6A62;
+  border: 1px solid #2A2A2B;
+  padding: 8px 18px;
+  font-family: inherit;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.pitch-logout:hover { color: #D89A5C; border-color: #D89A5C; }
+
+/* Mobile — tighten tables */
+@media (max-width: 720px) {
+  .pitch-table th:nth-child(2),
+  .pitch-table td:nth-child(2) { display: none; }
+  .pitch-list li {
+    grid-template-columns: 1fr 3rem;
+    grid-template-rows: auto auto;
+    gap: 0.2rem 0.75rem;
+  }
+  .pitch-list .desc { grid-column: 1 / -1; }
+}
+
 /* ── Closed / locked-room page ─────────────────────────── */
 .gate-form {
   display: flex;

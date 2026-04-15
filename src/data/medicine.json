@@ -1,0 +1,90 @@
+{
+  "note": "A private second-level ledger of expenses treated as mental-state inputs and portfolio instruments. Five coded positions. Each code carries a set of descriptions that rotates per render, because none of the descriptions is exactly right. Nothing here names a substance.",
+  "entries": [
+    {
+      "code": "W",
+      "glyph": "▲",
+      "monthly_spend_usd": 80,
+      "cumulative_usd": 960,
+      "events_per_month": 12,
+      "duration": "ambient",
+      "state_tags": ["compression", "low-freq", "ambient"],
+      "descriptions": [
+        "the long-only volatility hedge — smooths the residuals without paying alpha",
+        "a dampener on the high-frequency noise of being nineteen",
+        "ambient music in the asset class of moods — necessary, unremarkable, rarely the reason anything works",
+        "the parameter that makes the other parameters feel less load-bearing",
+        "a small monthly premium paid to be slightly less present",
+        "a volatility-suppressing position whose drawdowns are measured in productivity, not dollars"
+      ]
+    },
+    {
+      "code": "N",
+      "glyph": "■",
+      "monthly_spend_usd": 45,
+      "cumulative_usd": 540,
+      "events_per_month": 60,
+      "duration": "micro",
+      "state_tags": ["micro-frequency", "work-hours", "focus"],
+      "descriptions": [
+        "the micro-dose cortisol annuity — paid out minute by minute during work",
+        "the shortest-duration, highest-frequency trade in the mental-state book",
+        "a treadmill that keeps the rest of the body from noticing it is running",
+        "the coupon you clip on every deep-focus hour",
+        "the line item where the marginal dollar has the highest Sharpe and the lowest conviction",
+        "a perfectly accounted tax on focus, payable in advance"
+      ]
+    },
+    {
+      "code": "A",
+      "glyph": "◆",
+      "monthly_spend_usd": 70,
+      "cumulative_usd": 840,
+      "events_per_month": 6,
+      "duration": "session",
+      "state_tags": ["social", "latency-reducer", "weekend"],
+      "descriptions": [
+        "the social liquidity premium — paid to narrow the bid-ask between people",
+        "a bridge asset between two illiquid social markets",
+        "the option to be more interested in whatever anyone is saying, exercised Friday through Sunday",
+        "an asset class whose returns are purely relational and whose volatility is someone else's",
+        "a coupon on attentional discount — buy once, market closes early",
+        "a weekly rebalance against the analytical tilt of the rest of the portfolio"
+      ]
+    },
+    {
+      "code": "S",
+      "glyph": "✦",
+      "monthly_spend_usd": 0,
+      "cumulative_usd": 120,
+      "events_per_month": 0.25,
+      "duration": "session, deep",
+      "state_tags": ["rare", "rebalance", "deep"],
+      "descriptions": [
+        "the rare-event dividend — paid in kind, quarterly at most",
+        "a scheduled sampling of a distribution the rest of the year pretends does not exist",
+        "the one position whose returns are measured in insight per dollar, not dollar per hour",
+        "a deliberate anti-correlation to the weekly cron",
+        "a position sized to a full year's signal-to-noise",
+        "the mental-state equivalent of Bucket E deploying into a 30% drawdown — rare, intentional, quiet"
+      ]
+    },
+    {
+      "code": "L",
+      "glyph": "△",
+      "monthly_spend_usd": 0,
+      "cumulative_usd": 60,
+      "events_per_month": 0.08,
+      "duration": "session, very long",
+      "state_tags": ["very-rare", "convex", "long-horizon"],
+      "descriptions": [
+        "the convex vision option — long-dated, out-of-the-money, rarely exercised",
+        "a lottery ticket on a future self whose taste is uncorrelated with the current one's",
+        "the position whose thesis requires the longest observation window to evaluate",
+        "a deliberate break with the momentum factor in the rest of the mental-state portfolio",
+        "an annual or bi-annual subscription to a version of attention the weekly cron cannot produce",
+        "a scheduled disagreement with every other position in this ledger"
+      ]
+    }
+  ]
+}
