@@ -23,7 +23,7 @@ export default function Deck() {
         <section className="pitch-slide zone-dark" id="s2">
           <span className="pitch-page">02 / 10</span>
           <p className="pitch-eyebrow"># thesis</p>
-          <h2 className="pitch-h2">sep is the frat where smart ucla students build real things.</h2>
+          <h2 className="pitch-h2">sep is the frat where smart ucla <span className="thesis-second">students build real things.</span></h2>
           <div className="pitch-rule pitch-rule-muted" />
           <p className="pitch-line muted">we are strong on the first half of that sentence.</p>
           <p className="pitch-line accent">this pitch is about the second half.</p>
@@ -86,7 +86,7 @@ export default function Deck() {
           <div className="pivot-bottom">
             <h2 className="serif-h2"><em>every frat whispers too.</em></h2>
             <p className="serif-line muted">right now, sep whispers <em>smart</em>.</p>
-            <p className="serif-line accent"><em>i want us to whisper ship — and more.</em></p>
+            <p className="serif-line accent"><em>i want us to whisper ship — and <span className="love-caps">LOVE</span>.</em></p>
             <p className="serif-comment">— paul graham, 2008. the president sets the next whisper.</p>
           </div>
         </section>

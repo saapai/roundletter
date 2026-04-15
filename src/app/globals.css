@@ -619,13 +619,15 @@ body.pitch-mode > main {
 
 .pitch-slide {
   min-height: 100vh;
-  padding: 5rem 0 4rem;
+  /* Horizontal padding gives every element (title, page mark, rule) real breathing room */
+  padding: 5rem clamp(1.75rem, 6vw, 4.5rem) 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 1rem;
   position: relative;
   border-bottom: 1px solid #1f1f21;
+  box-sizing: border-box;
 }
 .pitch-slide:last-child { border-bottom: 0; }
 
@@ -685,6 +687,11 @@ body.pitch-mode > main {
 }
 .pitch-line.muted { color: #6E6A62; }
 .pitch-line.accent { color: #D89A5C; font-weight: 700; }
+
+/* Thesis: second half of the sentence picks up the amber of the "second half" line below — visual rhyme */
+.pitch-h2 .thesis-second {
+  color: #E8B06C;
+}
 .pitch-line.small { font-size: 0.92rem; line-height: 1.6; }
 
 .pitch-sub {
@@ -931,6 +938,15 @@ body.pitch-mode > main {
   font-size: 0.85rem;
   color: #6B6560;
   margin-top: 0.75rem;
+}
+
+/* LOVE — all caps kept upright inside italic body, with extra tracking and a soft glow */
+.pitch-slide.zone-pivot .love-caps {
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #8B3A2E;
+  text-shadow: 0 0 14px color-mix(in srgb, #8B3A2E 26%, transparent);
 }
 
 /* Zone 4 (warm-cream) — slide 7, serif in, mono-callback markers — less yellow, more paper */
