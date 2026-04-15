@@ -5,16 +5,8 @@ import Link from "next/link";
 import { POLYMARKET, V1_THEMES } from "@/lib/v1data";
 import { syncRiddleRound } from "@/lib/riddle-sync";
 
-type Props = {
-  // When true, skip the global check and render the card immediately.
-  // Used by the /polymarket[/polymarket]* recursion maze.
-  forceSolved?: boolean;
-  // Where the card's main link points. Defaults to /polymarket (first level
-  // of the maze). Maze pages override with the next-deeper URL.
-  nextHref?: string;
-  // Optional small depth label shown on the card ("01/10" etc).
-  depthLabel?: string;
-};
+// (Legacy Props type for the killed /polymarket recursion maze has been
+// removed. The card is now a plain Link to /positions.)
 
 // Stateless POLYMARKET riddle at the top of the home page.
 // Every page load starts with 10 empty boxes — NO prefill from v1-solved
@@ -142,16 +134,6 @@ export default function HomePassword() {
     return (
       <div className="home-pw home-pw-global-solved">
         <Link href="/positions" className="coming-soon-trailer" aria-label="polymarket — coming soon">
-          <span className="cst-scaffold cst-scaffold-tl" aria-hidden="true" />
-          <span className="cst-scaffold cst-scaffold-br" aria-hidden="true" />
-          <span className="cst-tape cst-tape-1" aria-hidden="true">//// under construction ////</span>
-          <span className="cst-frame" aria-hidden="true">
-            <span className="cst-corner cst-corner-tl" />
-            <span className="cst-corner cst-corner-tr" />
-            <span className="cst-corner cst-corner-bl" />
-            <span className="cst-corner cst-corner-br" />
-          </span>
-          <span className="cst-build">// build: 0.1.0-alpha</span>
           <span className="cst-coming">
             <span className="cst-coming-word">COMING</span>
             <span className="cst-coming-word cst-coming-word-2">SOON</span>
@@ -162,13 +144,6 @@ export default function HomePassword() {
           </span>
           <span className="cst-tagline"><em>every revolution needs its counterculture.</em></span>
           <span className="cst-glow" aria-hidden="true" />
-          <span className="cst-ticker" aria-hidden="true">
-            <span>// WARN: positions not reconciled</span>
-            <span>· live prices offline</span>
-            <span>· method &gt; outcome</span>
-            <span>· attention is all you need</span>
-            <span>· pick your revolution</span>
-          </span>
         </Link>
         <button
           type="button"

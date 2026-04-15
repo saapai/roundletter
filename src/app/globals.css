@@ -3073,7 +3073,7 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
 /* cli-reveal — command-line wordle abacus. Sharper than the homepage card:
    a fake terminal window with stoplight dots, title bar, pre-formatted
    ASCII content, progress bar for cumulative polymarket recursion. Clicks
-   navigate to /polymarket × depth / argument. */
+   standalone recursion game (lives on /argument bottom). */
 .cli-reveal {
   display: block;
   max-width: 640px;
