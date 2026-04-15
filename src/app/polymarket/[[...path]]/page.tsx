@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import PositionsPage from "../../positions/page";
 import ArgumentPage from "../../argument/page";
+import RecurseButton from "@/components/RecurseButton";
 
 // Catch-all for the polymarket recursion maze.
 //
@@ -86,6 +87,9 @@ $ hint
   the exit is up.
 `}
         </pre>
+        <div className="six9-actions">
+          <RecurseButton currentDepth={depth} />
+        </div>
         <div className="six9-nav">
           <Link href="/" className="six9-back">← home</Link>
           <span className="six9-dot">·</span>
