@@ -629,6 +629,81 @@ body.pitch-mode > main {
   position: relative;
 }
 
+/* ── Cursor-driven effects (wired by PitchInteractive, --mx / --my in px) ── */
+@media (hover: hover) {
+  /* Slide 9 — pixelated ink fog over the manifesto; cursor carves a sharp
+     reading window. Overlay sits above content, backdrop-filter pixelates
+     what's behind it, radial mask hides the overlay near cursor. */
+  .pitch-ink-reveal { position: relative; }
+  .pitch-ink-reveal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    backdrop-filter: url(#pitch-pixelate) contrast(0.92) brightness(1.02);
+    -webkit-backdrop-filter: url(#pitch-pixelate) contrast(0.92) brightness(1.02);
+    mask-image: radial-gradient(
+      circle 180px at var(--mx, 50%) var(--my, 50%),
+      transparent 0,
+      transparent 70px,
+      black 160px
+    );
+    -webkit-mask-image: radial-gradient(
+      circle 180px at var(--mx, 50%) var(--my, 50%),
+      transparent 0,
+      transparent 70px,
+      black 160px
+    );
+    transition: opacity 180ms ease;
+  }
+  /* When cursor isn't on the slide, full pixelation (no hole) */
+  .pitch-ink-reveal:not(.is-hovering)::after {
+    mask-image: linear-gradient(black, black);
+    -webkit-mask-image: linear-gradient(black, black);
+  }
+
+  /* Slide 8 — pixelated 8-bit sun as the cursor */
+  .pitch-sun-cursor {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect x='6' y='2' width='4' height='1' fill='%23E8B06C'/><rect x='5' y='3' width='6' height='1' fill='%23E8B06C'/><rect x='4' y='4' width='8' height='1' fill='%23E8B06C'/><rect x='3' y='5' width='10' height='1' fill='%23E8B06C'/><rect x='3' y='6' width='10' height='1' fill='%238B3A2E'/><rect x='3' y='7' width='10' height='1' fill='%238B3A2E'/><rect x='3' y='8' width='10' height='1' fill='%238B3A2E'/><rect x='3' y='9' width='10' height='1' fill='%23A67A3A'/><rect x='3' y='10' width='10' height='1' fill='%23E8B06C'/><rect x='4' y='11' width='8' height='1' fill='%23E8B06C'/><rect x='5' y='12' width='6' height='1' fill='%23E8B06C'/><rect x='6' y='13' width='4' height='1' fill='%23E8B06C'/><rect x='7' y='0' width='2' height='1' fill='%23E8B06C'/><rect x='7' y='15' width='2' height='1' fill='%23E8B06C'/><rect x='0' y='7' width='1' height='2' fill='%23E8B06C'/><rect x='15' y='7' width='1' height='2' fill='%23E8B06C'/><rect x='2' y='2' width='1' height='1' fill='%23E8B06C'/><rect x='13' y='2' width='1' height='1' fill='%23E8B06C'/><rect x='2' y='13' width='1' height='1' fill='%23E8B06C'/><rect x='13' y='13' width='1' height='1' fill='%23E8B06C'/></svg>") 16 16, auto;
+  }
+  .pitch-sun-cursor * { cursor: inherit; }
+
+  /* Slides 1-5 (dark) — constellation brightening: a second star layer near
+     cursor becomes visible. Subtle, dopamine-lite. */
+  .pitch-stars-reveal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(1.8px 1.8px at 18% 20%, rgba(255,255,255,0.95) 45%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 32% 60%, rgba(255,248,220,0.9) 45%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 55% 30%, rgba(255,255,255,0.85) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 68% 75%, rgba(220,230,255,0.9) 45%, transparent 100%),
+      radial-gradient(1.8px 1.8px at 82% 22%, rgba(255,250,230,0.92) 45%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 45% 80%, rgba(255,255,255,0.8) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 88% 55%, rgba(255,255,255,0.88) 45%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 12% 68%, rgba(230,240,255,0.82) 50%, transparent 100%);
+    mask-image: radial-gradient(
+      circle 220px at var(--mx, -1000px) var(--my, -1000px),
+      black 0,
+      rgba(0,0,0,0.4) 120px,
+      transparent 220px
+    );
+    -webkit-mask-image: radial-gradient(
+      circle 220px at var(--mx, -1000px) var(--my, -1000px),
+      black 0,
+      rgba(0,0,0,0.4) 120px,
+      transparent 220px
+    );
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+  .pitch-stars-reveal.is-hovering::after { opacity: 1; }
+}
+
 /* Hubble-telescope starfield — scattered over the dark top of the deck, fades out
    before the warming begins. Mix of sizes, warm/cool temperatures, and two faint
    milky-way glow bands. Effortlessly ambient: no animation, no hard edges. */
@@ -695,21 +770,33 @@ body.pitch-mode > main {
 }
 
 .pitch-slide {
-  min-height: 100vh;
-  /* Full-bleed background + column-inset content: background reaches viewport edges,
-     text stays centered in a 62rem column. Kills the "framed rectangle" sharpness
-     at zone boundaries while keeping slide 1's breathing room consistent everywhere. */
-  padding-top: 5rem;
-  padding-bottom: 4rem;
+  /* Content-height slides with generous vertical padding — no more 100vh frames
+     and no dead space when content is short. The deck flows like a page; zone
+     transitions happen at content boundaries, not at viewport boundaries. */
+  padding-top: clamp(6rem, 14vh, 12rem);
+  padding-bottom: clamp(6rem, 14vh, 12rem);
   padding-left: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
   padding-right: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 1rem;
   position: relative;
   z-index: 1;
   box-sizing: border-box;
+}
+/* Slide 1 (title) keeps a viewport-tall landing feel — it IS the hero */
+.pitch-slide#s1 {
+  min-height: 100vh;
+  justify-content: center;
+}
+/* Slide 6 (pivot) needs enough height for the mono→serif internal split to breathe */
+.pitch-slide#s6 {
+  min-height: 90vh;
+}
+/* Slide 10 (aurora finale) centers for the resolution beat */
+.pitch-slide#s10 {
+  min-height: 90vh;
+  justify-content: center;
 }
 
 .pitch-page {

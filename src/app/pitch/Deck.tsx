@@ -1,6 +1,7 @@
 import { logoutPitch } from "./actions";
 import AutoScroll from "@/components/AutoScroll";
 import SlideReveal from "@/components/SlideReveal";
+import PitchInteractive from "@/components/PitchInteractive";
 
 export default function Deck() {
   return (
@@ -8,12 +9,13 @@ export default function Deck() {
       <PitchModeBody />
       <AutoScroll />
       <SlideReveal />
+      <PitchInteractive />
       <div className="pitch-deck">
 
         {/* 01 — Title · zone-dark */}
-        <section className="pitch-slide zone-dark" id="s1">
+        <section className="pitch-slide zone-dark pitch-stars-reveal" id="s1">
           <span className="pitch-page">01 / 10</span>
-          <h1 className="pitch-title">a quiet case.</h1>
+          <h1 className="pitch-title">inexplicably.</h1>
           <div className="pitch-rule" />
           <p className="pitch-sub">// bullshitmaxxing. a guide to sep.</p>
           <p className="pitch-sub pitch-sub-faint">// built mostly from git history.</p>
@@ -21,7 +23,7 @@ export default function Deck() {
         </section>
 
         {/* 02 — Thesis · zone-dark */}
-        <section className="pitch-slide zone-dark" id="s2">
+        <section className="pitch-slide zone-dark pitch-stars-reveal" id="s2">
           <span className="pitch-page">02 / 10</span>
           <p className="pitch-eyebrow"># thesis</p>
           <h2 className="pitch-h2">sep is the frat where smart ucla students<span className="thesis-break" /><span className="thesis-second">build real things.</span></h2>
@@ -31,7 +33,7 @@ export default function Deck() {
         </section>
 
         {/* 03 — Range · zone-dark (wide first: what i build generally) */}
-        <section className="pitch-slide zone-dark" id="s3">
+        <section className="pitch-slide zone-dark pitch-stars-reveal" id="s3">
           <span className="pitch-page">03 / 10</span>
           <p className="pitch-eyebrow"># range / outside the frat, twelve months</p>
           <h2 className="pitch-h2 small">what i build when no one is asking.</h2>
@@ -47,7 +49,7 @@ export default function Deck() {
         </section>
 
         {/* 04 — Receipts · zone-dark (narrow next: and here's what i built for us) */}
-        <section className="pitch-slide zone-dark" id="s4">
+        <section className="pitch-slide zone-dark pitch-stars-reveal" id="s4">
           <span className="pitch-page">04 / 10</span>
           <p className="pitch-eyebrow"># receipts / three rush cycles</p>
           <h2 className="pitch-h2 small">what i have built for us, quietly.</h2>
@@ -67,7 +69,7 @@ export default function Deck() {
         </section>
 
         {/* 05 — Punchline · zone-warm-dark (synthesis: one thing — and the warming starts) */}
-        <section className="pitch-slide zone-warm-dark" id="s5">
+        <section className="pitch-slide zone-warm-dark pitch-stars-reveal" id="s5">
           <span className="pitch-page">05 / 10</span>
           <p className="pitch-hero muted">these are not three things.</p>
           <p className="pitch-hero">they are one thing —</p>
@@ -115,7 +117,7 @@ export default function Deck() {
         </section>
 
         {/* 08 — Reframe · zone-cream (the Roosevelt inversion named out loud) */}
-        <section className="pitch-slide zone-cream" id="s8">
+        <section className="pitch-slide zone-cream pitch-sun-cursor" id="s8">
           <span className="pitch-page">08 / 10</span>
           <p className="cream-eyebrow">on not making this about me</p>
           <h2 className="cream-hero"><em>the presidency is not the product of my labor.</em></h2>
@@ -129,7 +131,7 @@ export default function Deck() {
         </section>
 
         {/* 09 — Manifesto + Ask — recomposed for 1+3 fractal */}
-        <section className="pitch-slide zone-cream-final" id="s9">
+        <section className="pitch-slide zone-cream-final pitch-ink-reveal" id="s9">
           <span className="pitch-page">09 / 10</span>
           <p className="cream-eyebrow">what sep is, when you take the surface away</p>
 
