@@ -18,9 +18,9 @@ type Density = "sparse" | "medium" | "dense";
 const SLIDE_DENSITY: Record<string, Density> = {
   s1:  "sparse",  // a quiet case.
   s2:  "medium",  // thesis
-  s3:  "dense",   // receipts table (you talk it through)
-  s4:  "sparse",  // punchline (drop the mic)
-  s5:  "medium",  // range list
+  s3:  "medium",  // range list (wide: what i build generally)
+  s4:  "dense",   // receipts table (you talk it through — what i built for us)
+  s5:  "sparse",  // punchline — sep's infrastructure (drop the mic)
   s6:  "medium",  // cities pivot (visual drama)
   s7:  "dense",   // three moves (you explain)
   s8:  "sparse",  // reframe (dramatic)

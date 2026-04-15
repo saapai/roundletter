@@ -715,12 +715,23 @@ body.pitch-mode > main {
 .pitch-h2 .thesis-second {
   color: #E8B06C;
 }
+/* Force a hard line break between "students" (white) and "build real things" (orange)
+   regardless of viewport width — the visual claim depends on the two halves being stacked. */
+.pitch-h2 .thesis-break {
+  display: block;
+  width: 100%;
+  height: 0;
+}
 .pitch-line.small { font-size: 0.92rem; line-height: 1.6; }
 
 .pitch-sub {
   font-size: 0.95rem;
   color: #6E6A62;
   margin: 0;
+}
+.pitch-sub-faint {
+  color: #4A463F;
+  margin-top: 0.15rem;
 }
 
 .pitch-comment {

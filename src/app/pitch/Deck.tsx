@@ -15,7 +15,8 @@ export default function Deck() {
           <span className="pitch-page">01 / 10</span>
           <h1 className="pitch-title">a quiet case.</h1>
           <div className="pitch-rule" />
-          <p className="pitch-sub">// built mostly from git history.</p>
+          <p className="pitch-sub">// bullshitmaxxing. a guide to sep.</p>
+          <p className="pitch-sub pitch-sub-faint">// built mostly from git history.</p>
           <p className="pitch-meta">sep · spring 2026 · saapai</p>
         </section>
 
@@ -23,15 +24,31 @@ export default function Deck() {
         <section className="pitch-slide zone-dark" id="s2">
           <span className="pitch-page">02 / 10</span>
           <p className="pitch-eyebrow"># thesis</p>
-          <h2 className="pitch-h2">sep is the frat where smart ucla <span className="thesis-second">students build real things.</span></h2>
+          <h2 className="pitch-h2">sep is the frat where smart ucla students<span className="thesis-break" /><span className="thesis-second">build real things.</span></h2>
           <div className="pitch-rule pitch-rule-muted" />
           <p className="pitch-line muted">we are strong on the first half of that sentence.</p>
           <p className="pitch-line accent">this pitch is about the second half.</p>
         </section>
 
-        {/* 03 — Receipts · zone-dark */}
+        {/* 03 — Range · zone-dark (wide first: what i build generally) */}
         <section className="pitch-slide zone-dark" id="s3">
           <span className="pitch-page">03 / 10</span>
+          <p className="pitch-eyebrow"># range / outside the frat, twelve months</p>
+          <h2 className="pitch-h2 small">what i build when no one is asking.</h2>
+          <ul className="pitch-list">
+            <li><span className="name">aureliex.com</span><span className="count accent">live</span><span className="desc">public portfolio-letter site, 5-agent editorial</span></li>
+            <li><span className="name">canvas-diary</span><span className="count accent">600</span><span className="desc">llm-organized infinite-canvas journal</span></li>
+            <li><span className="name">jarvis</span><span className="count accent">353</span><span className="desc">sms + llm assistant with rag knowledge-base</span></li>
+            <li><span className="name">polytrader</span><span className="count accent">115</span><span className="desc">live prediction-market trading</span></li>
+            <li><span className="name">bruin_match</span><span className="count accent">73</span><span className="desc">ucla dating app</span></li>
+          </ul>
+          <div className="pitch-rule pitch-rule-muted" />
+          <p className="pitch-line">none of this is sep. all of it is rehearsal for what sep could be.</p>
+        </section>
+
+        {/* 04 — Receipts · zone-dark (narrow next: and here's what i built for us) */}
+        <section className="pitch-slide zone-dark" id="s4">
+          <span className="pitch-page">04 / 10</span>
           <p className="pitch-eyebrow"># receipts / three rush cycles</p>
           <h2 className="pitch-h2 small">what i have built for us, quietly.</h2>
           <table className="pitch-table">
@@ -49,30 +66,14 @@ export default function Deck() {
           <p className="pitch-comment accent">// ball don't lie.</p>
         </section>
 
-        {/* 04 — Punchline · zone-dark (last full-dark slide) */}
-        <section className="pitch-slide zone-dark" id="s4">
-          <span className="pitch-page">04 / 10</span>
+        {/* 05 — Punchline · zone-warm-dark (synthesis: one thing — and the warming starts) */}
+        <section className="pitch-slide zone-warm-dark" id="s5">
+          <span className="pitch-page">05 / 10</span>
           <p className="pitch-hero muted">these are not three things.</p>
           <p className="pitch-hero">they are one thing —</p>
           <p className="pitch-hero accent">sep's infrastructure.</p>
           <div className="pitch-rule pitch-rule-muted" />
           <p className="pitch-comment">// one person. three rushes. quietly.</p>
-        </section>
-
-        {/* 05 — Range · zone-warm-dark (first warming) */}
-        <section className="pitch-slide zone-warm-dark" id="s5">
-          <span className="pitch-page">05 / 10</span>
-          <p className="pitch-eyebrow"># range / outside the frat, twelve months</p>
-          <h2 className="pitch-h2 small">what i build when no one is asking.</h2>
-          <ul className="pitch-list">
-            <li><span className="name">canvas-diary</span><span className="count accent">600</span><span className="desc">llm-organized infinite-canvas journal</span></li>
-            <li><span className="name">jarvis</span><span className="count accent">353</span><span className="desc">sms + llm assistant with rag knowledge-base</span></li>
-            <li><span className="name">polytrader</span><span className="count accent">115</span><span className="desc">live prediction-market trading</span></li>
-            <li><span className="name">bruin_match</span><span className="count accent">73</span><span className="desc">ucla dating app</span></li>
-            <li><span className="name">aureliex.com</span><span className="count accent">live</span><span className="desc">public portfolio-letter site, 5-agent editorial</span></li>
-          </ul>
-          <div className="pitch-rule pitch-rule-muted" />
-          <p className="pitch-line">none of this is sep. all of it is rehearsal for what sep could be.</p>
         </section>
 
         {/* 06 — Cities and Ambition · zone-pivot (gradient + mixed type) */}
