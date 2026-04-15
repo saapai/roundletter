@@ -99,7 +99,7 @@ async function runOne(
     max_tokens: 2048,
     system: buildSystem(agent),
     messages: [{ role: "user", content: buildUser(ticker, horizonDays, agent.id, priorRounds) }],
-    output_config: { format: zodOutputFormat(TurnSchema, "DebateTurn") },
+    output_config: { format: zodOutputFormat(TurnSchema) },
   });
   const parsed = msg.parsed_output;
   if (!parsed) {
