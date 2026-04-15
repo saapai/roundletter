@@ -1027,6 +1027,23 @@ body.pitch-mode > main {
   font-weight: 600;
   margin-top: 0.5rem;
 }
+
+/* Dye / poison couplet — typographic contrast as the argument */
+.pitch-slide.zone-cream-final .dye-line {
+  margin-top: 1rem;
+}
+.pitch-slide.zone-cream-final .dye-poison {
+  color: color-mix(in srgb, #6B6560 70%, transparent);
+  font-style: italic;
+  /* poison "vanishes" — very low contrast, just readable */
+}
+.pitch-slide.zone-cream-final .dye-word {
+  color: #8B3A2E;
+  font-weight: 700;
+  font-style: italic;
+  /* dye is visible — strongest rust */
+  text-shadow: 0 0 14px color-mix(in srgb, #8B3A2E 22%, transparent);
+}
 .pitch-slide.zone-cream-final .cream-rule {
   width: 3rem;
   height: 1px;

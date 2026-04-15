@@ -146,6 +146,9 @@ export default function Deck() {
             <p className="manifesto-line"><em>a counterculture for the ai revolution.</em></p>
             <p className="manifesto-line muted"><em>the revolution will not be televised.<br/>that is why this letter is not a post.</em></p>
 
+            <p className="manifesto-line dye-line"><em>dye stains what it touches. <span className="dye-poison">poison vanishes into it.</span></em></p>
+            <p className="manifesto-line accent"><em>we choose <span className="dye-word">dye</span>.</em></p>
+
             <p className="manifesto-line muted"><em>people doing the hard, weird thing together,<br/>even when the city whispers otherwise.</em></p>
 
             <p className="manifesto-line"><em>a way to communicate across cities. across dimensions.</em></p>
