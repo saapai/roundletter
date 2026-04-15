@@ -1156,6 +1156,21 @@ body.pitch-mode > main {
   color: #E8B06C;
   text-shadow: 0 0 16px color-mix(in srgb, #E8B06C 42%, transparent);
 }
+/* "alignment" — the payoff word on the new pivot-bottom; amber-glow italic */
+.pitch-slide.zone-pivot .pivot-alignment {
+  font-weight: 700;
+  font-style: italic;
+  color: #E8B06C;
+  text-shadow: 0 0 16px color-mix(in srgb, #E8B06C 38%, transparent);
+}
+/* "transcend" — the terminal beat; soft gold, lighter glow so alignment
+   remains the louder of the two */
+.pitch-slide.zone-pivot .pivot-transcend {
+  font-weight: 700;
+  font-style: italic;
+  color: #D4C195;
+  text-shadow: 0 0 12px color-mix(in srgb, #D4C195 30%, transparent);
+}
 
 /* Zone 4 (warm-cream) — slide 7, serif in, mono-callback markers — less yellow, more paper */
 .pitch-slide.zone-warm-cream {

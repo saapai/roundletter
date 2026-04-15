@@ -90,9 +90,9 @@ export default function Deck() {
             <p className="mono-sub">new york whispers money. cambridge whispers know-more. the valley whispers power.</p>
           </div>
           <div className="pivot-bottom">
-            <h2 className="serif-h2"><em>every frat whispers too.</em></h2>
-            <p className="serif-line muted">right now, sep whispers <em>smart</em>.</p>
-            <p className="serif-line accent"><em>i want us to whisper ship — and <span className="love-caps">LOVE</span>.</em></p>
+            <h2 className="serif-h2"><em>every talent density therefore must whisper to some extent.</em></h2>
+            <p className="serif-line muted">akpsi, dsp, ttau whisper <em>LARPers</em>. sep are the performers.</p>
+            <p className="serif-line accent"><em>but instead i believe we should whisper <span className="pivot-alignment">alignment</span>, because that&rsquo;s how you <span className="pivot-transcend">transcend</span>.</em></p>
             <p className="serif-comment">— paul graham, 2008.</p>
           </div>
         </section>
