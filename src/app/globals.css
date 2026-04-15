@@ -523,10 +523,25 @@ h1, h2, h3 {
 }
 
 /* ── Pitch deck (at /pitch, terminal-dark, fullscreen) ── */
+/* Server-rendered CSS-only chrome suppression via :has() — no client-JS flash */
+body:has(.pitch-root) {
+  background: #0E0E10;
+  color: #EDE8DC;
+}
+body:has(.pitch-root) > header,
+body:has(.pitch-root) > footer,
+body:has(.pitch-root) > .insignia,
+body:has(.pitch-root) > .toc { display: none !important; }
+body:has(.pitch-root) > main {
+  padding: 0;
+  max-width: none;
+  margin: 0;
+}
+
+/* Legacy pitch-mode class kept for backward compat */
 body.pitch-mode {
   background: #0E0E10;
   color: #EDE8DC;
-  font-family: "Menlo", ui-monospace, monospace;
 }
 body.pitch-mode > header,
 body.pitch-mode > footer,
@@ -760,19 +775,39 @@ body.pitch-mode > main {
 
 /* ── Zone aesthetics — the gradient arc of the deck ─────── */
 /* Zone 1 (dark) — slides 1–4, pure terminal */
+.pitch-slide.zone-dark,
+.pitch-slide.zone-dark h1,
+.pitch-slide.zone-dark h2,
+.pitch-slide.zone-dark h3,
+.pitch-slide.zone-dark p,
+.pitch-slide.zone-dark span,
+.pitch-slide.zone-dark td,
+.pitch-slide.zone-dark th {
+  font-family: "Menlo", "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: -0.005em;
+}
 .pitch-slide.zone-dark {
   background: #0E0E10;
   color: #EDE8DC;
-  font-family: "Menlo", ui-monospace, monospace;
 }
 
 /* Zone 2 (warm-dark) — slide 5, first warming */
+.pitch-slide.zone-warm-dark,
+.pitch-slide.zone-warm-dark h1,
+.pitch-slide.zone-warm-dark h2,
+.pitch-slide.zone-warm-dark h3,
+.pitch-slide.zone-warm-dark p,
+.pitch-slide.zone-warm-dark span,
+.pitch-slide.zone-warm-dark td,
+.pitch-slide.zone-warm-dark th {
+  font-family: "Menlo", "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: -0.005em;
+}
 .pitch-slide.zone-warm-dark {
   background:
     radial-gradient(ellipse at 50% 0%, #141214 0%, transparent 60%),
     linear-gradient(180deg, #0F0E0F 0%, #1B1612 100%);
   color: #EDE8DC;
-  font-family: "Menlo", ui-monospace, monospace;
 }
 .pitch-slide.zone-warm-dark .accent { color: #E5A764; }
 
@@ -844,8 +879,8 @@ body.pitch-mode > main {
 /* Zone 4 (warm-cream) — slide 7, serif in, mono-callback markers */
 .pitch-slide.zone-warm-cream {
   background:
-    radial-gradient(ellipse at 30% 20%, color-mix(in srgb, #8B3A2E 3%, transparent) 0%, transparent 50%),
-    #EDE5D5;
+    radial-gradient(ellipse at 30% 20%, color-mix(in srgb, #A67A3A 4%, transparent) 0%, transparent 55%),
+    #EEE5D0;
   color: #1C1A17;
   font-family: var(--font-body), serif;
 }
