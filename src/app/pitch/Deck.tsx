@@ -114,16 +114,18 @@ export default function Deck() {
           </ol>
         </section>
 
-        {/* 08 — Reframe · zone-cream (compressed to two italic lines) */}
+        {/* 08 — Reframe · zone-cream (the Roosevelt inversion named out loud) */}
         <section className="pitch-slide zone-cream" id="s8">
           <span className="pitch-page">08 / 10</span>
           <p className="cream-eyebrow">on not making this about me</p>
           <h2 className="cream-hero"><em>the presidency is not the product of my labor.</em></h2>
           <h2 className="cream-hero accent"><em>the tooling is. it already exists.</em></h2>
+
+          <p className="cream-bridge"><em>i wanted the arena. then i built it. now i want the year to give it away.</em></p>
+
           <div className="cream-rule" />
-          <p className="cream-line">
-            <em>i'll maintain the tools whether you elect me or not. the presidency only adds a mandate — to train the next person to be as invisible as i have been.</em>
-          </p>
+          <p className="cream-line"><em>i'll maintain the tools whether you elect me or not.</em></p>
+          <p className="cream-line cream-line-impact"><em>the year only adds a mandate — to train the next person to be as invisible as i have been.</em></p>
         </section>
 
         {/* 09 — Manifesto + Ask — recomposed for 1+3 fractal */}
