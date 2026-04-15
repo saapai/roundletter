@@ -1,5 +1,6 @@
 import Link from "next/link";
 import TodayDebate from "@/components/TodayDebate";
+import SixNineGame from "@/components/SixNineGame";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -66,6 +67,8 @@ export default async function ArgumentPage() {
           <span className="argument-dot">·</span>
           <Link href="/trades" className="argument-back">trades</Link>
         </nav>
+
+        <SixNineGame />
       </div>
     </main>
   );

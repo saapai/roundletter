@@ -43,24 +43,18 @@ export default function HomePassword() {
   const refs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
-    // On mount: detect back/forward nav, then seed global state from cache
-    // so the card renders on first paint (no flash on back-traversal), then
-    // reconcile with the server in the background.
+    // Detect back/forward from /positions → show boxes again; other mounts
+    // always start with empty boxes. Home wordle is stateless across
+    // reloads by design — users retype POLYMARKET every visit.
     try {
       const entries = performance.getEntriesByType("navigation");
       const nav = entries[0] as PerformanceNavigationTiming | undefined;
       if (nav?.type === "back_forward") setRetryLocal(true);
     } catch {}
-
-    // Round-invalidation: if the server's round has advanced since this
-    // browser last saw, wipe all sticky state before we read it.
-    syncRiddleRound().then(() => {
-      try {
-        if (localStorage.getItem("polymarket-global-solved-sticky") === "1") {
-          setGlobalSolved(true);
-        }
-      } catch {}
-    });
+    syncRiddleRound();
+    // globalSolved stays null intentionally — the card only shows after an
+    // in-session local solve (showLink flips). Refresh resets.
+    setGlobalSolved(false);
     // Also use a sessionStorage cache for speed (shorter TTL than sticky).
     try {
       const raw = sessionStorage.getItem("polymarket-global-cache");
@@ -104,23 +98,14 @@ export default function HomePassword() {
       // Only hit the server if this is the first global solve. If already
       // globally solved, retry is a client-only replay — no server write.
       if (!globalSolved) {
-        fetch("/api/polymarket/solve", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ password: full }),
-          keepalive: true,
-        })
-          .then(() => {
-            setGlobalSolved(true);
-            try {
-              sessionStorage.setItem(
-                "polymarket-global-cache",
-                JSON.stringify({ solved: true, _savedAt: Date.now() }),
-              );
-              localStorage.setItem("polymarket-global-solved-sticky", "1");
-            } catch {}
-          })
-          .catch(() => {});
+        // Optionally record the solve to the server for metrics, but don't
+      // rely on it for UI state. Home wordle is per-user-per-session.
+      fetch("/api/polymarket/solve", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ password: full }),
+        keepalive: true,
+      }).catch(() => {});
       }
     }
   }, [chars, solved, globalSolved]);
@@ -153,23 +138,10 @@ export default function HomePassword() {
   // Card shows when globally solved OR when this visitor just solved locally,
   // UNLESS they're in retry mode (came back from /positions or clicked the
   // "try again" link). Refresh clears retryLocal and the card returns.
-  const handleCardRecurse = (e: React.MouseEvent) => {
-    e.preventDefault();
-    let current = 0;
-    try {
-      const raw = sessionStorage.getItem("polymarket-depth");
-      current = raw ? parseInt(raw, 10) : 0;
-    } catch {}
-    const next = current + 1; // allow past 10 — the catch-all serves 6969 until 25
-    try { sessionStorage.setItem("polymarket-depth", String(next)); } catch {}
-    const prefix = Array(next).fill("polymarket").join("/");
-    router.push(prefix ? `/${prefix}/positions` : "/positions");
-  };
-
   if ((globalSolved || showLink) && !retryLocal) {
     return (
       <div className="home-pw home-pw-global-solved">
-        <a href="/positions" onClick={handleCardRecurse} className="coming-soon-trailer" aria-label="polymarket — coming soon">
+        <Link href="/positions" className="coming-soon-trailer" aria-label="polymarket — coming soon">
           <span className="cst-scaffold cst-scaffold-tl" aria-hidden="true" />
           <span className="cst-scaffold cst-scaffold-br" aria-hidden="true" />
           <span className="cst-tape cst-tape-1" aria-hidden="true">//// under construction ////</span>

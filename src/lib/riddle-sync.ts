@@ -16,7 +16,7 @@ export async function syncRiddleRound(): Promise<number | null> {
         (k) =>
           k.startsWith("v1-solved-") ||
           k.startsWith("v1-seen-") ||
-          k === "crowd-solved-v1" ||
+          k.startsWith("crowd-solved-") ||
           k === "polymarket-global-solved-sticky" ||
           k === "home-green-seen",
       );

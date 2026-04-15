@@ -4,9 +4,10 @@ import { useRouter } from "next/navigation";
 import { V1_THEMES } from "@/lib/v1data";
 import { syncRiddleRound } from "@/lib/riddle-sync";
 
-const CROWD_SOLVED_KEY = "crowd-solved-v1";
-const POLYMARKET_DEPTH_KEY = "polymarket-depth";
-const MAX_DEPTH = 10;
+// Round-scoped sticky key: when the server bumps the round, the old-round
+// flag is orphaned (never read) and the CompleteReveal hides correctly
+// until letters are globally solved again in the new round.
+const crowdSolvedKey = (round: number) => `crowd-solved-r${round}`;
 
 // Two-row hangman earned-letters display at the bottom of /positions:
 //  1. "what we've found" — GLOBAL aggregation of every letter any visitor has
@@ -80,23 +81,19 @@ export default function SolvedLetters() {
   useEffect(() => {
     setMounted(true);
     (async () => {
-      // Invalidate all riddle-related local/session state if the server's
-      // round counter has advanced since we last checked.
+      // Invalidate stale client state if server round has advanced.
       await syncRiddleRound();
       loadPersonal();
-      // Read sticky flag immediately so the CompleteReveal renders on first
-      // paint if this browser has ever seen all 10 in the CURRENT round.
-      try {
-        if (localStorage.getItem(CROWD_SOLVED_KEY) === "1") {
-          setCrowdSolvedSticky(true);
-        } else {
-          setCrowdSolvedSticky(false);
-        }
-      } catch {}
+      // Fetch the current round + global solves together. Read the sticky
+      // flag for THIS round only — older rounds' stickies are ignored.
       try {
         const r = await fetch("/api/v1-letters", { cache: "no-store" });
         if (!r.ok) return;
-        const j = (await r.json()) as { solved?: Array<{ slug: string; letter: string }> };
+        const j = (await r.json()) as {
+          round?: number;
+          solved?: Array<{ slug: string; letter: string }>;
+        };
+        const round = typeof j.round === "number" ? j.round : 1;
         const globalSlugs = new Set((j.solved ?? []).map((s) => s.slug));
         const rows = V1_THEMES.filter((t) => globalSlugs.has(t.slug)).map((t) => ({
           slug: t.slug,
@@ -104,9 +101,18 @@ export default function SolvedLetters() {
           green: t.green,
         }));
         setGlobalRows(rows);
+
+        // Sticky flag is round-scoped. Set when we see 10/10 in this round;
+        // read on next mount to render the CompleteReveal without waiting.
         if (rows.length === 10) {
-          try { localStorage.setItem(CROWD_SOLVED_KEY, "1"); } catch {}
+          try { localStorage.setItem(crowdSolvedKey(round), "1"); } catch {}
           setCrowdSolvedSticky(true);
+        } else {
+          try {
+            setCrowdSolvedSticky(localStorage.getItem(crowdSolvedKey(round)) === "1");
+          } catch {
+            setCrowdSolvedSticky(false);
+          }
         }
 
         const localSlugs = V1_THEMES.filter(
