@@ -3,6 +3,7 @@ import Link from "next/link";
 import PositionsPage from "../../positions/page";
 import ArgumentPage from "../../argument/page";
 import RecurseButton from "@/components/RecurseButton";
+import SixNineCard from "@/components/SixNineCard";
 
 // Catch-all for the polymarket recursion maze.
 //
@@ -49,7 +50,6 @@ export default async function PolymarketCatchAll({
 }
 
 function SixtyNineSixtyNinePage({ depth }: { depth: number }) {
-  const bar = "█".repeat(Math.min(depth, SIX9_MAX)) + "░".repeat(Math.max(0, SIX9_MAX - depth));
   return (
     <main className="six9-root">
       <div className="six9-card">
@@ -60,34 +60,12 @@ function SixtyNineSixtyNinePage({ depth }: { depth: number }) {
           <span className="cli-title">~ / polymarket × {depth} / void.sh</span>
           <span className="cli-pid">pid 0069</span>
         </header>
-        <pre className="cli-body six9-body">
-{`$ ./wordle --decode POLYMARKET --depth ${depth}
-[ !! ] recursion exceeds listed depth · 10
-[ ok ] listed depth was the happy path
-[ -- ] you kept clicking anyway
-
-        ╔══════════════════════════════════════════════╗
-        ║                                              ║
-        ║            E R R O R   6 9 6 9               ║
-        ║                                              ║
-        ║   "nice"                                     ║
-        ║                                              ║
-        ╚══════════════════════════════════════════════╝
-
-$ status
-  code         ${depth}/${SIX9_MAX} until the real 404
-  reason       you went past listing; market is illiquid out here
-  action       the riddle was the point; the depth is the joke
-
-$ depth --visual
-  ${bar}
-
-$ hint
-  method is the medicine.
-  the exit is up.
-`}
-        </pre>
+        {/* the 6969 card IS the button — clicking it recurses deeper. past 25
+            the catch-all serves a real 404 via notFound(). */}
+        <SixNineCard depth={depth} />
         <div className="six9-actions">
+          {/* misdirect: steps BACK one. below 9, bounces home with a counter
+              reset so re-entry starts fresh at depth 10. */}
           <RecurseButton currentDepth={depth} />
         </div>
         <div className="six9-nav">

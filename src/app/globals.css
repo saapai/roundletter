@@ -3024,6 +3024,38 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   transform: translateY(-1px);
   box-shadow: 0 0 12px color-mix(in srgb, #5FC173 35%, transparent);
 }
+.six9-misdirect {
+  border-color: #D99366;
+  color: #E8836C;
+  opacity: 0.7;
+}
+.six9-misdirect:hover {
+  background: color-mix(in srgb, #8B3A2E 22%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, #E8836C 30%, transparent);
+  opacity: 1;
+}
+/* The ASCII error card is a button — make it feel clickable without
+   disrupting the terminal aesthetic. */
+.six9-card-click {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  transition: filter 180ms ease, transform 180ms ease;
+}
+.six9-card-click:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+.six9-card-click:focus-visible {
+  outline: 1px dashed #5FC173;
+  outline-offset: 4px;
+}
 .six9-nav {
   display: flex;
   align-items: center;
