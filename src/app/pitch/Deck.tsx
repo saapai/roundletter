@@ -41,7 +41,7 @@ export default function Deck() {
             <tbody>
               <tr><td>rush-react</td><td>fall 2024 → fall 2025</td><td className="accent">45</td><td>rush notes + elo, live across 3 rushes</td></tr>
               <tr><td>sep-ats-checkin</td><td>fall 2025 rush week</td><td className="accent">28</td><td>photo check-in, live during rush</td></tr>
-              <tr><td>sep-ats</td><td>spring 2026 rush</td><td className="accent">55</td><td>gpt-tagged notes + imessage bot (friday)</td></tr>
+              <tr><td><a className="sneaky-link" href="https://github.com/saapai/sep-rush-checkin" target="_blank" rel="noopener noreferrer">sep-ats</a></td><td>spring 2026 rush</td><td className="accent">55</td><td>gpt-tagged notes + imessage bot (<a className="sneaky-link sneaky-gold" href="/friday">friday</a>)</td></tr>
             </tbody>
           </table>
           <div className="pitch-rule pitch-rule-muted" />
@@ -148,6 +148,8 @@ export default function Deck() {
 
             <p className="manifesto-line dye-line"><em>dye stains what it touches. <span className="dye-poison">poison vanishes into it.</span></em></p>
             <p className="manifesto-line accent"><em>we choose <span className="dye-word">dye</span>.</em></p>
+
+            <p className="manifesto-line triad"><em><span className="t-love">love</span> is the motive. <span className="t-empathy">empathy</span> is the method. <span className="t-polymath">polymath</span> is the proof.</em></p>
 
             <p className="manifesto-line muted"><em>people doing the hard, weird thing together,<br/>even when the city whispers otherwise.</em></p>
 
