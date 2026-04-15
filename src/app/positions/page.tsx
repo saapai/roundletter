@@ -40,8 +40,8 @@ export default function Positions() {
 
   return (
     <article className="article page">
-      <div className="eyebrow">Positions · Round {p.round} · {p.baseline_date}</div>
-      <h1 style={{ textAlign: "center" }}>Positions</h1>
+      <div className="eyebrow">Stocks · Round {p.round} · {p.baseline_date}</div>
+      <h1 style={{ textAlign: "center" }}>Stocks</h1>
 
       <section className="savings-hero">
         <div className="savings-eyebrow">// the savings story</div>

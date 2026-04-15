@@ -32,7 +32,14 @@ export default function LetterInput({ theme }: Props) {
     setValue(v);
     if (!v) return;
     if (v === theme.letter) {
-      // correct
+      // correct — fire global-letter counter (side effect: everyone sees this
+      // letter appear on /positions "what you've found")
+      fetch("/api/v1-letters/solve", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ slug: theme.slug }),
+        keepalive: true,
+      }).catch(() => {});
       let seen = false;
       try {
         seen = localStorage.getItem(seenFor(theme.slug)) === "1";
@@ -42,7 +49,6 @@ export default function LetterInput({ theme }: Props) {
       if (!seen) {
         setPlayAnim(true);
         try { localStorage.setItem(seenFor(theme.slug), "1"); } catch {}
-        // cross-tab signal for home page password gate
         try {
           window.dispatchEvent(new CustomEvent("v1-solved", { detail: { slug: theme.slug } }));
         } catch {}

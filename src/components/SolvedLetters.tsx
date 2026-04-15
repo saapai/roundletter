@@ -2,44 +2,46 @@
 import { useEffect, useState } from "react";
 import { V1_THEMES } from "@/lib/v1data";
 
-// Hangman-style earned-letters display at the bottom of /positions.
-// Shows ONLY the letters the viewer has solved on /v1/{n} pages — no
-// empty placeholders, no grid, no count. Just the letters they've earned,
-// floating in the order they discovered them (localStorage holds solve
-// flags; solve ts isn't tracked, so we fall back to theme order).
-// Stateless beyond localStorage: every visitor sees their own progress.
+// Hangman-style GLOBAL earned-letters display at the bottom of /positions.
+// Shows the letters that ANYONE has solved on /v1/{n} pages — aggregated
+// across all visitors via the abacus counter service (/api/v1-letters).
+// No empty placeholders, no count display. Just the letters that have
+// been discovered, floating in theme order.
 
-type Earned = { n: number; letter: string; green: string };
-
-const solvedKey = (slug: string) => `v1-solved-${slug}`;
+type Earned = { slug: string; letter: string; green: string };
 
 export default function SolvedLetters() {
   const [earned, setEarned] = useState<Earned[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  const load = () => {
+  const load = async () => {
     try {
-      const rows = V1_THEMES.filter((t) => localStorage.getItem(solvedKey(t.slug)) === "1").map((t) => ({
-        n: t.n,
+      const r = await fetch("/api/v1-letters", { cache: "no-store" });
+      if (!r.ok) return;
+      const j = (await r.json()) as { solved?: Array<{ slug: string; letter: string }> };
+      const solvedSet = new Set((j.solved ?? []).map((s) => s.slug));
+      const rows = V1_THEMES.filter((t) => solvedSet.has(t.slug)).map((t) => ({
+        slug: t.slug,
         letter: t.letter,
         green: t.green,
       }));
       setEarned(rows);
     } catch {
-      setEarned([]);
+      // stay empty on network error
     }
   };
 
   useEffect(() => {
     setMounted(true);
     load();
-    // also update live if a v1 page solve fires while we're on this page
+    // refresh periodically so letters appear live as other visitors solve
+    const t = setInterval(load, 15000);
+    // also refresh when this tab solves a letter locally
     const onSolved = () => load();
     window.addEventListener("v1-solved", onSolved as EventListener);
-    window.addEventListener("storage", onSolved);
     return () => {
+      clearInterval(t);
       window.removeEventListener("v1-solved", onSolved as EventListener);
-      window.removeEventListener("storage", onSolved);
     };
   }, []);
 
@@ -51,7 +53,7 @@ export default function SolvedLetters() {
       <div className="solved-letters-row">
         {earned.map((e) => (
           <span
-            key={e.n}
+            key={e.slug}
             className="solved-letter"
             style={{ ["--letter-green" as string]: e.green }}
           >
