@@ -2411,20 +2411,36 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
    levels (opener → couplet → meditation) that then rebounds into one
    towering landing. Only one thing on the slide is big. */
 
-/* Opener: "no more bullshit." — medium, charcoal, declarative but quieter
-   than it used to be so it doesn't compete with the final line */
+/* Opener: "let's cut through the bullshit. together." — medium italic, the
+   whole sentence in charcoal with "together." picking up a soft rust accent
+   so the "together" beat lands inside the line without needing its own row */
 .pitch-slide.zone-aurora .aurora-opener {
   font-family: var(--font-display), serif;
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
-  line-height: 1.15;
+  font-size: clamp(1.7rem, 3.6vw, 2.7rem);
+  line-height: 1.2;
   letter-spacing: -0.01em;
   color: #1C1A17;
-  margin: 0.4rem 0 0.75rem;
+  margin: 0.4rem auto 1.5rem;
   text-align: center;
+  max-width: 44rem;
   position: relative;
   z-index: 1;
+}
+.pitch-slide.zone-aurora .aurora-together {
+  color: #8B3A2E;
+  font-weight: 600;
+  text-shadow: 0 0 14px color-mix(in srgb, #8B3A2E 28%, transparent);
+}
+/* "upstream" — the Gil-Scott-Heron payoff word. Sage-green with glow so
+   the punch lands on the specific word, not just on the line ending. */
+.pitch-slide.zone-aurora .aurora-upstream {
+  color: #5F8B4E;
+  font-weight: 700;
+  text-shadow:
+    0 0 22px color-mix(in srgb, #5F8B4E 48%, transparent),
+    0 0 52px color-mix(in srgb, #5F8B4E 22%, transparent);
 }
 
 /* Couplet: "pick your revolution. / and your counterculture." — a quiet
