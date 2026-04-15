@@ -4,6 +4,17 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { POLYMARKET, V1_THEMES } from "@/lib/v1data";
 
+type Props = {
+  // When true, skip the global check and render the card immediately.
+  // Used by the /polymarket[/polymarket]* recursion maze.
+  forceSolved?: boolean;
+  // Where the card's main link points. Defaults to /polymarket (first level
+  // of the maze). Maze pages override with the next-deeper URL.
+  nextHref?: string;
+  // Optional small depth label shown on the card ("01/10" etc).
+  depthLabel?: string;
+};
+
 // Stateless POLYMARKET riddle at the top of the home page.
 // Every page load starts with 10 empty boxes — NO prefill from v1-solved
 // letters, NO localStorage for solved state, NO server hit. The only

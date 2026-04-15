@@ -16,7 +16,17 @@ type PricesResponse = {
 
 type Timeframe = "1D" | "2D" | "All";
 
-export default function PortfolioChart({ holdings }: { holdings: Holding[] }) {
+type Props = {
+  holdings: Holding[];
+  // Day-0 anchor: the hypothesis started this many ms-since-epoch ago. The
+  // "All" filter is clipped to this date forward — we don't show pre-baseline
+  // Yahoo noise, and the chart leads with account_value_at_entry as the
+  // opening data point.
+  baselineTs: number;
+  accountValueAtEntry: number;
+};
+
+export default function PortfolioChart({ holdings, baselineTs, accountValueAtEntry }: Props) {
   const [prices, setPrices] = useState<PricesResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [tf, setTf] = useState<Timeframe>("2D");
@@ -33,13 +43,15 @@ export default function PortfolioChart({ holdings }: { holdings: Holding[] }) {
 
   const grid = useMemo(() => {
     if (!prices || !prices.hasData) return [] as Array<{ t: number; value: number }>;
-    // Build a unified time grid (intersection of available timestamps across
-    // tickers — if one ticker doesn't have a bar for a given time, skip it).
+    // Time grid: only keep Yahoo bars at or after the baseline timestamp —
+    // we don't care about pre-hypothesis noise.
+    const baselineSec = Math.floor(baselineTs / 1000);
     const tsCounts = new Map<number, number>();
     for (const h of holdings) {
       const s = prices.data[h.ticker];
       if (!s) continue;
       for (const t of s.timestamps) {
+        if (t < baselineSec) continue;
         tsCounts.set(t, (tsCounts.get(t) ?? 0) + 1);
       }
     }
@@ -50,7 +62,6 @@ export default function PortfolioChart({ holdings }: { holdings: Holding[] }) {
       .map(([t]) => t)
       .sort((a, b) => a - b);
 
-    // closePrice(ticker, t) — fast lookup
     const lookup: Record<string, Map<number, number>> = {};
     for (const h of holdings) {
       const s = prices.data[h.ticker];
@@ -60,32 +71,33 @@ export default function PortfolioChart({ holdings }: { holdings: Holding[] }) {
       lookup[h.ticker] = m;
     }
 
-    return shared.map((t) => {
+    const bars = shared.map((t) => {
       let value = 0;
-      let lastKnown: Record<string, number> = {};
       for (const h of holdings) {
         const m = lookup[h.ticker];
         if (!m) {
-          // fallback: use entry_value so we keep the chart non-jagged
           value += h.entry_value;
           continue;
         }
-        const c = m.get(t) ?? lastKnown[h.ticker];
-        if (c != null) {
-          value += h.shares * c;
-          lastKnown[h.ticker] = c;
-        } else {
-          value += h.entry_value;
-        }
+        const c = m.get(t);
+        if (c != null) value += h.shares * c;
+        else value += h.entry_value;
       }
       return { t, value };
     });
-  }, [prices, holdings]);
+
+    // Anchor: lead with the book-value opening print at the baseline ts so
+    // the "All" timeframe starts at $3,453.83 (or whatever account_value_at_entry
+    // was), not at the first Yahoo bar of the day.
+    return [{ t: baselineSec, value: accountValueAtEntry }, ...bars];
+  }, [prices, holdings, baselineTs, accountValueAtEntry]);
 
   const filtered = useMemo(() => {
     if (grid.length === 0) return grid;
     if (tf === "1D") return grid.slice(-13);
     if (tf === "2D") return grid.slice(-26);
+    // "All" === since baseline. If we only have 2 days of data post-baseline,
+    // All naturally equals 2D. Same array either way.
     return grid;
   }, [grid, tf]);
 

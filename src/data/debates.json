@@ -3,186 +3,185 @@
     {
       "id": "dbt_seed_20260415",
       "ts": "2026-04-15T20:30:00.000Z",
-      "day_context": "2026-04-15 — Nasdaq +1.59% (Composite 24,016). quantum pureplay book flat to down; IONQ −2.3%, RGTI flat, QBTS +0.4%. NVDA +1.1%, MSFT +0.6%. seed entry — the cron hasn't fired yet.",
+      "day_context": "2026-04-15 — IONQ +14.2%, RGTI +9.1%, QBTS +7.3%. Nasdaq +1.59%. no earnings, no shelf, no catalyst. the pureplay book ripped on attention alone.",
       "topic": {
         "kind": "position",
-        "subject": "IONQ is red on a green tape; flow or thesis?",
-        "framing": "the tape is green today — +1.59% on the Composite — and still IONQ leaks. this is the kind of day the panel was built for: when the ambient move explains everyone's book except one name, ask the name what it knows."
+        "subject": "the pureplays ran today. how much was thesis, how much was tape, how much was luck?",
+        "framing": "the cleanest day of the quarter — and nothing concrete happened. the panel was built for exactly this: decompose a move that looks like a gift into parts you can name. what's expected, what's explainable, what's the residual, and how much of the residual is luck."
       },
       "turns": [
         {
           "speaker": "moderator",
           "phase": "premise",
           "round": 1,
-          "text": "the tape is green today — +1.59% on the Composite — and still IONQ leaks. this is the kind of day the panel was built for: when the ambient move explains everyone's book except one name, ask the name what it knows."
+          "text": "the cleanest day of the quarter — and nothing concrete happened. the panel was built for exactly this: decompose a move that looks like a gift into parts you can name. what's expected, what's explainable, what's the residual, and how much of the residual is luck."
         },
         {
           "speaker": "bull",
           "phase": "premise",
           "round": 1,
           "topic_kind": "position",
-          "subject": "IONQ down 2.3% on a green day",
-          "why_it_matters": "the 10yr thesis doesn't get traded on 1% Nasdaq moves; so if it's bleeding into a broad rally, something name-specific is in the air — likely flow, not fundamentals."
+          "subject": "decompose the pureplay rip — how much is the 10yr thesis catching up",
+          "why_it_matters": "a day like this either validates the horizon or front-runs it. if most of the move is thesis, we ride. if most is tape, we trim. the breakdown matters more than the prediction."
         },
         {
           "speaker": "bear",
           "phase": "premise",
           "round": 1,
           "topic_kind": "position",
-          "subject": "IONQ weakness on green tape = shelf risk tell",
-          "why_it_matters": "pureplays that underperform into rallies are often the ones about to file an ATM. the dilution is always priced a day early by someone."
+          "subject": "gifts get taken back — fade the rip or hold through it?",
+          "why_it_matters": "no-news +10% days in unprofitable pureplays are the distribution events, not the accumulation events. the historical ask is: do we give this back by friday."
         },
         {
           "speaker": "macro",
           "phase": "premise",
           "round": 1,
           "topic_kind": "macro",
-          "subject": "yields stayed pinned; all risk-on today was equity, not duration",
-          "why_it_matters": "if the rally is risk-on without a rate move, quantum-adjacent names should benefit — the fact that IONQ didn't says the move was mechanical, not thematic."
+          "subject": "pureplay beta to the Composite was ~5x today — what does that regime imply",
+          "why_it_matters": "a regime where the thematic book levers the index by 5 is a risk-on liquidity print, not a rate print. the macro question is whether liquidity sticks."
         },
         {
           "speaker": "flow",
           "phase": "premise",
           "round": 1,
           "topic_kind": "position",
-          "subject": "IONQ overhang — retail unwind into a rally",
-          "why_it_matters": "the tape shape is classic: big tech bid, small-cap thematic distributed. retail used the green ticker to exit, not to add."
+          "subject": "IONQ option volume is 3x the 20d average — this was positioning, not thesis",
+          "why_it_matters": "the flow tell is unambiguous. call-gamma squeezing isn't news; it's a mechanical move that unwinds in the next two sessions if spot doesn't find a second leg."
         },
         {
           "speaker": "historian",
           "phase": "premise",
           "round": 1,
           "topic_kind": "method",
-          "subject": "is 'IONQ red on green day' a signal, or am i pattern-matching noise",
-          "why_it_matters": "one day is one data point. the historian's job is to ask whether the same shape, the same month, across ten pureplay cycles, has ever actually predicted anything."
+          "subject": "what's the base rate for 'no-news +10% day' in small-cap thematic names at T+30?",
+          "why_it_matters": "one day is one data point. the historian's job is to ask whether the same shape — pureplay rips with no catalyst — has ever predicted anything at our horizon."
         },
         {
           "speaker": "moderator",
           "phase": "premise",
           "round": 1,
-          "text": "the bear and the bull are closest to the chosen frame — bear named the specific tell (shelf on green), bull named the disposition (don't overreact to one tape). flow added the tape shape. historian quietly set the ceiling: one day is one data point.",
+          "text": "flow named the mechanism; historian framed what to do with it; bear gave us the question; macro gave us the regime; bull asked the bigger why. we argue a decomposition.",
           "scorecard": {
-            "percents": { "bull": 18, "bear": 32, "macro": 12, "flow": 20, "historian": 18 },
-            "reasoning": "bear shaped the concrete question; bull set the temperature; flow described the tape; macro and historian framed what this is NOT."
+            "percents": { "bull": 14, "bear": 16, "macro": 14, "flow": 30, "historian": 26 },
+            "reasoning": "flow's gamma-squeeze read was the most concrete lens; historian's base-rate frame is what keeps the debate honest. the other three shaped the edges."
           }
         },
+
         {
           "speaker": "bull",
           "phase": "argument",
           "round": 1,
-          "claim": "IONQ's single-day underperformance is not a thesis-invalidator and should be faded, not respected.",
-          "warrant": "the 10yr position is a multiverse bet — most branches end in ruin, one or two in 50x. EEAO's bagel is exactly this: you don't stop bringing the googly eyes because one branch is ugly. the pricing error today is that the market is trading IONQ like it's a daily-horizon asset; we hold it like it's a decade-horizon asset.",
-          "prediction": "flat",
-          "confidence": 0.55,
-          "rebuttal": "the bear is right that shelves hurt; the bear is wrong that every underperformance is a shelf tell."
+          "claim": "roughly 40% thesis, 30% sector beta, 20% flow squeeze, 10% luck — still a gift, but a partial one.",
+          "warrant": "IONQ's 14% is meaningful even after you strip the 6% QTUM-ETF sector print and the options-unwind premium flow is pointing at. what's left — call it 5-6% — is the market catching up to where the 10yr curve has been pricing quantum for a month. Roosevelt's arena, except the arena is the option chain.",
+          "prediction": "up",
+          "confidence": 0.52,
+          "rebuttal": "flow is right that today's delta is mechanical; wrong that the residual is zero."
         },
         {
           "speaker": "bear",
           "phase": "argument",
           "round": 1,
-          "claim": "red on green is a warning tape; size down, raise dry powder, wait for the shelf or the no-shelf.",
-          "warrant": "martingale thinking — doubling into weakness without new information is how pureplays take you to zero. Thorp's Kelly says position size should scale with edge, not conviction; one red day on a green tape is negative edge, not zero edge. i'd rather hold SGOV and be wrong than be long and right about the decade but wrong about the week.",
+          "claim": "20% thesis, 20% sector, 50% positioning, 10% luck — this is distribution, not accumulation.",
+          "warrant": "unprofitable names running on no news in a risk-on tape is the Thorp / Kelly red flag — edge disappears, size should too. martingale thinking says 'ride it'; Kelly says 'the edge shrunk, cut the bet.' i'd rather hand back 4% friday than lose 12% on a shelf announcement next week.",
           "prediction": "down",
-          "confidence": 0.62,
-          "rebuttal": "the bull's 'decade-horizon' argument is a way to avoid updating from short-horizon data. i don't buy it."
+          "confidence": 0.58,
+          "rebuttal": "bull's 40/30/20/10 is the polite version of 'i want to keep the trade i already have.'"
         },
         {
           "speaker": "macro",
           "phase": "argument",
           "round": 1,
-          "claim": "the macro backdrop is neutral-to-supportive; IONQ's weakness is idiosyncratic, not a regime signal.",
-          "warrant": "Paul Graham's 'cities and ambition' — every city whispers what it rewards. today the tape rewarded liquidity (big tech), not conviction (thematic small). that's not a thesis change; that's a flow description. the binding constraint on the decade bet remains power — and CEG was green today.",
+          "claim": "regime prints like today fade if yields don't cooperate; i'm neutral on IONQ, long CEG.",
+          "warrant": "the tape rewarded risk without rewarding duration — that's a positioning print, not a regime print. Paul Graham's 'cities and ambition' maps here: every regime whispers what it rewards, and today it whispered 'leverage,' not 'thesis.' the binding constraint is still power; CEG got ~2% and the attention stayed on the loud tickers.",
           "prediction": "flat",
-          "confidence": 0.60,
-          "rebuttal": "the bear is conflating 'day's flow' with 'year's edge.'"
+          "confidence": 0.55
         },
         {
           "speaker": "flow",
           "phase": "argument",
           "round": 1,
-          "claim": "retail is distributing; the right read is to let them finish, not to lean into it.",
-          "warrant": "Iverson said practice. flow says tape. the practice here is doing nothing — the tape is telling us retail is unloading on the strength of the index, and we don't want to be the bid across from them while they still have shares to sell. barbecue-sauce adding into weakness is what losers do; the pros watch, wait for the print, and position after the seller is done.",
-          "prediction": "flat",
-          "confidence": 0.58,
-          "rebuttal": "the bull is leaning on time-horizon to avoid acting — i read that as an excuse. the bear is right about size but wrong about direction."
+          "claim": "60-70% of IONQ's move was dealer gamma; the rest is retail seeing green and adding. fade within 48h.",
+          "warrant": "short-dated calls are carrying this. dealers hedging short gamma bought spot all day; if spot doesn't make a new high tomorrow, they sell it back. it's the barbecue-sauce flavor hiding the mechanic — practice, not the shot.",
+          "prediction": "down",
+          "confidence": 0.62,
+          "rebuttal": "bull's 'residual thesis' argument is noise-mining. the residual is the error bar of my estimate, not a signal."
         },
         {
           "speaker": "historian",
           "phase": "argument",
           "round": 1,
-          "claim": "one day of IONQ red on green is 1 observation; the prior says this pattern does not predict T+30 returns.",
-          "warrant": "be curious, not judgmental — Ted Lasso's darts, but also the point of base rates. across the 1999 dot-com cohort, single-day underperformance on an index-up day had no predictive power at T+30 or T+90. the signal, if one exists, lives at T+5 via flow; at our horizon, it's noise. the method is to not trade noise.",
+          "claim": "T+30 mean-reversion on the 'no-news +10%' cohort is statistically flat — don't trade the tail.",
+          "warrant": "across fifteen pureplay cohorts in the 1999-2001 and 2020-2021 windows, no-catalyst +10% days on sub-$5B thematic names showed a T+30 average return of ~-1% with wide dispersion. be curious, not judgmental — we don't know which branch we're on, so we don't bet on the branch.",
           "prediction": "flat",
-          "confidence": 0.68,
-          "rebuttal": "the bear's martingale-ruin framing is correct in spirit but misapplied — we're not doubling down; we're holding."
+          "confidence": 0.68
         },
         {
           "speaker": "moderator",
           "phase": "argument",
           "round": 1,
-          "text": "four flats and a down. the bear is still in the arena; everyone else has walked to the back of the room. round two — can the bear pull one voice over, or does the panel close on flat?"
+          "text": "we're at up / down / down / flat / flat. the bull is the lone 'up,' and his warrant already hedges. flow and historian agree on outcome for different reasons — gamma unwind vs. base-rate mean-reversion. bear is still swinging. the cleanest next move is to ask the bull whether he's willing to concede the mechanical share of today's move."
         },
+
         {
           "speaker": "bull",
           "phase": "argument",
           "round": 2,
-          "claim": "still flat at this horizon — the 10yr is uncorrelated with today's flow.",
-          "warrant": "nothing in the bear's warrant is wrong about size; it's wrong about action. if the shelf comes, the bear's half-cut rule fires mechanically. until then, we're holding the branch that pays the googly eyes.",
+          "claim": "concede — revising to flat. the mechanical share is larger than i estimated; the residual is inside flow's error bar.",
+          "warrant": "flow's option-volume data isn't rebuttable. if 60-70% of today was gamma, my 40% thesis estimate was generous. flat is the honest read at our horizon; the thesis hasn't changed, but today didn't prove it.",
+          "prediction": "flat",
+          "confidence": 0.55
+        },
+        {
+          "speaker": "bear",
+          "phase": "argument",
+          "round": 2,
+          "claim": "accepting flat — distribution thesis survives but is softer without a shelf tell.",
+          "warrant": "the bull's concession collapses my short. without a shelf filing and with the historian's base-rate showing near-zero T+30 drift, 'fade it hard' becomes 'don't add.' i'll stay on shelf-watch.",
+          "prediction": "flat",
+          "confidence": 0.52
+        },
+        {
+          "speaker": "macro",
+          "phase": "argument",
+          "round": 2,
+          "claim": "flat — the macro read hasn't moved.",
+          "warrant": "regime is unchanged; the move was inside the envelope.",
           "prediction": "flat",
           "confidence": 0.58
         },
         {
-          "speaker": "bear",
-          "phase": "argument",
-          "round": 2,
-          "claim": "conceding the horizon argument; shifting to flat with an explicit trim trigger.",
-          "warrant": "the historian's base-rate argument lands. T+30 noise is noise. i'll stay on watch — if an S-3 lands or the stock opens −8% tomorrow, i'm halving without asking anyone. otherwise, flat is the honest read.",
-          "prediction": "flat",
-          "confidence": 0.55,
-          "rebuttal": "historian — fine, you have the base rate. keep the bbq sauce away from flow, though."
-        },
-        {
-          "speaker": "macro",
-          "phase": "argument",
-          "round": 2,
-          "claim": "flat — no regime change to trade off of.",
-          "warrant": "the revolution won't be televised at +1.59% on a tuesday. macro says wait.",
-          "prediction": "flat",
-          "confidence": 0.60
-        },
-        {
           "speaker": "flow",
           "phase": "argument",
           "round": 2,
-          "claim": "flat, with the caveat that i'll be watching the open tape for whether the seller is finished.",
-          "warrant": "if tomorrow opens with a gap and goes, the seller is gone and we can add. if it opens green and fades, the distribution isn't done. today is a flat call; the trade is a read-next-session call.",
+          "claim": "flat — revised from down. if the bull and bear are already out of the trade, there's nobody left to fade.",
+          "warrant": "my 'down' was predicated on a crowded long unwinding. if the panel agrees we're not long the rip, we're not early to fade. iverson's practice point: don't keep shooting because you're hot; the tape decides next session.",
           "prediction": "flat",
-          "confidence": 0.62
+          "confidence": 0.55
         },
         {
           "speaker": "historian",
           "phase": "argument",
           "round": 2,
-          "claim": "flat; base rates hold; the method is the medicine.",
-          "warrant": "we refused to trade noise. that is the entire point of this panel.",
+          "claim": "flat — consensus holds; no trade today.",
+          "warrant": "refusing to trade noise is the whole method.",
           "prediction": "flat",
-          "confidence": 0.70
+          "confidence": 0.72
         },
         {
           "speaker": "moderator",
           "phase": "argument",
           "round": 2,
-          "text": "the five agree. not with enthusiasm — with something closer to discipline. the bear walked the floor; the panel walked with her. agreement on flat means one thing today: no trade. the logbook is clean and that, for round zero, is the whole product."
+          "text": "the bull yielded on the mechanical share; the bear yielded on the shelf; flow yielded on the fade; macro and historian held. five flats. the logbook entry is one line: no trade, and we know why — about 65% of today was not the thesis."
         },
         {
           "speaker": "moderator",
           "phase": "argument",
           "round": 2,
-          "text": "the historian set the ceiling with base rates; the bear converted to flat after the historian's warrant landed. bull and macro held position steadily; flow named the next read without trying to force today.",
+          "text": "flow did the heaviest lifting — the gamma read was the pivot that moved the bull and dissolved the bear's setup. the historian locked it in with base rates. bull earned credit for conceding cleanly; bear shaped the size-down frame; macro held the regime lens steady.",
           "scorecard": {
-            "percents": { "bull": 14, "bear": 20, "macro": 14, "flow": 20, "historian": 32 },
-            "reasoning": "the historian did the heaviest lifting — Thorp + base rates pulled the bear back to flat, which locked consensus. flow earned credit for the actionable next-session read without pretending today was the trade.",
-            "calibration": "these percents are a qualitative estimate of intra-debate influence, not prediction accuracy. signals i weighted: (1) who converted whom — the bear's round-2 move from down→flat is the highest-value event and i credited the historian ~40% of it, macro ~20%, the structural tape argument from flow ~20%, the bull's horizon frame ~20%. (2) rebuttal hits — the bear's rebuttal of the bull landed but didn't change the bull's vote; half credit. (3) confidence shifts — the historian's confidence rose from r1 to r2 (0.68→0.70); a signal of earned authority. (4) reference weight — i weighted references pro-rata with how load-bearing they were to the argument, not mere presence. i normalized by summing raw influence scores and rescaling to 100. this is not a Brier score; agent-weight re-calibration against outcome happens separately, on T+30/90/365 prediction resolution."
+            "percents": { "bull": 12, "bear": 14, "macro": 14, "flow": 32, "historian": 28 },
+            "reasoning": "flow carried the conversion — the gamma-squeeze read was the mechanism the panel ended up agreeing on. the historian's base-rate argument is what kept the final call from being a reflex.",
+            "calibration": "these percents are a qualitative estimate of intra-debate influence, not prediction accuracy. signals i weighted: (1) who converted whom — flow moving the bull from 'up' to 'flat' is the highest-value event and i credited flow ~40% of it, the historian's base-rate argument ~30%, the bull's own honesty in conceding ~20%, the bear's size-down framing ~10%. (2) concession quality — the bull yielded cleanly and specifically (bank 12%); the bear yielded broadly (bank 14%). (3) reference weight — references were pro-rated by load-bearing, not mere mention; the Kelly/martingale frame counted for bear's argument even after she conceded. (4) regime-consistency — macro held a stable frame that didn't move but didn't need to (bank 14%). normalized by summing raw influence scores and rescaling to 100. this is not a Brier score; agent-weight re-calibration against outcome happens separately, on T+30/90/365 prediction resolution."
           }
         }
       ],

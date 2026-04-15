@@ -2474,122 +2474,165 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   .sg-delta { grid-area: delta; text-align: right; }
 }
 
-/* Debate legend — shown at top of today's debate, lists each agent with
-   its color swatch. Moderator rendered in plain charcoal (no swatch). */
+/* Debate legend — click-to-filter chips. Moderator chip is dashed.
+   Active filter lights up; others dim. */
 .debate-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1.25rem;
 }
 .debate-legend-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.25rem 0.65rem;
+  padding: 0.28rem 0.7rem;
   border-radius: 999px;
   font-family: "Menlo", ui-monospace, monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.18em;
+  font-size: 10px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  background: rgba(28, 26, 23, 0.04);
+  background: transparent;
   color: var(--agent-color, #1C1A17);
-  border: 1px solid color-mix(in srgb, var(--agent-color, #1C1A17) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--agent-color, #1C1A17) 28%, transparent);
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 160ms ease, background 160ms ease, transform 160ms ease;
+}
+.debate-legend-chip:hover { opacity: 0.9; }
+.debate-legend-chip.is-active {
+  opacity: 1;
+  background: color-mix(in srgb, var(--agent-color, #1C1A17) 10%, transparent);
+  transform: translateY(-1px);
 }
 .debate-legend-chip .dlc-dot {
-  width: 7px; height: 7px; border-radius: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
   background: var(--agent-color, #1C1A17);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--agent-color, #1C1A17) 50%, transparent);
+}
+.debate-legend-all {
+  color: #1C1A17;
+  border-color: rgba(28, 26, 23, 0.35);
+}
+.debate-legend-all.is-active {
+  background: #1C1A17;
+  color: #F4EFE6;
+  border-color: #1C1A17;
 }
 .debate-legend-moderator {
-  color: #1C1A17;
-  background: transparent;
+  color: #3F382F;
   border-style: dashed;
+  border-color: rgba(28, 26, 23, 0.3);
+}
+.debate-legend-moderator.is-active {
+  background: rgba(28, 26, 23, 0.08);
 }
 
-/* Turn cards — one per agent / moderator utterance */
+/* Turn cards — tighter, cleaner. Agent card = thin left accent only, no
+   heavy borders elsewhere. Role label is a small inline tag. Moderator
+   renders as flowing prose with a subtle left pipe instead of a card. */
 .turn {
-  background: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(28, 26, 23, 0.08);
-  border-radius: 6px;
-  padding: 0.7rem 0.85rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 0.3rem 0 0.3rem 0.9rem;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  position: relative;
 }
-.turn-agent { border-left: 3px solid var(--agent-color, #1C1A17); }
+.turn-agent {
+  border-left: 2px solid var(--agent-color, #1C1A17);
+  padding: 0.25rem 0 0.35rem 0.85rem;
+}
 .turn-moderator {
   background: transparent;
   border: 0;
-  border-top: 1px dashed rgba(28, 26, 23, 0.1);
-  border-bottom: 1px dashed rgba(28, 26, 23, 0.1);
-  border-radius: 0;
-  padding: 0.9rem 0.25rem;
+  padding: 0.35rem 0 0.4rem 0;
+  margin: 0.5rem 0;
+}
+.turn-moderator::before {
+  content: none;
 }
 .turn-role {
+  display: inline-block;
   font-family: "Menlo", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  font-size: 9.5px;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--agent-color, #6B6560);
-  font-weight: 700;
+  color: var(--agent-color, #1C1A17);
+  font-weight: 600;
+  margin-right: 0.5rem;
 }
-.turn-moderator .turn-role { color: #6B6560; font-weight: 400; }
+.turn-moderator .turn-role {
+  color: #8A8278;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  font-size: 9px;
+}
 .turn-kind {
   font-family: "Menlo", ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   color: #8A8278;
   letter-spacing: 0.12em;
+  margin-right: 0.5rem;
 }
 .turn-pred {
+  display: inline-block;
   font-family: "Menlo", ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   padding: 1px 7px;
   border-radius: 999px;
-  font-weight: 700;
+  font-weight: 600;
+  margin-right: 0.35rem;
 }
 .turn-pred-up { background: color-mix(in srgb, #3B7A4A 16%, white); color: #2E5F3B; }
 .turn-pred-down { background: color-mix(in srgb, #8B3A2E 16%, white); color: #6B2A20; }
 .turn-pred-flat { background: color-mix(in srgb, #6B6560 18%, white); color: #3F382F; }
 .turn-conf {
   font-family: "Menlo", ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 9.5px;
   color: #8A8278;
-  margin-left: auto;
+  letter-spacing: 0.08em;
 }
 .turn-claim {
   font-family: var(--font-display), serif;
   font-style: italic;
-  font-size: 0.98rem;
+  font-size: 1rem;
   line-height: 1.4;
   margin: 0.25rem 0 0;
   color: #1C1A17;
 }
 .turn-warrant {
   font-family: var(--font-body), serif;
-  font-size: 0.85rem;
-  line-height: 1.55;
+  font-size: 0.88rem;
+  line-height: 1.6;
   color: #3F382F;
   margin: 0;
 }
 .turn-rebuttal {
-  font-size: 0.8rem;
-  color: #6B6560;
-  margin: 0;
+  font-family: var(--font-body), serif;
+  font-size: 0.78rem;
+  color: #8A8278;
+  margin: 0.15rem 0 0;
   padding-top: 0.25rem;
   border-top: 1px dotted rgba(28, 26, 23, 0.08);
 }
 .turn-prose {
   font-family: var(--font-display), serif;
   font-style: italic;
-  font-size: 1rem;
-  line-height: 1.55;
+  font-size: 1.02rem;
+  line-height: 1.6;
   margin: 0;
   color: #1C1A17;
   max-width: 52rem;
+  padding-left: 0.85rem;
+  border-left: 1px solid rgba(28, 26, 23, 0.2);
 }
+.debate-stream { gap: 1rem; }
+.debate-phase { gap: 1rem; }
 
 /* Phase blocks — premise vs argument rounds */
 .debate-phase {
