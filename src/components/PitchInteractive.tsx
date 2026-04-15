@@ -56,11 +56,11 @@ export default function PitchInteractive() {
         {/* 8-pixel mosaic tile — flood a 1x1 into an 8x8 composite, tile it,
             composite back against the source = chunky pixelation. */}
         <filter id="pitch-pixelate" x="0" y="0" width="1" height="1">
-          <feFlood x="4" y="4" width="1" height="1" />
-          <feComposite width="8" height="8" />
+          <feFlood x="2" y="2" width="1" height="1" />
+          <feComposite width="4" height="4" />
           <feTile result="a" />
           <feComposite in="SourceGraphic" in2="a" operator="in" />
-          <feMorphology operator="dilate" radius="4" />
+          <feMorphology operator="dilate" radius="2" />
         </filter>
       </defs>
     </svg>

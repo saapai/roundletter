@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { logoutPitch } from "./actions";
 import AutoScroll from "@/components/AutoScroll";
 import SlideReveal from "@/components/SlideReveal";
@@ -140,8 +141,10 @@ export default function Deck() {
           <p className="cream-line cream-line-impact"><em>the year only adds a mandate — to train the next person to be as invisible as i have been.</em></p>
         </section>
 
-        {/* 09 — Manifesto + Ask — recomposed for 1+3 fractal */}
+        {/* 09 — Manifesto + Ask — recomposed for 1+3 fractal. Entire slide is
+             a link to the attention easter egg (content above via z-index). */}
         <section className="pitch-slide zone-cream-final pitch-ink-reveal" id="s9">
+          <Link href="/attention" aria-label="attention — easter egg" className="s9-link-overlay" />
           <span className="pitch-page">09 / 10</span>
           <p className="cream-eyebrow">what sep is, when you take the surface away</p>
 

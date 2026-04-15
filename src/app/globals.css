@@ -641,26 +641,27 @@ body.pitch-mode > main {
     inset: 0;
     pointer-events: none;
     z-index: 3;
-    backdrop-filter: url(#pitch-pixelate) contrast(0.92) brightness(1.02);
-    -webkit-backdrop-filter: url(#pitch-pixelate) contrast(0.92) brightness(1.02);
+    backdrop-filter: url(#pitch-pixelate);
+    -webkit-backdrop-filter: url(#pitch-pixelate);
+    /* Default: a soft window sits in the middle (50/50). On hover it follows cursor.
+       Either way the slide is always partially readable — no fully-obscured state. */
     mask-image: radial-gradient(
-      circle 180px at var(--mx, 50%) var(--my, 50%),
+      circle 260px at var(--mx, 50%) var(--my, 50%),
       transparent 0,
-      transparent 70px,
-      black 160px
+      transparent 120px,
+      black 240px
     );
     -webkit-mask-image: radial-gradient(
-      circle 180px at var(--mx, 50%) var(--my, 50%),
+      circle 260px at var(--mx, 50%) var(--my, 50%),
       transparent 0,
-      transparent 70px,
-      black 160px
+      transparent 120px,
+      black 240px
     );
-    transition: opacity 180ms ease;
+    opacity: 0.55;
+    transition: opacity 200ms ease;
   }
-  /* When cursor isn't on the slide, full pixelation (no hole) */
-  .pitch-ink-reveal:not(.is-hovering)::after {
-    mask-image: linear-gradient(black, black);
-    -webkit-mask-image: linear-gradient(black, black);
+  .pitch-ink-reveal.is-hovering::after {
+    opacity: 0.75;
   }
 
   /* Slide 8 — pixelated 8-bit sun as the cursor */
@@ -1238,6 +1239,74 @@ body.pitch-mode > main {
   color: #A67A3A;
   font-weight: 700;
   text-shadow: 0 0 12px color-mix(in srgb, #A67A3A 25%, transparent);
+}
+
+/* /attention easter egg stub */
+.attention-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 40%, color-mix(in srgb, #8B3A2E 6%, transparent) 0%, transparent 55%),
+    #F4EFE6;
+  color: #1C1A17;
+  padding: 4rem clamp(1.5rem, 5vw, 4rem);
+}
+.attention-wrap {
+  max-width: 40rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.attention-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+  margin: 0;
+  text-transform: uppercase;
+}
+.attention-hero {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.15;
+  color: #1C1A17;
+  margin: 0;
+}
+.attention-line {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #6B6560;
+  margin: 0;
+}
+.attention-back {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #8B3A2E;
+  text-decoration: none;
+  margin-top: 1rem;
+  text-transform: uppercase;
+}
+.attention-back:hover { color: #1C1A17; }
+
+/* Slide 9 is a link to the attention easter egg — overlay sits on top of
+   everything in the slide so clicks anywhere navigate. Visually invisible.
+   Sits above the ink-reveal pseudo (z:3) and any content. */
+.pitch-slide.zone-cream-final .s9-link-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  cursor: pointer;
+  text-indent: -9999px;
+  overflow: hidden;
+  background: transparent;
 }
 
 /* Slide 9 ATTENTION emphasis — caps tracked, rust-glow like LOVE on slide 6 */
