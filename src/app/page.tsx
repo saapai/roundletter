@@ -18,6 +18,9 @@ export default function Home() {
   return (
     <>
       <HomePassword />
+      <div className="home-views">
+        <ViewsBadge slugs={ARTICLES} mode="aggregate" label="cumulative reads" />
+      </div>
       {round0 && (
         <article className="article">
           <div className="eyebrow">Round Letter · {round0.frontmatter.round} · {round0.frontmatter.date}</div>

@@ -1558,6 +1558,16 @@ body.pitch-mode > main {
   100% { opacity: 0; transform: translate(-50%, -50%) rotate(calc(var(--i, 0) * 15deg)) translate(0, -60vmax) scale(1.2); }
 }
 
+/* Cumulative views badge at the top of home — big, mono, quiet */
+.home-views {
+  max-width: 44rem;
+  margin: 0 auto 2.25rem;
+  text-align: center;
+}
+.home-views .tabular-nums {
+  font-size: 15px;
+}
+
 /* Home password — 10 single-char inputs side-by-side, one per POLYMARKET
    letter. Sits at the top of the home page. Prefills solved letters from
    localStorage. All-correct fires a one-time home-green celebration. */
