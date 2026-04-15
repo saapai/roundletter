@@ -5,6 +5,7 @@ import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import ReaderMode from "@/components/ReaderMode";
 import TableOfContents from "@/components/TableOfContents";
 import Insignia from "@/components/Insignia";
+import FridayMark from "@/components/FridayMark";
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ReaderMode />
         <TableOfContents />
         <Insignia />
+        <FridayMark />
         <header className="masthead">
           <Link href="/" className="wordmark">aureliex<span className="dot">.</span></Link>
           <div className="tagline">a portfolio kept in public</div>
