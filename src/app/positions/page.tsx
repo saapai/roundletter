@@ -1,6 +1,7 @@
 import { getPortfolio } from "@/lib/data";
 import SolvedLetters from "@/components/SolvedLetters";
 import StockAnalysisGraph from "@/components/StockAnalysisGraph";
+import PortfolioChart from "@/components/PortfolioChart";
 import TodayDebate from "@/components/TodayDebate";
 
 const AGENT_COLOR: Record<string, string> = {
@@ -95,7 +96,22 @@ export default function Positions() {
         </p>
       </section>
 
-      <StockAnalysisGraph />
+      <PortfolioChart
+        holdings={p.holdings.map((h: any) => ({
+          ticker: h.ticker,
+          shares: h.shares,
+          entry_value: h.entry_value,
+        }))}
+      />
+
+      <StockAnalysisGraph
+        holdings={p.holdings.map((h: any) => ({
+          ticker: h.ticker,
+          name: h.name,
+          shares: h.shares,
+          entry_price: h.entry_price,
+        }))}
+      />
 
       <p className="deck">Target weights are panel-consensus; actuals drift until rebalance.</p>
 

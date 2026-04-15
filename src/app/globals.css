@@ -2295,6 +2295,100 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   border-top: 1px dashed rgba(28,26,23,0.08);
 }
 
+/* Portfolio growth chart — nasdaq-quote style, with 1D / 2D / All filters */
+.port-chart {
+  max-width: 58rem;
+  margin: 1.25rem auto 2rem;
+  padding: 1.25rem clamp(1rem, 3vw, 1.75rem);
+  border: 1px solid rgba(28, 26, 23, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.port-chart-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.pch-title { display: flex; flex-direction: column; gap: 0.2rem; flex: 1 1 auto; }
+.pch-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+}
+.pch-sub {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 0.82rem;
+  color: #6B6560;
+  line-height: 1.55;
+  max-width: 40rem;
+}
+.pch-filters {
+  display: flex;
+  gap: 0.3rem;
+  background: rgba(28, 26, 23, 0.05);
+  padding: 3px;
+  border-radius: 999px;
+}
+.pch-filter {
+  background: transparent;
+  border: 0;
+  padding: 0.35rem 0.75rem;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  color: #6B6560;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+.pch-filter:hover { color: #1C1A17; }
+.pch-filter.is-active {
+  background: #1C1A17;
+  color: #F4EFE6;
+}
+.pch-values {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: "Menlo", ui-monospace, monospace;
+  margin-bottom: 0.6rem;
+}
+.pch-value {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: #1C1A17;
+}
+.pch-delta {
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.pch-delta.is-up, .pch-value.is-up { color: #2E5F3B; }
+.pch-delta.is-down, .pch-value.is-down { color: #6B2A20; }
+.pch-delta.is-up { background: color-mix(in srgb, #3B7A4A 12%, white); }
+.pch-delta.is-down { background: color-mix(in srgb, #8B3A2E 12%, white); }
+.pch-svg { display: block; width: 100%; height: auto; max-height: 260px; }
+.pch-empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: #6B6560;
+  font-family: var(--font-body), serif;
+  background: rgba(28, 26, 23, 0.025);
+  border-radius: 8px;
+}
+
+/* Per-position delta color states */
+.sg-delta-up .sg-v { color: #2E5F3B; }
+.sg-delta-down .sg-v { color: #6B2A20; }
+
 /* Stocks title — moved below the bucket grid per the page's new rhythm */
 .stocks-title-footer {
   font-family: var(--font-display), serif;
