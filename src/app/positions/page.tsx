@@ -1,4 +1,5 @@
 import { getPortfolio } from "@/lib/data";
+import SolvedLetters from "@/components/SolvedLetters";
 
 const AGENT_COLOR: Record<string, string> = {
   bull: "var(--anno-bull)",
@@ -122,6 +123,8 @@ export default function Positions() {
           </div>
         </section>
       ))}
+
+      <SolvedLetters />
     </article>
   );
 }
