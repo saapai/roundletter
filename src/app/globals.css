@@ -633,8 +633,9 @@ body.pitch-mode > main {
 
 .pitch-page {
   position: absolute;
-  top: 1.5rem;
-  right: 0;
+  top: clamp(1.5rem, 4vw, 2.5rem);
+  /* matches .pitch-slide horizontal padding — symmetric with left content inset */
+  right: clamp(1.75rem, 6vw, 4.5rem);
   font-size: 10px;
   letter-spacing: 0.22em;
   color: #6E6A62;
@@ -648,9 +649,9 @@ body.pitch-mode > main {
 }
 
 .pitch-title {
-  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-size: clamp(2.5rem, 7vw, 5rem);
   font-weight: 700;
-  line-height: 1.02;
+  line-height: 1.05;
   margin: 0;
   color: #EDE8DC;
   letter-spacing: -0.01em;
