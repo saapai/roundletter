@@ -1,15 +1,14 @@
 #!/usr/bin/env tsx
-// Daily debate runner — picks one ticker from portfolio.json (round-robin by
-// day-of-year), runs the five-agent debate until consensus or max rounds,
-// appends to src/data/debates.json. Intended for GitHub Actions; the Action
-// commits and pushes the updated JSON so Vercel redeploys with fresh state.
+// Daily debate runner — constructs today's context (date + one-line note about
+// the market shape), runs the five-agent + moderator debate to premise + agreement,
+// appends to src/data/debates.json. GitHub Actions commits + pushes the file
+// so Vercel redeploys with the fresh state.
 
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { runDebate, type AgentDef } from "../src/lib/agent-debate";
+import { runDebate } from "../src/lib/agent-debate";
 
 const ROOT = process.cwd();
-const AGENTS_JSON = resolve(ROOT, "src/data/agents.json");
 const PORTFOLIO_JSON = resolve(ROOT, "src/data/portfolio.json");
 const DEBATES_JSON = resolve(ROOT, "src/data/debates.json");
 
@@ -18,16 +17,22 @@ async function readJson<T>(path: string): Promise<T> {
   return JSON.parse(raw) as T;
 }
 
-type Holding = { ticker: string };
-type Portfolio = { holdings: Holding[] };
-type AgentsFile = { agents: AgentDef[] };
+type Portfolio = { baseline_date?: string; holdings: Array<{ ticker: string }> };
 
-function pickTicker(portfolio: Portfolio): string {
-  const holdings = portfolio.holdings ?? [];
-  if (holdings.length === 0) throw new Error("no holdings in portfolio.json");
-  const startOfYear = Date.UTC(new Date().getUTCFullYear(), 0, 0);
-  const day = Math.floor((Date.now() - startOfYear) / 86400000);
-  return holdings[day % holdings.length].ticker;
+function todayISO(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+// Best-effort one-line context for today. If TICKER env set, focus it; else
+// describe the portfolio broadly. When live prices land, replace with
+// computed deltas.
+function buildDayContext(portfolio: Portfolio): string {
+  const tickers = portfolio.holdings.map((h) => h.ticker).join(", ");
+  const forced = process.env.TICKER;
+  if (forced) {
+    return `${todayISO()} — focus: ${forced}. portfolio universe: ${tickers}. live prices pending; reason from first principles and base rates.`;
+  }
+  return `${todayISO()} — universe: ${tickers}. live prices pending; moderator: decide what actually matters today (a specific position, a macro shift, a news event, a methodological question).`;
 }
 
 async function main() {
@@ -35,31 +40,22 @@ async function main() {
     console.error("ANTHROPIC_API_KEY missing");
     process.exit(1);
   }
-
-  const [agentsFile, portfolio, existingRaw] = await Promise.all([
-    readJson<AgentsFile>(AGENTS_JSON),
+  const [portfolio, existingRaw] = await Promise.all([
     readJson<Portfolio>(PORTFOLIO_JSON),
     readFile(DEBATES_JSON, "utf-8").catch(() => '{"debates":[]}'),
   ]);
   const existing = JSON.parse(existingRaw) as { debates?: unknown[] };
-
-  const ticker = process.env.TICKER ?? pickTicker(portfolio);
-  console.log(`running daily debate for ${ticker}`);
-
-  const debate = await runDebate({
-    ticker,
-    agents: agentsFile.agents,
-    horizonDays: 30,
-    maxRounds: 4,
-  });
-
+  const dayContext = buildDayContext(portfolio);
+  console.log(`running daily debate — ${dayContext}`);
+  const debate = await runDebate({ dayContext, maxArgumentRounds: 3 });
   const debates = Array.isArray(existing.debates) ? existing.debates : [];
   debates.push(debate);
   const trimmed = debates.slice(-180);
-
   await writeFile(DEBATES_JSON, JSON.stringify({ debates: trimmed }, null, 2) + "\n", "utf-8");
   console.log(
-    `wrote ${ticker} debate — consensus=${debate.consensus.reached} (${debate.consensus.prediction ?? "split"}) across ${debate.rounds.length / agentsFile.agents.length} rounds`,
+    `wrote debate (topic=${debate.topic.subject} · consensus=${debate.consensus.reached} ${
+      debate.consensus.direction ?? "split"
+    } · ${debate.turns.length} turns)`,
   );
 }
 

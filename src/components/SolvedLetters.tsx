@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { V1_THEMES } from "@/lib/v1data";
 
 // Two-row hangman earned-letters display at the bottom of /positions:
@@ -108,23 +109,29 @@ export default function SolvedLetters() {
   if (!mounted) return null;
   if (globalRows.length === 0 && personalRows.length === 0) return null;
 
+  const allGlobalFound = globalRows.length === 10;
+
   return (
     <section className="solved-letters" aria-hidden="true">
-      {globalRows.length > 0 && (
-        <div className="solved-letters-block">
-          <p className="solved-letters-eyebrow">// what we&rsquo;ve found</p>
-          <div className="solved-letters-row">
-            {globalRows.map((e) => (
-              <span
-                key={`g-${e.slug}`}
-                className="solved-letter"
-                style={{ ["--letter-green" as string]: e.green }}
-              >
-                {e.letter}
-              </span>
-            ))}
+      {allGlobalFound ? (
+        <CompleteReveal />
+      ) : (
+        globalRows.length > 0 && (
+          <div className="solved-letters-block">
+            <p className="solved-letters-eyebrow">// what we&rsquo;ve found</p>
+            <div className="solved-letters-row">
+              {globalRows.map((e) => (
+                <span
+                  key={`g-${e.slug}`}
+                  className="solved-letter"
+                  style={{ ["--letter-green" as string]: e.green }}
+                >
+                  {e.letter}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        )
       )}
 
       {personalRows.length > 0 && (
@@ -144,5 +151,50 @@ export default function SolvedLetters() {
         </div>
       )}
     </section>
+  );
+}
+
+// CompleteReveal — rendered at the bottom of /positions once all 10 letters
+// have been crowd-solved globally. Sharp, techy, market-themed COMING SOON
+// card. Bloomberg-terminal vibes: tabular monospace, box-drawing borders,
+// bid/ask/spread readout, ticker tape. Implicit money/markets language.
+function CompleteReveal() {
+  return (
+    <Link href="/argument" className="complete-reveal" aria-label="polymarket — coming soon">
+      <div className="cr-top">
+        <span className="cr-tkr">TKR · POLYMARKET</span>
+        <span className="cr-status">LISTING · PENDING</span>
+      </div>
+
+      <div className="cr-headline">
+        <span className="cr-eyebrow">// crowd discovery complete · 10/10</span>
+        <div className="cr-coming">
+          <span>COMING</span>
+          <span>SOON</span>
+        </div>
+        <div className="cr-symbol">
+          POLYMARKET
+          <span className="cr-cursor" aria-hidden="true" />
+        </div>
+      </div>
+
+      <div className="cr-grid">
+        <div className="cr-cell"><span className="cr-k">bid</span><span className="cr-v">—</span></div>
+        <div className="cr-cell"><span className="cr-k">ask</span><span className="cr-v">—</span></div>
+        <div className="cr-cell"><span className="cr-k">last</span><span className="cr-v">—</span></div>
+        <div className="cr-cell"><span className="cr-k">open</span><span className="cr-v">—</span></div>
+        <div className="cr-cell"><span className="cr-k">high</span><span className="cr-v">—</span></div>
+        <div className="cr-cell"><span className="cr-k">low</span><span className="cr-v">—</span></div>
+        <div className="cr-cell"><span className="cr-k">open interest</span><span className="cr-v cr-v-up">10 / 10</span></div>
+        <div className="cr-cell"><span className="cr-k">depth</span><span className="cr-v cr-v-up">100%</span></div>
+        <div className="cr-cell"><span className="cr-k">spread</span><span className="cr-v">tightening</span></div>
+      </div>
+
+      <div className="cr-ticker" aria-hidden="true">
+        <span>
+          ── OPEN INTEREST 10/10 ── DEPTH 100% ── SPREAD TIGHTENING ── SETTLEMENT TBD ── MARKET IS MAKING ── METHOD &gt; OUTCOME ── ATTENTION IS PRICED IN ── PICK YOUR REVOLUTION ── CONVICTION ≠ EDGE ── KELLY SAYS SIZE BY EDGE ── BASE RATES HOLD ── THE METHOD IS THE MEDICINE ──
+        </span>
+      </div>
+    </Link>
   );
 }

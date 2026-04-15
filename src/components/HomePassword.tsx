@@ -23,7 +23,29 @@ export default function HomePassword() {
   const [playAnim, setPlayAnim] = useState(false);
   const [flipIndex, setFlipIndex] = useState(-1);
   const [showLink, setShowLink] = useState(false);
+  const [globalSolved, setGlobalSolved] = useState<boolean | null>(null);
+  // Local-only retry mode: user clicked back from /positions (or clicked the
+  // "try again" link on the card). We show the boxes again without changing
+  // global state. Refresh → back to the card (fresh global check fires).
+  const [retryLocal, setRetryLocal] = useState(false);
   const refs = useRef<Array<HTMLInputElement | null>>([]);
+
+  useEffect(() => {
+    // On mount, check global state + detect back/forward navigation. Back
+    // nav from /positions means: let them play again without server effect.
+    try {
+      const entries = performance.getEntriesByType("navigation");
+      const nav = entries[0] as PerformanceNavigationTiming | undefined;
+      if (nav?.type === "back_forward") setRetryLocal(true);
+    } catch {}
+    fetch("/api/polymarket", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j: { solved?: boolean } | null) => {
+        if (j && typeof j.solved === "boolean") setGlobalSolved(j.solved);
+        else setGlobalSolved(false);
+      })
+      .catch(() => setGlobalSolved(false));
+  }, []);
 
   useEffect(() => {
     const full = chars.join("");
@@ -32,12 +54,24 @@ export default function HomePassword() {
       for (let i = 0; i < 10; i++) {
         setTimeout(() => setFlipIndex(i), i * 110);
       }
-      // start the 2K animation once the cascade has begun
       setTimeout(() => setPlayAnim(true), 400);
-      // reveal the green link once the full celebration finishes
       setTimeout(() => setShowLink(true), 3800);
+      // After the animation ends, exit retry mode — the card returns.
+      setTimeout(() => setRetryLocal(false), 3900);
+      // Only hit the server if this is the first global solve. If already
+      // globally solved, retry is a client-only replay — no server write.
+      if (!globalSolved) {
+        fetch("/api/polymarket/solve", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ password: full }),
+          keepalive: true,
+        })
+          .then(() => setGlobalSolved(true))
+          .catch(() => {});
+      }
     }
-  }, [chars, solved]);
+  }, [chars, solved, globalSolved]);
 
   const onCharChange = (i: number, v: string) => {
     const c = v.slice(-1).toUpperCase();
@@ -57,10 +91,17 @@ export default function HomePassword() {
     }
   };
 
-  // After the celebration, swap the grid for the COMING SOON · polymarket
-  // movie-trailer × hackathon-under-construction card. Asymmetric, odd,
-  // green. Links to /positions. Refresh resets back to boxes.
-  if (showLink) {
+  // Globally solved → always show the COMING SOON card. First visitor who
+  // solves it in this session plays the animation first then sees the card.
+  // Subsequent visitors (any device) skip the animation.
+  if (globalSolved === null) {
+    // still checking — render nothing to avoid a flash of boxes
+    return <div className="home-pw" aria-hidden="true" />;
+  }
+  // Card shows when globally solved OR when this visitor just solved locally,
+  // UNLESS they're in retry mode (came back from /positions or clicked the
+  // "try again" link). Refresh clears retryLocal and the card returns.
+  if ((globalSolved || showLink) && !retryLocal) {
     return (
       <div className="home-pw home-pw-global-solved">
         <Link href="/positions" className="coming-soon-trailer" aria-label="polymarket — coming soon">
@@ -92,6 +133,22 @@ export default function HomePassword() {
             <span>· pick your revolution</span>
           </span>
         </Link>
+        <button
+          type="button"
+          className="home-pw-retry"
+          onClick={(e) => {
+            e.preventDefault();
+            // reset local solve state so the boxes come back; global abacus
+            // remains untouched. refresh still shows the card.
+            setRetryLocal(true);
+            setShowLink(false);
+            setSolved(false);
+            setFlipIndex(-1);
+            setChars(Array.from({ length: 10 }, () => ""));
+          }}
+        >
+          · try the riddle again ·
+        </button>
       </div>
     );
   }
