@@ -18,6 +18,7 @@ export async function syncRiddleRound(): Promise<number | null> {
           k.startsWith("v1-seen-") ||
           k.startsWith("crowd-solved-") ||
           k === "polymarket-global-solved-sticky" ||
+          k === "home-polymarket-solved" ||
           k === "home-green-seen",
       );
       lsKeysToWipe.forEach((k) => localStorage.removeItem(k));

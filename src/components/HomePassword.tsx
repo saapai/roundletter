@@ -35,45 +35,25 @@ export default function HomePassword() {
   const refs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
-    // Detect back/forward from /positions → show boxes again; other mounts
-    // always start with empty boxes. Home wordle is stateless across
-    // reloads by design — users retype POLYMARKET every visit.
+    // Home wordle is per-BROWSER, via a simple localStorage sticky. No
+    // global sync for the card — if this browser has ever solved, show
+    // the trailer; otherwise show boxes. Incognito = fresh (no sticky).
+    // An abacus reset wipes the sticky via syncRiddleRound, so round
+    // bumps force a re-solve.
     try {
       const entries = performance.getEntriesByType("navigation");
       const nav = entries[0] as PerformanceNavigationTiming | undefined;
       if (nav?.type === "back_forward") setRetryLocal(true);
     } catch {}
-    syncRiddleRound();
-    // globalSolved stays null intentionally — the card only shows after an
-    // in-session local solve (showLink flips). Refresh resets.
-    setGlobalSolved(false);
-    // Also use a sessionStorage cache for speed (shorter TTL than sticky).
-    try {
-      const raw = sessionStorage.getItem("polymarket-global-cache");
-      if (raw) {
-        const cached = JSON.parse(raw) as { solved: boolean; _savedAt: number };
-        if (cached._savedAt && Date.now() - cached._savedAt < 5 * 60 * 1000) {
-          setGlobalSolved(cached.solved);
-        }
+    (async () => {
+      await syncRiddleRound();
+      try {
+        const sticky = localStorage.getItem("home-polymarket-solved") === "1";
+        setGlobalSolved(sticky);
+      } catch {
+        setGlobalSolved(false);
       }
-    } catch {}
-
-    fetch("/api/polymarket", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j: { solved?: boolean } | null) => {
-        const solved = !!(j && j.solved);
-        setGlobalSolved(solved);
-        try {
-          sessionStorage.setItem(
-            "polymarket-global-cache",
-            JSON.stringify({ solved, _savedAt: Date.now() }),
-          );
-          if (solved) localStorage.setItem("polymarket-global-solved-sticky", "1");
-        } catch {}
-      })
-      .catch(() => {
-        // on network fail, keep whatever optimistic state we had
-      });
+    })();
   }, []);
 
   useEffect(() => {
@@ -87,18 +67,16 @@ export default function HomePassword() {
       setTimeout(() => setShowLink(true), 3800);
       // After the animation ends, exit retry mode — the card returns.
       setTimeout(() => setRetryLocal(false), 3900);
-      // Only hit the server if this is the first global solve. If already
-      // globally solved, retry is a client-only replay — no server write.
-      if (!globalSolved) {
-        // Optionally record the solve to the server for metrics, but don't
-      // rely on it for UI state. Home wordle is per-user-per-session.
+      // Persist per-browser so future visits show the trailer without
+      // re-typing. Incognito / different device = starts fresh.
+      try { localStorage.setItem("home-polymarket-solved", "1"); } catch {}
+      // Optionally record the solve for metrics only — not relied on for UI.
       fetch("/api/polymarket/solve", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ password: full }),
         keepalive: true,
       }).catch(() => {});
-      }
     }
   }, [chars, solved, globalSolved]);
 
