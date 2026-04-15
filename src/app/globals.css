@@ -612,14 +612,16 @@ body.pitch-mode > main {
       #0B0B0D 0%,
       #0E0E10 10%,
       #0E0E10 40%,
-      #131015 45%,
+      #131015 44%,
       #1D1815 50%,
-      #4A3A25 54%,
-      #A88F65 57%,
-      #E4D4A8 59%,
-      #F0E8D6 60%,
-      #F4EFE6 75%,
-      #F2ECDF 92%,
+      #2A2018 58%,
+      #3D2F1F 62%,
+      #6B5032 66%,
+      #A88F65 70%,
+      #C9B287 74%,
+      #E4D4A8 82%,
+      #F0E8D6 90%,
+      #F4EFE6 96%,
       #E8DECA 100%
     );
   min-height: 100vh;
@@ -635,33 +637,34 @@ body.pitch-mode > main {
      reading window. Overlay sits above content, backdrop-filter pixelates
      what's behind it, radial mask hides the overlay near cursor. */
   .pitch-ink-reveal { position: relative; }
+  /* Fog: soft blur + a 2px dot-grid texture (pixelated feel without SVG filter).
+     Single overlay, hardware-accelerated blur, mask carves a sharp reading
+     window at the cursor. rAF batches the updates. */
   .pitch-ink-reveal::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 3;
-    backdrop-filter: url(#pitch-pixelate);
-    -webkit-backdrop-filter: url(#pitch-pixelate);
-    /* Default: a soft window sits in the middle (50/50). On hover it follows cursor.
-       Either way the slide is always partially readable — no fully-obscured state. */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    background-image:
+      radial-gradient(circle 0.6px at 1px 1px, rgba(28,26,23,0.22) 50%, transparent 100%);
+    background-size: 3px 3px;
     mask-image: radial-gradient(
-      circle 260px at var(--mx, 50%) var(--my, 50%),
+      circle 280px at var(--mx, 50%) var(--my, 50%),
       transparent 0,
-      transparent 120px,
-      black 240px
+      transparent 140px,
+      black 260px
     );
     -webkit-mask-image: radial-gradient(
-      circle 260px at var(--mx, 50%) var(--my, 50%),
+      circle 280px at var(--mx, 50%) var(--my, 50%),
       transparent 0,
-      transparent 120px,
-      black 240px
+      transparent 140px,
+      black 260px
     );
-    opacity: 0.55;
-    transition: opacity 200ms ease;
-  }
-  .pitch-ink-reveal.is-hovering::after {
-    opacity: 0.75;
+    will-change: mask-image;
+    opacity: 0.85;
   }
 
   /* Slide 8 — pixelated 8-bit sun as the cursor */
@@ -789,6 +792,36 @@ body.pitch-mode > main {
 .pitch-slide#s1 {
   min-height: 100vh;
   justify-content: center;
+}
+/* A soft Shrek-1 moon in the upper-right, layered over the starfield.
+   Composite = outer halo (amber bloom) + body (cream→amber radial) + two
+   faint craters. Stars behind still glow through the halo's low-alpha edge. */
+.pitch-slide#s1::before {
+  content: "";
+  position: absolute;
+  top: clamp(3rem, 8vh, 8rem);
+  right: clamp(3rem, 8vw, 10rem);
+  width: clamp(150px, 22vw, 260px);
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    /* craters (sit on top of body, subtle) */
+    radial-gradient(circle 14px at 38% 42%, rgba(180, 150, 110, 0.28) 0%, transparent 70%),
+    radial-gradient(circle 10px at 62% 58%, rgba(180, 150, 110, 0.22) 0%, transparent 70%),
+    radial-gradient(circle 7px at 48% 65%, rgba(180, 150, 110, 0.20) 0%, transparent 70%),
+    /* moon body: bright cream core → warm amber edge → soft halo */
+    radial-gradient(
+      circle at 50% 50%,
+      #F5EAD0 0%,
+      #F0DCA8 35%,
+      #E8B06C 56%,
+      color-mix(in srgb, #E8B06C 35%, transparent) 62%,
+      color-mix(in srgb, #E8B06C 14%, transparent) 75%,
+      color-mix(in srgb, #E8B06C 4%, transparent) 90%,
+      transparent 100%
+    );
+  filter: drop-shadow(0 0 28px color-mix(in srgb, #E8B06C 22%, transparent));
 }
 /* Slide 6 (pivot) needs enough height for the mono→serif internal split to breathe */
 .pitch-slide#s6 {
@@ -1077,7 +1110,7 @@ body.pitch-mode > main {
 
 .pitch-slide.zone-pivot .pivot-bottom {
   font-family: var(--font-display), serif;
-  color: #1C1A17;
+  color: #E8DECA;
   margin-top: auto;
   padding-top: 1.5rem;
 }
@@ -1088,7 +1121,7 @@ body.pitch-mode > main {
   font-size: clamp(2rem, 4.5vw, 3.2rem);
   line-height: 1.15;
   margin: 0 0 0.75rem;
-  color: #1C1A17;
+  color: #F0E4C8;
   letter-spacing: -0.01em;
 }
 .pitch-slide.zone-pivot .serif-line {
@@ -1096,15 +1129,15 @@ body.pitch-mode > main {
   font-size: clamp(1.1rem, 1.9vw, 1.5rem);
   line-height: 1.4;
   margin: 0.35rem 0;
-  color: #1C1A17;
+  color: #E8DECA;
 }
-.pitch-slide.zone-pivot .serif-line.muted { color: #3F382F; }
-.pitch-slide.zone-pivot .serif-line.accent { color: #8B3A2E; }
+.pitch-slide.zone-pivot .serif-line.muted { color: #B8A98A; }
+.pitch-slide.zone-pivot .serif-line.accent { color: #E5A764; }
 .pitch-slide.zone-pivot .serif-comment {
   font-family: var(--font-body), serif;
   font-style: italic;
   font-size: 0.85rem;
-  color: #6B6560;
+  color: #A89A80;
   margin-top: 0.75rem;
 }
 
@@ -1113,8 +1146,8 @@ body.pitch-mode > main {
   font-style: normal;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: #8B3A2E;
-  text-shadow: 0 0 14px color-mix(in srgb, #8B3A2E 26%, transparent);
+  color: #E8B06C;
+  text-shadow: 0 0 16px color-mix(in srgb, #E8B06C 42%, transparent);
 }
 
 /* Zone 4 (warm-cream) — slide 7, serif in, mono-callback markers — less yellow, more paper */
@@ -1241,6 +1274,314 @@ body.pitch-mode > main {
   text-shadow: 0 0 12px color-mix(in srgb, #A67A3A 25%, transparent);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Slide 9 egg canvas + v1.X letter pages + home password
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Slide 9 word-level hyperlinks. The big/colorful/spiky words are wrapped in
+   Next Links to the /v1/{n} POLYMARKET pages. Base styling inherits from the
+   span they wrap (ATTENTION, love, empathy, polymath, dye, etc) — cursor
+   changes, no underline by default, a hover beat gives feedback. */
+.pitch-slide.zone-cream-final .m2-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  transition: filter 160ms ease, letter-spacing 160ms ease;
+}
+.pitch-slide.zone-cream-final .m2-link:hover {
+  filter: brightness(1.15);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+/* For un-spanned linked words like "revolution", "method", "year", "train" —
+   give them a subtle rust hint so they read as interactive. */
+.pitch-slide.zone-cream-final .m2-link:not(:has(span)) {
+  color: #8B3A2E;
+  font-weight: 600;
+}
+/* Quieter variant for comment-level/secondary words like "post". Just hoverable,
+   minimal visual change by default — rewards close reading. */
+.pitch-slide.zone-cream-final .m2-link.m2-link-subtle {
+  color: inherit;
+  font-weight: inherit;
+  border-bottom: 1px dotted rgba(139,58,46,0.3);
+}
+.pitch-slide.zone-cream-final .m2-link.m2-link-subtle:hover {
+  color: #8B3A2E;
+  border-bottom-color: #8B3A2E;
+}
+/* Method link inside the triad — amber-tinted to differentiate from t-empathy */
+.pitch-slide.zone-cream-final .m2-method-link {
+  color: #A67A3A;
+  font-weight: 600;
+  text-shadow: 0 0 10px color-mix(in srgb, #A67A3A 20%, transparent);
+}
+
+/* /v1/[n] letter pages — each themed in its page's --v1-green. Prominent
+   storybook first letter, short body, single-letter case-sensitive input. */
+.v1-root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 50% 40%, color-mix(in srgb, var(--v1-green, #5E9058) 7%, transparent) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 85%, color-mix(in srgb, var(--v1-green, #5E9058) 5%, transparent) 0%, transparent 60%),
+    #F4EFE6;
+  color: #1C1A17;
+  padding: 4rem clamp(1.5rem, 5vw, 4rem);
+  font-family: var(--font-body), serif;
+}
+.v1-wrap {
+  max-width: 44rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  text-align: center;
+}
+.v1-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+  margin: 0;
+}
+.v1-hero-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.05em;
+}
+.v1-dropcap {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(5rem, 14vw, 10rem);
+  line-height: 0.9;
+  color: var(--v1-green, #5E9058);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--v1-green, #5E9058) 22%, transparent);
+  letter-spacing: -0.04em;
+}
+.v1-hero-word {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  color: #1C1A17;
+  letter-spacing: -0.01em;
+}
+.v1-body {
+  font-family: var(--font-body), serif;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.7;
+  color: #2A231D;
+  max-width: 36rem;
+  margin: 0;
+}
+.v1-rhyme {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1rem, 1.45vw, 1.2rem);
+  color: #6B6560;
+  margin: 0;
+}
+.v1-rule {
+  width: 2.5rem;
+  height: 1px;
+  background: color-mix(in srgb, var(--v1-green, #5E9058) 60%, transparent);
+  margin: 1rem auto;
+  border: 0;
+}
+.v1-hint {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  color: #8A8278;
+  text-transform: lowercase;
+  margin: 0;
+}
+.v1-nav {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.v1-back { color: var(--v1-green, #5E9058); text-decoration: none; }
+.v1-back:hover { color: #1C1A17; }
+.v1-dot { color: #8A8278; }
+
+/* Letter input + solved-state */
+.letter-input-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+}
+.letter-input-label {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #8A8278;
+  text-transform: lowercase;
+}
+.letter-input {
+  width: 4.2rem;
+  height: 4.2rem;
+  text-align: center;
+  font-family: var(--font-display), serif;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #1C1A17;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1.5px solid rgba(28, 26, 23, 0.2);
+  border-radius: 6px;
+  outline: none;
+  caret-color: var(--v1-green, #5E9058);
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+}
+.letter-input:focus {
+  border-color: var(--v1-green, #5E9058);
+  background: rgba(255, 255, 255, 0.75);
+}
+.letter-input-wrap.is-solved .letter-input {
+  color: var(--v1-green, #5E9058);
+  border-color: var(--v1-green, #5E9058);
+  background: color-mix(in srgb, var(--v1-green, #5E9058) 10%, white);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--v1-green, #5E9058) 30%, transparent);
+}
+.letter-input-wrap.is-shake .letter-input {
+  animation: letter-shake 400ms ease;
+  border-color: #8B3A2E;
+}
+@keyframes letter-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* One-shot green celebration — goal/FIFA/2K/life energy, abstracted.
+   Ring burst + flood + pixel sparkles in the page's themed green. Plays
+   only on first-time solve (localStorage-gated); after dismissal, the
+   static green-state of the input remains forever. */
+.green-anim {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99;
+  overflow: hidden;
+  animation: green-root-fade 2600ms ease forwards;
+}
+@keyframes green-root-fade {
+  0% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.green-anim-ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid var(--v1-green, #5E9058);
+  transform: translate(-50%, -50%);
+  animation: green-ring 1600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  box-shadow: 0 0 40px color-mix(in srgb, var(--v1-green, #5E9058) 60%, transparent);
+}
+@keyframes green-ring {
+  0%   { width: 20px; height: 20px; opacity: 1; border-width: 3px; }
+  60%  { opacity: 0.8; }
+  100% { width: 220vmax; height: 220vmax; opacity: 0; border-width: 1px; }
+}
+.green-anim-flood {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--v1-green, #5E9058) 40%, transparent) 0%,
+    color-mix(in srgb, var(--v1-green, #5E9058) 18%, transparent) 35%,
+    transparent 70%
+  );
+  opacity: 0;
+  animation: green-flood 2200ms ease forwards;
+}
+@keyframes green-flood {
+  0%   { opacity: 0; }
+  25%  { opacity: 1; }
+  70%  { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+.green-anim-sparkles {
+  position: absolute;
+  inset: 0;
+}
+.green-anim-sparkles span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--v1-green, #5E9058);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--v1-green, #5E9058) 70%, transparent);
+  animation: green-sparkle 2000ms ease-out forwards;
+  transform: translate(-50%, -50%)
+    rotate(calc(var(--i, 0) * 15deg))
+    translate(0, -40px);
+  opacity: 0;
+}
+@keyframes green-sparkle {
+  0%   { opacity: 0; transform: translate(-50%, -50%) rotate(calc(var(--i, 0) * 15deg)) translate(0, -40px) scale(0.3); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) rotate(calc(var(--i, 0) * 15deg)) translate(0, -60vmax) scale(1.2); }
+}
+
+/* Home password + home green animation */
+.home-password {
+  margin: 2.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 22rem;
+}
+.home-password label {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #8A8278;
+  text-transform: lowercase;
+}
+.home-password input {
+  width: 100%;
+  padding: 0.6rem 0.9rem;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  text-align: center;
+  color: #1C1A17;
+  background: transparent;
+  border: 1px solid rgba(28, 26, 23, 0.15);
+  border-radius: 4px;
+  outline: none;
+  caret-color: #3B7A4A;
+}
+.home-password input:focus { border-color: #3B7A4A; }
+.home-password.is-solved input {
+  color: #3B7A4A;
+  border-color: #3B7A4A;
+  background: color-mix(in srgb, #3B7A4A 6%, transparent);
+}
+
 /* /attention easter egg stub */
 .attention-root {
   min-height: 100vh;
@@ -1340,7 +1681,36 @@ body.pitch-mode > main {
   line-height: 1.15;
   margin: 0.35rem 0;
   text-align: center;
-  color: #1C1A17;
+}
+/* Shrunk variant — for the legacy-expanded slide 8 where compactness
+   carries the emotional weight instead of scale */
+.pitch-slide.zone-cream .cream-hero.hero-small {
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  line-height: 1.3;
+  margin: 0.25rem 0;
+}
+/* Legacy expansion — the inheritance lines. Ladder of size from list to
+   landing, so "that's legacy." is the smallest-but-rust beat. */
+.pitch-slide.zone-cream .cream-legacy {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1rem, 1.75vw, 1.3rem);
+  line-height: 1.5;
+  text-align: center;
+  color: #3F382F;
+  max-width: 42rem;
+  margin: 0.5rem auto 0.25rem;
+}
+.pitch-slide.zone-cream .cream-legacy-impact {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.95vw, 1.5rem);
+  font-weight: 600;
+  text-align: center;
+  color: #8B3A2E;
+  margin: 0.75rem auto 0;
+  letter-spacing: -0.005em;
+  text-shadow: 0 0 14px color-mix(in srgb, #8B3A2E 18%, transparent);
 }
 .pitch-slide.zone-cream .cream-hero.accent { color: #8B3A2E; }
 .pitch-slide.zone-cream .cream-rule {

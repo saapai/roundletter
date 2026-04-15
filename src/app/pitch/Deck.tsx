@@ -3,6 +3,7 @@ import { logoutPitch } from "./actions";
 import AutoScroll from "@/components/AutoScroll";
 import SlideReveal from "@/components/SlideReveal";
 import PitchInteractive from "@/components/PitchInteractive";
+import MetaEgg from "@/components/MetaEgg";
 
 export default function Deck() {
   return (
@@ -11,6 +12,7 @@ export default function Deck() {
       <AutoScroll />
       <SlideReveal />
       <PitchInteractive />
+      <MetaEgg />
       <div className="pitch-deck">
 
         {/* 01 — Title · zone-dark */}
@@ -66,7 +68,7 @@ export default function Deck() {
           </table>
           <div className="pitch-rule pitch-rule-muted" />
           <p className="pitch-line">résumés lie. commit counts don't.</p>
-          <p className="pitch-comment accent">// ball don't lie.</p>
+          <p className="pitch-comment accent">// but ball don't lie.</p>
         </section>
 
         {/* 05 — Punchline · zone-warm-dark (synthesis: one thing — and the warming starts) */}
@@ -76,7 +78,7 @@ export default function Deck() {
           <p className="pitch-hero">they are one thing —</p>
           <p className="pitch-hero accent">sep's infrastructure.</p>
           <div className="pitch-rule pitch-rule-muted" />
-          <p className="pitch-comment">// one person. three rushes. quietly.</p>
+          <p className="pitch-comment">// one person. three rushes. one sms bot. one imessage bot. and a lot more failed experiments. quietly. but inexplicably.</p>
         </section>
 
         {/* 06 — Cities and Ambition · zone-pivot (gradient + mixed type) */}
@@ -127,24 +129,24 @@ export default function Deck() {
           </ol>
         </section>
 
-        {/* 08 — Reframe · zone-cream (the Roosevelt inversion named out loud) */}
+        {/* 08 — Reframe · zone-cream. Shrunk duo hierarchy + legacy expansion:
+             past-tense arc → present-tense resolution → the inheritance. */}
         <section className="pitch-slide zone-cream pitch-sun-cursor" id="s8">
           <span className="pitch-page">08 / 10</span>
           <p className="cream-eyebrow">on not making this about me</p>
-          <h2 className="cream-hero"><em>the presidency is not the product of my labor.</em></h2>
-          <h2 className="cream-hero accent"><em>the tooling is. it already exists.</em></h2>
-
-          <p className="cream-bridge"><em>i wanted the arena. then i built it. now i want the year to give it away.</em></p>
+          <h2 className="cream-hero hero-small"><em>i wanted the arena. so i built it.</em></h2>
+          <h2 className="cream-hero hero-small accent"><em>now i want the year to give it away.</em></h2>
 
           <div className="cream-rule" />
-          <p className="cream-line"><em>i'll maintain the tools whether you elect me or not.</em></p>
-          <p className="cream-line cream-line-impact"><em>the year only adds a mandate — to train the next person to be as invisible as i have been.</em></p>
+
+          <p className="cream-legacy"><em>to the polymaths of sep. of ucla. of the world. of all future generations.</em></p>
+          <p className="cream-legacy-impact"><em>that&rsquo;s legacy.</em></p>
         </section>
 
-        {/* 09 — Manifesto + Ask — recomposed for 1+3 fractal. Entire slide is
-             a link to the attention easter egg (content above via z-index). */}
+        {/* 09 — Manifesto + Ask. Spiky/colorful words are links to the
+             POLYMARKET /v1/{n} pages — the more visually prominent a word,
+             the more it earns being a clickable anchor. */}
         <section className="pitch-slide zone-cream-final pitch-ink-reveal" id="s9">
-          <Link href="/attention" aria-label="attention — easter egg" className="s9-link-overlay" />
           <span className="pitch-page">09 / 10</span>
           <p className="cream-eyebrow">what sep is, when you take the surface away</p>
 
@@ -154,7 +156,7 @@ export default function Deck() {
             <div className="m2-hero">
               <p className="m2-hero-line muted"><em>sep is not a tech frat.</em></p>
               <p className="m2-hero-line faint"><em>startups are the surface.</em></p>
-              <p className="m2-hero-line accent"><em>but <span className="m2-attention">ATTENTION</span> is what matters the most.</em></p>
+              <p className="m2-hero-line accent"><em>but <Link href="/v1/6" className="m2-link"><span className="m2-attention">ATTENTION</span></Link> is what matters the most.</em></p>
             </div>
 
             <div className="m2-orn">❦</div>
@@ -162,17 +164,17 @@ export default function Deck() {
             {/* Three beats */}
             <div className="m2-beats">
               <div className="m2-beat">
-                <p className="m2-beat-main"><em>every revolution needs its counterculture. pick your revolution and pick your counterculture.</em></p>
-                <p className="m2-beat-sub"><em>the revolution will not be televised. this letter is not a post.</em></p>
+                <p className="m2-beat-main"><em>every <Link href="/v1/7" className="m2-link">revolution</Link> needs its counterculture. pick your revolution and pick your counterculture.</em></p>
+                <p className="m2-beat-sub"><em>the revolution will not be televised. this letter is not a <Link href="/v1/2" className="m2-link m2-link-subtle">post</Link>.</em></p>
               </div>
 
               <div className="m2-beat">
                 <p className="m2-beat-main"><em>dye stains what it touches. <span className="dye-poison">poison vanishes into it.</span></em></p>
-                <p className="m2-beat-sub accent"><em>we choose <span className="dye-word">dye</span>.</em></p>
+                <p className="m2-beat-sub accent"><em>we choose <Link href="/v1/8" className="m2-link"><span className="dye-word">dye</span></Link>.</em></p>
               </div>
 
               <div className="m2-beat">
-                <p className="m2-beat-main triad"><em><span className="t-love">love</span> is the motive. <span className="t-empathy">empathy</span> is the method. <span className="t-polymath">polymath</span> is the proof.</em></p>
+                <p className="m2-beat-main triad"><em><Link href="/v1/3" className="m2-link"><span className="t-love">love</span></Link> is the motive. <Link href="/v1/9" className="m2-link"><span className="t-empathy">empathy</span></Link> is the <Link href="/v1/5" className="m2-link m2-method-link">method</Link>. <Link href="/v1/1" className="m2-link"><span className="t-polymath">polymath</span></Link> is the proof.</em></p>
                 <p className="m2-beat-sub"><em>people doing the hard, weird thing — even when the city whispers otherwise.</em></p>
               </div>
             </div>
@@ -186,7 +188,7 @@ export default function Deck() {
 
             {/* The ask */}
             <div className="m2-ask">
-              <p className="m2-ask-line accent"><em>i am asking for the year where i train someone else to.</em></p>
+              <p className="m2-ask-line accent"><em>i am asking for the <Link href="/v1/4" className="m2-link">year</Link> where i <Link href="/v1/10" className="m2-link">train</Link> someone else to.</em></p>
             </div>
 
           </div>
