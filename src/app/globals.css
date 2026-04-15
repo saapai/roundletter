@@ -1307,6 +1307,48 @@ body.pitch-mode > main {
    Slide 9 egg canvas + v1.X letter pages + home password
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* Fullscreen toggle — top-right corner of the pitch deck, mirrors the PLAY
+   button's visual weight in the bottom-left. Uses the browser Fullscreen
+   API so saapai can hide tabs / URL bar and present as pure canvas. */
+.pitch-fullscreen-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 50;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(22, 17, 12, 0.72);
+  color: #EDE8DC;
+  border: 1px solid rgba(237, 232, 220, 0.18);
+  border-radius: 999px;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+.pitch-fullscreen-btn:hover {
+  background: rgba(22, 17, 12, 0.9);
+  color: #E8B06C;
+  border-color: rgba(232, 176, 108, 0.5);
+}
+.pitch-fullscreen-btn svg {
+  display: block;
+}
+/* On the late-deck cream zones the button needs the inverse treatment
+   so it reads against the light background */
+body:has(.pitch-slide.zone-cream-final.in-view, .pitch-slide.zone-aurora.in-view) .pitch-fullscreen-btn,
+body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) .pitch-fullscreen-btn {
+  background: rgba(244, 239, 230, 0.75);
+  color: #1C1A17;
+  border-color: rgba(28, 26, 23, 0.18);
+}
+
 /* Slide 9 word-level hyperlinks. The big/colorful/spiky words are wrapped in
    Next Links to the /v1/{n} POLYMARKET pages. Base styling inherits from the
    span they wrap (ATTENTION, love, empathy, polymath, dye, etc) — cursor

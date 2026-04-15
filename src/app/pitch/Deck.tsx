@@ -4,6 +4,7 @@ import AutoScroll from "@/components/AutoScroll";
 import SlideReveal from "@/components/SlideReveal";
 import PitchInteractive from "@/components/PitchInteractive";
 import MetaEgg from "@/components/MetaEgg";
+import FullscreenToggle from "@/components/FullscreenToggle";
 
 export default function Deck() {
   return (
@@ -13,6 +14,7 @@ export default function Deck() {
       <SlideReveal />
       <PitchInteractive />
       <MetaEgg />
+      <FullscreenToggle />
       <div className="pitch-deck">
 
         {/* 01 — Title · zone-dark */}
