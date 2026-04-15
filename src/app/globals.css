@@ -1695,28 +1695,81 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   100% { transform: rotateX(0deg);   background: #3B7A4A; color: #F4EFE6; border-color: #3B7A4A; box-shadow: 0 0 20px color-mix(in srgb, #3B7A4A 38%, transparent); text-shadow: 0 0 12px rgba(255,255,255,0.4); }
 }
 
-/* Permanent green link — what everyone sees after the first person solves */
+/* COMING SOON · polymarket — post-solve payoff card. Replaces the grid.
+   Mono tracked eyebrow over serif italic word, deep green with ambient
+   halo behind. Clicking routes to /positions. */
 .home-pw-global-solved { gap: 1rem; }
-.home-pw-green-link {
-  font-family: "Menlo", ui-monospace, monospace;
-  font-weight: 700;
-  font-size: clamp(1.8rem, 4.5vw, 2.8rem);
-  letter-spacing: 0.18em;
-  color: #3B7A4A;
+.home-pw-coming-soon {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 1.4rem 2.25rem 1.3rem;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, #3B7A4A 45%, transparent);
+  background:
+    radial-gradient(ellipse at 50% 30%, color-mix(in srgb, #5E9E4B 14%, transparent) 0%, transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, #3B7A4A 8%, white) 0%, color-mix(in srgb, #3B7A4A 4%, white) 100%);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #3B7A4A 12%, transparent) inset,
+    0 8px 32px color-mix(in srgb, #3B7A4A 22%, transparent),
+    0 2px 10px color-mix(in srgb, #3B7A4A 14%, transparent);
   text-decoration: none;
-  padding: 0.5rem 1.25rem;
-  border: 2px solid #3B7A4A;
-  border-radius: 999px;
-  background: color-mix(in srgb, #3B7A4A 8%, white);
-  text-shadow:
-    0 0 16px color-mix(in srgb, #3B7A4A 38%, transparent),
-    0 0 32px color-mix(in srgb, #3B7A4A 18%, transparent);
-  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms ease, color 200ms ease;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
 }
-.home-pw-green-link:hover {
-  transform: translateY(-2px);
-  background: color-mix(in srgb, #3B7A4A 16%, white);
-  color: #2E5F3B;
+.home-pw-coming-soon:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, #3B7A4A 20%, transparent) inset,
+    0 14px 42px color-mix(in srgb, #3B7A4A 32%, transparent),
+    0 4px 14px color-mix(in srgb, #3B7A4A 20%, transparent);
+}
+.home-pw-coming-soon .cs-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #3B7A4A;
+  opacity: 0.85;
+  position: relative;
+  z-index: 1;
+}
+.home-pw-coming-soon .cs-word {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+  background: linear-gradient(180deg, #5E9E4B 0%, #3B7A4A 55%, #2E5F3B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 24px color-mix(in srgb, #3B7A4A 42%, transparent);
+  position: relative;
+  z-index: 1;
+}
+/* Slow-breathing halo behind the card — ambient glow that feels alive */
+.home-pw-coming-soon .cs-glow {
+  position: absolute;
+  inset: -30%;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    color-mix(in srgb, #5E9E4B 22%, transparent) 0%,
+    color-mix(in srgb, #3B7A4A 10%, transparent) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  animation: cs-breathe 3600ms ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes cs-breathe {
+  0%, 100% { opacity: 0.65; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.05); }
 }
 @media (max-width: 520px) {
   .home-pw-grid { gap: 0.3rem; max-width: none; }

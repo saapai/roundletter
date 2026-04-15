@@ -57,13 +57,15 @@ export default function HomePassword() {
     }
   };
 
-  // After the celebration, swap the grid for a permanent green link for this
-  // session. Refresh the page and the boxes come back.
+  // After the celebration, swap the grid for the COMING SOON · polymarket
+  // payoff card. Links to /positions. Refresh resets back to boxes.
   if (showLink) {
     return (
       <div className="home-pw home-pw-global-solved">
-        <Link href="/positions" className="home-pw-green-link">
-          POLYMARKET
+        <Link href="/positions" className="home-pw-coming-soon" aria-label="polymarket — coming soon">
+          <span className="cs-eyebrow">coming soon</span>
+          <span className="cs-word">polymarket</span>
+          <span className="cs-glow" aria-hidden="true" />
         </Link>
       </div>
     );
