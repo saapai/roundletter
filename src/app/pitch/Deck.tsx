@@ -208,7 +208,10 @@ export default function Deck() {
             <div className="love-rule" />
 
             <p className="aurora-line"><em>let's cut through the bullshit.</em></p>
-            <p className="aurora-mid"><em>pick your revolution and pick your counterculture.</em></p>
+            <p className="aurora-mid aurora-mid-split">
+              <span><em>pick your revolution.</em></span>
+              <span><em>pick your counterculture.</em></span>
+            </p>
             <p className="aurora-tag"><em>together.</em></p>
           </div>
 
