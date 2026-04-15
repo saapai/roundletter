@@ -774,11 +774,10 @@ body.pitch-mode > main {
 }
 
 .pitch-slide {
-  /* Content-height slides with generous vertical padding — no more 100vh frames
-     and no dead space when content is short. The deck flows like a page; zone
-     transitions happen at content boundaries, not at viewport boundaries. */
-  padding-top: clamp(6rem, 14vh, 12rem);
-  padding-bottom: clamp(6rem, 14vh, 12rem);
+  /* Content-height slides with modest vertical padding — the deck flows like
+     a page, and short slides don't leave cavernous gaps before the next. */
+  padding-top: clamp(2.5rem, 6vh, 5rem);
+  padding-bottom: clamp(2.5rem, 6vh, 5rem);
   padding-left: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
   padding-right: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
   display: flex;
@@ -793,35 +792,31 @@ body.pitch-mode > main {
   min-height: 100vh;
   justify-content: center;
 }
-/* A soft Shrek-1 moon in the upper-right, layered over the starfield.
-   Composite = outer halo (amber bloom) + body (cream→amber radial) + two
-   faint craters. Stars behind still glow through the halo's low-alpha edge. */
+/* Four-pointed sparkle (Hubble / anime-twinkle shape) in the upper-right.
+   More abstract than a round moon. Composite = soft amber halo behind +
+   SVG sparkle path in the cream→amber palette. */
 .pitch-slide#s1::before {
   content: "";
   position: absolute;
-  top: clamp(3rem, 8vh, 8rem);
-  right: clamp(3rem, 8vw, 10rem);
-  width: clamp(150px, 22vw, 260px);
+  top: clamp(2.5rem, 6vh, 6rem);
+  right: clamp(2.5rem, 7vw, 8rem);
+  width: clamp(90px, 14vw, 170px);
   aspect-ratio: 1 / 1;
   pointer-events: none;
   z-index: 0;
   background:
-    /* craters (sit on top of body, subtle) */
-    radial-gradient(circle 14px at 38% 42%, rgba(180, 150, 110, 0.28) 0%, transparent 70%),
-    radial-gradient(circle 10px at 62% 58%, rgba(180, 150, 110, 0.22) 0%, transparent 70%),
-    radial-gradient(circle 7px at 48% 65%, rgba(180, 150, 110, 0.20) 0%, transparent 70%),
-    /* moon body: bright cream core → warm amber edge → soft halo */
+    /* halo: soft amber bloom, circular, fades out */
     radial-gradient(
       circle at 50% 50%,
-      #F5EAD0 0%,
-      #F0DCA8 35%,
-      #E8B06C 56%,
-      color-mix(in srgb, #E8B06C 35%, transparent) 62%,
-      color-mix(in srgb, #E8B06C 14%, transparent) 75%,
-      color-mix(in srgb, #E8B06C 4%, transparent) 90%,
-      transparent 100%
-    );
-  filter: drop-shadow(0 0 28px color-mix(in srgb, #E8B06C 22%, transparent));
+      color-mix(in srgb, #E8B06C 22%, transparent) 0%,
+      color-mix(in srgb, #E8B06C 10%, transparent) 30%,
+      color-mix(in srgb, #E8B06C 4%, transparent) 55%,
+      transparent 80%
+    ),
+    /* 4-pointed sparkle: SVG path with concave-curved points. The cream core
+       fades to amber at the edges via SVG radial gradient. */
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='g' cx='50%25' cy='50%25' r='50%25'><stop offset='0%25' stop-color='%23F5EAD0'/><stop offset='40%25' stop-color='%23F0DCA8'/><stop offset='100%25' stop-color='%23E8B06C'/></radialGradient></defs><path d='M50 0 C52 42 58 48 100 50 C58 52 52 58 50 100 C48 58 42 52 0 50 C42 48 48 42 50 0 Z' fill='url(%23g)'/></svg>") center / 70% 70% no-repeat;
+  filter: drop-shadow(0 0 18px color-mix(in srgb, #E8B06C 30%, transparent));
 }
 /* Slide 6 (pivot) needs enough height for the mono→serif internal split to breathe */
 .pitch-slide#s6 {
@@ -1161,7 +1156,7 @@ body.pitch-mode > main {
   font-size: 10.5px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #6B6560;
+  color: #D4C195;
   margin: 0 0 1rem;
 }
 .pitch-slide.zone-warm-cream .warm-h2 {
@@ -1170,7 +1165,8 @@ body.pitch-mode > main {
   font-size: clamp(1.5rem, 2.8vw, 2rem);
   font-weight: 500;
   margin: 0 0 1.5rem;
-  color: #1C1A17;
+  color: #F5EAD0;
+  text-shadow: 0 1px 12px rgba(28,20,12,0.35);
 }
 .pitch-slide.zone-warm-cream .warm-moves {
   list-style: none;
@@ -1191,25 +1187,26 @@ body.pitch-mode > main {
   font-family: "Menlo", ui-monospace, monospace;
   font-size: 13px;
   font-weight: 700;
-  color: #8B3A2E;
+  color: #E8B06C;
   letter-spacing: 0.05em;
 }
 .pitch-slide.zone-warm-cream .body {
   font-family: var(--font-display), serif;
   font-size: clamp(1.15rem, 2vw, 1.55rem);
   line-height: 1.35;
-  color: #1C1A17;
+  color: #F0E4C8;
   font-weight: 500;
+  text-shadow: 0 1px 10px rgba(28,20,12,0.35);
 }
 .pitch-slide.zone-warm-cream .faint {
-  color: #6B6560;
+  color: #B8A98A;
 }
-.pitch-slide.zone-warm-cream .faint.body { color: #6B6560; font-size: clamp(1.05rem, 1.7vw, 1.35rem); }
+.pitch-slide.zone-warm-cream .faint.body { color: #B8A98A; font-size: clamp(1.05rem, 1.7vw, 1.35rem); }
 .pitch-slide.zone-warm-cream .comment {
   display: block;
   font-family: var(--font-body), serif;
   font-size: 0.85rem;
-  color: #6B6560;
+  color: #B8A98A;
   font-style: italic;
   margin-top: 0.4rem;
 }
@@ -1232,21 +1229,24 @@ body.pitch-mode > main {
 .pitch-slide.zone-warm-cream .cascade-line {
   display: block;
   font-size: clamp(1rem, 1.65vw, 1.3rem);
-  color: #2A231D;
+  color: #EDE1C4;
   margin: 0.15rem 0;
+  text-shadow: 0 1px 8px rgba(28,20,12,0.4);
 }
 .pitch-slide.zone-warm-cream .cascade-line.faint {
-  color: #8A8278;
+  color: #B5A582;
   font-size: clamp(0.9rem, 1.4vw, 1.1rem);
   margin-top: 0.35rem;
+  text-shadow: none;
 }
 .pitch-slide.zone-warm-cream .cascade-line.final {
-  color: #8B3A2E;
+  color: #E8B06C;
   font-weight: 700;
   font-style: italic;
   font-size: clamp(1.15rem, 1.95vw, 1.5rem);
   margin-top: 0.45rem;
   letter-spacing: -0.005em;
+  text-shadow: 0 0 18px color-mix(in srgb, #E8B06C 35%, transparent);
 }
 
 /* [03] — aphoristic triad: two italic lines, each hit-word colored. Green for
@@ -1260,18 +1260,19 @@ body.pitch-mode > main {
   display: block;
   font-size: clamp(1.2rem, 2.2vw, 1.7rem);
   margin: 0.25rem 0;
-  color: #1C1A17;
+  color: #F5EAD0;
   font-weight: 500;
+  text-shadow: 0 1px 10px rgba(28,20,12,0.4);
 }
 .pitch-slide.zone-warm-cream .t-empathy-hit {
-  color: #5F7058;
+  color: #9ABF8A;
   font-weight: 700;
-  text-shadow: 0 0 12px color-mix(in srgb, #5F7058 22%, transparent);
+  text-shadow: 0 0 14px color-mix(in srgb, #9ABF8A 40%, transparent);
 }
 .pitch-slide.zone-warm-cream .t-polymath-hit {
-  color: #A67A3A;
+  color: #E8B06C;
   font-weight: 700;
-  text-shadow: 0 0 12px color-mix(in srgb, #A67A3A 25%, transparent);
+  text-shadow: 0 0 14px color-mix(in srgb, #E8B06C 40%, transparent);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1543,6 +1544,136 @@ body.pitch-mode > main {
   0%   { opacity: 0; transform: translate(-50%, -50%) rotate(calc(var(--i, 0) * 15deg)) translate(0, -40px) scale(0.3); }
   20%  { opacity: 1; }
   100% { opacity: 0; transform: translate(-50%, -50%) rotate(calc(var(--i, 0) * 15deg)) translate(0, -60vmax) scale(1.2); }
+}
+
+/* Home password — 10 single-char inputs side-by-side, one per POLYMARKET
+   letter. Sits at the top of the home page. Prefills solved letters from
+   localStorage. All-correct fires a one-time home-green celebration. */
+.home-pw {
+  max-width: 44rem;
+  margin: 2.25rem auto 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+}
+.home-pw-label {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  color: #6B6560;
+  margin: 0;
+  text-transform: lowercase;
+}
+.home-pw-grid {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 0.45rem;
+  width: 100%;
+  max-width: 32rem;
+}
+.home-pw-input {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  text-align: center;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  font-weight: 700;
+  color: #1C1A17;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(28, 26, 23, 0.14);
+  border-radius: 4px;
+  outline: none;
+  padding: 0;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease;
+  text-transform: uppercase;
+}
+.home-pw-input:focus {
+  border-color: #3B7A4A;
+  background: rgba(255, 255, 255, 0.6);
+}
+.home-pw-input.is-correct {
+  color: var(--pw-green, #3B7A4A);
+  border-color: var(--pw-green, #3B7A4A);
+  background: color-mix(in srgb, var(--pw-green, #3B7A4A) 9%, white);
+  text-shadow: 0 0 10px color-mix(in srgb, var(--pw-green, #3B7A4A) 35%, transparent);
+}
+.home-pw.is-solved .home-pw-label { color: #3B7A4A; }
+@media (max-width: 520px) {
+  .home-pw-grid { gap: 0.3rem; max-width: none; }
+  .home-pw-input { font-size: 0.95rem; }
+}
+
+/* Home green — the POLYMARKET-solved celebration. A single bright green wave
+   sweeps across the viewport (left→right), followed by a diagonal sparkle
+   burst across the whole page. Plays only on first-time solve (localStorage
+   home-green-seen). Relevant to home-page theme: "cut through the bullshit". */
+.home-green {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99;
+  overflow: hidden;
+  animation: home-green-root 3400ms ease forwards;
+}
+@keyframes home-green-root {
+  0% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.home-green-wave {
+  position: absolute;
+  top: 0;
+  left: -30%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, #3B7A4A 12%, transparent) 18%,
+    color-mix(in srgb, #5E9E4B 28%, transparent) 42%,
+    color-mix(in srgb, #6B8E3E 36%, transparent) 55%,
+    color-mix(in srgb, #3B7A4A 22%, transparent) 75%,
+    transparent 100%
+  );
+  filter: blur(28px);
+  animation: home-green-sweep 2400ms cubic-bezier(0.3, 0.6, 0.3, 1) forwards;
+}
+@keyframes home-green-sweep {
+  0%   { left: -60%; }
+  100% { left: 100%; }
+}
+.home-green-sparkles {
+  position: absolute;
+  inset: 0;
+}
+.home-green-sparkles span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #5E9E4B;
+  box-shadow: 0 0 10px color-mix(in srgb, #5E9E4B 70%, transparent);
+  animation: home-green-spark 2800ms ease-out forwards;
+  transform:
+    translate(-50%, -50%)
+    rotate(calc(var(--i, 0) * 11.25deg))
+    translate(0, -60px);
+  opacity: 0;
+}
+@keyframes home-green-spark {
+  0%   {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--i, 0) * 11.25deg)) translate(0, -60px) scale(0.4);
+  }
+  25%  { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(calc(var(--i, 0) * 11.25deg)) translate(0, -90vmax) scale(1.3);
+  }
 }
 
 /* Home password + home green animation */

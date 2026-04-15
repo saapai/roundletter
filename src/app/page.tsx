@@ -4,6 +4,7 @@ import ViewTracker from "@/components/ViewTracker";
 import ViewsBadge from "@/components/ViewsBadge";
 import Countdown from "@/components/Countdown";
 import AgentsLegend from "@/components/AgentsLegend";
+import HomePassword from "@/components/HomePassword";
 
 const ARTICLES = ["round-0", "math", "paradigm", "v1"];
 
@@ -16,6 +17,7 @@ export default function Home() {
 
   return (
     <>
+      <HomePassword />
       {round0 && (
         <article className="article">
           <div className="eyebrow">Round Letter · {round0.frontmatter.round} · {round0.frontmatter.date}</div>
