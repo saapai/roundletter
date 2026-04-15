@@ -2406,6 +2406,39 @@ body:has(.pitch-slide.zone-aurora.in-view) .autoscroll-btn {
   display: block;
   white-space: nowrap;
 }
+/* Lead-in for the final punch — smaller, charcoal, sets up the word below */
+.pitch-slide.zone-aurora .aurora-tag-lead {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.35rem, 3.2vw, 2.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.005em;
+  color: #3F382F;
+  margin: 1.2rem 0 0.35rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+/* Final word — biggest thing on the slide. Rust, heavy glow, tight tracking.
+   Inverts the deck-wide size hierarchy so the punchline towers. */
+.pitch-slide.zone-aurora .aurora-final {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(4rem, 12vw, 9rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  color: #8B3A2E;
+  margin: 0 0 0.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  text-shadow:
+    0 0 24px color-mix(in srgb, #8B3A2E 42%, transparent),
+    0 0 60px color-mix(in srgb, #8B3A2E 22%, transparent);
+}
+/* Legacy .aurora-tag (kept for backward compat if any slide variant uses it) */
 .pitch-slide.zone-aurora .aurora-tag {
   font-family: var(--font-display), serif;
   font-style: italic;
