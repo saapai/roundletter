@@ -8,6 +8,10 @@ import { syncRiddleRound } from "@/lib/riddle-sync";
 // flag is orphaned (never read) and the CompleteReveal hides correctly
 // until letters are globally solved again in the new round.
 const crowdSolvedKey = (round: number) => `crowd-solved-r${round}`;
+// Progressive crowd letters union — ever-seen set within the current round.
+// We read the server's global state, union it into this set, write back,
+// and render from the union so the display can only GROW within a round.
+const crowdUnionKey = (round: number) => `crowd-union-r${round}`;
 
 // Two-row hangman earned-letters display at the bottom of /positions:
 //  1. "what we've found" — GLOBAL aggregation of every letter any visitor has
@@ -94,16 +98,26 @@ export default function SolvedLetters() {
           solved?: Array<{ slug: string; letter: string }>;
         };
         const round = typeof j.round === "number" ? j.round : 1;
-        const globalSlugs = new Set((j.solved ?? []).map((s) => s.slug));
-        const rows = V1_THEMES.filter((t) => globalSlugs.has(t.slug)).map((t) => ({
+        const serverSlugs = new Set((j.solved ?? []).map((s) => s.slug));
+
+        // Progressive union: union server set with whatever this browser
+        // has ever seen in this round. The display never shrinks.
+        let unionSlugs = new Set<string>(serverSlugs);
+        try {
+          const existing = localStorage.getItem(crowdUnionKey(round));
+          if (existing) {
+            for (const s of JSON.parse(existing) as string[]) unionSlugs.add(s);
+          }
+          localStorage.setItem(crowdUnionKey(round), JSON.stringify(Array.from(unionSlugs)));
+        } catch {}
+
+        const rows = V1_THEMES.filter((t) => unionSlugs.has(t.slug)).map((t) => ({
           slug: t.slug,
           letter: t.letter,
           green: t.green,
         }));
         setGlobalRows(rows);
 
-        // Sticky flag is round-scoped. Set when we see 10/10 in this round;
-        // read on next mount to render the CompleteReveal without waiting.
         if (rows.length === 10) {
           try { localStorage.setItem(crowdSolvedKey(round), "1"); } catch {}
           setCrowdSolvedSticky(true);
@@ -118,7 +132,7 @@ export default function SolvedLetters() {
         const localSlugs = V1_THEMES.filter(
           (t) => localStorage.getItem(solvedKey(t.slug)) === "1",
         ).map((t) => t.slug);
-        await backfillGlobal(localSlugs, globalSlugs);
+        await backfillGlobal(localSlugs, serverSlugs);
       } catch {}
     })();
     // (the async IIFE above is closed just below)
@@ -146,29 +160,34 @@ export default function SolvedLetters() {
   // Sticky stays true forever on this browser — "permanent once solved."
   const allGlobalFound = globalRows.length === 10 || crowdSolvedSticky;
 
+  // At 10/10 crowd-solved, the page is stateless → only the portal. No
+  // personal row either. Before 10/10, show both rows.
+  if (allGlobalFound) {
+    return (
+      <section className="solved-letters" aria-hidden="true">
+        <CompleteReveal />
+      </section>
+    );
+  }
+
   return (
     <section className="solved-letters" aria-hidden="true">
-      {allGlobalFound ? (
-        <CompleteReveal />
-      ) : (
-        globalRows.length > 0 && (
-          <div className="solved-letters-block">
-            <p className="solved-letters-eyebrow">// what we&rsquo;ve found</p>
-            <div className="solved-letters-row">
-              {globalRows.map((e) => (
-                <span
-                  key={`g-${e.slug}`}
-                  className="solved-letter"
-                  style={{ ["--letter-green" as string]: e.green }}
-                >
-                  {e.letter}
-                </span>
-              ))}
-            </div>
+      {globalRows.length > 0 && (
+        <div className="solved-letters-block">
+          <p className="solved-letters-eyebrow">// what we&rsquo;ve found</p>
+          <div className="solved-letters-row">
+            {globalRows.map((e) => (
+              <span
+                key={`g-${e.slug}`}
+                className="solved-letter"
+                style={{ ["--letter-green" as string]: e.green }}
+              >
+                {e.letter}
+              </span>
+            ))}
           </div>
-        )
+        </div>
       )}
-
       {personalRows.length > 0 && (
         <div className="solved-letters-block solved-letters-personal">
           <p className="solved-letters-eyebrow">// what you&rsquo;ve found</p>
@@ -189,57 +208,52 @@ export default function SolvedLetters() {
   );
 }
 
-// CompleteReveal — social-network × hackathon × movie-trailer portal.
-// Single link to /argument (the ONLY non-URL-hint link to /argument on
-// the site besides the /6969 page nav). Green CRT terminal aesthetic,
-// hackathon stat block (commits / uptime / coffee / beer count ???),
-// trailer tagline at bottom. Night 3, Red Bull and coincidence.
+// CompleteReveal — Ted Lasso under-construction trailer. Messy, warm,
+// taped-together. BELIEVE sign, sticky notes at odd angles, biscuits,
+// darts, masking tape, pushpins. One clickable card → /argument.
 function CompleteReveal() {
   return (
-    <Link href="/argument" className="cli-reveal trailer-reveal" aria-label="polymarket — argument">
-      <header className="cli-bar">
-        <span className="cli-dot cli-dot-r" />
-        <span className="cli-dot cli-dot-y" />
-        <span className="cli-dot cli-dot-g" />
-        <span className="cli-title">~ / polymarket / hackathon · night 3</span>
-        <span className="cli-pid">live</span>
-      </header>
+    <Link href="/argument" className="lasso-trailer" aria-label="polymarket — argument">
+      <span className="lt-tape lt-tape-tl" aria-hidden="true" />
+      <span className="lt-tape lt-tape-tr" aria-hidden="true" />
+      <span className="lt-tape lt-tape-bl" aria-hidden="true" />
+      <span className="lt-tape lt-tape-br" aria-hidden="true" />
 
-      <pre className="cli-body">
-{`$ ./hackathon --night 3 --status
-[ live ] running on red bull + coincidence
-[ ok   ] crowd signal · 10/10 letters · unanimous
-[ .... ] listing      · pending
-[ ???? ] sleep        · not found in this shell
-
-        ╔══════════════════════════════════════════════╗
-        ║                                              ║
-        ║   >_ P O L Y M A R K E T${"\u00A0"}`}<span className="cli-cursor" aria-hidden="true">_</span>{`          ║
-        ║                                              ║
-        ║      every revolution needs its              ║
-        ║      counterculture                          ║
-        ║                                              ║
-        ╚══════════════════════════════════════════════╝
-
-$ stats
-  commits         412   uptime          72:14:03
-  contributors      6   open prs               0
-  coffee           16   red bulls              9
-  ship date        --   beer count          ???
-
-$ trailer
-  FROM THE PEOPLE WHO BUILT IT QUIETLY
-  ONE MARKET · FIVE AGENTS · ONE MODERATOR
-  NO SLEEP · NO METHOD BUT THE METHOD
-  THIS QUARTER.
-
-$ ./enter`}
-      </pre>
-
-      <div className="cli-footer">
-        <span className="cli-k">press enter</span>
-        <span className="cli-v">→ /argument</span>
+      <div className="lt-believe" aria-hidden="true">
+        <span>B</span><span>E</span><span>L</span><span>I</span><span>E</span><span>V</span><span>E</span>
       </div>
+
+      <span className="lt-note lt-note-1" aria-hidden="true">
+        <em>be a goldfish.</em>
+      </span>
+      <span className="lt-note lt-note-2" aria-hidden="true">
+        <em>we got y&rsquo;all.</em>
+      </span>
+      <span className="lt-note lt-note-3" aria-hidden="true">
+        <em>you had to know me.</em>
+      </span>
+      <span className="lt-note lt-note-4" aria-hidden="true">
+        <em>hot-take: under construction.</em>
+      </span>
+      <span className="lt-note lt-note-5" aria-hidden="true">
+        <em>biscuits with the boss, tuesdays.</em>
+      </span>
+
+      <span className="lt-arrow" aria-hidden="true">↘</span>
+
+      <div className="lt-headline">
+        <span className="lt-coming">coming soon</span>
+        <span className="lt-word">polymarket</span>
+        <span className="lt-sub"><em>every revolution needs its counterculture.</em></span>
+      </div>
+
+      <div className="lt-footer">
+        <span className="lt-step">step 1 of forever</span>
+        <span className="lt-arrow-go">→ the argument</span>
+      </div>
+
+      <span className="lt-pin lt-pin-tr" aria-hidden="true" />
+      <span className="lt-pin lt-pin-bl" aria-hidden="true" />
     </Link>
   );
 }

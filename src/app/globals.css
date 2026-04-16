@@ -3183,6 +3183,189 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   .cli-bar .cli-title { display: none; }
 }
 
+/* lasso-trailer — Ted Lasso cork-board-messy-under-construction portal
+   at the bottom of /positions (10/10 crowd-solved). Warm cream paper,
+   Richmond green + biscuit gold, BELIEVE letters spelled with taped
+   scraps, sticky notes at odd angles, masking tape corners, pushpins,
+   hand-drawn arrow. One big click target → /argument. */
+.lasso-trailer {
+  position: relative;
+  display: block;
+  max-width: 640px;
+  width: 100%;
+  margin: 1rem auto;
+  padding: 2.4rem 1.75rem 1.8rem;
+  text-decoration: none;
+  color: #2B4B2B;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(232, 182, 74, 0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(43, 75, 43, 0.06) 0%, transparent 55%),
+    #F5E9C7;
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 1px rgba(43, 75, 43, 0.08),
+    0 2px 12px rgba(43, 75, 43, 0.15),
+    0 12px 28px rgba(43, 75, 43, 0.12);
+  overflow: hidden;
+  transform: rotate(-0.6deg);
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
+}
+.lasso-trailer:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow:
+    inset 0 0 0 1px rgba(43, 75, 43, 0.12),
+    0 6px 18px rgba(43, 75, 43, 0.2),
+    0 22px 42px rgba(43, 75, 43, 0.16);
+}
+
+/* Masking tape on the corners of the paper */
+.lt-tape {
+  position: absolute;
+  width: 64px;
+  height: 18px;
+  background: repeating-linear-gradient(
+    135deg,
+    rgba(243, 221, 168, 0.9) 0 6px,
+    rgba(224, 202, 148, 0.9) 6px 12px
+  );
+  opacity: 0.85;
+  box-shadow: 0 1px 3px rgba(43, 75, 43, 0.18);
+}
+.lt-tape-tl { top: -6px;    left: -14px; transform: rotate(-42deg); }
+.lt-tape-tr { top: -6px;    right: -14px; transform: rotate(42deg); }
+.lt-tape-bl { bottom: -6px; left: -14px; transform: rotate(42deg); }
+.lt-tape-br { bottom: -6px; right: -14px; transform: rotate(-42deg); }
+
+/* BELIEVE — messy printed caps with slight per-letter rotation */
+.lt-believe {
+  display: flex;
+  justify-content: center;
+  gap: 0.2em;
+  font-family: var(--font-display), serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: #2B4B2B;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+  text-shadow: 0 1px 0 rgba(232, 182, 74, 0.5);
+}
+.lt-believe span:nth-child(1) { transform: rotate(-4deg); }
+.lt-believe span:nth-child(2) { transform: rotate(3deg); }
+.lt-believe span:nth-child(3) { transform: rotate(-2deg) translateY(2px); }
+.lt-believe span:nth-child(4) { transform: rotate(5deg); }
+.lt-believe span:nth-child(5) { transform: rotate(-3deg); }
+.lt-believe span:nth-child(6) { transform: rotate(2deg) translateY(-1px); }
+.lt-believe span:nth-child(7) { transform: rotate(-5deg); }
+
+/* Sticky notes, scattered */
+.lt-note {
+  position: absolute;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 11.5px;
+  line-height: 1.2;
+  padding: 0.3rem 0.5rem;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(43, 75, 43, 0.12);
+  color: #2B4B2B;
+  pointer-events: none;
+  max-width: 160px;
+  white-space: nowrap;
+}
+.lt-note-1 { top: 10px;   left: 14px; transform: rotate(-6deg); background: rgba(232, 182, 74, 0.35); }
+.lt-note-2 { top: 90px;   right: 16px; transform: rotate(5deg); background: rgba(255, 255, 255, 0.75); }
+.lt-note-3 { bottom: 66px; left: 10px; transform: rotate(-4deg); background: rgba(232, 182, 74, 0.28); }
+.lt-note-4 { bottom: 18px; right: 22px; transform: rotate(3deg); background: rgba(255, 255, 255, 0.75); }
+.lt-note-5 { top: 180px;  left: 22px; transform: rotate(-8deg); background: rgba(232, 182, 74, 0.25); white-space: normal; max-width: 140px; }
+
+/* Hand-drawn arrow */
+.lt-arrow {
+  position: absolute;
+  right: 48px;
+  bottom: 68px;
+  font-size: 32px;
+  color: #2B4B2B;
+  transform: rotate(18deg);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Pushpins */
+.lt-pin {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #E86868 0%, #C0362B 70%);
+  box-shadow: 0 1px 2px rgba(43, 75, 43, 0.4);
+}
+.lt-pin-tr { top: 8px;    right: 30%; }
+.lt-pin-bl { bottom: 60px; left: 32%; }
+
+/* Headline block */
+.lt-headline {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 1.25rem 0.5rem 1rem;
+  margin: 0.75rem auto 0.25rem;
+  max-width: 24rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.lt-coming {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(43, 75, 43, 0.65);
+}
+.lt-word {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(2rem, 5.5vw, 3.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: #2B4B2B;
+  text-shadow: 0 1px 0 rgba(232, 182, 74, 0.45);
+}
+.lt-sub {
+  font-family: var(--font-display), serif;
+  font-size: 0.95rem;
+  color: rgba(43, 75, 43, 0.72);
+  font-style: italic;
+  padding-top: 0.15rem;
+}
+
+/* Footer strip */
+.lt-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(43, 75, 43, 0.25);
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  color: rgba(43, 75, 43, 0.7);
+  text-transform: lowercase;
+}
+.lt-arrow-go {
+  color: #2B4B2B;
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .lt-note-5 { display: none; }
+  .lt-arrow { right: 14px; bottom: 96px; font-size: 26px; }
+}
+
 /* trailer-reveal — subtle flicker + scanline overlay for the
    social-network × hackathon × movie-trailer portal on /positions */
 .trailer-reveal {
