@@ -254,54 +254,6 @@ export default function SolvedLetters() {
   );
 }
 
-// CompleteReveal — Ted Lasso × Apple TV × aureliex trailer. Three
-// typographic voices in deliberate tension: Apple-sans marketing at
-// top/bottom (clean, cold, scale), hand-painted GREEN BELIEVE in the
-// middle (warm, human, heart — green instead of blue so it threads
-// into the site's success color palette), serif italic tagline bridges
-// them (literary, warm). Yellow paper strip for the BELIEVE sign is
-// anchored with white masking-tape on a cream paper card. Single click
-// → /argument.
-function CompleteReveal() {
-  return (
-    <Link href="/argument" className="lasso-trailer" aria-label="polymarket — argument">
-      <span className="lt-corner lt-corner-tl" aria-hidden="true" />
-      <span className="lt-corner lt-corner-br" aria-hidden="true" />
-
-      <div className="lt-top-strip">
-        <span className="lt-top-tick">apple · tv</span>
-        <span className="lt-top-marquee">COMING SOON</span>
-        <span className="lt-top-tick">ep · 01</span>
-      </div>
-
-      <div className="lt-sign" aria-label="BELIEVE">
-        <span className="lt-sign-tape lt-sign-tape-l" aria-hidden="true" />
-        <span className="lt-sign-tape lt-sign-tape-r" aria-hidden="true" />
-        <div className="lt-sign-inner">
-          <div className="lt-believe" aria-hidden="true">
-            <span>B</span><span>E</span><span>L</span><span>I</span><span>E</span><span>V</span><span>E</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="lt-headline">
-        <span className="lt-word">polymarket</span>
-        <span className="lt-sub">
-          <em>every revolution needs its counterculture.</em>
-        </span>
-      </div>
-
-      <span className="lt-note lt-note-1" aria-hidden="true"><em>be a goldfish.</em></span>
-      <span className="lt-note lt-note-2" aria-hidden="true"><em>barbecue sauce.</em></span>
-      <span className="lt-darts" aria-hidden="true" />
-      <span className="lt-dart" aria-hidden="true" />
-
-      <div className="lt-bottom-strip">
-        <span className="lt-bottom-k">enter</span>
-        <span className="lt-bottom-sep">·</span>
-        <span className="lt-bottom-v">the argument</span>
-        <span className="lt-bottom-arrow">→</span>
-      </div>
-    </Link>
-  );
-}
+// (CompleteReveal was extracted to TedLassoTrailer.tsx — single source
+// of truth for both server-rendered (/positions when crowd-ever-10 is
+// true) and client-rendered (SolvedLetters fallback) paths.)
