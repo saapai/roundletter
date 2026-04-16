@@ -124,6 +124,22 @@ export default function Method() {
           This is one person computing partial sums of reasoning in public — with real money, on a 10-year horizon — so that a future version of himself has a legible record of the <em>reasoning</em>, not just the P&L. The positions are the first derivative. The daily agent debates are the second. The calibration scores are the third. None of them reach clarity. But the sum gets closer each day, and the record of getting closer is the product.
         </p>
       </section>
+
+      <section className="page-section">
+        <h2>The new house</h2>
+        <p>
+          Attention is the new capital. Not money — attention. In 2026 the scarce resource is not dollars or compute or even data. It is the willingness of a human being to hold one thing in mind long enough to reason about it. Every platform, every feed, every notification is competing for that resource. The house always wins because the house is the platform, and the platform is optimized to extract attention, not to reward it.
+        </p>
+        <p>
+          Games are the way to the frontier of attention. A game earns focus by making the player <em>want</em> to think — not by hijacking a reflex. The ten-letter cipher on the home page, the recursive 6969 error, the hidden letters in the pitch deck — these are not decorations. They are the thesis in miniature: that attention given voluntarily to a problem you care about compounds differently than attention extracted by a feed you scroll.
+        </p>
+        <p>
+          But here is the question the method cannot answer with math: if the house always wins, how do the players win? New players enter and the house takes from them too. The game is zero-sum as long as the house is the house. So maybe the answer is not better players or better strategy. Maybe the answer is a new house — one where the incentives of the structure and the incentives of the people inside it point in the same direction. Where attention invested in reasoning is rewarded with better reasoning, not with more ads.
+        </p>
+        <p>
+          This site is a sketch of what that house might look like. Small, public, one person, real money, no feed, no engagement metrics, no algorithm deciding what you see. Just the reasoning, the reasoning about the reasoning, and a record of whether any of it was right.
+        </p>
+      </section>
     </article>
   );
 }
