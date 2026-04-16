@@ -83,6 +83,33 @@ export default function SolvedLetters() {
   };
 
   useEffect(() => {
+    // SYNCHRONOUS pre-hydration: read last-seen-round + sticky + union
+    // from localStorage BEFORE awaiting the API. If this browser has ever
+    // seen 10/10, the Ted Lasso trailer renders on first paint — no flash.
+    try {
+      const lastRound = parseInt(localStorage.getItem("last-seen-round") || "0", 10);
+      if (lastRound > 0) {
+        // Sticky flag for 10/10 portal
+        if (localStorage.getItem(crowdSolvedKey(lastRound)) === "1") {
+          setCrowdSolvedSticky(true);
+        }
+        // Hydrate the crowd-letters union so the partial "what we've found"
+        // row also shows instantly if there's partial progress.
+        try {
+          const raw = localStorage.getItem(crowdUnionKey(lastRound));
+          if (raw) {
+            const slugs = new Set<string>(JSON.parse(raw) as string[]);
+            const rows = V1_THEMES.filter((t) => slugs.has(t.slug)).map((t) => ({
+              slug: t.slug,
+              letter: t.letter,
+              green: t.green,
+            }));
+            setGlobalRows(rows);
+          }
+        } catch {}
+      }
+    } catch {}
+
     setMounted(true);
     (async () => {
       // Invalidate stale client state if server round has advanced.
