@@ -1,0 +1,185 @@
+.root {
+  --st-paper: #F4EFE6;
+  --st-ink: #1C1A17;
+  --st-graphite: #6B6560;
+  --st-rust: #8B3A2E;
+  --st-rule: rgba(28, 26, 23, 0.18);
+  background: var(--st-paper);
+  color: var(--st-ink);
+  min-height: 100vh;
+  padding: clamp(3rem, 8vw, 6rem) 0 clamp(4rem, 10vw, 8rem);
+}
+
+.wrap {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.1rem, 4vw, 2rem);
+}
+
+.eyebrow {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--st-graphite);
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  text-align: center;
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 1.2rem + 5vw, 4.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 auto 0.9rem;
+  text-wrap: balance;
+  max-width: 18ch;
+}
+
+.deck {
+  text-align: center;
+  font-style: italic;
+  color: var(--st-graphite);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  max-width: 34ch;
+  margin: 0 auto clamp(3rem, 6vw, 5rem);
+  text-wrap: balance;
+}
+
+.round {
+  position: relative;
+  margin: clamp(2.25rem, 4vw, 3.25rem) 0;
+}
+
+.roundHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin-bottom: 0.9rem;
+}
+.numeral {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--st-rust);
+  letter-spacing: 0.02em;
+}
+.label {
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--st-graphite);
+}
+.hairline {
+  flex: 1;
+  border-top: 1px solid var(--st-rule);
+  transform: translateY(-0.3em);
+}
+
+.line {
+  display: block;
+  margin: 0.35rem 0;
+  font-size: 1.08rem;
+  line-height: 1.55;
+}
+
+.agent {
+  font-family: var(--font-display), serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--st-ink);
+  margin-right: 0.6rem;
+}
+
+.mod {
+  color: var(--st-rust);
+}
+
+.modLine {
+  font-style: italic;
+  color: var(--st-graphite);
+  margin: 0.8rem 0 0.2rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--st-rule);
+  font-size: 1rem;
+}
+.modLine .agent { color: var(--st-rust); font-style: normal; }
+
+/* Round V — cacophony layout */
+.cacophony {
+  column-count: 2;
+  column-gap: 1.5rem;
+  column-rule: 1px solid var(--st-rule);
+  margin-top: 0.75rem;
+}
+@media (max-width: 560px) {
+  .cacophony { column-count: 1; column-rule: none; }
+}
+.cacophony .line {
+  break-inside: avoid;
+  margin: 0.28rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.break {
+  text-align: center;
+  margin: 1.8rem 0 0.6rem;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1.35rem;
+  color: var(--st-rust);
+  letter-spacing: -0.005em;
+}
+.break + .break { margin-top: 0.15rem; font-size: 1.18rem; color: var(--st-ink); }
+
+/* Coda */
+.coda {
+  margin-top: clamp(4rem, 8vw, 6.5rem);
+  padding-top: clamp(2rem, 5vw, 3rem);
+  border-top: 1px solid var(--st-rule);
+  text-align: center;
+}
+.codaLine {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 0.8rem + 1.1vw, 1.6rem);
+  line-height: 1.45;
+  margin: 0.45rem auto;
+  max-width: 34ch;
+  text-wrap: balance;
+}
+.codaShort {
+  font-style: normal;
+  font-family: var(--font-body), serif;
+  font-size: 1.05rem;
+  color: var(--st-graphite);
+  letter-spacing: 0.01em;
+  max-width: 28ch;
+  margin: 0.25rem auto;
+}
+.codaKicker {
+  margin-top: 2rem;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--st-graphite);
+}
+
+.colophon {
+  margin-top: clamp(4rem, 8vw, 6rem);
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--st-graphite);
+  opacity: 0.7;
+}
+.colophon a { color: inherit; border-bottom: 1px solid var(--st-rule); padding-bottom: 1px; }
+.colophon a:hover { color: var(--st-ink); }
