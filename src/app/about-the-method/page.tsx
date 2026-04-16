@@ -21,21 +21,47 @@ export default function Method() {
       <section className="page-section">
         <h2>The thesis</h2>
         <p>
-          Every investment decision is a stack of reasoning. At the bottom: raw data — a price, a filing, a macro print. One layer up: a thesis about what the data means. Above that: reasoning about whether the thesis holds. Above <em>that</em>: reasoning about the reasoning — the meta-cognition that asks whether you&rsquo;re even asking the right question.
+          The computer was the thesis. The dot-com bubble was the reasoning about the thesis — a generation asking <em>what does this mean</em> and getting the magnitude right but the timing wrong. AI is the reasoning about the reasoning: machines that don&rsquo;t just compute but evaluate whether the computation was worth doing. Each inflection point in the history of technology is a higher-order derivative of the same underlying function.
         </p>
         <p>
-          Each layer adds clarity the way a term in a Taylor series adds precision to an approximation. The first term gets you in the neighborhood. The second corrects the slope. The third adjusts the curvature. But perfect clarity, like the function itself, is never reached by a finite number of terms. It&rsquo;s only approached.
+          The pattern is older than computers. The printing press was n=0 — raw distribution of knowledge. The Enlightenment was n=1 — reasoning about what the knowledge means. The scientific method was n=2 — reasoning about the reasoning, a system for correcting its own errors. Each layer adds clarity the way a term in a Maclaurin series adds precision to an approximation. The first term gets you in the neighborhood. The second corrects the slope. The third adjusts the curvature. But perfect clarity, like the function itself, is never reached by a finite number of terms.
         </p>
         <ClarityEquation />
         <p>
-          This site is an attempt to compute as many terms as one person reasonably can — in public, with real money, on a 10-year horizon. The five agents are the mechanism. Each one computes a different derivative. The moderator synthesizes. The question is always: <em>how much reasoning is enough?</em>
+          And here is the part that matters: each term is self-correcting. The n=1 term doesn&rsquo;t just add precision — it feeds back into n=0 and reshapes it. The dot-com crash didn&rsquo;t just refine the thesis about the internet; it <em>changed what the internet became</em>. AI doesn&rsquo;t just reason about prior reasoning; it alters what counts as reasoning. The series is recursive. Each derivative adjusts its neighbors based on its own error bars, its own variance, its own encounter with luck. The unifying thread isn&rsquo;t convergence toward a known answer. It&rsquo;s something closer to <em>luckmaxxing</em> — positioning yourself so that the variance works for you instead of against you, the way Kelly positions a bet so that geometric growth is maximized even though each individual outcome is uncertain. It&rsquo;s inexplicable the way <em>e</em> or <em>&pi;</em> are inexplicable — a fundamental constant that shows up everywhere you look, once you know to look.
+        </p>
+      </section>
+
+      <section className="page-section">
+        <h2>The field</h2>
+        <p>
+          Einstein showed that mass distorts spacetime. A star doesn&rsquo;t <em>pull</em> objects toward it — it bends the geometry of the space around it, and objects follow the curvature. The deeper the well, the stronger the distortion.
+        </p>
+        <p>
+          Meaning works the same way. A memory, a concept, a conviction — these are not stored statically in the brain. They create gravitational wells. The more a pattern is referenced, the deeper the trench. The deeper the trench, the more it pulls in related meaning. You don&rsquo;t retrieve a memory. You disturb a field and observe what stabilizes. This is what I call <em>entrenched coils</em>: a dynamic system where the connections between ideas stretch, tighten, weaken, snap, and reconfigure — not like edges in a graph, but like springs under tension, continuously reshaped by time, emotion, and context.
+        </p>
+        <p>
+          The portfolio is a field in exactly this sense. Each position creates a gravity well proportional to its conviction and its capital. The five agents are local distortions — each one bends the field differently, and the moderator observes what stabilizes when a new data point drops into the system. The kill-switches below are not rules. They are the topology of the field, pre-committed — the shape of spacetime decided before any mass enters it.
+        </p>
+      </section>
+
+      <section className="page-section">
+        <h2>The frontier</h2>
+        <p>
+          Paul Graham wrote that the way to do great work is to get to the frontier of a field and then look for gaps. But the deepest gaps are not <em>within</em> a field — they are <em>between</em> fields. To see what&rsquo;s missing at the intersection of writing and entrepreneurship, you need Bourdain and Jobs as much as you need Graham and Naval. You need to reach the frontier of each domain individually before you can see the white space where they overlap.
+        </p>
+        <p>
+          This is polymathy reframed as portfolio construction. Good artists borrow. Great artists steal. But the easiest place to steal from is a domain so distant that nobody in your field has ever looked there. Kelly&rsquo;s original paper was about signal transmission over a noisy channel — not gambling. Thorp imported it to blackjack. Markowitz&rsquo;s decorrelation is the mathematics of <em>have a second bet in a different domain</em>. The partial derivative of insight with respect to a foreign-domain observation is larger than with respect to a native one, precisely because the foreign domain&rsquo;s ideas haven&rsquo;t been arbitraged away in your field. The butterfly effect: a small insight transported across a domain boundary produces outsized results because it lands in a system that has never seen it before.
+        </p>
+        <p>
+          One of the mini-projects behind this site: understand consciousness to understand education; understand education to understand the inflection point of humans; understand the inflection point of humans to understand the inflection point of consciousness; understand the inflection point of consciousness to understand consciousness better. Each term in the series is its own recursive loop — each derivative corrects the one before it. The phases of understanding are themselves derivatives. The recursion is the formula.
         </p>
       </section>
 
       <section className="page-section">
         <h2>Why five agents</h2>
         <p>
-          Fifty copies of one agent converge to the same wrong answer. Five structurally different roles — bull, bear, macro, microstructure/flow, base-rate historian — see different inputs, write independently, then face an arbitrator. The research on multi-agent debate (Du et al. 2023; TradingAgents from Columbia/NYU) is unambiguous: gains come from role variance, not from count.
+          Fifty copies of one agent converge to the same wrong answer. Five structurally different roles — bull, bear, macro, microstructure/flow, base-rate historian — see different inputs, write independently, then face an arbitrator. The research on multi-agent debate (Du et al. 2023; TradingAgents from Columbia/NYU) is unambiguous: gains come from role variance, not from count. Each agent is a different domain imported into the same field. The value is the decorrelation.
         </p>
       </section>
 
@@ -92,7 +118,7 @@ export default function Method() {
       <section className="page-section">
         <h2>What this site is not</h2>
         <p>
-          Not a signal service. Not a newsletter. Not a community. Not investment advice. The portfolio is too small to copy and the method is too slow to trade.
+          Not a signal service. Not a newsletter. Not a community. Not investment advice. The portfolio is too small to copy and the method is faster than you would be if you copied it.
         </p>
         <p>
           This is one person computing partial sums of reasoning in public — with real money, on a 10-year horizon — so that a future version of himself has a legible record of the <em>reasoning</em>, not just the P&L. The positions are the first derivative. The daily agent debates are the second. The calibration scores are the third. None of them reach clarity. But the sum gets closer each day, and the record of getting closer is the product.

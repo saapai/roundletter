@@ -29,10 +29,9 @@ export default function AbacusIteration() {
     };
   }, []);
 
-  const days = Math.max(
-    0,
-    Math.floor((Date.now() - new Date("2026-04-14T00:00:00").getTime()) / 86_400_000),
-  );
+  // First commit: 2026-04-14T09:03:14-07:00 (PDT)
+  const ORIGIN = new Date("2026-04-14T09:03:14-07:00").getTime();
+  const days = Math.max(0, Math.floor((Date.now() - ORIGIN) / 86_400_000));
 
   return (
     <div className="abacus-iter-wrap">

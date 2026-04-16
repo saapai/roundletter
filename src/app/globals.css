@@ -500,6 +500,17 @@ h1, h2, h3 {
   line-height: 1.4;
   margin-top: 0.15rem;
 }
+.clarity-eq-era {
+  display: block;
+  font-family: "Georgia", "Times New Roman", serif;
+  font-style: italic;
+  font-size: 7.5px;
+  letter-spacing: 0.12em;
+  color: var(--graphite);
+  opacity: 0.55;
+  margin-top: 0.1rem;
+  text-align: center;
+}
 .clarity-eq-ellipsis {
   align-self: center;
 }

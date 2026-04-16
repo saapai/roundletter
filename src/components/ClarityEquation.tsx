@@ -1,11 +1,11 @@
 // Maclaurin-series visualization: each derivative of reasoning
 // approaches clarity but never reaches it.
 
-const TERMS: Array<{ n: number; label: string; sup: string }> = [
-  { n: 0, label: "data", sup: "" },
-  { n: 1, label: "thesis", sup: "′" },
-  { n: 2, label: "reasoning", sup: "″" },
-  { n: 3, label: "the reasoning\nabout the reasoning", sup: "‴" },
+const TERMS: Array<{ n: number; label: string; era: string; sup: string }> = [
+  { n: 0, label: "data", era: "the computer", sup: "" },
+  { n: 1, label: "thesis", era: "the dot-com bubble", sup: "′" },
+  { n: 2, label: "reasoning", era: "artificial intelligence", sup: "″" },
+  { n: 3, label: "the reasoning\nabout the reasoning", era: "?", sup: "‴" },
 ];
 
 function factorial(n: number): number {
@@ -49,6 +49,7 @@ export default function ClarityEquation() {
                   )}
                 </span>
                 <span className="clarity-eq-label">{t.label}</span>
+                <span className="clarity-eq-era">{t.era}</span>
               </span>
             );
           })}
