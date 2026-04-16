@@ -11,7 +11,9 @@ export default function AbacusIteration() {
   useEffect(() => {
     let alive = true;
     const load = () => {
-      fetch("/api/v1-letters", { cache: "no-store" })
+      // Timestamp param busts any intermediate (CDN/browser) cache so the
+      // counter reflects the abacus round in real time.
+      fetch(`/api/v1-letters?t=${Date.now()}`, { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : null))
         .then((j: { round?: number } | null) => {
           if (!alive) return;

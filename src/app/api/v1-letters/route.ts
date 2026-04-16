@@ -46,5 +46,8 @@ export async function GET() {
   LETTERS.forEach((l, i) => {
     if (counts[i] > 0) solved.push({ slug: l.slug, letter: l.letter, count: counts[i] });
   });
-  return NextResponse.json({ round, solved, everAll10: everCount > 0 });
+  return NextResponse.json(
+    { round, solved, everAll10: everCount > 0 },
+    { headers: { "Cache-Control": "no-store, max-age=0, must-revalidate" } },
+  );
 }
