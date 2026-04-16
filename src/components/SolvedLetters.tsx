@@ -283,7 +283,9 @@ function CompleteReveal() {
       </div>
 
       <span className="lt-note lt-note-1" aria-hidden="true"><em>be a goldfish.</em></span>
-      <span className="lt-note lt-note-2" aria-hidden="true"><em>we got y&rsquo;all.</em></span>
+      <span className="lt-note lt-note-2" aria-hidden="true"><em>barbecue sauce.</em></span>
+      <span className="lt-darts" aria-hidden="true" />
+      <span className="lt-dart" aria-hidden="true" />
 
       <div className="lt-bottom-strip">
         <span className="lt-bottom-k">enter</span>

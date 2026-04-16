@@ -3218,6 +3218,42 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
     0 22px 42px rgba(43, 75, 43, 0.16);
 }
 
+/* Keep actual content above the dart watermark (z-index 0) */
+.lasso-trailer > * { position: relative; z-index: 1; }
+.lasso-trailer .lt-darts, .lasso-trailer .lt-dart { z-index: 0 !important; }
+
+/* Dartboard watermark — faint concentric rings + eight radial lines
+   behind everything. Subliminal Ted-Lasso-darts-scene cue. */
+.lt-darts {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72%;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  opacity: 0.11;
+  z-index: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='none' stroke='%232B4B2B' stroke-width='0.35'><circle cx='50' cy='50' r='48'/><circle cx='50' cy='50' r='38'/><circle cx='50' cy='50' r='26'/><circle cx='50' cy='50' r='16'/><circle cx='50' cy='50' r='7'/></g><circle cx='50' cy='50' r='2.2' fill='%238B3A2E'/><g stroke='%232B4B2B' stroke-width='0.22' opacity='0.6'><line x1='50' y1='2' x2='50' y2='98'/><line x1='2' y1='50' x2='98' y2='50'/><line x1='16' y1='16' x2='84' y2='84'/><line x1='84' y1='16' x2='16' y2='84'/><line x1='31' y1='6' x2='69' y2='94'/><line x1='69' y1='6' x2='31' y2='94'/><line x1='6' y1='31' x2='94' y2='69'/><line x1='94' y1='31' x2='6' y2='69'/></g></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+/* Single dart stuck near the bullseye — subtle, offset from dead center */
+.lt-dart {
+  position: absolute;
+  top: calc(50% - 18px);
+  left: calc(50% + 14px);
+  width: 80px;
+  height: 14px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.22;
+  transform: rotate(16deg);
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 14'><polygon points='0,7 10,3 10,11' fill='%238B3A2E'/><rect x='10' y='6' width='38' height='2' fill='%232B4B2B'/><polygon points='48,7 58,4 58,10' fill='%23E8B64A'/><polygon points='58,7 80,2 80,12' fill='%232B4B2B'/></svg>");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
 /* Masking tape on the corners of the paper */
 .lt-tape {
   position: absolute;
