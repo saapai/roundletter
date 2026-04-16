@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { V1_THEMES } from "@/lib/v1data";
 import { syncRiddleRound } from "@/lib/riddle-sync";
@@ -28,11 +28,12 @@ export default function SolvedLetters() {
   const [globalRows, setGlobalRows] = useState<Row[]>([]);
   const [personalRows, setPersonalRows] = useState<Row[]>([]);
   const [mounted, setMounted] = useState(false);
-  // Optimistic crowd-solved state: once this browser has ever seen 10/10
-  // globally, we render the CompleteReveal immediately on future mounts —
-  // no flash, no API wait. The API still runs and reconciles in the
-  // background, but the UI is instant.
+  const [hasFetched, setHasFetched] = useState(false);
   const [crowdSolvedSticky, setCrowdSolvedSticky] = useState<boolean>(false);
+  // Lock: once the trailer shows in this mount, it stays. No flipping
+  // back to the hangman row for any reason. Bidirectional transitions
+  // are forbidden by design.
+  const everFoundRef = useRef(false);
 
   const loadGlobal = async () => {
     try {
@@ -89,9 +90,10 @@ export default function SolvedLetters() {
     try {
       const lastRound = parseInt(localStorage.getItem("last-seen-round") || "0", 10);
       if (lastRound > 0) {
-        // Sticky flag for 10/10 portal
+        // Sticky flag for 10/10 portal — lock trailer immediately.
         if (localStorage.getItem(crowdSolvedKey(lastRound)) === "1") {
           setCrowdSolvedSticky(true);
+          everFoundRef.current = true;
         }
         // Hydrate the crowd-letters union so the partial "what we've found"
         // row also shows instantly if there's partial progress.
@@ -148,9 +150,12 @@ export default function SolvedLetters() {
         if (rows.length === 10) {
           try { localStorage.setItem(crowdSolvedKey(round), "1"); } catch {}
           setCrowdSolvedSticky(true);
+          everFoundRef.current = true;
         } else {
           try {
-            setCrowdSolvedSticky(localStorage.getItem(crowdSolvedKey(round)) === "1");
+            const sticky = localStorage.getItem(crowdSolvedKey(round)) === "1";
+            setCrowdSolvedSticky(sticky);
+            if (sticky) everFoundRef.current = true;
           } catch {
             setCrowdSolvedSticky(false);
           }
@@ -161,6 +166,7 @@ export default function SolvedLetters() {
         ).map((t) => t.slug);
         await backfillGlobal(localSlugs, serverSlugs);
       } catch {}
+      setHasFetched(true);
     })();
     // (the async IIFE above is closed just below)
 
@@ -180,22 +186,26 @@ export default function SolvedLetters() {
   }, []);
 
   if (!mounted) return null;
-  if (globalRows.length === 0 && personalRows.length === 0) return null;
 
-  // CompleteReveal shows when either (a) we see 10/10 in the current API
-  // response, or (b) the sticky localStorage flag says we've seen it before.
-  // Sticky stays true forever on this browser — "permanent once solved."
-  const allGlobalFound = globalRows.length === 10 || crowdSolvedSticky;
-
-  // At 10/10 crowd-solved, the page is stateless → only the portal. No
-  // personal row either. Before 10/10, show both rows.
-  if (allGlobalFound) {
+  // Trailer-first, lock-once: if the trailer has been shown at any point
+  // in this mount (or is shown immediately from pre-hydration), keep
+  // showing it. No bidirectionality — never flip back to the hangman row.
+  const trailerNow =
+    everFoundRef.current || crowdSolvedSticky || globalRows.length === 10;
+  if (trailerNow) {
+    everFoundRef.current = true;
     return (
       <section className="solved-letters" aria-hidden="true">
         <CompleteReveal />
       </section>
     );
   }
+
+  // Gate the hangman row on the first API completion. Prevents a partial
+  // localStorage-hydrated row from flashing in before the API confirms the
+  // real current state (which might be 10/10 → trailer).
+  if (!hasFetched) return null;
+  if (globalRows.length === 0 && personalRows.length === 0) return null;
 
   return (
     <section className="solved-letters" aria-hidden="true">
@@ -235,52 +245,52 @@ export default function SolvedLetters() {
   );
 }
 
-// CompleteReveal — Ted Lasso under-construction trailer. Messy, warm,
-// taped-together. BELIEVE sign, sticky notes at odd angles, biscuits,
-// darts, masking tape, pushpins. One clickable card → /argument.
+// CompleteReveal — Ted Lasso × Apple TV × aureliex trailer. Three
+// typographic voices in deliberate tension: Apple-sans marketing at
+// top/bottom (clean, cold, scale), hand-painted GREEN BELIEVE in the
+// middle (warm, human, heart — green instead of blue so it threads
+// into the site's success color palette), serif italic tagline bridges
+// them (literary, warm). Yellow paper strip for the BELIEVE sign is
+// anchored with white masking-tape on a cream paper card. Single click
+// → /argument.
 function CompleteReveal() {
   return (
     <Link href="/argument" className="lasso-trailer" aria-label="polymarket — argument">
-      <span className="lt-tape lt-tape-tl" aria-hidden="true" />
-      <span className="lt-tape lt-tape-tr" aria-hidden="true" />
-      <span className="lt-tape lt-tape-bl" aria-hidden="true" />
-      <span className="lt-tape lt-tape-br" aria-hidden="true" />
+      <span className="lt-corner lt-corner-tl" aria-hidden="true" />
+      <span className="lt-corner lt-corner-br" aria-hidden="true" />
 
-      <div className="lt-believe" aria-hidden="true">
-        <span>B</span><span>E</span><span>L</span><span>I</span><span>E</span><span>V</span><span>E</span>
+      <div className="lt-top-strip">
+        <span className="lt-top-tick">apple · tv</span>
+        <span className="lt-top-marquee">COMING SOON</span>
+        <span className="lt-top-tick">ep · 01</span>
       </div>
 
-      <span className="lt-note lt-note-1" aria-hidden="true">
-        <em>be a goldfish.</em>
-      </span>
-      <span className="lt-note lt-note-2" aria-hidden="true">
-        <em>we got y&rsquo;all.</em>
-      </span>
-      <span className="lt-note lt-note-3" aria-hidden="true">
-        <em>you had to know me.</em>
-      </span>
-      <span className="lt-note lt-note-4" aria-hidden="true">
-        <em>hot-take: under construction.</em>
-      </span>
-      <span className="lt-note lt-note-5" aria-hidden="true">
-        <em>biscuits with the boss, tuesdays.</em>
-      </span>
-
-      <span className="lt-arrow" aria-hidden="true">↘</span>
+      <div className="lt-sign" aria-label="BELIEVE">
+        <span className="lt-sign-tape lt-sign-tape-l" aria-hidden="true" />
+        <span className="lt-sign-tape lt-sign-tape-r" aria-hidden="true" />
+        <div className="lt-sign-inner">
+          <div className="lt-believe" aria-hidden="true">
+            <span>B</span><span>E</span><span>L</span><span>I</span><span>E</span><span>V</span><span>E</span>
+          </div>
+        </div>
+      </div>
 
       <div className="lt-headline">
-        <span className="lt-coming">coming soon</span>
         <span className="lt-word">polymarket</span>
-        <span className="lt-sub"><em>every revolution needs its counterculture.</em></span>
+        <span className="lt-sub">
+          <em>every revolution needs its counterculture.</em>
+        </span>
       </div>
 
-      <div className="lt-footer">
-        <span className="lt-step">step 1 of forever</span>
-        <span className="lt-arrow-go">→ the argument</span>
-      </div>
+      <span className="lt-note lt-note-1" aria-hidden="true"><em>be a goldfish.</em></span>
+      <span className="lt-note lt-note-2" aria-hidden="true"><em>we got y&rsquo;all.</em></span>
 
-      <span className="lt-pin lt-pin-tr" aria-hidden="true" />
-      <span className="lt-pin lt-pin-bl" aria-hidden="true" />
+      <div className="lt-bottom-strip">
+        <span className="lt-bottom-k">enter</span>
+        <span className="lt-bottom-sep">·</span>
+        <span className="lt-bottom-v">the argument</span>
+        <span className="lt-bottom-arrow">→</span>
+      </div>
     </Link>
   );
 }
