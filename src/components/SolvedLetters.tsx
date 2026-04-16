@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { V1_THEMES } from "@/lib/v1data";
 import { syncRiddleRound } from "@/lib/riddle-sync";
+import TedLassoTrailer from "./TedLassoTrailer";
 
 // Round-scoped sticky key: when the server bumps the round, the old-round
 // flag is orphaned (never read) and the CompleteReveal hides correctly
@@ -125,8 +125,17 @@ export default function SolvedLetters() {
         const j = (await r.json()) as {
           round?: number;
           solved?: Array<{ slug: string; letter: string }>;
+          everAll10?: boolean;
         };
         const round = typeof j.round === "number" ? j.round : 1;
+
+        // Permanent server-side flag: once anyone, anywhere, has solved
+        // all 10 letters in any round, this is true forever. Lock trailer.
+        if (j.everAll10) {
+          everFoundRef.current = true;
+          setCrowdSolvedSticky(true);
+          try { localStorage.setItem(crowdSolvedKey(round), "1"); } catch {}
+        }
         const serverSlugs = new Set((j.solved ?? []).map((s) => s.slug));
 
         // Progressive union: union server set with whatever this browser
@@ -196,7 +205,7 @@ export default function SolvedLetters() {
     everFoundRef.current = true;
     return (
       <section className="solved-letters" aria-hidden="true">
-        <CompleteReveal />
+        <TedLassoTrailer />
       </section>
     );
   }

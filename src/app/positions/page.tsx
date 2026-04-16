@@ -4,6 +4,30 @@ import StockAnalysisGraph from "@/components/StockAnalysisGraph";
 import PortfolioChart from "@/components/PortfolioChart";
 import SavingsHero from "@/components/SavingsHero";
 import TodayDebate from "@/components/TodayDebate";
+import TedLassoTrailer from "@/components/TedLassoTrailer";
+
+// Revalidate every 30s so the crowd-ever-10 flag is picked up quickly
+// once it flips, without re-rendering on every hit.
+export const revalidate = 30;
+
+// Server-side fetch of the permanent crowd-ever-10 flag. Once this
+// returns true, the Ted Lasso trailer ships as STATIC HTML in the
+// first byte of the /positions response — no client wait, no incognito
+// flash.
+async function fetchCrowdEverAll10(): Promise<boolean> {
+  try {
+    const r = await fetch(
+      "https://abacus.jasoncameron.dev/get/aureliex-riddle/crowd-ever-10",
+      { next: { revalidate: 30 } },
+    );
+    if (!r.ok) return false;
+    const j = (await r.json()) as { value?: number; error?: string };
+    if (j.error === "Key not found") return false;
+    return typeof j.value === "number" && j.value > 0;
+  } catch {
+    return false;
+  }
+}
 
 const AGENT_COLOR: Record<string, string> = {
   bull: "var(--anno-bull)",
@@ -17,8 +41,11 @@ function fmt$(n: number): string {
   return n.toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
 
-export default function Positions() {
-  const p = getPortfolio();
+export default async function Positions() {
+  const [p, crowdEverAll10] = await Promise.all([
+    Promise.resolve(getPortfolio()),
+    fetchCrowdEverAll10(),
+  ]);
   const byBucket: Record<string, any[]> = {};
   p.holdings.forEach((h: any) => { (byBucket[h.bucket] ||= []).push(h); });
 
@@ -112,7 +139,16 @@ export default function Positions() {
 
       <TodayDebate />
 
-      <SolvedLetters />
+      {crowdEverAll10 ? (
+        // Static server-rendered trailer: once the crowd-ever-10 flag is
+        // true, the trailer is public global state, delivered with the
+        // first byte of the page — no client wait, works in incognito.
+        <section className="solved-letters" aria-hidden="true">
+          <TedLassoTrailer />
+        </section>
+      ) : (
+        <SolvedLetters />
+      )}
     </article>
   );
 }

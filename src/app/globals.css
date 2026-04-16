@@ -3183,39 +3183,253 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   .cli-bar .cli-title { display: none; }
 }
 
-/* lasso-trailer — Ted Lasso cork-board-messy-under-construction portal
-   at the bottom of /positions (10/10 crowd-solved). Warm cream paper,
-   Richmond green + biscuit gold, BELIEVE letters spelled with taped
-   scraps, sticky notes at odd angles, masking tape corners, pushpins,
-   hand-drawn arrow. One big click target → /argument. */
+/* lasso-trailer — Ted Lasso BELIEVE sign portal. Faithful to the real
+   sign in the palette and composition (yellow paper, hand-painted blue
+   letters, black tape at four corners), but the surrounding card is
+   OUR green-conditioned cream so the subliminal blend is: Ted Lasso
+   sign framed by aureliex. One big click target → /argument. */
 .lasso-trailer {
   position: relative;
   display: block;
   max-width: 640px;
   width: 100%;
   margin: 1rem auto;
-  padding: 2.4rem 1.75rem 1.8rem;
+  padding: 2rem 1.5rem 1.5rem;
   text-decoration: none;
-  color: #2B4B2B;
+  color: #1D4024;
+  /* Layered green vignette: cream center, deeper Richmond-green edge.
+     The brain's peripheral vision reads GREEN first (success cue) before
+     the foveal vision parses the Ted Lasso sign. */
   background:
-    radial-gradient(ellipse at 30% 20%, rgba(232, 182, 74, 0.10) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 80%, rgba(43, 75, 43, 0.06) 0%, transparent 55%),
-    #F5E9C7;
-  border-radius: 2px;
+    radial-gradient(ellipse at 50% 46%, rgba(244, 216, 95, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 6% 6%, rgba(43, 75, 43, 0.18) 0%, transparent 42%),
+    radial-gradient(ellipse at 94% 6%, rgba(43, 75, 43, 0.18) 0%, transparent 42%),
+    radial-gradient(ellipse at 6% 94%, rgba(43, 75, 43, 0.22) 0%, transparent 46%),
+    radial-gradient(ellipse at 94% 94%, rgba(43, 75, 43, 0.22) 0%, transparent 46%),
+    linear-gradient(168deg, #ECE3BE 0%, #E4D8A8 100%);
+  border-radius: 3px;
   box-shadow:
-    inset 0 0 0 1px rgba(43, 75, 43, 0.08),
-    0 2px 12px rgba(43, 75, 43, 0.15),
-    0 12px 28px rgba(43, 75, 43, 0.12);
+    inset 0 0 0 1px rgba(43, 75, 43, 0.28),
+    inset 0 0 0 2px rgba(95, 139, 78, 0.08),
+    0 3px 14px rgba(43, 75, 43, 0.22),
+    0 16px 38px rgba(43, 75, 43, 0.24);
   overflow: hidden;
-  transform: rotate(-0.6deg);
+  transform: rotate(-0.5deg);
   transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
 }
 .lasso-trailer:hover {
   transform: rotate(0deg) translateY(-2px);
   box-shadow:
-    inset 0 0 0 1px rgba(43, 75, 43, 0.12),
-    0 6px 18px rgba(43, 75, 43, 0.2),
-    0 22px 42px rgba(43, 75, 43, 0.16);
+    inset 0 0 0 1px rgba(43, 75, 43, 0.4),
+    inset 0 0 0 2px rgba(95, 139, 78, 0.18),
+    0 0 0 3px color-mix(in srgb, #5F8B4E 22%, transparent),
+    0 10px 28px rgba(43, 75, 43, 0.3),
+    0 28px 52px rgba(43, 75, 43, 0.26);
+}
+
+/* Apple-TV-style marquee at top, with proper spacing so the words don't
+   collide. Clean SF-stack sans to contrast the hand-painted sign. */
+.lasso-trailer .lt-top-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-family: -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #2B4B2B;
+  padding: 0 0.25rem 0.75rem;
+  border-bottom: 1px dashed rgba(43, 75, 43, 0.3);
+}
+.lasso-trailer .lt-top-tick { font-weight: 500; color: rgba(43, 75, 43, 0.85); }
+.lasso-trailer .lt-top-marquee {
+  font-weight: 700;
+  color: #1D4024;
+  letter-spacing: 0.32em;
+  text-shadow: 0 0 8px rgba(29, 64, 36, 0.18);
+}
+
+/* The BELIEVE sign — yellow paper with black tape at 4 corners */
+.lasso-trailer .lt-sign {
+  position: relative;
+  margin: 1.4rem auto 1rem;
+  width: min(360px, 78%);
+  aspect-ratio: 16 / 7;
+  background:
+    radial-gradient(ellipse at 40% 30%, rgba(255, 255, 255, 0.18) 0%, transparent 60%),
+    linear-gradient(178deg, #F4D85F 0%, #EAC847 100%);
+  transform: rotate(-1.2deg);
+  box-shadow:
+    0 1px 2px rgba(43, 75, 43, 0.25),
+    0 6px 14px rgba(43, 75, 43, 0.22),
+    inset 0 0 24px rgba(232, 182, 74, 0.35);
+  /* subtle paper crinkle */
+  background-blend-mode: multiply, normal;
+  filter: saturate(1.08);
+}
+.lasso-trailer .lt-sign-tape {
+  position: absolute;
+  width: 54px;
+  height: 18px;
+  /* Green-black tape: reads as near-black at first, the green only
+     registers peripherally. Subliminal density. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+    linear-gradient(135deg, #0F1F12 0%, #1D4024 100%);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.35),
+    inset 0 0 6px rgba(95, 139, 78, 0.15);
+  opacity: 0.96;
+}
+.lasso-trailer .lt-sign-tape-tl { top: -10px;    left: -18px; transform: rotate(-42deg); }
+.lasso-trailer .lt-sign-tape-tr { top: -10px;    right: -18px; transform: rotate(42deg); }
+.lasso-trailer .lt-sign-tape-bl { bottom: -10px; left: -18px; transform: rotate(42deg); }
+.lasso-trailer .lt-sign-tape-br { bottom: -10px; right: -18px; transform: rotate(-42deg); }
+
+.lasso-trailer .lt-sign-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* BELIEVE — hand-painted Chelsea-blue letters with per-letter tilt */
+.lasso-trailer .lt-believe {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.06em;
+  font-family: var(--font-display), "Marker Felt", "Kalam", cursive, serif;
+  font-weight: 800;
+  font-style: italic;
+  font-size: clamp(1.8rem, 5.6vw, 3rem);
+  color: #1C3D7A; /* Chelsea / Richmond blue — faithful to the sign */
+  letter-spacing: 0.03em;
+  text-shadow:
+    0 1px 0 rgba(232, 182, 74, 0.5),
+    0 0 2px rgba(28, 61, 122, 0.4);
+  line-height: 1;
+  padding: 0.3rem 1.5rem;
+}
+.lasso-trailer .lt-believe span {
+  transform-origin: center;
+  display: inline-block;
+}
+.lasso-trailer .lt-believe span:nth-child(1) { transform: rotate(-5deg) translateY(1px); }
+.lasso-trailer .lt-believe span:nth-child(2) { transform: rotate(3deg); }
+.lasso-trailer .lt-believe span:nth-child(3) { transform: rotate(-2deg) translateY(-1px); }
+.lasso-trailer .lt-believe span:nth-child(4) { transform: rotate(6deg); }
+.lasso-trailer .lt-believe span:nth-child(5) { transform: rotate(-3deg); }
+.lasso-trailer .lt-believe span:nth-child(6) { transform: rotate(2deg) translateY(1px); }
+.lasso-trailer .lt-believe span:nth-child(7) { transform: rotate(-4deg); }
+
+/* Sticky notes — outside the sign, green-conditioned environment */
+.lasso-trailer .lt-note {
+  position: absolute;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 11px;
+  line-height: 1.2;
+  padding: 0.3rem 0.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1px;
+  box-shadow: 0 1px 3px rgba(43, 75, 43, 0.15);
+  color: #2B4B2B;
+  pointer-events: none;
+  max-width: 140px;
+  white-space: nowrap;
+  z-index: 3;
+}
+.lasso-trailer .lt-note-1 {
+  top: 32px; left: 18px;
+  transform: rotate(-6deg);
+  background: rgba(244, 216, 95, 0.4);
+}
+.lasso-trailer .lt-note-2 {
+  top: 90px; right: 20px;
+  transform: rotate(5deg);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* Corner tape pieces on the OUTER card — small, subliminal black tape
+   echoing the sign's tape, stacked with the cream card. */
+.lasso-trailer .lt-corner {
+  position: absolute;
+  width: 34px;
+  height: 12px;
+  /* Same green-black tape on outer corners — echoes the sign, pushes
+     more green density into the card frame. */
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 50%),
+    linear-gradient(135deg, #0F1F12 0%, #1D4024 100%);
+  opacity: 0.78;
+  box-shadow: 0 1px 2px rgba(43, 75, 43, 0.3);
+  z-index: 3;
+}
+.lasso-trailer .lt-corner-tl { top: -5px;    left: -9px;  transform: rotate(-40deg); }
+.lasso-trailer .lt-corner-br { bottom: -5px; right: -9px; transform: rotate(-40deg); }
+
+/* Headline block — polymarket word + tagline in green, the mental
+   shortcut: yellow+blue Ted Lasso sign ABOVE → green aureliex BELOW */
+.lasso-trailer .lt-headline {
+  text-align: center;
+  padding: 0.5rem 0.5rem 0.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.lasso-trailer .lt-word {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 4.8vw, 2.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  color: #2B4B2B;
+  text-shadow: 0 1px 0 rgba(244, 216, 95, 0.4);
+}
+.lasso-trailer .lt-sub {
+  font-family: var(--font-display), serif;
+  font-size: 0.92rem;
+  font-style: italic;
+  color: rgba(43, 75, 43, 0.72);
+}
+
+/* Bottom strip — Apple-sans, properly spaced */
+.lasso-trailer .lt-bottom-strip {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(43, 75, 43, 0.35);
+  font-family: -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: rgba(43, 75, 43, 0.85);
+}
+.lasso-trailer .lt-bottom-k { font-weight: 500; color: rgba(43, 75, 43, 0.82); }
+.lasso-trailer .lt-bottom-sep { color: rgba(43, 75, 43, 0.5); }
+.lasso-trailer .lt-bottom-v {
+  color: #1D4024;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(95, 139, 78, 0.22);
+}
+.lasso-trailer .lt-bottom-arrow {
+  color: #1D4024;
+  font-weight: 700;
+  margin-left: 0.2rem;
+  text-shadow: 0 0 8px rgba(95, 139, 78, 0.22);
+}
+
+@media (max-width: 560px) {
+  .lasso-trailer .lt-note-1 { top: 20px; left: 10px; }
+  .lasso-trailer .lt-note-2 { top: 76px; right: 10px; }
+  .lasso-trailer .lt-top-tick { font-size: 9.5px; letter-spacing: 0.18em; }
 }
 
 /* Keep actual content above the dart watermark (z-index 0) */
@@ -3232,7 +3446,7 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   width: 72%;
   aspect-ratio: 1 / 1;
   pointer-events: none;
-  opacity: 0.11;
+  opacity: 0.16;
   z-index: 0;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><g fill='none' stroke='%232B4B2B' stroke-width='0.35'><circle cx='50' cy='50' r='48'/><circle cx='50' cy='50' r='38'/><circle cx='50' cy='50' r='26'/><circle cx='50' cy='50' r='16'/><circle cx='50' cy='50' r='7'/></g><circle cx='50' cy='50' r='2.2' fill='%238B3A2E'/><g stroke='%232B4B2B' stroke-width='0.22' opacity='0.6'><line x1='50' y1='2' x2='50' y2='98'/><line x1='2' y1='50' x2='98' y2='50'/><line x1='16' y1='16' x2='84' y2='84'/><line x1='84' y1='16' x2='16' y2='84'/><line x1='31' y1='6' x2='69' y2='94'/><line x1='69' y1='6' x2='31' y2='94'/><line x1='6' y1='31' x2='94' y2='69'/><line x1='94' y1='31' x2='6' y2='69'/></g></svg>");
   background-size: 100% 100%;

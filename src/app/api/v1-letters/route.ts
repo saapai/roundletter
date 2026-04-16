@@ -38,10 +38,13 @@ async function read(ns: string, key: string): Promise<number> {
 export async function GET() {
   const round = await getRiddleRound();
   const ns = letterNamespace(round);
-  const counts = await Promise.all(LETTERS.map((l) => read(ns, l.slug)));
+  const [counts, everCount] = await Promise.all([
+    Promise.all(LETTERS.map((l) => read(ns, l.slug))),
+    read("aureliex-riddle", "crowd-ever-10"),
+  ]);
   const solved: Array<{ slug: string; letter: string; count: number }> = [];
   LETTERS.forEach((l, i) => {
     if (counts[i] > 0) solved.push({ slug: l.slug, letter: l.letter, count: counts[i] });
   });
-  return NextResponse.json({ round, solved });
+  return NextResponse.json({ round, solved, everAll10: everCount > 0 });
 }
