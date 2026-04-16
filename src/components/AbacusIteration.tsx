@@ -29,12 +29,20 @@ export default function AbacusIteration() {
     };
   }, []);
 
+  const days = Math.max(
+    0,
+    Math.floor((Date.now() - new Date("2026-04-14T00:00:00").getTime()) / 86_400_000),
+  );
+
   return (
-    <p className="abacus-iter" aria-live="polite">
-      <span className="abacus-iter-k">// abacus · test iteration</span>
-      <span className="abacus-iter-v">
-        {round == null ? "—" : String(round).padStart(3, "0")}
-      </span>
-    </p>
+    <div className="abacus-iter-wrap">
+      <p className="abacus-iter" aria-live="polite">
+        <span className="abacus-iter-k">// abacus · test iteration</span>
+        <span className="abacus-iter-v">
+          {round == null ? "—" : String(round).padStart(3, "0")}
+        </span>
+      </p>
+      <p className="abacus-iter-sub">{days} day{days !== 1 ? "s" : ""}</p>
+    </div>
   );
 }
