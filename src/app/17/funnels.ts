@@ -1,17 +1,24 @@
 // /17 funnel router. Detects which audience a visitor is in (via ?for=X,
-// ?utm_source=X, or document.referrer) and returns a curated cut + whisper.
-// Falls back to a seeded shuffle for unknown referrers.
+// ?utm_source=X, the /17/[funnel] dynamic path, or document.referrer) and
+// returns a curated cut + whisper. Falls back to a seeded shuffle.
 
 export type FunnelId = "sep" | "debate" | "fintwit" | "ai" | "poly" | "keys" | "default";
 
 export type FunnelCut = {
   id: FunnelId;
-  label: string;              // shown in top chrome, lowercase
-  whisper: string;            // the post-boot title line, the whole pitch in one breath
+  label: string;              // shown in top chrome
+  whisper: string;            // the post-boot title line
   subWhisper?: string;        // smaller second line
   scenes: string[];           // ordered scene ids
-  nextUrl: { href: string; label: string }; // where they go after the coda
+  nextUrl: { href: string; label: string }; // post-coda routing
 };
+
+// The META-WHISPER — shown above every funnel's whisper, pre-title.
+// One verse, all doors. This is the religion; the funnels are parables.
+export const META_WHISPER = "show the work. or don't show up.";
+
+// The end-card countdown target — the birthday when the logbook closes.
+export const DEADLINE_ISO = "2026-06-21T00:00:00-07:00"; // june 21, 2026, pacific
 
 // Scene ids defined in Trailer.tsx
 export const ALL_SCENE_IDS = [
@@ -19,6 +26,7 @@ export const ALL_SCENE_IDS = [
   "matrix",
   "iverson",
   "eeao",
+  "feynman",
   "lasso",
   "roosevelt",
   "moneyball",
@@ -29,16 +37,16 @@ export const FUNNELS: Record<FunnelId, FunnelCut> = {
     id: "sep",
     label: "cut · for sep",
     whisper: "résumés lie. commit counts don't.",
-    subWhisper: "sep keeps the receipt.",
-    scenes: ["iverson", "moneyball", "roosevelt", "eeao"],
+    subWhisper: "we keep the receipt.",
+    scenes: ["moneyball", "roosevelt", "eeao", "iverson"],
     nextUrl: { href: "/pitch", label: "the pitch →" },
   },
   debate: {
     id: "debate",
     label: "cut · for the circuit",
     whisper: "better debating means less intervention.",
-    subWhisper: "the paradigm is the ballot. the logbook is the flow.",
-    scenes: ["iverson", "moneyball", "eeao", "roosevelt"],
+    subWhisper: "the paradigm is the ballot. the flow is the logbook.",
+    scenes: ["iverson", "roosevelt", "eeao", "moneyball"],
     nextUrl: { href: "/letters/paradigm", label: "the paradigm →" },
   },
   fintwit: {
@@ -52,9 +60,9 @@ export const FUNNELS: Record<FunnelId, FunnelCut> = {
   ai: {
     id: "ai",
     label: "cut · for the builders",
-    whisper: "the ai wrote this paragraph and signed it.",
-    subWhisper: "dye in the water. not the poison.",
-    scenes: ["matrix", "eeao", "shotmeter", "moneyball"],
+    whisper: "ai didn't take the job. it signed for it.",
+    subWhisper: "the byline is the receipt. the dye is the difference.",
+    scenes: ["matrix", "eeao", "moneyball", "shotmeter"],
     nextUrl: { href: "/letters/v1", label: "the colophon →" },
   },
   poly: {
@@ -62,7 +70,7 @@ export const FUNNELS: Record<FunnelId, FunnelCut> = {
     label: "cut · for the polymaths",
     whisper: "a polymath has been many people.",
     subWhisper: "ρ < 1 is why you get to be many things.",
-    scenes: ["matrix", "shotmeter", "roosevelt", "lasso"],
+    scenes: ["feynman", "matrix", "roosevelt", "shotmeter"],
     nextUrl: { href: "/letters/math", label: "the math →" },
   },
   keys: {
@@ -95,7 +103,7 @@ export function seededShuffle<T>(arr: T[], seed: number): T[] {
   return out;
 }
 
-// Infer a funnel from ?for=, ?utm_source=, or document.referrer.
+// Infer funnel from ?for=, ?utm_source=, or document.referrer.
 export function detectFunnel(params: URLSearchParams, referrer: string): FunnelId {
   const explicit = (params.get("for") || params.get("utm_source") || "").toLowerCase();
   if (explicit in FUNNELS) return explicit as FunnelId;
@@ -108,6 +116,5 @@ export function detectFunnel(params: URLSearchParams, referrer: string): FunnelI
   if (r.includes("sepatucla") || r.includes("ucla.edu")) return "sep";
   if (r.includes("paulgraham") || r.includes("marginalrevolution") || r.includes("astralcodex")) return "poly";
   if (r.includes("aureliex.com/pitch") || r.includes("aureliex.com/6969")) return "keys";
-  // x.com / twitter.com gets the default seeded cut — too ambiguous to infer
   return "default";
 }

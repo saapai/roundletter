@@ -99,7 +99,7 @@ export const AGENT_COLOR: Record<AgentId, string> = Object.fromEntries(
 // ── Schemas ────────────────────────────────────────────────────────────────
 
 const PremiseVoteSchema = z.object({
-  topic_kind: z.enum(["position", "news", "macro", "unknown", "method"]),
+  topic_kind: z.enum(["position", "news", "macro", "unknown", "method", "design"]),
   subject: z.string().describe("one-line concrete subject, e.g. 'NVDA −3.2% while Nasdaq +1.6%'"),
   why_it_matters: z.string().describe("one sentence: why this is the thing to argue about today"),
 });
@@ -119,7 +119,7 @@ type ArgumentTurn = z.infer<typeof ArgumentTurnSchema>;
 
 const ModeratorPremiseSchema = z.object({
   framing: z.string().describe("1-2 sentences — abstract, story-directing, references allowed"),
-  chosen_kind: z.enum(["position", "news", "macro", "unknown", "method"]),
+  chosen_kind: z.enum(["position", "news", "macro", "unknown", "method", "design"]),
   chosen_subject: z.string().describe("the final agreed premise, one line"),
 });
 
@@ -153,7 +153,7 @@ const ModeratorArgumentScorecardSchema = z.object({
 // ── Output types ───────────────────────────────────────────────────────────
 
 export type Topic = {
-  kind: "position" | "news" | "macro" | "unknown" | "method";
+  kind: "position" | "news" | "macro" | "unknown" | "method" | "design";
   subject: string;
   framing: string; // moderator's one-line frame
 };

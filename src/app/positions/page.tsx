@@ -4,6 +4,7 @@ import StockAnalysisGraph from "@/components/StockAnalysisGraph";
 import PortfolioChart from "@/components/PortfolioChart";
 import SavingsHero from "@/components/SavingsHero";
 import TodayDebate from "@/components/TodayDebate";
+import ArgumentsPanel from "@/components/ArgumentsPanel";
 import TedLassoTrailer from "@/components/TedLassoTrailer";
 
 // Revalidate every 30s so the crowd-ever-10 flag is picked up quickly
@@ -140,6 +141,8 @@ export default async function Positions() {
       <h1 className="stocks-title-footer">Stocks</h1>
 
       <TodayDebate />
+
+      <ArgumentsPanel />
 
       {crowdEverAll10 ? (
         // Static server-rendered trailer: once the crowd-ever-10 flag is

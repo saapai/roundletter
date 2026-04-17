@@ -1,0 +1,46 @@
+name: 5h argument
+
+on:
+  schedule:
+    # Every 5 hours on the :00 — 00:00, 05:00, 10:00, 15:00, 20:00 UTC
+    - cron: "0 */5 * * *"
+  workflow_dispatch:
+    inputs:
+      axis:
+        description: "override axis (position | design) — defaults to next_axis in arguments.json"
+        required: false
+
+concurrency:
+  group: 5h-argument
+  cancel-in-progress: false
+
+jobs:
+  argue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: run 5h argument
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FORCE_AXIS: ${{ github.event.inputs.axis }}
+        run: npx tsx scripts/run-5h-argument.ts
+      - name: commit + push
+        run: |
+          git config user.name "5h-argument-bot"
+          git config user.email "noreply@anthropic.com"
+          if [ -n "$(git status --porcelain src/data/arguments.json)" ]; then
+            git add src/data/arguments.json
+            git commit -m "5h argument · $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          else
+            echo "no changes"
+          fi
