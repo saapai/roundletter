@@ -71,7 +71,7 @@ export default async function Positions() {
 
   return (
     <article className="article page">
-      <div className="eyebrow">Stocks · Round {p.round} · {p.baseline_date}</div>
+      <div className="eyebrow">Stocks · Round {p.round}</div>
 
       <SavingsHero
         holdings={p.holdings.map((h: any) => ({
@@ -84,6 +84,8 @@ export default async function Positions() {
         peakDate={p.peak_date ?? p.history?.peak_date ?? "2026-01-31"}
         baselineValue={current}
         goal={goal}
+        baselineDate={p.baseline_date ?? "2026-04-14"}
+        birthdate={p.birthdate ?? "2006-06-21"}
       />
 
       <PortfolioChart

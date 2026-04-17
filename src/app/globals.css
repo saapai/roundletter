@@ -2357,81 +2357,158 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   background: color-mix(in srgb, #3B7A4A 6%, transparent);
 }
 
-/* /positions — savings hero at the top */
+/* /positions — savings hero tombstone (Sotheby's / FT Weekend register) */
 .savings-hero {
-  max-width: 58rem;
-  margin: 1.5rem auto 2.5rem;
-  padding: 1.5rem clamp(1rem, 3vw, 2rem);
-  border: 1px solid rgba(28, 26, 23, 0.1);
-  border-radius: 10px;
-  background:
-    radial-gradient(ellipse at 15% 10%, color-mix(in srgb, #3B7A4A 4%, transparent) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 90%, color-mix(in srgb, #A67A3A 3%, transparent) 0%, transparent 55%),
-    rgba(255, 255, 255, 0.5);
+  max-width: 62rem;
+  margin: 3rem auto 3.5rem;
+  padding: 0;
+  border: none;
+  background: transparent;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.75rem;
 }
-.savings-eyebrow {
-  font-family: "Menlo", ui-monospace, monospace;
+.savings-tombstone-eyebrow {
+  font-family: var(--font-display), Georgia, serif;
+  font-variant: small-caps;
   font-size: 10.5px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   color: #6B6560;
-  text-transform: lowercase;
+  text-align: center;
 }
+.savings-tombstone {
+  text-align: center;
+  padding: 0.25rem 0 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+.savings-tombstone-figure {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(4rem, 11vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.savings-tombstone-pct {
+  font-size: 0.5em;
+  vertical-align: 0.35em;
+  color: #A67A3A;
+  margin-left: 0.15em;
+}
+.savings-tombstone-sub {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #6B6560;
+  margin-top: 0.25rem;
+}
+.savings-tombstone-peak {
+  color: #A67A3A;
+  font-style: normal;
+}
+.savings-tombstone-rule {
+  width: 4rem;
+  height: 1px;
+  background: #A67A3A;
+  margin: 1rem auto 0.5rem;
+}
+.savings-tombstone-current {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #6B6560;
+}
+.savings-tombstone-current-figure {
+  color: var(--ink);
+  font-style: normal;
+  font-variant-numeric: tabular-nums;
+}
+.savings-tombstone-countdown {
+  margin-top: 0.55rem;
+}
+.savings-countdown {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.savings-countdown-d { color: var(--ink); }
+.savings-countdown-hms { color: var(--ink); }
+.savings-countdown-label {
+  color: #6B6560;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  font-size: 10.5px;
+}
+
 .savings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  max-width: 44rem;
+  margin: 0 auto;
+  width: 100%;
 }
 .savings-cell {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
-  padding: 0.5rem 0.6rem;
-  border-left: 2px solid rgba(28, 26, 23, 0.1);
+  gap: 0.3rem;
+  padding: 0.75rem 1rem;
+  border-left: 1px solid var(--rule);
 }
-.savings-cell-main {
-  border-left-color: #3B7A4A;
-  background: color-mix(in srgb, #3B7A4A 5%, transparent);
-  border-radius: 4px;
+.savings-cell:first-child {
+  border-left: none;
 }
 .savings-cell-label {
-  font-family: "Menlo", ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.2em;
+  font-family: var(--font-display), Georgia, serif;
+  font-variant: small-caps;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
   color: #6B6560;
-  text-transform: uppercase;
+  text-transform: none;
 }
 .savings-cell-value {
-  font-family: "Menlo", ui-monospace, monospace;
-  font-weight: 700;
-  font-size: clamp(1.4rem, 3.2vw, 2.1rem);
-  color: #1C1A17;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  color: var(--ink);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 .savings-cell-value.savings-peak { color: #A67A3A; }
-.savings-cell-value.savings-draw { color: #8B3A2E; }
-.savings-cell-value.savings-goal { color: #3B7A4A; }
+.savings-cell-value.savings-draw { color: color-mix(in srgb, var(--ink) 70%, var(--paper)); }
+.savings-cell-value.savings-goal { color: var(--ink); }
 .savings-cell-note {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
   font-size: 0.78rem;
   color: #6B6560;
   line-height: 1.4;
 }
-.savings-up { color: #3B7A4A; font-weight: 700; }
 
 /* Visual journey bar — log-scaled from started ($1,296) to goal ($100,000) */
 .savings-bar-wrap {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  margin-top: 0.5rem;
+  gap: 0.45rem;
+  margin-top: 0.25rem;
+  max-width: 44rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 .savings-bar-track {
   position: relative;
-  height: 18px;
-  background: rgba(28, 26, 23, 0.06);
+  height: 6px;
+  background: rgba(28, 26, 23, 0.08);
   border-radius: 999px;
   overflow: visible;
 }
@@ -2440,9 +2517,8 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   left: 0;
   top: 0;
   bottom: 0;
-  background: linear-gradient(90deg, #3B7A4A 0%, #5E9E4B 60%, #A67A3A 100%);
+  background: var(--ink);
   border-radius: 999px;
-  box-shadow: 0 0 18px color-mix(in srgb, #5E9E4B 38%, transparent);
   animation: savings-bar-grow 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 @keyframes savings-bar-grow {
@@ -2451,27 +2527,23 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
 .savings-bar-peak-mark,
 .savings-bar-now-mark {
   position: absolute;
-  top: -6px;
+  top: -7px;
   width: 2px;
-  height: 30px;
+  height: 20px;
   transform: translateX(-50%);
 }
-.savings-bar-peak-mark { background: #A67A3A; opacity: 0.75; }
-.savings-bar-now-mark {
-  background: #1C1A17;
-  box-shadow: 0 0 10px color-mix(in srgb, #3B7A4A 60%, transparent);
-}
+.savings-bar-peak-mark { background: #A67A3A; opacity: 1; }
+.savings-bar-now-mark { background: var(--ink); }
 .savings-bar-now-mark::after {
   content: "";
   position: absolute;
-  top: -4px;
+  top: -3px;
   left: 50%;
   transform: translateX(-50%);
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: #3B7A4A;
-  box-shadow: 0 0 14px #3B7A4A;
+  background: var(--ink);
 }
 .savings-bar-labels {
   display: flex;
@@ -2480,17 +2552,48 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   font-size: 10.5px;
   color: #6B6560;
   letter-spacing: 0.08em;
-  line-height: 1.35;
+  line-height: 1.4;
 }
-.savings-bar-label-goal { text-align: right; color: #3B7A4A; font-weight: 700; }
+.savings-bar-labels em {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 11.5px;
+  color: #6B6560;
+}
+.savings-bar-label-goal {
+  text-align: right;
+  color: var(--ink);
+  font-weight: 400;
+}
 .savings-caveat {
+  font-family: var(--font-display), Georgia, serif;
   font-size: 0.8rem;
   color: #6B6560;
   font-style: italic;
-  line-height: 1.55;
-  margin: 0;
-  padding-top: 0.25rem;
-  border-top: 1px dashed rgba(28,26,23,0.08);
+  line-height: 1.65;
+  margin: 1.5rem auto 0;
+  padding: 0;
+  border: none;
+  text-align: justify;
+  max-width: 34rem;
+}
+.savings-caveat::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 1px;
+  background: var(--rule);
+  margin: 0 auto 1rem;
+}
+
+@media (max-width: 480px) {
+  .savings-grid { grid-template-columns: 1fr; }
+  .savings-cell {
+    border-left: none;
+    border-top: 1px solid var(--rule);
+    padding: 0.75rem 0.25rem;
+  }
+  .savings-cell:first-child { border-top: none; }
 }
 
 /* Portfolio growth chart — nasdaq-quote style, with 1D / 2D / All filters */

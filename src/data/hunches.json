@@ -1,0 +1,141 @@
+{
+  "note": "Hunches seeded from external sources S1 + S2. Each hunch credits % across data / human-source / future-data-collection / luck. Read by scripts/run-daily-debate.ts to route the daily roundtable onto specific positions. Retire by moving to retired_hunches once expires_on passes or catalyst resolves.",
+  "generated_at": "2026-04-17T00:50:00-07:00",
+  "sources": [
+    {
+      "id": "S1",
+      "kind": "data",
+      "name": "market heatmap snapshot — 2026-04-16 close",
+      "captured_at": "2026-04-16T20:00:00-04:00",
+      "summary": "rally day, broad green. leaders: SOUN +12.8, EOSE +11.8, FIG +9.5, HOOD +8.9, USAR +8.4, SNAP +7.8, DASH +7.7, TSLA +7.4, NOW +6.4, PLTR +3.0, META +2.1, NVDA +1.6, GOOG +0.2. laggards: SNDK -6.2, MOD -6.2, EDU -5.3, ASML -5.0, MU -3.8, VRT -2.8, ANET -2.8, BYDDY -1.9, NIO -1.9, TSM -0.7, STZ -1.0. shape: rotation OUT of semis INTO mega-cap app-layer + meme-speculative. semis lagging on broad-green day is the tell.",
+      "affects_positions": ["NVDA", "IBM", "GOOG", "MSFT", "IONQ", "RGTI", "QBTS"]
+    },
+    {
+      "id": "S2",
+      "kind": "human",
+      "name": "jack sarfati (@jack._.sarfati__) — IG DM, 2026-04-16",
+      "captured_at": "2026-04-16T14:00:00-07:00",
+      "summary": "SLC trader, mentored by Kent Madsen @ Epic VC. ICT + supply-demand; covered calls + occasional long calls/puts; max 3-week swings; no 0DTE; 2025 +17%. NEAR-TERM: PMI next week; consumer sentiment next Friday; bearish bias going into Monday; holding everything. TACTICAL SHORT-WINDOW for 29x runway: 'look at more leveraged options — Qs, SPY, or even SPUU.' EVENT: plans to SHORT NVDA into 2026-05-20 earnings. STRUCTURAL: 'immense government spending + unpredictable oil = recipe for disaster'; deep recession coming; Warsh @ Fed → money printer → downturn; 'retail getting screwed' — Trump-chatter-driven vol makes standard momentum indicators useless. PERSONAL: taking 1-2 month break from live trading; 'larp at end of the day.' MEETING: ~2026-06-15 in SLC.",
+      "affects_positions": ["NVDA", "SGOV", "IONQ", "RGTI", "QBTS", "QTUM"]
+    }
+  ],
+  "catalyst_calendar": [
+    { "date": "2026-04-24", "event": "PMI print + UMich consumer sentiment", "source": "S2" },
+    { "date": "2026-05-20", "event": "NVDA Q1 earnings", "source": "S2" },
+    { "date": "2026-06-15", "event": "Saathvik back in SLC — in-person with Jack + buddy", "source": "S2" },
+    { "date": "2026-06-21", "event": "BIRTHDAY — Round 0 resolution", "source": "self" }
+  ],
+  "hunches": [
+    {
+      "id": "H1",
+      "thesis": "NVDA has asymmetric downside into 2026-05-20 earnings. Trim or hedge before the event, don't sit fully exposed.",
+      "direction": "down",
+      "tickers": ["NVDA"],
+      "catalyst": "NVDA Q1 2026 earnings",
+      "catalyst_date": "2026-05-20",
+      "expires_on": "2026-05-21",
+      "action_suggestion": "trim NVDA 10% → 7% before 2026-05-15; park proceeds in SGOV; or buy a dated put as defined-risk hedge (cap premium at ~2% of account).",
+      "credits": {
+        "S1_data_heatmap": 0.20,
+        "S2_human_jack": 0.40,
+        "future_data_collection": 0.25,
+        "luck": 0.15
+      },
+      "credit_rationale": {
+        "S1_data_heatmap": "semis rolling while mega-cap app-layer leads; NVDA straddles both and underperformed the rip on 2026-04-16 (+1.6% vs TSLA +7.4, DASH +7.7 on a broad-green tape). relative weakness is the signal, not absolute direction.",
+        "S2_human_jack": "jack named NVDA earnings directly + plans to short; he's in the tape daily and his 2025 calendar calls have been specific. higher weight than S1 because he's pointing to the exact ticker + date.",
+        "future_data_collection": "IV term structure 2026-05-10 onward + analyst revisions 2026-05-12 onward tighten or break this. the hunch should update, not stay static.",
+        "luck": "earnings are binary and IV crush cuts both ways. if NVDA beats big, a short or a trim both leave money on the table — irreducible."
+      }
+    },
+    {
+      "id": "H2",
+      "thesis": "Pure-play quantum cluster (IONQ+RGTI+QBTS, 20% of book) has correlated ATM-shelf risk and highest beta to any macro red day. Correlation is 0.6, not 0.",
+      "direction": "down-beta",
+      "tickers": ["IONQ", "RGTI", "QBTS"],
+      "catalyst": "any of three files S-3 / 424B5 after a rally; OR first wide-tape red day on recession-confirmation data",
+      "catalyst_date": null,
+      "expires_on": "2026-06-21",
+      "action_suggestion": "hard-enforce Flow agent's 0.6 correlation: if any one files ATM, cut the other two 50% same day even without news. No averaging down on dilutive pre-revenue names — panel rule already reflects this; the hunch is to NOT relax it when one is halfway back.",
+      "credits": {
+        "S1_data_heatmap": 0.30,
+        "S2_human_jack": 0.40,
+        "future_data_collection": 0.20,
+        "luck": 0.10
+      },
+      "credit_rationale": {
+        "S1_data_heatmap": "heatmap shows meme-speculative leading (SOUN, EOSE, HOOD, FIG); pure-plays trade in that bucket's gravity well. reflexive leadership days often precede ATM announcements — companies raise into strength.",
+        "S2_human_jack": "jack's 'deep recession' + 'retail getting screwed' thesis hits these hardest on reversal. his structural read weights this channel.",
+        "future_data_collection": "SEC EDGAR monitoring on three tickers (S-3, 424B5, 10-Q cash burn) is a concrete add. The moment that data arrives, the hunch updates.",
+        "luck": "single-name headline risk — IONQ/RGTI specifically have been episodic (CEO interviews, government contracts, benchmark claims)."
+      }
+    },
+    {
+      "id": "H3",
+      "thesis": "Mega-cap AI ex-semis (MSFT, GOOG, IBM) carries the book better than NVDA through 2026-05-20. Shift weight toward IBM and GOOG pre-PMI.",
+      "direction": "up-relative-to-NVDA",
+      "tickers": ["MSFT", "GOOG", "IBM"],
+      "catalyst": "PMI 2026-04-24 + UMich same day; Fed path; recession positioning",
+      "catalyst_date": "2026-04-24",
+      "expires_on": "2026-05-20",
+      "action_suggestion": "shift 2-3% from NVDA → IBM before PMI print (2026-04-24). IBM is flow-cleanest + pays dividend + has the most credible FTQ roadmap per historian-agent's existing note.",
+      "credits": {
+        "S1_data_heatmap": 0.40,
+        "S2_human_jack": 0.30,
+        "future_data_collection": 0.15,
+        "luck": 0.15
+      },
+      "credit_rationale": {
+        "S1_data_heatmap": "most direct signal — heatmap shows mega-cap app-layer leading while semis roll. highest weight of any channel on this hunch because the observation is present-tense.",
+        "S2_human_jack": "his bearish-short-term + 'hold everything + play defense' posture implies mega-cap over semis. directionally consistent but less specific than his NVDA call.",
+        "future_data_collection": "PMI actual on 2026-04-24 either confirms or invalidates the rotation setup.",
+        "luck": "mega-cap is less single-event-driven than NVDA but still sensitive to Trump/tariff/antitrust headlines — irreducible baseline."
+      }
+    },
+    {
+      "id": "H4",
+      "thesis": "SGOV (dry powder) is undersized given jack's bearish 2-week calendar. Add an event-trigger — not only the existing -30% QTUM price trigger.",
+      "direction": "neutral-hedge",
+      "tickers": ["SGOV"],
+      "catalyst": "PMI 2026-04-24; UMich sentiment 2026-04-24",
+      "catalyst_date": "2026-04-24",
+      "expires_on": "2026-05-01",
+      "action_suggestion": "extend portfolio.triggers with: 'deploy_drypowder_on_pmi_miss_below: 48' and 'deploy_drypowder_on_umich_below: 55'. If either print misses, deploy half of SGOV into QTUM within 48h of print. Otherwise hold.",
+      "credits": {
+        "S1_data_heatmap": 0.10,
+        "S2_human_jack": 0.60,
+        "future_data_collection": 0.25,
+        "luck": 0.05
+      },
+      "credit_rationale": {
+        "S1_data_heatmap": "no direct heatmap signal for bonds; rally-day context only weakly informs SGOV.",
+        "S2_human_jack": "jack named specific macro prints + dates — near-term calendar channel is dominant here. his weight is highest.",
+        "future_data_collection": "PMI + UMich prints on 2026-04-24 are the actual resolution — the hunch exists to pre-commit a response to them.",
+        "luck": "macro prints rarely random; mostly follow trend. small luck weight appropriate."
+      }
+    },
+    {
+      "id": "H5",
+      "thesis": "Defined-risk options sleeve from dry powder — break thematic purity for the 29x runway-to-$100k, hard-capped at $150 total premium at risk.",
+      "direction": "asymmetric",
+      "tickers": ["QQQ", "SPY"],
+      "catalyst": "birthday math requires 29x in 10 weeks; current book is built for survival not 29x. Portfolio + panel will not produce this without an off-thesis sleeve.",
+      "catalyst_date": "2026-06-21",
+      "expires_on": "2026-06-21",
+      "action_suggestion": "carve 2-3% (~$70-100) from SGOV for long-dated OTM QQQ or SPY calls, 3-week duration, entered AFTER 2026-05-20 NVDA earnings (post IV crush, post-event clarity), one contract at a time. Tracked as new lottery tier 'F_tactical_options' outside existing buckets. Hard-cap total premium at risk at $150. Any trade breaking the cap is a panel kill-switch event.",
+      "credits": {
+        "S1_data_heatmap": 0.10,
+        "S2_human_jack": 0.50,
+        "future_data_collection": 0.10,
+        "luck": 0.30
+      },
+      "credit_rationale": {
+        "S1_data_heatmap": "heatmap doesn't inform options premium — minimal weight.",
+        "S2_human_jack": "jack's single highest-conviction actionable advice for a short-window 29x attempt was literally 'look at Qs / SPY / SPUU.' He also caveats 'retail is getting screwed' and is taking a break — so half-weight, not overweight.",
+        "future_data_collection": "IV term structure + Trump-tariff headline clock between now and each entry. Lower weight because sleeve is deliberately small.",
+        "luck": "options are probabilistic bets by construction. high luck weight is honest, not a flaw — the sleeve IS the luck sleeve. If the birthday math works, this is where it comes from."
+      }
+    }
+  ],
+  "retired_hunches": []
+}

@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
+import BirthdayCountdown from "./BirthdayCountdown";
 
-// Live savings hero — recomputes current account value from Yahoo last
-// closes (sum of shares × last close across all holdings) and derives
-// gain-from-start / drawdown-from-peak / distance-to-goal from that.
-// Falls back to static baseline when quotes are unavailable.
+// Savings-hero tombstone — the ride from $1,296 → peak sets the hero figure
+// (serif, flat ink on paper, gilt hairline). Drawdown stays on the record but
+// demoted into a three-cell statement row with hairline dividers. A ticking
+// HH:MM:SS countdown to the birthday deadline sits under the tombstone —
+// the clock the book is racing, not a motion gimmick.
 
 type Holding = { ticker: string; shares: number; entry_value: number };
 type Series = { timestamps: number[]; closes: number[] };
@@ -16,22 +18,38 @@ type PricesResponse = {
 
 type Props = {
   holdings: Holding[];
-  startedValue: number;      // Jan 2025 start value
+  startedValue: number;
   peakValue: number;
   peakDate: string;
-  baselineValue: number;     // reconciled account value at entry (fallback)
+  baselineValue: number;
   goal: number;
+  baselineDate: string;
+  birthdate: string;
 };
 
 function fmt$(n: number): string {
   return n.toLocaleString("en-US", { maximumFractionDigits: 0 });
 }
 
+const MONTHS = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
+function fmtCatalogDate(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return iso;
+  const [, , mm, dd] = m;
+  return `${Number(dd)} ${MONTHS[Number(mm) - 1]}`;
+}
+function fmtCatalogDateWithYear(iso: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if (!m) return iso;
+  const [, yyyy, mm, dd] = m;
+  return `${Number(dd)} ${MONTHS[Number(mm) - 1]} ${yyyy}`;
+}
+
 const CACHE_KEY = "prices-cache-v1";
 const FRESH_MS = 10 * 60 * 1000;
 
 export default function SavingsHero(props: Props) {
-  const { holdings, startedValue, peakValue, peakDate, baselineValue, goal } = props;
+  const { holdings, startedValue, peakValue, peakDate, baselineValue, goal, baselineDate, birthdate } = props;
   const [prices, setPrices] = useState<PricesResponse | null>(null);
 
   useEffect(() => {
@@ -56,8 +74,6 @@ export default function SavingsHero(props: Props) {
       .catch(() => {});
   }, []);
 
-  // Current = sum(shares × last close). For any missing ticker, fall back
-  // to entry_value so a partial quote outage doesn't wipe the total.
   const current = useMemo(() => {
     if (!prices || !prices.hasData) return baselineValue;
     let total = 0;
@@ -76,8 +92,6 @@ export default function SavingsHero(props: Props) {
 
   const isLive = prices?.hasData ?? false;
 
-  const gainFromStart = current - startedValue;
-  const gainPctFromStart = (gainFromStart / startedValue) * 100;
   const peakGain = peakValue - startedValue;
   const peakGainPct = (peakGain / startedValue) * 100;
   const drawFromPeak = current - peakValue;
@@ -85,7 +99,6 @@ export default function SavingsHero(props: Props) {
   const toGoal = goal - current;
   const multipleToGoal = goal / current;
 
-  // Log-scale progress bar
   const logMin = Math.log(startedValue);
   const logMax = Math.log(goal);
   const posPct = ((Math.log(Math.max(current, 1)) - logMin) / (logMax - logMin)) * 100;
@@ -93,34 +106,43 @@ export default function SavingsHero(props: Props) {
 
   return (
     <section className="savings-hero">
-      <div className="savings-eyebrow">// the savings story {isLive ? "· live" : "· reconciled"}</div>
+      <div className="savings-tombstone-eyebrow">
+        the savings story — sighted {fmtCatalogDateWithYear(baselineDate)}, {isLive ? "15-min tape" : "reconciled"}
+      </div>
+
+      <div className="savings-tombstone">
+        <div className="savings-tombstone-figure">
+          {peakGainPct.toFixed(0)}<span className="savings-tombstone-pct">%</span>
+        </div>
+        <div className="savings-tombstone-sub">
+          ${fmt$(startedValue)} <em>jan 2025</em>
+          {" — "}
+          <span className="savings-tombstone-peak">${fmt$(peakValue)}</span> <em>{fmtCatalogDate(peakDate)}</em>
+        </div>
+        <div className="savings-tombstone-rule" aria-hidden="true" />
+        <div className="savings-tombstone-current">
+          on the books today · <span className="savings-tombstone-current-figure">${fmt$(current)}</span>
+        </div>
+        <div className="savings-tombstone-countdown">
+          <BirthdayCountdown birthdate={birthdate} />
+        </div>
+      </div>
 
       <div className="savings-grid">
-        <div className="savings-cell savings-cell-main">
-          <div className="savings-cell-label">current account</div>
-          <div className="savings-cell-value">${fmt$(current)}</div>
-          <div className="savings-cell-note">
-            <span className="savings-up">+${fmt$(gainFromStart)}</span>
-            {" "}({gainPctFromStart.toFixed(0)}%) since jan 2025
-          </div>
-        </div>
-
         <div className="savings-cell">
-          <div className="savings-cell-label">peak</div>
+          <div className="savings-cell-label">high-water, {fmtCatalogDate(peakDate)}</div>
           <div className="savings-cell-value savings-peak">${fmt$(peakValue)}</div>
-          <div className="savings-cell-note">
-            +${fmt$(peakGain)} ({peakGainPct.toFixed(0)}%) · {peakDate}
-          </div>
+          <div className="savings-cell-note">+${fmt$(peakGain)} ({peakGainPct.toFixed(0)}%)</div>
         </div>
 
         <div className="savings-cell">
-          <div className="savings-cell-label">vs peak</div>
+          <div className="savings-cell-label">gave some back</div>
           <div className="savings-cell-value savings-draw">{drawPctFromPeak.toFixed(1)}%</div>
-          <div className="savings-cell-note">${fmt$(drawFromPeak)} (gave back)</div>
+          <div className="savings-cell-note">${fmt$(drawFromPeak)}</div>
         </div>
 
         <div className="savings-cell">
-          <div className="savings-cell-label">to $100k</div>
+          <div className="savings-cell-label">to six figures by 21 june</div>
           <div className="savings-cell-value savings-goal">{multipleToGoal.toFixed(1)}x</div>
           <div className="savings-cell-note">${fmt$(toGoal)} to go</div>
         </div>
@@ -134,7 +156,7 @@ export default function SavingsHero(props: Props) {
         </div>
         <div className="savings-bar-labels">
           <span>${fmt$(startedValue)}<br/><em>jan 2025</em></span>
-          <span className="savings-bar-label-goal">${fmt$(goal)}<br/><em>june 21</em></span>
+          <span className="savings-bar-label-goal">${fmt$(goal)}<br/><em>21 june</em></span>
         </div>
       </div>
 
