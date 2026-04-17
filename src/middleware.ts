@@ -5,15 +5,18 @@ const PERSONAL_HOSTS = ["saathvikpai.com", "www.saathvikpai.com"];
 export function middleware(req: NextRequest) {
   const host = (req.headers.get("host") || "").toLowerCase();
   const isPersonal = PERSONAL_HOSTS.some((h) => host === h || host.startsWith(`${h}:`));
+  const pathname = req.nextUrl.pathname;
 
-  if (!isPersonal) return NextResponse.next();
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-pathname", pathname);
 
-  const url = req.nextUrl.clone();
-  if (url.pathname === "/" || url.pathname === "") {
+  if (isPersonal && (pathname === "/" || pathname === "")) {
+    const url = req.nextUrl.clone();
     url.pathname = "/statement";
-    return NextResponse.rewrite(url);
+    return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
   }
-  return NextResponse.next();
+
+  return NextResponse.next({ request: { headers: requestHeaders } });
 }
 
 export const config = {

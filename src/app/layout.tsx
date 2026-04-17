@@ -9,6 +9,7 @@ import Insignia from "@/components/Insignia";
 import FridayMark from "@/components/FridayMark";
 
 const PERSONAL_HOSTS = ["saathvikpai.com", "www.saathvikpai.com"];
+const BARE_PATHS = new Set(["/17", "/keys"]);
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -46,8 +47,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const host = (headers().get("host") || "").toLowerCase();
-  const bare = PERSONAL_HOSTS.some((h) => host === h || host.startsWith(`${h}:`));
+  const h = headers();
+  const host = (h.get("host") || "").toLowerCase();
+  const pathname = h.get("x-pathname") || "";
+  const hostBare = PERSONAL_HOSTS.some((hh) => host === hh || host.startsWith(`${hh}:`));
+  const pathBare = BARE_PATHS.has(pathname);
+  const bare = hostBare || pathBare;
 
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
