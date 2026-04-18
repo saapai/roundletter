@@ -35,7 +35,7 @@ A Next.js App Router site that publishes a single retail investor's portfolio in
 ```
 src/
   app/
-    page.tsx                     home — renders round-0 letter + stats strip + ViewTracker
+    page.tsx                     home (v3) — PortfolioChart hero + v1 manifesto lines + BettableOdds + stack dock
     layout.tsx                   shell, nav, footer, metadata
     globals.css                  tailwind + typography
     letters/round-0/page.tsx     canonical letter URL (same content as /)
@@ -46,6 +46,10 @@ src/
     api/views/route.ts           POST view-event logger, GET store dump
   components/
     ViewTracker.tsx              client; IntersectionObserver on end-of-article sentinel; POSTs /api/views once per session
+    BettableOdds.tsx             server; hardcoded BOOK[] of 8 sealed predictions with 10–90 odds (thesis + % + hairline bar + mono meta)
+    PortfolioChart.tsx           client; fetches /api/prices, composes sum(shares × close) grid, 1D/2D/All filter, SVG sparkline
+    SavingsHero.tsx              client; tombstone figure ($1,296→peak) + BirthdayCountdown, rendered on /positions
+    BirthdayCountdown.tsx        client; HH:MM:SS ticker to 2006-06-21 anniversary
   data/
     portfolio.json               baseline book, buckets, triggers, history
     trades.json                  timestamped trades
@@ -63,10 +67,11 @@ data/
 
 ## Feature Logic & Flows
 
-### Home page = Article
-- `/` reads `round-0.md` via `getLetter()` and renders with `renderMarkdown()`.
-- A three-card stats strip sits above the article: account value, peak-to-trough drawdown, distance-to-$100K multiple.
-- `<ViewTracker slug="round-0" />` is appended after the article body (also on `/letters/round-0`).
+### Home page = v3 live chart + manifesto + book
+- `/` renders, top to bottom: `.v3-hero` (eyebrow strip + `<PortfolioChart>` with enlarged tombstone-register value) → `.v3-manifesto` (4 punchy serif lines distilled from v1.md) → `<BettableOdds>` (8 sealed predictions in 10–90 band) → `.v3-stack` (dock of links to `/letters/*`, `/about-the-method`, `/positions`).
+- `PortfolioChart` fetches `/api/prices` client-side (Yahoo 30-min bars, 5d, cached 10min via sessionStorage), sums `shares × close` across the 10 holdings, anchors the "All" timeframe to the baseline ts with `account_value_at_entry` as the opening print.
+- `<ViewTracker slug="home-v3" />` mounts at the end; same session-dedup as other slugs.
+- Letter bodies (`round-0.md`, `math.md`, `paradigm.md`, `v1.md`) are still reachable at their canonical `/letters/*` URLs — they were removed from the home page, not deleted.
 
 ### View tracking (scroll-to-bottom = one "true" view)
 ```
@@ -103,6 +108,11 @@ sessionStorage flagged so refresh/replays don't double-count
 - No active branches tracked here.
 
 ## Recent Changes Log
+
+### 2026-04-18 — v3 home: chart-first, punchy v1 manifesto, bettable 10–90 book
+- **What**: Replaced `src/app/page.tsx` entirely. Old home (four stacked letter articles + AbacusIteration + HomePassword + AgentsLegend + ViewsBadge) is gone from `/`. New layout: (1) v3-hero — full-width `<PortfolioChart>` composed with bigger tombstone type (Cormorant `clamp(3.5rem, 9vw, 6.75rem)` on `.pch-value`) plus an eyebrow row with `aureliex · round 0 · live` on the left and `<BirthdayCountdown>` on the right; (2) v3-manifesto — four modern-arty serif lines compressed from v1.md ("v1 is the only version of anything that cannot be lying" / "the outcome has not arrived" / "publish before you know" / aside "— dye in the water"); (3) `<BettableOdds>` — new component at `src/components/BettableOdds.tsx` rendering 8 sealed predictions in the 10–90 band (portfolio >$5k/$10k/$100k by 21 jun, IONQ>$60, NVDA-beat 20 may, kill-switch fires in 90d, QTUM−30%→SGOV, panel-calibrated-at-cycle-17); each row is thesis + % + hairline bar + mono meta (sealed date, horizon); (4) `/letters/*` and `/positions` and `/about-the-method` linked as a "the stack" dock at the bottom. Appended ~180 lines of `.v3-*` and `.book-*` CSS to `src/app/globals.css` (paper/ink/gold tokens reused; no new palette). Added `<ViewTracker slug="home-v3" />`.
+- **Why**: User ask — "the most beautiful version of the stock portfolio growth, like Fidelity/Robinhood, constantly updating, just for my portfolio" as the new home page; "v1 text incorporated however possible but way more simply and punchy but modern arty"; "bettable as possible with 10 to 90 odds". Three asks, one surface: chart-as-hero + compressed v1 thesis + public book of priors. Home previously led with ~8,000 words of stacked letters, which buries the live-updating artifact the user actually wants people to land on. Letters preserved at their canonical `/letters/*` URLs, so no content lost — just reordered.
+- **Impact**: Flows checked — (i) `/api/prices` unchanged, `PortfolioChart` component unchanged (composed, not modified; override styles scoped to `.v3-chart-wrap`); (ii) `/letters/round-0` still renders the pre-mortem via `getLetter()` — unchanged; (iii) `ViewTracker`'s session-dedup and `/api/views` POST unchanged; new slug `home-v3` will appear in `data/views.json` alongside existing slugs without collision; (iv) `ViewsBadge` aggregate across `ARTICLES = ["round-0","math","paradigm","v1"]` was rendered on the old home for cumulative reads — now lives only where those letters render individually, which is acceptable since this is a home redesign not a reads-metric change; if aggregate readout is desired on the new home, add `<ViewsBadge slugs={["round-0","math","paradigm","v1","home-v3"]} mode="aggregate" />` inside `.v3-hero-eyebrow` (future cleanup); (v) `AbacusIteration` + `HomePassword` no longer mount on home — neither is referenced elsewhere; if either should persist, re-add to page.tsx; (vi) `BettableOdds`' book is hardcoded — next iteration can pull from a new `src/data/book.json` once the user confirms the bet list; (vii) `npx tsc --noEmit` clean.
 
 ### 2026-04-17 — 5h argument cron: agents argue positions and designs, logged on /positions
 - **What**: (a) `src/data/arguments.json` — new rolling log of agent arguments. Schema: `{ note, next_axis, arguments: [{ id, ts, axis, kind, title, summary, body? debate? }] }`. Axis alternates `position` / `design` via `next_axis` state field. Seeded with five research reports from the Apr-17 synthesis pass (letters, design/references, git DNA, debate engine, trajectory). (b) `scripts/run-5h-argument.ts` — reads arguments.json + portfolio.json + hunches.json; builds axis-specific dayContext (positions uses universe + active hunches + catalyst calendar + moderator directive; design hardcodes the current SavingsHero tombstone surface as dayContext + open design questions); runs `runDebate({ maxArgumentRounds: 3 })`; appends a compact entry to arguments.json (keeps last 40); flips next_axis. (c) `src/components/ArgumentsPanel.tsx` — server component reading the last 8 entries reverse-chron, rendering with axis badges (gold for position, ink for design), kind labels, click-to-expand details for report-kind entries. (d) `src/app/positions/page.tsx` — mounts `<ArgumentsPanel />` below `<TodayDebate />`. (e) `.github/workflows/5h-argument.yml` — GH Actions cron `0 */5 * * *` (every 5 hours at :00 UTC = 00/05/10/15/20); runs the script, commits + pushes `src/data/arguments.json` only (separate file from debates.json so this workflow never merge-conflicts with the existing daily-debate workflow); concurrency group `5h-argument`. (f) `src/lib/agent-debate.ts` — widened `topic_kind` enum + Topic type to include `"design"` so the moderator can label design-axis entries naturally. (g) `src/app/globals.css` — appended ~130 lines of `.arguments-*` and `.argument-*` styling in the tombstone register (paper + ink + hairline dividers, serif italic prose, mono metadata, gold position-badge, ink design-badge).

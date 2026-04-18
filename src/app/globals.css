@@ -6461,3 +6461,385 @@ body.reader-mode > main { padding-top: 2rem; }
 .argument-body-inner p {
   margin: 0 0 0.85rem;
 }
+
+/* ============================================================
+   v3 home — chart-first, tombstone-register, modern arty
+   ============================================================ */
+
+.v3-hero {
+  max-width: 78rem;
+  margin: 2.5rem auto 0;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+
+.v3-hero-eyebrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.25rem;
+}
+.v3-hero-eyebrow em {
+  font-style: normal;
+  color: var(--rust);
+  letter-spacing: 0.18em;
+}
+.v3-hero-eyebrow-right {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.v3-chart-wrap .port-chart {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+.v3-chart-wrap .port-chart-head {
+  margin-bottom: 1.25rem;
+}
+.v3-chart-wrap .pch-eyebrow {
+  font-size: 0.72rem;
+}
+.v3-chart-wrap .pch-sub {
+  font-size: 0.78rem;
+  max-width: 32rem;
+}
+.v3-chart-wrap .pch-values {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin: 0.25rem 0 1.1rem;
+}
+.v3-chart-wrap .pch-value {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(3.5rem, 9vw, 6.75rem);
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  padding: 0;
+  background: transparent !important;
+  color: var(--ink) !important;
+}
+.v3-chart-wrap .pch-delta {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 0.25rem 0.55rem;
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+}
+.v3-chart-wrap .pch-svg {
+  max-height: 340px;
+}
+.v3-chart-wrap .pch-filters {
+  gap: 0.25rem;
+}
+.v3-chart-wrap .pch-filter {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+}
+
+.v3-rule {
+  max-width: 78rem;
+  margin: 4.5rem auto;
+  border-top: 1px solid var(--rule);
+}
+
+.v3-manifesto {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.v3-line {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  color: var(--ink);
+  font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+  line-height: 1.15;
+  margin: 0 0 1.6rem;
+  letter-spacing: -0.005em;
+}
+.v3-line-lead {
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  line-height: 1.05;
+  margin-bottom: 2.4rem;
+  font-style: italic;
+}
+.v3-line-aside {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+  text-transform: lowercase;
+  margin-top: 2.2rem;
+}
+
+.book {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.book-head {
+  margin-bottom: 2rem;
+}
+.book-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 0.6rem;
+}
+.book-title {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 1.05;
+  margin: 0 0 0.55rem;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.book-sub {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--ink) 72%, var(--paper));
+  margin: 0;
+  max-width: 42rem;
+}
+
+.book-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.book-row {
+  padding: 1.1rem 0 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.book-row-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.book-thesis {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  color: var(--ink);
+  line-height: 1.2;
+}
+.book-odds {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  flex: 0 0 auto;
+}
+
+.book-bar {
+  position: relative;
+  height: 3px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 0;
+  overflow: hidden;
+  margin: 0.15rem 0 0.55rem;
+}
+.book-bar-fill {
+  height: 100%;
+  background: var(--ink);
+  transition: width 400ms ease-out;
+}
+
+.book-meta {
+  display: flex;
+  gap: 0.55rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+}
+.book-sep { color: var(--rule); }
+
+.book-foot {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--ink) 65%, var(--paper));
+  margin: 1.6rem 0 0;
+  max-width: 48rem;
+}
+
+.v3-stack {
+  max-width: 68rem;
+  margin: 0 auto 5rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.v3-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 1.2rem;
+}
+.v3-letter-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.v3-letter-list li {
+  border-bottom: 1px solid var(--rule);
+}
+.v3-letter-list a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 0;
+  text-decoration: none;
+  color: var(--ink);
+  transition: padding-left 200ms ease;
+}
+.v3-letter-list a:hover {
+  padding-left: 0.55rem;
+}
+.v3-ll-title {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+.v3-ll-sub {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+}
+
+@media (max-width: 640px) {
+  .v3-hero-eyebrow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .v3-chart-wrap .pch-value {
+    font-size: clamp(2.6rem, 12vw, 4.5rem);
+  }
+}
+
+/* ============================================================
+   v3 — the method as an equation (desktop-first)
+   ============================================================ */
+.v3-equation {
+  max-width: 68rem;
+  margin: 4.5rem auto 5rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.v3-eq-grid {
+  border-top: 1px solid var(--rule);
+  padding-top: 2rem;
+}
+.v3-eq-main {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+  color: var(--ink);
+  margin-bottom: 2rem;
+  letter-spacing: -0.005em;
+  flex-wrap: wrap;
+}
+.v3-eq-lhs { font-style: italic; }
+.v3-eq-approx { font-size: 1.4em; opacity: 0.85; }
+.v3-eq-rhs { display: inline-flex; align-items: baseline; gap: 0.35rem; position: relative; }
+.v3-eq-sigma { font-size: 1.7em; line-height: 1; font-weight: 400; }
+.v3-eq-sigma-sub {
+  position: relative;
+  left: -0.5em;
+  top: 0.9em;
+  font-size: 0.48em;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+}
+.v3-eq-sigma-sup {
+  position: relative;
+  left: -0.8em;
+  top: -0.9em;
+  font-size: 0.55em;
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+}
+.v3-eq-term { font-style: italic; margin-left: -0.3em; }
+.v3-eq-term sup { font-size: 0.62em; font-style: normal; }
+
+.v3-eq-legend {
+  list-style: none;
+  margin: 0 0 2rem;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.v3-eq-legend li {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.v3-eq-sym {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: 1.5rem;
+  color: var(--ink);
+}
+.v3-eq-def {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+.v3-eq-note {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  white-space: nowrap;
+}
+
+.v3-eq-coda {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-style: normal;
+  color: var(--ink);
+  line-height: 1.45;
+  max-width: 48rem;
+  margin: 0 0 1.2rem;
+}
+.v3-eq-coda em { font-style: italic; }
+.v3-eq-colophon {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--ink) 70%, var(--paper));
+  margin: 0;
+}
+
+@media (max-width: 720px) {
+  .v3-equation { display: none; }
+}
