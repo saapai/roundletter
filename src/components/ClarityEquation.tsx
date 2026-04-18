@@ -1,5 +1,7 @@
 // Maclaurin-series visualization: each derivative of reasoning
-// approaches clarity but never reaches it.
+// approaches clarity but never reaches it. Denominators use factorial
+// notation (n!), not the evaluated value — writing "3!" is the math,
+// writing "6!" is a 120× error.
 
 const TERMS: Array<{ n: number; label: string; era: string; sup: string }> = [
   { n: 0, label: "data", era: "the computer", sup: "" },
@@ -7,10 +9,6 @@ const TERMS: Array<{ n: number; label: string; era: string; sup: string }> = [
   { n: 2, label: "reasoning", era: "artificial intelligence", sup: "″" },
   { n: 3, label: "the reasoning\nabout the reasoning", era: "?", sup: "‴" },
 ];
-
-function factorial(n: number): number {
-  return n <= 1 ? 1 : n * factorial(n - 1);
-}
 
 export default function ClarityEquation() {
   return (
@@ -45,7 +43,7 @@ export default function ClarityEquation() {
                     )}
                   </span>
                   {t.n > 1 && (
-                    <span className="clarity-eq-den">{factorial(t.n)}!</span>
+                    <span className="clarity-eq-den">{t.n}!</span>
                   )}
                 </span>
                 <span className="clarity-eq-label">{t.label}</span>
