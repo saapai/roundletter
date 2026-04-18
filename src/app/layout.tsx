@@ -64,15 +64,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Insignia />
             <FridayMark />
             <header className="masthead">
-              <Link href="/" className="wordmark">aureliex<span className="dot">.</span></Link>
-              <div className="tagline">a portfolio kept in public</div>
+              <Link href="/" className="wordmark">
+                aureliex<span className="dot">.</span>
+                <span className="wordmark-sep"> · </span>
+                <span className="wordmark-sub">green credit · round 0</span>
+              </Link>
+              <div className="tagline">project 2, v1 · a portfolio kept in public, in derivative order</div>
               <div className="rule" />
               <nav className="nav">
                 <Link href="/">letters</Link>
                 <Link href="/positions">positions</Link>
+                <Link href="/market">market</Link>
+                <Link href="/green-credit">green credit</Link>
                 <Link href="/trades">trades</Link>
                 <Link href="/canvas">canvas</Link>
-                <Link href="/about-the-method">method</Link>
+                <Link href="/archives">archives</Link>
               </nav>
             </header>
           </>

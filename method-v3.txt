@@ -1,0 +1,150 @@
+# The Method — v0, v1, v2 (live)
+
+## The point (read this first)
+
+The recursion is the formula.
+
+- Understand **consciousness** → you can understand **education**.
+- Understand **education** → you can understand the **inflection point of humans**.
+- Understand the **inflection point of humans** → you can understand the **inflection point of consciousness**.
+- Understand the **inflection point of consciousness** → you understand **consciousness** better.
+
+Each term is its own recursive loop. Each derivative corrects the one before it. The phases of understanding are themselves derivatives. You end where you started, but the spiral tightens every turn.
+
+aureliex.com is one instance of that recursion, run on a small testable thing: money.
+
+## v0 — the portfolio
+
+**v0 is the portfolio.** The raw object. $3,453 today, aiming at $100,000 ten years out. Positions that go up and down, money that compounds or doesn't. Underneath every version, underneath every apparatus, sits v0.
+
+v0 on its own falls into three traps:
+
+1. **You can't check your past self.** Memory is editable.
+2. **Your emotions override your rules.** "This time is different" at −20%.
+3. **You only have one point of view.** Blind spots stay blind.
+
+v0 works when stakes are small. It breaks when stakes are a decade. v1 is what you wrap around v0 to make it honest.
+
+**I will always personally own 10% of v0. Whether financially or not — I own 10% now.**
+
+## v1 — the apparatus
+
+v1 is **aureliex.com**. The apparatus wrapped around v0.
+
+Five AI agents with distinct personalities:
+
+- **Bull** — hunts upside.
+- **Bear** — prices survival.
+- **Macro** — watches power, regulation, capital.
+- **Flow** — picks clean vehicles; avoids sketchy structures.
+- **Historian** — compares today to past waves.
+
+Each writes predictions at **30, 90, 365 days**. Each prediction is SHA-hashed before the event, so nobody — not even me — can edit it later. Agents are scored on **calibration**, not returns: if you say 70%, you should be right 70% of the time.
+
+**Kill-switches** fire automatically, no decision in the moment:
+
+- No position bigger than 15%.
+- One position drops 30% → money moves to treasuries.
+- Dilution filing → cut in half.
+- 10× gain → take half off.
+
+Willpower is unreliable. If the rule is written before the emotion, the emotion can't talk you out of it. Everything is public. Nothing can be quietly rewritten.
+
+## The derivatives
+
+- **Positions** are the first derivative.
+- **Daily agent debates** are the second.
+- **Calibration scores** are the third.
+
+None of them reach clarity. But the sum gets closer every day, and **the record of getting closer is the product**. aureliex.com is not selling returns. It's the logbook of a thing iterating toward clarity in public.
+
+## How v1 was built from v0
+
+Four moves:
+
+1. **Split one brain into five characters.** No single point of failure.
+2. **Force commitment in writing, sealed in advance.** A thesis an agent can't state by when is not a thesis — it's a feeling.
+3. **Score calibration, not returns.** Over thirty predictions, luck and skill separate.
+4. **Take your hand off the wheel.** Pre-committed rules replace real-time willpower.
+
+## Why policy debate is the engine
+
+Policy debate is the model for the whole apparatus.
+
+- **The panel** is a judge panel. Five agents, five paradigms.
+- **Iteration** is the tournament — rounds, again and again.
+- **Every prediction is a ballot.** Written, reasoned, binding.
+- **Calibration is accumulated judge sway.** One ballot doesn't change debate. Ten thousand ballots do.
+
+No single round moves the sport. But accumulated ballots move the **space** of what counts as a winning argument. Arguments that won in 2006 don't win in 2026. The space moves because the ballots stack.
+
+The portfolio moves the same way. Not through one heroic call. Through accumulated sealed ballots, calibrated over time, in public. Every sealed prediction is a ballot filed into the record. The space of the portfolio bends because the ballots accumulate.
+
+## Why education is the pivot
+
+Three things I keep returning to, all about teaching done right:
+
+- **Ted Lasso** — a coach who doesn't know the sport teaches a team by teaching them how to care. Education as belief.
+- **Ocean's trilogy** — a planner assembles a crew where each person has a specific kind of taste. Education as curation. The heist works because the panel is right.
+- **3 Idiots** — the system rewards rote. A student dismantles it by understanding. Education as liberation from the default script.
+
+Shared claim: **teaching is the highest-leverage act**, because it shapes how the next minds approach everything else. That's why education is the inflection point for humans. And right now, at this moment in history, the inflection point for humans is an inflection point for consciousness itself. Schools teach what AI already knows. What remains teachable is **taste**. The final boss of education is the same as the final boss of v1: **taste at scale**.
+
+I love 3 Idiots for the structural point. The personal story — the family pressure, the engineer-parent pipeline — lands in the abstract but isn't quite mine. The frame fits. The autobiography doesn't.
+
+## Why gambling matters — three archetypes
+
+Gambling is the purest market, because the counterparty is visible. You can point at who you're taking from. Three archetypes:
+
+- **Phil Ivey** understood the game well enough to **cash out on the house**. Edge-sorted baccarat. He beat the structure itself.
+- **Alan Keating** understood the game well enough to **play it** — sit at the table with wealthy amateurs who want to play for the feeling, and let what walks in, walk in.
+- **Dan Bilzerian** runs the Keating move industrially — a room built to make money from people who can afford to lose.
+
+Keating and Bilzerian have the right taxonomy. Ivey has the right horizon. The right move borrows from both.
+
+## v2 — the new house (live)
+
+Here is the question the method cannot answer with math: **if the house always wins, how do the players win?**
+
+New players enter. The house takes from them too. As long as the house is the house, the game is zero-sum.
+
+So maybe the answer is not a better player, and not a better strategy. Maybe the answer is a **new house** — one where the incentives of the structure and the incentives of the people inside it point in the same direction. Where attention invested in reasoning is rewarded with better reasoning, not with more ads.
+
+**v1 was the sketch of that house.** Small, public, one person, real money, no feed, no engagement metrics, no algorithm deciding what you see. Just the reasoning, the reasoning about the reasoning, and a record of whether any of it was right.
+
+**v2 scales the sketch.**
+
+1. **The players** — a small number of disclosed operators with real capital. Each one files sealed predictions the same way a v1 agent does. They play for themselves. They can afford to lose. This is the Keating/Bilzerian move, cleaned up: a legal room where only those who can afford to gamble do.
+2. **The public** — watches every prediction, every ballot, every calibration score. Does not bet. Follows. This is the world gambling on the players without actually risking its own grocery money.
+3. **The commentator** — me. Gives recommendations. Runs giveaways funded from the record. The people who care about the money get the money. This is the Phil Ivey move at the horizon: the one who understood the structure well enough to cash out on the house and hand some of it back.
+
+The house's revenue is not attention and not ads. The house's revenue is a cut of the only honest thing in the system: the record of reasoning getting closer to clarity. Giveaways redistribute from those who played for the pleasure to those for whom money is oxygen.
+
+v2 is not a prop-bet platform, not a copy-trading service, not a content channel. It is a public room where the loudest signal is calibration, and the house's only job is to keep the room honest.
+
+v2 is live the day the second player files a sealed prediction. Everything before that is v1.
+
+## The recursion, with the project inside it
+
+- v0 is the portfolio.
+- v1 is the apparatus at aureliex.com.
+- v2 is the new house.
+- v3 will correct what v2 missed.
+
+v0 → v1 → v2 → v3 is one turn of the larger recursion. The method is not a ladder you climb. It is a loop you tighten.
+
+## Who is running this
+
+- **saapai**, 19, senior at West Salt Lake City, policy debater.
+- Debate background is not decoration. Policy debate rewards tech over truth, requires claim–warrant–impact structure, expects judges to intervene minimally. v1 is built on those exact bones.
+- Project is called **roundletter** internally. Lives publicly at **aureliex.com**.
+- **$3,453 → $100,000 over ten years.** The starting number is not a round figure for a reason.
+- Stack: Next.js on Vercel. The site is the method. There is no private version.
+
+## One sentence
+
+v0 is the portfolio; v1 is five agents plus sealed ballots plus automatic rules wrapped around v0 to make it honest in public; v2 is the new house — a small legal room where people who can afford to lose file sealed predictions, the world watches, and the winnings fund the people who care about the money; and the whole stack is one pass through a bigger loop — consciousness → education → inflection point → consciousness — where the recursion is the formula, every version is the previous version corrected, and the record of getting closer is the product.
+
+---
+
+Get it done and live.

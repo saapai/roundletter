@@ -6685,6 +6685,96 @@ body.reader-mode > main { padding-top: 2rem; }
   max-width: 48rem;
 }
 
+/* v3 · thesis — the room becomes the record
+   ------------------------------------------- */
+.v3-thesis {
+  max-width: 48rem;
+  margin: 0 auto 5rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.v3-thesis .v3-eyebrow {
+  margin-bottom: 1.6rem;
+}
+.v3-thesis-h {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 2rem;
+}
+.v3-thesis-body {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.075rem;
+  line-height: 1.58;
+  color: color-mix(in srgb, var(--ink) 88%, var(--paper));
+  margin: 0 0 1.4rem;
+  max-width: 42rem;
+}
+.v3-thesis-body em {
+  color: var(--ink);
+  font-style: italic;
+}
+.v3-thesis-list {
+  list-style: none;
+  margin: 2rem 0 2.2rem;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+  max-width: 42rem;
+}
+.v3-thesis-list li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+}
+.v3-thesis-list li strong {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-weight: 500;
+  margin-right: 0.55rem;
+}
+.v3-thesis-trigger {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--ink) 75%, var(--paper));
+  background: color-mix(in srgb, var(--paper) 92%, var(--ink));
+  border-left: 2px solid var(--ink);
+  padding: 0.9rem 1.1rem;
+  margin: 2.2rem 0 1.6rem;
+  max-width: 42rem;
+}
+.v3-thesis-trigger em {
+  font-style: italic;
+  color: var(--ink);
+}
+.v3-thesis-cta {
+  font-family: "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 0.98rem;
+  color: color-mix(in srgb, var(--ink) 70%, var(--paper));
+  margin: 1.2rem 0 0;
+  max-width: 42rem;
+}
+.v3-thesis-cta a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.v3-thesis-cta a:hover {
+  text-decoration-thickness: 2px;
+}
+
 .v3-stack {
   max-width: 68rem;
   margin: 0 auto 5rem;
@@ -6842,4 +6932,1362 @@ body.reader-mode > main { padding-top: 2rem; }
 
 @media (max-width: 720px) {
   .v3-equation { display: none; }
+}
+
+/* ============================================================
+   /archives page (v0 + v1, moved from /about-the-method which now redirects)
+   ============================================================ */
+.archives-marker {
+  max-width: 52rem;
+  margin: 4.5rem auto 2.5rem;
+  padding: 1.25rem 0 0.75rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: 1rem 1.25rem;
+  align-items: baseline;
+}
+.archives-marker-label {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.6rem, 5vw, 3.8rem);
+  line-height: 0.95;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  grid-row: 1 / span 2;
+}
+.archives-marker-title {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0;
+}
+.archives-marker-sub {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+  text-transform: lowercase;
+  line-height: 1.5;
+}
+
+.archives-footer {
+  max-width: 52rem;
+  margin: 5rem auto 2rem;
+  padding: 2.2rem 0 1rem;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+}
+.archives-footer-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 1.2rem;
+}
+.archives-footer-sub {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: color-mix(in srgb, var(--ink) 78%, var(--paper));
+  margin: 0 0 1.5rem;
+}
+.archives-footer-sub a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 0.2em;
+}
+.archives-footer-back a {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.15rem;
+}
+.archives-footer-back a:hover {
+  border-bottom-color: var(--ink);
+}
+
+@media (max-width: 640px) {
+  .archives-marker {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+  .archives-marker-label { grid-row: auto; }
+}
+
+/* ============================================================
+   v3 · the aesthetic stack — YouTube frame · orange thinking ·
+   Pornhub-orange tags · Wesley Wang coda · video bookends
+   ============================================================ */
+:root {
+  --accent-orange: #E9701A;
+  --accent-orange-deep: #B95508;
+}
+
+/* v3-hook — the giant headline on arrival */
+.v3-hook {
+  max-width: 62rem;
+  margin: 3rem auto 1.5rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+  text-align: center;
+}
+.v3-hook-line {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2.6rem, 7.5vw, 5.2rem);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0;
+}
+.v3-hook-arrow {
+  color: var(--accent-orange);
+  font-style: normal;
+  padding: 0 0.25em;
+  font-weight: 500;
+}
+.v3-hook-break {
+  display: block;
+  height: 0;
+}
+.v3-hook-sub {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+  margin: 1.4rem 0 0;
+}
+.v3-hook-sep {
+  color: var(--accent-orange);
+  padding: 0 0.35em;
+}
+
+/* v3-thinking — orange rotating verb strip in the Claude Code register */
+.v3-thinking {
+  max-width: 48rem;
+  margin: 2rem auto 2.5rem;
+  padding: 1rem clamp(1rem, 4vw, 2rem);
+  background: color-mix(in srgb, var(--paper) 94%, var(--ink));
+  border-left: 2px solid var(--accent-orange);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.v3-thinking-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.v3-thinking-star {
+  color: var(--accent-orange);
+  font-size: 1rem;
+}
+.v3-thinking-verb {
+  color: var(--accent-orange);
+  font-weight: 500;
+}
+.v3-thinking-meta {
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  font-size: 0.76rem;
+}
+.v3-thinking-task {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+  color: color-mix(in srgb, var(--ink) 70%, var(--paper));
+}
+.v3-thinking-branch {
+  color: color-mix(in srgb, var(--ink) 40%, var(--paper));
+}
+
+/* v3-tags — orange pills, attention-register */
+.v3-tags {
+  max-width: 62rem;
+  margin: 0 auto 3rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.v3-tags-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 0.8rem;
+}
+.v3-tags-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.v3-tag {
+  display: inline-block;
+  padding: 0.42rem 0.85rem;
+  background: var(--accent-orange);
+  color: #fff;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  user-select: none;
+}
+.v3-tag:nth-child(even) {
+  background: var(--accent-orange-deep);
+}
+
+/* v3-coda — Wesley Wang black panel, Marx quote */
+.v3-coda {
+  width: 100%;
+  background: #0A0A0A;
+  color: #F4EFE6;
+  padding: clamp(6rem, 16vw, 10rem) clamp(1rem, 4vw, 2rem);
+  margin-top: 5rem;
+}
+.v3-coda-inner {
+  max-width: 52rem;
+  margin: 0 auto;
+  text-align: center;
+}
+.v3-coda-line {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: #F4EFE6;
+  margin: 0 0 2rem;
+}
+.v3-coda-attr {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, #F4EFE6 50%, #0A0A0A);
+  margin: 0;
+}
+
+/* v3-video — YouTube embed wrapper (bookends) */
+.v3-video {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2rem);
+}
+.v3-video-open {
+  padding-top: clamp(3rem, 7vw, 5rem);
+}
+.v3-video-close {
+  background: #0A0A0A;
+  max-width: 100%;
+  padding: clamp(4rem, 9vw, 6rem) clamp(1rem, 4vw, 2rem) clamp(4rem, 9vw, 6rem);
+}
+.v3-video-close .v3-video-frame {
+  max-width: 62rem;
+  margin: 0 auto;
+}
+.v3-video-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 0.8rem;
+  text-align: center;
+}
+.v3-video-close .v3-video-eyebrow {
+  color: color-mix(in srgb, #F4EFE6 45%, #0A0A0A);
+}
+.v3-video-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #0A0A0A;
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+.v3-video-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.v3-video-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.85rem;
+  color: #F4EFE6;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   yt-frame — YouTube player chrome wrapping the portfolio chart.
+   Title above, channel below, scrubber under the chart body.
+   ============================================================ */
+.yt-frame {
+  max-width: 78rem;
+  margin: 2.5rem auto 0;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.yt-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding-bottom: 1.1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+.yt-head-eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+}
+.yt-head-eyebrow em {
+  font-style: normal;
+  color: var(--accent-orange);
+  letter-spacing: 0.18em;
+}
+.yt-head-play {
+  color: var(--accent-orange);
+  font-size: 0.8rem;
+  line-height: 1;
+}
+.yt-head-countdown {
+  margin-left: auto;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.1em;
+}
+.yt-title {
+  margin: 0;
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 500;
+  font-style: normal;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+.yt-title-arrow {
+  color: var(--accent-orange);
+  font-weight: 400;
+  padding: 0 0.12em;
+}
+.yt-channel {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, var(--ink) 70%, var(--paper));
+}
+.yt-channel-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1;
+  letter-spacing: 0;
+}
+.yt-channel-handle {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.yt-channel-meta {
+  display: inline-flex;
+  gap: 0.4rem;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+}
+.yt-channel-meta .yt-dot {
+  color: var(--rule);
+}
+
+.yt-video {
+  /* SVG chart body becomes the "video." Subtle dark frame cue without
+     stealing from the paper register — just a hairline top/bottom. */
+  padding: 0.25rem 0 0.75rem;
+}
+
+.yt-scrubber {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.76rem;
+  color: color-mix(in srgb, var(--ink) 70%, var(--paper));
+}
+.yt-scrubber-play {
+  color: var(--accent-orange);
+  font-size: 1rem;
+  line-height: 1;
+}
+.yt-scrubber-bar {
+  position: relative;
+  flex: 1 1 auto;
+  height: 3px;
+  background: color-mix(in srgb, var(--ink) 14%, var(--paper));
+  border-radius: 2px;
+  overflow: visible;
+}
+.yt-scrubber-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent-orange);
+  border-radius: 2px;
+}
+.yt-scrubber-thumb {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-orange) 25%, transparent);
+}
+.yt-scrubber-time {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.yt-scrubber-time em {
+  font-style: normal;
+  color: var(--accent-orange);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.yt-scrubber-sep {
+  color: var(--rule);
+  padding: 0 0.15em;
+}
+
+/* Inside the YT frame, the chart's own head eyebrow/filter is redundant
+   with the YT title + scrubber — suppress its header, keep the SVG + value. */
+.yt-frame .v3-chart-wrap .port-chart-head {
+  display: none;
+}
+.yt-frame .v3-chart-wrap .pch-values {
+  align-items: baseline;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin: 0 0 0.8rem;
+}
+
+@media (max-width: 640px) {
+  .yt-head-countdown { margin-left: 0; width: 100%; }
+  .yt-channel { flex-wrap: wrap; }
+  .yt-scrubber { flex-wrap: wrap; }
+  .yt-scrubber-bar { order: 3; flex-basis: 100%; }
+}
+
+
+/* ============================================================
+   v3 home hook — "$3,453 → $100,000 by my birthday."
+   Tombstone register, sits above the YT-framed chart.
+   ============================================================ */
+.v3-hook {
+  max-width: 72rem;
+  margin: 3rem auto 2rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+  text-align: center;
+}
+.v3-hook-line {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 7.5vw, 5.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+  font-variant-numeric: tabular-nums;
+}
+.v3-hook-arrow {
+  display: inline-block;
+  margin: 0 0.3em;
+  font-style: italic;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--ink) 70%, var(--paper));
+}
+.v3-hook-break {
+  display: block;
+  height: 0;
+}
+.v3-hook-sub {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: clamp(0.78rem, 1.6vw, 0.95rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 62%, var(--paper));
+  margin: 0;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 0.9rem;
+  width: 100%;
+}
+.v3-hook-sep {
+  color: var(--rule);
+  user-select: none;
+}
+
+.book-countdown {
+  font-weight: 500;
+  color: color-mix(in srgb, var(--ink) 72%, var(--paper));
+}
+
+@media (max-width: 640px) {
+  .v3-hook-line { font-size: clamp(2rem, 11vw, 3.6rem); }
+  .v3-hook-break { display: inline; height: auto; }
+}
+
+/* ============================================================
+   /market — the green apple / rotten apple preview
+   ============================================================ */
+.market-page {
+  max-width: 58rem;
+}
+.market-explain {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 52rem;
+  margin: 3rem auto 3rem;
+}
+.market-explain-col {
+  background: color-mix(in srgb, var(--paper) 94%, var(--ink));
+  border-left: 2px solid var(--accent-orange);
+  padding: 1.5rem 1.6rem;
+}
+.market-explain-col-rotten {
+  border-left-color: color-mix(in srgb, var(--ink) 40%, var(--paper));
+  background: color-mix(in srgb, var(--paper) 92%, var(--ink));
+}
+.market-col-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+.market-col-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.market-col-list li {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--rule);
+}
+.market-col-list li:last-child { border-bottom: 0; }
+.market-col-list li strong {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-right: 0.4rem;
+}
+.market-rule {
+  max-width: 52rem;
+  margin: 2.5rem auto;
+  border-top: 1px solid var(--rule);
+}
+.market-theses {
+  max-width: 52rem;
+  margin: 0 auto 3rem;
+}
+.market-theses-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 1rem;
+}
+.market-apple-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.market-apple-row {
+  padding: 1.4rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.market-apple-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.market-apple-thesis {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: 1.3rem;
+  font-style: italic;
+  color: var(--ink);
+}
+.market-apple-emoji { font-size: 1.1rem; font-style: normal; }
+.market-apple-odds { display: flex; flex-direction: column; align-items: flex-end; gap: 0.1rem; }
+.market-apple-pct {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--accent-orange);
+  line-height: 1;
+}
+.market-apple-multiplier {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  color: color-mix(in srgb, var(--ink) 65%, var(--paper));
+  letter-spacing: 0.04em;
+}
+.market-apple-meta {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-top: 0.6rem;
+}
+.market-apple-sep { color: color-mix(in srgb, var(--ink) 30%, var(--paper)); }
+.market-apple-status-locked { color: var(--accent-orange-deep); }
+.market-apple-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.9rem;
+  flex-wrap: wrap;
+}
+.market-btn {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--accent-orange);
+  background: transparent;
+  color: var(--accent-orange);
+  cursor: not-allowed;
+  opacity: 0.75;
+  text-transform: lowercase;
+}
+.market-btn-bet {
+  background: var(--accent-orange);
+  color: #fff;
+  border-color: var(--accent-orange);
+}
+.market-btn-note {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  color: color-mix(in srgb, var(--ink) 50%, var(--paper));
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.market-coda {
+  max-width: 48rem;
+  margin: 3rem auto;
+  padding: 2rem 0;
+  text-align: center;
+}
+.market-coda h2 {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--ink);
+  margin-bottom: 1.5rem;
+}
+.market-coda p {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+  margin: 0 0 1.2rem;
+}
+.market-coda-guarantee strong { color: var(--ink); }
+.market-coda a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.market-what-now {
+  max-width: 48rem;
+  margin: 2.5rem auto 4rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--rule);
+}
+.market-what-now-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 0.8rem;
+}
+.market-what-now-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.market-what-now-list li {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--ink) 78%, var(--paper));
+  padding: 0.4rem 0;
+}
+.market-what-now-list li strong {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-right: 0.5rem;
+}
+@media (max-width: 640px) {
+  .market-explain {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* /green-credit — the manifesto, rendered long-form.
+   Phase-aware: pre = orange (current), drop = red→orange (4/20 4:20am→4:20pm ET),
+   green = all-green (4/20 4:20pm ET onward). --accent-phase is set inline by the
+   page component; --local-accent falls back to --accent-orange for safety. */
+.green-credit-page {
+  max-width: 42rem;
+  --local-accent: var(--accent-phase, var(--accent-orange));
+  --local-accent-deep: var(--accent-phase-deep, var(--accent-orange-deep));
+  transition: background-color 600ms ease, color 600ms ease;
+}
+.green-credit-eyebrow {
+  color: var(--local-accent);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+/* Drop phase: stark — the page tightens, the rules get sharper. */
+.green-credit-page[data-phase="drop"] {
+  background: #0A0A0A;
+  color: #F4EFE6;
+}
+.green-credit-page[data-phase="drop"] h1,
+.green-credit-page[data-phase="drop"] h2,
+.green-credit-page[data-phase="drop"] h3,
+.green-credit-page[data-phase="drop"] strong,
+.green-credit-page[data-phase="drop"] p.lede {
+  color: var(--local-accent);
+}
+.green-credit-page[data-phase="drop"] p,
+.green-credit-page[data-phase="drop"] li {
+  color: color-mix(in srgb, #F4EFE6 85%, var(--local-accent));
+}
+.green-credit-page[data-phase="drop"] blockquote {
+  background: color-mix(in srgb, #0A0A0A 85%, var(--local-accent));
+  border-left-color: var(--local-accent);
+  color: #F4EFE6;
+}
+.green-credit-page[data-phase="drop"] hr {
+  border-top-color: color-mix(in srgb, var(--local-accent) 40%, #0A0A0A);
+}
+.green-credit-page[data-phase="drop"] code {
+  background: color-mix(in srgb, #0A0A0A 70%, var(--local-accent));
+  color: #F4EFE6;
+}
+/* Green phase: all green, stark. Not pornhubby. Money-green ink on paper. */
+.green-credit-page[data-phase="green"] {
+  background: var(--paper);
+  color: var(--local-accent-deep);
+}
+.green-credit-page[data-phase="green"] h1,
+.green-credit-page[data-phase="green"] h2,
+.green-credit-page[data-phase="green"] h3 {
+  color: var(--local-accent-deep);
+}
+.green-credit-page[data-phase="green"] strong,
+.green-credit-page[data-phase="green"] p.lede {
+  color: var(--local-accent);
+}
+.green-credit-page[data-phase="green"] p,
+.green-credit-page[data-phase="green"] li {
+  color: color-mix(in srgb, var(--local-accent-deep) 85%, var(--paper));
+}
+.green-credit-page[data-phase="green"] blockquote {
+  background: color-mix(in srgb, var(--paper) 88%, var(--local-accent));
+  border-left-color: var(--local-accent);
+  color: var(--local-accent-deep);
+}
+.green-credit-page[data-phase="green"] hr {
+  border-top-color: color-mix(in srgb, var(--local-accent) 40%, var(--paper));
+}
+.green-credit-page[data-phase="green"] code {
+  background: color-mix(in srgb, var(--paper) 82%, var(--local-accent));
+  color: var(--local-accent-deep);
+}
+.green-credit-page h1 {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  text-align: center;
+  letter-spacing: -0.005em;
+  margin-top: 1.2rem;
+  margin-bottom: 2rem;
+  color: var(--ink);
+}
+.green-credit-page h2 {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--ink);
+  margin: 3.2rem 0 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+.green-credit-page h3 {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--ink);
+  margin: 1.8rem 0 0.6rem;
+}
+.green-credit-page p {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.08rem;
+  line-height: 1.62;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+  margin: 0 0 1.1rem;
+}
+.green-credit-page p.lede {
+  font-size: 1.18rem;
+  font-style: italic;
+  color: var(--ink);
+}
+.green-credit-page strong { color: var(--ink); }
+.green-credit-page em { font-style: italic; }
+.green-credit-page blockquote {
+  font-family: "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 1.12rem;
+  line-height: 1.5;
+  color: var(--ink);
+  border-left: 3px solid var(--local-accent);
+  padding: 0.6rem 1.2rem;
+  margin: 1.6rem 0 1.6rem -0.3rem;
+  background: color-mix(in srgb, var(--paper) 95%, var(--ink));
+  transition: border-left-color 600ms ease, background 600ms ease, color 600ms ease;
+}
+.green-credit-page li {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+  margin: 0.4rem 0;
+  padding-left: 0.2rem;
+}
+.green-credit-page li strong {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-right: 0.3rem;
+}
+.green-credit-page hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 3rem 0;
+}
+.green-credit-page code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.88em;
+  background: color-mix(in srgb, var(--paper) 92%, var(--ink));
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   saathvikpai.com audition strip + sealed-prediction card
+   ============================================================ */
+.gc-audition {
+  max-width: 48rem;
+  margin: 0 auto 3rem;
+  padding: 1.8rem 0;
+  border-top: 1px solid var(--local-accent);
+  border-bottom: 1px solid var(--local-accent);
+  text-align: center;
+}
+.gc-audition-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: var(--local-accent);
+  margin-bottom: 1.1rem;
+}
+.gc-audition-line {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.8vw, 2.4rem);
+  line-height: 1.18;
+  color: var(--ink);
+  margin: 0 0 0.9rem;
+}
+.gc-audition-name {
+  color: var(--local-accent);
+  letter-spacing: -0.005em;
+}
+.gc-audition-break { display: block; height: 0.4rem; }
+.gc-audition-stake {
+  font-size: 0.78em;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+  font-style: italic;
+}
+.gc-audition-sub {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+  max-width: 38rem;
+  margin: 0 auto;
+}
+.gc-audition-sub strong { color: var(--local-accent); }
+
+/* Sealed prediction card */
+.sealed-prediction {
+  max-width: 44rem;
+  margin: 2.5rem auto 3.5rem;
+  padding: 1.8rem 1.6rem;
+  border: 1px solid var(--local-accent);
+  background: color-mix(in srgb, var(--paper) 96%, var(--local-accent));
+  position: relative;
+  transition: border-color 600ms ease, background 600ms ease;
+}
+.sp-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: var(--local-accent);
+  margin-bottom: 1rem;
+}
+.sp-eyebrow-mark { font-size: 0.9rem; }
+.sp-thesis {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+  line-height: 1.3;
+  color: var(--ink);
+  margin: 0 0 1.4rem;
+}
+.sp-metric {
+  display: flex;
+  gap: 0.8rem;
+  align-items: baseline;
+  padding: 0.7rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--local-accent) 40%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--local-accent) 40%, transparent);
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+.sp-metric-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+}
+.sp-metric-value {
+  font-family: "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--local-accent);
+}
+.sp-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 1.4rem;
+  margin: 0 0 1.4rem;
+  padding: 0;
+}
+.sp-grid-cell dt {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 0.2rem;
+}
+.sp-grid-cell dd {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 0.98rem;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.3;
+}
+.sp-grid-sub {
+  font-size: 0.78rem !important;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper)) !important;
+  font-style: italic;
+}
+.sp-hash {
+  margin: 0 0 1.2rem;
+  padding: 0.8rem 0.9rem;
+  background: color-mix(in srgb, var(--paper) 88%, var(--local-accent));
+  border-left: 2px solid var(--local-accent);
+  overflow-wrap: anywhere;
+}
+.sp-hash-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  margin-bottom: 0.3rem;
+}
+.sp-hash-value {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--ink);
+  word-break: break-all;
+  line-height: 1.45;
+}
+.sp-foot {
+  font-family: "EB Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--ink) 70%, var(--paper));
+  margin: 0;
+}
+.sp-foot code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.84em;
+  background: color-mix(in srgb, var(--paper) 88%, var(--ink));
+  padding: 0.08rem 0.3rem;
+  border-radius: 2px;
+  color: var(--ink);
+}
+/* Drop/green phase overrides for sealed prediction card */
+.green-credit-page[data-phase="drop"] .sealed-prediction {
+  background: color-mix(in srgb, #0A0A0A 90%, var(--local-accent));
+  border-color: var(--local-accent);
+}
+.green-credit-page[data-phase="drop"] .sp-thesis,
+.green-credit-page[data-phase="drop"] .sp-grid-cell dd {
+  color: #F4EFE6;
+}
+.green-credit-page[data-phase="drop"] .sp-hash-value { color: #F4EFE6; }
+.green-credit-page[data-phase="drop"] .sp-hash {
+  background: color-mix(in srgb, #0A0A0A 70%, var(--local-accent));
+}
+.green-credit-page[data-phase="green"] .sealed-prediction {
+  background: color-mix(in srgb, var(--paper) 96%, var(--local-accent));
+  border-color: var(--local-accent);
+}
+@media (max-width: 640px) {
+  .sp-grid { grid-template-columns: 1fr; }
+}
+
+/* wordmark with green-credit sub-brand */
+.wordmark-sep {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  color: var(--accent-orange);
+  font-size: 0.78em;
+  font-weight: 400;
+}
+.wordmark-sub {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.62em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 65%, var(--paper));
+  font-weight: 400;
+}
+
+/* ============================================================
+   MarketTeaser — top-3 apples on the home (mirrors /market)
+   ============================================================ */
+.v3-market-teaser {
+  max-width: 52rem;
+  margin: 2rem auto 4rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.v3-mt-locked {
+  color: var(--accent-orange);
+  font-weight: 600;
+}
+.v3-mt-intro {
+  margin: 1.2rem 0 1.8rem;
+}
+.v3-mt-title {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+  line-height: 1.15;
+  color: var(--ink);
+  margin: 0 0 0.8rem;
+}
+.v3-mt-sub {
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--ink) 78%, var(--paper));
+  margin: 0;
+  max-width: 44rem;
+}
+.v3-mt-sub strong { color: var(--accent-orange); }
+.v3-mt-list {
+  list-style: none;
+  margin: 0 0 1.2rem;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+.v3-mt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.v3-mt-row-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--ink);
+}
+.v3-mt-emoji { font-size: 1.05rem; font-style: normal; }
+.v3-mt-odds {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+}
+.v3-mt-pct {
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--accent-orange);
+  line-height: 1;
+}
+.v3-mt-mult {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+}
+.v3-mt-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 0.8rem 0 0;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+}
+.v3-mt-cta a {
+  color: var(--accent-orange);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-orange);
+  padding-bottom: 0.1rem;
+}
+.v3-mt-cta a:hover { color: var(--accent-orange-deep); border-bottom-color: var(--accent-orange-deep); }
+.v3-mt-note {
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--ink) 50%, var(--paper));
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   ChartScrubber — day-by-day timeline, stock-timeframe-scaler UI
+   ============================================================ */
+.chart-scrubber {
+  max-width: 62rem;
+  margin: 1.5rem auto 3rem;
+  padding: 0 clamp(1rem, 4vw, 2rem);
+}
+.cs-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+.cs-eyebrow {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--ink) 60%, var(--paper));
+}
+.cs-eyebrow .cs-date {
+  color: var(--ink);
+  font-weight: 500;
+}
+.cs-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+}
+.cs-readout-hint {
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  text-transform: lowercase;
+}
+.cs-readout-value {
+  color: var(--ink);
+  font-weight: 500;
+}
+.cs-readout-live {
+  color: var(--accent-orange);
+  text-transform: lowercase;
+  letter-spacing: 0.08em;
+}
+.cs-track {
+  position: relative;
+  height: 28px;
+  padding: 10px 0;
+}
+.cs-track-bar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: color-mix(in srgb, var(--ink) 15%, var(--paper));
+  transform: translateY(-50%);
+  border-radius: 2px;
+}
+.cs-track-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--accent-orange);
+  border-radius: 2px;
+}
+.cs-track-ticks {
+  position: absolute;
+  inset: 0;
+}
+.cs-tick {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  padding: 0;
+  background: color-mix(in srgb, var(--ink) 28%, var(--paper));
+  border: 0;
+  cursor: pointer;
+  transition: transform 100ms, background 100ms;
+}
+.cs-tick-past {
+  background: var(--accent-orange);
+}
+.cs-tick-future {
+  background: color-mix(in srgb, var(--ink) 14%, var(--paper));
+  cursor: not-allowed;
+}
+.cs-tick-milestone {
+  width: 9px;
+  height: 9px;
+}
+.cs-tick-today {
+  width: 14px;
+  height: 14px;
+  background: var(--accent-orange);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-orange) 25%, transparent);
+}
+.cs-tick-selected {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.cs-tick:not(:disabled):hover {
+  transform: translate(-50%, -50%) scale(1.4);
+}
+.cs-legend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+  letter-spacing: 0.04em;
+}
+.cs-legend-sep { color: color-mix(in srgb, var(--ink) 30%, var(--paper)); }
+.cs-legend-now { color: var(--accent-orange); }
+.cs-legend-now em { font-style: italic; }
+@media (max-width: 640px) {
+  .cs-legend { font-size: 0.65rem; }
+  .cs-head { flex-direction: column; align-items: flex-start; }
 }

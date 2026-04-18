@@ -176,8 +176,8 @@ export default function Statement() {
 
         <div className={s.colophon}>
           method borrowed from{" "}
-          <a href="https://aureliex.com/about-the-method" rel="noopener">
-            aureliex.com/about-the-method
+          <a href="https://aureliex.com/archives" rel="noopener">
+            aureliex.com/archives
           </a>
         </div>
       </div>

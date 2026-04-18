@@ -137,5 +137,40 @@
       }
     }
   ],
-  "retired_hunches": []
+  "retired_hunches": [],
+  "candidate_operators": [
+    {
+      "id": "op-jack",
+      "name": "Jack Sarfati",
+      "handle": "@jack._.sarfati__",
+      "affiliation": "SLC · trader, mentored by Kent Madsen @ Epic VC",
+      "altitude": "tape-reader",
+      "path_to_v2_trigger": "files a sealed NVDA-earnings short before 2026-05-20",
+      "contacted": true,
+      "note": "already referenced as S2 in sources; SLC meetup scheduled 2026-06-15",
+      "added_on": "2026-04-17"
+    },
+    {
+      "id": "op-ash",
+      "name": "Ash Barrett",
+      "handle": "@ashbarrettt",
+      "affiliation": "UCLA · labor economics",
+      "altitude": "institutional-theory",
+      "path_to_v2_trigger": "files a sealed labor-econ prediction (e.g., unionization-rate threshold predicts wage-collapse resistance by N% in commuting zones)",
+      "contacted": false,
+      "note": "2026-04-17 X thread hypothesized labor institutions moderate robot displacement. Green Credit is her research gap in code — she is a candidate to file the first academic-altitude sealed prediction.",
+      "added_on": "2026-04-18"
+    },
+    {
+      "id": "op-ved",
+      "name": "Ved Vedere",
+      "handle": "@vedvedere",
+      "affiliation": "UCLA · ML research, ex-usebearai, ex-YC",
+      "altitude": "frontier-research",
+      "path_to_v2_trigger": "files a sealed ML-research prediction with SHA-hashed thesis, horizon, and scoring rule — e.g., 'I will ship a mech-interp paper accepted at a top venue by YYYY-MM-DD'",
+      "contacted": false,
+      "note": "2026-04-17 pinned-post staked his public journey to the ML frontier. Same Roosevelt-arena move as Project 1, at research altitude. Candidate to be second player on v2 trigger.",
+      "added_on": "2026-04-18"
+    }
+  ]
 }
