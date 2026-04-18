@@ -11,6 +11,7 @@ import { headers } from "next/headers";
 import { renderMarkdown } from "@/lib/md";
 import ViewTracker from "@/components/ViewTracker";
 import SealedPrediction from "@/components/SealedPrediction";
+import GreenCreditTrailer from "@/components/GreenCreditTrailer";
 
 const PERSONAL_HOSTS = ["saathvikpai.com", "www.saathvikpai.com"];
 
@@ -105,13 +106,19 @@ export default function GreenCreditPage() {
     ["--accent-phase-deep" as string]: phase.accentDeep,
   } as React.CSSProperties;
 
+  // Day number since baseline (2026-04-12) for the trailer chip.
+  const DAY_ONE = Date.parse("2026-04-12T00:00:00-04:00");
+  const dayN = Math.max(1, Math.ceil((Date.now() - DAY_ONE) / 86_400_000));
+
   return (
     <article
       className={`article page green-credit-page green-credit-phase-${phase.name}`}
       data-phase={phase.name}
       style={styleVars}
     >
-      <div className="eyebrow green-credit-eyebrow">{phase.eyebrow}</div>
+      <GreenCreditTrailer dayN={dayN} />
+
+      <div className="eyebrow green-credit-eyebrow" id="manifesto">{phase.eyebrow}</div>
 
       {isPersonal && (
         <section className="gc-audition" aria-label="the audition — saathvikpai.com preview">

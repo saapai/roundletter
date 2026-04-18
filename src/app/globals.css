@@ -8025,6 +8025,181 @@ body.reader-mode > main { padding-top: 2rem; }
   border-radius: 2px;
   color: var(--ink);
 }
+/* ============================================================
+   /green-credit — the 10-second looped trailer
+   ============================================================ */
+.gc-trailer {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  min-height: 100vh;
+  background: #0A0A0A;
+  color: #F4EFE6;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  padding: 1.5rem clamp(1.2rem, 4vw, 3rem);
+}
+.gc-trailer-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, #F4EFE6 55%, #0A0A0A);
+}
+.gc-trailer-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--local-accent, var(--accent-orange));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--local-accent, var(--accent-orange)) 22%, transparent);
+  animation: gcDotPulse 1.6s ease-in-out infinite;
+}
+@keyframes gcDotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.22); opacity: 0.75; }
+}
+.gc-trailer-daychip {
+  margin-left: auto;
+  color: var(--local-accent, var(--accent-orange));
+  letter-spacing: 0.1em;
+}
+.gc-trailer-stage {
+  position: relative;
+  align-self: center;
+  justify-self: center;
+  width: 100%;
+  max-width: 56rem;
+  text-align: center;
+  min-height: 10rem;
+  display: grid;
+  place-items: center;
+}
+.gc-trailer-beat {
+  grid-area: 1 / 1;
+  opacity: 0;
+  font-family: "Cormorant Garamond", "EB Garamond", Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  color: #F4EFE6;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  animation: gcBeat 10s linear infinite;
+  will-change: opacity, transform;
+}
+.gc-beat-1 {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-style: normal;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--local-accent, var(--accent-orange));
+  animation-delay: 0s;
+}
+.gc-beat-2 {
+  font-size: clamp(4rem, 14vw, 10rem);
+  font-weight: 500;
+  animation-delay: 1.25s;
+}
+.gc-beat-3 {
+  font-size: clamp(3.2rem, 11vw, 8rem);
+  animation-delay: 2.5s;
+}
+.gc-trailer-arrow {
+  color: var(--local-accent, var(--accent-orange));
+  font-style: normal;
+  padding: 0 0.1em;
+}
+.gc-beat-4 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  animation-delay: 3.75s;
+}
+.gc-beat-5 {
+  font-size: clamp(1.8rem, 5.5vw, 3.6rem);
+  animation-delay: 5s;
+}
+.gc-beat-6 {
+  font-size: clamp(1.8rem, 5.5vw, 3.6rem);
+  animation-delay: 6.25s;
+}
+.gc-beat-7 {
+  font-size: clamp(1.8rem, 5.5vw, 3.6rem);
+  animation-delay: 7.5s;
+}
+.gc-beat-8 {
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 500;
+  color: #F4EFE6;
+  animation: gcBeatFinal 10s linear infinite;
+  animation-delay: 8.75s;
+}
+.gc-beat-final::before {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 1px;
+  background: var(--local-accent, var(--accent-orange));
+  margin: 0 auto 1.2rem;
+}
+@keyframes gcBeat {
+  0%, 1%  { opacity: 0; transform: translateY(10px); }
+  4%      { opacity: 1; transform: translateY(0); }
+  11%     { opacity: 1; transform: translateY(0); }
+  14%     { opacity: 0; transform: translateY(-8px); }
+  100%    { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes gcBeatFinal {
+  0%, 1%  { opacity: 0; transform: translateY(10px); }
+  4%      { opacity: 1; transform: translateY(0); }
+  12.5%   { opacity: 1; transform: translateY(0); }
+  100%    { opacity: 0; transform: translateY(-6px); }
+}
+.gc-trailer-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: color-mix(in srgb, #F4EFE6 65%, #0A0A0A);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  transition: color 200ms ease;
+}
+.gc-trailer-scroll:hover { color: #F4EFE6; }
+.gc-trailer-scroll-arrow {
+  font-size: 1.1rem;
+  animation: gcScrollBounce 2s ease-in-out infinite;
+}
+@keyframes gcScrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+
+/* Phase-aware: green phase flips trailer background to deep-green, red/orange
+   from the drop phase tints the accent lines — palette follows the page. */
+.green-credit-page[data-phase="green"] .gc-trailer {
+  background: color-mix(in srgb, var(--local-accent-deep, #0F5132) 88%, #0A0A0A);
+}
+.green-credit-page[data-phase="green"] .gc-trailer-dot,
+.green-credit-page[data-phase="green"] .gc-trailer-arrow,
+.green-credit-page[data-phase="green"] .gc-beat-1 {
+  color: color-mix(in srgb, #F4EFE6 85%, var(--local-accent, #1B7F3A));
+}
+
+/* prefers-reduced-motion: hold the final beat, skip the animation. */
+@media (prefers-reduced-motion: reduce) {
+  .gc-trailer-beat { animation: none; opacity: 0; }
+  .gc-beat-8 { opacity: 1; }
+  .gc-trailer-dot, .gc-trailer-scroll-arrow { animation: none; }
+}
+
 /* Drop/green phase overrides for sealed prediction card */
 .green-credit-page[data-phase="drop"] .sealed-prediction {
   background: color-mix(in srgb, #0A0A0A 90%, var(--local-accent));
