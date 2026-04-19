@@ -138,7 +138,7 @@ export default async function Positions() {
         </section>
       ))}
 
-      <h1 className="stocks-title-footer">Stocks</h1>
+      <h2 className="stocks-title-footer">Stocks</h2>
 
       <TodayDebate />
 

@@ -87,7 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
         <main>{children}</main>
         {!bare && (
-          <footer className="max-w-[40rem] mx-auto px-6 py-12 text-[11px] tracking-[0.2em] uppercase text-graphite text-center">
+          <footer className="max-w-6xl mx-auto px-6 py-12 text-[11px] tracking-[0.2em] uppercase text-graphite text-center">
             <div className="ink-rule mb-6" />
             <div>aureliex.com · real money · published in full · not investment advice</div>
           </footer>

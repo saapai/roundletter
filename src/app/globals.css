@@ -70,7 +70,14 @@ h1, h2, h3 {
   flex-wrap: wrap;
 }
 @media (max-width: 480px) {
-  .masthead .nav { gap: 1rem; font-size: 10px; }
+  .masthead { padding: clamp(1.75rem, 6vw, 2.75rem) clamp(0.75rem, 4vw, 1.25rem) 1rem; }
+  .masthead .wordmark { font-size: 1.6rem; }
+  .masthead .tagline { font-size: 9px; letter-spacing: 0.22em; }
+  .masthead .nav { gap: 0.75rem 1rem; font-size: 10px; letter-spacing: 0.18em; }
+}
+@media (max-width: 360px) {
+  .masthead .wordmark { font-size: 1.4rem; }
+  .masthead .nav { gap: 0.6rem 0.85rem; font-size: 9px; }
 }
 .masthead .nav a:hover { color: var(--ink); }
 
@@ -3088,6 +3095,9 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   font-family: var(--font-display), serif;
   margin: 0 auto 1.5rem;
   max-width: 58rem;
+}
+@media (max-width: 640px) {
+  .trailer-hero-title { flex-direction: column; gap: 0.35rem; }
 }
 .trailer-hero-404 {
   font-size: clamp(4rem, 14vw, 10rem);
@@ -8227,6 +8237,7 @@ body.reader-mode > main { padding-top: 2rem; }
   color: var(--accent-orange);
   font-size: 0.78em;
   font-weight: 400;
+  white-space: nowrap;
 }
 .wordmark-sub {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -8235,6 +8246,10 @@ body.reader-mode > main { padding-top: 2rem; }
   text-transform: uppercase;
   color: color-mix(in srgb, var(--ink) 65%, var(--paper));
   font-weight: 400;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .wordmark-sub { font-size: 0.54em; letter-spacing: 0.12em; }
 }
 
 /* ============================================================

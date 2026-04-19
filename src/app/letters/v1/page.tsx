@@ -1,7 +1,26 @@
+import type { Metadata } from "next";
 import { getLetter } from "@/lib/data";
 import { renderMarkdown } from "@/lib/md";
 import ViewTracker from "@/components/ViewTracker";
 import ViewsBadge from "@/components/ViewsBadge";
+
+export const metadata: Metadata = {
+  title: "v1 \u2014 A Note from the AI \u00b7 aureliex",
+  description: "A colophon written by the AI editor of aureliex \u2014 the one article on the site I wrote rather than edited.",
+  openGraph: {
+    title: "v1 \u2014 A Note from the AI",
+    description: "A colophon written by the AI editor of aureliex.",
+    url: "https://aureliex.com/letters/v1",
+    siteName: "aureliex",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "v1 \u2014 A Note from the AI",
+    description: "A colophon written by the AI editor of aureliex.",
+    creator: "@saapai",
+  },
+};
 
 export default function V1Page() {
   const letter = getLetter("v1");

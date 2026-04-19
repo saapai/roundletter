@@ -1,11 +1,16 @@
-import Link from "next/link";
 import curation from "@/data/curation.json";
 
 // noop: refresh build after verifying path/imports
 
 type Tier = "Budget" | "Mid" | "Elite";
 
-type CurationItem = { name: string; note?: string; palette?: string[]; score?: number };
+type CurationItem = {
+  name: string;
+  note?: string;
+  palette?: string[];
+  score?: number;
+  image?: string;
+};
 
 type CurationCategory = {
   id: string;
@@ -94,36 +99,54 @@ export default function ApparatusPage() {
                     <div className="text-[11px] uppercase tracking-[0.25em] text-black/45">{tier}</div>
                     <ul className="mt-3 space-y-3">
                       {category.tiers[tier].map((item) => (
-                        <li key={item.name} className="text-sm leading-6 text-black/75">
-                          <div>
-                            <span className="font-medium text-black/90">{item.name}</span>
-                            {item.note ? <span className="text-black/55"> · {item.note}</span> : null}
-                          </div>
-                          {item.palette && item.palette.length > 0 ? (
-                            <div className="mt-2 flex items-center gap-1.5" aria-label="palette">
-                              {item.palette.map((hex, i) => (
-                                <span
-                                  key={`${item.name}-p-${i}`}
-                                  className="inline-block h-3 w-3 rounded-full ring-1 ring-black/10"
-                                  style={{ backgroundColor: hex }}
-                                  title={hex}
-                                />
-                              ))}
-                            </div>
+                        <li key={item.name} className="flex gap-3 text-sm leading-6 text-black/75">
+                          {item.image ? (
+                            <img
+                              src={item.image}
+                              alt=""
+                              loading="lazy"
+                              className="h-14 w-14 flex-shrink-0 rounded-lg object-cover ring-1 ring-black/10"
+                            />
+                          ) : item.palette && item.palette.length > 0 ? (
+                            <div
+                              className="h-14 w-14 flex-shrink-0 rounded-lg ring-1 ring-black/10"
+                              style={{
+                                background: `linear-gradient(135deg, ${item.palette.join(", ")})`,
+                              }}
+                              aria-hidden
+                            />
                           ) : null}
-                          {typeof item.score === "number" ? (
-                            <div className="mt-2 flex items-center gap-2">
-                              <div className="h-1 flex-1 overflow-hidden rounded-full bg-black/10">
-                                <div
-                                  className="h-full bg-black/50"
-                                  style={{ width: `${Math.max(0, Math.min(100, item.score))}%` }}
-                                />
+                          <div className="min-w-0 flex-1">
+                            <div>
+                              <span className="font-medium text-black/90">{item.name}</span>
+                              {item.note ? <span className="text-black/55"> · {item.note}</span> : null}
+                            </div>
+                            {item.palette && item.palette.length > 0 ? (
+                              <div className="mt-2 flex items-center gap-1.5" aria-label="palette">
+                                {item.palette.map((hex, i) => (
+                                  <span
+                                    key={`${item.name}-p-${i}`}
+                                    className="inline-block h-2.5 w-2.5 rounded-full ring-1 ring-black/10"
+                                    style={{ backgroundColor: hex }}
+                                    title={hex}
+                                  />
+                                ))}
                               </div>
-                              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/50 tabular-nums">
-                                {item.score}
-                              </span>
-                            </div>
-                          ) : null}
+                            ) : null}
+                            {typeof item.score === "number" ? (
+                              <div className="mt-2 flex items-center gap-2">
+                                <div className="h-1 flex-1 overflow-hidden rounded-full bg-black/10">
+                                  <div
+                                    className="h-full bg-black/50"
+                                    style={{ width: `${Math.max(0, Math.min(100, item.score))}%` }}
+                                  />
+                                </div>
+                                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/50 tabular-nums">
+                                  {item.score}
+                                </span>
+                              </div>
+                            ) : null}
+                          </div>
                         </li>
                       ))}
                     </ul>
@@ -134,8 +157,7 @@ export default function ApparatusPage() {
           ))}
         </div>
 
-        <div className="mt-10 flex items-center justify-between border-t border-black/10 pt-6 text-[11px] uppercase tracking-[0.25em] text-black/40">
-          <Link href="/">back to home</Link>
+        <div className="mt-10 flex items-center justify-end border-t border-black/10 pt-6 text-[11px] uppercase tracking-[0.25em] text-black/40">
           <span>live curation engine</span>
         </div>
       </section>
