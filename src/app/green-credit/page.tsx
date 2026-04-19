@@ -13,7 +13,7 @@ import ViewTracker from "@/components/ViewTracker";
 import SealedPrediction from "@/components/SealedPrediction";
 import GreenCreditTrailer from "@/components/GreenCreditTrailer";
 
-const PERSONAL_HOSTS = ["saathvikpai.com", "www.saathvikpai.com"];
+const PERSONAL_HOSTS: string[] = [];
 
 // Always recompute phase per request. Next.js would otherwise static-render this.
 export const dynamic = "force-dynamic";
@@ -84,9 +84,6 @@ export default function GreenCreditPage() {
   const md = loadManifesto();
   const html = renderMarkdown(md);
 
-  // Host-gated early preview: saathvikpai.com shows the drop phase before
-  // aureliex.com does. aureliex.com follows the real clock — flips to drop
-  // at 2026-04-20 04:20 ET and to green at 2026-04-20 16:20 ET.
   const h = headers();
   const host = (h.get("host") || "").toLowerCase();
   const isPersonal = PERSONAL_HOSTS.some((p) => host === p || host.startsWith(`${p}:`));
@@ -96,7 +93,7 @@ export default function GreenCreditPage() {
     // Halfway-through-drop preview — shows the red→orange midpoint so the
     // register is visible without forcing any single endpoint.
     phase = computePhase(DROP_START + (DROP_END - DROP_START) * 0.5);
-    phase = { ...phase, eyebrow: `project 2 · v0 · preview on saathvikpai.com · aureliex drops 4/20 4:20am ET` };
+    phase = { ...phase, eyebrow: `project 2 · v0 · preview · aureliex drops 4/20 4:20am ET` };
   } else {
     phase = computePhase(Date.now());
   }
@@ -121,10 +118,10 @@ export default function GreenCreditPage() {
       <div className="eyebrow green-credit-eyebrow" id="manifesto">{phase.eyebrow}</div>
 
       {isPersonal && (
-        <section className="gc-audition" aria-label="the audition — saathvikpai.com preview">
-          <div className="gc-audition-eyebrow">// the audition · saathvikpai.com · only here, only now</div>
+        <section className="gc-audition" aria-label="the audition preview">
+          <div className="gc-audition-eyebrow">// the audition · only here, only now</div>
           <h1 className="gc-audition-line">
-            <span className="gc-audition-name">saapai · 19 · ucla · utah</span>
+            <span className="gc-audition-name">saapai · june 21 · utah</span>
             <span className="gc-audition-break" />
             <span className="gc-audition-stake">$3,453 → $100,000 by 21 jun · no job · five AI agents</span>
           </h1>

@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 type Props = {
   entryValue: number;
   startDate: string;   // e.g. "2026-04-12"
-  birthdate: string;   // e.g. "2006-06-21"
+  birthdate: string;   // e.g. "June 21"
 };
 
 const MONTHS = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"];
@@ -22,10 +22,13 @@ function fmtDate(ts: number): string {
 export default function ChartScrubber({ entryValue, startDate, birthdate }: Props) {
   const start = Date.parse(`${startDate}T00:00:00-04:00`);
   const now = Date.now();
-  const [, bMonth, bDay] = birthdate.split("-");
+  const match = /([A-Za-z]+)\s+(\d{1,2})/.exec(birthdate);
+  const monthMap: Record<string, string> = { january: "01", february: "02", march: "03", april: "04", may: "05", june: "06", july: "07", august: "08", september: "09", october: "10", november: "11", december: "12" };
+  const m = match ? (monthMap[match[1].toLowerCase()] ?? "06") : "06";
+  const d = match ? match[2].padStart(2, "0") : "21";
   const yr = new Date().getFullYear();
-  const tryYr = Date.parse(`${yr}-${bMonth}-${bDay}T00:00:00-04:00`);
-  const resolve = tryYr > now ? tryYr : Date.parse(`${yr + 1}-${bMonth}-${bDay}T00:00:00-04:00`);
+  const tryYr = Date.parse(`${yr}-${m}-${d}T00:00:00-04:00`);
+  const resolve = tryYr > now ? tryYr : Date.parse(`${yr + 1}-${m}-${d}T00:00:00-04:00`);
   const dayTotal = Math.max(1, Math.ceil((resolve - start) / 86_400_000));
   const dayToday = Math.min(dayTotal, Math.max(1, Math.ceil((now - start) / 86_400_000)));
 

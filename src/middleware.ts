@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const PERSONAL_HOSTS = ["saathvikpai.com", "www.saathvikpai.com"];
+const PERSONAL_HOSTS: string[] = [];
 
 export function middleware(req: NextRequest) {
-  const host = (req.headers.get("host") || "").toLowerCase();
-  const isPersonal = PERSONAL_HOSTS.some((h) => host === h || host.startsWith(`${h}:`));
   const pathname = req.nextUrl.pathname;
 
   const requestHeaders = new Headers(req.headers);
   requestHeaders.set("x-pathname", pathname);
 
-  if (isPersonal && (pathname === "/" || pathname === "")) {
+  if (pathname === "/" || pathname === "") {
     const url = req.nextUrl.clone();
     url.pathname = "/statement";
     return NextResponse.rewrite(url, { request: { headers: requestHeaders } });

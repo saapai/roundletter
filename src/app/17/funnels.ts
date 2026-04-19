@@ -113,7 +113,7 @@ export function detectFunnel(params: URLSearchParams, referrer: string): FunnelI
   if (r.includes("tabroom") || r.includes("debate")) return "debate";
   if (r.includes("polymarket") || r.includes("kalshi") || r.includes("stocktwits") || r.includes("reddit.com/r/wallstreetbets")) return "fintwit";
   if (r.includes("news.ycombinator") || r.includes("anthropic") || r.includes("openai.com")) return "ai";
-  if (r.includes("sepatucla") || r.includes("ucla.edu")) return "sep";
+  if (r.includes("sep")) return "sep";
   if (r.includes("paulgraham") || r.includes("marginalrevolution") || r.includes("astralcodex")) return "poly";
   if (r.includes("aureliex.com/pitch") || r.includes("aureliex.com/6969")) return "keys";
   return "default";

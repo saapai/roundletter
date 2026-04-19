@@ -5,7 +5,7 @@ import s from "./keys.module.css";
 export const metadata: Metadata = {
   title: "/keys — the hand-off protocol · sigma eta pi at ucla",
   description:
-    "The presidency is not the product. The year is. A written, public transfer protocol for Sigma Eta Pi at UCLA. Inventory, freeze, deprecation clock, alumni clause, first commit, the method, the re-write.",
+    "The presidency is not the product. The year is. A written, public transfer protocol for Sigma Eta Pi. Inventory, freeze, deprecation clock, alumni clause, first commit, the method, the re-write.",
   openGraph: {
     title: "/keys — the hand-off protocol",
     description: "The presidency is not the product. The year is.",

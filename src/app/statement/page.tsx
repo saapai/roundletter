@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import s from "./statement.module.css";
 
 export const metadata: Metadata = {
-  title: "A personal statement, by panel — saathvikpai",
+  title: "A personal statement, by panel — saapai",
   description:
     "One voice, then two, then four, then sixteen. A moderator arrives at two, breaks at sixteen. The disagreement is the statement.",
   openGraph: {
@@ -119,7 +119,7 @@ export default function Statement() {
   return (
     <div className={s.root}>
       <div className={s.wrap}>
-        <div className={s.eyebrow}>saathvikpai · a personal statement, by panel</div>
+        <div className={s.eyebrow}>saapai · a personal statement, by panel</div>
         <h1 className={s.title}>I convened a panel on myself.</h1>
         <p className={s.deck}>
           They could not agree. I published the disagreement. The disagreement is the statement.
@@ -171,7 +171,7 @@ export default function Statement() {
           <p className={s.codaShort}>I am nineteen.</p>
           <p className={s.codaShort}>I have $3,453.83 and no job.</p>
           <p className={s.codaShort}>I keep the receipt.</p>
-          <div className={s.codaKicker}>— saathvikpai</div>
+          <div className={s.codaKicker}>— saapai</div>
         </section>
 
         <div className={s.colophon}>

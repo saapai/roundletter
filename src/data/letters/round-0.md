@@ -21,7 +21,7 @@ I am publishing the pre-mortem so that later, when the account is at $4,100 and 
 ## The mini-game, stated plainly
 
 - **Stake**: $3,453.83.
-- **Goal**: $100,000 by June 21 (my birthday — roughly ten weeks out).
+- **Goal**: $100,000 by June 21 (summer solstice).
 - **Required multiple**: ~29x.
 - **Jobs held during game**: zero, by design.
 - **Counsel**: five AI agents — the Bull, the Bear, Macro, Flow, the Historian — equal-weighted until they earn their weights by being right about things in public.

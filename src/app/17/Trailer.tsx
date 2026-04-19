@@ -222,7 +222,7 @@ function Moneyball() {
         <div className={s.moneyballRow}>{">"} TARGET .......................... $100,000</div>
         <div className={s.moneyballRow}>{">"} REQUIRED MULTIPLE ............... 29x</div>
         <div className={s.moneyballRow}>{">"} S&amp;P 25-YEAR MULTIPLE .......... 10x</div>
-        <div className={s.moneyballRow}>{">"} GPA_FALL ........................ 4.74 → 3.156</div>
+        <div className={s.moneyballRow}>{">"} grade_fall ........................ scrubbed</div>
         <div className={s.moneyballRow}>{">"} COURSE_PRICE .................... $0</div>
       </div>
       <p className={s.bigLine}>
@@ -419,7 +419,7 @@ export default function Trailer({ initialFunnel }: { initialFunnel?: FunnelId })
 
       {phase !== "boot" && (
         <div className={s.chrome}>
-          <span>aureliex → saathvikpai · {funnel.label}</span>
+          <span>aureliex → saapai · {funnel.label}</span>
           <span className={s.chromeRight}>
             visit {visit} · scene {phase === "coda" ? funnel.scenes.length + 1 : sceneIdx + 1}/{funnel.scenes.length + 1}
           </span>

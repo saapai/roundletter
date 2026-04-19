@@ -8,7 +8,7 @@ import TableOfContents from "@/components/TableOfContents";
 import Insignia from "@/components/Insignia";
 import FridayMark from "@/components/FridayMark";
 
-const PERSONAL_HOSTS = ["saathvikpai.com", "www.saathvikpai.com"];
+const PERSONAL_HOSTS: string[] = [];
 const BARE_PATHS = new Set(["/17", "/keys"]);
 
 const display = Cormorant_Garamond({
@@ -48,11 +48,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const h = headers();
-  const host = (h.get("host") || "").toLowerCase();
   const pathname = h.get("x-pathname") || "";
-  const hostBare = PERSONAL_HOSTS.some((hh) => host === hh || host.startsWith(`${hh}:`));
   const pathBare = BARE_PATHS.has(pathname);
-  const bare = hostBare || pathBare;
+  const bare = pathBare;
 
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>

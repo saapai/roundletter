@@ -3,7 +3,7 @@ import Trailer from "./Trailer";
 import { FUNNELS, type FunnelId } from "./funnels";
 
 export const metadata: Metadata = {
-  title: "seventeen. — aureliex → saathvikpai trailer",
+  title: "seventeen. — aureliex → saapai trailer",
   description:
     "$3,453.83 → seventeen. The 2K green-release boot, then a cut from the bank — funnel-aware. Iverson, EEAO, Roosevelt, the Matrix, Moneyball, 7,000 RPM.",
 };

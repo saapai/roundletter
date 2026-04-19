@@ -148,13 +148,13 @@ The unit of attention stops being a scroll and starts being a ballot. The unit o
 
 ## The cohort, emerging
 
-Three people at UCLA in April 2026, making the same Roosevelt-arena move at three altitudes.
+Three people at in April 2026, making the same Roosevelt-arena move at three altitudes.
 
-**Ash Barrett** — labor economist. Her 2026 research asks why some commuting zones resist industrial-robot wage collapse. Her hypothesis: *labor institutions moderate who captures the gains and who bears the losses.* Green Credit is her research gap implemented — the institution that moderates algorithmic extraction the way her theorized labor institutions moderate industrial displacement. Her theory, at a different altitude, executed in code.
+**Ashley** — labor economist. Her 2026 research asks why some commuting zones resist industrial-robot wage collapse. Her hypothesis: *labor institutions moderate who captures the gains and who bears the losses.* Green Credit is her research gap implemented — the institution that moderates algorithmic extraction the way her theorized labor institutions moderate industrial displacement. Her theory, at a different altitude, executed in code.
 
-**Ved Vedere** — 20, ex-YC-dropout, now self-taught ML researcher. *"Software is solved. Not at the frontier yet. That's the whole point. Going to get there in public."* The same public-staking move as this project, at the research altitude instead of the institution altitude.
+**bed bear** — 20, ex-YC-dropout, now self-taught ML researcher. *"Software is solved. Not at the frontier yet. That's the whole point. Going to get there in public."* The same public-staking move as this project, at the research altitude instead of the institution altitude.
 
-**saathvik pai** — 19, pre-mortem filed, $3,453 on the line, 68 days to resolve, Green Credit as the institution the other two are researching and the frontier they're running toward.
+**saapai** — 19, pre-mortem filed, $3,453 on the line, 68 days to resolve, Green Credit as the institution the other two are researching and the frontier they're running toward.
 
 Different altitudes, same structural play: publicly documenting the journey, self-implicating with no credentials, betting that the record is the product. The cohort is forming as this is written. **Green Credit is the infrastructure they can file into** — the institution their research and their journeys make legible.
 

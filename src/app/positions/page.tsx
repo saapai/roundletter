@@ -86,7 +86,7 @@ export default async function Positions() {
         baselineValue={current}
         goal={goal}
         baselineDate={p.baseline_date ?? "2026-04-14"}
-        birthdate={p.birthdate ?? "2006-06-21"}
+        birthdate={p.birthdate ?? "June 21"}
       />
 
       <PortfolioChart

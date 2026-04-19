@@ -152,9 +152,9 @@
     },
     {
       "id": "op-ash",
-      "name": "Ash Barrett",
+      "name": "Ashley",
       "handle": "@ashbarrettt",
-      "affiliation": "UCLA · labor economics",
+      "affiliation": "labor economics",
       "altitude": "institutional-theory",
       "path_to_v2_trigger": "files a sealed labor-econ prediction (e.g., unionization-rate threshold predicts wage-collapse resistance by N% in commuting zones)",
       "contacted": false,
@@ -163,9 +163,9 @@
     },
     {
       "id": "op-ved",
-      "name": "Ved Vedere",
+      "name": "bed bear",
       "handle": "@vedvedere",
-      "affiliation": "UCLA · ML research, ex-usebearai, ex-YC",
+      "affiliation": "ML research, ex-usebearai, ex-YC",
       "altitude": "frontier-research",
       "path_to_v2_trigger": "files a sealed ML-research prediction with SHA-hashed thesis, horizon, and scoring rule — e.g., 'I will ship a mech-interp paper accepted at a top venue by YYYY-MM-DD'",
       "contacted": false,
