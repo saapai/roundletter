@@ -8,7 +8,7 @@ const CURATION_JSON = resolve(ROOT, "src/data/curation.json");
 
 type Tier = "Budget" | "Mid" | "Elite";
 
-type CurationItem = { name: string; note?: string };
+type CurationItem = { name: string; note?: string; palette?: string[]; score?: number };
 
 type CurationCategory = {
   id: string;

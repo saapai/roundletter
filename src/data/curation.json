@@ -12,13 +12,13 @@
       "label": "Shoes",
       "tiers": {
         "Budget": [
-          { "name": "New Balance 574", "note": "easy, honest, low-friction" }
+          { "name": "New Balance 574", "note": "easy, honest, low-friction", "palette": ["#8a8a8a", "#b8a88a", "#3d3d3d", "#e8e4dc"], "score": 88 }
         ],
         "Mid": [
-          { "name": "ASICS Gel-Kayano 14", "note": "stable, archival, wearable all week" }
+          { "name": "ASICS Gel-Kayano 14", "note": "stable, archival, wearable all week", "palette": ["#c9b89a", "#6b7a8f", "#2e2e2e", "#d8cfc4"], "score": 74 }
         ],
         "Elite": [
-          { "name": "Common Projects Achilles", "note": "quiet luxury without the chatter" }
+          { "name": "Common Projects Achilles", "note": "quiet luxury without the chatter", "palette": ["#f2ede3", "#d4caba", "#2a2a2a"], "score": 82 }
         ]
       }
     },
@@ -27,13 +27,13 @@
       "label": "Speakers",
       "tiers": {
         "Budget": [
-          { "name": "Edifier R1280DB", "note": "clean desktop pair without the drama" }
+          { "name": "Edifier R1280DB", "note": "clean desktop pair without the drama", "palette": ["#5c4a3a", "#2a2a2a", "#c9a87a"], "score": 71 }
         ],
         "Mid": [
-          { "name": "KEF LSX II", "note": "small-room clarity with shape" }
+          { "name": "KEF LSX II", "note": "small-room clarity with shape", "palette": ["#c8a598", "#e6ddd1", "#3a3a3a", "#8a8274"], "score": 79 }
         ],
         "Elite": [
-          { "name": "Bowers & Wilkins 805 D4", "note": "big-room resolve and finish" }
+          { "name": "Bowers & Wilkins 805 D4", "note": "big-room resolve and finish", "palette": ["#1a1a1a", "#c9b58a", "#6b5a48", "#e0d9cc"], "score": 86 }
         ]
       }
     },
@@ -42,13 +42,13 @@
       "label": "Music",
       "tiers": {
         "Budget": [
-          { "name": "Sade — Love Deluxe", "note": "cool, steady, never loud" }
+          { "name": "Sade \u2014 Love Deluxe", "note": "cool, steady, never loud", "palette": ["#1a1a1a", "#8a6a4a", "#d4b896"], "score": 83 }
         ],
         "Mid": [
-          { "name": "D'Angelo — Voodoo", "note": "dense enough to keep returning" }
+          { "name": "D'Angelo \u2014 Voodoo", "note": "dense enough to keep returning", "palette": ["#3a2418", "#7a4a2a", "#d4a878", "#1a1008"], "score": 89 }
         ],
         "Elite": [
-          { "name": "Miles Davis — Kind of Blue", "note": "the canon doing the least and the most" }
+          { "name": "Miles Davis \u2014 Kind of Blue", "note": "the canon doing the least and the most", "palette": ["#2a4a6a", "#1a2838", "#c9b896", "#e8e0d0"], "score": 96 }
         ]
       }
     },
@@ -57,13 +57,13 @@
       "label": "Clothes",
       "tiers": {
         "Budget": [
-          { "name": "Uniqlo U", "note": "foundation pieces without noise" }
+          { "name": "Uniqlo U", "note": "foundation pieces without noise", "palette": ["#e8e2d4", "#6b6b6b", "#2a2a2a", "#a89d88"], "score": 81 }
         ],
         "Mid": [
-          { "name": "Arket knits", "note": "clean lines, repeatable fit" }
+          { "name": "Arket knits", "note": "clean lines, repeatable fit", "palette": ["#c9b89a", "#8a7a68", "#e6ddc8", "#4a4038"], "score": 68 }
         ],
         "Elite": [
-          { "name": "The Row basics", "note": "the silhouette after everyone stops talking" }
+          { "name": "The Row basics", "note": "the silhouette after everyone stops talking", "palette": ["#1a1a1a", "#d8d2c4", "#7a7468", "#e8e4d8"], "score": 84 }
         ]
       }
     },
@@ -72,13 +72,13 @@
       "label": "Songs",
       "tiers": {
         "Budget": [
-          { "name": "Ain't No Mountain High Enough", "note": "compressed joy, immediate lift" }
+          { "name": "Ain't No Mountain High Enough", "note": "compressed joy, immediate lift", "palette": ["#c94a3a", "#e8b84a", "#2a4a8a"], "score": 77 }
         ],
         "Mid": [
-          { "name": "Wicked Game", "note": "melancholy that still moves" }
+          { "name": "Wicked Game", "note": "melancholy that still moves", "palette": ["#1a2838", "#6a5a4a", "#c9a87a", "#0a1018"], "score": 72 }
         ],
         "Elite": [
-          { "name": "Everything In Its Right Place", "note": "the room reorders itself" }
+          { "name": "Everything In Its Right Place", "note": "the room reorders itself", "palette": ["#c94a2a", "#e8d8a8", "#3a4a5a", "#1a1a1a"], "score": 91 }
         ]
       }
     },
@@ -87,13 +87,13 @@
       "label": "Movies",
       "tiers": {
         "Budget": [
-          { "name": "The Devil Wears Prada", "note": "precision with a grin" }
+          { "name": "The Devil Wears Prada", "note": "precision with a grin", "palette": ["#3a2a4a", "#c9a0a8", "#1a1a1a", "#d8c8a8"], "score": 58 }
         ],
         "Mid": [
-          { "name": "In the Mood for Love", "note": "the most elegant kind of restraint" }
+          { "name": "In the Mood for Love", "note": "the most elegant kind of restraint", "palette": ["#6a1a2a", "#c9a868", "#2a1818", "#8a4a3a"], "score": 94 }
         ],
         "Elite": [
-          { "name": "There Will Be Blood", "note": "scale, silence, pressure" }
+          { "name": "There Will Be Blood", "note": "scale, silence, pressure", "palette": ["#3a1a0a", "#8a4a1a", "#c9a068", "#1a0a08"], "score": 92 }
         ]
       }
     },
@@ -102,13 +102,13 @@
       "label": "Art Pieces",
       "tiers": {
         "Budget": [
-          { "name": "Rothko — No. 14, 1960", "note": "a field that keeps widening" }
+          { "name": "Rothko \u2014 No. 14, 1960", "note": "a field that keeps widening", "palette": ["#c93a1a", "#3a1a4a", "#1a0a18"], "score": 87 }
         ],
         "Mid": [
-          { "name": "Kehinde Wiley — Napoleon Leading the Army over the Alps", "note": "history edited in public" }
+          { "name": "Kehinde Wiley \u2014 Napoleon Leading the Army over the Alps", "note": "history edited in public", "palette": ["#c94a4a", "#e8c868", "#2a3a5a", "#d8b898"], "score": 76 }
         ],
         "Elite": [
-          { "name": "Rothko Chapel panels", "note": "the room becomes the work" }
+          { "name": "Rothko Chapel panels", "note": "the room becomes the work", "palette": ["#2a1a1a", "#4a2a2a", "#1a0a0a", "#3a1a28"], "score": 90 }
         ]
       }
     },
@@ -117,13 +117,13 @@
       "label": "Business",
       "tiers": {
         "Budget": [
-          { "name": "Notion", "note": "the default system if you need one" }
+          { "name": "Notion", "note": "the default system if you need one", "palette": ["#e8e2d4", "#2a2a2a", "#a89d88"], "score": 65 }
         ],
         "Mid": [
-          { "name": "Linear", "note": "tight feedback loops, low ceremony" }
+          { "name": "Linear", "note": "tight feedback loops, low ceremony", "palette": ["#5a5ae8", "#1a1a2a", "#e8e4f0", "#8a8ab8"], "score": 85 }
         ],
         "Elite": [
-          { "name": "Cursor", "note": "the product that makes the workflow feel inevitable" }
+          { "name": "Cursor", "note": "the product that makes the workflow feel inevitable", "palette": ["#1a1a1a", "#e8e4dc", "#6b6b6b"], "score": 78 }
         ]
       }
     },
@@ -132,13 +132,13 @@
       "label": "Software Product Design",
       "tiers": {
         "Budget": [
-          { "name": "Apple HIG", "note": "clarity before novelty" }
+          { "name": "Apple HIG", "note": "clarity before novelty", "palette": ["#e8e4dc", "#2a2a2a", "#a8a8a8"], "score": 70 }
         ],
         "Mid": [
-          { "name": "Dieter Rams principles", "note": "less, but better" }
+          { "name": "Dieter Rams principles", "note": "less, but better", "palette": ["#e8e2d4", "#d84a1a", "#2a2a2a", "#b8b0a0"], "score": 93 }
         ],
         "Elite": [
-          { "name": "MX Master 3S", "note": "the object that disappears into the hand" }
+          { "name": "MX Master 3S", "note": "the object that disappears into the hand", "palette": ["#3a3a3a", "#1a1a1a", "#8a8478"], "score": 75 }
         ]
       }
     },
@@ -147,13 +147,13 @@
       "label": "Best Bets",
       "tiers": {
         "Budget": [
-          { "name": "watchlist slot", "note": "filled by the daily panel" }
+          { "name": "watchlist slot", "note": "filled by the daily panel", "palette": ["#d8d2c4", "#a89d88", "#4a4038"], "score": 55 }
         ],
         "Mid": [
-          { "name": "consensus slot", "note": "opens only after debate" }
+          { "name": "consensus slot", "note": "opens only after debate", "palette": ["#c9b89a", "#6b6b6b", "#e8e2d4"], "score": 73 }
         ],
         "Elite": [
-          { "name": "conviction slot", "note": "reserved for the cleanest edge" }
+          { "name": "conviction slot", "note": "reserved for the cleanest edge", "palette": ["#1a1a1a", "#c9a868", "#e8e4dc"], "score": 88 }
         ]
       }
     }

@@ -5,7 +5,7 @@ import curation from "@/data/curation.json";
 
 type Tier = "Budget" | "Mid" | "Elite";
 
-type CurationItem = { name: string; note?: string };
+type CurationItem = { name: string; note?: string; palette?: string[]; score?: number };
 
 type CurationCategory = {
   id: string;
@@ -92,11 +92,38 @@ export default function ApparatusPage() {
                 {tiers.map((tier) => (
                   <section key={tier} className="rounded-2xl bg-[#f8f5ef] p-4">
                     <div className="text-[11px] uppercase tracking-[0.25em] text-black/45">{tier}</div>
-                    <ul className="mt-3 space-y-2">
+                    <ul className="mt-3 space-y-3">
                       {category.tiers[tier].map((item) => (
                         <li key={item.name} className="text-sm leading-6 text-black/75">
-                          <span className="font-medium text-black/90">{item.name}</span>
-                          {item.note ? <span className="text-black/55"> · {item.note}</span> : null}
+                          <div>
+                            <span className="font-medium text-black/90">{item.name}</span>
+                            {item.note ? <span className="text-black/55"> · {item.note}</span> : null}
+                          </div>
+                          {item.palette && item.palette.length > 0 ? (
+                            <div className="mt-2 flex items-center gap-1.5" aria-label="palette">
+                              {item.palette.map((hex, i) => (
+                                <span
+                                  key={`${item.name}-p-${i}`}
+                                  className="inline-block h-3 w-3 rounded-full ring-1 ring-black/10"
+                                  style={{ backgroundColor: hex }}
+                                  title={hex}
+                                />
+                              ))}
+                            </div>
+                          ) : null}
+                          {typeof item.score === "number" ? (
+                            <div className="mt-2 flex items-center gap-2">
+                              <div className="h-1 flex-1 overflow-hidden rounded-full bg-black/10">
+                                <div
+                                  className="h-full bg-black/50"
+                                  style={{ width: `${Math.max(0, Math.min(100, item.score))}%` }}
+                                />
+                              </div>
+                              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/50 tabular-nums">
+                                {item.score}
+                              </span>
+                            </div>
+                          ) : null}
                         </li>
                       ))}
                     </ul>
