@@ -1,0 +1,40 @@
+name: calibrate
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: calibrate
+  cancel-in-progress: false
+
+jobs:
+  calibrate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: bash the panel
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: npx tsx scripts/run-calibrate.ts
+      - name: commit + push
+        run: |
+          git config user.name "curation-bash-bot"
+          git config user.email "noreply@anthropic.com"
+          if [ -n "$(git status --porcelain src/data/curation.json)" ]; then
+            git add src/data/curation.json
+            git commit -m "update"
+            git push
+          else
+            echo "no changes"
+          fi

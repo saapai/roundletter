@@ -1,0 +1,161 @@
+{
+  "meta": {
+    "name": "apparatus",
+    "subtitle": "aesthetic research curation engine",
+    "mode": "bash",
+    "updated_at": null,
+    "last_debate": null
+  },
+  "categories": [
+    {
+      "id": "shoes",
+      "label": "Shoes",
+      "tiers": {
+        "Budget": [
+          { "name": "New Balance 574", "note": "easy, honest, low-friction" }
+        ],
+        "Mid": [
+          { "name": "ASICS Gel-Kayano 14", "note": "stable, archival, wearable all week" }
+        ],
+        "Elite": [
+          { "name": "Common Projects Achilles", "note": "quiet luxury without the chatter" }
+        ]
+      }
+    },
+    {
+      "id": "speakers",
+      "label": "Speakers",
+      "tiers": {
+        "Budget": [
+          { "name": "Edifier R1280DB", "note": "clean desktop pair without the drama" }
+        ],
+        "Mid": [
+          { "name": "KEF LSX II", "note": "small-room clarity with shape" }
+        ],
+        "Elite": [
+          { "name": "Bowers & Wilkins 805 D4", "note": "big-room resolve and finish" }
+        ]
+      }
+    },
+    {
+      "id": "music",
+      "label": "Music",
+      "tiers": {
+        "Budget": [
+          { "name": "Sade — Love Deluxe", "note": "cool, steady, never loud" }
+        ],
+        "Mid": [
+          { "name": "D'Angelo — Voodoo", "note": "dense enough to keep returning" }
+        ],
+        "Elite": [
+          { "name": "Miles Davis — Kind of Blue", "note": "the canon doing the least and the most" }
+        ]
+      }
+    },
+    {
+      "id": "clothes",
+      "label": "Clothes",
+      "tiers": {
+        "Budget": [
+          { "name": "Uniqlo U", "note": "foundation pieces without noise" }
+        ],
+        "Mid": [
+          { "name": "Arket knits", "note": "clean lines, repeatable fit" }
+        ],
+        "Elite": [
+          { "name": "The Row basics", "note": "the silhouette after everyone stops talking" }
+        ]
+      }
+    },
+    {
+      "id": "songs",
+      "label": "Songs",
+      "tiers": {
+        "Budget": [
+          { "name": "Ain't No Mountain High Enough", "note": "compressed joy, immediate lift" }
+        ],
+        "Mid": [
+          { "name": "Wicked Game", "note": "melancholy that still moves" }
+        ],
+        "Elite": [
+          { "name": "Everything In Its Right Place", "note": "the room reorders itself" }
+        ]
+      }
+    },
+    {
+      "id": "movies",
+      "label": "Movies",
+      "tiers": {
+        "Budget": [
+          { "name": "The Devil Wears Prada", "note": "precision with a grin" }
+        ],
+        "Mid": [
+          { "name": "In the Mood for Love", "note": "the most elegant kind of restraint" }
+        ],
+        "Elite": [
+          { "name": "There Will Be Blood", "note": "scale, silence, pressure" }
+        ]
+      }
+    },
+    {
+      "id": "art-pieces",
+      "label": "Art Pieces",
+      "tiers": {
+        "Budget": [
+          { "name": "Rothko — No. 14, 1960", "note": "a field that keeps widening" }
+        ],
+        "Mid": [
+          { "name": "Kehinde Wiley — Napoleon Leading the Army over the Alps", "note": "history edited in public" }
+        ],
+        "Elite": [
+          { "name": "Rothko Chapel panels", "note": "the room becomes the work" }
+        ]
+      }
+    },
+    {
+      "id": "business",
+      "label": "Business",
+      "tiers": {
+        "Budget": [
+          { "name": "Notion", "note": "the default system if you need one" }
+        ],
+        "Mid": [
+          { "name": "Linear", "note": "tight feedback loops, low ceremony" }
+        ],
+        "Elite": [
+          { "name": "Cursor", "note": "the product that makes the workflow feel inevitable" }
+        ]
+      }
+    },
+    {
+      "id": "software-product-design",
+      "label": "Software Product Design",
+      "tiers": {
+        "Budget": [
+          { "name": "Apple HIG", "note": "clarity before novelty" }
+        ],
+        "Mid": [
+          { "name": "Dieter Rams principles", "note": "less, but better" }
+        ],
+        "Elite": [
+          { "name": "MX Master 3S", "note": "the object that disappears into the hand" }
+        ]
+      }
+    },
+    {
+      "id": "best-bets",
+      "label": "Best Bets",
+      "tiers": {
+        "Budget": [
+          { "name": "watchlist slot", "note": "filled by the daily panel" }
+        ],
+        "Mid": [
+          { "name": "consensus slot", "note": "opens only after debate" }
+        ],
+        "Elite": [
+          { "name": "conviction slot", "note": "reserved for the cleanest edge" }
+        ]
+      }
+    }
+  ]
+}
