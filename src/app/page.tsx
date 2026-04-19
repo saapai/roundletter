@@ -1,4 +1,5 @@
 import curation from "@/data/curation.json";
+import ApparatusThumb from "@/components/ApparatusThumb";
 
 // noop: refresh build after verifying path/imports
 
@@ -100,22 +101,7 @@ export default function ApparatusPage() {
                     <ul className="mt-3 space-y-3">
                       {category.tiers[tier].map((item) => (
                         <li key={item.name} className="flex gap-3 text-sm leading-6 text-black/75">
-                          {item.image ? (
-                            <img
-                              src={item.image}
-                              alt=""
-                              loading="lazy"
-                              className="h-14 w-14 flex-shrink-0 rounded-lg object-cover ring-1 ring-black/10"
-                            />
-                          ) : item.palette && item.palette.length > 0 ? (
-                            <div
-                              className="h-14 w-14 flex-shrink-0 rounded-lg ring-1 ring-black/10"
-                              style={{
-                                background: `linear-gradient(135deg, ${item.palette.join(", ")})`,
-                              }}
-                              aria-hidden
-                            />
-                          ) : null}
+                          <ApparatusThumb image={item.image} palette={item.palette} alt={item.name} />
                           <div className="min-w-0 flex-1">
                             <div>
                               <span className="font-medium text-black/90">{item.name}</span>
