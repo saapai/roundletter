@@ -1,6 +1,8 @@
 import Link from "next/link";
 import curation from "@/data/curation.json";
 
+// noop: refresh build after verifying path/imports
+
 type Tier = "Budget" | "Mid" | "Elite";
 
 type CurationItem = { name: string; note?: string };
