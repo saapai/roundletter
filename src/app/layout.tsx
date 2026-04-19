@@ -29,10 +29,10 @@ const body = EB_Garamond({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aureliex.com"),
-  title: "$3,453 → $100,000 by my birthday. No job. Five AI agents. — aureliex",
-  description: "I have $3,453.83 and a birthday. I need a 29x. The S&P does 10x in 25 years. Five AI agents, a public logbook, and the pre-mortem, filed before I fail.",
+  title: ",453 → 00,000 by my birthday. No job. Five AI agents. — aureliex",
+  description: "I have ,453.83 and a birthday. I need a 29x. The S&P does 10x in 25 years. Five AI agents, a public logbook, and the pre-mortem, filed before I fail.",
   openGraph: {
-    title: "$3,453 → $100,000 by my birthday. No job. Five AI agents.",
+    title: ",453 → 00,000 by my birthday. No job. Five AI agents.",
     description: "The pre-mortem, published before I fail. A public logbook. An ego mini-game with a P&L attached.",
     url: "https://aureliex.com",
     siteName: "aureliex",
@@ -40,20 +40,24 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "$3,453 → $100,000 by my birthday. No job. Five AI agents.",
+    title: ",453 → 00,000 by my birthday. No job. Five AI agents.",
     description: "A 29x. The S&P does 10x in 25 years. The gap is the entire joke, and the entire point.",
     creator: "@saapai",
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  if (process.env.SHUTDOWN === "true") {
+    return <html lang="en"><body /></html>;
+  }
+
   const h = headers();
   const pathname = h.get("x-pathname") || "";
   const pathBare = BARE_PATHS.has(pathname);
   const bare = pathBare;
 
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={}>
       <body className="min-h-screen font-body">
         {!bare && (
           <>
