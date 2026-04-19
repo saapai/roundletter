@@ -83,7 +83,10 @@ async function main() {
 
   const finalModerator = [...debate.turns]
     .reverse()
-    .find((t) => t.speaker === "moderator" && t.scorecard);
+    .find(
+      (t): t is Extract<(typeof debate.turns)[number], { speaker: "moderator" }> =>
+        t.speaker === "moderator" && Boolean((t as { scorecard?: unknown }).scorecard),
+    );
 
   const next: CurationFile = {
     ...curation,
