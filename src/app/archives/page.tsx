@@ -15,7 +15,7 @@ export default function Archives() {
   return (
     <article className="article page archives">
       <div className="eyebrow">aureliex · the archives — v0 · v1 · v2 · v3</div>
-      <h1 style={{ textAlign: "center" }}>The Method, in derivative order</h1>
+      <h1>The Method, in derivative order</h1>
       <p className="deck">
         The home page is v3. This is the full derivative stack — v0 (the portfolio), v1 (the apparatus),
         v2 (the new house), v3 (the refusal). Read v3 on the home first; come here for the derivation.

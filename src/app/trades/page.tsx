@@ -5,7 +5,7 @@ export default function TradesPage() {
   return (
     <article className="article page">
       <div className="eyebrow">Trades · timestamped receipts</div>
-      <h1 style={{ textAlign: "center" }}>Trades</h1>
+      <h1>Trades</h1>
       <p className="deck">Every buy, sell, and trim with a rationale. Nothing hidden, nothing smoothed.</p>
 
       <div className="trades">

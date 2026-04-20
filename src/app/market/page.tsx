@@ -30,7 +30,7 @@ export default function MarketPage() {
   return (
     <article className="article page market-page">
       <div className="eyebrow">green credit · the market · round 0</div>
-      <h1 style={{ textAlign: "center" }}>The Green Apple, the Rotten Apple</h1>
+      <h1>The Green Apple, the Rotten Apple</h1>
       <p className="deck">
         Every thesis is an apple. Every apple has two sides.
         You bet on the green apple. The AI hedges the rotten side with my own cash.

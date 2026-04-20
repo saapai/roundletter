@@ -22,7 +22,7 @@ export default function Canvas() {
   return (
     <article className="article page">
       <div className="eyebrow">Canvas · the book as a graph</div>
-      <h1 style={{ textAlign: "center" }}>Canvas</h1>
+      <h1>Canvas</h1>
       <p className="deck">Trenches are positions. Edges are co-ownership by bucket or agent. MVP layout — LLM semantic graph lands in v2.</p>
 
       <div className="canvas-frame">

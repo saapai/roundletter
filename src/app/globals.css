@@ -9,6 +9,26 @@
   --rust: #8B3A2E;
   --parchment: #EDE5D5;
   --rule: rgba(28,26,23,0.22);
+
+  /* Container widths
+     prose: long-form serif reading column. ~70 chars at body size.
+     grid:  multi-column / chart / table / register pages.
+     wide:  full editorial spread (hero hooks, manifestos).
+     bare:  compact signup / single-card / 404 routes. */
+  --container-prose: 44rem;
+  --container-grid:  58rem;
+  --container-wide:  72rem;
+  --container-bare:  40rem;
+
+  /* Type scale — page overrides should be the exception, not default. */
+  --h1-size:      clamp(2.1rem, 1.3rem + 4.2vw, 3.9rem);
+  --h2-size:      clamp(1.55rem, 1.2rem + 1.1vw, 1.95rem);
+  --h3-size:      clamp(1.2rem, 1rem + 0.8vw, 1.45rem);
+  --eyebrow-size: 11px;
+
+  /* Primary mobile cutoff. 480/560/720 stay where they map to
+     component-specific row-grid reflows. */
+  --bp-mobile: 640px;
 }
 
 html, body {
@@ -83,16 +103,13 @@ h1, h2, h3 {
 
 /* ── Article ──────────────────────────────────────────────── */
 .article {
-  max-width: 42rem;
+  max-width: var(--container-prose);
   margin: clamp(2.5rem, 6vw, 4.5rem) auto 0;
   padding: 0 clamp(1.1rem, 4vw, 2rem);
 }
-@media (min-width: 960px) {
-  .article { max-width: 44rem; }
-}
 .article .eyebrow {
   text-align: center;
-  font-size: 11px;
+  font-size: var(--eyebrow-size);
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--graphite);
@@ -102,7 +119,7 @@ h1, h2, h3 {
   font-family: var(--font-display), serif;
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(2.1rem, 1.3rem + 4.2vw, 3.9rem);
+  font-size: var(--h1-size);
   line-height: 1.06;
   letter-spacing: -0.018em;
   margin: 1.25rem auto 1rem;
@@ -172,7 +189,7 @@ h1, h2, h3 {
   font-family: var(--font-display), serif;
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(1.55rem, 1.2rem + 1.1vw, 1.95rem);
+  font-size: var(--h2-size);
   line-height: 1.2;
   margin-top: 3.25rem;
   margin-bottom: 0.55rem;
@@ -575,7 +592,8 @@ h1, h2, h3 {
 
 /* Trades ledger */
 .trades {
-  margin: 1.25rem 0 2.5rem;
+  max-width: var(--container-prose);
+  margin: 1.25rem auto 2.5rem;
 }
 .trade-row {
   padding: 0.7rem 0 0.8rem;
@@ -954,6 +972,8 @@ body.pitch-mode > main {
      a page, and short slides don't leave cavernous gaps before the next. */
   padding-top: clamp(2.5rem, 6vh, 5rem);
   padding-bottom: clamp(2.5rem, 6vh, 5rem);
+  /* desktop: calc() centers within 62rem; max() guards mobile by floor.
+     explicit 640px rule below makes intent unambiguous against future refactors. */
   padding-left: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
   padding-right: max(clamp(1.75rem, 6vw, 4.5rem), calc((100% - 62rem) / 2));
   display: flex;
@@ -962,6 +982,14 @@ body.pitch-mode > main {
   position: relative;
   z-index: 1;
   box-sizing: border-box;
+}
+@media (max-width: 640px) {
+  .pitch-slide {
+    /* viewport narrower than the 62rem content frame — calc() is always
+       negative, so pin to the clamp() floor with a touch more air. */
+    padding-left: clamp(1.25rem, 5vw, 1.75rem);
+    padding-right: clamp(1.25rem, 5vw, 1.75rem);
+  }
 }
 /* Slide 1 (title) keeps a viewport-tall landing feel — it IS the hero */
 .pitch-slide#s1 {
@@ -4271,7 +4299,8 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   padding: 3rem clamp(1.25rem, 4vw, 3rem);
 }
 .argument-wrap {
-  max-width: 64rem;
+  /* tightened from 64rem — too wide for serif prose; matches grid token */
+  max-width: var(--container-grid);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -6963,6 +6992,14 @@ body.reader-mode > main { padding-top: 2rem; }
 /* ============================================================
    /archives page (v0 + v1, moved from /about-the-method which now redirects)
    ============================================================ */
+
+/* The .archives wrapper className lives on the page; pin it to the grid
+   container so the markers and footer can sit edge-to-edge with the prose
+   without per-element max-width hacks. */
+.archives {
+  max-width: var(--container-grid);
+}
+
 .archives-marker {
   max-width: 52rem;
   margin: 4.5rem auto 2.5rem;
@@ -7512,7 +7549,7 @@ body.reader-mode > main { padding-top: 2rem; }
    /market — the green apple / rotten apple preview
    ============================================================ */
 .market-page {
-  max-width: 58rem;
+  max-width: var(--container-grid);
 }
 .market-explain {
   display: grid;
