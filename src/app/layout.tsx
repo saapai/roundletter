@@ -68,10 +68,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <header className="masthead">
               <Link href="/" className="wordmark">
                 aureliex<span className="dot">.</span>
-                <span className="wordmark-sep"> · </span>
-                <span className="wordmark-sub">green credit · round 0</span>
               </Link>
-              <div className="tagline">project 2, v1 · a portfolio kept in public, in derivative order</div>
+              <div className="wordmark-sub-row">green credit <span className="wordmark-sub-sep">·</span> round 0</div>
+              <div className="tagline">project 2, v1 <span className="tagline-sep">·</span> a portfolio kept in public, in derivative order</div>
               <div className="rule" />
               <nav className="nav">
                 <Link href="/">letters</Link>
