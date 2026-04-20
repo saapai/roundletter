@@ -42,13 +42,13 @@
       "label": "Music",
       "tiers": {
         "Budget": [
-          { "name": "Sade \u2014 Love Deluxe", "note": "cool, steady, never loud", "palette": ["#1a1a1a", "#8a6a4a", "#d4b896"], "score": 83, "image": "https://upload.wikimedia.org/wikipedia/en/a/a8/Sade_-_Love_Deluxe.png" }
+          { "name": "Sade \u2014 Love Deluxe", "note": "cool, steady, never loud", "palette": ["#1a1a1a", "#8a6a4a", "#d4b896"], "score": 83, "image": "https://en.wikipedia.org/wiki/Special:FilePath/Sade_-_Love_Deluxe.png" }
         ],
         "Mid": [
-          { "name": "D'Angelo \u2014 Voodoo", "note": "dense enough to keep returning", "palette": ["#3a2418", "#7a4a2a", "#d4a878", "#1a1008"], "score": 89, "image": "https://upload.wikimedia.org/wikipedia/en/2/2b/D%27angelo_voodoo.jpg" }
+          { "name": "D'Angelo \u2014 Voodoo", "note": "dense enough to keep returning", "palette": ["#3a2418", "#7a4a2a", "#d4a878", "#1a1008"], "score": 89, "image": "https://en.wikipedia.org/wiki/Special:FilePath/D%27angelo_voodoo.jpg" }
         ],
         "Elite": [
-          { "name": "Miles Davis \u2014 Kind of Blue", "note": "the canon doing the least and the most", "palette": ["#2a4a6a", "#1a2838", "#c9b896", "#e8e0d0"], "score": 96, "image": "https://upload.wikimedia.org/wikipedia/en/9/9c/MilesDavisKindofBlue.jpg" }
+          { "name": "Miles Davis \u2014 Kind of Blue", "note": "the canon doing the least and the most", "palette": ["#2a4a6a", "#1a2838", "#c9b896", "#e8e0d0"], "score": 96, "image": "https://en.wikipedia.org/wiki/Special:FilePath/MilesDavisKindofBlue.jpg" }
         ]
       }
     },
@@ -75,10 +75,10 @@
           { "name": "Ain't No Mountain High Enough", "note": "compressed joy, immediate lift", "palette": ["#c94a3a", "#e8b84a", "#2a4a8a"], "score": 77, "image": null }
         ],
         "Mid": [
-          { "name": "Wicked Game", "note": "melancholy that still moves", "palette": ["#1a2838", "#6a5a4a", "#c9a87a", "#0a1018"], "score": 72, "image": "https://upload.wikimedia.org/wikipedia/en/3/35/Chris_Isaak_-_Heart_Shaped_World.jpg" }
+          { "name": "Wicked Game", "note": "melancholy that still moves", "palette": ["#1a2838", "#6a5a4a", "#c9a87a", "#0a1018"], "score": 72, "image": "https://en.wikipedia.org/wiki/Special:FilePath/Chris_Isaak_-_Heart_Shaped_World.jpg" }
         ],
         "Elite": [
-          { "name": "Everything In Its Right Place", "note": "the room reorders itself", "palette": ["#c94a2a", "#e8d8a8", "#3a4a5a", "#1a1a1a"], "score": 91, "image": "https://upload.wikimedia.org/wikipedia/en/1/16/Radiohead.kida.albumart.jpg" }
+          { "name": "Everything In Its Right Place", "note": "the room reorders itself", "palette": ["#c94a2a", "#e8d8a8", "#3a4a5a", "#1a1a1a"], "score": 91, "image": "https://en.wikipedia.org/wiki/Special:FilePath/Radiohead.kida.albumart.jpg" }
         ]
       }
     },
@@ -87,13 +87,13 @@
       "label": "Movies",
       "tiers": {
         "Budget": [
-          { "name": "The Devil Wears Prada", "note": "precision with a grin", "palette": ["#3a2a4a", "#c9a0a8", "#1a1a1a", "#d8c8a8"], "score": 58, "image": "https://upload.wikimedia.org/wikipedia/en/7/7e/Devilwearsprada1.jpg" }
+          { "name": "The Devil Wears Prada", "note": "precision with a grin", "palette": ["#3a2a4a", "#c9a0a8", "#1a1a1a", "#d8c8a8"], "score": 58, "image": "https://en.wikipedia.org/wiki/Special:FilePath/Devilwearsprada1.jpg" }
         ],
         "Mid": [
-          { "name": "In the Mood for Love", "note": "the most elegant kind of restraint", "palette": ["#6a1a2a", "#c9a868", "#2a1818", "#8a4a3a"], "score": 94, "image": "https://upload.wikimedia.org/wikipedia/en/1/1c/In_the_Mood_for_Love_poster.jpg" }
+          { "name": "In the Mood for Love", "note": "the most elegant kind of restraint", "palette": ["#6a1a2a", "#c9a868", "#2a1818", "#8a4a3a"], "score": 94, "image": "https://en.wikipedia.org/wiki/Special:FilePath/In_the_Mood_for_Love_poster.jpg" }
         ],
         "Elite": [
-          { "name": "There Will Be Blood", "note": "scale, silence, pressure", "palette": ["#3a1a0a", "#8a4a1a", "#c9a068", "#1a0a08"], "score": 92, "image": "https://upload.wikimedia.org/wikipedia/en/d/da/There_Will_Be_Blood_Poster.jpg" }
+          { "name": "There Will Be Blood", "note": "scale, silence, pressure", "palette": ["#3a1a0a", "#8a4a1a", "#c9a068", "#1a0a08"], "score": 92, "image": "https://en.wikipedia.org/wiki/Special:FilePath/There_Will_Be_Blood_Poster.jpg" }
         ]
       }
     },
@@ -105,7 +105,7 @@
           { "name": "Rothko \u2014 No. 14, 1960", "note": "a field that keeps widening", "palette": ["#c93a1a", "#3a1a4a", "#1a0a18"], "score": 87, "image": null }
         ],
         "Mid": [
-          { "name": "Kehinde Wiley \u2014 Napoleon Leading the Army over the Alps", "note": "history edited in public", "palette": ["#c94a4a", "#e8c868", "#2a3a5a", "#d8b898"], "score": 76, "image": "https://upload.wikimedia.org/wikipedia/en/a/a3/Napoleon_Leading_the_Army_over_the_Alps.jpg" }
+          { "name": "Kehinde Wiley \u2014 Napoleon Leading the Army over the Alps", "note": "history edited in public", "palette": ["#c94a4a", "#e8c868", "#2a3a5a", "#d8b898"], "score": 76, "image": "https://en.wikipedia.org/wiki/Special:FilePath/Napoleon_Leading_the_Army_over_the_Alps.jpg" }
         ],
         "Elite": [
           { "name": "Rothko Chapel panels", "note": "the room becomes the work", "palette": ["#2a1a1a", "#4a2a2a", "#1a0a0a", "#3a1a28"], "score": 90, "image": null }
@@ -117,7 +117,7 @@
       "label": "Business",
       "tiers": {
         "Budget": [
-          { "name": "Notion", "note": "the default system if you need one", "palette": ["#e8e2d4", "#2a2a2a", "#a89d88"], "score": 65, "image": "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png" }
+          { "name": "Notion", "note": "the default system if you need one", "palette": ["#e8e2d4", "#2a2a2a", "#a89d88"], "score": 65, "image": "https://en.wikipedia.org/wiki/Special:FilePath/Notion_app_logo.png" }
         ],
         "Mid": [
           { "name": "Linear", "note": "tight feedback loops, low ceremony", "palette": ["#5a5ae8", "#1a1a2a", "#e8e4f0", "#8a8ab8"], "score": 85, "image": null }

@@ -101,7 +101,7 @@ export default function ApparatusPage() {
                     <ul className="mt-3 space-y-3">
                       {category.tiers[tier].map((item) => (
                         <li key={item.name} className="flex gap-3 text-sm leading-6 text-black/75">
-                          <ApparatusThumb image={item.image} palette={item.palette} alt={item.name} />
+                          <ApparatusThumb image={item.image} palette={item.palette} alt={item.name} tier={tier} />
                           <div className="min-w-0 flex-1">
                             <div>
                               <span className="font-medium text-black/90">{item.name}</span>
