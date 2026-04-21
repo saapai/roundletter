@@ -1,7 +1,18 @@
+import Link from "next/link";
 import curation from "@/data/curation.json";
 import ApparatusThumb from "@/components/ApparatusThumb";
+import ArcOverture from "@/components/ArcOverture";
+import ArcReplayButton from "@/components/ArcReplayButton";
+import ArcAmbientAudio from "@/components/ArcAmbientAudio";
 
-// noop: refresh build after verifying path/imports
+/* ────────────────────────────────────────────────────────────
+   apparatus — a curation engine, arranged as a scroll arc:
+   Ghost Town (kanye) → the descent → Let Down (radiohead)
+   → coda: the study sale is over.
+
+   categories are grouped by emotional register, not by the
+   order in the json.
+   ──────────────────────────────────────────────────────────── */
 
 type Tier = "Budget" | "Mid" | "Elite";
 
@@ -10,7 +21,7 @@ type CurationItem = {
   note?: string;
   palette?: string[];
   score?: number;
-  image?: string;
+  image?: string | null;
 };
 
 type CurationCategory = {
@@ -25,127 +36,197 @@ type CurationFile = {
     subtitle: string;
     mode: string;
     updated_at: string | null;
-    last_debate: null | {
-      id: string;
-      ts: string;
-      consensus: {
-        reached: boolean;
-        direction: "up" | "down" | "flat" | null;
-        round: number | null;
-      };
-      topic: {
-        kind: string;
-        subject: string;
-        framing: string;
-      };
-      summary: string;
-    };
   };
   categories: CurationCategory[];
 };
 
-const tiers: Tier[] = ["Budget", "Mid", "Elite"];
+const TIERS: Tier[] = ["Budget", "Mid", "Elite"];
 
-function formatDate(value: string | null) {
-  if (!value) return "not calibrated yet";
-  return new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-  }).format(new Date(value));
+// Arc grouping. Sacred things at the altar, clinical things at the window.
+const ARC_ORDER: Record<"ghost_town" | "descent" | "let_down", string[]> = {
+  ghost_town: ["music", "art-pieces", "movies"],
+  descent: ["songs", "clothes", "speakers"],
+  let_down: ["shoes", "software-product-design", "business", "best-bets"],
+};
+
+function CategoryBlock({ category }: { category: CurationCategory }) {
+  return (
+    <article className="arc-cat" id={`cat-${category.id}`}>
+      <header className="arc-cat-head">
+        <h2 className="arc-cat-label">{category.label}</h2>
+        <span className="arc-cat-id">{category.id}</span>
+      </header>
+      <div className="arc-tiers">
+        {TIERS.map((tier) => (
+          <section key={tier} className="arc-tier">
+            <div className="arc-tier-label">{tier}</div>
+            <ul className="arc-items">
+              {category.tiers[tier].map((item) => (
+                <li key={item.name} className="arc-item">
+                  <ApparatusThumb
+                    image={item.image ?? undefined}
+                    palette={item.palette}
+                    alt={item.name}
+                    tier={tier}
+                  />
+                  <div className="arc-item-body">
+                    <div>
+                      <span className="arc-item-name">{item.name}</span>
+                      {item.note ? (
+                        <>
+                          {" · "}
+                          <span className="arc-item-note">{item.note}</span>
+                        </>
+                      ) : null}
+                    </div>
+                    {item.palette && item.palette.length > 0 ? (
+                      <div className="arc-palette" aria-label="palette">
+                        {item.palette.map((hex, i) => (
+                          <span
+                            key={`${item.name}-p-${i}`}
+                            style={{ backgroundColor: hex }}
+                            title={hex}
+                          />
+                        ))}
+                      </div>
+                    ) : null}
+                    {typeof item.score === "number" ? (
+                      <div className="arc-score">
+                        <div className="arc-score-bar">
+                          <div
+                            className="arc-score-fill"
+                            style={{
+                              width: `${Math.max(0, Math.min(100, item.score))}%`,
+                            }}
+                          />
+                        </div>
+                        <span className="arc-score-num">{item.score}</span>
+                      </div>
+                    ) : null}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </article>
+  );
 }
 
 export default function ApparatusPage() {
   const data = curation as CurationFile;
+  const byId: Record<string, CurationCategory> = Object.fromEntries(
+    data.categories.map((c) => [c.id, c])
+  );
 
   return (
-    <main className="min-h-screen bg-[#f4efe6] text-[#1c1a17]">
-      <section className="mx-auto max-w-6xl px-6 py-14">
-        <div className="flex flex-col gap-6 border-b border-black/10 pb-6 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.35em] text-black/45">bash and the panel</p>
-            <h1 className="mt-3 text-5xl font-light tracking-tight md:text-7xl">apparatus</h1>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-black/65">{data.meta.subtitle}</p>
+    <main className="arc-root">
+      <ArcOverture />
+
+      {/* ══════ MOVEMENT I — GHOST TOWN ══════ */}
+      <section className="arc-ghost-town">
+        <div className="arc-hero">
+          <div className="arc-eyebrow">
+            movement i <em>· ghost town</em>
           </div>
-          <div className="text-[11px] uppercase tracking-[0.25em] text-black/45 md:text-right">
-            <div>{data.meta.mode}</div>
-            <div className="mt-1">{formatDate(data.meta.updated_at)}</div>
+          <h1 className="arc-title">
+            apparatus<span className="dot">.</span>
+          </h1>
+          <p className="arc-tag">
+            an aesthetic research engine. kept in the open, arranged in derivative order,
+            priced from <em>budget</em> to <em>elite</em>.
+          </p>
+          <div className="arc-lyric">
+            <span>i&rsquo;ve been trying to make you love me</span>
+            <span>but everything i try just takes you further from me.</span>
+            <em>— and i feel kinda free.</em>
+            <span className="arc-lyric-attr">kanye west · ghost town · 2018</span>
           </div>
         </div>
 
-        {data.meta.last_debate ? (
-          <div className="mt-6 rounded-3xl border border-black/10 bg-white/55 p-5 shadow-sm">
-            <div className="text-[11px] uppercase tracking-[0.28em] text-black/40">last calibration</div>
-            <p className="mt-3 max-w-3xl text-sm leading-6 text-black/70">
-              {data.meta.last_debate.summary || data.meta.last_debate.topic.subject}
-            </p>
-            <p className="mt-3 text-[11px] uppercase tracking-[0.25em] text-black/40">
-              {data.meta.last_debate.consensus.reached ? `consensus ${data.meta.last_debate.consensus.direction}` : "no consensus"}
-            </p>
-          </div>
-        ) : null}
+        <div className="arc-stack">
+          {ARC_ORDER.ghost_town.map((id) =>
+            byId[id] ? <CategoryBlock key={id} category={byId[id]} /> : null
+          )}
+        </div>
+      </section>
 
-        <div className="mt-10 grid gap-6">
-          {data.categories.map((category) => (
-            <article key={category.id} className="rounded-3xl border border-black/10 bg-white/60 p-5 shadow-sm">
-              <div className="flex items-baseline justify-between gap-4 border-b border-black/10 pb-4">
-                <h2 className="text-2xl font-light tracking-tight">{category.label}</h2>
-                <span className="text-[11px] uppercase tracking-[0.25em] text-black/40">{category.id}</span>
-              </div>
-              <div className="mt-4 grid gap-4 md:grid-cols-3">
-                {tiers.map((tier) => (
-                  <section key={tier} className="rounded-2xl bg-[#f8f5ef] p-4">
-                    <div className="text-[11px] uppercase tracking-[0.25em] text-black/45">{tier}</div>
-                    <ul className="mt-3 space-y-3">
-                      {category.tiers[tier].map((item) => (
-                        <li key={item.name} className="flex gap-3 text-sm leading-6 text-black/75">
-                          <ApparatusThumb image={item.image} palette={item.palette} alt={item.name} tier={tier} />
-                          <div className="min-w-0 flex-1">
-                            <div>
-                              <span className="font-medium text-black/90">{item.name}</span>
-                              {item.note ? <span className="text-black/55"> · {item.note}</span> : null}
-                            </div>
-                            {item.palette && item.palette.length > 0 ? (
-                              <div className="mt-2 flex items-center gap-1.5" aria-label="palette">
-                                {item.palette.map((hex, i) => (
-                                  <span
-                                    key={`${item.name}-p-${i}`}
-                                    className="inline-block h-2.5 w-2.5 rounded-full ring-1 ring-black/10"
-                                    style={{ backgroundColor: hex }}
-                                    title={hex}
-                                  />
-                                ))}
-                              </div>
-                            ) : null}
-                            {typeof item.score === "number" ? (
-                              <div className="mt-2 flex items-center gap-2">
-                                <div className="h-1 flex-1 overflow-hidden rounded-full bg-black/10">
-                                  <div
-                                    className="h-full bg-black/50"
-                                    style={{ width: `${Math.max(0, Math.min(100, item.score))}%` }}
-                                  />
-                                </div>
-                                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-black/50 tabular-nums">
-                                  {item.score}
-                                </span>
-                              </div>
-                            ) : null}
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
-                ))}
-              </div>
-            </article>
-          ))}
+      {/* ══════ HINGE — the room starts to echo ══════ */}
+      <section className="arc-hinge">
+        <em>the palette cools. the room starts to echo back.</em>
+        <span className="arc-hinge-rule" aria-hidden="true" />
+      </section>
+
+      {/* ══════ MOVEMENT II — THE DESCENT ══════ */}
+      <section className="arc-descent">
+        <div className="arc-stack">
+          {ARC_ORDER.descent.map((id) =>
+            byId[id] ? <CategoryBlock key={id} category={byId[id]} /> : null
+          )}
+        </div>
+      </section>
+
+      {/* ══════ MOVEMENT III — LET DOWN ══════ */}
+      <section className="arc-let-down">
+        <ArcAmbientAudio
+          src="/audio/let-down.mp3"
+          label="let down"
+          storageKey="rl:arc-let-down-muted"
+        />
+        <div className="arc-hinge">
+          <em>
+            transit window. cold glass. the train doesn&rsquo;t stop for you.
+          </em>
+          <span className="arc-hinge-rule" aria-hidden="true" />
         </div>
 
-        <div className="mt-10 flex items-center justify-end border-t border-black/10 pt-6 text-[11px] uppercase tracking-[0.25em] text-black/40">
-          <span>live curation engine</span>
+        <div className="arc-stack">
+          {ARC_ORDER.let_down.map((id) =>
+            byId[id] ? <CategoryBlock key={id} category={byId[id]} /> : null
+          )}
         </div>
+
+        {/* departures board — the rest of the site, rendered cold */}
+        <nav className="arc-transit" aria-label="site navigation">
+          <div className="arc-transit-head">departures · all times local</div>
+          <ul className="arc-transit-list">
+            <li><Link href="/letters/round-0">letters · round 0</Link><span>on time</span></li>
+            <li><Link href="/positions">positions</Link><span>on time</span></li>
+            <li><Link href="/market">market</Link><span>on time</span></li>
+            <li><Link href="/green-credit">green credit</Link><span>delayed</span></li>
+            <li><Link href="/trades">trades</Link><span>on time</span></li>
+            <li><Link href="/canvas">canvas</Link><span>on time</span></li>
+            <li><Link href="/archives">archives · v0 + v1</Link><span>on time</span></li>
+          </ul>
+        </nav>
+
+        {/* viewable iMessage link — friday is still up, no one&rsquo;s texting back */}
+        <div className="arc-imessage">
+          <div className="arc-imessage-label">viewable · imessage</div>
+          <span className="arc-bubble arc-bubble-in">
+            friday? are you still up?
+          </span>
+          <Link href="/friday" className="arc-bubble arc-bubble-out">
+            yes. she hasn&rsquo;t logged off. →
+          </Link>
+          <span className="arc-bubble-meta">delivered · tap to read</span>
+        </div>
+      </section>
+
+      {/* ══════ CODA — the study sale is over ══════ */}
+      <section className="arc-coda">
+        <span className="arc-coda-rule" aria-hidden="true" />
+        <h2 className="arc-coda-title">the study sale is over.</h2>
+        <div className="arc-coda-sub">gallery closed · lots withdrawn</div>
+        <div className="arc-coda-lyrics">
+          <span>don&rsquo;t get sentimental —</span>
+          <em>it always ends up drivel.</em>
+          <span>one day, i am going to grow wings.</span>
+          <em>a chemical reaction, hysterical and useless.</em>
+        </div>
+        <div className="arc-coda-attr">radiohead · let down · 1997</div>
+        <ArcReplayButton />
       </section>
     </main>
   );

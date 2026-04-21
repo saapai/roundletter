@@ -5624,6 +5624,39 @@ body:has(.friday-root) > main { padding: 0; max-width: none; margin: 0; }
 }
 .friday-back:hover { color: #E8C874; }
 
+/* Friday — study-sale-over coda (ties the page to the arc home) */
+.friday-coda {
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+  max-width: 32rem;
+}
+.friday-coda-rule {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: color-mix(in srgb, #EDE8DC 25%, transparent);
+  margin-bottom: 0.85rem;
+}
+.friday-coda-line {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: color-mix(in srgb, #EDE8DC 70%, transparent);
+  margin: 0;
+}
+.friday-coda-sub {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, #EDE8DC 42%, transparent);
+  margin: 0;
+}
+
 @media (max-width: 720px) {
   .friday-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -8641,3 +8674,947 @@ body.reader-mode > main { padding-top: 2rem; }
   .cs-legend { font-size: 0.65rem; }
   .cs-head { flex-direction: column; align-items: flex-start; }
 }
+
+/* ════════════════════════════════════════════════════════════
+   GHOST TOWN → LET DOWN ARC
+   A single scroll, three movements.
+   i.  ghost town  (kanye) — altarpiece, warm cream + brass, "i feel kinda free"
+   ii. the descent          — palette cools, room starts to echo
+   iii. let down   (radiohead) — transit window, fog + bluehour, crushed bug
+   coda. the study sale is over — pure black, tiny type, the gallery closes.
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Ghost Town register */
+  --gt-paper:   #fdf5e4;
+  --gt-halo:    #fff7e8;
+  --gt-ink:     #2a2014;
+  --gt-sepia:   #5a4628;
+  --gt-brass:   #b88a3a;
+  --gt-ember:   #c9541a;
+  --gt-organ:   #e8d6a8;
+
+  /* Descent register */
+  --dc-paper:   #e4ddcc;
+  --dc-ink:     #2a2a28;
+  --dc-mute:    #7a6a58;
+  --dc-rule:    rgba(40, 36, 32, 0.16);
+
+  /* Let Down register */
+  --ld-fog:     #d4d8dc;
+  --ld-glass:   #c0c8d0;
+  --ld-slate:   #3a4048;
+  --ld-bluehour:#7890a0;
+  --ld-mute:    #8898a8;
+  --ld-rule:    rgba(58, 64, 72, 0.18);
+
+  /* Coda */
+  --coda-black: #0a0c10;
+  --coda-ash:   #d0d4d8;
+  --coda-dim:   #6a7880;
+}
+
+/* ── root ───────────────────────────────────────────────────── */
+.arc-root {
+  min-height: 100vh;
+  background: var(--gt-paper);
+  color: var(--gt-ink);
+  overflow-x: hidden;
+}
+
+/* On the arc home, retire the paper-register site chrome — the arc
+   carries its own register and brings its own nav via .arc-transit. */
+body:has(.arc-root) > header,
+body:has(.arc-root) > footer,
+body:has(.arc-root) > .toc,
+body:has(.arc-root) > .reader-mode,
+body:has(.arc-root) > .friday-mark { display: none !important; }
+body:has(.arc-root) { background: var(--gt-paper); }
+body:has(.arc-root) > main { padding: 0; margin: 0; max-width: none; }
+
+/* ────────────────────────────────────────────────────
+   MOVEMENT I — GHOST TOWN
+   altarpiece. organ-drone. "i feel kinda free."
+   ──────────────────────────────────────────────────── */
+.arc-ghost-town {
+  position: relative;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 0%,
+      var(--gt-halo) 0%,
+      var(--gt-paper) 45%,
+      var(--gt-organ) 100%);
+  padding: clamp(3.5rem, 9vw, 7rem) clamp(1rem, 4vw, 2rem) clamp(4rem, 9vw, 7rem);
+  color: var(--gt-ink);
+}
+.arc-ghost-town::before {
+  /* organ-pipe drone: faint vertical striations */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0 3px,
+      rgba(184, 138, 58, 0.035) 3px 4px);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.arc-hero {
+  max-width: 62rem;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  padding-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+.arc-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--gt-brass);
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+.arc-eyebrow em {
+  font-style: italic;
+  color: var(--gt-ember);
+  font-family: var(--font-display), serif;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 1.05em;
+}
+.arc-title {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3.5rem, 12vw, 8rem);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  color: var(--gt-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.arc-title .dot {
+  color: var(--gt-ember);
+  font-style: normal;
+}
+.arc-tag {
+  margin-top: clamp(1rem, 2.5vw, 1.6rem);
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  color: var(--gt-sepia);
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-wrap: balance;
+}
+.arc-lyric {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35em;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  color: var(--gt-sepia);
+  line-height: 1.35;
+  text-wrap: balance;
+}
+.arc-lyric em {
+  color: var(--gt-ember);
+  font-style: italic;
+  margin-top: 0.35em;
+}
+.arc-lyric-attr {
+  margin-top: 0.7em;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gt-brass);
+  opacity: 0.7;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-style: normal;
+}
+
+.arc-stack {
+  max-width: 68rem;
+  margin: clamp(3rem, 7vw, 5rem) auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 5vw, 3.5rem);
+}
+
+/* ── category block (shared shell, register via ancestor) ── */
+.arc-cat {
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  border-radius: 0;
+  transition: background 0.6s ease;
+}
+.arc-cat-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid currentColor;
+  border-bottom-color: var(--gt-brass);
+  opacity: 1;
+}
+.arc-cat-label {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  letter-spacing: -0.015em;
+  line-height: 1;
+  color: inherit;
+}
+.arc-cat-id {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+.arc-tiers {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media (max-width: 720px) {
+  .arc-tiers { grid-template-columns: 1fr; }
+}
+.arc-tier {
+  padding: 1rem;
+  border-radius: 0;
+  background: transparent;
+}
+.arc-tier-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 0.9rem;
+}
+.arc-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.arc-item {
+  display: flex;
+  gap: 0.85rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.arc-item-body {
+  min-width: 0;
+  flex: 1;
+}
+.arc-item-name {
+  font-weight: 500;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1.05rem;
+}
+.arc-item-note {
+  opacity: 0.72;
+  font-style: italic;
+}
+.arc-palette {
+  margin-top: 0.45rem;
+  display: flex;
+  gap: 0.28rem;
+}
+.arc-palette span {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.2);
+}
+.arc-score {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.arc-score-bar {
+  flex: 1;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.15;
+  overflow: hidden;
+  position: relative;
+}
+.arc-score-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: currentColor;
+  opacity: 1;
+}
+.arc-score-num {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ghost Town register for blocks inside it */
+.arc-ghost-town .arc-cat {
+  background: linear-gradient(180deg,
+    rgba(255, 247, 232, 0.55),
+    rgba(232, 214, 168, 0.22));
+  box-shadow: 0 1px 0 rgba(184, 138, 58, 0.35),
+              inset 0 1px 0 rgba(255, 247, 232, 0.6);
+  backdrop-filter: blur(0.2px);
+}
+.arc-ghost-town .arc-cat-head { border-bottom-color: var(--gt-brass); }
+.arc-ghost-town .arc-cat-label { color: var(--gt-ink); }
+.arc-ghost-town .arc-cat-id { color: var(--gt-brass); }
+.arc-ghost-town .arc-tier-label { color: var(--gt-brass); }
+.arc-ghost-town .arc-item-name { color: var(--gt-ink); }
+.arc-ghost-town .arc-item-note { color: var(--gt-sepia); }
+.arc-ghost-town .arc-score-num { color: var(--gt-brass); }
+.arc-ghost-town .arc-score-fill { background: var(--gt-ember); opacity: 1; }
+.arc-ghost-town .arc-score-bar { color: var(--gt-brass); }
+
+/* ────────────────────────────────────────────────────
+   HINGE — the palette cools, the room starts to echo
+   ──────────────────────────────────────────────────── */
+.arc-hinge {
+  padding: clamp(3rem, 8vw, 6rem) clamp(1.25rem, 4vw, 2rem);
+  text-align: center;
+  background: linear-gradient(180deg,
+    var(--gt-organ) 0%,
+    var(--dc-paper) 55%,
+    var(--ld-fog) 100%);
+  color: var(--dc-ink);
+}
+.arc-hinge em {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 2.8vw, 1.75rem);
+  color: var(--dc-mute);
+  line-height: 1.45;
+  letter-spacing: 0.005em;
+  max-width: 32rem;
+  display: block;
+  margin: 0 auto;
+  text-wrap: balance;
+}
+.arc-hinge-rule {
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: var(--dc-mute);
+  opacity: 0.4;
+  margin: 1.75rem auto 0;
+}
+
+/* ────────────────────────────────────────────────────
+   MOVEMENT II — DESCENT
+   drained peach, neutral paper, the middle voice
+   ──────────────────────────────────────────────────── */
+.arc-descent {
+  background: var(--dc-paper);
+  color: var(--dc-ink);
+  padding: clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 2rem);
+}
+.arc-descent .arc-cat {
+  background: transparent;
+  border-top: 1px solid var(--dc-rule);
+  border-bottom: 1px solid var(--dc-rule);
+  padding-top: clamp(1.5rem, 3.5vw, 2rem);
+  padding-bottom: clamp(1.5rem, 3.5vw, 2rem);
+}
+.arc-descent .arc-cat-head { border-bottom-color: var(--dc-rule); }
+.arc-descent .arc-cat-label { color: var(--dc-ink); font-style: normal; }
+.arc-descent .arc-cat-id { color: var(--dc-mute); }
+.arc-descent .arc-tier-label { color: var(--dc-mute); }
+.arc-descent .arc-item-name { color: var(--dc-ink); font-style: normal; font-weight: 500; }
+.arc-descent .arc-item-note { color: var(--dc-mute); }
+.arc-descent .arc-score-num { color: var(--dc-mute); }
+.arc-descent .arc-score-fill { background: var(--dc-ink); opacity: 0.65; }
+.arc-descent .arc-score-bar { color: var(--dc-ink); }
+
+/* ────────────────────────────────────────────────────
+   MOVEMENT III — LET DOWN
+   transit window. fog. bluehour. tight type.
+   ──────────────────────────────────────────────────── */
+.arc-let-down {
+  background: linear-gradient(180deg,
+    var(--ld-fog) 0%,
+    var(--ld-glass) 55%,
+    #a8b4c0 100%);
+  color: var(--ld-slate);
+  padding: clamp(3rem, 7vw, 5rem) clamp(1rem, 4vw, 2rem) clamp(4rem, 8vw, 6rem);
+  position: relative;
+  overflow: hidden;
+}
+.arc-let-down::before {
+  /* a train-window mist */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.35) 0%, transparent 30%),
+    radial-gradient(ellipse 120% 40% at 50% 100%, rgba(58,64,72,0.08), transparent);
+  pointer-events: none;
+}
+.arc-let-down .arc-hinge {
+  background: transparent;
+  padding-top: 0;
+  padding-bottom: clamp(2rem, 5vw, 3rem);
+}
+.arc-let-down .arc-hinge em { color: var(--ld-bluehour); }
+.arc-let-down .arc-cat {
+  background: transparent;
+  border-top: 1px solid var(--ld-rule);
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  padding-bottom: clamp(1.25rem, 3vw, 1.75rem);
+  border-bottom: none;
+}
+.arc-let-down .arc-cat:last-child { border-bottom: 1px solid var(--ld-rule); }
+.arc-let-down .arc-cat-head { border-bottom-color: var(--ld-rule); }
+.arc-let-down .arc-cat-label {
+  color: var(--ld-slate);
+  font-style: normal;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  font-weight: 400;
+}
+.arc-let-down .arc-cat-id { color: var(--ld-mute); }
+.arc-let-down .arc-tier-label { color: var(--ld-bluehour); }
+.arc-let-down .arc-item-name {
+  color: var(--ld-slate);
+  font-style: normal;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+.arc-let-down .arc-item-note {
+  color: var(--ld-mute);
+  font-style: italic;
+  font-family: var(--font-body), serif;
+  font-size: 0.85rem;
+}
+.arc-let-down .arc-score-num { color: var(--ld-bluehour); }
+.arc-let-down .arc-score-fill { background: var(--ld-bluehour); opacity: 0.85; }
+.arc-let-down .arc-score-bar { color: var(--ld-bluehour); }
+.arc-let-down .arc-item { font-size: 0.82rem; }
+
+/* ── transit board nav (Let Down) ────── */
+.arc-transit {
+  margin: clamp(2rem, 5vw, 3rem) auto 0;
+  max-width: 42rem;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--ld-rule);
+  border-bottom: 1px solid var(--ld-rule);
+  padding: 1rem 0.25rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+.arc-transit-head {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ld-bluehour);
+  margin-bottom: 0.75rem;
+  text-align: left;
+  opacity: 0.85;
+}
+.arc-transit-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.arc-transit-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-top: 1px dashed var(--ld-rule);
+  font-size: 0.86rem;
+}
+.arc-transit-list li:first-child { border-top: none; }
+.arc-transit-list a {
+  color: var(--ld-slate);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 200ms ease;
+}
+.arc-transit-list a:hover { color: var(--ld-bluehour); }
+.arc-transit-list span {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ld-mute);
+  opacity: 0.75;
+}
+
+/* ── ambient audio toggle (Let Down) ──
+   fixed bottom-left while the Let Down section is in view; the
+   component itself is mounted inside the section and observes it. */
+.arc-ambient {
+  position: fixed;
+  left: clamp(0.85rem, 2.5vw, 1.5rem);
+  bottom: clamp(0.85rem, 2.5vw, 1.5rem);
+  z-index: 5;
+  pointer-events: auto;
+}
+.arc-ambient-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid var(--ld-rule);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem 0.35rem 0.55rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: lowercase;
+  color: var(--ld-slate);
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+  backdrop-filter: blur(6px);
+}
+.arc-ambient-toggle:hover,
+.arc-ambient-toggle:focus-visible {
+  color: var(--ld-bluehour);
+  border-color: var(--ld-bluehour);
+  background: rgba(255, 255, 255, 0.55);
+  outline: none;
+}
+.arc-ambient-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ld-bluehour);
+  box-shadow: 0 0 6px rgba(120, 144, 160, 0.6);
+}
+.arc-ambient-text { white-space: nowrap; }
+
+/* ── viewable iMessage link (in Let Down section) ────── */
+.arc-imessage {
+  margin: clamp(2.5rem, 6vw, 4rem) auto 0;
+  max-width: 26rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  position: relative;
+  z-index: 1;
+}
+.arc-imessage-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ld-bluehour);
+  opacity: 0.7;
+  margin-bottom: 0.25rem;
+}
+.arc-bubble {
+  display: inline-block;
+  padding: 0.55rem 0.95rem;
+  border-radius: 18px;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  max-width: 85%;
+  position: relative;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.arc-bubble-in {
+  align-self: flex-start;
+  background: #e8ebee;
+  color: var(--ld-slate);
+  border-bottom-left-radius: 4px;
+}
+.arc-bubble-out {
+  align-self: flex-end;
+  background: linear-gradient(180deg, #5b9df6 0%, #2f7cf2 100%);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  text-decoration: none;
+}
+.arc-bubble-out:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.arc-bubble-meta {
+  align-self: center;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--ld-mute);
+  margin-top: 0.3rem;
+  opacity: 0.8;
+  text-transform: lowercase;
+}
+
+/* ────────────────────────────────────────────────────
+   CODA — the study sale is over
+   pure black. the gallery closes. one line.
+   ──────────────────────────────────────────────────── */
+.arc-coda {
+  background: var(--coda-black);
+  color: var(--coda-ash);
+  padding: clamp(5rem, 14vw, 10rem) clamp(1.25rem, 4vw, 2rem);
+  text-align: center;
+  position: relative;
+}
+.arc-coda-rule {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--coda-dim);
+  margin: 0 auto clamp(2rem, 5vw, 3rem);
+  opacity: 0.6;
+}
+.arc-coda-title {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  color: var(--coda-ash);
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  margin: 0 auto;
+  max-width: 24ch;
+  text-wrap: balance;
+}
+.arc-coda-sub {
+  margin-top: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--coda-dim);
+}
+.arc-coda-lyrics {
+  margin: clamp(2.5rem, 6vw, 3.5rem) auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1em;
+  max-width: 30rem;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(0.98rem, 1.9vw, 1.15rem);
+  color: var(--coda-dim);
+  line-height: 1.45;
+  text-wrap: balance;
+}
+.arc-coda-lyrics em { color: var(--coda-ash); font-style: italic; }
+.arc-coda-attr {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--coda-dim);
+  opacity: 0.6;
+}
+
+/* ── arc-aware insignia (logo shifts across the arc) ──
+   The mark is a filled disc — altar candle / record center / platform dot /
+   crushed bug, depending on where you are in the scroll. */
+body:has(.arc-root) .insignia .insignia-mark {
+  color: var(--gt-ember);
+  transition: color 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
+              text-shadow 900ms ease;
+  font-size: 11px;
+  text-shadow: 0 0 14px rgba(201, 84, 26, 0.45);
+}
+body:has(.arc-root) .insignia:hover { transform: scale(1.15) rotate(0); }
+body:has(.arc-root) .insignia:hover .insignia-mark {
+  text-shadow: 0 0 18px rgba(201, 84, 26, 0.6);
+}
+
+.insignia.insignia-arc-ghost .insignia-mark {
+  color: var(--gt-ember);
+  text-shadow: 0 0 14px rgba(201, 84, 26, 0.45);
+}
+.insignia.insignia-arc-descent .insignia-mark {
+  color: var(--dc-mute);
+  text-shadow: 0 0 8px rgba(122, 106, 88, 0.25);
+}
+.insignia.insignia-arc-letdown .insignia-mark {
+  color: var(--ld-bluehour);
+  text-shadow: 0 0 10px rgba(120, 144, 160, 0.4);
+}
+
+/* ── mobile collapses ── */
+@media (max-width: 640px) {
+  .arc-title { font-size: clamp(2.75rem, 14vw, 5rem); }
+  .arc-hero { padding-bottom: 2rem; }
+  .arc-lyric { font-size: 1rem; }
+  .arc-let-down .arc-cat-label { font-size: 1rem; }
+  .arc-let-down .arc-item-name { font-size: 0.82rem; }
+}
+
+/* ════════════════════════════════════════════════════════════
+   OVERTURE — the ghost-town beat-drop intro
+   dark → brass dot pulsing → lyric swells → silence →
+   BEAT DROP (flash to warm cream + title) → curtain lifts.
+   4.5s total. skippable. remembered.
+   ════════════════════════════════════════════════════════════ */
+.overture {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #050403;
+  color: var(--gt-halo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  /* default transition for cross-stage color/opacity shifts */
+  transition: background 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: auto;
+  will-change: background, opacity;
+}
+
+/* brass halo — the organ tone, center-stage */
+.overture-halo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    var(--gt-ember) 0%,
+    var(--gt-brass) 45%,
+    rgba(184, 138, 58, 0) 72%);
+  transform: translate(-50%, -50%) scale(1);
+  filter: blur(0.5px);
+  opacity: 0.85;
+  transition:
+    width 900ms ease-out,
+    height 900ms ease-out,
+    opacity 900ms ease-out,
+    transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 900ms ease-out,
+    background 900ms ease-out;
+}
+.overture-halo::before {
+  /* a second, slower pulsing ring — the drone behind the tone */
+  content: "";
+  position: absolute;
+  inset: -60%;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(200, 150, 80, 0.25) 0%,
+    rgba(200, 150, 80, 0) 70%);
+  animation: overture-pulse 2.2s ease-in-out infinite;
+}
+@keyframes overture-pulse {
+  0%, 100% { transform: scale(0.95); opacity: 0.6; }
+  50%      { transform: scale(1.1);  opacity: 1; }
+}
+
+/* lyric: serif italic, fades in as halo swells */
+.overture-lyric {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35em;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.6vw, 1.6rem);
+  color: rgba(232, 214, 168, 0.0);
+  text-align: center;
+  line-height: 1.35;
+  padding: 0 1.5rem;
+  transform: translateY(6px);
+  transition: opacity 800ms ease-out, color 800ms ease-out, transform 800ms ease-out;
+}
+.overture-lyric-em { color: inherit; opacity: 0.75; }
+
+/* title: huge Cormorant italic, reserved for the beat drop */
+.overture-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.86);
+  z-index: 3;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(3rem, 13vw, 9rem);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--gt-ink);
+  opacity: 0;
+  text-shadow: 0 0 60px rgba(255, 247, 232, 0.35);
+  transition:
+    opacity 700ms cubic-bezier(0.15, 0.7, 0.1, 1),
+    transform 700ms cubic-bezier(0.15, 0.7, 0.1, 1),
+    color 700ms ease-out;
+  pointer-events: none;
+}
+
+/* sound toggle on the overture — gentle, top-left, mono */
+.overture-sound {
+  position: absolute;
+  left: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 10;
+  background: transparent;
+  border: 1px solid rgba(232, 214, 168, 0.35);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: lowercase;
+  color: rgba(232, 214, 168, 0.75);
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+  backdrop-filter: blur(2px);
+}
+.overture-sound:hover,
+.overture-sound:focus-visible {
+  color: var(--gt-halo);
+  border-color: rgba(232, 214, 168, 0.7);
+  background: rgba(232, 214, 168, 0.08);
+  outline: none;
+}
+
+/* skip button: always visible, gentle mono, bottom-right */
+.overture-skip {
+  position: absolute;
+  right: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 10;
+  background: transparent;
+  border: 1px solid rgba(232, 214, 168, 0.35);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(232, 214, 168, 0.75);
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+  backdrop-filter: blur(2px);
+}
+.overture-skip:hover,
+.overture-skip:focus-visible {
+  color: var(--gt-halo);
+  border-color: rgba(232, 214, 168, 0.7);
+  background: rgba(232, 214, 168, 0.08);
+  outline: none;
+}
+.overture-skip span { margin-left: 0.4em; }
+
+/* ── stage: dark ── initial pitch-dark + small brass dot ── */
+.overture-dark { background: #050403; }
+.overture-dark .overture-halo {
+  width: 8px; height: 8px; opacity: 0.9;
+  transform: translate(-50%, -50%) scale(1);
+}
+.overture-dark .overture-lyric { opacity: 0; transform: translateY(6px); }
+.overture-dark .overture-title { opacity: 0; transform: translate(-50%, -50%) scale(0.86); }
+
+/* ── stage: swell ── halo widens, first lyric fades in ── */
+.overture-swell { background: #0a0806; }
+.overture-swell .overture-halo {
+  width: 620px; height: 620px; opacity: 0.55;
+  filter: blur(40px);
+  transform: translate(-50%, -50%) scale(1);
+}
+.overture-swell .overture-lyric {
+  opacity: 1;
+  color: rgba(232, 214, 168, 0.88);
+  transform: translateY(0);
+}
+.overture-swell .overture-title { opacity: 0; }
+
+/* ── stage: hold ── a brief silence before the drop ── */
+.overture-hold { background: #0d0a07; }
+.overture-hold .overture-halo {
+  width: 560px; height: 560px; opacity: 0.42;
+  filter: blur(48px);
+}
+.overture-hold .overture-lyric { opacity: 1; color: rgba(232, 214, 168, 0.75); }
+.overture-hold .overture-title { opacity: 0; }
+
+/* ── stage: drop ── BEAT DROP: flash to warm cream + title slams in ── */
+.overture-drop {
+  background: var(--gt-halo);
+  transition: background 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.overture-drop .overture-halo {
+  width: 1800px; height: 1800px; opacity: 0;
+  filter: blur(80px);
+  background: radial-gradient(circle,
+    rgba(255, 247, 232, 0.9) 0%,
+    rgba(232, 214, 168, 0.0) 70%);
+  transition:
+    width 600ms cubic-bezier(0.15, 0.8, 0.1, 1),
+    height 600ms cubic-bezier(0.15, 0.8, 0.1, 1),
+    opacity 600ms ease-out,
+    background 300ms ease-out;
+}
+.overture-drop .overture-lyric { opacity: 0; transition: opacity 260ms ease-out; }
+.overture-drop .overture-title {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+  color: var(--gt-ink);
+  text-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+/* ── stage: reveal ── curtain lifts away, page takes form ── */
+.overture-reveal {
+  background: var(--gt-halo);
+  opacity: 0;
+  transform: none;
+  transition: opacity 800ms ease-out;
+  pointer-events: none;
+}
+.overture-reveal .overture-title { opacity: 1; }
+
+/* reduced motion: kill the pulse animation (the curtain itself is skipped in JS) */
+@media (prefers-reduced-motion: reduce) {
+  .overture-halo::before { animation: none; }
+}
+
+/* replay-intro link (rendered in the coda) */
+.arc-coda-replay {
+  margin-top: clamp(2rem, 4vw, 2.5rem);
+  display: inline-block;
+  background: transparent;
+  border: 1px solid var(--coda-dim);
+  border-radius: 999px;
+  padding: 0.45rem 1.05rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--coda-dim);
+  cursor: pointer;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.arc-coda-replay:hover,
+.arc-coda-replay:focus-visible {
+  color: var(--coda-ash);
+  border-color: var(--coda-ash);
+  outline: none;
+}
+

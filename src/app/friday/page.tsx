@@ -23,14 +23,23 @@ export default function FridayPage() {
         </div>
 
         <div className="friday-footer">
-          <p className="friday-line"><em>Friday is the iMessage bot that ran SEP's rush.</em></p>
+          <p className="friday-line"><em>Friday is the iMessage bot that ran SEP&rsquo;s rush.</em></p>
           <p className="friday-line faint"><em>She texts in lowercase. She answers in seconds. She does not miss.</em></p>
           <p className="friday-meta">
             <Link href="https://github.com/saapai/sep-rush-checkin" target="_blank" rel="noopener noreferrer" className="friday-repo-link">
               github.com/saapai/sep-rush-checkin →
             </Link>
           </p>
-          <Link href="/" className="friday-back">← aureliex</Link>
+
+          <div className="friday-coda">
+            <span className="friday-coda-rule" aria-hidden="true" />
+            <p className="friday-coda-line"><em>the study sale is over.</em></p>
+            <p className="friday-coda-sub">
+              the gallery closed. the lots were withdrawn. she&rsquo;s still online, though.
+            </p>
+          </div>
+
+          <Link href="/" className="friday-back">← apparatus</Link>
         </div>
 
       </div>
