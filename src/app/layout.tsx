@@ -29,19 +29,22 @@ const body = EB_Garamond({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aureliex.com"),
-  title: "$3,453 → $100,000 by my birthday. No job. Five AI agents. — aureliex",
-  description: "I have $3,453.83 and a birthday. I need a 29x. The S&P does 10x in 25 years. Five AI agents, a public logbook, and the pre-mortem, filed before I fail.",
+  title: "aureliex · issue #001 — just dropped. the name is bullshit. the product is beautiful.",
+  description:
+    "launch trailer is live. $3,453 → $100,000 by my birthday. five ai agents. one product: green credit. plus — spray paint auction, ovation hollywood, this friday sunset → midnight. you'll find it.",
   openGraph: {
-    title: "$3,453 → $100,000 by my birthday. No job. Five AI agents.",
-    description: "The pre-mortem, published before I fail. A public logbook. An ego mini-game with a P&L attached.",
+    title: "aureliex · issue #001 — just dropped.",
+    description:
+      "the launch trailer. $3,453 → $100,000 by 21 june. five ai agents. green credit. spray paint auction · ovation hollywood · friday sunset → midnight. you'll find it.",
     url: "https://aureliex.com",
     siteName: "aureliex",
     type: "article",
   },
   twitter: {
     card: "summary_large_image",
-    title: "$3,453 → $100,000 by my birthday. No job. Five AI agents.",
-    description: "A 29x. The S&P does 10x in 25 years. The gap is the entire joke, and the entire point.",
+    title: "aureliex · issue #001 — just dropped.",
+    description:
+      "the launch trailer. $3,453 → $100,000 by my birthday. five ai agents. green credit. spray paint auction, ovation hollywood, friday. you'll find it.",
     creator: "@saapai",
   },
 };
