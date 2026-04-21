@@ -9333,6 +9333,15 @@ body.reader-mode > main { padding-top: 2rem; }
   padding: 0 clamp(1rem, 4vw, 2rem) 4rem;
 }
 
+/* On /, retire the paper-register masthead — the trailer IS the masthead
+   (scene 0 renders "aureliex" in cut paper). Nav moves into the bridge. */
+body:has(.home-root) > header,
+body:has(.home-root) > footer,
+body:has(.home-root) > .toc,
+body:has(.home-root) > .reader-mode,
+body:has(.home-root) > .friday-mark { display: none !important; }
+body:has(.home-root) > main { margin: 0; padding: 0; max-width: none; }
+
 /* Bridge — vertical gradient from the trailer's outro (black) to paper. */
 .home-bridge {
   position: relative;
@@ -9384,6 +9393,47 @@ body.reader-mode > main { padding-top: 2rem; }
   text-transform: lowercase;
   color: color-mix(in srgb, var(--home-ink) 55%, var(--home-paper));
   margin-top: auto;
+}
+
+/* Compact nav strip inside the bridge — replaces the hidden masthead nav. */
+.home-bridge-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.6rem, 2.4vw, 1.25rem);
+  margin-top: 1.25rem;
+  padding: 0.85rem clamp(1rem, 3vw, 1.5rem);
+  background: color-mix(in srgb, #ffffff 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--home-ink) 14%, transparent);
+  border-radius: 999px;
+  font-family: "Courier New", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  max-width: 100%;
+  color: var(--home-ink);
+}
+.home-bridge-nav a {
+  color: var(--home-ink);
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+.home-bridge-nav a:hover { color: var(--home-hi); }
+.home-bridge-nav .home-bridge-nav-emph {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  text-transform: lowercase;
+  letter-spacing: 0.01em;
+  font-size: 0.95rem;
+  color: var(--home-hi);
+}
+@media (max-width: 520px) {
+  .home-bridge-nav {
+    gap: 0.55rem 1rem;
+    padding: 0.7rem 0.9rem;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+  }
 }
 
 /* ── play-all CTA at top of page ────────────── */

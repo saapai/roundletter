@@ -149,11 +149,21 @@ export default function HomePage() {
     <main className="home-root">
       <LaunchTrailer />
 
-      {/* gradient bridge from trailer → compartments */}
-      <section className="home-bridge" id="after-hero" aria-hidden="true">
+      {/* gradient bridge from trailer → compartments + in-page nav */}
+      <section className="home-bridge" id="after-hero">
         <div className="home-bridge-kicker">the rest of the magazine</div>
         <div className="home-bridge-line">the document begins where the film ends.</div>
-        <div className="home-bridge-arrow">↓</div>
+        <div className="home-bridge-arrow" aria-hidden="true">↓</div>
+        <nav className="home-bridge-nav" aria-label="site navigation">
+          <Link href="/let-down" className="home-bridge-nav-emph">let down</Link>
+          <Link href="/positions">positions</Link>
+          <Link href="/market">market</Link>
+          <Link href="/green-credit">green credit</Link>
+          <Link href="/trades">trades</Link>
+          <Link href="/canvas">canvas</Link>
+          <Link href="/archives">archives</Link>
+          <Link href="/arc">arc</Link>
+        </nav>
         <div className="home-bridge-after">keep scrolling</div>
       </section>
 

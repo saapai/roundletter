@@ -3,9 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
- * LaunchTrailer — now a HERO section at the top of /, not a fullscreen overlay.
+ * LaunchTrailer — HERO section at the top of /.
  *
- * First visit: scenes 0 → 6 autoplay across ~22.5s with audio (muted by default).
+ * Always autoplays scenes 0 → 6 on mount (~22.5s) with audio muted by default.
+ * Respects prefers-reduced-motion (skips to poster, no audio). No "seen"
+ * memory — the trailer is the arrival, every visit.
+ *
  *   scene 0  brand          — silence · magazine-cover (issue #001)
  *   scene 1  the hook       — a lot · "$3,453.83 / a lot"            (21 Savage)
  *   scene 2  punchline build— a lot continues · "name is bullshit"
@@ -14,15 +17,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
  *   scene 5  the auction    — nuevayol · "spray paint · friday"        (Bad Bunny)
  *   scene 6  outro          — silence · "watch." · poster, stays put
  *
- * Reload (seen flag) or prefers-reduced-motion: jumps straight to scene 6 poster,
- * no audio, no autoplay.
- *
- * Scroll is natural — the trailer lives inside normal document flow. When the
- * hero scrolls out of view (IntersectionObserver) audio pauses. "↓ continue"
- * button smooth-scrolls to the first chapter below.
+ * Natural scroll (no lock). IntersectionObserver pauses audio when the hero
+ * scrolls out of view. "↓ continue" button smooth-scrolls to #after-hero.
  */
 
-const SEEN_KEY = "rl:launch-trailer-seen-v1";
 const MUTE_KEY = "rl:launch-trailer-muted";
 
 type Scene = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -59,20 +57,19 @@ export default function LaunchTrailer() {
     });
   }, []);
 
-  // Mount: choose mode (play or poster) based on seen flag + reduced-motion.
+  // Mount: always autoplay, unless the visitor has reduced-motion set.
   useEffect(() => {
-    let seen = false;
     try {
-      seen = window.localStorage.getItem(SEEN_KEY) === "1";
       if (window.localStorage.getItem(MUTE_KEY) === "0") setMuted(false);
     } catch {}
     const prefersReduced =
       window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (seen || prefersReduced) {
-      setStage(6);                // poster
+    if (prefersReduced) {
+      setStage(6);                // poster only — a11y
       setPlaying(false);
       return;
     }
+    setStage(0);
     setPlaying(true);
 
     let lastAudio: AudioKey = "silence";
@@ -98,12 +95,11 @@ export default function LaunchTrailer() {
       );
     });
 
-    // After the final scene, mark as seen and pause audio.
+    // After the final scene, park on the poster and pause audio.
     timers.current.push(
       window.setTimeout(() => {
         setPlaying(false);
         pauseAll();
-        try { window.localStorage.setItem(SEEN_KEY, "1"); } catch {}
       }, 22500)
     );
 
@@ -149,7 +145,6 @@ export default function LaunchTrailer() {
     pauseAll();
     setStage(6);
     setPlaying(false);
-    try { window.localStorage.setItem(SEEN_KEY, "1"); } catch {}
     const target = document.getElementById("after-hero");
     if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [pauseAll]);
