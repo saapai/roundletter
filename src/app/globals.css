@@ -7,6 +7,11 @@
   --ink: #1C1A17;
   --graphite: #6B6560;
   --rust: #8B3A2E;
+  /* Shadow-blue: second accent after the let-down revamp. Twilight
+     grey-blue. Used sparingly for mourning-frame surfaces — masthead
+     epigraph separator, /let-down pre-coda rule, /statement coda rule. */
+  --shadow-blue: #3E4852;
+  --shadow-blue-soft: color-mix(in srgb, #3E4852 40%, transparent);
   --parchment: #EDE5D5;
   --rule: rgba(28,26,23,0.22);
 
@@ -83,6 +88,24 @@ h1, h2, h3 {
   color: var(--rust);
   opacity: 0.7;
 }
+/* Persistent italic epigraph under the sub-row — gestures at the song
+   without quoting lyrics. The site is about transit. */
+.masthead .wordmark-epigraph {
+  margin-top: 0.4rem;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.72rem, 1.4vw, 0.82rem);
+  letter-spacing: 0.05em;
+  color: color-mix(in srgb, var(--graphite) 85%, var(--paper));
+  line-height: 1.2;
+}
+.masthead .wordmark-epigraph-sep {
+  display: inline-block;
+  margin: 0 0.4em;
+  color: var(--shadow-blue);
+  opacity: 0.7;
+}
 .masthead .tagline {
   margin-top: 0.85rem;
   font-size: 10px;
@@ -126,6 +149,104 @@ h1, h2, h3 {
   .masthead .nav { gap: 0.6rem 0.85rem; font-size: 9px; }
 }
 .masthead .nav a:hover { color: var(--ink); }
+.masthead .nav .nav-emph {
+  font-style: italic;
+  font-family: var(--font-display), serif;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  font-size: 1.08em;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+}
+.masthead .nav .nav-emph:hover { color: var(--rust); }
+
+/* Archives-only epigraph — one italic line under the h1. Discovered, not announced. */
+.archives .archives-epigraph {
+  text-align: center;
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  color: var(--graphite);
+  letter-spacing: 0.005em;
+  margin: 0.25rem auto 1.25rem;
+  max-width: 32ch;
+  text-wrap: balance;
+  opacity: 0.85;
+}
+
+/* Shadow-rule: thin shadow-blue horizontal accent used by /let-down before
+   the coda and by /statement as the coda top-rule. Visual rhyme. */
+.article hr.shadow-rule {
+  display: block;
+  width: min(42rem, 100%);
+  margin: 2.5rem auto 2rem;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--shadow-blue) 55%, transparent);
+  height: 0;
+  font-size: 0;
+}
+.article hr.shadow-rule::before { content: none; }
+
+/* Footer epigraph — subtle italic line under the disclosure */
+.masthead-epigraph {
+  margin-top: 0.9rem;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: color-mix(in srgb, var(--graphite) 85%, var(--paper));
+  text-wrap: balance;
+}
+.masthead-epigraph a {
+  color: color-mix(in srgb, var(--rust) 75%, var(--graphite));
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--rust) 28%, transparent);
+  padding-bottom: 1px;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.masthead-epigraph a:hover {
+  color: var(--rust);
+  border-bottom-color: var(--rust);
+}
+
+/* /let-down — the thematic anchor */
+.letdown .letdown-coda {
+  text-align: left;
+  font-size: 1.22rem;
+  line-height: 1.55;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--ink);
+}
+.letdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 2rem;
+  border-top: 1px solid var(--rule);
+}
+.letdown ul li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+  line-height: 1.65;
+}
+.letdown ul li a {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.08rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--rust) 30%, transparent);
+  padding-bottom: 1px;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+.letdown ul li a:hover {
+  color: var(--rust);
+  border-bottom-color: var(--rust);
+}
 
 /* ── Article ──────────────────────────────────────────────── */
 .article {
@@ -9272,8 +9393,13 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   line-height: 1.45;
   color: color-mix(in srgb, var(--home-ink) 80%, var(--home-paper));
 }
+.home-forlater-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
 .home-forlater-cta {
-  align-self: flex-start;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -9289,6 +9415,14 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   transition: background 160ms ease, color 160ms ease;
 }
 .home-forlater-cta:hover { background: var(--home-ink); color: var(--home-paper); }
+.home-forlater-cta-alt {
+  border-color: var(--home-gilt);
+  color: var(--home-gilt);
+}
+.home-forlater-cta-alt:hover {
+  background: var(--home-gilt);
+  color: var(--home-paper);
+}
 
 /* ── dock ──────────────────────────────────── */
 .home-dock {
@@ -9310,19 +9444,6 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   transition: color 160ms ease;
 }
 .home-dock a:hover { color: var(--home-hi); }
-
-/* italic "let down" nav link — distinct from uppercase siblings */
-.masthead .nav a.nav-italic {
-  font-family: var(--font-display), serif;
-  font-style: italic;
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: lowercase;
-  color: var(--home-hi);
-}
-.masthead .nav a.nav-italic:hover {
-  color: var(--home-ink);
-}
 
 /* ════════════════════════════════════════════════════════════
    GHOST TOWN → LET DOWN ARC

@@ -392,19 +392,29 @@ export default function HomePage() {
         n="07"
         id="chapter-07"
         kicker="for later"
-        title="ghost town → let down"
+        title="the frame this site is a derivative of"
         channel="aureliex"
-        meta="cinematic descent · side B"
+        meta="let down · the arc · side B"
       >
         <div className="home-forlater">
           <p>
-            the cinematic descent — altarpiece to transit window, <em>&ldquo;i feel kinda free&rdquo;</em>
-            {" "}to <em>&ldquo;don&rsquo;t get sentimental.&rdquo;</em> moved off the home so the launch
+            everything on the site is a derivative of one feeling. the essay lives at{" "}
+            <Link href="/let-down">/let-down</Link> — short, quiet, after radiohead 1997.
+          </p>
+          <p>
+            the longer cinematic scroll — altarpiece to transit window,
+            {" "}<em>&ldquo;i feel kinda free&rdquo;</em> to <em>&ldquo;don&rsquo;t get sentimental&rdquo;</em>
+            {" "}— lives at <Link href="/arc">/arc</Link>. moved off the home so the launch
             isn&rsquo;t a funeral. still worth the scroll.
           </p>
-          <Link href="/arc" className="home-forlater-cta">
-            open the arc <span aria-hidden="true">→</span>
-          </Link>
+          <div className="home-forlater-ctas">
+            <Link href="/let-down" className="home-forlater-cta">
+              read the anchor <span aria-hidden="true">→</span>
+            </Link>
+            <Link href="/arc" className="home-forlater-cta home-forlater-cta-alt">
+              open the arc <span aria-hidden="true">→</span>
+            </Link>
+          </div>
         </div>
       </Chapter>
 

@@ -172,6 +172,9 @@ export default function Statement() {
           <p className={s.codaShort}>I have $3,453.83 and no job.</p>
           <p className={s.codaShort}>I keep the receipt.</p>
           <div className={s.codaKicker}>— saapai</div>
+          <p className={s.codaAfter}>
+            This is a record kept by someone who knows the motion will stop.
+          </p>
         </section>
 
         <div className={s.colophon}>

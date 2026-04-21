@@ -70,10 +70,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 aureliex<span className="dot">.</span>
               </Link>
               <div className="wordmark-sub-row">green credit <span className="wordmark-sub-sep">·</span> round 0</div>
+              <div className="wordmark-epigraph">in transit <span className="wordmark-epigraph-sep">·</span> starting and then stopping</div>
               <div className="tagline">project 2, v1 <span className="tagline-sep">·</span> a portfolio kept in public, in derivative order</div>
               <div className="rule" />
               <nav className="nav">
-                <Link href="/arc" className="nav-italic">let down</Link>
+                <Link href="/let-down" className="nav-emph">let down</Link>
                 <Link href="/">letters</Link>
                 <Link href="/positions">positions</Link>
                 <Link href="/market">market</Link>
@@ -90,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <footer className="max-w-6xl mx-auto px-6 py-12 text-[11px] tracking-[0.2em] uppercase text-graphite text-center">
             <div className="ink-rule mb-6" />
             <div>aureliex.com · real money · published in full · not investment advice</div>
+            <div className="masthead-epigraph">a pre-mortem · filed before failure · <Link href="/let-down">let down</Link></div>
           </footer>
         )}
       </body>
