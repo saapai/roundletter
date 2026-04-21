@@ -1,0 +1,127 @@
+{
+  "id": "hook-debate-001",
+  "ts": "2026-04-21T00:00:00-07:00",
+  "topic": {
+    "kind": "design",
+    "subject": "launch hook: which song(s) should open the home video?",
+    "framing": "Seven candidates proposed. The panel argues until consensus. The hook is the first thing a cold visitor hears — it sets whether the site reads as 'another AI product' or the thing the punchline claims it is."
+  },
+  "candidates": [
+    { "name": "Ghost Town", "artist": "Kanye West", "year": 2018 },
+    { "name": "Let Down", "artist": "Radiohead", "year": 1997 },
+    { "name": "Sicko Mode", "artist": "Travis Scott", "year": 2018 },
+    { "name": "NUEVAYoL", "artist": "Bad Bunny", "year": 2025 },
+    { "name": "Magnolia", "artist": "Playboi Carti", "year": 2017 },
+    { "name": "Jimmy Cooks", "artist": "Drake + 21 Savage", "year": 2022 },
+    { "name": "Sprinter", "artist": "Central Cee + Dave", "year": 2023 }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "direction": "premise",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "the hook is a switch-up or it's nothing",
+          "warrant": "every one of these tracks earned its place by flipping in the middle. sicko mode at :36, jimmy cooks at the 21 verse, sprinter at the dave takeover, nuevayol at the sample, ghost town at the 070 shake coda. the switch-up IS the argument — the name is bullshit until the product shows up."
+        },
+        {
+          "agent": "Historian",
+          "claim": "canon first, crossover second",
+          "warrant": "ghost town and let down stand at 8 and 29 years. magnolia at 9. jimmy cooks at 4. sprinter at 3. nuevayol at one. the cold-open test is whether a song still holds in ten years. two of these are confirmed canon. five are hoping."
+        },
+        {
+          "agent": "Flow",
+          "claim": "the hook has to land in the first 2 seconds",
+          "warrant": "this is a website, not an album. no skip button on an album track. every candidate here has a first-2-second signature — carti's 'what it do magnolia,' travis's 'astro yeah,' drake's 'yeah, jimmy,' cee's 'jumping out the sprinter.' bad bunny samples a dominican classic. ghost town has the ohh. let down has silence. pick by 2-second readability."
+        },
+        {
+          "agent": "Macro",
+          "claim": "the hook has to match the moment the site drops",
+          "warrant": "we are launching april 2026. sicko mode feels 2018. ghost town and let down are older, but they read as references, not of-the-moment. nuevayol is the current crossover. jimmy cooks and sprinter are the current bar-swap canon. magnolia is still alive because lowercase confidence is culturally load-bearing right now."
+        },
+        {
+          "agent": "Bear",
+          "claim": "pick the one with the lowest cease-and-desist risk and move",
+          "warrant": "we don't own any of these. we're playing 20 seconds muted by default. but the more mainstream the song the faster the content-id bot finds us. let down is 1997 and quiet. magnolia is street-legal in the sense nobody fights over playboi carti samples. the expensive picks are jimmy cooks and nuevayol."
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "direction": "candidates",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "magnolia → jimmy cooks",
+          "warrant": "magnolia is the name-drop — the whole song is the word. the site's punchline is 'the name is bullshit, the product is fucking beautiful.' the name has to ring out first. then jimmy cooks switches to the product: '21, 21, 21' → 'i'm sick as f***, finna cook.' the switch-up IS the punchline, translated into sound."
+        },
+        {
+          "agent": "Flow",
+          "claim": "magnolia → jimmy cooks, OR magnolia → sprinter",
+          "warrant": "both bar-swap songs work. sprinter has the cleaner 2-second readability (cee's 'jumping out the sprinter' is instantly locatable). jimmy cooks has the stronger 21-verse product-reveal moment. marginal call. tie goes to jimmy cooks because it's already the more-canonical bar-swap of the 2020s."
+        },
+        {
+          "agent": "Historian",
+          "claim": "hold ghost town + let down, move them to /arc",
+          "warrant": "the cinematic descent is a different site-mode. it's the luxury register — altar to transit-window. if the home is the loud shop front, /arc is the quiet back gallery. don't burn canon on the shop front. keep it as the 'for later' room, already built."
+        },
+        {
+          "agent": "Macro",
+          "claim": "nuevayol goes on the auction teaser, not the home hook",
+          "warrant": "the spray paint auction at ovation hollywood this friday is a city-flip event. nuevayol is a city-flip song. the match is surgical — puts the song exactly where it belongs instead of wasting it at the top."
+        },
+        {
+          "agent": "Bear",
+          "claim": "retire sicko mode",
+          "warrant": "every ai startup launch in the last four years has used sicko mode. it is the most extracted lit-switch-up sound on the internet. using it here would make the punchline ('every ai product you've seen is useless but has a cool name') land on our own head."
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "direction": "consensus",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "consensus: magnolia → jimmy cooks for the hook",
+          "warrant": "the name-drop opens, the product reveal switches up. this is the punchline in sound form."
+        },
+        {
+          "agent": "Flow",
+          "claim": "agreed. sprinter listed as side B / runner-up.",
+          "warrant": "if magnolia or jimmy cooks get content-id'd, sprinter ships next. same structure, same switch-up logic, cleaner licensing."
+        },
+        {
+          "agent": "Historian",
+          "claim": "agreed. ghost town → let down lives at /arc.",
+          "warrant": "the cinematic descent is the b-side. it already works. don't break it to re-use it."
+        },
+        {
+          "agent": "Macro",
+          "claim": "agreed. nuevayol → auction teaser (friday, ovation hollywood).",
+          "warrant": "city-flip song on city-flip event. the rest of the site is a separate color."
+        },
+        {
+          "agent": "Bear",
+          "claim": "agreed. sicko mode retired.",
+          "warrant": "too safe. we don't use it. cease-and-desist risk also highest."
+        }
+      ]
+    }
+  ],
+  "verdict": {
+    "reached": true,
+    "hook_phase_a": { "name": "Magnolia", "artist": "Playboi Carti", "role": "name-drop hype opener" },
+    "hook_phase_b": { "name": "Jimmy Cooks", "artist": "Drake + 21 Savage", "role": "bar-swap product reveal" },
+    "runner_up":    { "name": "Sprinter", "artist": "Central Cee + Dave", "role": "side B, ships if content-id blocks the hook" },
+    "auction":      { "name": "NUEVAYoL", "artist": "Bad Bunny", "role": "ovation hollywood spray paint auction · friday sunset → midnight" },
+    "for_later":    [
+      { "name": "Ghost Town", "artist": "Kanye West" },
+      { "name": "Let Down", "artist": "Radiohead" }
+    ],
+    "retired":      [
+      { "name": "Sicko Mode", "artist": "Travis Scott", "reason": "too-saturated lit-switch-up; every ai launch has used it" }
+    ]
+  }
+}

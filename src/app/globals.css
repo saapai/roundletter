@@ -8676,6 +8676,655 @@ body.reader-mode > main { padding-top: 2rem; }
 }
 
 /* ════════════════════════════════════════════════════════════
+   HOME — the launch page · chapter grid + master-cut
+   (compartmentalized YT-framed chapters, one "play the whole
+   thing" master-cut toggle, lowercase purposeful un-polish)
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  --home-paper: #f4efe6;
+  --home-ink:   #1c1a17;
+  --home-rule:  rgba(28,26,23,0.12);
+  --home-hi:    #c23a2a;        /* "fucking beautiful" highlight */
+  --home-accent:#8b3a2e;         /* site rust, reused */
+  --home-gilt:  #b89554;
+}
+
+.home-root {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4vw, 2rem) 4rem;
+  color: var(--home-ink);
+}
+
+/* ── play-all CTA at top of page ────────────── */
+.home-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin: clamp(1rem, 3vw, 1.75rem) auto clamp(1.5rem, 4vw, 2.5rem);
+  text-align: center;
+}
+.play-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 1.1rem 0.65rem 0.95rem;
+  background: var(--home-ink);
+  color: var(--home-paper);
+  border: none;
+  border-radius: 999px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+.play-all:hover { transform: translateY(-1px); background: #2a2620; }
+.play-all-on   { background: var(--home-hi); }
+.play-all-on:hover { background: #b22a1a; }
+.play-all-glyph { font-size: 0.9rem; line-height: 1; }
+.play-all-sub {
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  opacity: 0.7;
+  padding-left: 0.55rem;
+  border-left: 1px solid rgba(255,255,255,0.25);
+  margin-left: 0.2rem;
+}
+.home-cta-meta {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--home-ink) 50%, var(--home-paper));
+}
+
+/* master-cut mode: fade non-current chapters slightly,
+   make the stream feel like a single player */
+body.home-master .yt-chapter {
+  transition: opacity 400ms ease, filter 400ms ease;
+  opacity: 0.35;
+  filter: saturate(0.8);
+}
+body.home-master .yt-chapter:focus-within,
+body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
+
+/* ── chapter (YT-framed block) ──────────────── */
+.yt-chapter {
+  margin: clamp(2rem, 5vw, 3rem) auto 0;
+  scroll-margin-top: 1.5rem;
+}
+.yt-chapter-frame {
+  background: #fff;
+  border: 1px solid var(--home-rule);
+  border-radius: 18px;
+  padding: clamp(1.25rem, 3.2vw, 2rem);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.02), 0 24px 48px -40px rgba(0,0,0,0.25);
+}
+.yt-chapter-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--home-rule);
+}
+.yt-chapter-kicker {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--home-ink) 55%, var(--home-paper));
+}
+.yt-chapter-n {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  background: color-mix(in srgb, var(--home-ink) 8%, transparent);
+  border-radius: 4px;
+  font-weight: 600;
+  color: var(--home-ink);
+}
+.yt-chapter-live {
+  margin-left: 0.35rem;
+  color: var(--home-hi);
+  font-size: 0.66rem;
+  letter-spacing: 0.24em;
+}
+.yt-chapter-title {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  letter-spacing: -0.012em;
+  line-height: 1.1;
+  color: var(--home-ink);
+  text-wrap: balance;
+}
+.yt-chapter-arrow { color: var(--home-hi); font-style: normal; padding: 0 0.12em; }
+.yt-chapter-channel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, var(--home-ink) 65%, var(--home-paper));
+}
+.yt-chapter-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: var(--home-ink);
+  color: var(--home-paper);
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1rem;
+  line-height: 1;
+}
+.yt-chapter-handle { color: var(--home-ink); font-weight: 600; letter-spacing: 0.04em; }
+.yt-chapter-meta {
+  color: color-mix(in srgb, var(--home-ink) 55%, var(--home-paper));
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--home-rule);
+}
+.yt-chapter-body {
+  /* nothing forced — content renders in the native register */
+}
+@media (max-width: 560px) {
+  .yt-chapter-channel { flex-wrap: wrap; }
+  .yt-chapter-meta { border-left: 0; padding-left: 0; }
+}
+
+/* ── chapter 01 — the hook ─────────────────── */
+.hook-overture {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background: linear-gradient(135deg, #1a1410 0%, #2a1c14 45%, #3a1a0a 100%);
+  color: #f4efe6;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.hook-overture::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 30%, rgba(201,84,26,0.28) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 80% 75%, rgba(184,149,84,0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hook-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  min-height: 8rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.hook-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.85rem;
+  border-radius: 6px;
+  transition: background 300ms ease, transform 300ms ease, opacity 300ms ease;
+  opacity: 0.4;
+  background: rgba(255,255,255,0.03);
+}
+.hook-phase-A .hook-track-a,
+.hook-phase-B .hook-track-b {
+  opacity: 1;
+  background: rgba(255,255,255,0.08);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+}
+.hook-track-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(232,214,168,0.75);
+}
+.hook-track-name {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.25rem, 3vw, 1.85rem);
+  color: #f4efe6;
+  line-height: 1.1;
+}
+.hook-track-attr {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  color: rgba(232,214,168,0.55);
+}
+.hook-controls {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.hook-ctrl {
+  background: rgba(232,214,168,0.08);
+  color: #f4efe6;
+  border: 1px solid rgba(232,214,168,0.32);
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+.hook-ctrl:hover,
+.hook-ctrl:focus-visible {
+  background: rgba(232,214,168,0.16);
+  border-color: rgba(232,214,168,0.6);
+  outline: none;
+}
+.hook-ctrl-switch {
+  background: rgba(201,84,26,0.25);
+  border-color: rgba(201,84,26,0.55);
+}
+.hook-ctrl-switch:hover { background: rgba(201,84,26,0.42); }
+.home-hook-caption {
+  margin: 0.85rem 0 0;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--home-ink) 75%, var(--home-paper));
+}
+.home-hook-caption em { color: var(--home-hi); }
+.home-hook-caption-faint {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--home-ink) 50%, var(--home-paper));
+}
+
+/* ── chapter 02 — punchline + manifesto ────── */
+.home-punch {
+  margin: 0.6rem 0;
+  font-family: var(--font-display), serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(1.85rem, 5.5vw, 3.35rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  color: var(--home-ink);
+  text-wrap: balance;
+}
+.home-punch-emph {
+  margin-top: 1.75rem;
+  margin-bottom: 1.75rem;
+}
+.home-punch-mark {
+  font-style: italic;
+  font-weight: 500;
+  padding: 0 0.08em;
+  border-bottom: 3px solid var(--home-hi);
+}
+.home-punch-hi {
+  background: var(--home-hi);
+  color: #fff;
+  padding: 0 0.18em;
+  font-style: italic;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.home-manifesto {
+  margin-top: clamp(2rem, 5vw, 3rem);
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-top: 1px solid var(--home-rule);
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--home-ink) 80%, var(--home-paper));
+}
+.home-manifesto p { margin: 0.15em 0; }
+.home-manifesto-end { color: var(--home-ink); font-weight: 500; }
+
+/* ── chapter 03 — the story ────────────────── */
+.home-story {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 44rem;
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--home-ink) 90%, var(--home-paper));
+}
+.home-story p { margin: 0; }
+.home-story strong { color: var(--home-ink); font-weight: 600; }
+.home-story a { color: var(--home-hi); border-bottom: 1px solid color-mix(in srgb, var(--home-hi) 40%, transparent); text-decoration: none; }
+.home-story a:hover { border-bottom-color: var(--home-hi); }
+.home-story-sub {
+  font-size: 0.98rem;
+  color: color-mix(in srgb, var(--home-ink) 85%, var(--home-paper));
+}
+.home-story-sub em {
+  font-style: italic;
+  color: var(--home-ink);
+  font-family: var(--font-display), serif;
+}
+.home-story-big {
+  margin-top: clamp(1.5rem, 4vw, 2.25rem);
+  padding-top: clamp(1rem, 2.5vw, 1.5rem);
+  border-top: 1px solid var(--home-rule);
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 3.2vw, 2rem);
+  line-height: 1.15;
+  color: var(--home-ink);
+}
+.home-story-big em { color: var(--home-hi); font-style: italic; }
+
+/* ── chapter 04 — auction ──────────────────── */
+.home-auction {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background: linear-gradient(160deg, #0a0c10 0%, #18100a 55%, #2a1408 100%);
+  color: #f4efe6;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.home-auction::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 40% 30% at 85% 15%, rgba(245, 106, 72, 0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 10% 90%, rgba(255, 191, 82, 0.22) 0%, transparent 75%);
+  pointer-events: none;
+}
+.home-auction-head {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: #ffbf52;
+}
+.home-auction-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #ffbf52;
+  box-shadow: 0 0 12px rgba(255, 191, 82, 0.7);
+  animation: home-auction-pulse 1.8s ease-in-out infinite;
+}
+@keyframes home-auction-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(0.92); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+.auction-clock {
+  font-variant-numeric: tabular-nums;
+  color: #f4efe6;
+  letter-spacing: 0.06em;
+}
+.auction-clock-live { color: #ff6a1c; }
+.home-auction-lead {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.55rem, 4vw, 2.25rem);
+  line-height: 1.15;
+  color: #f4efe6;
+}
+.home-auction-lead strong { font-style: normal; font-weight: 600; color: #ffbf52; }
+.home-auction-note {
+  position: relative;
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(232, 214, 168, 0.75);
+  font-family: var(--font-body), Georgia, serif;
+  font-style: italic;
+}
+.home-auction-find {
+  position: relative;
+  margin: 0.5rem 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+.home-auction-find em { font-style: italic; color: #ff6a1c; }
+.home-auction-credit {
+  position: relative;
+  margin: 1rem 0 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(232, 214, 168, 0.2);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: rgba(232, 214, 168, 0.65);
+}
+.home-auction-credit em { color: #ffbf52; font-style: normal; letter-spacing: 0.08em; }
+
+/* ── chapter 05 — verdict / debate ─────────── */
+.home-verdict {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.home-verdict-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--home-rule);
+}
+.home-verdict-topic {
+  font-family: var(--font-display), serif;
+  font-size: 1.15rem;
+  line-height: 1.35;
+  color: var(--home-ink);
+}
+.home-verdict-topic em { font-style: italic; color: var(--home-gilt); margin-right: 0.35em; }
+.home-verdict-framing {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--home-ink) 65%, var(--home-paper));
+  font-style: italic;
+}
+.home-verdict-candidates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.home-verdict-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  background: color-mix(in srgb, var(--home-ink) 5%, transparent);
+  border: 1px solid var(--home-rule);
+  border-radius: 999px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--home-ink);
+}
+.home-verdict-chip-year {
+  font-size: 0.68rem;
+  color: color-mix(in srgb, var(--home-ink) 50%, var(--home-paper));
+}
+.home-verdict-rounds {
+  background: color-mix(in srgb, var(--home-ink) 3%, transparent);
+  border: 1px solid var(--home-rule);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+}
+.home-verdict-rounds summary {
+  cursor: pointer;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: var(--home-ink);
+  list-style: none;
+}
+.home-verdict-rounds summary::marker,
+.home-verdict-rounds summary::-webkit-details-marker { display: none; }
+.home-verdict-rounds summary::before { content: "▸ "; color: var(--home-hi); }
+.home-verdict-rounds[open] summary::before { content: "▾ "; }
+.home-verdict-round {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--home-rule);
+}
+.home-verdict-round-n {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--home-gilt);
+  margin-bottom: 0.6rem;
+}
+.home-verdict-turn {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 0.75rem;
+  padding: 0.55rem 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  border-top: 1px dotted color-mix(in srgb, var(--home-ink) 10%, transparent);
+}
+.home-verdict-turn:first-of-type { border-top: 0; }
+.home-verdict-agent {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  color: var(--home-ink);
+}
+.home-verdict-claim { color: var(--home-ink); }
+.home-verdict-warrant {
+  grid-column: 2;
+  font-style: italic;
+  color: color-mix(in srgb, var(--home-ink) 70%, var(--home-paper));
+  font-size: 0.88rem;
+}
+.home-verdict-final {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-top: 0.85rem;
+  border-top: 2px solid var(--home-ink);
+}
+.home-verdict-row {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  padding: 0.28rem 0;
+}
+.home-verdict-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--home-gilt);
+  align-self: center;
+}
+.home-verdict-val { color: var(--home-ink); }
+.home-verdict-val a { color: var(--home-hi); text-decoration: underline; text-underline-offset: 3px; }
+.home-verdict-retired {
+  text-decoration: line-through;
+  color: color-mix(in srgb, var(--home-ink) 45%, var(--home-paper));
+}
+@media (max-width: 560px) {
+  .home-verdict-turn { grid-template-columns: 1fr; }
+  .home-verdict-warrant { grid-column: 1; }
+  .home-verdict-row { grid-template-columns: 1fr; }
+}
+
+/* ── chapter 07 — for later ────────────────── */
+.home-forlater {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 42rem;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--home-ink) 80%, var(--home-paper));
+}
+.home-forlater-cta {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--home-ink);
+  color: var(--home-ink);
+  text-decoration: none;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  border-radius: 999px;
+  transition: background 160ms ease, color 160ms ease;
+}
+.home-forlater-cta:hover { background: var(--home-ink); color: var(--home-paper); }
+
+/* ── dock ──────────────────────────────────── */
+.home-dock {
+  margin: clamp(3rem, 6vw, 4rem) auto 0;
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-top: 1px solid var(--home-rule);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(0.8rem, 2.5vw, 1.5rem);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+}
+.home-dock a {
+  color: color-mix(in srgb, var(--home-ink) 70%, var(--home-paper));
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+.home-dock a:hover { color: var(--home-hi); }
+
+/* italic "let down" nav link — distinct from uppercase siblings */
+.masthead .nav a.nav-italic {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--home-hi);
+}
+.masthead .nav a.nav-italic:hover {
+  color: var(--home-ink);
+}
+
+/* ════════════════════════════════════════════════════════════
    GHOST TOWN → LET DOWN ARC
    A single scroll, three movements.
    i.  ghost town  (kanye) — altarpiece, warm cream + brass, "i feel kinda free"
