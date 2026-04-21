@@ -12,6 +12,17 @@ type Reveal =
   | { status: "sealed"; seconds_until_reveal: number; sha256: string; horizon_end: string }
   | { status: "reveal_pending"; reason: string; sha256: string }
   | {
+      status: "forfeited";
+      sha256: string;
+      horizon_end: string;
+      forfeit: {
+        declared_at?: string;
+        reason?: string;
+        consequence?: string;
+        fix_for_future?: string;
+      } | null;
+    }
+  | {
       status: "revealed";
       sha256: string;
       plaintext_raw: string;
@@ -144,6 +155,28 @@ export default function SealedPrediction() {
         <div className="sp-live sp-live-pending">
           <span className="sp-live-label">horizon closed</span>
           <span className="sp-live-reason">plaintext publication pending · {reveal.reason}</span>
+        </div>
+      )}
+
+      {reveal.status === "forfeited" && (
+        <div className="sp-live sp-live-forfeit">
+          <div className="sp-live-head">
+            <span className="sp-live-label">forfeit — declared</span>
+            <span className="sp-live-result sp-miss">✗ unrevealable</span>
+          </div>
+          <p className="sp-forfeit-reason">
+            {reveal.forfeit?.reason ??
+              "plaintext lost — the exact bytes that produced the committed sha-256 were not stored."}
+          </p>
+          <p className="sp-forfeit-consequence">
+            {reveal.forfeit?.consequence ??
+              "sp-001 stands as an unverifiable commitment. counts as a procedural miscalibration in the panel record."}
+          </p>
+          <p className="sp-forfeit-fix">
+            <em>for the future:</em>{" "}
+            {reveal.forfeit?.fix_for_future ??
+              "see docs/SEALED_PREDICTIONS.md — sp-002 onward uses a stricter runbook."}
+          </p>
         </div>
       )}
 

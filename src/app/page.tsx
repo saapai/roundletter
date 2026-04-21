@@ -1,9 +1,12 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import curation from "@/data/curation.json";
 import hookDebate from "@/data/hook-debate.json";
 import ApparatusThumb from "@/components/ApparatusThumb";
 import LaunchTrailer from "@/components/LaunchTrailer";
 import AuctionCountdown from "@/components/AuctionCountdown";
+import { getLivePortfolio, fmtMoney } from "@/lib/portfolio-live";
+import { SONGS, youtubeSearchLink } from "@/lib/song-links";
 
 /* ────────────────────────────────────────────────────────────
    / — the launch page.
@@ -134,9 +137,38 @@ function CategoryCard({ category }: { category: CurationCategory }) {
 
 type HookDebate = typeof hookDebate;
 
-export default function HomePage() {
+export async function generateMetadata(): Promise<Metadata> {
+  const lp = await getLivePortfolio();
+  const live = fmtMoney(lp.value);
+  const delta = lp.up
+    ? `+${fmtMoney(Math.abs(lp.delta))} (+${Math.abs(lp.pct).toFixed(1)}%)`
+    : `−${fmtMoney(Math.abs(lp.delta))} (−${Math.abs(lp.pct).toFixed(1)}%)`;
+  const title = `aureliex · issue #001 — now at ${live} (${delta}) · just dropped.`;
+  const description =
+    `launch trailer is live. ${live} on the book (${delta} vs baseline), target $100,000 by 21 june. five ai agents. one product: green credit. plus — spray paint auction, ovation hollywood, this friday sunset → midnight. you'll find it.`;
+  return {
+    title,
+    description,
+    openGraph: {
+      title: `aureliex · issue #001 — now at ${live}.`,
+      description,
+      url: "https://aureliex.com",
+      siteName: "aureliex",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `aureliex · issue #001 — now at ${live}.`,
+      description,
+      creator: "@saapai",
+    },
+  };
+}
+
+export default async function HomePage() {
   const data = curation as CurationFile;
   const debate = hookDebate as HookDebate;
+  const lp = await getLivePortfolio();
   // Safe accessors — the verdict structure grew across panel rounds; cast
   // once and reach for fields that may or may not exist in older debates.
   const v = debate.verdict as HookDebate["verdict"] & {
@@ -147,7 +179,7 @@ export default function HomePage() {
 
   return (
     <main className="home-root">
-      <LaunchTrailer />
+      <LaunchTrailer liveValue={lp.value} baseline={lp.baseline} />
 
       {/* gradient bridge from trailer → compartments + in-page nav */}
       <section className="home-bridge" id="after-hero">
@@ -196,9 +228,26 @@ export default function HomePage() {
       >
         <div className="home-story">
           <p>
-            <strong>aureliex</strong> is a public portfolio experiment. <strong>$3,453.83</strong>,
-            target <strong>$100,000 by 21 june 2026</strong>. that&rsquo;s a <strong>29×</strong>. the S&amp;P does 10×
-            in 25 years. the gap is the joke and the point.
+            <strong>aureliex</strong> is a public portfolio experiment. baseline{" "}
+            <strong>$3,453.83</strong>, now{" "}
+            <strong>
+              {fmtMoney(lp.value)}
+              {lp.delta !== 0 && (
+                <>
+                  {" "}
+                  <span
+                    className={lp.up ? "home-story-up" : "home-story-down"}
+                  >
+                    ({lp.up ? "+" : "−"}
+                    {fmtMoney(Math.abs(lp.delta))} / {lp.up ? "+" : "−"}
+                    {Math.abs(lp.pct).toFixed(1)}%)
+                  </span>
+                </>
+              )}
+            </strong>
+            , target <strong>$100,000 by 21 june 2026</strong>. that&rsquo;s a{" "}
+            <strong>{lp.multiple}×</strong> from here. the S&amp;P does 10× in 25 years. the gap is
+            the joke and the point.
           </p>
           <p>
             every decision is argued by five agents — <strong>Bull</strong>, <strong>Bear</strong>,
@@ -252,15 +301,28 @@ export default function HomePage() {
           <div className="home-verdict-final">
             <div className="home-verdict-row">
               <span className="home-verdict-label">hook</span>
-              <span className="home-verdict-val">a lot — 21 savage ft. j. cole</span>
+              <span className="home-verdict-val">
+                <a href={youtubeSearchLink(SONGS.a_lot)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
+                  a lot — 21 savage ft. j. cole <span aria-hidden="true">↗</span>
+                </a>
+              </span>
             </div>
             <div className="home-verdict-row">
               <span className="home-verdict-label">punchline</span>
-              <span className="home-verdict-val">just like me — metro boomin + future · lands on &ldquo;beautiful&rdquo;</span>
+              <span className="home-verdict-val">
+                <a href={youtubeSearchLink(SONGS.just_like_me)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
+                  just like me — metro boomin + future <span aria-hidden="true">↗</span>
+                </a>
+                {" "}· lands on &ldquo;beautiful&rdquo;
+              </span>
             </div>
             <div className="home-verdict-row">
               <span className="home-verdict-label">auction</span>
-              <span className="home-verdict-val">nuevayol — bad bunny</span>
+              <span className="home-verdict-val">
+                <a href={youtubeSearchLink(SONGS.nuevayol)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
+                  nuevayol — bad bunny <span aria-hidden="true">↗</span>
+                </a>
+              </span>
             </div>
             <div className="home-verdict-row">
               <span className="home-verdict-label">art direction</span>

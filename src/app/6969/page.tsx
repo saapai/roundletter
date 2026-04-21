@@ -1,154 +1,197 @@
 import Link from "next/link";
 
-// /6969 — a cinematic "pretend 404" page. Framed as a playable credits
-// roll for everything built in the 2026-04-15 session: the pitch deck, the
-// POLYMARKET cipher, the /v1 letter pages, the agent panel and moderator,
-// the scorecards, the 2-day portfolio chart, the CLI wordle, the recursion
-// maze, the 6969 joke, all of it. Every tagline is a direct quote from
-// somewhere on the site.
+// /6969 — the credits roll. A "pretend 404" that serves as the site's
+// elegant wayfinder: you went further than the page was built to go, so
+// here is what the whole site is. Every beat reflects the current launch
+// narrative (trailer, five-agent panel, sealed predictions, green credit,
+// spray paint auction, let-down/arc).
 
 export const metadata = {
-  title: "not found. yet. — aureliex trailer",
+  title: "not found. yet. — aureliex · credits",
+  description:
+    "a credits roll for everything on aureliex.com — the five-agent panel, the sealed predictions, green credit, the spray paint auction, let down, the arc.",
 };
 
-const BEATS: Array<{
+type Beat = {
+  n: string;
   kicker: string;
   line: string;
   sub?: string;
-  tone?: "dark" | "warm" | "green" | "rust" | "amber";
-}> = [
+  href?: string;
+  tone?: "dark" | "warm" | "green" | "rust" | "amber" | "cyan";
+};
+
+const BEATS: Beat[] = [
   {
-    kicker: "404 · NOT FOUND · YET",
+    n: "00",
+    kicker: "404 · not found · yet",
     line: "you went further than the page was built to go.",
     sub: "so here is what the page was built from.",
     tone: "dark",
   },
   {
-    kicker: "I · THE QUIET CASE",
-    line: "inexplicably.",
-    sub: "// bullshitmaxxing. a guide to sep. built mostly from git history.",
-    tone: "dark",
+    n: "01",
+    kicker: "the punchline",
+    line: "the name is bullshit. the product is beautiful.",
+    sub: "every ai product you&rsquo;ve seen is useless but has a cool name. aureliex inverts it.",
+    href: "/",
+    tone: "warm",
   },
   {
-    kicker: "II · THE RECEIPTS",
-    line: "résumés lie. commit counts don't.",
-    sub: "rush-react · sep-ats-checkin · sep-ats — three rushes, one infrastructure.",
-    tone: "dark",
-  },
-  {
-    kicker: "III · THE PIVOT",
-    line: "every mind whispers what it rewards too.",
-    sub: "the whisper worth making is alignment — because that's how you transcend.",
+    n: "02",
+    kicker: "the numbers",
+    line: "$3,453 → $100,000 by 21 june 2026.",
+    sub: "a 29×. the S&P does 10× in 25 years. the gap is the joke and the point. no job.",
+    href: "/positions",
     tone: "amber",
   },
   {
-    kicker: "IV · THE THESIS",
-    line: "attention is all you need.",
-    sub: "sep is not a tech frat. startups are the surface.",
-    tone: "warm",
-  },
-  {
-    kicker: "V · THE MOVES",
-    line: "toolmaking becomes the norm. attention becomes the metric.",
-    sub: "every pledge class ships directionally correctly and at scale — or we deem our experiment of pledging a failure. whose failure?",
-    tone: "warm",
-  },
-  {
-    kicker: "VI · THE REFRAME",
-    line: "i wanted the arena. so i built it. now i want the year to give it away.",
-    sub: "to the polymaths of sep. of ucla. of the world. of all future generations. that's legacy.",
-    tone: "warm",
-  },
-  {
-    kicker: "VII · THE ENDING",
-    line: "the poison won't cure itself. get upstream.",
-    sub: "let's cut through the bullshit. together.",
-    tone: "green",
-  },
-  {
-    kicker: "VIII · THE PANEL",
-    line: "six voices. two phases. until they agree.",
-    sub: "the moderator · the bull · the bear · macro · flow · the historian.",
+    n: "03",
+    kicker: "the five-agent panel",
+    line: "bull · bear · macro · flow · historian.",
+    sub: "every decision argued live. brier-scored. kill-switches non-discretionary. the method is the product.",
+    href: "/argument",
     tone: "dark",
   },
   {
-    kicker: "IX · THE RIDDLE",
-    line: "ten letters. find them. type them here.",
-    sub: "P · O · L · Y · M · A · R · K · E · T",
-    tone: "green",
-  },
-  {
-    kicker: "X · THE LISTING",
-    line: "coming soon — polymarket.",
-    sub: "open interest 10/10 · depth 100% · spread tightening · settlement tbd.",
-    tone: "green",
-  },
-  {
-    kicker: "XI · THE MAZE",
-    line: "10 polymarkets, then 6969, then the void.",
-    sub: "the riddle was the point; the depth is the joke.",
-    tone: "dark",
-  },
-  {
-    kicker: "XII · THE METHOD",
-    line: "the method is the medicine.",
-    sub: "even when the work is bullshit — especially then.",
+    n: "04",
+    kicker: "the sealed predictions",
+    line: "sp-001 forfeited — honestly.",
+    sub: "plaintext was lost. marked unverifiable in public. sp-002 onward uses a stricter runbook — see docs. the record is the return.",
+    href: "/green-credit",
     tone: "rust",
+  },
+  {
+    n: "05",
+    kicker: "the actual product",
+    line: "green credit.",
+    sub: "a platform where attention in reasoning is rewarded with better reasoning. public bets on success, founder bets against themselves, record is the return.",
+    href: "/green-credit",
+    tone: "green",
+  },
+  {
+    n: "06",
+    kicker: "the launch trailer",
+    line: "three songs. three jobs.",
+    sub: "a lot (21 savage) · just like me (metro + future) · nuevayol (bad bunny). autoplay on load, scroll to compartmentalize.",
+    href: "/",
+    tone: "cyan",
+  },
+  {
+    n: "07",
+    kicker: "the next event",
+    line: "spray paint auction · ovation hollywood.",
+    sub: "friday · sunset (7:27 pm) → midnight. no RSVP, no list, no flyer. &ldquo;you&rsquo;ll find it.&rdquo;",
+    tone: "amber",
+  },
+  {
+    n: "08",
+    kicker: "the frame",
+    line: "let down.",
+    sub: "a pre-mortem, after radiohead 1997. the feeling the whole site is a derivative of.",
+    href: "/let-down",
+    tone: "cyan",
+  },
+  {
+    n: "09",
+    kicker: "the arc",
+    line: "ghost town → let down.",
+    sub: "the cinematic descent. altarpiece to transit window. the b-side of the launch.",
+    href: "/arc",
+    tone: "dark",
+  },
+  {
+    n: "10",
+    kicker: "the method",
+    line: "the document is the product.",
+    sub: "debates timestamped. trades tied to agents. letters signed. nothing hidden. that&rsquo;s the whole architecture.",
+    href: "/archives",
+    tone: "warm",
+  },
+  {
+    n: "11",
+    kicker: "the statement",
+    line: "one voice. then two. then four. then the argument is pointless.",
+    sub: "that&rsquo;s the point.",
+    href: "/statement",
+    tone: "dark",
+  },
+  {
+    n: "12",
+    kicker: "the rest",
+    line: "canvas · trades · market · letters.",
+    sub: "the book as graph. every trade logged. green apple vs rotten apple. round 0 pre-mortem.",
+    href: "/canvas",
+    tone: "green",
   },
 ];
 
-export default function TrailerPage() {
+export default function CreditsPage() {
   return (
     <main className="trailer-root">
       <div className="trailer-film" aria-hidden="true" />
 
       <section className="trailer-hero">
-        <p className="trailer-hero-eyebrow">aureliex · 2026-04-15 · saapai</p>
+        <p className="trailer-hero-eyebrow">aureliex · credits · issue #001</p>
         <h1 className="trailer-hero-title">
           <span className="trailer-hero-404">404</span>
           <span className="trailer-hero-dash">—</span>
-          <span className="trailer-hero-word">
-            <em>not found.</em>
-          </span>
-          <span className="trailer-hero-yet">
-            <em>yet.</em>
-          </span>
+          <span className="trailer-hero-word"><em>not found.</em></span>
+          <span className="trailer-hero-yet"><em>yet.</em></span>
         </h1>
         <p className="trailer-hero-sub">
-          <em>
-            you went further than the page was built to go. so here is what the page was built
-            from.
-          </em>
+          <em>you went further than the page was built to go. so here is what the page was built from.</em>
         </p>
         <p className="trailer-hero-hint">↓ scroll</p>
       </section>
 
       <div className="trailer-beats">
-        {BEATS.slice(1).map((beat, i) => (
-          <section
-            key={i}
-            className={`trailer-beat trailer-beat-${beat.tone ?? "dark"}`}
-            style={{ ["--i" as string]: String(i) }}
-          >
-            <span className="trailer-kicker">{beat.kicker}</span>
-            <p className="trailer-line">
-              <em>{beat.line}</em>
-            </p>
-            {beat.sub && (
-              <p className="trailer-sub">
-                <em>{beat.sub}</em>
-              </p>
-            )}
-          </section>
-        ))}
+        {BEATS.slice(1).map((beat, i) => {
+          const content = (
+            <>
+              <span className="trailer-kicker">
+                <span className="trailer-kicker-n">{beat.n}</span>
+                {beat.kicker}
+              </span>
+              <p className="trailer-line"><em>{beat.line}</em></p>
+              {beat.sub && (
+                <p className="trailer-sub">
+                  <em dangerouslySetInnerHTML={{ __html: beat.sub }} />
+                </p>
+              )}
+              {beat.href && (
+                <span className="trailer-gocta" aria-hidden="true">open →</span>
+              )}
+            </>
+          );
+          const className = `trailer-beat trailer-beat-${beat.tone ?? "dark"}${beat.href ? " trailer-beat-link" : ""}`;
+          return beat.href ? (
+            <Link
+              key={i}
+              href={beat.href}
+              className={className}
+              style={{ ["--i" as string]: String(i) }}
+            >
+              {content}
+            </Link>
+          ) : (
+            <section
+              key={i}
+              className={className}
+              style={{ ["--i" as string]: String(i) }}
+            >
+              {content}
+            </section>
+          );
+        })}
       </div>
 
       <section className="trailer-credits">
         <p className="trailer-credits-eye">// credits</p>
         <ul className="trailer-credits-list">
-          <li><span>direction, text, interaction</span><span><em>saapai</em></span></li>
-          <li><span>infrastructure, typography, typescript</span><span><em>Claude Opus 4.6 · 1M-context</em></span></li>
-          <li><span>swipe file</span><span><em>Paul Graham · Ted Lasso · Gil Scott-Heron · EEAO · Ford v Ferrari · Iverson · Roosevelt · Thorp · Vaswani et al.</em></span></li>
+          <li><span>direction, text, decisions</span><span><em>saapai</em></span></li>
+          <li><span>infrastructure, typography, typescript</span><span><em>claude opus 4.7 · 1m-context</em></span></li>
+          <li><span>swipe file</span><span><em>burna boy · i told them · radiohead · kanye · 21 savage · metro boomin · bad bunny · playboi carti · paul graham · ted lasso</em></span></li>
           <li><span>listing venue</span><span><em>polymarket · coming soon</em></span></li>
           <li><span>horizon</span><span><em>10 years · starting now</em></span></li>
         </ul>
@@ -157,20 +200,18 @@ export default function TrailerPage() {
       <nav className="trailer-nav">
         <Link href="/" className="trailer-back">← home</Link>
         <span className="trailer-dot">·</span>
-        <Link href="/argument" className="trailer-back">the argument</Link>
+        <Link href="/argument" className="trailer-back">argument</Link>
         <span className="trailer-dot">·</span>
-        <Link href="/positions" className="trailer-back">the positions</Link>
+        <Link href="/positions" className="trailer-back">positions</Link>
         <span className="trailer-dot">·</span>
-        <Link href="/pitch" className="trailer-back">the pitch</Link>
+        <Link href="/green-credit" className="trailer-back">green credit</Link>
+        <span className="trailer-dot">·</span>
+        <Link href="/let-down" className="trailer-back">let down</Link>
       </nav>
 
       <footer className="trailer-outro">
-        <p>
-          <em>every revolution needs its counterculture.</em>
-        </p>
-        <p className="trailer-outro-accent">
-          <em>pick yours.</em>
-        </p>
+        <p><em>the counter culture is here.</em></p>
+        <p className="trailer-outro-accent"><em>the best you can do is watch.</em></p>
       </footer>
     </main>
   );

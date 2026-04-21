@@ -19,9 +19,15 @@
       "sealed_at": "2026-04-18T04:22:00-04:00",
       "sha256": "53f7125837093c39a2e65f22ba51864f1d223623836a974bcc4de20bb3e5e875",
       "nonce": "4:22-audition-saapai",
-      "status": "sealed",
-      "reveal_method": "GET /api/views at 2026-04-20T16:20:00-04:00; count unique IPs within horizon; compare to plaintext threshold",
-      "next_sha_trigger": "At resolution, plaintext is revealed, Brier-analog calibration is computed, sp-002 is sealed with the miscalibration folded in."
+      "status": "forfeited",
+      "forfeit": {
+        "declared_at": "2026-04-21T00:00:00-04:00",
+        "reason": "plaintext lost — the exact bytes that produced the committed sha-256 were not stored in a recoverable location. honest disclosure, published here as part of the record.",
+        "consequence": "sp-001 cannot be revealed. the hash stands as unverifiable commitment. this counts as a miscalibration (status: forfeit) for purposes of panel scoring, and the procedural failure itself is logged so sp-002+ are handled differently.",
+        "fix_for_future": "see docs/SEALED_PREDICTIONS.md — from sp-002 onward, plaintext is stored in an encrypted backup committed to the private config, sha-256 verified at seal time, and SEALED_PREDICTION_PLAINTEXT_RAW env vars are provisioned on vercel at sealing time (not at resolution)."
+      },
+      "reveal_method": "GET /api/reveal — now returns { status: 'forfeited' } for this prediction",
+      "next_sha_trigger": "sp-002 will be sealed using the new runbook. the miscalibration is folded in as a procedural failure, not a thesis failure."
     }
   ]
 }

@@ -9777,6 +9777,67 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   font-size: 0.98rem;
   color: color-mix(in srgb, var(--home-ink) 85%, var(--home-paper));
 }
+.home-story-up   { color: #2e6b3b; font-weight: 500; }
+.home-story-down { color: var(--home-hi); font-weight: 500; }
+
+/* verdict song link */
+.home-verdict-song {
+  color: var(--home-hi);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 160ms ease;
+}
+.home-verdict-song:hover { color: var(--home-ink); }
+
+/* trailer attribution as link */
+.trailer-attr-link {
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 1px;
+  transition: color 160ms ease, border-color 160ms ease;
+}
+.trailer-attr-link:hover {
+  color: var(--zine-yellow);
+  border-color: var(--zine-yellow);
+}
+
+/* trailer-kicker-n (used on /6969 beat numbers) */
+.trailer-kicker-n {
+  display: inline-block;
+  margin-right: 0.55rem;
+  padding: 0.14rem 0.42rem;
+  background: var(--zine-red, #c23a2a);
+  color: var(--zine-white, #fffdf6);
+  font-family: Impact, "Arial Black", sans-serif;
+  font-weight: 900;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  transform: rotate(-1.5deg);
+}
+/* beat-as-link: same layout, link-specific affordances */
+.trailer-beat-link {
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 240ms cubic-bezier(0.2,0.7,0.2,1), box-shadow 240ms ease;
+}
+.trailer-beat-link:hover {
+  transform: translateY(-2px);
+}
+.trailer-beat-link:hover .trailer-gocta {
+  color: var(--zine-yellow, #f2c24b);
+}
+.trailer-gocta {
+  display: block;
+  margin-top: 0.9rem;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: lowercase;
+  opacity: 0.75;
+  transition: color 180ms ease;
+}
+.trailer-beat-cyan  { background: color-mix(in srgb, #0b6e84 18%, transparent); color: #f4efe6; }
 .home-story-sub em {
   font-style: italic;
   color: var(--home-ink);

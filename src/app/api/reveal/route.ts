@@ -53,6 +53,18 @@ export async function GET() {
     return NextResponse.json({ status: "error", error: "no prediction" }, { status: 500 });
   }
 
+  // Honest-failure path: if the prediction is marked forfeited in the data file,
+  // we never attempt a reveal — the plaintext can't be verified and pretending
+  // to reveal would undermine the whole commitment mechanism.
+  if (p.status === "forfeited") {
+    return NextResponse.json({
+      status: "forfeited",
+      sha256: p.sha256,
+      forfeit: (p as { forfeit?: unknown }).forfeit ?? null,
+      horizon_end: p.horizon.end,
+    });
+  }
+
   const now = Date.now();
   const revealTs = Date.parse(p.horizon.end);
 

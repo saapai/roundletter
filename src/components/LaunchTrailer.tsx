@@ -1,6 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { SONGS, youtubeSearchLink } from "@/lib/song-links";
+
+type Props = {
+  /** current portfolio value (live from server) — falls back to baseline */
+  liveValue?: number;
+  /** baseline / round-open value */
+  baseline?: number;
+};
 
 /**
  * LaunchTrailer — HERO section at the top of /.
@@ -40,7 +48,11 @@ const VOLUMES: Record<AudioKey, number> = {
   hook: 0.6, drop: 0.75, auction: 0.55, silence: 0,
 };
 
-export default function LaunchTrailer() {
+function fmtMoney(n: number): string {
+  return `$${n.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+}
+
+export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props = {}) {
   const [stage, setStage] = useState<Scene>(0);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
@@ -185,11 +197,13 @@ export default function LaunchTrailer() {
         <div className="trailer-eyebrow">the hook</div>
         <div className="trailer-qa">
           <div className="trailer-q">how much money you got?</div>
-          <div className="trailer-a">$3,453.83.</div>
+          <div className="trailer-a">{fmtMoney(liveValue ?? baseline)}.</div>
           <div className="trailer-q">how big&rsquo;s your goal?</div>
           <div className="trailer-a trailer-a-hi">a lot.</div>
         </div>
-        <div className="trailer-attr">a lot · 21 savage ft. j. cole · 2018</div>
+        <a className="trailer-attr trailer-attr-link" href={youtubeSearchLink(SONGS.a_lot)} target="_blank" rel="noopener noreferrer">
+          a lot · 21 savage ft. j. cole · 2018 <span aria-hidden="true">↗</span>
+        </a>
       </div>
 
       {/* scene 2 — punchline build */}
@@ -209,7 +223,9 @@ export default function LaunchTrailer() {
             </span>
           ))}
         </div>
-        <div className="trailer-attr">just like me · metro boomin + future · 2022</div>
+        <a className="trailer-attr trailer-attr-link" href={youtubeSearchLink(SONGS.just_like_me)} target="_blank" rel="noopener noreferrer">
+          just like me · metro boomin + future · 2022 <span aria-hidden="true">↗</span>
+        </a>
       </div>
 
       {/* scene 4 — the message */}
@@ -231,7 +247,9 @@ export default function LaunchTrailer() {
         <div className="trailer-title trailer-title-auction">spray paint auction</div>
         <div className="trailer-attr">ovation hollywood · friday · sunset → midnight</div>
         <div className="trailer-find">&ldquo;you&rsquo;ll find it.&rdquo;</div>
-        <div className="trailer-attr trailer-attr-faint">nuevayol · bad bunny · 2025</div>
+        <a className="trailer-attr trailer-attr-faint trailer-attr-link" href={youtubeSearchLink(SONGS.nuevayol)} target="_blank" rel="noopener noreferrer">
+          nuevayol · bad bunny · 2025 <span aria-hidden="true">↗</span>
+        </a>
       </div>
 
       {/* scene 6 — outro · the resting poster */}
