@@ -8797,16 +8797,16 @@ body.reader-mode > main { padding-top: 2rem; }
 }
 
 /* ════════════════════════════════════════════════════════════
-   LAUNCH TRAILER — first-load overlay, magazine-collage aesthetic
+   LAUNCH TRAILER — first-load HERO section (not overlay)
    reference: burna boy · i told them... · 2023
    cut-paper headlines · editorial callouts · sticker annotations
-   autoplays through 9 scenes, exits on skip/scroll/prefers-reduced.
+   autoplays through 7 scenes on first visit, settles on "watch." poster.
    ════════════════════════════════════════════════════════════ */
 
 :root {
   --zine-paper:    #f4efe6;
   --zine-ink:      #0e0e10;
-  --zine-cyan:     #0b6e84;   /* the burna boy cover blue */
+  --zine-cyan:     #0b6e84;
   --zine-cyan-lo:  #0a5d72;
   --zine-red:      #c23a2a;
   --zine-yellow:   #f2c24b;
@@ -8815,17 +8815,19 @@ body.reader-mode > main { padding-top: 2rem; }
   --zine-news:     #1c1a17;
 }
 
-.trailer {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
+.trailer.trailer-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   background: var(--zine-cyan);
   color: var(--zine-white);
-  transition: opacity 600ms ease;
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   font-family: Georgia, "Times New Roman", serif;
+  /* Bleed off the left/right edges so the hero feels full-screen even though
+     .home-root has padding. The home wrapper uses negative margin to allow. */
 }
 .trailer-bg {
   position: absolute; inset: 0;
@@ -9305,25 +9307,83 @@ body.reader-mode > main { padding-top: 2rem; }
 }
 
 /* ════════════════════════════════════════════════════════════
-   HOME — the launch page · chapter grid + master-cut
-   (compartmentalized YT-framed chapters, one "play the whole
-   thing" master-cut toggle, lowercase purposeful un-polish)
+   HOME — the launch page · hero + gradient bridge + chapters
+   (trailer is the hero, a gradient bridges into the compartments)
    ════════════════════════════════════════════════════════════ */
 
 :root {
   --home-paper: #f4efe6;
   --home-ink:   #1c1a17;
   --home-rule:  rgba(28,26,23,0.12);
-  --home-hi:    #c23a2a;        /* "fucking beautiful" highlight */
-  --home-accent:#8b3a2e;         /* site rust, reused */
+  --home-hi:    #c23a2a;        /* "fucking beautiful" highlight — shared with --zine-red */
+  --home-accent:#8b3a2e;
   --home-gilt:  #b89554;
 }
 
+/* The home is a single continuous scroll. The trailer is full-bleed and lives
+   outside the chapter grid's max-width. The gradient bridge and chapters sit
+   inside .home-stack, which applies padding + max-width. */
 .home-root {
+  color: var(--home-ink);
+  background: var(--home-paper);
+}
+.home-stack {
   max-width: 72rem;
   margin: 0 auto;
-  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 4vw, 2rem) 4rem;
-  color: var(--home-ink);
+  padding: 0 clamp(1rem, 4vw, 2rem) 4rem;
+}
+
+/* Bridge — vertical gradient from the trailer's outro (black) to paper. */
+.home-bridge {
+  position: relative;
+  width: 100%;
+  min-height: clamp(22rem, 55vh, 34rem);
+  background: linear-gradient(
+    180deg,
+    var(--zine-black)    0%,
+    var(--zine-cyan-lo)  22%,
+    var(--zine-cyan)     40%,
+    color-mix(in srgb, var(--zine-cyan) 35%, var(--home-paper)) 65%,
+    var(--home-paper)    100%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  text-align: center;
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 4vw, 2rem);
+  color: var(--zine-white);
+}
+.home-bridge-kicker {
+  font-family: "Courier New", monospace;
+  font-size: clamp(0.68rem, 1.5vw, 0.78rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,253,246,0.75);
+}
+.home-bridge-line {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: clamp(1.15rem, 3vw, 1.7rem);
+  line-height: 1.3;
+  color: var(--zine-white);
+  max-width: 28ch;
+  text-wrap: balance;
+}
+.home-bridge-arrow {
+  font-size: 1.5rem;
+  color: var(--zine-yellow);
+  margin-top: 0.4rem;
+}
+/* Dark reading against bridge's cyan middle; fades to near-paper-ink at bottom. */
+.home-bridge-after {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--home-ink) 55%, var(--home-paper));
+  margin-top: auto;
 }
 
 /* ── play-all CTA at top of page ────────────── */
@@ -9405,19 +9465,23 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   display: inline-flex;
   align-items: baseline;
   gap: 0.55rem;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: "Courier New", ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: lowercase;
   color: color-mix(in srgb, var(--home-ink) 55%, var(--home-paper));
 }
+/* Zine-red number badge — pulls the trailer palette into the compartments. */
 .yt-chapter-n {
   display: inline-block;
-  padding: 0.15rem 0.45rem;
-  background: color-mix(in srgb, var(--home-ink) 8%, transparent);
-  border-radius: 4px;
-  font-weight: 600;
-  color: var(--home-ink);
+  padding: 0.18rem 0.5rem;
+  background: var(--zine-red);
+  color: var(--zine-white);
+  border-radius: 0;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  transform: rotate(-1.5deg);
 }
 .yt-chapter-live {
   margin-left: 0.35rem;

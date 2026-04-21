@@ -149,6 +149,16 @@ export default function HomePage() {
     <main className="home-root">
       <LaunchTrailer />
 
+      {/* gradient bridge from trailer → compartments */}
+      <section className="home-bridge" id="after-hero" aria-hidden="true">
+        <div className="home-bridge-kicker">the rest of the magazine</div>
+        <div className="home-bridge-line">the document begins where the film ends.</div>
+        <div className="home-bridge-arrow">↓</div>
+        <div className="home-bridge-after">keep scrolling</div>
+      </section>
+
+      <div className="home-stack">
+
       {/* ══════ CHAPTER 01 — THE PUNCHLINE (leads the quiet version) ══════ */}
       <Chapter
         n="01"
@@ -321,6 +331,7 @@ export default function HomePage() {
         <Link href="/archives">archives</Link>
         <Link href="/statement">statement</Link>
       </footer>
+      </div>
     </main>
   );
 }
