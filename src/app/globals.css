@@ -7,6 +7,11 @@
   --ink: #1C1A17;
   --graphite: #6B6560;
   --rust: #8B3A2E;
+  /* Shadow-blue: second accent after the let-down revamp. Twilight
+     grey-blue. Used sparingly for mourning-frame surfaces — masthead
+     epigraph separator, /let-down pre-coda rule, /statement coda rule. */
+  --shadow-blue: #3E4852;
+  --shadow-blue-soft: color-mix(in srgb, #3E4852 40%, transparent);
   --parchment: #EDE5D5;
   --rule: rgba(28,26,23,0.22);
 
@@ -83,6 +88,24 @@ h1, h2, h3 {
   color: var(--rust);
   opacity: 0.7;
 }
+/* Persistent italic epigraph under the sub-row — gestures at the song
+   without quoting lyrics. The site is about transit. */
+.masthead .wordmark-epigraph {
+  margin-top: 0.4rem;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(0.72rem, 1.4vw, 0.82rem);
+  letter-spacing: 0.05em;
+  color: color-mix(in srgb, var(--graphite) 85%, var(--paper));
+  line-height: 1.2;
+}
+.masthead .wordmark-epigraph-sep {
+  display: inline-block;
+  margin: 0 0.4em;
+  color: var(--shadow-blue);
+  opacity: 0.7;
+}
 .masthead .tagline {
   margin-top: 0.85rem;
   font-size: 10px;
@@ -135,6 +158,35 @@ h1, h2, h3 {
   color: color-mix(in srgb, var(--ink) 82%, var(--paper));
 }
 .masthead .nav .nav-emph:hover { color: var(--rust); }
+
+/* Archives-only epigraph — one italic line under the h1. Discovered, not announced. */
+.archives .archives-epigraph {
+  text-align: center;
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.02rem;
+  line-height: 1.4;
+  color: var(--graphite);
+  letter-spacing: 0.005em;
+  margin: 0.25rem auto 1.25rem;
+  max-width: 32ch;
+  text-wrap: balance;
+  opacity: 0.85;
+}
+
+/* Shadow-rule: thin shadow-blue horizontal accent used by /let-down before
+   the coda and by /statement as the coda top-rule. Visual rhyme. */
+.article hr.shadow-rule {
+  display: block;
+  width: min(42rem, 100%);
+  margin: 2.5rem auto 2rem;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--shadow-blue) 55%, transparent);
+  height: 0;
+  font-size: 0;
+}
+.article hr.shadow-rule::before { content: none; }
 
 /* Footer epigraph — subtle italic line under the disclosure */
 .masthead-epigraph {

@@ -113,6 +113,8 @@ export default function LetDownPage() {
         big, it is because the song is not about numbers, and the site is about the song.
       </p>
 
+      <hr className="shadow-rule" aria-hidden="true" />
+
       <p className="lede letdown-coda">
         One day I am going to grow wings. If that line lands on you the way it lands on me,
         you already know what the rest of this site is for.

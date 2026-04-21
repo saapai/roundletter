@@ -139,12 +139,26 @@
 }
 .break + .break { margin-top: 0.15rem; font-size: 1.18rem; color: var(--st-ink); }
 
-/* Coda */
+/* Coda — rule is shadow-blue to rhyme with /let-down's pre-coda hr. */
 .coda {
   margin-top: clamp(4rem, 8vw, 6.5rem);
   padding-top: clamp(2rem, 5vw, 3rem);
-  border-top: 1px solid var(--st-rule);
+  border-top: 1px solid color-mix(in srgb, var(--shadow-blue, #3E4852) 55%, transparent);
   text-align: center;
+}
+/* codaAfter — one quiet line under the kicker. The frame, discovered.
+   Sits after the signature on purpose: a postscript, not a headline. */
+.codaAfter {
+  margin: 2.25rem auto 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1rem, 0.85rem + 0.4vw, 1.15rem);
+  line-height: 1.5;
+  color: var(--st-graphite);
+  max-width: 34ch;
+  text-wrap: balance;
+  opacity: 0.85;
 }
 .codaLine {
   font-family: var(--font-display), serif;
