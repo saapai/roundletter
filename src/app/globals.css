@@ -126,6 +126,75 @@ h1, h2, h3 {
   .masthead .nav { gap: 0.6rem 0.85rem; font-size: 9px; }
 }
 .masthead .nav a:hover { color: var(--ink); }
+.masthead .nav .nav-emph {
+  font-style: italic;
+  font-family: var(--font-display), serif;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  font-size: 1.08em;
+  color: color-mix(in srgb, var(--ink) 82%, var(--paper));
+}
+.masthead .nav .nav-emph:hover { color: var(--rust); }
+
+/* Footer epigraph — subtle italic line under the disclosure */
+.masthead-epigraph {
+  margin-top: 0.9rem;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: color-mix(in srgb, var(--graphite) 85%, var(--paper));
+  text-wrap: balance;
+}
+.masthead-epigraph a {
+  color: color-mix(in srgb, var(--rust) 75%, var(--graphite));
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--rust) 28%, transparent);
+  padding-bottom: 1px;
+  transition: color 200ms ease, border-color 200ms ease;
+}
+.masthead-epigraph a:hover {
+  color: var(--rust);
+  border-bottom-color: var(--rust);
+}
+
+/* /let-down — the thematic anchor */
+.letdown .letdown-coda {
+  text-align: left;
+  font-size: 1.22rem;
+  line-height: 1.55;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--ink);
+}
+.letdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 2rem;
+  border-top: 1px solid var(--rule);
+}
+.letdown ul li {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+  line-height: 1.65;
+}
+.letdown ul li a {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.08rem;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--rust) 30%, transparent);
+  padding-bottom: 1px;
+  transition: border-color 200ms ease, color 200ms ease;
+}
+.letdown ul li a:hover {
+  color: var(--rust);
+  border-bottom-color: var(--rust);
+}
 
 /* ── Article ──────────────────────────────────────────────── */
 .article {
