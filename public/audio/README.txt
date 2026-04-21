@@ -1,33 +1,34 @@
-Audio placeholders for the aureliex launch.
+Audio placeholders — aureliex launch trailer.
 
-Drop real mp3s here (same filenames) to wire in audio. The <audio> elements
-silent-fail when a file is missing — the visual site still works.
+Per panel round 16 (simplicity mandate), the trailer uses THREE songs only.
+Drop real mp3s into this directory (same filenames). Missing files silent-fail.
 
-Home (/) hook — chapter 01 — Magnolia → Jimmy Cooks switch-up:
-  magnolia.mp3       — plays on phase A of the hook (Playboi Carti, 2017)
-  jimmy-cooks.mp3    — plays on phase B after the switch (Drake + 21 Savage, 2022)
+LaunchTrailer scene map (src/components/LaunchTrailer.tsx):
 
-Auction (chapter 04) soundtrack credit only — not played inline:
-  nuevayol.mp3       — reserved for the Ovation Hollywood event (Bad Bunny, 2025)
+  scene 0  brand            — silence
+  scene 1  hook             — a-lot.mp3                    (21 Savage ft. J. Cole, 2018)
+  scene 2  punchline build  — a-lot.mp3 (continues)
+  scene 3  the drop         — just-like-me-drop.mp3        (Metro Boomin + Future, 2022 · clip ≤3s)
+  scene 4  message panel    — silence
+  scene 5  auction          — nuevayol.mp3                 (Bad Bunny, 2025)
+  scene 6  outro            — silence
 
-/arc (the cinematic descent):
-  ghost-town.mp3     — plays during the /arc overture (Kanye West, 2018)
-  let-down.mp3       — plays when the Let Down section scrolls into view (Radiohead, 1997)
+Three tracks, three jobs. That's the whole trailer.
 
-All hooks start muted (browser autoplay policy). A "♪ on / off" toggle lets
-the visitor unmute; localStorage remembers the choice per track.
+/arc supplementals (separate route, its own overture):
+  ghost-town.mp3     — Ghost Town (Kanye West, 2018) · /arc overture
+  let-down.mp3       — Let Down   (Radiohead, 1997)  · /arc ambient when in view
 
-Rights note: do not commit copyrighted masters to the repo. Host externally
-and swap the src paths if you want to ship this publicly.
+Retired from the trailer (per panel round 16, kept in src/data/hook-debate.json
+as part of the record):
+  magnolia.mp3                   — Playboi Carti
+  jimmy-cooks.mp3                — Drake + 21 Savage
+  iloveuihateu.mp3               — Playboi Carti
+  sittin-on-top-of-the-world.mp3 — Burna Boy + 21 Savage
+  sprinter.mp3                   — Central Cee + Dave · runner-up, ships only if
+                                   content-id blocks one of the three primary clips.
 
-Component wiring:
-  src/components/HookOverture.tsx      → magnolia.mp3, jimmy-cooks.mp3
-  src/components/ArcOverture.tsx       → ghost-town.mp3
-  src/components/ArcAmbientAudio.tsx   → any src via prop (used for let-down.mp3 on /arc)
+All tracks start muted (browser autoplay policy). The "♪ on / off" pill in the
+trailer toggles audio; one-tap-unmute applies to all three.
 
-Panel verdict (src/data/hook-debate.json) kept the debate on record:
-  hook      = magnolia → jimmy cooks
-  runner-up = sprinter (central cee + dave)
-  auction   = nuevayol
-  for later = ghost town, let down
-  retired   = sicko mode
+Full panel verdict + debate record: src/data/hook-debate.json (17 rounds).

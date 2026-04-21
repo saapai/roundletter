@@ -2,26 +2,17 @@ import Link from "next/link";
 import curation from "@/data/curation.json";
 import hookDebate from "@/data/hook-debate.json";
 import ApparatusThumb from "@/components/ApparatusThumb";
-import HookOverture from "@/components/HookOverture";
+import LaunchTrailer from "@/components/LaunchTrailer";
 import AuctionCountdown from "@/components/AuctionCountdown";
-import PlayAllButton from "@/components/PlayAllButton";
 
 /* ────────────────────────────────────────────────────────────
-   / — the launch page, arranged as a series of "youtube"
-   chapters. each chapter is a framed block with its own title,
-   channel, and scrubber cue. click "play the whole thing" to
-   enter master-cut mode (auto-advance); otherwise the chapters
-   compartmentalize into a scrollable grid.
-
-   chapters:
-     01  the hook              (magnolia → jimmy cooks)
-     02  the punchline         (name is bullshit. product fucking beautiful.)
-                               + (counter culture is here. watch.)
-     03  the story             (portfolio · investing · green credit)
-     04  the next event        (spray paint auction · ovation hollywood)
-     05  the panel argued      (hook-debate verdict)
-     06  apparatus             (curation engine, original tiered card grid)
-     07  for later             (ghost town → let down at /arc)
+   / — the launch page.
+   first load: <LaunchTrailer /> autoplays a ~23s cinematic over
+   everything (magazine-collage aesthetic, audio, cut-paper type).
+   after the trailer ends / is skipped / the user scrolls — the
+   compartmentalized home sits beneath: a quiet set of chapters
+   with no in-page audio, trimmed prose, magazine-register accents.
+   returning visitors land straight on the quiet version.
    ──────────────────────────────────────────────────────────── */
 
 type Tier = "Budget" | "Mid" | "Elite";
@@ -43,8 +34,6 @@ type CurationFile = {
 };
 
 const TIERS: Tier[] = ["Budget", "Mid", "Elite"];
-
-// Friday sunset in LA, 2026-04-24. Sunset is ~7:27 PM PDT; doors at 7:30 PM.
 const AUCTION_ISO = "2026-04-24T19:30:00-07:00";
 
 function Chapter({
@@ -52,7 +41,6 @@ function Chapter({
   id,
   kicker,
   title,
-  channel,
   meta,
   live,
   children,
@@ -61,7 +49,6 @@ function Chapter({
   id: string;
   kicker: string;
   title: React.ReactNode;
-  channel: string;
   meta?: string;
   live?: boolean;
   children: React.ReactNode;
@@ -76,11 +63,7 @@ function Chapter({
             {live ? <span className="yt-chapter-live">● live</span> : null}
           </span>
           <h2 className="yt-chapter-title">{title}</h2>
-          <div className="yt-chapter-channel">
-            <span className="yt-chapter-avatar" aria-hidden="true">a</span>
-            <span className="yt-chapter-handle">{channel}</span>
-            {meta ? <span className="yt-chapter-meta">{meta}</span> : null}
-          </div>
+          {meta ? <div className="yt-chapter-sub">{meta}</div> : null}
         </div>
         <div className="yt-chapter-body">{children}</div>
       </div>
@@ -154,61 +137,28 @@ type HookDebate = typeof hookDebate;
 export default function HomePage() {
   const data = curation as CurationFile;
   const debate = hookDebate as HookDebate;
+  // Safe accessors — the verdict structure grew across panel rounds; cast
+  // once and reach for fields that may or may not exist in older debates.
+  const v = debate.verdict as HookDebate["verdict"] & {
+    art_direction?: string;
+    ascent?: { name: string; artist: string; role: string };
+    punchline_drop?: { name: string; artist: string; role: string };
+  };
 
   return (
     <main className="home-root">
-      {/* master-cut toggle */}
-      <div className="home-cta">
-        <PlayAllButton />
-        <span className="home-cta-meta">
-          {debate.candidates.length} songs in the pool · panel reached verdict · skip or scroll to compartmentalize
-        </span>
-      </div>
+      <LaunchTrailer />
 
-      {/* ══════ CHAPTER 01 — THE HOOK ══════ */}
+      {/* ══════ CHAPTER 01 — THE PUNCHLINE (leads the quiet version) ══════ */}
       <Chapter
         n="01"
         id="chapter-01"
-        kicker="the hook"
-        title={<>magnolia <span className="yt-chapter-arrow">→</span> jimmy cooks</>}
-        channel="aureliex"
-        meta="name-drop · then the bar-swap"
-        live
-      >
-        <HookOverture />
-        <p className="home-hook-caption">
-          <em>phase a</em> — playboi carti says the name. the whole song is the name.
-          <br />
-          <em>phase b</em> — 21 says &ldquo;i&rsquo;m sick as f***, finna cook.&rdquo; the product shows up.
-        </p>
-        <p className="home-hook-caption home-hook-caption-faint">
-          (the panel argued over seven songs. scroll to chapter 05 for the receipts.)
-        </p>
-      </Chapter>
-
-      {/* ══════ CHAPTER 02 — THE PUNCHLINE ══════ */}
-      <Chapter
-        n="02"
-        id="chapter-02"
         kicker="the punchline"
         title="the name is bullshit. the product is fucking beautiful."
-        channel="aureliex"
-        meta="said plainly"
       >
-        <p className="home-punch">
-          every ai product you&rsquo;ve seen is useless
-          <br />
-          but has a cool name.
-        </p>
-        <p className="home-punch home-punch-emph">
-          meet <span className="home-punch-mark">aureliex</span>.
-        </p>
-        <p className="home-punch">
-          the name is bullshit.
-          <br />
-          but the product? <span className="home-punch-hi">fucking beautiful.</span>
-        </p>
-
+        <p className="home-punch">every ai product you&rsquo;ve seen is useless but has a cool name.</p>
+        <p className="home-punch home-punch-meet">meet <span className="home-punch-mark">aureliex</span>.</p>
+        <p className="home-punch">the name is bullshit. but the product? <span className="home-punch-hi">fucking beautiful.</span></p>
         <div className="home-manifesto">
           <p>the counter culture is here.</p>
           <p>i promise you can&rsquo;t stop it if you tried.</p>
@@ -216,118 +166,96 @@ export default function HomePage() {
         </div>
       </Chapter>
 
-      {/* ══════ CHAPTER 03 — THE STORY ══════ */}
+      {/* ══════ CHAPTER 02 — THE STORY ══════ */}
       <Chapter
-        n="03"
-        id="chapter-03"
+        n="02"
+        id="chapter-02"
         kicker="the story"
         title="a portfolio kept in public. five agents. one product."
-        channel="aureliex"
         meta="project 2, v1 · in derivative order"
       >
         <div className="home-story">
           <p>
-            <strong>aureliex</strong> is a public portfolio experiment.
-            <strong> $3,453.83</strong>, live, with a target of <strong>$100,000 by 21 june 2026</strong> —
-            my birthday. that&rsquo;s a <strong>29×</strong>. the S&amp;P does 10× in 25 years. the gap is the
-            joke, and the entire point. no job backs the account. all edge comes from reasoning or luck.
+            <strong>aureliex</strong> is a public portfolio experiment. <strong>$3,453.83</strong>,
+            target <strong>$100,000 by 21 june 2026</strong>. that&rsquo;s a <strong>29×</strong>. the S&amp;P does 10×
+            in 25 years. the gap is the joke and the point.
           </p>
-
-          <p className="home-story-sub">
-            <em>the five-agent panel.</em> every decision is argued live by five agents — <strong>Bull</strong>,
-            <strong> Bear</strong>, <strong>Macro</strong>, <strong>Flow</strong>, <strong>Historian</strong> — each
-            with its own mandate, references, and scoring record. they file <strong>sealed predictions</strong>
-            (SHA-hashed theses + scoring rules, locked at prediction time, broken at resolution), and every debate
-            is stamped, stored, and <Link href="/argument">viewable</Link>. Brier scoring weights the panel over
-            time. kill-switches are non-discretionary. the <em>method</em> is the product — P&amp;L is the scoreboard.
+          <p>
+            every decision is argued by five agents — <strong>Bull</strong>, <strong>Bear</strong>,
+            <strong> Macro</strong>, <strong>Flow</strong>, <strong>Historian</strong> — and filed as a
+            sealed prediction. debates at <Link href="/argument">/argument</Link>. book at{" "}
+            <Link href="/positions">/positions</Link>. trades at <Link href="/trades">/trades</Link>.
           </p>
-
-          <p className="home-story-sub">
-            <em>the book.</em> ten positions across five buckets — quantum pure-plays, mega-cap hyperscalers,
-            the QTUM ETF, CEG for the power constraint on AI compute, and SGOV as dry powder. held in the open at
-            {" "}<Link href="/positions">/positions</Link>. every trade is tied to the agent that flagged it at
-            {" "}<Link href="/trades">/trades</Link>. nothing hidden.
-          </p>
-
           <p className="home-story-big">
             <em>green credit</em> — this is the actual product.
           </p>
-
-          <p className="home-story-sub">
-            green credit is what happens when the apparatus here scales. a platform where attention invested
-            in reasoning is rewarded with better reasoning — not ads, not subscriptions, not sales funnels.
-            every sealed prediction becomes a <strong>green credit</strong>: a public, forkable, signed claim
-            on the future, priced at true odds, scored against outcome. the house takes a cut of reasoning
-            getting closer to clarity, and redistributes it as giveaways. the public only bets on success.
-            the founder only bets against themselves. if the thesis wins, the public gets paid. if it loses, the
-            pool funds giveaways. the founder&rsquo;s expected value is structurally negative. the record is the return.
-          </p>
-
-          <p className="home-story-sub">
-            read the full pitch at <Link href="/green-credit">/green-credit</Link>. the pre-mortem at{" "}
-            <Link href="/letters/round-0">/letters/round-0</Link>. the reasoning in v0 + v1 at{" "}
-            <Link href="/archives">/archives</Link>. the personal statement at{" "}
-            <Link href="/statement">/statement</Link>.
+          <p>
+            a platform where attention invested in reasoning is rewarded with better reasoning.
+            the public only bets on success. the founder only bets against themselves. if it wins,
+            the public gets paid. if it loses, the pool funds giveaways. the record is the return.{" "}
+            <Link href="/green-credit">read the pitch →</Link>
           </p>
         </div>
       </Chapter>
 
-      {/* ══════ CHAPTER 04 — THE NEXT EVENT ══════ */}
+      {/* ══════ CHAPTER 03 — THE NEXT EVENT ══════ */}
       <Chapter
-        n="04"
-        id="chapter-04"
+        n="03"
+        id="chapter-03"
         kicker="the next event"
-        title={<>spray paint auction <span className="yt-chapter-arrow">·</span> ovation hollywood</>}
-        channel="aureliex"
+        title={<>spray paint auction · ovation hollywood</>}
         meta="this friday · sunset to midnight"
         live
       >
-        <div className="home-auction">
+        <div className="home-auction home-auction-zine">
           <div className="home-auction-head">
             <span className="home-auction-dot" aria-hidden="true" />
             <AuctionCountdown targetIso={AUCTION_ISO} />
           </div>
           <p className="home-auction-lead">
-            <strong>ovation hollywood.</strong> friday, <strong>24 april 2026</strong>.
-            sunset (7:27 pm) to midnight.
+            <strong>ovation hollywood.</strong> friday, <strong>24 april 2026</strong>. sunset (7:27 pm) → midnight.
           </p>
-          <p className="home-auction-note">
-            spray paint. live bids. bring cash. no RSVP, no list, no flyer.
-          </p>
-          <p className="home-auction-find">
-            <em>&ldquo;you&rsquo;ll find it.&rdquo;</em>
-          </p>
-          <p className="home-auction-credit">
-            auction soundtrack: <em>nuevayol</em> — bad bunny. city-flip on a city-flip night.
-          </p>
+          <p className="home-auction-note">spray paint. live bids. bring cash. no RSVP, no list, no flyer.</p>
+          <p className="home-auction-find"><em>&ldquo;you&rsquo;ll find it.&rdquo;</em></p>
         </div>
       </Chapter>
 
-      {/* ══════ CHAPTER 05 — THE PANEL ARGUED ══════ */}
+      {/* ══════ CHAPTER 04 — THE PANEL ARGUED ══════ */}
       <Chapter
-        n="05"
-        id="chapter-05"
+        n="04"
+        id="chapter-04"
         kicker="the panel argued"
-        title="seven songs. three rounds. one verdict."
-        channel="aureliex · panel"
+        title="the record of every decision on this page."
         meta="Bull · Bear · Macro · Flow · Historian"
       >
         <div className="home-verdict">
-          <div className="home-verdict-head">
-            <div className="home-verdict-topic"><em>topic:</em> {debate.topic.subject}</div>
-            <div className="home-verdict-framing">{debate.topic.framing}</div>
-          </div>
-
-          <div className="home-verdict-candidates">
-            {debate.candidates.map((c) => (
-              <span key={c.name} className="home-verdict-chip">
-                {c.name.toLowerCase()} <span className="home-verdict-chip-year">{c.year}</span>
+          <div className="home-verdict-final">
+            <div className="home-verdict-row">
+              <span className="home-verdict-label">hook</span>
+              <span className="home-verdict-val">a lot — 21 savage ft. j. cole</span>
+            </div>
+            <div className="home-verdict-row">
+              <span className="home-verdict-label">punchline</span>
+              <span className="home-verdict-val">just like me — metro boomin + future · lands on &ldquo;beautiful&rdquo;</span>
+            </div>
+            <div className="home-verdict-row">
+              <span className="home-verdict-label">auction</span>
+              <span className="home-verdict-val">nuevayol — bad bunny</span>
+            </div>
+            <div className="home-verdict-row">
+              <span className="home-verdict-label">art direction</span>
+              <span className="home-verdict-val">magazine-collage · issue #001 · published in public</span>
+            </div>
+            <div className="home-verdict-row">
+              <span className="home-verdict-label">for later</span>
+              <span className="home-verdict-val">
+                <Link href="/let-down">/let-down</Link> · <Link href="/arc">/arc</Link>
               </span>
-            ))}
+            </div>
           </div>
 
           <details className="home-verdict-rounds">
-            <summary>unfold the debate · 3 rounds, 15 turns</summary>
+            <summary>unfold the debate · {debate.rounds.length} rounds, {debate.candidates.length} candidates</summary>
             {debate.rounds.map((r) => (
               <div key={r.round} className="home-verdict-round">
                 <div className="home-verdict-round-n">round {r.round} · {r.direction}</div>
@@ -341,43 +269,15 @@ export default function HomePage() {
               </div>
             ))}
           </details>
-
-          <div className="home-verdict-final">
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">hook</span>
-              <span className="home-verdict-val">
-                magnolia (playboi carti) <span className="yt-chapter-arrow">→</span> jimmy cooks (drake + 21)
-              </span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">runner-up</span>
-              <span className="home-verdict-val">sprinter (central cee + dave)</span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">auction</span>
-              <span className="home-verdict-val">nuevayol (bad bunny)</span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">for later</span>
-              <span className="home-verdict-val">
-                ghost town → let down · at <Link href="/arc">/arc</Link>
-              </span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">retired</span>
-              <span className="home-verdict-val home-verdict-retired">sicko mode (too saturated)</span>
-            </div>
-          </div>
         </div>
       </Chapter>
 
-      {/* ══════ CHAPTER 06 — APPARATUS ══════ */}
+      {/* ══════ CHAPTER 05 — APPARATUS (the curation) ══════ */}
       <Chapter
-        n="06"
-        id="chapter-06"
+        n="05"
+        id="chapter-05"
         kicker="apparatus"
         title="aesthetic research curation engine"
-        channel="aureliex"
         meta="budget · mid · elite · scored"
       >
         <div className="grid gap-6">
@@ -387,38 +287,31 @@ export default function HomePage() {
         </div>
       </Chapter>
 
-      {/* ══════ CHAPTER 07 — FOR LATER ══════ */}
+      {/* ══════ CHAPTER 06 — FOR LATER ══════ */}
       <Chapter
-        n="07"
-        id="chapter-07"
+        n="06"
+        id="chapter-06"
         kicker="for later"
         title="the frame this site is a derivative of"
-        channel="aureliex"
         meta="let down · the arc · side B"
       >
         <div className="home-forlater">
           <p>
-            everything on the site is a derivative of one feeling. the essay lives at{" "}
-            <Link href="/let-down">/let-down</Link> — short, quiet, after radiohead 1997.
+            the essay — short, quiet, after radiohead 1997 — lives at{" "}
+            <Link href="/let-down">/let-down</Link>.
           </p>
           <p>
-            the longer cinematic scroll — altarpiece to transit window,
-            {" "}<em>&ldquo;i feel kinda free&rdquo;</em> to <em>&ldquo;don&rsquo;t get sentimental&rdquo;</em>
-            {" "}— lives at <Link href="/arc">/arc</Link>. moved off the home so the launch
-            isn&rsquo;t a funeral. still worth the scroll.
+            the longer cinematic scroll — altarpiece to transit window — lives at{" "}
+            <Link href="/arc">/arc</Link>.
           </p>
           <div className="home-forlater-ctas">
-            <Link href="/let-down" className="home-forlater-cta">
-              read the anchor <span aria-hidden="true">→</span>
-            </Link>
-            <Link href="/arc" className="home-forlater-cta home-forlater-cta-alt">
-              open the arc <span aria-hidden="true">→</span>
-            </Link>
+            <Link href="/let-down" className="home-forlater-cta">read the anchor →</Link>
+            <Link href="/arc" className="home-forlater-cta home-forlater-cta-alt">open the arc →</Link>
           </div>
         </div>
       </Chapter>
 
-      {/* dock — where to go after */}
+      {/* dock */}
       <footer className="home-dock">
         <Link href="/positions">positions</Link>
         <Link href="/argument">argument · live</Link>
@@ -427,7 +320,6 @@ export default function HomePage() {
         <Link href="/market">market</Link>
         <Link href="/archives">archives</Link>
         <Link href="/statement">statement</Link>
-        <Link href="/arc">arc</Link>
       </footer>
     </main>
   );

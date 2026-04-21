@@ -13,7 +13,11 @@
     { "name": "NUEVAYoL", "artist": "Bad Bunny", "year": 2025 },
     { "name": "Magnolia", "artist": "Playboi Carti", "year": 2017 },
     { "name": "Jimmy Cooks", "artist": "Drake + 21 Savage", "year": 2022 },
-    { "name": "Sprinter", "artist": "Central Cee + Dave", "year": 2023 }
+    { "name": "Sprinter", "artist": "Central Cee + Dave", "year": 2023 },
+    { "name": "Just Like Me", "artist": "Metro Boomin + Future", "year": 2022 },
+    { "name": "Sittin' On Top Of The World", "artist": "Burna Boy + 21 Savage", "year": 2023 },
+    { "name": "iloveuihateu", "artist": "Playboi Carti", "year": 2024 },
+    { "name": "a lot", "artist": "21 Savage ft. J. Cole", "year": 2018 }
   ],
   "rounds": [
     {
@@ -108,19 +112,325 @@
           "warrant": "too safe. we don't use it. cease-and-desist risk also highest."
         }
       ]
+    },
+    {
+      "round": 4,
+      "direction": "reopen",
+      "note": "user proposes adding 'just like me' (metro boomin + future, 2022). panel reconvenes. question: replace chapter 01 hook, or punctuate the chapter 02 punchline?",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "both. hook stays. drop goes on the punchline.",
+          "warrant": "magnolia → jimmy cooks is a narrative move — the name-then-product switch-up is earned, structural, and already wired. metro's 'just like me' drop is a gunshot, not a narrative. deploy it where the gun makes sense: on the word 'beautiful.' one second, one word. not competing with the hook — punctuating the punchline."
+        },
+        {
+          "agent": "Flow",
+          "claim": "metro can't anchor chapter 01. its signature is mid-song.",
+          "warrant": "first-2-second readability is the hook test. metro's 'just like me' is famous for the piano-to-trap switch at :25, not the opening. you cannot hook a website with a song whose signature is buried at 25 seconds. but as a one-shot drop on a single word? the switch-at-:25 IS the gesture we want. play just the drop."
+        },
+        {
+          "agent": "Macro",
+          "claim": "agreed. deploy at the product-word.",
+          "warrant": "the drop earns its meaning when it lands on the word that names the product. 'beautiful' is the product-word on this page — it's the line the whole punchline routes to. using the drop generically in the hook is a scalpel painting a wall. punctuate the punchline."
+        },
+        {
+          "agent": "Historian",
+          "claim": "canon check passes. placement is what's in question.",
+          "warrant": "heroes & villains (2022) is already canonical for metro's solo-production era. the track will hold. but historian agrees placement beats pick — a canon song in the wrong role is still wrong. punctuation > hook for a mid-song-signature track."
+        },
+        {
+          "agent": "Bear",
+          "claim": "ship a clip, not a track. ≤3 seconds. muted autoplay. user-unmute only.",
+          "warrant": "metro's content-id is aggressive. a full track is a lawsuit. a trimmed drop (piano shimmer → bass hit, ~2.5s) is the difference between 'obvious homage' and 'licensable asset.' muted by default, one-tap-unmute, plays once per visit. clip it or don't use it."
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "direction": "consensus",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "verdict: 'just like me' drop punctuates 'fucking beautiful' in chapter 02.",
+          "warrant": "hook unchanged. drop lands on the product-word. one second, one word, one gesture."
+        },
+        {
+          "agent": "Bear",
+          "claim": "ratified with constraint: clip ≤3s, muted-autoplay, localStorage-remembered.",
+          "warrant": "the asset is a payoff, not a soundtrack. short clip or nothing."
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "direction": "design language",
+      "note": "user feedback: 'way too verbose and messy. needs to feel clean. upon loading all the elements and music should show like a trailer/launch video. only if reloaded then not show that.'",
+      "agents": [
+        {
+          "agent": "Macro",
+          "claim": "cinematic on first load · document after.",
+          "warrant": "the gap between spectacle and ledger is the site's whole thesis. one trailer — autoplays through hook, punchline, metro drop, manifesto, story flash, auction — then the overlay lifts and the home sits quiet as compartments. legible, archival, no in-page audio players crowding the frame."
+        },
+        {
+          "agent": "Flow",
+          "claim": "autoplay the whole thing. manual scroll exits.",
+          "warrant": "the viewer controls the exit. wheel / touch / key = compartmentalize immediately. no scroll = the trailer finishes itself. localStorage remembers and returns go straight to the quiet version."
+        },
+        {
+          "agent": "Bear",
+          "claim": "no audio lives on the compartment home. audio is trailer-only.",
+          "warrant": "the compartments are the document. a document doesn't have a speaker in it. audio in the trailer earns its drama. audio in the page just adds noise."
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "direction": "typography",
+      "agents": [
+        {
+          "agent": "Historian",
+          "claim": "cormorant italic for display. eb garamond for body. mono for metadata.",
+          "warrant": "the fonts are already loaded. serif italic is the one thing every ai launch doesn't use — they all ship the same inter/gt america sans. keeping the italic is how the site doesn't look like everyone else's deck."
+        },
+        {
+          "agent": "Bull",
+          "claim": "lowercase as default. uppercase only for money, tickers, and eyebrows.",
+          "warrant": "lowercase is the anti-polish choice. uppercase is reserved for the things that carry weight by convention — dollar figures, ticker symbols, section kickers."
+        },
+        {
+          "agent": "Flow",
+          "claim": "type scale: clamp()-driven. display clamp(1.8rem, 4vw, 2.6rem). body 16-17px.",
+          "warrant": "no fixed sizes. the page reads at a phone in bed and a laptop on a desk — the type must meet the device. leading 1.5 on body, 1.1 on display."
+        }
+      ]
+    },
+    {
+      "round": 8,
+      "direction": "palette",
+      "agents": [
+        {
+          "agent": "Macro",
+          "claim": "paper #f4efe6. ink #1c1a17. one pop: rust #c23a2a. gilt #b89554 for verdict accents only.",
+          "warrant": "one accent, deployed once — on the word 'beautiful' and the live dot. multiplying accents is how a site becomes a pitch deck. the rust marker IS the color system."
+        },
+        {
+          "agent": "Bear",
+          "claim": "no gradients in the quiet state.",
+          "warrant": "gradients belong to the trailer (hook block, auction block). the compartments stay flat paper. hairline rules for division, not color washes."
+        }
+      ]
+    },
+    {
+      "round": 9,
+      "direction": "spacing / density",
+      "agents": [
+        {
+          "agent": "Flow",
+          "claim": "chapter gap clamp(2rem, 5vw, 3rem). chapter padding clamp(1.25rem, 3.2vw, 2rem).",
+          "warrant": "rhythm beats density. too-tight chapters blur into each other. too-loose and the page feels thin. 5vw is the eye-relief."
+        },
+        {
+          "agent": "Bull",
+          "claim": "prose line length ≤ 44rem.",
+          "warrant": "readability ceiling. the story chapter currently overflows — trim to three punchy paragraphs, each ≤ 4 lines on laptop. phone gets single-column no-max."
+        },
+        {
+          "agent": "Macro",
+          "claim": "kill redundant captions.",
+          "warrant": "the hook compartment currently says 'phase a — carti says the name / phase b — 21 says finna cook / the panel argued over seven songs.' all three lines are re-stating what the trailer already showed. cut them. the compartment is a label, not an essay."
+        }
+      ]
+    },
+    {
+      "round": 10,
+      "direction": "responsive",
+      "agents": [
+        {
+          "agent": "Flow",
+          "claim": "mobile-first. phone is the primary surface.",
+          "warrant": "the screenshots we're designing from are all phone. laptop is secondary. breakpoint at 720px widens the frame, not vice versa."
+        },
+        {
+          "agent": "Bear",
+          "claim": "trailer respects safe-area-inset on phone.",
+          "warrant": "iphone notch eats 44pt of top. the trailer text must sit inside safe-area-inset-top / -bottom. skip button fixed to bottom-right at clamp(1rem, 4vw, 1.5rem)."
+        },
+        {
+          "agent": "Historian",
+          "claim": "prefers-reduced-motion skips the trailer entirely.",
+          "warrant": "accessibility is the one non-negotiable. reduced-motion users get the compartmentalized version immediately, localStorage flag set as if they watched."
+        }
+      ]
+    },
+    {
+      "round": 11,
+      "direction": "art direction",
+      "note": "user references: burna boy · i told them... (2023). magazine-collage cover art. ransom-note cut-paper typography on a photograph. editorial callouts. 'leaves a message: don't complain · don't explain · just believe.' parental advisory sticker. 'special once in a lifetime issue #001.' proposed song addition: 'sittin on top of the world' (burna boy + 21 savage).",
+      "agents": [
+        {
+          "agent": "Macro",
+          "claim": "adopt the magazine-collage aesthetic.",
+          "warrant": "'purposefully not too polished' has been the mandate the whole way. the I Told Them cover IS not-too-polished-on-purpose — cut paper, mismatched fonts, hand-torn edges, sticker annotations. it's editorial chaos that is secretly more legible than silicon-valley sans-serif. it's also the first AD direction we've proposed that distinguishes aureliex from every other AI product by 100 yards."
+        },
+        {
+          "agent": "Bull",
+          "claim": "frame the home as 'SPECIAL ONCE IN A LIFETIME ISSUE #001'.",
+          "warrant": "the launch IS a special issue. the framing earns itself. brand mark = cut-paper 'AURELIEX' across the top. manifesto panel becomes 'AURELIEX LEAVES A MESSAGE: the counter culture is here / you can't stop it / watch.' parental advisory sticker = 'PUBLISHED IN PUBLIC · NOT INVESTMENT ADVICE.' plus-box = the auction."
+        },
+        {
+          "agent": "Flow",
+          "claim": "deploy the aesthetic surgically — brand, punchline emphasis, outro. don't ransom-note the prose.",
+          "warrant": "ransom-note body text is unreadable. ransom-note HEADLINES are iconic. apply it to: the trailer's scene 0 brand card, the punchline's 'fucking beautiful' emphasis, the manifesto's 'leaves a message' block, the outro's 'watch.' card. prose stays serif-italic + body-serif. the collage lives in the hero moments."
+        },
+        {
+          "agent": "Historian",
+          "claim": "add 'sittin on top of the world' at scene 6 (the ascent).",
+          "warrant": "the song is literally about being on top of the world. scene 6 is where the trailer says '$3,453 → $100,000 · five agents · green credit.' that's the ascent moment. 21 savage feature pairs with jimmy cooks (two 21 verses = the product-reveal bookends). burna boy chorus — 'her body make me stop the world' — IS the product-stops-the-world moment. song placement is unambiguous."
+        },
+        {
+          "agent": "Bear",
+          "claim": "ratified with constraint: clips only. no full tracks. content-id kills full tracks dead.",
+          "warrant": "5 clips in a 22-second trailer. each ≤4s. muted-autoplay, one-tap-unmute. if any get content-id'd, sprinter (central cee + dave) ships as side B. the site stays live."
+        }
+      ]
+    },
+    {
+      "round": 12,
+      "direction": "consensus · art direction",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "magazine-collage ratified. burna boy at scene 6. issue #001 framing throughout.",
+          "warrant": "one aesthetic. five clips. one record. ship."
+        },
+        {
+          "agent": "Bear",
+          "claim": "agreed. muted-autoplay, clips ≤4s, sprinter on standby.",
+          "warrant": "ship it. the document is the product."
+        }
+      ]
+    },
+    {
+      "round": 13,
+      "direction": "reopen · punchline bed",
+      "note": "user proposes 'iloveuihateu' (playboi carti, 2024). the chorus is structurally the punchline — two opposite claims about the same thing that land as true.",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "carti's love/hate loop IS the punchline's structure — use it as the bed.",
+          "warrant": "'i love you i hate you' : 'the name is bullshit but the product is fucking beautiful' — same shape, different object. two contradictions that resolve into meaning. play the loop underneath scene 3 as the build, let the metro drop resolve it on the word 'beautiful.'"
+        },
+        {
+          "agent": "Bear",
+          "claim": "don't swap metro. stack them.",
+          "warrant": "metro is a punctuation mark; carti is a bed. they don't compete — they serialize. carti loops quietly (20-30% volume) under scene 3 copy; cuts hard when metro hits scene 4. the cut IS the drop."
+        },
+        {
+          "agent": "Macro",
+          "claim": "this is the second carti track. the brand now literally starts and climaxes on carti.",
+          "warrant": "scene 1 = magnolia (name-drop) → scene 3 bed = iloveuihateu (contradiction build) → scene 4 = metro resolve. carti book-ends the punchline. the artist is doing the same structural work the site is doing."
+        },
+        {
+          "agent": "Flow",
+          "claim": "ratified. volume 0.25 on the carti bed, 0.65 on everything else.",
+          "warrant": "bed music exists to build tension without stealing focus. ship it quiet."
+        }
+      ]
+    },
+    {
+      "round": 14,
+      "direction": "consensus · punchline bed",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "verdict: iloveuihateu = scene 3 bed under the punchline build.",
+          "warrant": "carti opens the trailer. carti builds the punchline. metro resolves it. the structure is complete."
+        }
+      ]
+    },
+    {
+      "round": 15,
+      "direction": "simplicity mandate",
+      "note": "user: 'a lot by 21 savage. also you should be very specific about what songs and choices you make cuz simplicity is important.' we've sprawled to eight candidates and six active clips. 21's opening bar on A Lot — 'how much money you got? a lot / how many problems you got? a lot' — maps directly onto '$3,453 → $100,000.' the panel is being asked to pick, specifically, and stop.",
+      "agents": [
+        {
+          "agent": "Bear",
+          "claim": "three songs. three jobs. retire everything else.",
+          "warrant": "six clips in a 23-second trailer is not a trailer — it's a collage of collages. one song per narrative beat, or the trailer loses the viewer."
+        },
+        {
+          "agent": "Historian",
+          "claim": "A Lot is the hook. full stop.",
+          "warrant": "the lyric IS the site's thesis in ten seconds. 'how much money you got? $3,453. how big's your goal? a lot.' the frame aureliex has been drawing around itself for 20 rounds — A Lot was drawing it first in 2018. use the song that said it plainest."
+        },
+        {
+          "agent": "Macro",
+          "claim": "three-track map: A Lot (hook) · Just Like Me drop (punchline punctuation) · NUEVAYoL (auction teaser).",
+          "warrant": "each song owns exactly one narrative moment. no overlaps, no beds, no switch-ups. the simplicity IS the design."
+        },
+        {
+          "agent": "Bull",
+          "claim": "magnolia / jimmy cooks / iloveuihateu / sittin on top of the world retire from the trailer.",
+          "warrant": "good songs, wrong canvas. the trailer is a 23-second cinematic, not a mixtape. these songs keep their place in the panel record — they just don't play."
+        },
+        {
+          "agent": "Flow",
+          "claim": "ghost town + let down stay at /arc. no change.",
+          "warrant": "the /arc surface already uses them well. simplicity applies to the hot home; the quiet backrooms can keep their own cues."
+        }
+      ]
+    },
+    {
+      "round": 16,
+      "direction": "consensus · final three",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "verdict locked. three songs. ship.",
+          "warrant": "A Lot · Just Like Me · NUEVAYoL. the simplicity is the specificity. further debate is sprawl."
+        },
+        {
+          "agent": "Bear",
+          "claim": "ratified. no additional candidates accepted without removing one.",
+          "warrant": "the panel only reopens if a song is retired in the same motion. net-new songs = no."
+        }
+      ]
+    },
+    {
+      "round": 17,
+      "direction": "consensus · design",
+      "agents": [
+        {
+          "agent": "Bull",
+          "claim": "ratified. ship the trailer + clean compartments as specified above.",
+          "warrant": "one cinematic arrival. one quiet archive. no audio bleeding between them. the rust accent is the only color decision we made and it's enough."
+        },
+        {
+          "agent": "Bear",
+          "claim": "agreed. the document is the product. the trailer is the invitation.",
+          "warrant": "the product is green credit. green credit is a ledger. the compartment home is a ledger. the trailer earns the ledger by existing for 22 seconds."
+        }
+      ]
     }
   ],
   "verdict": {
     "reached": true,
-    "hook_phase_a": { "name": "Magnolia", "artist": "Playboi Carti", "role": "name-drop hype opener" },
-    "hook_phase_b": { "name": "Jimmy Cooks", "artist": "Drake + 21 Savage", "role": "bar-swap product reveal" },
-    "runner_up":    { "name": "Sprinter", "artist": "Central Cee + Dave", "role": "side B, ships if content-id blocks the hook" },
-    "auction":      { "name": "NUEVAYoL", "artist": "Bad Bunny", "role": "ovation hollywood spray paint auction · friday sunset → midnight" },
-    "for_later":    [
-      { "name": "Ghost Town", "artist": "Kanye West" },
-      { "name": "Let Down", "artist": "Radiohead" }
+    "art_direction":  "magazine-collage · 'special once in a lifetime issue #001' · cut-paper ransom-note headlines · editorial callouts · sticker annotations · published in public · not investment advice",
+    "hook":           { "name": "a lot",         "artist": "21 Savage ft. J. Cole", "role": "trailer scene 1 · 'how much money you got? a lot' — the site's thesis in ten seconds" },
+    "punchline_drop": { "name": "Just Like Me",  "artist": "Metro Boomin + Future", "role": "trailer scene 3 · 2s clip · lands on the word 'beautiful'" },
+    "auction":        { "name": "NUEVAYoL",      "artist": "Bad Bunny",             "role": "trailer scene 5 · ovation hollywood spray paint auction · friday sunset → midnight" },
+    "runner_up":      { "name": "Sprinter",      "artist": "Central Cee + Dave",    "role": "side B, ships if content-id blocks any of the three" },
+    "retired_from_trailer": [
+      { "name": "Magnolia",     "artist": "Playboi Carti",       "reason": "good name-drop, but A Lot says the whole frame in one lyric — Magnolia was redundant" },
+      { "name": "Jimmy Cooks",  "artist": "Drake + 21 Savage",   "reason": "the 21 verse is already represented through A Lot; no need for two 21 features in 23 seconds" },
+      { "name": "iloveuihateu", "artist": "Playboi Carti",       "reason": "the punchline copy already carries the contradiction structure; a bed track is sprawl" },
+      { "name": "Sittin' On Top Of The World", "artist": "Burna Boy + 21 Savage", "reason": "great ambition-song, but A Lot occupies that slot more specifically" }
     ],
-    "retired":      [
+    "for_later": [
+      { "name": "Ghost Town", "artist": "Kanye West" },
+      { "name": "Let Down",   "artist": "Radiohead" }
+    ],
+    "retired": [
       { "name": "Sicko Mode", "artist": "Travis Scott", "reason": "too-saturated lit-switch-up; every ai launch has used it" }
     ]
   }

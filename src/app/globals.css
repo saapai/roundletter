@@ -8797,6 +8797,514 @@ body.reader-mode > main { padding-top: 2rem; }
 }
 
 /* ════════════════════════════════════════════════════════════
+   LAUNCH TRAILER — first-load overlay, magazine-collage aesthetic
+   reference: burna boy · i told them... · 2023
+   cut-paper headlines · editorial callouts · sticker annotations
+   autoplays through 9 scenes, exits on skip/scroll/prefers-reduced.
+   ════════════════════════════════════════════════════════════ */
+
+:root {
+  --zine-paper:    #f4efe6;
+  --zine-ink:      #0e0e10;
+  --zine-cyan:     #0b6e84;   /* the burna boy cover blue */
+  --zine-cyan-lo:  #0a5d72;
+  --zine-red:      #c23a2a;
+  --zine-yellow:   #f2c24b;
+  --zine-black:    #0a0a0a;
+  --zine-white:    #fffdf6;
+  --zine-news:     #1c1a17;
+}
+
+.trailer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: var(--zine-cyan);
+  color: var(--zine-white);
+  transition: opacity 600ms ease;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  font-family: Georgia, "Times New Roman", serif;
+}
+.trailer-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,253,246,0.08), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(11,110,132,0.7), transparent 70%),
+    linear-gradient(180deg, var(--zine-cyan) 0%, var(--zine-cyan-lo) 100%);
+  pointer-events: none;
+  transition: background 700ms ease, opacity 500ms ease;
+}
+
+/* scene container: each .trailer-scene is absolutely stacked, only the
+   active scene has opacity 1. CSS handles cross-fades. */
+.trailer-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 420ms cubic-bezier(0.2,0.7,0.2,1),
+              transform 420ms cubic-bezier(0.2,0.7,0.2,1),
+              visibility 0s linear 420ms;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* active-scene toggle (one scene visible per stage) */
+.trailer-scene-0 .trailer-scene-0c,
+.trailer-scene-1 .trailer-scene-1c,
+.trailer-scene-2 .trailer-scene-2c,
+.trailer-scene-3 .trailer-scene-3c,
+.trailer-scene-4 .trailer-scene-4c,
+.trailer-scene-5 .trailer-scene-5c,
+.trailer-scene-6 .trailer-scene-6c {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 420ms cubic-bezier(0.2,0.7,0.2,1),
+              transform 420ms cubic-bezier(0.2,0.7,0.2,1),
+              visibility 0s linear 0s;
+}
+
+/* scene-specific backdrop shifts (7 scenes, 0..6) */
+.trailer.trailer-scene-2,
+.trailer.trailer-scene-3 {
+  background: var(--zine-paper);
+  color: var(--zine-news);
+}
+.trailer.trailer-scene-4 {
+  background: var(--zine-white);
+  color: var(--zine-news);
+}
+.trailer.trailer-scene-5 {
+  background: linear-gradient(160deg, #0a0c10 0%, #18100a 55%, #2a1408 100%);
+}
+.trailer.trailer-scene-6 {
+  background: var(--zine-black);
+  color: var(--zine-white);
+}
+
+/* ── scene 0 — magazine cover ── */
+.trailer-topbar {
+  position: absolute;
+  top: clamp(1rem, 4vw, 2rem);
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: Impact, "Haettenschweiler", "Arial Black", sans-serif;
+  font-size: clamp(0.72rem, 1.8vw, 0.95rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--zine-white);
+  background: var(--zine-red);
+  padding: 0.35rem 0.75rem;
+  transform: translateX(-50%) rotate(-1deg);
+  white-space: nowrap;
+  max-width: calc(100% - 2rem);
+}
+.trailer-topbar span {
+  margin-left: 0.4rem;
+  background: var(--zine-white);
+  color: var(--zine-red);
+  padding: 0 0.3rem;
+}
+
+.trailer-brand {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.1rem;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+.trailer-brand-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(2rem, 8vw, 4.5rem);
+  height: clamp(2.5rem, 10vw, 5.5rem);
+  padding: 0 0.35rem;
+  font-size: clamp(2rem, 9vw, 5rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--zine-news);
+  background: var(--zine-white);
+  text-transform: lowercase;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.28);
+}
+/* mixed fonts + rotations per letter = ransom-note tactility */
+.trailer-brand-tile[data-i="0"] { font-family: "Times New Roman", serif; background: var(--zine-yellow); transform: rotate(-4deg); }
+.trailer-brand-tile[data-i="1"] { font-family: Impact, "Arial Black", sans-serif; background: var(--zine-white); transform: rotate(3deg); }
+.trailer-brand-tile[data-i="2"] { font-family: Georgia, serif; background: var(--zine-red); color: var(--zine-white); transform: rotate(-2deg); font-style: italic; }
+.trailer-brand-tile[data-i="3"] { font-family: "Courier New", monospace; background: var(--zine-white); transform: rotate(2deg); }
+.trailer-brand-tile[data-i="4"] { font-family: "Helvetica Neue", Arial, sans-serif; background: var(--zine-black); color: var(--zine-white); transform: rotate(-3deg); }
+.trailer-brand-tile[data-i="5"] { font-family: Georgia, serif; background: var(--zine-white); transform: rotate(4deg); font-style: italic; }
+.trailer-brand-tile[data-i="6"] { font-family: Impact, sans-serif; background: var(--zine-cyan); color: var(--zine-white); transform: rotate(-2deg); }
+.trailer-brand-tile[data-i="7"] { font-family: "Times New Roman", serif; background: var(--zine-white); transform: rotate(3deg); }
+
+.trailer-subtitle {
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(0.75rem, 1.8vw, 0.95rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--zine-news);
+  color: var(--zine-yellow);
+  padding: 0.35rem 0.75rem;
+  transform: rotate(-0.5deg);
+  max-width: 90%;
+}
+.trailer-advisory {
+  position: absolute;
+  bottom: clamp(2rem, 8vw, 4rem);
+  left: clamp(1rem, 4vw, 2rem);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  padding: 0.45rem 0.65rem;
+  background: var(--zine-white);
+  color: var(--zine-news);
+  font-family: "Courier New", monospace;
+  font-size: clamp(0.55rem, 1.3vw, 0.7rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 2px solid var(--zine-news);
+  transform: rotate(-3deg);
+  line-height: 1.1;
+}
+.trailer-advisory strong {
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(0.7rem, 1.6vw, 0.9rem);
+  letter-spacing: 0.12em;
+}
+
+/* ── scenes 1/2 — hook tracks ── */
+.trailer-eyebrow {
+  font-family: "Courier New", monospace;
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--zine-yellow);
+  padding: 0.3rem 0.6rem;
+  background: rgba(0,0,0,0.25);
+}
+.trailer-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(3rem, 12vw, 8rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--zine-white);
+  text-wrap: balance;
+}
+.trailer-attr {
+  font-family: "Courier New", monospace;
+  font-size: clamp(0.7rem, 1.5vw, 0.85rem);
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: rgba(255,253,246,0.75);
+}
+.trailer-attr-faint { opacity: 0.55; margin-top: 0.25rem; }
+.trailer-sticker {
+  position: absolute;
+  bottom: 18%;
+  right: clamp(1rem, 5vw, 3rem);
+  display: inline-block;
+  padding: 0.55rem 0.8rem;
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(0.9rem, 2.4vw, 1.35rem);
+  letter-spacing: 0.05em;
+  text-transform: lowercase;
+  background: var(--zine-red);
+  color: var(--zine-white);
+  transform: rotate(-4deg);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
+}
+.trailer-sticker-alt {
+  background: var(--zine-yellow);
+  color: var(--zine-news);
+  transform: rotate(3deg);
+  bottom: 22%; right: auto; left: clamp(1rem, 5vw, 3rem);
+}
+
+/* ── scene 1 — the hook (A Lot · ambition Q/A) ── */
+.trailer-qa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  max-width: 28ch;
+}
+.trailer-q {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 3vw, 1.7rem);
+  color: rgba(255,253,246,0.7);
+  line-height: 1.2;
+}
+.trailer-a {
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(2rem, 7vw, 3.75rem);
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  color: var(--zine-white);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.trailer-a-hi {
+  color: var(--zine-yellow);
+  -webkit-text-stroke: 0;
+  text-shadow: 3px 3px 0 var(--zine-red);
+}
+
+/* ── scene 2 / 3 — punchline build & drop (paper register) ── */
+.trailer-scene-2 .trailer-eyebrow,
+.trailer-scene-3 .trailer-eyebrow {
+  color: var(--zine-red);
+  background: transparent;
+}
+.trailer-punch {
+  margin: 0.12rem 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.6rem, 5.5vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--zine-news);
+  text-wrap: balance;
+  max-width: 28ch;
+}
+.trailer-punch-meet { margin: 0.6rem 0; }
+.trailer-punch-meet em {
+  font-style: italic;
+  border-bottom: 4px solid var(--zine-red);
+  padding: 0 0.08em;
+}
+
+/* ── scene 4 — ransom-note "fucking beautiful" ── */
+.trailer-cutwrap {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.15rem 0.2rem;
+  max-width: 100%;
+}
+.trailer-cut {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1rem 0.35rem;
+  font-size: clamp(2.2rem, 9vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1;
+  text-transform: lowercase;
+  color: var(--zine-news);
+  background: var(--zine-white);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.22);
+}
+.trailer-cut[data-i="0"] { font-family: Impact, sans-serif; background: var(--zine-red); color: var(--zine-white); transform: rotate(-3deg); }
+.trailer-cut[data-i="1"] { font-family: Georgia, serif; font-style: italic; background: var(--zine-white); transform: rotate(2deg); }
+.trailer-cut[data-i="2"] { font-family: "Courier New", monospace; background: var(--zine-yellow); transform: rotate(-2deg); }
+.trailer-cut[data-i="3"] { font-family: "Helvetica Neue", Arial, sans-serif; background: var(--zine-white); transform: rotate(3deg); }
+.trailer-cut[data-i="4"] { font-family: Georgia, serif; background: var(--zine-cyan); color: var(--zine-white); transform: rotate(-2deg); font-style: italic; }
+.trailer-cut[data-i="5"] { font-family: Impact, sans-serif; background: var(--zine-news); color: var(--zine-yellow); transform: rotate(2deg); }
+.trailer-cut[data-i="6"] { font-family: "Times New Roman", serif; background: var(--zine-white); transform: rotate(-4deg); }
+.trailer-cut[data-i="7"] { padding: 0; background: transparent; box-shadow: none; min-width: 0.5em; } /* space */
+.trailer-cut[data-i="8"] { font-family: Impact, sans-serif; background: var(--zine-red); color: var(--zine-white); transform: rotate(3deg); }
+.trailer-cut[data-i="9"] { font-family: Georgia, serif; font-style: italic; background: var(--zine-white); transform: rotate(-2deg); }
+.trailer-cut[data-i="10"] { font-family: "Courier New", monospace; background: var(--zine-yellow); transform: rotate(2deg); }
+.trailer-cut[data-i="11"] { font-family: Georgia, serif; background: var(--zine-white); transform: rotate(-3deg); font-style: italic; }
+.trailer-cut[data-i="12"] { font-family: Impact, sans-serif; background: var(--zine-cyan); color: var(--zine-white); transform: rotate(3deg); }
+.trailer-cut[data-i="13"] { font-family: "Helvetica Neue", Arial, sans-serif; background: var(--zine-white); transform: rotate(-2deg); }
+.trailer-cut[data-i="14"] { font-family: Georgia, serif; background: var(--zine-news); color: var(--zine-yellow); transform: rotate(2deg); font-style: italic; }
+.trailer-cut[data-i="15"] { font-family: Impact, sans-serif; background: var(--zine-white); transform: rotate(-4deg); }
+.trailer-cut[data-i="16"] { font-family: Georgia, serif; background: var(--zine-red); color: var(--zine-white); transform: rotate(3deg); font-style: italic; }
+.trailer-cut[data-i="17"] { font-family: "Times New Roman", serif; background: var(--zine-news); color: var(--zine-white); transform: rotate(-2deg); }
+
+/* ── scene 5 — "aureliex leaves a message" panel ── */
+.trailer-message {
+  background: var(--zine-white);
+  border: 3px solid var(--zine-news);
+  padding: clamp(1.25rem, 4vw, 2rem) clamp(1.5rem, 5vw, 2.5rem);
+  max-width: min(38rem, 90vw);
+  transform: rotate(-0.8deg);
+  box-shadow: 6px 6px 0 var(--zine-red);
+  text-align: left;
+  color: var(--zine-news);
+}
+.trailer-message-kicker {
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--zine-red);
+  line-height: 1;
+}
+.trailer-message-kicker-big {
+  color: var(--zine-news);
+  font-size: clamp(1.3rem, 3.6vw, 2rem);
+  letter-spacing: 0.08em;
+  margin-top: 0.2rem;
+  margin-bottom: 0.9rem;
+}
+.trailer-message-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.trailer-message-list li {
+  font-family: "Courier New", monospace;
+  font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  line-height: 1.2;
+  color: var(--zine-news);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+}
+
+/* ── scene 6 — story flash / ascent ── */
+.trailer-flash {
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(2rem, 7vw, 4.5rem);
+  letter-spacing: 0.01em;
+  color: var(--zine-white);
+  text-transform: uppercase;
+  text-wrap: balance;
+  max-width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+.trailer-arrow { color: var(--zine-yellow); padding: 0 0.1em; }
+.trailer-flash-sub {
+  font-family: "Courier New", monospace;
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,253,246,0.85);
+}
+.trailer-flash-emph {
+  font-family: Georgia, serif;
+  font-size: clamp(1.3rem, 3.4vw, 1.9rem);
+  font-style: italic;
+  color: var(--zine-white);
+  margin-top: 0.2rem;
+}
+.trailer-flash-emph em {
+  font-weight: 700;
+  color: var(--zine-yellow);
+  font-style: italic;
+  padding: 0 0.1em;
+  border-bottom: 3px solid var(--zine-yellow);
+}
+
+/* ── scene 5 — auction ── */
+.trailer-title-auction { font-style: italic; color: var(--zine-yellow); }
+.trailer-scene-5 .trailer-eyebrow {
+  background: var(--zine-yellow);
+  color: var(--zine-news);
+  font-weight: 700;
+}
+.trailer-find {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 3.6vw, 2rem);
+  color: var(--zine-white);
+  margin-top: 0.25rem;
+}
+
+/* ── scene 8 — outro ── */
+.trailer-outro {
+  font-family: Impact, "Arial Black", sans-serif;
+  font-size: clamp(4rem, 16vw, 10rem);
+  line-height: 1;
+  color: var(--zine-white);
+  text-transform: lowercase;
+  letter-spacing: -0.02em;
+}
+
+/* ── controls ── */
+.trailer-ctrl {
+  position: absolute;
+  z-index: 10;
+  background: rgba(255,253,246,0.1);
+  border: 1px solid rgba(255,253,246,0.4);
+  color: var(--zine-white);
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 200ms ease, border-color 200ms ease;
+}
+.trailer-ctrl:hover,
+.trailer-ctrl:focus-visible {
+  background: rgba(255,253,246,0.2);
+  border-color: rgba(255,253,246,0.75);
+  outline: none;
+}
+.trailer-sound {
+  top: clamp(1rem, 4vw, 1.5rem);
+  right: clamp(1rem, 4vw, 1.5rem);
+}
+.trailer-skip {
+  bottom: clamp(1rem, 4vw, 1.5rem);
+  right: clamp(1rem, 4vw, 1.5rem);
+}
+/* on paper-backed scenes (2, 3, 4), flip contrast */
+.trailer.trailer-scene-2 .trailer-ctrl,
+.trailer.trailer-scene-3 .trailer-ctrl,
+.trailer.trailer-scene-4 .trailer-ctrl {
+  color: var(--zine-news);
+  border-color: rgba(28,26,23,0.35);
+  background: rgba(255,253,246,0.55);
+}
+
+/* ── progress bar ── */
+.trailer-progress {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: rgba(255,253,246,0.1);
+  pointer-events: none;
+}
+.trailer-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--zine-red);
+  animation: trailer-progress 22.5s linear forwards;
+}
+@keyframes trailer-progress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* mobile tweaks */
+@media (max-width: 640px) {
+  .trailer-advisory { bottom: clamp(4rem, 18vw, 6rem); }
+  .trailer-sticker  { bottom: 15%; }
+  .trailer-message  { box-shadow: 4px 4px 0 var(--zine-red); }
+}
+
+/* reduced-motion: kill the progress animation (the JS exits immediately anyway) */
+@media (prefers-reduced-motion: reduce) {
+  .trailer-progress-fill { animation: none; width: 100%; }
+  .trailer-scene { transition: none; }
+}
+
+/* ════════════════════════════════════════════════════════════
    HOME — the launch page · chapter grid + master-cut
    (compartmentalized YT-framed chapters, one "play the whole
    thing" master-cut toggle, lowercase purposeful un-polish)
@@ -8958,12 +9466,27 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   padding-left: 0.5rem;
   border-left: 1px solid var(--home-rule);
 }
+.yt-chapter-sub {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--home-ink) 55%, var(--home-paper));
+  margin-top: 0.25rem;
+}
 .yt-chapter-body {
   /* nothing forced — content renders in the native register */
 }
 @media (max-width: 560px) {
   .yt-chapter-channel { flex-wrap: wrap; }
   .yt-chapter-meta { border-left: 0; padding-left: 0; }
+}
+
+/* magazine-collage tint for the auction block */
+.home-auction-zine {
+  background: linear-gradient(160deg, #0a0c10 0%, #1a1008 55%, #2a1408 100%);
+  border: 1px solid #2a1408;
+  box-shadow: 4px 4px 0 var(--home-hi);
 }
 
 /* ── chapter 01 — the hook ─────────────────── */
