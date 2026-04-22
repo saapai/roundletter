@@ -70,6 +70,25 @@ const BETS: Bet[] = [
     yesPct: 47,
     noPct: 53,
   },
+  // — NBA playoff futures · small + diversified —
+  {
+    id: "nba-lakers-round-one",
+    label: "lakers win their first-round series (2026 playoffs)",
+    yesPct: 38,
+    noPct: 62,
+  },
+  {
+    id: "nba-cavs-chip",
+    label: "cavaliers win the 2026 NBA championship",
+    yesPct: 11,
+    noPct: 89,
+  },
+  {
+    id: "nba-finals-seven",
+    label: "the NBA finals go 7 games",
+    yesPct: 22,
+    noPct: 78,
+  },
 ];
 
 function fmtPct(n: number): string {

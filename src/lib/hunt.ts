@@ -68,6 +68,14 @@ export const BOTTOM_PINK_VIDEO_ID = "1dj1kCrUFCY";
 export const BOTTOM_PINK_VIDEO =
   `https://www.youtube.com/watch?v=${BOTTOM_PINK_VIDEO_ID}`;
 
+// Bookend top — Wesley Wang short film (the register the doc reads in).
+export const WESLEY_WANG_VIDEO_ID = "hif5eI5pBxo";
+// Bookend bottom — Kanye rant (same clip as the yerant hunt egg). The
+// panel voted to keep them one video: the bookend is the public surface,
+// the egg is the hidden unlock. Same recording, two different reading
+// positions.
+export const KANYE_BOOKEND_VIDEO_ID = YE_RANT_VIDEO_ID;
+
 // Pre-filled SMS composer: opens the native messages app with the number and
 // body pre-populated. Tapping it on mobile dials straight in; on desktop it
 // either hands to an SMS-capable app or is a silent no-op.

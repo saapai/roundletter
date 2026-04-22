@@ -8,7 +8,14 @@ import AuctionCountdown from "@/components/AuctionCountdown";
 import OpenBets from "@/components/OpenBets";
 import AllocationBar from "@/components/AllocationBar";
 import ArtPortfolio from "@/components/ArtPortfolio";
-import { WATCH_CODA_VIDEO_ID, APPARATUS_VIDEO_ID, BOTTOM_PINK_VIDEO_ID } from "@/lib/hunt";
+import YouTubeCard from "@/components/YouTubeCard";
+import {
+  WATCH_CODA_VIDEO_ID,
+  APPARATUS_VIDEO_ID,
+  BOTTOM_PINK_VIDEO_ID,
+  WESLEY_WANG_VIDEO_ID,
+  KANYE_BOOKEND_VIDEO_ID,
+} from "@/lib/hunt";
 import { getLivePortfolio, fmtMoney } from "@/lib/portfolio-live";
 import { SONGS, youtubeSearchLink } from "@/lib/song-links";
 
@@ -448,86 +455,36 @@ export default async function HomePage() {
           register. both external-link cards, no iframes, no copyright
           risk. CSS faithfully reconstructs the channel avatar, play
           button overlay, view/time line, and like/share affordances. */}
-      <section className="home-yt" aria-label="the bookends — youtube-ui cards">
+      <section className="home-yt" aria-label="the bookends — playable video">
         <div className="home-yt-eye">// the bookends · video</div>
 
-        <a
-          className="yt-card yt-card-top"
-          href="https://www.youtube.com/results?search_query=wesley+wang+nothing+except+everything"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="top · wesley wang · nothing, except everything"
-        >
-          <div className="yt-thumb" aria-hidden="true">
-            <div className="yt-thumb-noise" />
-            <div className="yt-thumb-vignette" />
-            <span className="yt-thumb-play">
-              <svg viewBox="0 0 68 48" width="52" height="36">
-                <path
-                  className="yt-play-bg"
-                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
-                />
-                <path className="yt-play-tri" d="M45 24 27 14v20" />
-              </svg>
-            </span>
-            <span className="yt-thumb-dur">9:28</span>
-          </div>
-          <div className="yt-meta">
-            <span className="yt-avatar" aria-hidden="true">w</span>
-            <div className="yt-text">
-              <div className="yt-title">nothing, except everything.</div>
-              <div className="yt-chan">wesley wang <span className="yt-verified" aria-hidden="true">✓</span></div>
-              <div className="yt-counts">128K views · 2 years ago</div>
-            </div>
-          </div>
-          <div className="yt-brand yt-brand-youtube" aria-hidden="true">
-            <span className="yt-brand-rect" />
-            <span className="yt-brand-word">YouTube</span>
-          </div>
-        </a>
+        <YouTubeCard
+          videoId={WESLEY_WANG_VIDEO_ID}
+          title="wesley wang · short film"
+          channel="wesley wang"
+          meta="how the document sees itself · top frame"
+          avatar="w"
+          brandWord="YouTube"
+        />
 
         <p className="home-yt-mid">
           <em>
             two videos bookend the document. the top is the register i want
-            the site to read in. the bottom is the feeling the descent ends
-            in — tinted orange to say which counter-culture it's in.
+            the site to read in. the bottom is the feeling the document ends
+            in — tinted orange to say which counter-culture it&rsquo;s in.
           </em>
         </p>
 
-        <a
-          className="yt-card yt-card-bot yt-card-ph"
-          href={youtubeSearchLink(SONGS.ghost_town)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="bottom · kanye west · ghost town"
-        >
-          <div className="yt-thumb yt-thumb-ph" aria-hidden="true">
-            <div className="yt-thumb-noise" />
-            <div className="yt-thumb-vignette" />
-            <span className="yt-thumb-play yt-thumb-play-ph">
-              <svg viewBox="0 0 68 48" width="52" height="36">
-                <path
-                  className="yt-play-bg yt-play-bg-ph"
-                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
-                />
-                <path className="yt-play-tri" d="M45 24 27 14v20" />
-              </svg>
-            </span>
-            <span className="yt-thumb-dur yt-thumb-dur-ph">4:27</span>
-          </div>
-          <div className="yt-meta yt-meta-ph">
-            <span className="yt-avatar yt-avatar-ph" aria-hidden="true">k</span>
-            <div className="yt-text">
-              <div className="yt-title yt-title-ph">ghost town — i feel kinda free.</div>
-              <div className="yt-chan yt-chan-ph">kanye west <span className="yt-verified" aria-hidden="true">✓</span> · ye · 2018</div>
-              <div className="yt-counts yt-counts-ph">ye side B · the hinge of the album</div>
-            </div>
-          </div>
-          <div className="yt-brand yt-brand-ph" aria-hidden="true">
-            <span className="yt-brand-rect yt-brand-rect-ph">YEHub</span>
-            <span className="yt-brand-word yt-brand-word-ph">Ghost Town</span>
-          </div>
-        </a>
+        <YouTubeCard
+          videoId={KANYE_BOOKEND_VIDEO_ID}
+          title="kanye · on record. no edits, no moderator."
+          channel="yehub"
+          meta="bottom frame · the rant"
+          avatar="k"
+          variant="ph"
+          brand="YEHub"
+          brandWord="The Rant"
+        />
       </section>
 
       {/* art-portfolio teaser — cmiygl poster homage, doubles as a pointer

@@ -106,8 +106,10 @@ export default function ArtPortfolio() {
           </div>
           <h2 className="art-portfolio-title">fourteen pieces, under lock.</h2>
           <p className="art-portfolio-sub">
-            previews only until the auction closes. bids are live — tap a tile
-            to offer <strong>$1 over</strong> the current ask via imessage.{" "}
+            previews only until the auction closes. bids are live — tap any
+            tile to offer <strong>$1 over</strong> the current ask via
+            imessage. winners get <strong>the full file + the physical piece
+            shipped</strong>.{" "}
             <strong>{data.meta.stake_reserved_pct}%</strong> of the total
             portfolio stake is reserved for art holders.
           </p>
@@ -177,7 +179,10 @@ export default function ArtPortfolio() {
         <em>
           bids are verified over text at {HUNT_PHONE_DISPLAY}. each tap
           offers <strong>$1 over</strong> the current ask. images unlock when
-          the auction closes — winners receive the full file over text.
+          the auction closes. <strong>winners receive the full file</strong>{" "}
+          (high-res jpg or tiff via text/airdrop) <strong>plus the physical
+          original shipped to their address</strong> at my cost — usps priority
+          mail, tracked, insured. shipping details negotiated by text.
         </em>
       </p>
     </section>
