@@ -13248,31 +13248,113 @@ body.hunt-fired .masthead .wordmark .dot {
 }
 
 .home-verdict-strip {
-  max-width: min(760px, 100%);
-  margin: 3rem auto 2rem;
-  padding: 1.25rem 1.1rem;
-  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
-  background: color-mix(in srgb, var(--paper) 95%, var(--parchment));
+  max-width: min(720px, 100%);
+  margin: 3.5rem auto 2.5rem;
+  padding: 1.5rem 1.25rem 1.3rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  background: color-mix(in srgb, var(--paper) 96%, var(--parchment));
+  border-radius: 3px;
 }
 .home-verdict-strip-eye {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 10.5px;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--rust);
   text-align: center;
-  margin-bottom: 0.7rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  position: relative;
+  margin-bottom: 1.1rem;
 }
-.home-verdict-final-strip { display: grid; gap: 0.4rem; }
+.home-verdict-strip-eye::after {
+  /* gilt diamond anchor — tombstone idiom */
+  content: "◆";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--paper) 96%, var(--parchment));
+  padding: 0 0.5rem;
+  font-size: 9px;
+  color: color-mix(in srgb, var(--rust) 70%, var(--zine-yellow));
+}
+
+/* override the legacy .home-verdict-song red-underline treatment inside
+   the strip so song links read as ink-weight serif rather than wiki blue. */
+.home-verdict-strip .home-verdict-final-strip {
+  display: grid;
+  gap: 0;
+}
+.home-verdict-strip .home-verdict-row {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+.home-verdict-strip .home-verdict-row:last-child { border-bottom: 0; }
+.home-verdict-strip .home-verdict-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--rust) 70%, var(--zine-yellow));
+  font-weight: 600;
+}
+.home-verdict-strip .home-verdict-label::after { content: none; }
+.home-verdict-strip .home-verdict-val {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  color: var(--ink);
+}
+.home-verdict-strip .home-verdict-val a,
+.home-verdict-strip .home-verdict-song {
+  color: var(--ink) !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--rust) 35%, transparent);
+  padding-bottom: 1px;
+  transition: color 160ms ease, border-bottom-color 160ms ease;
+  font-style: italic;
+}
+.home-verdict-strip .home-verdict-val a:hover,
+.home-verdict-strip .home-verdict-song:hover,
+.home-verdict-strip .home-verdict-val a:focus-visible,
+.home-verdict-strip .home-verdict-song:focus-visible {
+  color: var(--rust) !important;
+  border-bottom-color: var(--rust);
+  outline: none;
+}
+/* replace the weird boxy ↗ unicode emoji with a clean mini SVG-style
+   arrow built from ::after so the rendering is stable across fonts. */
+.home-verdict-strip .home-verdict-song span[aria-hidden] { display: none; }
+.home-verdict-strip .home-verdict-song::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-left: 0.35rem;
+  vertical-align: 1px;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2 8l6-6M3 2h5v5' stroke='black' stroke-width='1.2' stroke-linecap='round' fill='none'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2 8l6-6M3 2h5v5' stroke='black' stroke-width='1.2' stroke-linecap='round' fill='none'/></svg>") no-repeat center / contain;
+  opacity: 0.7;
+  transition: opacity 160ms ease;
+}
+.home-verdict-strip .home-verdict-song:hover::after { opacity: 1; }
+
 .home-verdict-strip-foot {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-top: 0.85rem;
-  padding-top: 0.75rem;
-  border-top: 1px dashed color-mix(in srgb, var(--ink) 10%, transparent);
+  gap: 0.9rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
 }
 .home-verdict-strip-meta {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -13280,6 +13362,16 @@ body.hunt-fired .masthead .wordmark .dot {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--graphite);
+}
+
+@media (max-width: 520px) {
+  .home-verdict-strip .home-verdict-row {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+    padding: 0.7rem 0;
+  }
+  .home-verdict-strip-foot { flex-direction: column; align-items: stretch; }
+  .home-verdict-strip-foot .home-cta { justify-content: center; }
 }
 
 .home-apparatus-expand { margin-bottom: 1.2rem; }
