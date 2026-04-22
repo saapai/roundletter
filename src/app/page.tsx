@@ -169,13 +169,6 @@ export default async function HomePage() {
   const data = curation as CurationFile;
   const debate = hookDebate as HookDebate;
   const lp = await getLivePortfolio();
-  // Safe accessors — the verdict structure grew across panel rounds; cast
-  // once and reach for fields that may or may not exist in older debates.
-  const v = debate.verdict as HookDebate["verdict"] & {
-    art_direction?: string;
-    ascent?: { name: string; artist: string; role: string };
-    punchline_drop?: { name: string; artist: string; role: string };
-  };
 
   return (
     <main className="home-root">
@@ -189,6 +182,7 @@ export default async function HomePage() {
         <nav className="home-bridge-nav" aria-label="site navigation">
           <Link href="/let-down" className="home-bridge-nav-emph">let down</Link>
           <Link href="/positions">positions</Link>
+          <Link href="/argument">argument</Link>
           <Link href="/market">market</Link>
           <Link href="/green-credit">green credit</Link>
           <Link href="/trades">trades</Link>
@@ -372,6 +366,10 @@ export default async function HomePage() {
         title="aesthetic research curation engine"
         meta="budget · mid · elite · scored"
       >
+        <p className="home-apparatus-intro">
+          every card is a decision about taste, argued by the panel. tiered <em>budget · mid · elite</em>,
+          scored 0–96. the method applied outside the book.
+        </p>
         <div className="grid gap-6">
           {data.categories.map((c) => (
             <CategoryCard key={c.id} category={c} />

@@ -9711,6 +9711,21 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   box-shadow: 4px 4px 0 var(--home-hi);
 }
 
+/* apparatus intro line — sits between chapter 05 header and the category cards */
+.home-apparatus-intro {
+  margin: 0 0 clamp(1.25rem, 3vw, 1.75rem);
+  max-width: 44rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--home-ink) 80%, var(--home-paper));
+}
+.home-apparatus-intro em {
+  font-style: italic;
+  color: var(--home-ink);
+  font-family: var(--font-display), Georgia, serif;
+}
+
 /* ── chapter 01 — the hook ─────────────────── */
 .hook-overture {
   display: flex;
