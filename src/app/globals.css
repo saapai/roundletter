@@ -8848,14 +8848,14 @@ body.reader-mode > main { padding-top: 2rem; }
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.9rem;
+  gap: 1.1rem;
   padding: clamp(1.5rem, 5vw, 3.5rem);
   opacity: 0;
   visibility: hidden;
-  transform: translateY(8px);
-  transition: opacity 420ms cubic-bezier(0.2,0.7,0.2,1),
-              transform 420ms cubic-bezier(0.2,0.7,0.2,1),
-              visibility 0s linear 420ms;
+  transform: translateY(14px);
+  transition: opacity 620ms cubic-bezier(0.2,0.7,0.2,1),
+              transform 620ms cubic-bezier(0.2,0.7,0.2,1),
+              visibility 0s linear 620ms;
   text-align: center;
   pointer-events: none;
 }
@@ -8871,9 +8871,10 @@ body.reader-mode > main { padding-top: 2rem; }
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
-  transition: opacity 420ms cubic-bezier(0.2,0.7,0.2,1),
-              transform 420ms cubic-bezier(0.2,0.7,0.2,1),
+  transition: opacity 620ms cubic-bezier(0.2,0.7,0.2,1),
+              transform 620ms cubic-bezier(0.2,0.7,0.2,1),
               visibility 0s linear 0s;
+  pointer-events: auto;
 }
 
 /* scene-specific backdrop shifts (7 scenes, 0..6) */
@@ -9037,34 +9038,62 @@ body.reader-mode > main { padding-top: 2rem; }
   bottom: 22%; right: auto; left: clamp(1rem, 5vw, 3rem);
 }
 
-/* ── scene 1 — the hook (A Lot · ambition Q/A) ── */
+/* ── scene 1 — the hook (A Lot · ambition Q/A) ─────
+   Staggered reveal: Q1 at 0ms, A1 at 500ms, Q2 at 1000ms, A2 (hi) at 1500ms.
+   Animation runs every time scene 1 becomes active. */
 .trailer-qa {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  max-width: 28ch;
+  gap: 0.55rem;
+  max-width: 30ch;
+}
+.trailer-q,
+.trailer-a {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.trailer-scene-1 .trailer-scene-1c .trailer-q,
+.trailer-scene-1 .trailer-scene-1c .trailer-a {
+  animation: trailer-qa-in 560ms cubic-bezier(0.2,0.7,0.2,1) forwards;
+}
+.trailer-scene-1 .trailer-scene-1c .trailer-q:nth-child(1) { animation-delay: 220ms; }
+.trailer-scene-1 .trailer-scene-1c .trailer-a:nth-child(2) { animation-delay: 720ms; }
+.trailer-scene-1 .trailer-scene-1c .trailer-q:nth-child(3) { animation-delay: 1320ms; }
+.trailer-scene-1 .trailer-scene-1c .trailer-a:nth-child(4) { animation-delay: 1820ms; }
+@keyframes trailer-qa-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .trailer-q {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
-  font-size: clamp(1.1rem, 3vw, 1.7rem);
-  color: rgba(255,253,246,0.7);
-  line-height: 1.2;
+  font-size: clamp(1.05rem, 2.8vw, 1.55rem);
+  color: rgba(255,253,246,0.72);
+  line-height: 1.25;
+  letter-spacing: 0.002em;
 }
 .trailer-a {
   font-family: Impact, "Arial Black", sans-serif;
-  font-size: clamp(2rem, 7vw, 3.75rem);
-  letter-spacing: -0.01em;
+  font-size: clamp(2.2rem, 7.5vw, 4rem);
+  letter-spacing: -0.012em;
   text-transform: lowercase;
   color: var(--zine-white);
-  line-height: 1;
+  line-height: 0.98;
   font-variant-numeric: tabular-nums;
 }
 .trailer-a-hi {
   color: var(--zine-yellow);
   -webkit-text-stroke: 0;
   text-shadow: 3px 3px 0 var(--zine-red);
+}
+@media (prefers-reduced-motion: reduce) {
+  .trailer-scene-1 .trailer-scene-1c .trailer-q,
+  .trailer-scene-1 .trailer-scene-1c .trailer-a {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ── scene 2 / 3 — punchline build & drop (paper register) ── */
@@ -9278,14 +9307,14 @@ body.reader-mode > main { padding-top: 2rem; }
 .trailer-progress {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 3px;
-  background: rgba(255,253,246,0.1);
+  height: 2px;
+  background: rgba(255,253,246,0.08);
   pointer-events: none;
 }
 .trailer-progress-fill {
   height: 100%;
   width: 0%;
-  background: var(--zine-red);
+  background: linear-gradient(90deg, var(--zine-red) 0%, var(--zine-yellow) 100%);
   animation: trailer-progress 22.5s linear forwards;
 }
 @keyframes trailer-progress {
@@ -9342,81 +9371,111 @@ body:has(.home-root) > .reader-mode,
 body:has(.home-root) > .friday-mark { display: none !important; }
 body:has(.home-root) > main { margin: 0; padding: 0; max-width: none; }
 
-/* Bridge — vertical gradient from the trailer's outro (black) to paper. */
+/* Bridge — vertical gradient from the trailer's outro (black) to paper.
+   Smoother stops (7) and a grain overlay so the transition never looks
+   banded on phone OLEDs. */
 .home-bridge {
   position: relative;
   width: 100%;
-  min-height: clamp(22rem, 55vh, 34rem);
-  background: linear-gradient(
-    180deg,
-    var(--zine-black)    0%,
-    var(--zine-cyan-lo)  22%,
-    var(--zine-cyan)     40%,
-    color-mix(in srgb, var(--zine-cyan) 35%, var(--home-paper)) 65%,
-    var(--home-paper)    100%
-  );
+  min-height: clamp(24rem, 60vh, 36rem);
+  background:
+    linear-gradient(
+      180deg,
+      var(--zine-black)                                                0%,
+      color-mix(in srgb, var(--zine-black)   40%, var(--zine-cyan-lo)) 14%,
+      var(--zine-cyan-lo)                                              32%,
+      var(--zine-cyan)                                                 50%,
+      color-mix(in srgb, var(--zine-cyan)    55%, var(--home-paper))   68%,
+      color-mix(in srgb, var(--zine-cyan)    18%, var(--home-paper))   84%,
+      var(--home-paper)                                                100%
+    );
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.9rem;
+  gap: 1.1rem;
   text-align: center;
-  padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 4vw, 2rem);
+  padding: clamp(3.5rem, 9vw, 5.5rem) clamp(1.25rem, 4vw, 2rem);
   color: var(--zine-white);
+}
+.home-bridge::after {
+  /* subtle grain to hide banding on OLED displays */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
+    radial-gradient(rgba(0,0,0,0.5) 1px, transparent 1px);
+  background-size: 3px 3px, 4px 4px;
+  background-position: 0 0, 1px 1px;
 }
 .home-bridge-kicker {
   font-family: "Courier New", monospace;
   font-size: clamp(0.68rem, 1.5vw, 0.78rem);
-  letter-spacing: 0.28em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,253,246,0.75);
+  color: rgba(255,253,246,0.68);
 }
 .home-bridge-line {
   font-family: Georgia, "Times New Roman", serif;
   font-style: italic;
-  font-size: clamp(1.15rem, 3vw, 1.7rem);
-  line-height: 1.3;
+  font-size: clamp(1.25rem, 3.4vw, 1.95rem);
+  line-height: 1.25;
   color: var(--zine-white);
-  max-width: 28ch;
+  max-width: 26ch;
   text-wrap: balance;
+  letter-spacing: 0.002em;
 }
 .home-bridge-arrow {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: var(--zine-yellow);
-  margin-top: 0.4rem;
+  line-height: 1;
+  margin-top: 0.15rem;
+  animation: home-bridge-pulse 2.4s ease-in-out infinite;
 }
-/* Dark reading against bridge's cyan middle; fades to near-paper-ink at bottom. */
+@keyframes home-bridge-pulse {
+  0%, 100% { transform: translateY(0); opacity: 0.85; }
+  50%      { transform: translateY(3px); opacity: 1; }
+}
 .home-bridge-after {
   font-family: "Courier New", monospace;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
   text-transform: lowercase;
-  color: color-mix(in srgb, var(--home-ink) 55%, var(--home-paper));
-  margin-top: auto;
+  color: color-mix(in srgb, var(--home-ink) 60%, var(--home-paper));
+  margin-top: 0.2rem;
 }
 
-/* Compact nav strip inside the bridge — replaces the hidden masthead nav. */
+/* Bridge nav — sits on the paper-blend part of the gradient, so it reads
+   dark text on light background. No pill chrome; just typography with a
+   hairline top/bottom rule and generous gaps. */
 .home-bridge-nav {
+  position: relative;
+  margin-top: 0.75rem;
+  padding: 0.95rem clamp(1rem, 3vw, 1.5rem);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: clamp(0.6rem, 2.4vw, 1.25rem);
-  margin-top: 1.25rem;
-  padding: 0.85rem clamp(1rem, 3vw, 1.5rem);
-  background: color-mix(in srgb, #ffffff 92%, transparent);
-  border: 1px solid color-mix(in srgb, var(--home-ink) 14%, transparent);
-  border-radius: 999px;
+  align-items: baseline;
+  gap: clamp(0.8rem, 2.8vw, 1.5rem);
   font-family: "Courier New", ui-monospace, monospace;
   font-size: 11px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.24em;
   text-transform: lowercase;
-  max-width: 100%;
-  color: var(--home-ink);
+  color: color-mix(in srgb, var(--home-ink) 72%, var(--home-paper));
+  border-top: 1px solid color-mix(in srgb, var(--home-ink) 22%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--home-ink) 22%, transparent);
+  max-width: min(44rem, 92vw);
+  width: 100%;
 }
 .home-bridge-nav a {
-  color: var(--home-ink);
+  color: inherit;
   text-decoration: none;
   transition: color 160ms ease;
+  white-space: nowrap;
 }
 .home-bridge-nav a:hover { color: var(--home-hi); }
 .home-bridge-nav .home-bridge-nav-emph {
@@ -9424,15 +9483,15 @@ body:has(.home-root) > main { margin: 0; padding: 0; max-width: none; }
   font-style: italic;
   text-transform: lowercase;
   letter-spacing: 0.01em;
-  font-size: 0.95rem;
+  font-size: 1.02rem;
   color: var(--home-hi);
 }
 @media (max-width: 520px) {
   .home-bridge-nav {
-    gap: 0.55rem 1rem;
-    padding: 0.7rem 0.9rem;
+    gap: 0.6rem 1.1rem;
+    padding: 0.8rem 0.85rem;
     font-size: 10.5px;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.2em;
   }
 }
 
@@ -9734,16 +9793,49 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
 .home-punch-mark {
   font-style: italic;
   font-weight: 500;
-  padding: 0 0.08em;
-  border-bottom: 3px solid var(--home-hi);
+  padding: 0.04em 0.08em 0;
+  background-image: linear-gradient(
+    transparent 55%,
+    color-mix(in srgb, var(--home-hi) 28%, transparent) 55%,
+    color-mix(in srgb, var(--home-hi) 28%, transparent) 92%,
+    transparent 92%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: var(--home-ink);
 }
+/* marker-style highlight — hand-drawn yellow marker beneath the words
+   instead of a solid red block. more elegant, still loud. */
 .home-punch-hi {
-  background: var(--home-hi);
-  color: #fff;
-  padding: 0 0.18em;
   font-style: italic;
+  font-weight: 500;
+  color: var(--home-ink);
+  padding: 0.06em 0.15em 0;
+  background-image: linear-gradient(
+    100deg,
+    transparent 0.5%,
+    color-mix(in srgb, var(--zine-yellow) 85%, transparent) 2%,
+    color-mix(in srgb, var(--zine-yellow) 92%, transparent) 50%,
+    color-mix(in srgb, var(--zine-yellow) 78%, transparent) 98%,
+    transparent 99.5%
+  );
+  background-size: 100% 70%;
+  background-repeat: no-repeat;
+  background-position: 0 72%;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
+}
+/* a second pass — a red underline scribble for emphasis */
+.home-punch-hi::after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 96%;
+  margin: 0.08em auto 0;
+  background: var(--home-hi);
+  border-radius: 2px;
+  transform: skewX(-4deg);
+  opacity: 0.85;
 }
 .home-manifesto {
   margin-top: clamp(2rem, 5vw, 3rem);
@@ -9762,20 +9854,32 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
 .home-story {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
   max-width: 44rem;
-  font-family: var(--font-body), Georgia, serif;
-  font-size: 1.02rem;
-  line-height: 1.55;
-  color: color-mix(in srgb, var(--home-ink) 90%, var(--home-paper));
+  font-family: var(--font-body), Georgia, "Times New Roman", serif;
+  font-size: 1.04rem;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--home-ink) 88%, var(--home-paper));
 }
 .home-story p { margin: 0; }
-.home-story strong { color: var(--home-ink); font-weight: 600; }
-.home-story a { color: var(--home-hi); border-bottom: 1px solid color-mix(in srgb, var(--home-hi) 40%, transparent); text-decoration: none; }
-.home-story a:hover { border-bottom-color: var(--home-hi); }
+.home-story strong {
+  color: var(--home-ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.home-story a {
+  color: var(--home-hi);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 100% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  text-decoration: none;
+  transition: background-size 160ms ease;
+}
+.home-story a:hover { background-size: 100% 2px; }
 .home-story-sub {
-  font-size: 0.98rem;
-  color: color-mix(in srgb, var(--home-ink) 85%, var(--home-paper));
+  font-size: 1rem;
+  color: color-mix(in srgb, var(--home-ink) 82%, var(--home-paper));
 }
 .home-story-up   { color: #2e6b3b; font-weight: 500; }
 .home-story-down { color: var(--home-hi); font-weight: 500; }
@@ -10045,30 +10149,59 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   color: color-mix(in srgb, var(--home-ink) 70%, var(--home-paper));
   font-size: 0.88rem;
 }
+/* Final verdict — receipt/tombstone register. Each row is one line:
+   [mono label] — [serif italic value]. Hairline dividers, tabular nums. */
 .home-verdict-final {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  padding-top: 0.85rem;
-  border-top: 2px solid var(--home-ink);
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--home-ink) 40%, transparent);
+  position: relative;
+}
+.home-verdict-final::before {
+  /* tombstone style — a small gilt diamond at the head */
+  content: "◆";
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  color: var(--home-gilt);
+  padding: 0 0.4rem;
+  font-size: 9px;
+  letter-spacing: 0.3em;
 }
 .home-verdict-row {
-  display: grid;
-  grid-template-columns: 8rem 1fr;
-  gap: 0.75rem;
-  font-size: 0.95rem;
-  padding: 0.28rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.7rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed color-mix(in srgb, var(--home-ink) 14%, transparent);
+  font-size: 0.96rem;
+  line-height: 1.45;
 }
+.home-verdict-row:last-child { border-bottom: 0; }
 .home-verdict-label {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--home-gilt);
-  align-self: center;
+  min-width: 6.5rem;
+  font-weight: 500;
+  flex-shrink: 0;
 }
-.home-verdict-val { color: var(--home-ink); }
-.home-verdict-val a { color: var(--home-hi); text-decoration: underline; text-underline-offset: 3px; }
+.home-verdict-label::after { content: " —"; color: color-mix(in srgb, var(--home-ink) 28%, transparent); }
+.home-verdict-val {
+  color: var(--home-ink);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.home-verdict-val a { color: var(--home-hi); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.home-verdict-val a:hover { color: var(--home-ink); }
 .home-verdict-retired {
   text-decoration: line-through;
   color: color-mix(in srgb, var(--home-ink) 45%, var(--home-paper));
@@ -10076,7 +10209,9 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
 @media (max-width: 560px) {
   .home-verdict-turn { grid-template-columns: 1fr; }
   .home-verdict-warrant { grid-column: 1; }
-  .home-verdict-row { grid-template-columns: 1fr; }
+  .home-verdict-row { padding: 0.5rem 0; }
+  .home-verdict-label { min-width: 100%; }
+  .home-verdict-label::after { display: none; }
 }
 
 /* ── chapter 07 — for later ────────────────── */
@@ -10142,6 +10277,77 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   transition: color 160ms ease;
 }
 .home-dock a:hover { color: var(--home-hi); }
+
+/* ── sp-001 forfeit card styling (SealedPrediction) ──
+   Legible, honest, quiet. No alarm colors — this is a record, not a warning. */
+.sp-live-forfeit {
+  border-top: 2px solid color-mix(in srgb, var(--home-hi) 70%, var(--ink));
+  padding-top: 1rem;
+  margin-top: 1rem;
+  color: color-mix(in srgb, var(--ink, #1C1A17) 85%, var(--paper, #f4efe6));
+}
+.sp-live-forfeit .sp-live-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+}
+.sp-live-forfeit .sp-live-head .sp-live-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--home-hi);
+}
+.sp-live-forfeit .sp-live-result {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--home-hi);
+  font-weight: 600;
+}
+.sp-forfeit-reason,
+.sp-forfeit-consequence,
+.sp-forfeit-fix {
+  margin: 0 0 0.7rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+.sp-forfeit-fix em {
+  font-style: italic;
+  color: var(--home-hi);
+  margin-right: 0.2em;
+}
+
+/* ── Apparatus cards: quieter palette harmony with the zine register ──
+   Keep the rounded card shell (user likes it) but retint borders/dividers
+   so they stop clashing with the red-accent compartments above. */
+.home-stack article.rounded-3xl {
+  background: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--home-ink) 10%, transparent);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.015), 0 16px 32px -28px rgba(0,0,0,0.18);
+}
+.home-stack article.rounded-3xl > div:first-child {
+  border-bottom-color: color-mix(in srgb, var(--home-ink) 12%, transparent);
+}
+.home-stack article.rounded-3xl h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* ── Mobile breathing room across the home ── */
+@media (max-width: 640px) {
+  .home-root { font-size: 15.5px; }
+  .home-punch { font-size: clamp(1.7rem, 8.2vw, 2.6rem); line-height: 1.1; }
+  .home-bridge-line { font-size: clamp(1.15rem, 4.6vw, 1.55rem); }
+  .yt-chapter { margin-top: clamp(1.6rem, 5.5vw, 2.5rem); }
+  .yt-chapter-frame { padding: clamp(1.1rem, 5vw, 1.6rem); border-radius: 14px; }
+  .yt-chapter-title { font-size: clamp(1.45rem, 5.4vw, 2rem); }
+  .home-auction-lead { font-size: clamp(1.25rem, 5.2vw, 1.75rem); }
+}
 
 /* ════════════════════════════════════════════════════════════
    GHOST TOWN → LET DOWN ARC
