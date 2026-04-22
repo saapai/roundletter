@@ -12175,6 +12175,85 @@ body.hunt-fired .masthead .wordmark .dot {
   .home-bets-actions { justify-content: flex-start; }
 }
 
+/* daily agent brief — on /argument */
+.brief {
+  max-width: min(760px, 100%);
+  margin: 2rem auto;
+  padding: 1.4rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  background: color-mix(in srgb, var(--paper) 96%, var(--parchment));
+}
+.brief-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.brief-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.brief-ts {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.brief-consensus {
+  margin: 0.85rem 0 1rem;
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.brief-list { list-style: none; margin: 0; padding: 0; }
+.brief-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 0.4rem 1rem;
+  align-items: baseline;
+  padding: 0.85rem 0;
+  border-bottom: 1px dashed color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.brief-row:last-child { border-bottom: none; }
+.brief-name {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.brief-mandate {
+  font-size: 0.82rem;
+  color: var(--graphite);
+  font-style: italic;
+  line-height: 1.4;
+}
+.brief-line {
+  grid-column: 2;
+  margin: 0.2rem 0 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.brief-foot {
+  margin: 1rem 0 0;
+  font-size: 0.82rem;
+  color: var(--graphite);
+  line-height: 1.5;
+  text-align: center;
+}
+@media (max-width: 560px) {
+  .brief-row { grid-template-columns: 1fr; gap: 0.15rem; }
+  .brief-line { grid-column: 1; }
+}
+
 /* open-entry sealed prediction filer — on /argument */
 .seal-filer {
   max-width: min(760px, 100%);

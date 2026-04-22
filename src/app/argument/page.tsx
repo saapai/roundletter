@@ -2,6 +2,7 @@ import Link from "next/link";
 import TodayDebate from "@/components/TodayDebate";
 import SixNineGame from "@/components/SixNineGame";
 import OpenPredictionFiler from "@/components/OpenPredictionFiler";
+import DailyBrief from "@/components/DailyBrief";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -60,6 +61,8 @@ export default async function ArgumentPage() {
             </ol>
           </section>
         )}
+
+        <DailyBrief />
 
         <OpenPredictionFiler />
 
