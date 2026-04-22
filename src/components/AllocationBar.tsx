@@ -23,6 +23,13 @@ type Props = {
   baseline: number;
   externalTotal: number;   // $ of not-saapai stake sitting in the book
   pendingCash?: number;    // cash in the book not tied to a ticker
+  /**
+   * Total book value at the moment the external money was distributed.
+   * Used to compute the external investor's current $ value as
+   * externalTotal × (currentBook / externalBookAtEntry).
+   * Undefined → treat external as static $50.
+   */
+  externalBookAtEntry?: number;
 };
 
 function fmt$(n: number): string {
@@ -47,7 +54,7 @@ const HOLDINGS: Array<{ ticker: string; shares: number; entry_value: number }> =
   { ticker: "QBTS", shares: 5.873,  entry_value: 99.95  },
 ];
 
-export default function AllocationBar({ baseline, externalTotal }: Props) {
+export default function AllocationBar({ baseline, externalTotal, externalBookAtEntry }: Props) {
   const [current, setCurrent] = useState<number>(baseline);
 
   useEffect(() => {
@@ -96,20 +103,30 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
     };
   }, []);
 
-  // Model: the main book carries 80% as owned + 10% art + 10% prediction.
-  // External cash sits ON TOP of the book (pending sync), so total stake
-  // is book + external. the "owned" slice is 80% of book minus nothing
-  // (external is shown separately).
-  const artReserved    = current * 0.1;
-  const predReserved   = current * 0.1;
-  const owned          = current * 0.8;
-  const total          = owned + externalTotal + artReserved + predReserved;
+  // Model: the $50 external is distributed proportionally across all 10
+  // positions on the day it landed, so its value tracks the whole book
+  // from that instant.  externalNow = externalTotal × (currentBook /
+  // externalBookAtEntry).  If book_at_entry wasn't recorded, the $50 is
+  // shown statically.
+  const externalNow =
+    externalBookAtEntry && externalBookAtEntry > 0
+      ? externalTotal * (current / externalBookAtEntry)
+      : externalTotal;
+  const externalDelta = externalNow - externalTotal;
+  const externalPct = externalTotal > 0 ? (externalDelta / externalTotal) * 100 : 0;
+
+  // the main book carries 80% as owned + 10% art + 10% prediction.
+  // external cash rides ON TOP of the book.
+  const artReserved  = current * 0.1;
+  const predReserved = current * 0.1;
+  const owned        = current * 0.8;
+  const total        = owned + externalNow + artReserved + predReserved;
 
   const segments = [
-    { key: "owned",    label: "owned · saapai",        amount: owned,          color: "var(--ink)" },
-    { key: "external", label: "external · stock $50",  amount: externalTotal,  color: "var(--zine-yellow)" },
-    { key: "art",      label: "art portfolio · 10%",   amount: artReserved,    color: "var(--zine-pink)" },
-    { key: "pred",     label: "prediction book · 10%", amount: predReserved,   color: "var(--zine-cyan)" },
+    { key: "owned",    label: "owned · saapai",        amount: owned,        color: "var(--ink)" },
+    { key: "external", label: "external · stock $50",  amount: externalNow,  color: "var(--zine-yellow)" },
+    { key: "art",      label: "art portfolio · 10%",   amount: artReserved,  color: "var(--zine-pink)" },
+    { key: "pred",     label: "prediction book · 10%", amount: predReserved, color: "var(--zine-cyan)" },
   ];
   const pctOf = (n: number) => (total > 0 ? (n / total) * 100 : 0);
 
@@ -126,6 +143,18 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
           sidecars and liquidated as needed.
         </em>
       </p>
+      {externalBookAtEntry && externalBookAtEntry > 0 ? (
+        <div className={`alloc-ext ${externalDelta >= 0 ? "is-up" : "is-dn"}`}>
+          <span className="alloc-ext-k">$50 external investment at 4/22 · now worth</span>
+          <span className="alloc-ext-v">
+            {externalNow.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </span>
+          <span className="alloc-ext-d">
+            {externalDelta >= 0 ? "+" : "−"}{Math.abs(externalDelta).toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 })}{" "}
+            · {externalDelta >= 0 ? "+" : "−"}{Math.abs(externalPct).toFixed(2)}%
+          </span>
+        </div>
+      ) : null}
       <div className="alloc-bar" aria-hidden="true">
         {segments.map((s) => {
           const pct = pctOf(s.amount);

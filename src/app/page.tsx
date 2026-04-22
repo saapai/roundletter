@@ -270,7 +270,7 @@ export default async function HomePage() {
           legend: owned (saapai), external $50 stock, 10% art, 10%
           prediction market. lands right after the punchline so the
           reader learns what they're looking at before they scroll. */}
-      <AllocationBar baseline={lp.baseline} externalTotal={50} />
+      <AllocationBar baseline={lp.baseline} externalTotal={50} externalBookAtEntry={3690.67} />
 
       <aside className="home-rights" aria-label="stake-holder rights">
         <div className="home-rights-eye">// holding a stake on 21 june 2026</div>

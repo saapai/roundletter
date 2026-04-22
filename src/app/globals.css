@@ -14934,3 +14934,50 @@ body.hunt-fired .masthead .wordmark .dot {
   line-height: 1.5;
   color: color-mix(in srgb, var(--ink) 72%, var(--paper));
 }
+
+/* allocation-bar · live $50 external indicator */
+.alloc-ext {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "k k"
+    "v d";
+  gap: 0.15rem 0.75rem;
+  align-items: baseline;
+  margin: 0.2rem 0 0.9rem;
+  padding: 0.65rem 0.8rem;
+  background: color-mix(in srgb, var(--zine-yellow) 18%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--zine-yellow) 60%, transparent);
+  border-left-width: 3px;
+  border-radius: 3px;
+}
+.alloc-ext.is-up { border-left-color: #2e6b3b; }
+.alloc-ext.is-dn { border-left-color: var(--rust); }
+.alloc-ext-k {
+  grid-area: k;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.alloc-ext-v {
+  grid-area: v;
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.2rem, 3.4vw, 1.5rem);
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.005em;
+  font-weight: 600;
+}
+.alloc-ext-d {
+  grid-area: d;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--graphite);
+  text-align: right;
+}
+.alloc-ext.is-up .alloc-ext-d { color: #2e6b3b; }
+.alloc-ext.is-dn .alloc-ext-d { color: var(--rust); }

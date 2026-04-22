@@ -52,11 +52,12 @@
   },
   "external_entries": [
     {
-      "id": "ext-stock-2026-04-20",
+      "id": "ext-stock-2026-04-22",
       "label": "external stock investment",
       "amount": 50.00,
-      "date": "2026-04-20",
-      "status": "yet to be synced with stock portfolio"
+      "date": "2026-04-22",
+      "status": "live · distributed 22 apr proportionally across all 10 positions",
+      "book_at_entry": 3690.67
     }
   ]
 }
