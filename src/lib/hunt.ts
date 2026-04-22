@@ -55,7 +55,8 @@ export const HUNT_EGGS: HuntEgg[] = [
   {
     id: "konami",
     name: "the old password",
-    origin: "anywhere on the site · up up down down left right left right b a",
+    origin:
+      "desktop · ↑ ↑ ↓ ↓ ← → ← → b a · mobile · swipe ↑ ↑ ↓ ↓ · url · #stranger",
     flavor: "you typed the old password. of course it still works.",
     reward: "kalshi",
     rarity: 3,
@@ -63,7 +64,8 @@ export const HUNT_EGGS: HuntEgg[] = [
   {
     id: "thedot",
     name: "the rust dot",
-    origin: "the period after the wordmark · three quick clicks",
+    origin:
+      "desktop · triple-click the period · mobile · triple-tap or long-press · url · #ride",
     flavor: "the punctuation always meant something.",
     reward: "waymo",
     rarity: 2,
@@ -71,7 +73,7 @@ export const HUNT_EGGS: HuntEgg[] = [
   {
     id: "bankroll",
     name: "the word itself",
-    origin: "type b a n k r o l l · on any page",
+    origin: "desktop · type b a n k r o l l · mobile · url #bankroll",
     flavor: "you said the quiet part out loud.",
     reward: "lore",
     rarity: 2,
@@ -79,7 +81,7 @@ export const HUNT_EGGS: HuntEgg[] = [
   {
     id: "please",
     name: "the polite one",
-    origin: "#please · any url",
+    origin: "any url · #please",
     flavor: "ask and you shall receive a hint.",
     reward: "lore",
     rarity: 1,
@@ -87,7 +89,8 @@ export const HUNT_EGGS: HuntEgg[] = [
   {
     id: "lucky",
     name: "get lucky",
-    origin: "type g e t l u c k y · on any page",
+    origin:
+      "desktop · type g e t l u c k y · mobile · double-tap the wordmark · or shake the phone · url · #song",
     flavor: "we're up all night to get lucky. you found it.",
     reward: "lucky",
     rarity: 2,
