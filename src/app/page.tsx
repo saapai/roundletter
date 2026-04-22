@@ -273,6 +273,17 @@ export default async function HomePage() {
             <em>green credit</em> — this is the actual product.
           </p>
           <p>
+            two sidecar books each ride on <strong>10% of the total portfolio stake</strong>:
+            the <strong>prediction-market book</strong> takes the action in
+            <Link href="#open-bets"> open bets</Link> above — kalshi referrals + yes/no contracts feed a
+            public pool the ai hedges and redistributes to yeses. the{" "}
+            <strong>art portfolio</strong> takes ted-lasso texts + call-me-if-you-get-lost finds
+            + negotiated pieces, each appraised by panel and paid in cash or
+            portfolio equity. every dollar paid into either sidecar is paid
+            from that 10% slice, and every gain rolls back into it — so each
+            book scales with the main one and never cannibalizes it.
+          </p>
+          <p>
             a platform where attention invested in reasoning is rewarded with better reasoning.
             the public only bets on success. the founder only bets against themselves. if it wins,
             the public gets paid. if it loses, the pool funds giveaways. the record is the return.{" "}
@@ -424,6 +435,60 @@ export default async function HomePage() {
           sms composer. portfolio-to-$100k is yes-only per saapai's rule. */}
       <OpenBets />
 
+      {/* bookends — the page the user remembered: wesley wang at the top,
+          kanye at the bottom. each is a framed youtube-link chapter in
+          the site's register. external links only — no embedded iframes,
+          so no copyright strikes. */}
+      <section className="home-bookends" aria-label="the bookends — wesley wang + kanye west">
+        <div className="home-bookends-eye">// the bookends</div>
+
+        <a
+          className="home-bookend home-bookend-top"
+          href="https://www.youtube.com/results?search_query=wesley+wang+nothing+except+everything"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="top — wesley wang"
+        >
+          <div className="home-bookend-frame" aria-hidden="true">
+            <span className="home-bookend-play">▶</span>
+            <span className="home-bookend-noise" />
+          </div>
+          <div className="home-bookend-meta">
+            <div className="home-bookend-kicker">top — sits above everything</div>
+            <div className="home-bookend-title"><em>nothing, except everything.</em></div>
+            <div className="home-bookend-sub">wesley wang · short films · how the document sees itself</div>
+            <div className="home-bookend-link">watch on youtube <span aria-hidden="true">↗</span></div>
+          </div>
+        </a>
+
+        <p className="home-bookends-mid">
+          <em>
+            between these two videos is the document. the top frame is the
+            register i want the site to read in; the bottom frame is the
+            feeling the descent ends in.
+          </em>
+        </p>
+
+        <a
+          className="home-bookend home-bookend-bot"
+          href={youtubeSearchLink(SONGS.ghost_town)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="bottom — kanye west · ghost town"
+        >
+          <div className="home-bookend-frame home-bookend-frame-bot" aria-hidden="true">
+            <span className="home-bookend-play">▶</span>
+            <span className="home-bookend-noise" />
+          </div>
+          <div className="home-bookend-meta">
+            <div className="home-bookend-kicker">bottom — sits under everything</div>
+            <div className="home-bookend-title"><em>ghost town.</em></div>
+            <div className="home-bookend-sub">kanye west · ye · 2018 · "i feel kinda free"</div>
+            <div className="home-bookend-link">watch on youtube <span aria-hidden="true">↗</span></div>
+          </div>
+        </a>
+      </section>
+
       {/* art-portfolio teaser — cmiygl poster homage, doubles as a pointer
           toward the /67/420/6767/6769/677777 variant hunt. visible on the
           quiet home so the Tyler nod is part of the published register,
@@ -463,7 +528,13 @@ export default async function HomePage() {
           </Link>
         </div>
         <p className="home-cmiygl-foot">
-          <em>five variants, one instruction. <strong>tyler said it first.</strong> each poster routes to its own wrong number in the hunt. originals: <strong>call me if you get lost</strong> · tyler, the creator · 2021.</em>
+          <em>
+            five variants, one instruction. <strong>tyler said it first.</strong>{" "}
+            each poster routes to its own wrong number in the hunt. originals:{" "}
+            <strong>call me if you get lost</strong> · tyler, the creator · 2021.{" "}
+            <strong>the art portfolio rides on 10% of the total portfolio stake</strong>;
+            every piece paid from it, every sale rolls back into it.
+          </em>
         </p>
       </section>
 

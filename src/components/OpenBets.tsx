@@ -136,7 +136,9 @@ export default function OpenBets() {
           percentages are the panel&rsquo;s implied probabilities, not book
           prices. stakes negotiate by text. no NO on portfolio-to-$100k —
           the AI uses the yes pool to hedge the other yes bets and
-          distribute winnings to the book.
+          distribute winnings to the book. <strong>the prediction-market
+          book rides on 10% of the total portfolio stake</strong>; every
+          payout comes from that slice, every gain rolls back into it.
         </em>
       </p>
     </section>

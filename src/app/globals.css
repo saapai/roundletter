@@ -11979,6 +11979,123 @@ body.hunt-fired .masthead .wordmark .dot {
   margin-top: 0.4rem;
 }
 
+/* bookends section — top (wesley wang) + bottom (kanye ghost town).
+   two yt-styled cards with a noise-filled frame; click opens youtube. */
+.home-bookends {
+  max-width: min(900px, 100%);
+  margin: 3.5rem auto;
+  display: grid;
+  gap: 1.1rem;
+}
+.home-bookends-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  text-align: center;
+  margin-bottom: 0.2rem;
+}
+.home-bookends-mid {
+  text-align: center;
+  margin: 0.35rem auto;
+  font-size: 0.95rem;
+  color: var(--graphite);
+  max-width: 48ch;
+  line-height: 1.55;
+}
+.home-bookend {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1.1rem;
+  align-items: stretch;
+  background: color-mix(in srgb, var(--paper) 96%, var(--parchment));
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.8rem;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+}
+.home-bookend:hover,
+.home-bookend:focus-visible {
+  border-color: var(--rust);
+  box-shadow: 0 14px 28px -16px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+  outline: none;
+}
+.home-bookend-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  min-height: 104px;
+  border-radius: 3px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(255, 253, 246, 0.08), transparent 65%),
+    linear-gradient(160deg, #0a0c10 0%, #151416 100%);
+  display: grid;
+  place-items: center;
+}
+.home-bookend-frame-bot {
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(232, 176, 108, 0.08), transparent 60%),
+    linear-gradient(160deg, #0b0605 0%, #1d1009 100%);
+}
+.home-bookend-play {
+  font-size: 2rem;
+  color: color-mix(in srgb, var(--paper) 82%, transparent);
+  z-index: 2;
+  text-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
+}
+.home-bookend-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 253, 246, 0.025) 0 1px,
+      transparent 1px 3px
+    );
+  opacity: 0.9;
+}
+.home-bookend-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.15rem 0;
+}
+.home-bookend-kicker {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.home-bookend-title {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.3rem, 3.5vw, 1.7rem);
+  line-height: 1.1;
+  color: var(--ink);
+}
+.home-bookend-sub {
+  font-size: 0.9rem;
+  color: var(--graphite);
+  line-height: 1.4;
+}
+.home-bookend-link {
+  margin-top: auto;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+@media (max-width: 560px) {
+  .home-bookend { grid-template-columns: 1fr; }
+  .home-bookend-frame { min-height: 140px; }
+}
+
 /* homepage CMIYGL teaser row — five posters that each link to their own
    wrong numeric route. doubles as the art-portfolio "coming soon" block. */
 .home-cmiygl {

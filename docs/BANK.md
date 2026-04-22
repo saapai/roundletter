@@ -101,6 +101,25 @@ backdrop-blur. One motif per plate.
 
 ---
 
+## stake allocation rule (apr 22 2026)
+
+Two sidecar books each ride on **10% of the total portfolio stake**.
+
+- **Prediction-market book · 10%** — takes the action from `/#open-bets`
+  (YES/NO on portfolio milestones, IONQ/NVDA beats, QTUM $50, auction
+  attendance, auction gross) plus the kalshi referral pool. the portfolio-
+  to-$100k bet is YES-only; the AI uses that pool to hedge the other YES
+  sides + distribute winnings to yeses. every payout comes from the 10%
+  slice, every gain rolls back into it. scales with the main book.
+- **Art portfolio · 10%** — takes the ted-lasso-submission pieces + the
+  call-me-if-you-get-lost variant finds + any negotiated pieces. each
+  appraised by panel and paid in cash or portfolio equity. same pool
+  mechanics as the prediction-market book.
+
+Main portfolio keeps **80%** of the stake. Rebalances settle monthly +
+at round close. External investment (beyond referrals) negotiated by
+text.
+
 ## invariants (do not ship work that breaks these)
 
 - Masthead: Cormorant Garamond italic wordmark, rust dot, monospace
