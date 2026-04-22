@@ -39,9 +39,28 @@ export default function ViewsBadge({
         .catch(() => {});
     load();
     const t = setInterval(load, 15000);
+    // optimistic bump — when SiteViewTracker's POST returns a fresh
+    // count for the slug that just hit, patch the local store so the
+    // user's own visit shows up immediately instead of waiting for the
+    // next 15s poll tick.
+    const onHit = (e: Event) => {
+      const ce = e as CustomEvent<{ slug: string; count: number }>;
+      const slug = ce.detail?.slug;
+      const count = ce.detail?.count;
+      if (!slug || typeof count !== "number") return;
+      setStore((prev) => {
+        const counts = { ...(prev?.counts ?? {}) };
+        const was = counts[slug] ?? 0;
+        counts[slug] = Math.max(was, count);
+        const total = Object.values(counts).reduce((a, b) => a + b, 0);
+        return { counts, total };
+      });
+    };
+    window.addEventListener("rl:view-hit", onHit);
     return () => {
       cancelled = true;
       clearInterval(t);
+      window.removeEventListener("rl:view-hit", onHit);
     };
   }, []);
 

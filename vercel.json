@@ -7,6 +7,22 @@
     {
       "path": "/api/agents/daily-brief?source=cron&bell=close",
       "schedule": "0 20 * * 1-5"
+    },
+    {
+      "path": "/api/bets/lines?source=cron&bell=open",
+      "schedule": "35 13 * * 1-5"
+    },
+    {
+      "path": "/api/bets/lines?source=cron&bell=close",
+      "schedule": "5 20 * * 1-5"
+    },
+    {
+      "path": "/api/agents/stock-debate?source=cron&bell=close",
+      "schedule": "30 20 * * 1-5"
+    },
+    {
+      "path": "/api/agents/favorite-number?source=cron",
+      "schedule": "7 * * * *"
     }
   ]
 }

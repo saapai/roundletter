@@ -6,44 +6,13 @@ export const dynamic = "force-dynamic";
 const NAMESPACE = "aureliex-prod";
 const BASE = "https://abacus.jasoncameron.dev";
 
-// Until 2026-04 the tracker only allow-listed four letter slugs, which meant
-// every hit from the rest of the site came back 400 and no total was ever
-// collected. The allow-list now accepts any normalised path slug — the
-// namespace scoping keeps this confined to our abacus key even if someone
-// were to manufacture slugs.
+// Any normalised path slug is acceptable — namespace scoping confines
+// abuse to our abacus key.
 const SLUG_RE = /^[a-z0-9][a-z0-9-/]{0,63}$/;
 
-// Publish anchor for the estimate floor. The site went live 2026-04-12;
-// the poster reported 550 views by day 4 (2026-04-16). Because v0 only
-// captured four letter slugs, the accumulated abacus total will be below
-// reality for anything that happened before the tracker fix. To avoid
-// showing a mis-leading low number, we floor the returned total with a
-// linear-decay estimate anchored on that observed 550-by-day-4 datapoint.
-//
-// piece-wise linear segments (cumulative). bumped 22 apr because the
-// previous 30/day tail had the visible site-total stuck ~730 at day 10,
-// which visitors read as "nothing is happening." the revised curve:
-//   0..4d:   137.5/day  →  0 → 550
-//   4..30d:  90/day     →  550 → 2890
-//   30..90d: 30/day     →  2890 → 4690
-//   >90d:    12/day
-//
-// actual abacus counts continue to grow forever (abacus persists), so as
-// real views overtake the estimate, the estimate naturally becomes moot.
-const PUBLISH_ISO = "2026-04-12T00:00:00Z";
-function estimatedMinViews(nowMs: number): number {
-  const publishMs = Date.parse(PUBLISH_ISO);
-  if (Number.isNaN(publishMs)) return 0;
-  const days = Math.max(0, (nowMs - publishMs) / (1000 * 60 * 60 * 24));
-  if (days <= 4) return Math.round(days * 137.5);
-  if (days <= 30) return Math.round(550 + (days - 4) * 90);
-  if (days <= 90) return Math.round(2890 + (days - 30) * 30);
-  return Math.round(4690 + (days - 90) * 12);
-}
-
-// Known routes we want in the site-wide total. Unknown-but-valid slugs are
-// still counted (writes + reads pass through), but a GET without params
-// returns this curated set so the badge totals don't drift with noise.
+// Curated list summed into the site-wide total. Anything outside this
+// list still increments its own abacus key but doesn't contribute to
+// the footer headline.
 const TRACKED_SLUGS = [
   "home",
   "let-down",
@@ -69,8 +38,16 @@ function normaliseSlug(raw: unknown): string | null {
   const s = raw.trim().toLowerCase().replace(/^\/+/, "").replace(/\/+$/, "");
   if (!s) return null;
   if (!SLUG_RE.test(s)) return null;
-  // abacus paths must be flat — collapse any interior slashes into single dashes
   return s.replace(/\/+/g, "-");
+}
+
+async function sha256Short(s: string): Promise<string> {
+  const enc = new TextEncoder().encode(s);
+  const buf = await crypto.subtle.digest("SHA-256", enc);
+  return Array.from(new Uint8Array(buf))
+    .slice(0, 8)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 async function hit(slug: string): Promise<number | null> {
@@ -95,18 +72,57 @@ async function read(slug: string): Promise<number> {
   }
 }
 
+function extractIp(req: NextRequest): string {
+  // accept forwarded headers in preference order; fall back to 'unknown'
+  const xff = req.headers.get("x-forwarded-for");
+  if (xff) return xff.split(",")[0]!.trim();
+  const xr = req.headers.get("x-real-ip");
+  if (xr) return xr.trim();
+  return "unknown";
+}
+
+// Count one visit per (slug × IP × hour bucket). The dedup key includes
+// floor(now / 1h) so the same IP hitting the same page never re-counts
+// WITHIN an hour, but comes back to life on the next hour. prevents
+// refresh spam while still growing visibly from normal traffic (open a
+// new tab an hour later → +1). tradeoff: stale dedup keys accumulate
+// on abacus with no GC; fine at this scale.  a proper Upstash Redis
+// SET NX EX 3600 can replace this if UPSTASH_REDIS_REST_URL gets set.
+const DEDUP_WINDOW_MS = 60 * 60 * 1000;
+
+async function uniqueHit(slug: string, ip: string): Promise<number> {
+  const ipHash = await sha256Short(`aureliex-salt-2026:${ip}`);
+  const bucket = Math.floor(Date.now() / DEDUP_WINDOW_MS);
+  const dedupKey = `u-${slug}-${ipHash}-${bucket}`;
+  try {
+    const r = await fetch(`${BASE}/hit/${NAMESPACE}/${encodeURIComponent(dedupKey)}`, { cache: "no-store" });
+    if (!r.ok) return (await read(slug));
+    const j = (await r.json()) as { value?: number };
+    const dedupCount = typeof j.value === "number" ? j.value : 0;
+    if (dedupCount === 1) {
+      // first hit from this IP on this slug in the current hour bucket
+      const n = await hit(slug);
+      return n ?? 0;
+    }
+    return await read(slug);
+  } catch {
+    return await read(slug);
+  }
+}
+
 export async function POST(req: NextRequest) {
   let body: { slug?: string } = {};
   try {
     body = await req.json();
   } catch {
-    /* empty body → rejected below */
+    /* empty */
   }
   const slug = normaliseSlug(body.slug);
   if (!slug) {
     return NextResponse.json({ ok: false, error: "bad slug" }, { status: 400 });
   }
-  const count = await hit(slug);
+  const ip = extractIp(req);
+  const count = await uniqueHit(slug, ip);
   return NextResponse.json({ ok: true, slug, count });
 }
 
@@ -125,22 +141,17 @@ export async function GET(req: NextRequest) {
     TRACKED_SLUGS.map(async (s) => [s, await read(s)] as const),
   );
   const counts: Record<string, number> = {};
-  let rawTotal = 0;
+  let total = 0;
   for (const [s, n] of entries) {
     counts[s] = n;
-    rawTotal += n;
+    total += n;
   }
-  // Floor the returned total with the estimated minimum so the displayed
-  // aggregate never regresses below a believable real-world curve. The
-  // estimate is derived from the publish-day anchor + linear decay.
-  const estimate = estimatedMinViews(Date.now());
-  const total = Math.max(rawTotal, estimate);
+  // raw total only — no estimate floor. numbers reflect actual
+  // unique-IP-per-slug hits from the tracker. grows as people visit.
   return NextResponse.json({
     counts,
     total,
-    rawTotal,
-    estimate,
-    anchoredAt: PUBLISH_ISO,
+    rawTotal: total,
     tracked: TRACKED_SLUGS,
   });
 }
