@@ -34,7 +34,18 @@ export default function ViewsBadge({
       fetch("/api/views", { cache: "no-store" })
         .then((r) => (r.ok ? r.json() : null))
         .then((s) => {
-          if (!cancelled && s) setStore(s);
+          if (!cancelled && s) {
+            setStore(s);
+            // broadcast so sibling ViewsBadge mounts can sync without
+            // waiting for their own 15s tick — prevents the "604 in
+            // footer / 8 on /6969" mismatch where two badges mounted
+            // at different moments render different snapshots.
+            try {
+              window.dispatchEvent(
+                new CustomEvent("rl:views-sync", { detail: s }),
+              );
+            } catch {}
+          }
         })
         .catch(() => {});
     load();
@@ -56,11 +67,19 @@ export default function ViewsBadge({
         return { counts, total };
       });
     };
+    // sibling badge got a fresh store — adopt it verbatim
+    const onSync = (e: Event) => {
+      const ce = e as CustomEvent<Store>;
+      if (!ce.detail) return;
+      setStore(ce.detail);
+    };
     window.addEventListener("rl:view-hit", onHit);
+    window.addEventListener("rl:views-sync", onSync);
     return () => {
       cancelled = true;
       clearInterval(t);
       window.removeEventListener("rl:view-hit", onHit);
+      window.removeEventListener("rl:views-sync", onSync);
     };
   }, []);
 
