@@ -8853,6 +8853,12 @@ body.reader-mode > main { padding-top: 2rem; }
   padding-top: env(safe-area-inset-top);
   padding-bottom: env(safe-area-inset-bottom);
   font-family: Georgia, "Times New Roman", serif;
+  /* Smooth the hard cuts between scenes — the background fades rather than
+     snaps. Content fade (.trailer-scene) stays at 620ms; this timing and
+     curve are chosen to feel like the backdrop is underneath the same
+     photographic exposure the text is sitting on. */
+  transition: background 720ms cubic-bezier(0.4, 0.0, 0.2, 1),
+              color 560ms cubic-bezier(0.4, 0.0, 0.2, 1);
   /* Bleed off the left/right edges so the hero feels full-screen even though
      .home-root has padding. The home wrapper uses negative margin to allow. */
 }
@@ -9290,62 +9296,83 @@ body.reader-mode > main { padding-top: 2rem; }
   letter-spacing: -0.02em;
 }
 
-/* ── controls ── */
+/* ── controls ──
+   softer than the original glass-pills: no backdrop blur, no hard 40%
+   border. the shape is a thin underline + monospace label that reads as
+   part of the film rather than chrome floating on top.
+*/
 .trailer-ctrl {
   position: absolute;
   z-index: 10;
-  background: rgba(255,253,246,0.1);
-  border: 1px solid rgba(255,253,246,0.4);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 253, 246, 0.35);
   color: var(--zine-white);
-  border-radius: 999px;
-  padding: 0.7rem 1.2rem;
-  min-height: 44px;
+  border-radius: 0;
+  padding: 0.35rem 0.2rem;
+  min-height: 32px;
   display: inline-flex;
   align-items: center;
   font-family: "Courier New", monospace;
-  font-size: 11px;
-  letter-spacing: 0.22em;
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
   text-transform: lowercase;
   cursor: pointer;
-  backdrop-filter: blur(4px);
-  transition: background 200ms ease, border-color 200ms ease;
+  transition: color 240ms ease, border-color 240ms ease, transform 240ms ease;
 }
 .trailer-ctrl:hover,
 .trailer-ctrl:focus-visible {
-  background: rgba(255,253,246,0.2);
-  border-color: rgba(255,253,246,0.75);
+  color: var(--zine-yellow);
+  border-color: color-mix(in srgb, var(--zine-yellow) 80%, transparent);
   outline: none;
+  transform: translateY(-1px);
 }
 .trailer-sound {
   top: clamp(1rem, 4vw, 1.5rem);
   right: clamp(1rem, 4vw, 1.5rem);
 }
 .trailer-skip {
-  bottom: clamp(1rem, 4vw, 1.5rem);
+  bottom: clamp(1.25rem, 4.5vw, 1.8rem);
   right: clamp(1rem, 4vw, 1.5rem);
 }
-/* on paper-backed scenes (2, 3, 4), flip contrast */
+/* on paper-backed scenes (2, 3, 4), flip contrast — but still as an
+   underline, not a glass pill. */
 .trailer.trailer-scene-2 .trailer-ctrl,
 .trailer.trailer-scene-3 .trailer-ctrl,
 .trailer.trailer-scene-4 .trailer-ctrl {
   color: var(--zine-news);
-  border-color: rgba(28,26,23,0.35);
-  background: rgba(255,253,246,0.55);
+  border-bottom-color: rgba(28, 26, 23, 0.28);
+}
+.trailer.trailer-scene-2 .trailer-ctrl:hover,
+.trailer.trailer-scene-3 .trailer-ctrl:hover,
+.trailer.trailer-scene-4 .trailer-ctrl:hover {
+  color: var(--zine-red);
+  border-bottom-color: var(--zine-red);
 }
 
-/* ── progress bar ── */
+/* ── progress bar ── paper-on-film rather than arcade red-yellow. the
+   fill now adopts the scene's accent so it reads as part of the image. */
 .trailer-progress {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 2px;
-  background: rgba(255,253,246,0.08);
+  height: 1px;
+  background: rgba(255, 253, 246, 0.1);
   pointer-events: none;
 }
 .trailer-progress-fill {
   height: 100%;
   width: 0%;
-  background: linear-gradient(90deg, var(--zine-red) 0%, var(--zine-yellow) 100%);
+  background: color-mix(in srgb, var(--zine-yellow) 70%, var(--zine-paper));
   animation: trailer-progress 22.5s linear forwards;
+  transition: background 720ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.trailer.trailer-scene-2 .trailer-progress-fill,
+.trailer.trailer-scene-3 .trailer-progress-fill {
+  background: color-mix(in srgb, var(--zine-red) 70%, var(--zine-news));
+}
+.trailer.trailer-scene-5 .trailer-progress-fill,
+.trailer.trailer-scene-6 .trailer-progress-fill {
+  background: color-mix(in srgb, var(--zine-yellow) 55%, var(--zine-cyan-lo));
 }
 @keyframes trailer-progress {
   from { width: 0%; }
@@ -11747,6 +11774,102 @@ body.hunt-fired .masthead .wordmark .dot {
   }
   .hunt-card { padding: 1.2rem 1.1rem 1rem; }
   .hunt-card-foot { flex-direction: column; align-items: flex-start; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   desktop old-tv frame on the home hero.
+   the landing trailer is near-square on desktop (letterboxed by the viewer),
+   so rather than fight it, lean in — set it inside a wood-grain crt bezel
+   with corner screws, a dial-stack, a scanline overlay, and the inside-glass
+   curvature. mobile stays full-bleed (no frame).
+   ══════════════════════════════════════════════════════════════════════ */
+@media (min-width: 1024px) {
+  body:has(.trailer.trailer-hero) .home-root > .trailer.trailer-hero,
+  .home-root > .trailer.trailer-hero {
+    /* reset: the section is no longer full-bleed — it sits inside a frame */
+    min-height: 0;
+    width: auto;
+    max-width: min(1080px, 92vw);
+    aspect-ratio: 4 / 3;
+    margin: clamp(2rem, 5vw, 3.5rem) auto 0;
+    border-radius: 28px 28px 22px 22px;
+    box-shadow:
+      /* dark inner vignette */
+      inset 0 0 120px rgba(0, 0, 0, 0.55),
+      /* wood bezel — layered highlights and shadows */
+      0 0 0 14px #3a2717,
+      0 0 0 16px #1d120a,
+      0 0 0 20px #2a1a0d,
+      0 0 0 22px #4e331d,
+      0 0 0 24px #2a1a0d,
+      /* drop shadow on the cabinet */
+      0 40px 80px -20px rgba(0, 0, 0, 0.55),
+      0 12px 24px -10px rgba(0, 0, 0, 0.45);
+    /* tint the outer frame with a warm woodgrain via ::before */
+    isolation: isolate;
+  }
+  /* corner screws — four tiny circles inside the bezel */
+  .home-root > .trailer.trailer-hero::before {
+    content: "";
+    position: absolute;
+    inset: -20px;
+    pointer-events: none;
+    background:
+      radial-gradient(circle 3px at 14px 14px, #e8d6b2 0 3px, #1d120a 3.2px 4.5px, transparent 5px),
+      radial-gradient(circle 3px at calc(100% - 14px) 14px, #e8d6b2 0 3px, #1d120a 3.2px 4.5px, transparent 5px),
+      radial-gradient(circle 3px at 14px calc(100% - 14px), #e8d6b2 0 3px, #1d120a 3.2px 4.5px, transparent 5px),
+      radial-gradient(circle 3px at calc(100% - 14px) calc(100% - 14px), #e8d6b2 0 3px, #1d120a 3.2px 4.5px, transparent 5px);
+    z-index: 3;
+  }
+  /* scanline / CRT glow + subtle curvature on the inside of the glass */
+  .home-root > .trailer.trailer-hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% 46%, transparent 62%, rgba(0, 0, 0, 0.28) 100%),
+      repeating-linear-gradient(
+        to bottom,
+        rgba(255, 253, 246, 0.03) 0px,
+        rgba(255, 253, 246, 0.03) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    mix-blend-mode: overlay;
+    z-index: 2;
+    border-radius: inherit;
+  }
+  /* rewire controls inside the TV so they hug the glass corners */
+  .home-root > .trailer.trailer-hero .trailer-sound { top: 1.1rem; right: 1.1rem; }
+  .home-root > .trailer.trailer-hero .trailer-skip  { bottom: 1.25rem; right: 1.1rem; }
+  /* the site masthead and page content sit underneath the TV */
+  .home-root { padding-top: 0; }
+
+  /* a small stacked dial-set pinned to the bezel's right edge — visual
+     acknowledgement of the CRT knobs. rendered as a sibling sibling so it
+     lives OUTSIDE the hero overflow: hidden. */
+  .home-root > .trailer.trailer-hero {
+    overflow: visible; /* allow the knobs to sit on the wood */
+  }
+  .home-root > .trailer.trailer-hero > .trailer-bg,
+  .home-root > .trailer.trailer-hero > .trailer-scene {
+    border-radius: inherit;
+    overflow: hidden;
+  }
+  /* ↑ clip the inside elements to the rounded glass since the outer section
+     is now visible-overflow to accommodate the frame chrome. */
+}
+
+/* reduced-motion: still frame the TV, skip the scanline animation effect
+   (it's just static lines here — kept for completeness). */
+@media (prefers-reduced-motion: reduce) {
+  .trailer.trailer-hero,
+  .trailer-bg,
+  .trailer-progress-fill {
+    transition: none;
+    animation: none;
+  }
 }
 
 
