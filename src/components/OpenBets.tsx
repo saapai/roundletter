@@ -88,48 +88,52 @@ const BETS: Bet[] = [
     noPct: 78,
     lastReviewed: LINES_LAST_REVIEWED,
   },
-  // — NBA playoff futures · small + diversified, lakers ladder ~4pp high on YES —
+  // — NBA playoff futures · cross-referenced against kalshi + polymarket +
+  //   FanDuel + DraftKings + ESPN + covers by a research agent on this
+  //   review date. lakers series is 2-0 vs Rockets after games 1 + 2;
+  //   Luka + Reaves targeting return game 5. lakers ladder ~3pp HIGH on
+  //   YES to soak LA-biased bets; cavs + finals-7 sit at fair.
   {
     id: "nba-lakers-round-one",
-    label: "lakers win their first-round series (2026 playoffs)",
-    yesPct: 57,
-    noPct: 43,
-    note: "panel sits slightly HIGH on YES (sharp books ~52%). LA bettors bias pro-lakers; the small premium benefits the pool without being egregious. same mechanic on the three lakers ladder rungs below.",
+    label: "lakers win their first-round series vs HOU (up 2-0)",
+    yesPct: 85,
+    noPct: 15,
+    note: "lakers 2-0 after 107-98 + 101-94 wins; luka/reaves targeting return. sharp consensus ~82% post-game-2; panel sits +3pp high on YES. la bettors bias pro-lakers; premium absorbs some of that skew.",
     lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "nba-lakers-conf-semis",
-    label: "lakers reach the conference finals (win first two rounds)",
-    yesPct: 28,
-    noPct: 72,
+    label: "lakers reach the conference finals (win two rounds)",
+    yesPct: 19,
+    noPct: 81,
     lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "nba-lakers-finals",
     label: "lakers reach the 2026 NBA finals (win three rounds)",
-    yesPct: 14,
-    noPct: 86,
+    yesPct: 9,
+    noPct: 91,
     lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "nba-lakers-chip",
     label: "lakers win the 2026 NBA championship (all four rounds)",
-    yesPct: 7,
-    noPct: 93,
+    yesPct: 4,
+    noPct: 96,
     lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "nba-cavs-chip",
     label: "cavaliers win the 2026 NBA championship",
-    yesPct: 13,
-    noPct: 87,
+    yesPct: 6,
+    noPct: 94,
     lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "nba-finals-seven",
-    label: "the NBA finals go 7 games",
-    yesPct: 22,
-    noPct: 78,
+    label: "the 2026 NBA finals go 7 games",
+    yesPct: 18,
+    noPct: 82,
     lastReviewed: LINES_LAST_REVIEWED,
   },
 ];
