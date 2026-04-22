@@ -1,5 +1,10 @@
 # roundletter (aureliex.com) — Repo Overview
 
+> **Before touching design / history / tone:** read [`docs/BANK.md`](docs/BANK.md).
+> That file is the canonical record of deferred inspos, sentiment
+> references, historical choices, and invariants. New UI work should
+> reference it, not re-derive.
+
 ## Project Summary
 A Next.js App Router site that publishes a single retail investor's portfolio in public: letters, trades, positions, and a canvas view. Core artifact is a weekly "round letter." Goal of the site is a transparent, scoreable logbook of decisions. Tech: Next.js 14 App Router, TypeScript, Tailwind, filesystem-backed content (JSON + Markdown).
 
