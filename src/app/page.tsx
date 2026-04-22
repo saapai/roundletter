@@ -272,28 +272,11 @@ export default async function HomePage() {
       <AllocationBar baseline={lp.baseline} externalTotal={50} />
 
       <aside className="home-rights" aria-label="stake-holder rights">
-        <div className="home-rights-eye">// holding a stake on 21 june</div>
-        <p>
-          everyone sitting on a position when the book closes on{" "}
-          <strong>21 june 2026</strong> gets three things:
-        </p>
-        <ul className="home-rights-list">
-          <li>
-            <strong>an invite to the birthday party</strong> — the closing
-            ceremony is my birthday. we open the book, read the record, and
-            settle the round in the same room. stake-holders come in free,
-            plus one. venue + time shared by text as we get closer.
-          </li>
-          <li>
-            <strong>planning rights on round 1</strong> — vote on the next
-            theme, the panel line-up, the sidecar splits. one vote per
-            stake-holder; the panel adjudicates ties.
-          </li>
-          <li>
-            <strong>reimbursable costs</strong> incurred on behalf of the book
-            — research subscriptions, tools, travel to events like the friday
-            auction. submit receipts by text.
-          </li>
+        <div className="home-rights-eye">// holding a stake on 21 june 2026</div>
+        <ul className="home-rights-chips">
+          <li><span className="home-rights-k">birthday party</span><span className="home-rights-v">invite · stake-holders + 1, free</span></li>
+          <li><span className="home-rights-k">round 1 vote</span><span className="home-rights-v">theme · panel · sidecar splits</span></li>
+          <li><span className="home-rights-k">reimbursable</span><span className="home-rights-v">research · tools · travel (by text)</span></li>
         </ul>
       </aside>
 
@@ -343,7 +326,7 @@ export default async function HomePage() {
           </div>
 
           <p className="home-story-lede">
-            every decision argued by five agents, filed as a sealed prediction. the S&amp;P does 10× in 25 years. <strong>we&rsquo;re going 27× in two months.</strong> the gap is the joke and the point.
+            five agents. one sealed prediction. <strong>27× in two months.</strong> S&amp;P does 10× in 25 years — the gap is the joke.
           </p>
 
           <div className="home-story-ctas">
@@ -486,11 +469,7 @@ export default async function HomePage() {
         />
 
         <p className="home-yt-mid">
-          <em>
-            two videos bookend the document. the top is the register i want
-            the site to read in. the bottom is the feeling the document ends
-            in — tinted orange to say which counter-culture it&rsquo;s in.
-          </em>
+          <em>two bookends · the register (top) + the feeling (bottom, orange).</em>
         </p>
 
         <YouTubeCard
@@ -545,11 +524,9 @@ export default async function HomePage() {
         </div>
         <p className="home-cmiygl-foot">
           <em>
-            five variants, one instruction. <strong>tyler said it first.</strong>{" "}
-            each poster routes to its own wrong number in the hunt. originals:{" "}
-            <strong>call me if you get lost</strong> · tyler, the creator · 2021.{" "}
-            <strong>the art portfolio rides on 10% of the total portfolio stake</strong>;
-            every piece paid from it, every sale rolls back into it.
+            five variants, one instruction — <strong>tyler said it first.</strong>{" "}
+            each poster's number routes to a hunt variant. (originals ·{" "}
+            <strong>CMIYGL</strong> · tyler, the creator · 2021.)
           </em>
         </p>
       </section>

@@ -106,12 +106,9 @@ export default function ArtPortfolio() {
           </div>
           <h2 className="art-portfolio-title">fourteen pieces, under lock.</h2>
           <p className="art-portfolio-sub">
-            previews only until the auction closes. bids are live — tap any
-            tile to offer <strong>$1 over</strong> the current ask via
-            imessage. winners get <strong>the full file + the physical piece
-            shipped</strong>.{" "}
-            <strong>{data.meta.stake_reserved_pct}%</strong> of the total
-            portfolio stake is reserved for art holders.
+            previews only. tap any tile to offer <strong>$1 over</strong> the
+            current ask via imessage. winners get <strong>file + physical</strong>,
+            shipped insured.
           </p>
         </div>
         <div className="art-portfolio-close">
@@ -175,16 +172,18 @@ export default function ArtPortfolio() {
         })}
       </div>
 
-      <p className="art-portfolio-foot">
-        <em>
-          bids are verified over text at {HUNT_PHONE_DISPLAY}. each tap
-          offers <strong>$1 over</strong> the current ask. images unlock when
-          the auction closes. <strong>winners receive the full file</strong>{" "}
-          (high-res jpg or tiff via text/airdrop) <strong>plus the physical
-          original shipped to their address</strong> at my cost — usps priority
-          mail, tracked, insured. shipping details negotiated by text.
-        </em>
-      </p>
+      <details className="art-portfolio-expand">
+        <summary>settlement + shipping · how winners get the piece</summary>
+        <p>
+          <em>
+            bids verified over text at {HUNT_PHONE_DISPLAY}. images unlock
+            when the auction closes. winners receive the full file (high-res
+            jpg or tiff via text / airdrop) plus the physical original, usps
+            priority mail, tracked + insured, at my cost. shipping details
+            negotiated by text.
+          </em>
+        </p>
+      </details>
     </section>
   );
 }

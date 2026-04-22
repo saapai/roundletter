@@ -121,16 +121,9 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
       </div>
       <p className="alloc-intro">
         <em>
-          everything is sitting in <strong>stock positions right now</strong> —
-          the whole book is the 10-holding quantum-+-bigtech basket.
-          <strong> $50 of the current stake is owned by someone else</strong>{" "}
-          (external investment, <strong>live on the book as of 22 apr</strong>,
-          distributed proportionally across the ten positions); the rest is
-          mine. <strong>within mine, 20% is earmarked for the two
-          sidecars</strong> (10% art, 10% prediction) and gets{" "}
-          <strong>liquidated as necessary</strong> when a piece sells or a bet
-          settles. the bar below shows the intent, not the broker-level
-          holding.
+          all in a 10-holding quantum + bigtech basket. <strong>$50 external</strong>{" "}
+          (live since 22 apr); the rest mine, with 20% earmarked for the two
+          sidecars and liquidated as needed.
         </em>
       </p>
       <div className="alloc-bar" aria-hidden="true">
@@ -164,17 +157,6 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
           );
         })}
       </ul>
-      <p className="alloc-foot">
-        <em>
-          the book rebalances weekly. the 10% sidecars fund the{" "}
-          <a href="#open-bets">open bets</a> pool and the{" "}
-          <a href="#art">art portfolio</a> — both are drawn from stock
-          positions when a payout lands, then replenished from gains on
-          the next rebalance. external investments settle into the book
-          at the next weekly rebalance.
-        </em>
-      </p>
-
       <div className="alloc-invest" role="group" aria-label="invest directly in a book">
         <div className="alloc-invest-eye">// invest directly</div>
         <div className="alloc-invest-row">
@@ -204,11 +186,7 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
           </a>
         </div>
         <p className="alloc-invest-note">
-          <em>
-            each button opens messages to {HUNT_PHONE_DISPLAY} with the book
-            + amount pre-filled. stakes settle at the next weekly rebalance;
-            the art + prediction sidecars hold 10% each of the total stake.
-          </em>
+          <em>stakes settle at the next weekly rebalance.</em>
         </p>
       </div>
     </section>

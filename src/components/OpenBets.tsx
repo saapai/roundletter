@@ -210,20 +210,26 @@ export default function OpenBets() {
 
       <p className="home-bets-foot">
         <em>
-          lines are reviewed weekdays by the panel against current
-          kalshi / polymarket / sharp-book fair value. percentages are the
-          panel&rsquo;s implied probabilities, not book prices. stakes
-          negotiate by text. no NO on portfolio-to-$100k — the AI uses the
-          yes pool to hedge the other yes bets and distribute winnings to
-          the book. <strong>the panel purposefully skews YES down on
-          outcomes the public can influence</strong> (auction attendance,
-          auction gross), and <strong>skews YES up a small amount on
-          outcomes where the public bias is one-sided</strong> (lakers
-          ladder, LA-weighted audience). <strong>the prediction-market
-          book rides on 10% of the total portfolio stake</strong>; every
-          payout comes from that slice, every gain rolls back into it.
+          lines reviewed weekdays · panel skews YES down on outcomes you can
+          influence, up on one-sided bias · no NO on portfolio-to-$100k.
         </em>
       </p>
+      <details className="home-bets-expand">
+        <summary>panel mechanics · how the pool works</summary>
+        <p>
+          <em>
+            percentages are the panel&rsquo;s implied probabilities, not book
+            prices. stakes negotiate by text. no NO on portfolio-to-$100k —
+            the AI uses the yes pool to hedge the other yes bets and
+            distribute winnings to the book. the panel purposefully skews YES
+            down on outcomes the public can influence (auction attendance,
+            auction gross), and up on outcomes with one-sided public bias
+            (lakers ladder, LA-weighted audience). the prediction-market book
+            rides on 10% of the total portfolio stake; every payout comes
+            from that slice, every gain rolls back into it.
+          </em>
+        </p>
+      </details>
     </section>
   );
 }

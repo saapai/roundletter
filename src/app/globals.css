@@ -13433,6 +13433,80 @@ body.hunt-fired .masthead .wordmark .dot {
   font-size: 0.97rem;
   line-height: 1.55;
 }
+.home-rights-chips {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+.home-rights-chips li {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0.8rem;
+  align-items: baseline;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed color-mix(in srgb, var(--rust) 25%, transparent);
+}
+.home-rights-chips li:last-child { border-bottom: 0; }
+.home-rights-k {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust);
+  font-weight: 600;
+}
+.home-rights-v {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--ink);
+}
+@media (max-width: 520px) {
+  .home-rights-chips li {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+}
+
+/* open-bets + art-portfolio <details> expands share a common look */
+.home-bets-expand,
+.art-portfolio-expand {
+  margin: 0.8rem 0 0;
+  padding: 0.7rem 0 0;
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.home-bets-expand > summary,
+.art-portfolio-expand > summary {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--rust);
+  cursor: pointer;
+  list-style: none;
+  padding: 0.2rem 0;
+}
+.home-bets-expand > summary::-webkit-details-marker,
+.art-portfolio-expand > summary::-webkit-details-marker { display: none; }
+.home-bets-expand > summary::before,
+.art-portfolio-expand > summary::before {
+  content: "+ ";
+  color: var(--graphite);
+  margin-right: 0.2em;
+}
+.home-bets-expand[open] > summary::before,
+.art-portfolio-expand[open] > summary::before {
+  content: "− ";
+}
+.home-bets-expand p,
+.art-portfolio-expand p {
+  margin: 0.55rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--graphite);
+}
 
 /* ════════════════════════════════════════════════════════════════════════
    allocation bar — macOS-storage-style segmented bar + colored legend.
