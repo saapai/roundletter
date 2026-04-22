@@ -7,6 +7,7 @@ import ReaderMode from "@/components/ReaderMode";
 import TableOfContents from "@/components/TableOfContents";
 import Insignia from "@/components/Insignia";
 import FridayMark from "@/components/FridayMark";
+import HuntProvider from "@/components/HuntProvider";
 
 const PERSONAL_HOSTS: string[] = [];
 const BARE_PATHS = new Set(["/17", "/keys"]);
@@ -90,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </>
         )}
         <main>{children}</main>
+        <HuntProvider />
         {!bare && (
           <footer className="max-w-6xl mx-auto px-6 py-12 text-[11px] tracking-[0.2em] uppercase text-graphite text-center">
             <div className="ink-rule mb-6" />

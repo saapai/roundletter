@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HuntLedger from "@/components/HuntLedger";
 
 // /6969 — the credits roll. A "pretend 404" that serves as the site's
 // elegant wayfinder: you went further than the page was built to go, so
@@ -185,6 +186,8 @@ export default function CreditsPage() {
           );
         })}
       </div>
+
+      <HuntLedger />
 
       <section className="trailer-credits">
         <p className="trailer-credits-eye">// credits</p>
