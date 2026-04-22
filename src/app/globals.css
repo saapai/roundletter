@@ -3257,6 +3257,26 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   position: relative;
   overflow-x: hidden;
 }
+/* soften the cream-masthead → dark-trailer boundary on /6969. a 120px
+   gradient fade sits on top of the trailer-root so the cut reads as an
+   "iris-in" rather than a rectangular slam. */
+.trailer-root::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 160px;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--paper) 96%, #0A0A0C) 0%,
+    color-mix(in srgb, var(--paper) 55%, #0A0A0C) 28%,
+    color-mix(in srgb, var(--paper) 18%, #0A0A0C) 58%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+}
 .trailer-film {
   position: fixed;
   inset: 0;
@@ -9453,16 +9473,21 @@ body:has(.home-root) > main { margin: 0; padding: 0; max-width: none; }
 .home-bridge {
   position: relative;
   width: 100%;
-  min-height: clamp(22rem, 52vh, 32rem);
+  min-height: clamp(26rem, 60vh, 38rem);
   background:
     linear-gradient(
       180deg,
+      /* matches the trailer's outro black at the seam */
       var(--zine-black)                                                0%,
-      color-mix(in srgb, var(--zine-black)   40%, var(--zine-cyan-lo)) 14%,
-      var(--zine-cyan-lo)                                              32%,
-      var(--zine-cyan)                                                 50%,
-      color-mix(in srgb, var(--zine-cyan)    55%, var(--home-paper))   68%,
-      color-mix(in srgb, var(--zine-cyan)    18%, var(--home-paper))   84%,
+      color-mix(in srgb, var(--zine-black)   60%, var(--zine-cyan-lo)) 8%,
+      color-mix(in srgb, var(--zine-black)   25%, var(--zine-cyan-lo)) 18%,
+      var(--zine-cyan-lo)                                              30%,
+      var(--zine-cyan)                                                 44%,
+      /* eased blend through the mid — more steps = less banding */
+      color-mix(in srgb, var(--zine-cyan)    72%, var(--home-paper))   56%,
+      color-mix(in srgb, var(--zine-cyan)    48%, var(--home-paper))   68%,
+      color-mix(in srgb, var(--zine-cyan)    24%, var(--home-paper))   80%,
+      color-mix(in srgb, var(--zine-cyan)     8%, var(--home-paper))   92%,
       var(--home-paper)                                                100%
     );
   display: flex;
@@ -9471,7 +9496,7 @@ body:has(.home-root) > main { margin: 0; padding: 0; max-width: none; }
   justify-content: center;
   gap: 1.1rem;
   text-align: center;
-  padding: clamp(3.5rem, 9vw, 5.5rem) clamp(1.25rem, 4vw, 2rem);
+  padding: clamp(4rem, 10vw, 6.5rem) clamp(1.25rem, 4vw, 2rem);
   color: var(--zine-white);
 }
 .home-bridge::after {
@@ -11859,6 +11884,87 @@ body.hunt-fired .masthead .wordmark .dot {
   }
   /* ↑ clip the inside elements to the rounded glass since the outer section
      is now visible-overflow to accommodate the frame chrome. */
+
+  /* tv chrome — knobs + power button mounted on the wooden bezel. only
+     visible at desktop widths, because that's the only viewport where
+     the old-tv frame exists. */
+  .trailer-tv-chrome {
+    display: block;
+    position: absolute;
+    right: -22px;
+    top: 8%;
+    bottom: 8%;
+    width: 0;
+    pointer-events: none;
+    z-index: 4;
+  }
+  .trailer-tv-knob,
+  .trailer-tv-power {
+    position: absolute;
+    right: -4px;
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    padding: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    border: 2px solid #1d120a;
+    background:
+      radial-gradient(circle at 35% 30%, #eadbc0 0%, #b08455 35%, #5b3b1d 75%, #321c0a 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 240, 200, 0.55),
+      inset 0 -3px 4px rgba(0, 0, 0, 0.45),
+      0 2px 4px rgba(0, 0, 0, 0.35);
+    transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 200ms ease;
+  }
+  .trailer-tv-knob::after {
+    /* the indicator line so a rotation reads visually */
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 3px;
+    height: 14px;
+    background: #f7eacb;
+    border-radius: 2px;
+    transform-origin: 50% 50%;
+    transform: translateY(-8px);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35);
+  }
+  .trailer-tv-knob.is-turning,
+  .trailer-tv-power.is-turning {
+    transform: rotate(28deg);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 240, 200, 0.75),
+      inset 0 -3px 4px rgba(0, 0, 0, 0.35),
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      0 0 0 3px color-mix(in srgb, var(--zine-yellow) 30%, transparent);
+  }
+  .trailer-tv-knob-vol { top: 8%; }
+  .trailer-tv-knob-ch  { top: 40%; }
+  .trailer-tv-power {
+    bottom: 6%;
+    width: 22px;
+    height: 22px;
+    background:
+      radial-gradient(circle at 35% 30%, #e8d6b2 0%, #7a5530 50%, #2a1a0d 100%);
+  }
+  .trailer-tv-power::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #c23a2a;
+    box-shadow: 0 0 4px rgba(194, 58, 42, 0.6);
+  }
+}
+
+/* mobile: knobs + chrome hidden entirely */
+@media (max-width: 1023px) {
+  .trailer-tv-chrome { display: none; }
 }
 
 /* reduced-motion: still frame the TV, skip the scanline animation effect

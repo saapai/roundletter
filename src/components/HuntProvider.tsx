@@ -389,6 +389,31 @@ export default function HuntProvider() {
     return () => window.removeEventListener("hashchange", onHash);
   }, [fire]);
 
+  // tv-knob easter egg: clicking any of the bezel knobs or the power
+  // button 9 times inside a 6-second window lands on "channel 69". each
+  // click also flashes a class on the body so the tv feels responsive.
+  useEffect(() => {
+    let clicks: number[] = [];
+    const onClick = (e: MouseEvent) => {
+      const t = e.target as HTMLElement | null;
+      if (!t) return;
+      const knob = (t.closest && t.closest("[data-hunt-knob]")) as HTMLElement | null;
+      if (!knob) return;
+      e.preventDefault();
+      e.stopPropagation();
+      knob.classList.add("is-turning");
+      window.setTimeout(() => knob.classList.remove("is-turning"), 280);
+      const now = Date.now();
+      clicks = [...clicks.filter((ts) => now - ts < 6000), now];
+      if (clicks.length >= 9) {
+        clicks = [];
+        fire("thechannel");
+      }
+    };
+    window.addEventListener("click", onClick, true);
+    return () => window.removeEventListener("click", onClick, true);
+  }, [fire]);
+
   if (!activeId) return null;
   const egg = getEgg(activeId);
   if (!egg) return null;

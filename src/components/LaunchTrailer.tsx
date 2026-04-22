@@ -280,6 +280,34 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
           <div className="trailer-progress-fill" />
         </div>
       ) : null}
+
+      {/* desktop-only tv chrome — hidden on mobile via css.
+          these elements live on the wooden bezel and are the egg surface:
+          clicking any combination of them triggers the "channel 69" egg once
+          the total dial interactions cross a threshold. */}
+      <div className="trailer-tv-chrome" aria-hidden="true" data-tv-chrome="true">
+        <button
+          type="button"
+          tabIndex={-1}
+          className="trailer-tv-knob trailer-tv-knob-vol"
+          aria-label="volume dial"
+          data-hunt-knob="vol"
+        />
+        <button
+          type="button"
+          tabIndex={-1}
+          className="trailer-tv-knob trailer-tv-knob-ch"
+          aria-label="channel dial"
+          data-hunt-knob="ch"
+        />
+        <button
+          type="button"
+          tabIndex={-1}
+          className="trailer-tv-power"
+          aria-label="power"
+          data-hunt-knob="pwr"
+        />
+      </div>
     </section>
   );
 }

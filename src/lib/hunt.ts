@@ -143,6 +143,15 @@ export const HUNT_EGGS: HuntEgg[] = [
     reward: "lasso",
     rarity: 2,
   },
+  {
+    id: "thechannel",
+    name: "channel 69",
+    origin:
+      "desktop · mess with the tv knobs on the home page · click the channel dial until it lands.",
+    flavor: "you turned the dial. the signal came back.",
+    reward: "lore",
+    rarity: 2,
+  },
 ];
 
 export const HUNT_TOTAL = HUNT_EGGS.length;
