@@ -157,8 +157,8 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
           );
         })}
       </ul>
-      <div className="alloc-invest" role="group" aria-label="invest directly in a book">
-        <div className="alloc-invest-eye">// invest directly</div>
+      <div className="alloc-invest" role="group" aria-label="acquire a stake">
+        <div className="alloc-invest-eye">// acquire a stake · four ways</div>
         <div className="alloc-invest-row">
           <a
             className="alloc-invest-btn"
@@ -166,7 +166,7 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
             aria-label={`invest in the stock book via text to ${HUNT_PHONE_DISPLAY}`}
           >
             <span className="alloc-invest-k">stock book</span>
-            <span className="alloc-invest-v">→ text</span>
+            <span className="alloc-invest-v">invest · text</span>
           </a>
           <a
             className="alloc-invest-btn alloc-invest-btn-art"
@@ -174,7 +174,7 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
             aria-label="invest in the art portfolio sidecar"
           >
             <span className="alloc-invest-k">art portfolio</span>
-            <span className="alloc-invest-v">→ text</span>
+            <span className="alloc-invest-v">invest · text</span>
           </a>
           <a
             className="alloc-invest-btn alloc-invest-btn-pred"
@@ -182,11 +182,24 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
             aria-label="invest in the prediction-market sidecar"
           >
             <span className="alloc-invest-k">prediction book</span>
-            <span className="alloc-invest-v">→ text</span>
+            <span className="alloc-invest-v">invest · text</span>
+          </a>
+          <a
+            className="alloc-invest-btn alloc-invest-btn-hunt"
+            href="/6969#hunt"
+            aria-label="mine easter eggs for discounted stakes"
+          >
+            <span className="alloc-invest-k">the hunt</span>
+            <span className="alloc-invest-v">mine · free</span>
           </a>
         </div>
         <p className="alloc-invest-note">
-          <em>stakes settle at the next weekly rebalance.</em>
+          <em>
+            the first three settle at the next weekly rebalance.{" "}
+            <strong>the hunt</strong> pays stakes directly — eight eggs across
+            the site, some bankroll, some portfolio equity, some art-portfolio
+            shares. <a href="/6969#hunt">ledger + rules</a>.
+          </em>
         </p>
       </div>
     </section>

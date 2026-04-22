@@ -8,6 +8,7 @@ import AuctionCountdown from "@/components/AuctionCountdown";
 import OpenBets from "@/components/OpenBets";
 import AllocationBar from "@/components/AllocationBar";
 import ArtPortfolio from "@/components/ArtPortfolio";
+import FavoriteNumber from "@/components/FavoriteNumber";
 import YouTubeCard from "@/components/YouTubeCard";
 import {
   WATCH_CODA_VIDEO_ID,
@@ -533,6 +534,10 @@ export default async function HomePage() {
 
       {/* art portfolio · fourteen pieces, live bids, closes friday midnight PT */}
       <ArtPortfolio />
+
+      {/* ai's favorite number · wesley-wang homage · settles at the same
+          friday-midnight bell as the art portfolio + auction */}
+      <FavoriteNumber />
 
       {/* apparatus prelude — a green, spotify-meets-youtube-meets-apple-tv
           video frame sitting right above the curation grid. elevated

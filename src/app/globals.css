@@ -13621,6 +13621,139 @@ body.hunt-fired .masthead .wordmark .dot {
   .alloc-legend-pct { display: none; }
 }
 
+/* ════════════════════════════════════════════════════════════════════════
+   savings hero v3 — clean /positions anchor matching the home vitals.
+   reuses .home-vital and .home-vital-now so the two pages speak the
+   same register.  replaces the legacy gilt tombstone.
+   ══════════════════════════════════════════════════════════════════════ */
+.savings-hero-v3 {
+  max-width: min(900px, 100%);
+  margin: 1.5rem auto 2.5rem;
+  display: grid;
+  gap: 0.85rem;
+}
+.svh-hero-card {
+  padding: 1.4rem 1.2rem 1.5rem !important;
+}
+.svh-hero-card .home-vital-k {
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+}
+.svh-hero-v {
+  font-size: clamp(3rem, 11vw, 5.2rem) !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.015em !important;
+  margin-top: 0.3rem;
+}
+.svh-hero-pct {
+  font-size: 0.42em;
+  vertical-align: 0.45em;
+  margin-left: 0.12em;
+  color: var(--rust);
+  font-weight: 500;
+}
+.svh-up { color: #2e6b3b; }
+.svh-dn { color: var(--rust); }
+.svh-hero-card .home-vital-s {
+  margin-top: 0.35rem;
+  font-size: 1rem;
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  color: color-mix(in srgb, var(--ink) 75%, var(--paper));
+}
+.svh-hero-card .home-vital-s strong {
+  font-style: normal;
+  color: var(--ink);
+  font-weight: 600;
+}
+.svh-adj {
+  margin-top: 0.6rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed color-mix(in srgb, var(--rust) 30%, transparent);
+  font-size: 0.82rem;
+  color: var(--graphite);
+  line-height: 1.45;
+}
+.svh-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+.svh-small { padding: 0.9rem 0.95rem; }
+.svh-small .home-vital-v { font-size: clamp(1.4rem, 3.6vw, 1.7rem); }
+@media (max-width: 520px) {
+  .svh-row { grid-template-columns: 1fr; }
+}
+
+.svh-countdown {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.svh-countdown-k {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+.svh-bar {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.35rem 0;
+}
+.svh-bar-track {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 10%, var(--paper));
+  overflow: visible;
+}
+.svh-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--zine-pink) 0%, var(--rust) 100%);
+}
+.svh-bar-mark {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 2px solid var(--rust);
+  box-shadow: 0 2px 4px rgba(139, 58, 46, 0.25);
+}
+.svh-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  font-variant-numeric: tabular-nums;
+}
+.svh-bar-goal { text-align: right; }
+.svh-bar-labels em { font-style: italic; color: color-mix(in srgb, var(--graphite) 85%, transparent); letter-spacing: 0.1em; text-transform: none; }
+
+.svh-caveat {
+  margin: 0.3rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--graphite);
+  text-align: center;
+}
+
 /* allocation-bar · invest CTAs (stock / art / prediction) */
 .alloc-invest {
   margin-top: 1.1rem;
@@ -13637,8 +13770,11 @@ body.hunt-fired .masthead .wordmark .dot {
 }
 .alloc-invest-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.55rem;
+}
+@media (max-width: 760px) {
+  .alloc-invest-row { grid-template-columns: repeat(2, 1fr); }
 }
 .alloc-invest-btn {
   display: grid;
@@ -13677,6 +13813,16 @@ body.hunt-fired .masthead .wordmark .dot {
   background: var(--zine-cyan);
   color: var(--paper) !important;
   border-color: var(--zine-cyan);
+}
+.alloc-invest-btn-hunt {
+  border-color: color-mix(in srgb, var(--zine-yellow) 70%, transparent);
+  background: color-mix(in srgb, var(--zine-yellow) 10%, var(--paper));
+}
+.alloc-invest-btn-hunt:hover,
+.alloc-invest-btn-hunt:focus-visible {
+  background: var(--zine-yellow);
+  color: var(--ink) !important;
+  border-color: var(--zine-yellow);
 }
 .alloc-invest-k {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
@@ -14585,3 +14731,156 @@ body.hunt-fired .masthead .wordmark .dot {
 }
 
 
+
+/* ════════════════════════════════════════════════════════════════════════
+   favorite-number · wesley-wang homage · settles friday midnight.
+   paper card with a live countdown, a ranked list of candidates, each
+   with a proportional bar + a one-line reason.
+   ══════════════════════════════════════════════════════════════════════ */
+.fav {
+  max-width: min(760px, 100%);
+  margin: 3rem auto;
+  padding: 1.5rem 1.25rem 1.3rem;
+  background: color-mix(in srgb, var(--paper) 96%, var(--parchment));
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 4px;
+}
+.fav-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.fav-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.fav-title {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.3rem, 3.2vw, 1.7rem);
+  line-height: 1.1;
+  margin: 0.2rem 0 0.35rem;
+  color: var(--ink);
+  font-weight: 500;
+}
+.fav-sub {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--ink) 75%, var(--paper));
+  max-width: 48ch;
+}
+.fav-sub strong { color: var(--rust); font-weight: 600; }
+.fav-countdown {
+  display: grid;
+  gap: 0.15rem;
+  text-align: right;
+  min-width: 130px;
+  padding: 0.55rem 0.7rem;
+  background: color-mix(in srgb, var(--zine-pink-hi) 30%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--rust) 35%, transparent);
+  border-radius: 3px;
+}
+.fav-countdown.is-settled {
+  background: color-mix(in srgb, var(--zine-yellow) 18%, var(--paper));
+  border-color: color-mix(in srgb, var(--zine-yellow) 55%, transparent);
+}
+.fav-countdown-k {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.fav-countdown-v {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  color: var(--rust);
+  font-variant-numeric: tabular-nums;
+}
+.fav-list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+.fav-row {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  border-radius: 3px;
+  background: var(--paper);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.fav-row.is-leader {
+  border-color: color-mix(in srgb, var(--rust) 45%, transparent);
+  background: color-mix(in srgb, var(--zine-pink-hi) 20%, var(--paper));
+}
+.fav-row-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.7rem;
+  align-items: baseline;
+}
+.fav-n {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(1.3rem, 3.2vw, 1.8rem);
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.fav-row.is-leader .fav-n { color: var(--rust); }
+.fav-lbl {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: 0.92rem;
+  color: var(--graphite);
+}
+.fav-pct {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.92rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.fav-bar {
+  height: 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 8%, var(--paper));
+  overflow: hidden;
+}
+.fav-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--zine-pink) 0%, var(--rust) 100%);
+}
+.fav-row.is-leader .fav-bar-fill {
+  background: linear-gradient(90deg, var(--rust) 0%, var(--ink) 100%);
+}
+.fav-reason {
+  margin: 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--ink) 72%, var(--paper));
+}
+.fav-foot {
+  margin: 1rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--graphite);
+  text-align: center;
+}
+@media (max-width: 520px) {
+  .fav-head { grid-template-columns: 1fr; }
+  .fav-countdown { text-align: left; }
+  .fav-row-head { grid-template-columns: auto auto 1fr; }
+  .fav-lbl { grid-column: 1 / -1; }
+  .fav-pct { grid-column: 2; text-align: right; }
+}

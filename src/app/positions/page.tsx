@@ -3,6 +3,7 @@ import SolvedLetters from "@/components/SolvedLetters";
 import StockAnalysisGraph from "@/components/StockAnalysisGraph";
 import PortfolioChart from "@/components/PortfolioChart";
 import SavingsHero, { BookComposition } from "@/components/SavingsHero";
+import PositionsTable from "@/components/PositionsTable";
 import TodayDebate from "@/components/TodayDebate";
 import ArgumentsPanel from "@/components/ArgumentsPanel";
 import TedLassoTrailer from "@/components/TedLassoTrailer";
@@ -94,6 +95,19 @@ export default async function Positions() {
       <BookComposition
         bookValue={current}
         externalEntries={p.external_entries ?? []}
+      />
+
+      <PositionsTable
+        holdings={p.holdings.map((h: any) => ({
+          ticker: h.ticker,
+          name: h.name,
+          bucket: h.bucket,
+          owner_agent: h.owner_agent,
+          shares: h.shares,
+          entry_price: h.entry_price,
+          entry_value: h.entry_value,
+        }))}
+        pendingCash={p.pending_cash ?? 0}
       />
 
       <PortfolioChart

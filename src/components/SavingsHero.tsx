@@ -146,14 +146,23 @@ export default function SavingsHero(props: Props) {
     () => externalEntries.reduce((a, e) => a + e.amount, 0),
     [externalEntries],
   );
-  const totalOwned = currentBook + externalTotal;
 
   const isLive = prices?.hasData ?? false;
 
-  // since-4/12 anchor numbers
+  // Growth since 4/12. The hero number is the HEADLINE — absolute move
+  // in book value from the seal date (includes both price movement and
+  // any external capital added during the window). The adjusted figure
+  // below strips out external contributions so readers can see price-
+  // movement-only growth too; that's the honest split.
   const deltaFromBaseline = currentBook - baselineValue;
   const pctFromBaseline = (deltaFromBaseline / baselineValue) * 100;
   const up = deltaFromBaseline >= 0;
+
+  // Price-only growth: subtract external capital added so the pct reflects
+  // what the positions actually did, not the fact that more money came in.
+  const priceGrowth = deltaFromBaseline - externalTotal;
+  const priceGrowthPct = (priceGrowth / baselineValue) * 100;
+  const priceGrowthUp = priceGrowth >= 0;
 
   // journey bar — rebased on 4/12, not jan 2025
   const logMin = Math.log(baselineValue);
@@ -165,79 +174,68 @@ export default function SavingsHero(props: Props) {
   const peakGainPct = (peakGain / startedValue) * 100;
 
   return (
-    <section className="savings-hero">
-      <div className="savings-tombstone-eyebrow">
-        the book — anchored {fmtCatalogDateWithYear(baselineDate)} · {isLive ? "15-min tape" : "reconciled"}
+    <section className="savings-hero-v3" aria-label="the book · since 12 apr">
+      {/* hero card — reuses the same vital-now idiom as the home vitals */}
+      <div className="home-vital home-vital-now svh-hero-card">
+        <div className="home-vital-k">growth since {fmtCatalogDate(baselineDate)}</div>
+        <div className={`home-vital-v svh-hero-v ${up ? "svh-up" : "svh-dn"}`}>
+          {up ? "+" : "−"}{Math.abs(pctFromBaseline).toFixed(1)}<span className="svh-hero-pct">%</span>
+        </div>
+        <div className="home-vital-s">
+          ${fmt$(baselineValue)} <em>{fmtCatalogDate(baselineDate)}</em>{" "}
+          <span aria-hidden="true">→</span>{" "}
+          <strong>${fmt$(currentBook)}</strong> <em>now</em>
+        </div>
+        {externalTotal > 0 && (
+          <div className="svh-adj">
+            <em>
+              price-only · {priceGrowthUp ? "+" : "−"}
+              {Math.abs(priceGrowthPct).toFixed(1)}% (strips ${fmt$(externalTotal)} external added {fmtCatalogDate(externalEntries[0]?.date ?? "2026-04-22")})
+            </em>
+          </div>
+        )}
       </div>
 
-      <div className="savings-tombstone savings-tombstone-v2">
-        <div className={`savings-tombstone-figure ${up ? "is-up" : "is-down"}`}>
-          {up ? "+" : "−"}{Math.abs(pctFromBaseline).toFixed(1)}<span className="savings-tombstone-pct">%</span>
-        </div>
-        <div className="savings-tombstone-sub">
-          ${fmt$(baselineValue)} <em>{fmtCatalogDate(baselineDate)}</em>
-          {" → "}
-          <span className="savings-tombstone-current-figure">${fmt$(currentBook)}</span> <em>now</em>
-        </div>
-        <div className="savings-tombstone-rule" aria-hidden="true" />
-        <div className="savings-tombstone-current">
-          on the books today · <span className="savings-tombstone-current-figure">${fmt$(currentBook)}</span>
-          {externalTotal > 0 ? (
-            <>
-              {" "}<span className="savings-tombstone-plus">+ ${fmt$(externalTotal)} pending</span>
-            </>
-          ) : null}
-        </div>
-        <div className="savings-tombstone-countdown">
-          <BirthdayCountdown birthdate={birthdate} />
-        </div>
-      </div>
-
-      <div className="savings-grid savings-grid-v2">
-        <div className="savings-cell">
-          <div className="savings-cell-label">since {fmtCatalogDate(baselineDate)}</div>
-          <div className={`savings-cell-value ${up ? "savings-up" : "savings-down"}`}>
-            {up ? "+" : "−"}${fmt$(Math.abs(deltaFromBaseline))}
-          </div>
-          <div className="savings-cell-note">
-            {up ? "+" : "−"}{Math.abs(pctFromBaseline).toFixed(1)}% vs 4/12 anchor
+      {/* two-up · current value + to-goal */}
+      <div className="svh-row">
+        <div className="home-vital svh-small">
+          <div className="home-vital-k">on the book</div>
+          <div className="home-vital-v">${fmt$(currentBook)}</div>
+          <div className="home-vital-s">
+            <em>live · yahoo 15-min tape</em>
           </div>
         </div>
-
-        <div className="savings-cell">
-          <div className="savings-cell-label">what i own today</div>
-          <div className="savings-cell-value savings-neutral">
-            ${fmt$(totalOwned)}
+        <div className="home-vital svh-small">
+          <div className="home-vital-k">to six figures</div>
+          <div className="home-vital-v">{(goal / currentBook).toFixed(1)}×</div>
+          <div className="home-vital-s">
+            <em>${fmt$(goal - currentBook)} to go · 21 jun</em>
           </div>
-          <div className="savings-cell-note">
-            book ${fmt$(currentBook)}
-            {externalTotal > 0 ? ` + pending $${fmt$(externalTotal)}` : null}
-          </div>
-        </div>
-
-        <div className="savings-cell">
-          <div className="savings-cell-label">to six figures by 21 june</div>
-          <div className="savings-cell-value savings-goal">{(goal / currentBook).toFixed(1)}×</div>
-          <div className="savings-cell-note">${fmt$(goal - currentBook)} to go</div>
         </div>
       </div>
 
-      <div className="savings-bar-wrap" aria-label="journey" aria-hidden="true">
-        <div className="savings-bar-track">
-          <div className="savings-bar-fill" style={{ width: `${Math.max(0, Math.min(100, posPct))}%` }} />
-          <div className="savings-bar-now-mark" style={{ left: `${Math.max(0, Math.min(100, posPct))}%` }} title={`now $${fmt$(currentBook)}`} />
+      <div className="svh-countdown">
+        <span className="svh-countdown-k">countdown</span>
+        <BirthdayCountdown birthdate={birthdate} />
+      </div>
+
+      {/* journey bar */}
+      <div className="svh-bar" aria-hidden="true">
+        <div className="svh-bar-track">
+          <div className="svh-bar-fill" style={{ width: `${Math.max(0, Math.min(100, posPct))}%` }} />
+          <div className="svh-bar-mark" style={{ left: `${Math.max(0, Math.min(100, posPct))}%` }} title={`now $${fmt$(currentBook)}`} />
         </div>
-        <div className="savings-bar-labels">
-          <span>${fmt$(baselineValue)}<br/><em>{fmtCatalogDate(baselineDate)}</em></span>
-          <span className="savings-bar-label-goal">${fmt$(goal)}<br/><em>21 june</em></span>
+        <div className="svh-bar-labels">
+          <span>${fmt$(baselineValue)} <em>· {fmtCatalogDate(baselineDate)}</em></span>
+          <span className="svh-bar-goal">${fmt$(goal)} <em>· 21 jun</em></span>
         </div>
       </div>
 
-      <p className="savings-caveat">
+      <p className="svh-caveat">
         <em>
           {isLive
-            ? "live quotes from yahoo (15-min cache). sum of shares × last close across the 10-holding book. growth is measured vs the 4/12 baseline — the day i sealed the round."
-            : "live prices unavailable; these are the last reconciled numbers. growth is measured vs the 4/12 baseline — the day i sealed the round."}
+            ? "growth measured vs the 4/12 baseline — the day i sealed the round. live quotes · yahoo · 15-min cache."
+            : "live prices unavailable; last reconciled numbers. growth measured vs the 4/12 baseline."}
         </em>
       </p>
 

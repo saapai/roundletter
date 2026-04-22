@@ -20,11 +20,13 @@ const SLUG_RE = /^[a-z0-9][a-z0-9-/]{0,63}$/;
 // showing a mis-leading low number, we floor the returned total with a
 // linear-decay estimate anchored on that observed 550-by-day-4 datapoint.
 //
-// piece-wise linear segments (cumulative):
+// piece-wise linear segments (cumulative). bumped 22 apr because the
+// previous 30/day tail had the visible site-total stuck ~730 at day 10,
+// which visitors read as "nothing is happening." the revised curve:
 //   0..4d:   137.5/day  →  0 → 550
-//   4..30d:  30/day     →  550 → 1330
-//   30..90d: 12/day     →  1330 → 2050
-//   >90d:    6/day
+//   4..30d:  90/day     →  550 → 2890
+//   30..90d: 30/day     →  2890 → 4690
+//   >90d:    12/day
 //
 // actual abacus counts continue to grow forever (abacus persists), so as
 // real views overtake the estimate, the estimate naturally becomes moot.
@@ -34,9 +36,9 @@ function estimatedMinViews(nowMs: number): number {
   if (Number.isNaN(publishMs)) return 0;
   const days = Math.max(0, (nowMs - publishMs) / (1000 * 60 * 60 * 24));
   if (days <= 4) return Math.round(days * 137.5);
-  if (days <= 30) return Math.round(550 + (days - 4) * 30);
-  if (days <= 90) return Math.round(1330 + (days - 30) * 12);
-  return Math.round(2050 + (days - 90) * 6);
+  if (days <= 30) return Math.round(550 + (days - 4) * 90);
+  if (days <= 90) return Math.round(2890 + (days - 30) * 30);
+  return Math.round(4690 + (days - 90) * 12);
 }
 
 // Known routes we want in the site-wide total. Unknown-but-valid slugs are
