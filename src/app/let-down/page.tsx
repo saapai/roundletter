@@ -89,10 +89,12 @@ export default function LetDownPage() {
           versus who spoke. the difference is the thing the song is about.
         </li>
         <li>
-          <Link href="/green-credit">sp-001</Link> — a sealed prediction. SHA-256 committed
-          on April 18 at 4:22 AM, resolving today at 4:20 PM ET. either the threshold is beat or
-          it is not. the calibration is the input for sp-002. being let down is baked into the
-          design.
+          <Link href="/green-credit">sp-001</Link> — the first sealed prediction. SHA-256
+          committed on April 18 at 4:22 AM for a view-growth threshold across the 4/20 drop
+          window. when the plaintext was lost before the horizon closed, sp-001 was marked
+          forfeit in public — the hash stands as an unverifiable commitment, the procedural
+          miscalibration is on the record, and sp-002 ships under a stricter runbook.
+          being let down is baked into the design.
         </li>
         <li>
           <Link href="/statement">statement</Link> — a personal statement by panel. five
@@ -121,8 +123,7 @@ export default function LetDownPage() {
       </p>
 
       <div className="byline">
-        saapai · 2026-04-20 · the 4:20 window · sp-001 resolves today at 4:20 PM
-        ET
+        saapai · spring 2026 · after the 4/20 window · sp-001 forfeited in public
       </div>
     </article>
   );

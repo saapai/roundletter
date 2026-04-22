@@ -798,11 +798,38 @@ h1, h2, h3 {
   border-radius: 2px;
   overflow: hidden;
   box-shadow: 0 12px 30px -24px rgba(28,26,23,0.25);
+  position: relative;
 }
 .canvas-frame svg {
   width: 100%;
   height: auto;
   display: block;
+}
+/* On mobile the SVG text (fontSize 18/10/9) scales down to ~7-8px —
+   illegible. Let users horizontally scroll at the SVG's natural readable
+   size instead of squishing it. */
+@media (max-width: 640px) {
+  .canvas-frame {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .canvas-frame svg {
+    min-width: 560px;
+    width: 560px;
+  }
+  .canvas-frame::after {
+    content: "↔ scroll to explore";
+    position: sticky;
+    left: 0;
+    display: block;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--graphite);
+    padding: 0.35rem 0.6rem;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    border-top: 1px solid var(--rule);
+  }
 }
 .canvas-caption {
   font-size: 0.85rem;
@@ -10597,7 +10624,22 @@ body:has(.arc-root) > main { padding: 0; margin: 0; max-width: none; }
   gap: 1.25rem;
 }
 @media (max-width: 720px) {
-  .arc-tiers { grid-template-columns: 1fr; }
+  .arc-tiers { grid-template-columns: 1fr; gap: 0.9rem; }
+  .arc-cat { padding: clamp(1rem, 4vw, 1.5rem); }
+  .arc-tier { padding: 0.75rem 0.25rem; }
+  .arc-tier-label { margin-bottom: 0.6rem; }
+}
+@media (max-width: 480px) {
+  .arc-item { gap: 0.65rem; font-size: 0.88rem; }
+  .arc-item-name { font-size: 0.98rem; }
+  .arc-palette span { width: 8px; height: 8px; }
+  .arc-score { margin-top: 0.4rem; gap: 0.45rem; }
+  .arc-lyric { font-size: 0.95rem; }
+}
+/* arc transit-board nav — stacks more compactly on mobile */
+@media (max-width: 480px) {
+  .arc-transit-list li { font-size: 0.8rem; gap: 0.75rem; }
+  .arc-transit-list span { font-size: 9px; letter-spacing: 0.18em; }
 }
 .arc-tier {
   padding: 1rem;
