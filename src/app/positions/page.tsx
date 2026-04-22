@@ -88,6 +88,7 @@ export default async function Positions() {
         baselineDate={p.baseline_date ?? "2026-04-14"}
         birthdate={p.birthdate ?? "June 21"}
         externalEntries={p.external_entries ?? []}
+        pendingCash={p.pending_cash ?? 0}
       />
 
       <BookComposition

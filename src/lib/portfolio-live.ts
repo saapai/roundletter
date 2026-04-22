@@ -59,18 +59,42 @@ async function lastClose(ticker: string): Promise<number | null> {
 export async function getLivePortfolio(): Promise<LivePortfolio> {
   let value = ENTRY_VALUE;
   let live = false;
+
+  // Ground-truth override — src/data/portfolio.json carries a
+  // current_value_today field saapai updates from the real brokerage.
+  // When present + fresh (same calendar day in America/Los_Angeles),
+  // it's the source of truth. Live-price sum is only the fallback.
   try {
-    const priced = await Promise.all(HOLDINGS.map(async (h) => {
-      const c = await lastClose(h.ticker);
-      return c == null ? h.entry : h.shares * c;
-    }));
-    const total = priced.reduce((acc, v) => acc + v, 0) + PENDING_CASH;
-    if (Number.isFinite(total) && total > 0) {
-      value = total;
+    const portfolio = (await import("@/data/portfolio.json")) as unknown as {
+      current_value_today?: number;
+      as_of?: string;
+    };
+    if (
+      typeof portfolio.current_value_today === "number" &&
+      Number.isFinite(portfolio.current_value_today) &&
+      portfolio.current_value_today > 0
+    ) {
+      value = portfolio.current_value_today;
       live = true;
     }
   } catch {
-    // swallow — fall back to baseline
+    /* missing file → fall through to live pricing */
+  }
+
+  if (!live) {
+    try {
+      const priced = await Promise.all(HOLDINGS.map(async (h) => {
+        const c = await lastClose(h.ticker);
+        return c == null ? h.entry : h.shares * c;
+      }));
+      const total = priced.reduce((acc, v) => acc + v, 0) + PENDING_CASH;
+      if (Number.isFinite(total) && total > 0) {
+        value = total;
+        live = true;
+      }
+    } catch {
+      // swallow — fall back to baseline
+    }
   }
   const delta = value - ENTRY_VALUE;
   const pct = (delta / ENTRY_VALUE) * 100;

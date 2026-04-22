@@ -8860,6 +8860,12 @@ body.reader-mode > main { padding-top: 2rem; }
   --zine-black:    #0a0a0a;
   --zine-white:    #fffdf6;
   --zine-news:     #1c1a17;
+  /* the blush · "fucking beautiful" scene-3 reveal. saapai called it out
+     as the page's strongest mood — promoted here to a first-class token
+     so other surfaces can echo it. */
+  --zine-pink:     #f4b6c2;
+  --zine-pink-lo:  #e39aa9;
+  --zine-pink-hi:  #fbd5dd;
 }
 
 .trailer.trailer-hero {
@@ -9226,9 +9232,12 @@ body.reader-mode > main { padding-top: 2rem; }
   opacity: 1;
 }
 .trailer.trailer-scene-3 .trailer-bg {
+  /* the blush scene — paper at the top, saapai's pink at the bottom.
+     this is the strongest mood on the home trailer; more surfaces
+     echo it downstream. */
   background:
-    radial-gradient(ellipse 70% 50% at 50% 82%, rgba(194, 58, 42, 0.1), transparent 75%),
-    linear-gradient(180deg, var(--zine-paper) 0%, color-mix(in srgb, var(--zine-paper) 85%, var(--zine-red) 15%) 100%);
+    radial-gradient(ellipse 80% 50% at 50% 90%, color-mix(in srgb, var(--zine-pink) 55%, transparent), transparent 72%),
+    linear-gradient(180deg, var(--zine-paper) 0%, var(--zine-pink-hi) 48%, var(--zine-pink) 100%);
   opacity: 1;
 }
 .trailer.trailer-scene-4 .trailer-bg {
@@ -11979,122 +11988,218 @@ body.hunt-fired .masthead .wordmark .dot {
   margin-top: 0.4rem;
 }
 
-/* bookends section — top (wesley wang) + bottom (kanye ghost town).
-   two yt-styled cards with a noise-filled frame; click opens youtube. */
-.home-bookends {
-  max-width: min(900px, 100%);
+/* ════════════════════════════════════════════════════════════════════════
+   bookends · two faux-YouTube cards.
+   top — wesley wang · normal YouTube red.
+   bottom — kanye · ghost town · recolored to PornHub orange + black as
+            an allusion to the album's register.
+   pure CSS — no third-party assets, no iframes, no copyright risk.
+   ══════════════════════════════════════════════════════════════════════ */
+.home-yt {
+  max-width: min(920px, 100%);
   margin: 3.5rem auto;
   display: grid;
-  gap: 1.1rem;
+  gap: 1.4rem;
 }
-.home-bookends-eye {
+.home-yt-eye {
   font-family: ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 10.5px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
   color: var(--graphite);
   text-align: center;
-  margin-bottom: 0.2rem;
 }
-.home-bookends-mid {
+.home-yt-mid {
   text-align: center;
-  margin: 0.35rem auto;
+  margin: 0.25rem auto;
   font-size: 0.95rem;
   color: var(--graphite);
-  max-width: 48ch;
+  max-width: 52ch;
   line-height: 1.55;
 }
-.home-bookend {
+
+.yt-card {
+  position: relative;
   display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 1.1rem;
-  align-items: stretch;
-  background: color-mix(in srgb, var(--paper) 96%, var(--parchment));
-  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
-  border-radius: 4px;
+  grid-template-rows: auto auto;
+  background: #0f0f0f;
+  color: #f1f1f1;
+  border-radius: 12px;
+  overflow: hidden;
   text-decoration: none;
-  color: inherit;
-  padding: 0.8rem;
-  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
+  box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.35);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  font-family: -apple-system, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
-.home-bookend:hover,
-.home-bookend:focus-visible {
-  border-color: var(--rust);
-  box-shadow: 0 14px 28px -16px rgba(0, 0, 0, 0.35);
-  transform: translateY(-2px);
+.yt-card:hover,
+.yt-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 22px 48px -16px rgba(0, 0, 0, 0.5);
   outline: none;
 }
-.home-bookend-frame {
+
+.yt-thumb {
   position: relative;
   aspect-ratio: 16 / 9;
-  min-height: 104px;
-  border-radius: 3px;
+  width: 100%;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(255, 255, 255, 0.06), transparent 65%),
+    linear-gradient(160deg, #1c1c1c 0%, #0a0a0a 100%);
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at 50% 40%, rgba(255, 253, 246, 0.08), transparent 65%),
-    linear-gradient(160deg, #0a0c10 0%, #151416 100%);
-  display: grid;
-  place-items: center;
 }
-.home-bookend-frame-bot {
-  background:
-    radial-gradient(ellipse at 50% 40%, rgba(232, 176, 108, 0.08), transparent 60%),
-    linear-gradient(160deg, #0b0605 0%, #1d1009 100%);
-}
-.home-bookend-play {
-  font-size: 2rem;
-  color: color-mix(in srgb, var(--paper) 82%, transparent);
-  z-index: 2;
-  text-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
-}
-.home-bookend-noise {
+.yt-thumb-noise {
   position: absolute;
   inset: 0;
-  pointer-events: none;
   background-image:
     repeating-linear-gradient(
       0deg,
-      rgba(255, 253, 246, 0.025) 0 1px,
+      rgba(255, 255, 255, 0.025) 0 1px,
       transparent 1px 3px
     );
-  opacity: 0.9;
+  pointer-events: none;
 }
-.home-bookend-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.15rem 0;
+.yt-thumb-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
 }
-.home-bookend-kicker {
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 10px;
-  letter-spacing: 0.26em;
-  text-transform: uppercase;
-  color: var(--rust);
+.yt-thumb-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 2;
 }
-.home-bookend-title {
-  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.3rem, 3.5vw, 1.7rem);
-  line-height: 1.1;
-  color: var(--ink);
+.yt-play-bg { fill: #ff0000; }
+.yt-play-tri { fill: #ffffff; }
+.yt-card:hover .yt-play-bg,
+.yt-card:focus-visible .yt-play-bg { fill: #ff3333; }
+.yt-thumb-dur {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #f1f1f1;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 5px;
+  border-radius: 2px;
+  z-index: 3;
+  letter-spacing: 0.01em;
 }
-.home-bookend-sub {
-  font-size: 0.9rem;
-  color: var(--graphite);
-  line-height: 1.4;
+
+.yt-meta {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 12px;
+  padding: 12px 14px 14px;
+  align-items: start;
 }
-.home-bookend-link {
-  margin-top: auto;
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 10.5px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--rust);
+.yt-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: linear-gradient(160deg, #3a3a3a, #1f1f1f);
+  color: #f1f1f1;
+  display: grid;
+  place-items: center;
+  font-weight: 600;
+  font-size: 15px;
 }
-@media (max-width: 560px) {
-  .home-bookend { grid-template-columns: 1fr; }
-  .home-bookend-frame { min-height: 140px; }
+.yt-text { display: grid; gap: 2px; min-width: 0; }
+.yt-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #f1f1f1;
+  max-height: 2.6em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
+.yt-chan {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.3;
+}
+.yt-verified {
+  display: inline-block;
+  color: #aaa;
+  font-size: 11px;
+  transform: translateY(-1px);
+}
+.yt-counts {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.3;
+}
+
+.yt-brand {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 4;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.yt-brand-rect {
+  background: #ff0000;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.yt-brand-word {
+  color: #f1f1f1;
+  font-size: 13px;
+}
+
+/* ── PornHub-orange variant for the Kanye bottom card ────────────────── */
+.yt-card-ph { background: #000; }
+.yt-thumb-ph {
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(255, 144, 0, 0.1), transparent 65%),
+    linear-gradient(160deg, #1a0f04 0%, #080503 100%);
+}
+.yt-play-bg-ph { fill: #ff9000; }
+.yt-card-ph:hover .yt-play-bg-ph,
+.yt-card-ph:focus-visible .yt-play-bg-ph { fill: #ffa533; }
+.yt-thumb-dur-ph {
+  background: rgba(0, 0, 0, 0.88);
+  color: #ff9000;
+}
+.yt-meta-ph { padding-top: 14px; }
+.yt-avatar-ph {
+  background: linear-gradient(160deg, #ff9000, #b36500);
+  color: #000;
+}
+.yt-title-ph { color: #f1f1f1; }
+.yt-chan-ph { color: #c8c8c8; }
+.yt-counts-ph { color: #ff9000; letter-spacing: 0.01em; }
+.yt-brand-rect-ph {
+  background: #ff9000;
+  color: #000;
+  font-weight: 900;
+  letter-spacing: 0;
+  padding: 3px 8px 3px 6px;
+}
+.yt-brand-word-ph {
+  background: #f1f1f1;
+  color: #000;
+  padding: 3px 6px 3px 8px;
+  font-weight: 800;
+  font-size: 13px;
+  margin-left: -4px;
+  border-radius: 3px;
+}
+.yt-brand-rect-ph { border-radius: 3px 0 0 3px; }
 
 /* homepage CMIYGL teaser row — five posters that each link to their own
    wrong numeric route. doubles as the art-portfolio "coming soon" block. */
@@ -12974,6 +13079,353 @@ body.hunt-fired .masthead .wordmark .dot {
     transition: none;
     animation: none;
   }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   home · chapter 02 simplified — vitals + agent chips + ctas + expand.
+   panel voted for fewer words + more chrome. full longer story lives
+   in a <details> expand so the longer pitch is one click away.
+   ══════════════════════════════════════════════════════════════════════ */
+.home-story-tight { display: grid; gap: 1.2rem; }
+
+.home-vitals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+.home-vital {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.9rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  background: color-mix(in srgb, var(--paper) 96%, var(--parchment));
+  border-radius: 3px;
+}
+.home-vital-now {
+  background: color-mix(in srgb, var(--zine-pink-hi) 55%, var(--paper));
+  border-color: color-mix(in srgb, var(--rust) 30%, transparent);
+}
+.home-vital-k {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.home-vital-v {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  line-height: 1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.home-vital-s {
+  font-size: 0.82rem;
+  color: var(--graphite);
+  font-variant-numeric: tabular-nums;
+}
+.home-vital-s.home-story-up   { color: #2f6b40; }
+.home-vital-s.home-story-down { color: #8b3a2e; }
+@media (max-width: 560px) {
+  .home-vitals { grid-template-columns: 1fr; }
+}
+
+.home-agents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.home-agent {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.38rem 0.8rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+.home-agent:hover,
+.home-agent:focus-visible { transform: translateY(-1px); outline: none; }
+.home-agent-bull       { border-color: color-mix(in srgb, #5F8B4E 45%, transparent); }
+.home-agent-bull:hover { background: #5F8B4E; color: var(--paper); border-color: #5F8B4E; }
+.home-agent-bear       { border-color: color-mix(in srgb, #8B3A2E 45%, transparent); }
+.home-agent-bear:hover { background: #8B3A2E; color: var(--paper); border-color: #8B3A2E; }
+.home-agent-macro      { border-color: color-mix(in srgb, #A67A3A 45%, transparent); }
+.home-agent-macro:hover{ background: #A67A3A; color: var(--paper); border-color: #A67A3A; }
+.home-agent-flow       { border-color: color-mix(in srgb, #5E7098 45%, transparent); }
+.home-agent-flow:hover { background: #5E7098; color: var(--paper); border-color: #5E7098; }
+.home-agent-historian      { border-color: color-mix(in srgb, #6B6560 45%, transparent); }
+.home-agent-historian:hover{ background: #6B6560; color: var(--paper); border-color: #6B6560; }
+
+.home-story-lede {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0.3rem 0 0;
+}
+.home-story-lede strong {
+  color: color-mix(in srgb, var(--rust) 90%, var(--ink));
+  font-weight: 600;
+}
+
+.home-story-ctas { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.home-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+.home-cta:hover,
+.home-cta:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  outline: none;
+  transform: translateY(-1px);
+}
+.home-cta-emph { background: var(--rust); color: var(--paper); border-color: var(--rust); }
+.home-cta-emph:hover,
+.home-cta-emph:focus-visible { background: var(--ink); border-color: var(--ink); }
+
+.home-expand {
+  margin-top: 0.5rem;
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 12%, transparent);
+  padding-top: 0.7rem;
+}
+.home-expand > summary {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--rust);
+  cursor: pointer;
+  list-style: none;
+  padding: 0.2rem 0;
+}
+.home-expand > summary::-webkit-details-marker { display: none; }
+.home-expand > summary::before { content: "+ "; color: var(--graphite); }
+.home-expand[open] > summary::before { content: "− "; }
+.home-expand-body {
+  padding-top: 0.65rem;
+  display: grid;
+  gap: 0.8rem;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.home-verdict-strip {
+  max-width: min(760px, 100%);
+  margin: 3rem auto 2rem;
+  padding: 1.25rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  background: color-mix(in srgb, var(--paper) 95%, var(--parchment));
+}
+.home-verdict-strip-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+  text-align: center;
+  margin-bottom: 0.7rem;
+}
+.home-verdict-final-strip { display: grid; gap: 0.4rem; }
+.home-verdict-strip-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.home-verdict-strip-meta {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+
+.home-apparatus-expand { margin-bottom: 1.2rem; }
+.home-apparatus-expand > summary {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  cursor: pointer;
+  list-style: none;
+  padding: 0.2rem 0;
+}
+.home-apparatus-expand > summary::-webkit-details-marker { display: none; }
+
+/* trailer attr-link contrast — on paper/pink/white scenes the song
+   credit used to sit as faded cream on near-cream, unreadable.
+   anchor ink with a pink underline so the reading register survives. */
+.trailer.trailer-scene-2 .trailer-attr-link,
+.trailer.trailer-scene-3 .trailer-attr-link,
+.trailer.trailer-scene-4 .trailer-attr-link {
+  color: var(--zine-news);
+  border-bottom: 1px solid color-mix(in srgb, var(--zine-pink-lo) 75%, transparent);
+  opacity: 0.92;
+}
+.trailer.trailer-scene-2 .trailer-attr-link:hover,
+.trailer.trailer-scene-3 .trailer-attr-link:hover,
+.trailer.trailer-scene-4 .trailer-attr-link:hover {
+  color: var(--zine-red);
+  border-bottom-color: var(--zine-red);
+  opacity: 1;
+}
+
+/* pink wash — echo the "fucking beautiful" mood across the page */
+.home-cmiygl { background: color-mix(in srgb, var(--zine-pink-hi) 22%, var(--paper)); }
+.home-bets   { background: color-mix(in srgb, var(--paper) 95%, var(--zine-pink-hi) 20%); }
+.book-comp-seg-ext { background: var(--zine-pink) !important; }
+.book-comp-sw-ext  { background: var(--zine-pink) !important; }
+
+/* stake-holder rights — small note right after the allocation bar on home */
+.home-rights {
+  max-width: min(760px, 100%);
+  margin: 1.2rem auto 2rem;
+  padding: 0.95rem 1.1rem;
+  border-left: 3px solid var(--rust);
+  background: color-mix(in srgb, var(--zine-pink-hi) 18%, var(--paper));
+  color: var(--ink);
+}
+.home-rights-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.35rem;
+}
+.home-rights p {
+  margin: 0;
+  font-size: 0.97rem;
+  line-height: 1.55;
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   allocation bar — macOS-storage-style segmented bar + colored legend.
+   sits high on the home so readers learn what the stake is split into
+   before the pitch lands.
+   ══════════════════════════════════════════════════════════════════════ */
+.alloc {
+  max-width: min(760px, 100%);
+  margin: 2rem auto;
+  padding: 1.25rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  background: color-mix(in srgb, var(--paper) 96%, var(--parchment));
+  border-radius: 4px;
+}
+.alloc-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.alloc-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.alloc-total {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: 1rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.alloc-bar {
+  display: flex;
+  height: 14px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--ink) 6%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+.alloc-seg {
+  height: 100%;
+  display: block;
+  transition: filter 180ms ease;
+}
+.alloc-seg + .alloc-seg {
+  border-left: 1.5px solid var(--paper);
+}
+.alloc-bar:hover .alloc-seg { filter: saturate(1.05); }
+
+.alloc-legend {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.alloc-legend-row {
+  display: grid;
+  grid-template-columns: 14px 1fr auto auto;
+  gap: 0.7rem;
+  align-items: baseline;
+}
+.alloc-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+  transform: translateY(1px);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+}
+.alloc-legend-name {
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.alloc-legend-val {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.alloc-legend-pct {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--graphite);
+  font-variant-numeric: tabular-nums;
+  min-width: 48px;
+  text-align: right;
+}
+.alloc-foot {
+  margin: 0.9rem 0 0;
+  font-size: 0.82rem;
+  color: var(--graphite);
+  line-height: 1.5;
+}
+.alloc-foot a { color: var(--rust); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--rust) 40%, transparent); }
+.alloc-foot a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+@media (max-width: 560px) {
+  .alloc-legend-row { grid-template-columns: 14px 1fr auto; }
+  .alloc-legend-pct { display: none; }
 }
 
 

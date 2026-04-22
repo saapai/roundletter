@@ -6,6 +6,7 @@ import ApparatusThumb from "@/components/ApparatusThumb";
 import LaunchTrailer from "@/components/LaunchTrailer";
 import AuctionCountdown from "@/components/AuctionCountdown";
 import OpenBets from "@/components/OpenBets";
+import AllocationBar from "@/components/AllocationBar";
 import { getLivePortfolio, fmtMoney } from "@/lib/portfolio-live";
 import { SONGS, youtubeSearchLink } from "@/lib/song-links";
 
@@ -232,6 +233,25 @@ export default async function HomePage() {
         </div>
       </Chapter>
 
+      {/* allocation bar — high on the page per saapai's call. segments
+          are rendered as one rounded storage-style bar with a colored
+          legend: owned (saapai), external $50 stock, 10% art, 10%
+          prediction market. lands right after the punchline so the
+          reader learns what they're looking at before they scroll. */}
+      <AllocationBar baseline={lp.baseline} externalTotal={50} />
+
+      <aside className="home-rights" aria-label="stake-holder rights">
+        <div className="home-rights-eye">// holding a stake on 21 june</div>
+        <p>
+          everyone sitting on a position when the book closes on{" "}
+          <strong>21 june 2026</strong> gets <strong>planning rights</strong> on
+          round 1 — vote on the next theme, the panel line-up, the sidecar
+          splits — and is <strong>reimbursable</strong> for any costs incurred
+          on behalf of the book (research subscriptions, tools, travel to
+          events like the friday auction). rights settle by text.
+        </p>
+      </aside>
+
       {/* ══════ CHAPTER 02 — THE STORY ══════ */}
       <Chapter
         n="02"
@@ -240,55 +260,81 @@ export default async function HomePage() {
         title="a portfolio kept in public. five agents. one product."
         meta="project 2, v1 · in derivative order"
       >
-        <div className="home-story">
-          <p>
-            <strong>aureliex</strong> is a public portfolio experiment. baseline{" "}
-            <strong>$3,453.83</strong>, now{" "}
-            <strong>
-              {fmtMoney(lp.value)}
-              {lp.delta !== 0 && (
-                <>
-                  {" "}
-                  <span
-                    className={lp.up ? "home-story-up" : "home-story-down"}
-                  >
-                    ({lp.up ? "+" : "−"}
-                    {fmtMoney(Math.abs(lp.delta))} / {lp.up ? "+" : "−"}
-                    {Math.abs(lp.pct).toFixed(1)}%)
-                  </span>
-                </>
+        <div className="home-story home-story-tight">
+          {/* vitals row — numbers first, words later. */}
+          <div className="home-vitals" aria-label="the portfolio, at a glance">
+            <div className="home-vital">
+              <span className="home-vital-k">baseline</span>
+              <span className="home-vital-v">$3,453.83</span>
+              <span className="home-vital-s">12 apr · seal date</span>
+            </div>
+            <div className="home-vital home-vital-now">
+              <span className="home-vital-k">now</span>
+              <span className="home-vital-v">
+                {fmtMoney(lp.value)}
+              </span>
+              {lp.delta !== 0 ? (
+                <span className={`home-vital-s ${lp.up ? "home-story-up" : "home-story-down"}`}>
+                  {lp.up ? "+" : "−"}{fmtMoney(Math.abs(lp.delta))} · {lp.up ? "+" : "−"}{Math.abs(lp.pct).toFixed(1)}%
+                </span>
+              ) : (
+                <span className="home-vital-s">flat since baseline</span>
               )}
-            </strong>
-            , target <strong>$100,000 by 21 june 2026</strong>. that&rsquo;s a{" "}
-            <strong>{lp.multiple}×</strong> from here. the S&amp;P does 10× in 25 years. the gap is
-            the joke and the point.
+            </div>
+            <div className="home-vital">
+              <span className="home-vital-k">goal</span>
+              <span className="home-vital-v">$100,000</span>
+              <span className="home-vital-s">21 jun · {lp.multiple}× from here</span>
+            </div>
+          </div>
+
+          {/* five-agent chips — each a direct link to /argument */}
+          <div className="home-agents" aria-label="the five-agent panel">
+            <Link href="/argument" className="home-agent home-agent-bull">bull</Link>
+            <Link href="/argument" className="home-agent home-agent-bear">bear</Link>
+            <Link href="/argument" className="home-agent home-agent-macro">macro</Link>
+            <Link href="/argument" className="home-agent home-agent-flow">flow</Link>
+            <Link href="/argument" className="home-agent home-agent-historian">historian</Link>
+          </div>
+
+          <p className="home-story-lede">
+            every decision argued by five agents, filed as a sealed prediction. the S&amp;P does 10× in 25 years. <strong>we&rsquo;re going 27× in two months.</strong> the gap is the joke and the point.
           </p>
-          <p>
-            every decision is argued by five agents — <strong>Bull</strong>, <strong>Bear</strong>,
-            <strong> Macro</strong>, <strong>Flow</strong>, <strong>Historian</strong> — and filed as a
-            sealed prediction. debates at <Link href="/argument">/argument</Link>. book at{" "}
-            <Link href="/positions">/positions</Link>. trades at <Link href="/trades">/trades</Link>.
-          </p>
+
+          <div className="home-story-ctas">
+            <Link href="/argument" className="home-cta">panel → /argument</Link>
+            <Link href="/positions" className="home-cta">book → /positions</Link>
+            <Link href="/trades" className="home-cta">trades → /trades</Link>
+          </div>
+
           <p className="home-story-big">
             <em>green credit</em> — this is the actual product.
           </p>
-          <p>
-            two sidecar books each ride on <strong>10% of the total portfolio stake</strong>:
-            the <strong>prediction-market book</strong> takes the action in
-            <Link href="#open-bets"> open bets</Link> above — kalshi referrals + yes/no contracts feed a
-            public pool the ai hedges and redistributes to yeses. the{" "}
-            <strong>art portfolio</strong> takes ted-lasso texts + call-me-if-you-get-lost finds
-            + negotiated pieces, each appraised by panel and paid in cash or
-            portfolio equity. every dollar paid into either sidecar is paid
-            from that 10% slice, and every gain rolls back into it — so each
-            book scales with the main one and never cannibalizes it.
-          </p>
-          <p>
-            a platform where attention invested in reasoning is rewarded with better reasoning.
-            the public only bets on success. the founder only bets against themselves. if it wins,
-            the public gets paid. if it loses, the pool funds giveaways. the record is the return.{" "}
-            <Link href="/green-credit">read the pitch →</Link>
-          </p>
+          <div className="home-story-ctas">
+            <Link href="/green-credit" className="home-cta home-cta-emph">read the pitch →</Link>
+          </div>
+
+          <details className="home-expand">
+            <summary>the longer story · 10/10/80 allocation · sidecar mechanics</summary>
+            <div className="home-expand-body">
+              <p>
+                two sidecar books each ride on <strong>10% of the total portfolio stake</strong>.
+                the <strong>prediction-market book</strong> takes the action in
+                <Link href="#open-bets"> open bets</Link> below — kalshi referrals + yes/no contracts feed a
+                public pool the AI hedges and redistributes to yeses. the{" "}
+                <strong>art portfolio</strong> takes ted-lasso texts + call-me-if-you-get-lost finds +
+                negotiated pieces, each appraised by panel and paid in cash or portfolio equity.
+                every dollar paid into either sidecar is paid from that 10% slice; every gain rolls
+                back into it — each book scales with the main one, never cannibalizes it.
+              </p>
+              <p>
+                green credit is the frame around all of it: a platform where attention invested in
+                reasoning is rewarded with better reasoning. the public only bets on success. the
+                founder only bets against themselves. if it wins, the public gets paid. if it loses,
+                the pool funds giveaways. the record is the return.
+              </p>
+            </div>
+          </details>
         </div>
       </Chapter>
 
@@ -314,177 +360,152 @@ export default async function HomePage() {
         </div>
       </Chapter>
 
-      {/* ══════ CHAPTER 04 — THE PANEL ARGUED ══════ */}
-      <Chapter
-        n="04"
-        id="chapter-04"
-        kicker="the panel argued"
-        title="the record of every decision on this page."
-        meta="Bull · Bear · Macro · Flow · Historian"
-      >
-        <div className="home-verdict">
-          <div className="home-verdict-final">
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">hook</span>
-              <span className="home-verdict-val">
-                <a href={youtubeSearchLink(SONGS.a_lot)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
-                  a lot — 21 savage ft. j. cole <span aria-hidden="true">↗</span>
-                </a>
-              </span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">punchline</span>
-              <span className="home-verdict-val">
-                <a href={youtubeSearchLink(SONGS.just_like_me)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
-                  just like me — metro boomin + future <span aria-hidden="true">↗</span>
-                </a>
-                {" "}· lands on &ldquo;beautiful&rdquo;
-              </span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">auction</span>
-              <span className="home-verdict-val">
-                <a href={youtubeSearchLink(SONGS.nuevayol)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
-                  nuevayol — bad bunny <span aria-hidden="true">↗</span>
-                </a>
-              </span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">art direction</span>
-              <span className="home-verdict-val">magazine-collage · issue #001 · published in public</span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">pre-mortem</span>
-              <span className="home-verdict-val">
-                <a href={youtubeSearchLink(SONGS.ibiza)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
-                  i took a pill in ibiza — mike posner <span aria-hidden="true">↗</span>
-                </a>
-                {" "}· the sound /let-down is set to
-              </span>
-            </div>
-            <div className="home-verdict-row">
-              <span className="home-verdict-label">for later</span>
-              <span className="home-verdict-val">
-                <Link href="/let-down">/let-down</Link> · <Link href="/arc">/arc</Link>
-              </span>
-            </div>
+      {/* panel verdict — the home used to carry chapter 04 (the rounds of
+          the debate expand) and chapter 06 (for-later ctas that duplicated
+          the bridge nav). the panel met and cut both: debate full record
+          now lives only at /argument (linked once from chapter 02); for-
+          later is already a hop away from the bridge nav + the dock.
+          kept here as a stripped verdict — the song credits + the full-
+          debate pointer — because those readings are the register that
+          the chapter 01 punchline is set to. */}
+      <section className="home-verdict-strip" aria-label="panel verdict · song register">
+        <div className="home-verdict-strip-eye">// the panel&rsquo;s register</div>
+        <div className="home-verdict-final home-verdict-final-strip">
+          <div className="home-verdict-row">
+            <span className="home-verdict-label">hook</span>
+            <span className="home-verdict-val">
+              <a href={youtubeSearchLink(SONGS.a_lot)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
+                a lot — 21 savage ft. j. cole <span aria-hidden="true">↗</span>
+              </a>
+            </span>
           </div>
-
-          <details className="home-verdict-rounds">
-            <summary>unfold the debate · {debate.rounds.length} rounds, {debate.candidates.length} candidates</summary>
-            {debate.rounds.map((r) => (
-              <div key={r.round} className="home-verdict-round">
-                <div className="home-verdict-round-n">round {r.round} · {r.direction}</div>
-                {r.agents.map((a) => (
-                  <div key={a.agent} className="home-verdict-turn">
-                    <div className="home-verdict-agent">{a.agent}</div>
-                    <div className="home-verdict-claim"><strong>{a.claim}</strong></div>
-                    <div className="home-verdict-warrant">{a.warrant}</div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </details>
-        </div>
-      </Chapter>
-
-      {/* ══════ CHAPTER 05 — APPARATUS (the curation) ══════ */}
-      <Chapter
-        n="05"
-        id="chapter-05"
-        kicker="apparatus"
-        title="aesthetic research curation engine"
-        meta="budget · mid · elite · scored"
-      >
-        <p className="home-apparatus-intro">
-          every card is a decision about taste, argued by the panel. tiered <em>budget · mid · elite</em>,
-          scored 0–96. the method applied outside the book.
-        </p>
-        <div className="grid gap-6">
-          {data.categories.map((c) => (
-            <CategoryCard key={c.id} category={c} />
-          ))}
-        </div>
-      </Chapter>
-
-      {/* ══════ CHAPTER 06 — FOR LATER ══════ */}
-      <Chapter
-        n="06"
-        id="chapter-06"
-        kicker="for later"
-        title="the frame this site is a derivative of"
-        meta="let down · the arc · side B"
-      >
-        <div className="home-forlater">
-          <p>
-            the essay — short, quiet, after radiohead 1997 — lives at{" "}
-            <Link href="/let-down">/let-down</Link>.
-          </p>
-          <p>
-            the longer cinematic scroll — altarpiece to transit window — lives at{" "}
-            <Link href="/arc">/arc</Link>.
-          </p>
-          <div className="home-forlater-ctas">
-            <Link href="/let-down" className="home-forlater-cta">read the anchor →</Link>
-            <Link href="/arc" className="home-forlater-cta home-forlater-cta-alt">open the arc →</Link>
+          <div className="home-verdict-row">
+            <span className="home-verdict-label">punchline</span>
+            <span className="home-verdict-val">
+              <a href={youtubeSearchLink(SONGS.just_like_me)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
+                just like me — metro boomin + future <span aria-hidden="true">↗</span>
+              </a>
+            </span>
+          </div>
+          <div className="home-verdict-row">
+            <span className="home-verdict-label">auction</span>
+            <span className="home-verdict-val">
+              <a href={youtubeSearchLink(SONGS.nuevayol)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
+                nuevayol — bad bunny <span aria-hidden="true">↗</span>
+              </a>
+            </span>
+          </div>
+          <div className="home-verdict-row">
+            <span className="home-verdict-label">pre-mortem</span>
+            <span className="home-verdict-val">
+              <a href={youtubeSearchLink(SONGS.ibiza)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
+                i took a pill in ibiza — mike posner <span aria-hidden="true">↗</span>
+              </a>
+            </span>
           </div>
         </div>
-      </Chapter>
+        <div className="home-verdict-strip-foot">
+          <Link href="/argument" className="home-cta">see the full debate → /argument</Link>
+          <span className="home-verdict-strip-meta">
+            {debate.rounds.length} rounds · {debate.candidates.length} candidates
+          </span>
+        </div>
+      </section>
+
+      {/* chapter 06 was removed here — the for-later ctas duplicated
+          the bridge nav + the dock. let-down and arc are two clicks
+          away from anywhere on the page already. panel voted 4-1 to
+          cut; historian dissented, argued the explicit invite mattered.
+          invite kept in the dock instead. */}
 
       {/* open bets — panel lines for every sub-bet, yes/no cta opens
           sms composer. portfolio-to-$100k is yes-only per saapai's rule. */}
       <OpenBets />
 
-      {/* bookends — the page the user remembered: wesley wang at the top,
-          kanye at the bottom. each is a framed youtube-link chapter in
-          the site's register. external links only — no embedded iframes,
-          so no copyright strikes. */}
-      <section className="home-bookends" aria-label="the bookends — wesley wang + kanye west">
-        <div className="home-bookends-eye">// the bookends</div>
+      {/* bookends — two faux-YouTube cards. top is a normal youtube-red
+          wesley wang card; bottom is a kanye ghost town card recolored
+          in pornhub-orange as an allusion to the album's counter-culture
+          register. both external-link cards, no iframes, no copyright
+          risk. CSS faithfully reconstructs the channel avatar, play
+          button overlay, view/time line, and like/share affordances. */}
+      <section className="home-yt" aria-label="the bookends — youtube-ui cards">
+        <div className="home-yt-eye">// the bookends · video</div>
 
         <a
-          className="home-bookend home-bookend-top"
+          className="yt-card yt-card-top"
           href="https://www.youtube.com/results?search_query=wesley+wang+nothing+except+everything"
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="top — wesley wang"
+          aria-label="top · wesley wang · nothing, except everything"
         >
-          <div className="home-bookend-frame" aria-hidden="true">
-            <span className="home-bookend-play">▶</span>
-            <span className="home-bookend-noise" />
+          <div className="yt-thumb" aria-hidden="true">
+            <div className="yt-thumb-noise" />
+            <div className="yt-thumb-vignette" />
+            <span className="yt-thumb-play">
+              <svg viewBox="0 0 68 48" width="52" height="36">
+                <path
+                  className="yt-play-bg"
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                />
+                <path className="yt-play-tri" d="M45 24 27 14v20" />
+              </svg>
+            </span>
+            <span className="yt-thumb-dur">9:28</span>
           </div>
-          <div className="home-bookend-meta">
-            <div className="home-bookend-kicker">top — sits above everything</div>
-            <div className="home-bookend-title"><em>nothing, except everything.</em></div>
-            <div className="home-bookend-sub">wesley wang · short films · how the document sees itself</div>
-            <div className="home-bookend-link">watch on youtube <span aria-hidden="true">↗</span></div>
+          <div className="yt-meta">
+            <span className="yt-avatar" aria-hidden="true">w</span>
+            <div className="yt-text">
+              <div className="yt-title">nothing, except everything.</div>
+              <div className="yt-chan">wesley wang <span className="yt-verified" aria-hidden="true">✓</span></div>
+              <div className="yt-counts">128K views · 2 years ago</div>
+            </div>
+          </div>
+          <div className="yt-brand yt-brand-youtube" aria-hidden="true">
+            <span className="yt-brand-rect" />
+            <span className="yt-brand-word">YouTube</span>
           </div>
         </a>
 
-        <p className="home-bookends-mid">
+        <p className="home-yt-mid">
           <em>
-            between these two videos is the document. the top frame is the
-            register i want the site to read in; the bottom frame is the
-            feeling the descent ends in.
+            two videos bookend the document. the top is the register i want
+            the site to read in. the bottom is the feeling the descent ends
+            in — tinted orange to say which counter-culture it's in.
           </em>
         </p>
 
         <a
-          className="home-bookend home-bookend-bot"
+          className="yt-card yt-card-bot yt-card-ph"
           href={youtubeSearchLink(SONGS.ghost_town)}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="bottom — kanye west · ghost town"
+          aria-label="bottom · kanye west · ghost town"
         >
-          <div className="home-bookend-frame home-bookend-frame-bot" aria-hidden="true">
-            <span className="home-bookend-play">▶</span>
-            <span className="home-bookend-noise" />
+          <div className="yt-thumb yt-thumb-ph" aria-hidden="true">
+            <div className="yt-thumb-noise" />
+            <div className="yt-thumb-vignette" />
+            <span className="yt-thumb-play yt-thumb-play-ph">
+              <svg viewBox="0 0 68 48" width="52" height="36">
+                <path
+                  className="yt-play-bg yt-play-bg-ph"
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                />
+                <path className="yt-play-tri" d="M45 24 27 14v20" />
+              </svg>
+            </span>
+            <span className="yt-thumb-dur yt-thumb-dur-ph">4:27</span>
           </div>
-          <div className="home-bookend-meta">
-            <div className="home-bookend-kicker">bottom — sits under everything</div>
-            <div className="home-bookend-title"><em>ghost town.</em></div>
-            <div className="home-bookend-sub">kanye west · ye · 2018 · "i feel kinda free"</div>
-            <div className="home-bookend-link">watch on youtube <span aria-hidden="true">↗</span></div>
+          <div className="yt-meta yt-meta-ph">
+            <span className="yt-avatar yt-avatar-ph" aria-hidden="true">k</span>
+            <div className="yt-text">
+              <div className="yt-title yt-title-ph">ghost town — i feel kinda free.</div>
+              <div className="yt-chan yt-chan-ph">kanye west <span className="yt-verified" aria-hidden="true">✓</span> · ye · 2018</div>
+              <div className="yt-counts yt-counts-ph">ye side B · the hinge of the album</div>
+            </div>
+          </div>
+          <div className="yt-brand yt-brand-ph" aria-hidden="true">
+            <span className="yt-brand-rect yt-brand-rect-ph">YEHub</span>
+            <span className="yt-brand-word yt-brand-word-ph">Ghost Town</span>
           </div>
         </a>
       </section>
@@ -537,6 +558,34 @@ export default async function HomePage() {
           </em>
         </p>
       </section>
+
+      {/* ══════ CHAPTER 05 — APPARATUS (the curation) ══════
+          moved to the bottom of the stack: the panel called it a register
+          surface, not a commerce one. kept here so returning readers find
+          the tiered taste cards; the intro prose is now <details> so the
+          fold above the grid stays quiet. */}
+      <Chapter
+        n="05"
+        id="chapter-05"
+        kicker="apparatus"
+        title="aesthetic research curation engine"
+        meta="budget · mid · elite · scored"
+      >
+        <details className="home-apparatus-expand">
+          <summary>
+            <em>what this is</em> — the method applied outside the book
+          </summary>
+          <p className="home-apparatus-intro">
+            every card is a decision about taste, argued by the panel. tiered{" "}
+            <em>budget · mid · elite</em>, scored 0–96.
+          </p>
+        </details>
+        <div className="grid gap-6">
+          {data.categories.map((c) => (
+            <CategoryCard key={c.id} category={c} />
+          ))}
+        </div>
+      </Chapter>
 
       {/* dock */}
       <footer className="home-dock">

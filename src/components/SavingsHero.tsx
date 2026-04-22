@@ -40,6 +40,8 @@ type Props = {
   baselineDate: string;      // 2026-04-12
   birthdate: string;
   externalEntries?: ExternalEntry[];
+  /** Cash in the book that isn't tied to a ticker (e.g. pending deposit). */
+  pendingCash?: number;
 };
 
 function fmt$(n: number): string {
@@ -71,6 +73,7 @@ export default function SavingsHero(props: Props) {
     holdings, startedValue, peakValue, peakDate,
     baselineValue, goal, baselineDate, birthdate,
     externalEntries = [],
+    pendingCash = 0,
   } = props;
   const [prices, setPrices] = useState<PricesResponse | null>(null);
 
@@ -109,8 +112,12 @@ export default function SavingsHero(props: Props) {
         total += h.entry_value;
       }
     }
-    return anyLive ? total : baselineValue;
-  }, [prices, holdings, baselineValue]);
+    // pending_cash (dividends, deposits not yet deployed) belongs in the
+    // book — leaving it out was the source of the /positions 3.7% vs.
+    // home 6.9% discrepancy. including it now aligns SavingsHero with
+    // getLivePortfolio(), so both surfaces show the same number.
+    return anyLive ? total + pendingCash : baselineValue;
+  }, [prices, holdings, baselineValue, pendingCash]);
 
   const externalTotal = useMemo(
     () => externalEntries.reduce((a, e) => a + e.amount, 0),

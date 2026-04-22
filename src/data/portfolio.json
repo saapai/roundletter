@@ -11,7 +11,9 @@
   "peak_value": 4825.03,
   "peak_date": "2026-01-31",
   "drawdown_pct_from_peak": -28.3,
-  "pending_cash": 107.67,
+  "_note_positions": "positions do not change. when saapai adds/removes money it changes pending_cash only (the money-market sleeve, SPAXX at $1/share). live total = Σ(shares × last close) + pending_cash. set current_value_today to a number to pin a ground-truth value; null lets the live price engine compute.",
+  "pending_cash": 57.67,
+  "current_value_today": null,
   "buckets": {
     "A_bigtech_quantum":  { "label": "Big-tech quantum (survivorship)", "target_pct": 45, "owner_agents": ["bear", "bull", "historian"] },
     "B_theme_etf":        { "label": "Thematic ETF (diversified theme)", "target_pct": 20, "owner_agents": ["historian", "flow"] },
