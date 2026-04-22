@@ -28,6 +28,46 @@ export const WAYMO_CODE = "SAATHVS7DT";
 export const GET_LUCKY_SPOTIFY =
   "https://open.spotify.com/search/Daft%20Punk%20Get%20Lucky";
 
+// "The second pair" — two YouTube videos saapai sent in. Panel voted to
+// fold them into a single egg rather than inflating the hunt by two.
+// Copy intentionally neutral ("the recording") until saapai confirms
+// titles; see docs/BANK.md for the thematic slot.
+export const SECOND_PAIR_A_ID = "_3PIkV2anqk";
+export const SECOND_PAIR_B_ID = "GGopj8gp2gE";
+export const SECOND_PAIR_A = `https://www.youtube.com/watch?v=${SECOND_PAIR_A_ID}`;
+export const SECOND_PAIR_B = `https://www.youtube.com/watch?v=${SECOND_PAIR_B_ID}`;
+
+// Spray-paint video — goes with the Friday auction. Fired from a typed
+// trigger + a hash + a tap on the auction scene's accent dot.
+export const SPRAYPAINT_VIDEO_ID = "RYRHal-e97Y";
+export const SPRAYPAINT_VIDEO =
+  `https://www.youtube.com/watch?v=${SPRAYPAINT_VIDEO_ID}`;
+
+// Kanye rant — sits under the existing Ghost Town bookend register
+// allusion. This egg plays the rant in-place when caught.
+export const YE_RANT_VIDEO_ID = "ImHpFQSpl2k";
+export const YE_RANT_VIDEO =
+  `https://www.youtube.com/watch?v=${YE_RANT_VIDEO_ID}`;
+
+// The autoplaying trailer-coda clip. Not an egg — embedded as a section
+// right after the LaunchTrailer on the home page. Stored here so all
+// video ids live in one place.
+export const WATCH_CODA_VIDEO_ID = "-Xh5gMREXXQ";
+export const WATCH_CODA_VIDEO =
+  `https://www.youtube.com/watch?v=${WATCH_CODA_VIDEO_ID}`;
+
+// Apparatus-prelude clip — a green, Spotify-meets-YouTube-meets-Apple-TV
+// embed that sits above the aesthetic research curation on the home page.
+export const APPARATUS_VIDEO_ID = "BFul90BFjGc";
+export const APPARATUS_VIDEO =
+  `https://www.youtube.com/watch?v=${APPARATUS_VIDEO_ID}`;
+
+// Bottom-of-home pink-blush embed — styled to echo the fucking-beautiful
+// trailer scene. Lives between apparatus and the dock as the page's coda.
+export const BOTTOM_PINK_VIDEO_ID = "1dj1kCrUFCY";
+export const BOTTOM_PINK_VIDEO =
+  `https://www.youtube.com/watch?v=${BOTTOM_PINK_VIDEO_ID}`;
+
 // Pre-filled SMS composer: opens the native messages app with the number and
 // body pre-populated. Tapping it on mobile dials straight in; on desktop it
 // either hands to an SMS-capable app or is a silent no-op.
@@ -57,6 +97,7 @@ export type HuntReward =
   | "lucky"
   | "lasso"
   | "lost"
+  | "video"
   | "lore";
 
 export type HuntEgg = {
@@ -150,6 +191,32 @@ export const HUNT_EGGS: HuntEgg[] = [
       "desktop · mess with the tv knobs on the home page · click the channel dial until it lands.",
     flavor: "you turned the dial. the signal came back.",
     reward: "lore",
+    rarity: 2,
+  },
+  {
+    id: "spraypaint",
+    name: "the can",
+    origin:
+      "type p a i n t · or url #spraypaint · or triple-click the red dot on the auction scene",
+    flavor: "the auction rehearses itself. watch the can.",
+    reward: "video",
+    rarity: 2,
+  },
+  {
+    id: "yerant",
+    name: "the rant",
+    origin: "type y e r a n t · or url #yerant",
+    flavor: "kanye on record. no edits, no moderator.",
+    reward: "video",
+    rarity: 2,
+  },
+  {
+    id: "secondpair",
+    name: "the second pair",
+    origin:
+      "type r e c o r d i n g s · or url #recordings · two videos, bound",
+    flavor: "two more recordings. paired on purpose.",
+    reward: "video",
     rarity: 2,
   },
 ];

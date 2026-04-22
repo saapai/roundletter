@@ -7,6 +7,8 @@ import LaunchTrailer from "@/components/LaunchTrailer";
 import AuctionCountdown from "@/components/AuctionCountdown";
 import OpenBets from "@/components/OpenBets";
 import AllocationBar from "@/components/AllocationBar";
+import ArtPortfolio from "@/components/ArtPortfolio";
+import { WATCH_CODA_VIDEO_ID, APPARATUS_VIDEO_ID, BOTTOM_PINK_VIDEO_ID } from "@/lib/hunt";
 import { getLivePortfolio, fmtMoney } from "@/lib/portfolio-live";
 import { SONGS, youtubeSearchLink } from "@/lib/song-links";
 
@@ -175,6 +177,24 @@ export default async function HomePage() {
   return (
     <main className="home-root">
       <LaunchTrailer liveValue={lp.value} baseline={lp.baseline} />
+
+      {/* autoplay coda — picks up where the trailer's "the best you can
+          do is watch" line lands. muted + playsinline for autoplay
+          compliance; no chrome; soft gradient blend so the iframe
+          edges disappear into the page. */}
+      <section className="home-coda" aria-label="watch">
+        <div className="home-coda-frame">
+          <iframe
+            className="home-coda-iframe"
+            src={`https://www.youtube-nocookie.com/embed/${WATCH_CODA_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${WATCH_CODA_VIDEO_ID}&controls=1&playsinline=1&rel=0&modestbranding=1`}
+            title="the coda · aureliex"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            allowFullScreen
+            loading="eager"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        </div>
+      </section>
 
       {/* the bridge doubles as the home-page masthead. wordmark sits up top
           (reads as a proper identity, not a floating bridge), the nav row
@@ -559,6 +579,37 @@ export default async function HomePage() {
         </p>
       </section>
 
+      {/* art portfolio · fourteen pieces, live bids, closes friday midnight PT */}
+      <ArtPortfolio />
+
+      {/* apparatus prelude — a green, spotify-meets-youtube-meets-apple-tv
+          video frame sitting right above the curation grid. elevated
+          bezel, generous shadow, spotify-green play state, apple-tv
+          rounded-corner "card" feeling. */}
+      <section className="home-apv" aria-label="the apparatus · prelude">
+        <div className="home-apv-eye">// the apparatus · prelude</div>
+        <div className="home-apv-card">
+          <div className="home-apv-screen">
+            <iframe
+              className="home-apv-iframe"
+              src={`https://www.youtube-nocookie.com/embed/${APPARATUS_VIDEO_ID}?rel=0&modestbranding=1&playsinline=1`}
+              title="the apparatus · prelude"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
+          <div className="home-apv-meta">
+            <div className="home-apv-dot" aria-hidden="true" />
+            <div className="home-apv-copy">
+              <div className="home-apv-title">before the cards</div>
+              <div className="home-apv-sub">the method, narrated · aureliex</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ══════ CHAPTER 05 — APPARATUS (the curation) ══════
           moved to the bottom of the stack: the panel called it a register
           surface, not a commerce one. kept here so returning readers find
@@ -586,6 +637,33 @@ export default async function HomePage() {
           ))}
         </div>
       </Chapter>
+
+      {/* bottom pink coda — closing embed in the "fucking beautiful"
+          blush register. custom pink chrome around a standard
+          youtube-nocookie iframe. */}
+      <section className="home-pink" aria-label="pink coda · video">
+        <div className="home-pink-eye">// and one more</div>
+        <div className="home-pink-card">
+          <div className="home-pink-screen">
+            <iframe
+              className="home-pink-iframe"
+              src={`https://www.youtube-nocookie.com/embed/${BOTTOM_PINK_VIDEO_ID}?rel=0&modestbranding=1&playsinline=1`}
+              title="the pink coda · aureliex"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
+          <div className="home-pink-meta">
+            <span className="home-pink-dot" aria-hidden="true" />
+            <div className="home-pink-copy">
+              <div className="home-pink-title">fucking beautiful · reprise</div>
+              <div className="home-pink-sub">the document lands in blush — aureliex</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* dock */}
       <footer className="home-dock">

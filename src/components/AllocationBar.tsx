@@ -129,10 +129,10 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
       </ul>
       <p className="alloc-foot">
         <em>
-          the book rebalances monthly. the 10% sidecars fund the{" "}
+          the book rebalances weekly. the 10% sidecars fund the{" "}
           <a href="#open-bets">open bets</a> pool and the{" "}
           <a href="#art">art portfolio</a>; external investments settle into
-          the book at the next rebalance.
+          the book at the next weekly rebalance.
         </em>
       </p>
     </section>

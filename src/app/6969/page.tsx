@@ -194,7 +194,7 @@ export default function CreditsPage() {
         <p className="trailer-credits-eye">// credits</p>
         <ul className="trailer-credits-list">
           <li><span>direction, text, decisions</span><span><em>saapai</em></span></li>
-          <li><span>infrastructure, typography, typescript</span><span><em>claude opus 4.7 · 1m-context</em></span></li>
+          <li><span>infrastructure, typography, typescript</span><span><em>claude opus 4.7 · 1m-context · claude code (also YEHub orange, if you squint)</em></span></li>
           <li><span>swipe file</span><span><em>burna boy · i told them · radiohead · kanye · 21 savage · metro boomin · bad bunny · playboi carti · paul graham · ted lasso</em></span></li>
           <li><span>listing venue</span><span><em>polymarket · coming soon</em></span></li>
           <li><span>horizon</span><span><em>10 years · starting now</em></span></li>

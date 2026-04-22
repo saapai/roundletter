@@ -4,7 +4,8 @@
     "stake_reserved_pct": 10,
     "auction_close_iso": "2026-04-25T00:00:00-07:00",
     "auction_close_label": "friday 24 apr · midnight PT · when the spray-paint auction ends",
-    "about": "ten studies by saapai p. (2015–2020). pencil, colored pencil, and pen on paper. starting bids set by the panel — higher where the technical ambition is higher. live bids update after each phone-verified offer; all settlement happens over text. 10% of the total portfolio stake is reserved for art holders. more pieces drop each round — the specific allocation is posted when this auction closes."
+    "state": "coming_soon",
+    "about": "fourteen pieces by saapai p. (2015–present). pencil, colored pencil, pen, watercolor, and photograph. the portfolio unlocks after the auction — until then, each tile is a locked preview with its starting bid visible. tap any tile to offer $1 over the current bid via imessage. 10% of the total portfolio stake is reserved for art holders. specific allocation posted when this auction closes."
   },
   "pieces": [
     {
@@ -12,140 +13,196 @@
       "title": "heron, in color",
       "medium": "colored pencil on paper",
       "date": "2019-07-14",
-      "dim_in": null,
       "note": "most stylised of the set — the plumage is the study, the bird is the frame. panel priced it highest.",
       "image": "/art/rainbow-heron.jpg",
       "start_bid": 90,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["color", "portrait · animal"]
+      "tags": ["color", "portrait · animal"],
+      "locked_preview": "a long-necked heron built out of every color at once · plumage tuned like a stained-glass window · panel priced it highest in the drop."
     },
     {
       "id": "eagle-2018",
       "title": "bald eagle, watching",
       "medium": "graphite on paper",
       "date": "2018-07-22",
-      "dim_in": null,
       "note": "feather texture is the study, not the bird.",
       "image": "/art/eagle.jpg",
       "start_bid": 75,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait · animal", "texture study"]
+      "tags": ["portrait · animal", "texture study"],
+      "locked_preview": "a bald eagle sitting in profile · every feather picked out one by one · the bird is the excuse, the texture is the study."
     },
     {
       "id": "tarantula-2019",
       "title": "tarantula, orange on black",
       "medium": "colored pencil on paper",
       "date": "2019-01-01",
-      "dim_in": null,
       "note": "colored pencil at high contrast; the orange is saturated without going flat.",
       "image": "/art/tarantula-colored.jpg",
       "start_bid": 70,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["color", "entomology"]
+      "tags": ["color", "entomology"],
+      "locked_preview": "black body · bright orange knee-patches · bristles pulled out of the page in a thousand short strokes."
     },
     {
       "id": "jack-sparrow-2015",
       "title": "jack sparrow, looking down",
       "medium": "graphite on paper",
       "date": "2015-08-01",
-      "dim_in": null,
       "note": "likeness study after the pirates stills. the shading in the bandana beads is the tell.",
       "image": "/art/jack-sparrow.jpg",
       "start_bid": 65,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait · figure", "likeness"]
+      "tags": ["portrait · figure", "likeness"],
+      "locked_preview": "depp-as-jack-sparrow in shadow · bandana + beads + dreadlocks · the earliest piece in the drop, 2015."
     },
     {
       "id": "eagle-closeup-2020",
       "title": "eagle, up close",
       "medium": "graphite on paper",
       "date": "2020-03-30",
-      "dim_in": null,
       "note": "close-up portrait — the pupil catch and the radial feathers carry it.",
       "image": "/art/eagle-closeup.jpg",
       "start_bid": 60,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait · animal", "close-up"]
+      "tags": ["portrait · animal", "close-up"],
+      "locked_preview": "pulled in tight · two eyes + one beak + radial feathers going to the edge of the frame."
     },
     {
       "id": "robber-fly-2019",
       "title": "robber fly, feeding",
       "medium": "graphite on paper",
       "date": "2019-08-08",
-      "dim_in": null,
       "note": "insect study; the wing-membrane gradient holds the piece together.",
       "image": "/art/robber-fly.jpg",
       "start_bid": 55,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["study", "entomology"]
+      "tags": ["study", "entomology"],
+      "locked_preview": "a robber fly caught mid-meal · wing membrane graded like a tobacco leaf · all leg hairs accounted for."
     },
     {
       "id": "bearded-profile-2020",
       "title": "profile, man-bun",
       "medium": "graphite on paper",
       "date": "2020-03-21",
-      "dim_in": null,
       "note": "profile study; beard tonal range is where the hand shows.",
       "image": "/art/bearded-profile.jpg",
       "start_bid": 55,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait · figure"]
+      "tags": ["portrait · figure"],
+      "locked_preview": "a bearded profile with a man-bun · eyes closed · the beard is where the pencil got the most use."
     },
     {
       "id": "zentangle-conch-2018",
       "title": "conch, tangled",
       "medium": "pen on paper",
       "date": "2018-07-17",
-      "dim_in": null,
       "note": "zentangle — each ridge a different pattern. patient rather than flashy.",
       "image": "/art/zentangle-conch.jpg",
       "start_bid": 45,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["pattern", "pen"]
+      "tags": ["pattern", "pen"],
+      "locked_preview": "a conch shell · every ridge a different pattern · pen on paper, filled in by hand, no shortcut."
     },
     {
       "id": "child-portrait-2017",
       "title": "small face, large eyes",
       "medium": "graphite on paper",
       "date": "2017-07-15",
-      "dim_in": null,
       "note": "softer pressure, warmer register. reference was a photograph.",
       "image": "/art/child-portrait.jpg",
       "start_bid": 40,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait", "soft-shading"]
+      "tags": ["portrait", "soft-shading"],
+      "locked_preview": "a small face, large eyes · soft pressure throughout · the warmer register of the drop."
     },
     {
       "id": "scorpion-2017",
       "title": "scorpion, raised tail",
       "medium": "graphite on paper",
       "date": "2017-07-18",
-      "dim_in": null,
-      "note": "anatomical — leg-bristles are the detail. earliest of the set.",
+      "note": "anatomical — leg-bristles are the detail. earliest graphite work in the drop.",
       "image": "/art/scorpion.jpg",
       "start_bid": 30,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["study", "entomology"]
+      "tags": ["study", "entomology"],
+      "locked_preview": "a scorpion mid-strike · tail raised, claws back · anatomical and bristled."
+    },
+    {
+      "id": "coming-soon-2026",
+      "title": "coming soon · 04.25.2026",
+      "medium": "digital · chromatic motion blur",
+      "date": "2026-04-20",
+      "note": "rgb-split + shutter-blur teaser poster. the one-frame register the hunt runs on.",
+      "image": "/art/coming-soon.jpg",
+      "start_bid": 120,
+      "current_bid": null,
+      "bid_count": 0,
+      "status": "open",
+      "tags": ["digital", "poster", "motion-blur"],
+      "locked_preview": "a motion-blurred chromatic poster reading 'coming soon · 04.25.2026' · the register every other piece is sitting on."
+    },
+    {
+      "id": "orbstudio-photoshoot",
+      "title": "figure, on the move",
+      "medium": "photograph · long-exposure",
+      "date": "2026-04-20",
+      "note": "kitxhe_ / @orbstudio.co. shutter speed too slow, on purpose. the blur is the point.",
+      "image": "/art/orbstudio-shoot.jpg",
+      "start_bid": 95,
+      "current_bid": null,
+      "bid_count": 0,
+      "status": "open",
+      "tags": ["photograph", "motion-blur", "fashion"],
+      "locked_preview": "a figure photographed with the shutter too slow · plaid jacket, backpack, the body doubled across the frame."
+    },
+    {
+      "id": "watercolor-face-2026",
+      "title": "a face, unfinished",
+      "medium": "crayon + watercolor on paper",
+      "date": "2026-04-18",
+      "note": "confident line, partial color. the kind of imperfection the art portfolio is looking for.",
+      "image": "/art/watercolor-face.jpg",
+      "start_bid": 55,
+      "current_bid": null,
+      "bid_count": 0,
+      "status": "open",
+      "tags": ["watercolor", "portrait", "hand-drawn"],
+      "locked_preview": "a face drawn confidently and left unfinished · crayon outline, watercolor accents, plum lips + ochre hair."
+    },
+    {
+      "id": "kraft-folio-back",
+      "title": "kraft folio, back cover",
+      "medium": "photograph · archival",
+      "date": "2026-04-22",
+      "note": "the portfolio the drop travels in. the frame, not the content.",
+      "image": "/art/kraft-folio.jpg",
+      "start_bid": 20,
+      "current_bid": null,
+      "bid_count": 0,
+      "status": "open",
+      "tags": ["archival", "meta"],
+      "locked_preview": "the kraft folio the fourteen pieces travel in · photographed from the back · a slow piece about containers."
     }
   ]
 }

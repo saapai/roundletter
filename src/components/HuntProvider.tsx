@@ -14,11 +14,16 @@ import {
   GET_LUCKY_SPOTIFY,
   GET_LUCKY_SMS,
   LASSO_SMS,
+  SPRAYPAINT_VIDEO_ID,
+  YE_RANT_VIDEO_ID,
+  SECOND_PAIR_A_ID,
+  SECOND_PAIR_B_ID,
   getEgg,
   readUnlocked,
   writeUnlocked,
   type HuntEgg,
 } from "@/lib/hunt";
+import YouTubeCard from "@/components/YouTubeCard";
 
 // Site-wide easter-egg hunt. Every trigger has a desktop-friendly and a
 // mobile-friendly path, and any URL hash route works as a universal backup.
@@ -66,6 +71,9 @@ const TYPED_TARGETS: Record<string, string> = {
   bankroll: "bankroll",
   getlucky: "lucky",
   lasso: "lasso",
+  paint: "spraypaint",
+  yerant: "yerant",
+  recordings: "secondpair",
 };
 const TYPED_MAX = 24; // rolling buffer of recent alpha keys
 const DOT_TRIPLE_WINDOW_MS = 700;
@@ -93,6 +101,12 @@ const HASH_ROUTES: Record<string, string> = {
   "#number-677777": "numbers",
   "#lasso": "lasso",
   "#tedlasso": "lasso",
+  "#spraypaint": "spraypaint",
+  "#paint": "spraypaint",
+  "#yerant": "yerant",
+  "#rant": "yerant",
+  "#recordings": "secondpair",
+  "#pair": "secondpair",
 };
 
 // shake detection for get lucky: 3 motion spikes inside 1.6s
@@ -592,7 +606,7 @@ function HuntOverlay({
               <li><a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a> with a screenshot of your first trade and the name you want on the ledger. you&rsquo;re now a partial owner of the kalshi book.</li>
             </ol>
             <p className="hunt-card-rules">
-              <em>rules · kalshi side is their standard referral; terms at kalshi.com/help (regions, kyc, their changes apply). my side: 10% of the kalshi portfolio goes to finders as a group, capped at $1,000 total kalshi payouts (40 finders). good-faith sign-ups only — no self-referrals, no alt accounts. ownership math settles at each monthly rebalance and at round close. want to invest more than the referral $25 into the kalshi / polymarket / stock book? text me — negotiated one-on-one.</em>
+              <em>rules · kalshi side is their standard referral; terms at kalshi.com/help (regions, kyc, their changes apply). my side: 10% of the kalshi portfolio goes to finders as a group, capped at $1,000 total kalshi payouts (40 finders). good-faith sign-ups only — no self-referrals, no alt accounts. ownership math settles at each weekly rebalance and at round close. want to invest more than the referral $25 into the kalshi / polymarket / stock book? text me — negotiated one-on-one.</em>
             </p>
             <p className="hunt-card-lasso">
               <em>be a goldfish. — ted lasso</em>
@@ -624,7 +638,7 @@ function HuntOverlay({
               <li>download waymo one (ios / android).</li>
               <li>apply <strong>{WAYMO_CODE}</strong> as your referral on sign-up — or use the url above, which pre-fills it.</li>
               <li>ride. each month you ride, waymo knocks <strong>$10 off</strong> one fare.</li>
-              <li><a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a> with a receipt the first month. i&rsquo;ll add you to the ledger. your 0.5%/month share settles at each monthly rebalance.</li>
+              <li><a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a> with a receipt the first month. i&rsquo;ll add you to the ledger. your 0.5%/month share settles at each weekly rebalance.</li>
             </ol>
             <p className="hunt-card-rules">
               <em>rules · waymo credit applies in waymo one service areas (sf / phoenix / la and growing); terms at waymo.com. my side: 0.5% of the waymo portfolio per month, split across active riders that month. pool has no hard cap — this one rewards repeat rides. want to invest more than the referral into the waymo / stock / polymarket book? text me.</em>
@@ -678,6 +692,66 @@ function HuntOverlay({
               </a>{" "}
               already in the body and {HUNT_PHONE_DISPLAY} in the to-line. no
               money on this one — just a small, silly ping.
+            </p>
+          </div>
+        ) : egg.reward === "video" ? (
+          <div className="hunt-card-payout hunt-card-payout-video">
+            {egg.id === "spraypaint" ? (
+              <>
+                <p className="hunt-card-payout-line">
+                  <em>the can in use.</em> the spray-paint auction is friday;
+                  this is how the piece gets made.
+                </p>
+                <YouTubeCard
+                  videoId={SPRAYPAINT_VIDEO_ID}
+                  title="spray paint · how the piece gets made"
+                  channel="aureliex · hunt"
+                  avatar="s"
+                  duration=" "
+                />
+              </>
+            ) : egg.id === "yerant" ? (
+              <>
+                <p className="hunt-card-payout-line">
+                  <em>kanye on record. no edits, no moderator.</em>
+                </p>
+                <YouTubeCard
+                  videoId={YE_RANT_VIDEO_ID}
+                  title="ye · the rant"
+                  channel="aureliex · hunt"
+                  variant="ph"
+                  brand="YEHub"
+                  brandWord="The Rant"
+                  avatar="k"
+                />
+              </>
+            ) : egg.id === "secondpair" ? (
+              <>
+                <p className="hunt-card-payout-line">
+                  <em>two more recordings. paired on purpose.</em>
+                </p>
+                <div className="hunt-pair">
+                  <YouTubeCard
+                    videoId={SECOND_PAIR_A_ID}
+                    title="the first of the second pair"
+                    channel="aureliex · hunt"
+                    avatar="·"
+                  />
+                  <YouTubeCard
+                    videoId={SECOND_PAIR_B_ID}
+                    title="the second of the second pair"
+                    channel="aureliex · hunt"
+                    avatar="·"
+                  />
+                </div>
+              </>
+            ) : null}
+            <p className="hunt-card-rules">
+              <em>
+                videos play in-place via youtube-nocookie. text me if you want
+                the backstory — the chain of what each one is doing in the
+                document is kept at <a href="/6969#hunt">/6969#hunt</a>.
+              </em>
             </p>
           </div>
         ) : (
