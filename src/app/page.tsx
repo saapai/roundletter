@@ -419,6 +419,49 @@ export default async function HomePage() {
         </div>
       </Chapter>
 
+      {/* art-portfolio teaser — cmiygl poster homage, doubles as a pointer
+          toward the /67/420/6767/6769/677777 variant hunt. visible on the
+          quiet home so the Tyler nod is part of the published register,
+          not buried behind only the egg reward. */}
+      <section className="home-cmiygl" aria-label="call me if you get lost — art portfolio teaser">
+        <div className="home-cmiygl-eye">// art portfolio · coming soon</div>
+        <div className="home-cmiygl-row">
+          <Link href="/67" className="cmiygl-poster cmiygl-stars home-cmiygl-poster" aria-label="variant: star burst on cream">
+            <div className="cmiygl-title">call me<br/>if you get lost</div>
+            <div className="cmiygl-sub">no. 67 · license of travel</div>
+            <div className="cmiygl-phone">+1 (385) 368-7238</div>
+            <div className="cmiygl-tag">— tyler homage · 2026</div>
+          </Link>
+          <Link href="/420" className="cmiygl-poster cmiygl-sunflower home-cmiygl-poster" aria-label="variant: sunflower field sunset">
+            <div className="cmiygl-title">call me<br/>if you get lost</div>
+            <div className="cmiygl-sub">no. 420 · sunset</div>
+            <div className="cmiygl-phone">+1 (385) 368-7238</div>
+            <div className="cmiygl-tag">— tyler homage · 2026</div>
+          </Link>
+          <Link href="/6767" className="cmiygl-poster cmiygl-zine home-cmiygl-poster" aria-label="variant: color-block zine">
+            <div className="cmiygl-title">call me<br/>if you get lost</div>
+            <div className="cmiygl-sub">no. 6767 · side street</div>
+            <div className="cmiygl-phone">+1 (385) 368-7238</div>
+            <div className="cmiygl-tag">— tyler homage · 2026</div>
+          </Link>
+          <Link href="/6769" className="cmiygl-poster cmiygl-stars home-cmiygl-poster" aria-label="variant: star burst cream">
+            <div className="cmiygl-title">call me<br/>if you get lost</div>
+            <div className="cmiygl-sub">no. 6769 · off by one</div>
+            <div className="cmiygl-phone">+1 (385) 368-7238</div>
+            <div className="cmiygl-tag">— tyler homage · 2026</div>
+          </Link>
+          <Link href="/677777" className="cmiygl-poster cmiygl-road home-cmiygl-poster" aria-label="variant: the long road">
+            <div className="cmiygl-title">call me<br/>if you get lost</div>
+            <div className="cmiygl-sub">no. 677777 · long road</div>
+            <div className="cmiygl-phone">+1 (385) 368-7238</div>
+            <div className="cmiygl-tag">— tyler homage · 2026</div>
+          </Link>
+        </div>
+        <p className="home-cmiygl-foot">
+          <em>five variants, one instruction. <strong>tyler said it first.</strong> each poster routes to its own wrong number in the hunt. originals: <strong>call me if you get lost</strong> · tyler, the creator · 2021.</em>
+        </p>
+      </section>
+
       {/* dock */}
       <footer className="home-dock">
         <Link href="/positions">positions</Link>

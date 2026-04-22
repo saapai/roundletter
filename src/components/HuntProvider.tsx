@@ -426,6 +426,110 @@ export default function HuntProvider() {
   );
 }
 
+// Variant for the "call me if you get lost" egg. Each wrong numeric route
+// (`/67`, `/420`, `/6767`, `/6769`, `/677777`) lands here with a different
+// hash on the url; we pick a poster variant from that hash. Every variant
+// is a CSS-only homage to tyler, the creator's 2021 CMIYGL album art —
+// star burst, sunflower field, license of travel card, etc. No copyrighted
+// imagery; the layout + palette are the homage.
+
+type LostVariant = {
+  id: string;
+  title: string;
+  subtitle: string;
+  posterClass: string;
+  kicker: string;
+  extra?: React.ReactNode;
+};
+
+const LOST_VARIANTS: Record<string, LostVariant> = {
+  "#number-67": {
+    id: "license",
+    title: "license of travel",
+    subtitle: "permanent · TTC6252021 · issued to saapai baudelaire",
+    posterClass: "cmiygl-license",
+    kicker: "no. 67 · permitted to travel, explore freely unless detained",
+  },
+  "#number-420": {
+    id: "sunflower",
+    title: "sunflower field · sunset",
+    subtitle: "golden hour on a two-lane, pink car at rest",
+    posterClass: "cmiygl-sunflower",
+    kicker: "no. 420 · kept between sunset and last call",
+  },
+  "#number-6767": {
+    id: "zine",
+    title: "side street",
+    subtitle: "1 (855) 444 — 8888 · stars, teal + green + cream",
+    posterClass: "cmiygl-zine",
+    kicker: "no. 6767 · color-block zine · pick up on ring two",
+  },
+  "#number-6769": {
+    id: "stars",
+    title: "star burst",
+    subtitle: "cream paper · pastel constellation · pink car at center",
+    posterClass: "cmiygl-stars",
+    kicker: "no. 6769 · one digit off · close enough to count",
+  },
+  "#number-677777": {
+    id: "road",
+    title: "the long road",
+    subtitle: "horizon vanishing point · double yellow",
+    posterClass: "cmiygl-road",
+    kicker: "no. 677777 · seven sevens · lost deeper than most",
+  },
+};
+
+function LostReward() {
+  const [hash, setHash] = useState<string>("");
+  useEffect(() => {
+    setHash(window.location.hash.toLowerCase());
+    const onHash = () => setHash(window.location.hash.toLowerCase());
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+  const variant =
+    LOST_VARIANTS[hash] ?? {
+      id: "generic",
+      title: "call me if you get lost",
+      subtitle: "you hit a number that wasn't the one",
+      posterClass: "cmiygl-stars",
+      kicker: "no. — · wrong number, right neighborhood",
+    };
+
+  return (
+    <div className="hunt-card-payout hunt-card-payout-cmiygl">
+      <div className={`cmiygl-poster ${variant.posterClass}`} aria-hidden="true">
+        <div className="cmiygl-title">
+          call me
+          <br />
+          if you get lost
+        </div>
+        <div className="cmiygl-sub">{variant.subtitle}</div>
+        <div className="cmiygl-phone">{HUNT_PHONE_DISPLAY}</div>
+        <div className="cmiygl-tag">— saapai baudelaire · tyler homage · 2026</div>
+      </div>
+      <p className="hunt-card-payout-line">
+        <em>{variant.kicker}.</em> you hit the wrong number. the right one is{" "}
+        <strong>6969</strong>. but tyler, the creator already wrote the instruction
+        for this exact moment — <em>call me if you get lost.</em>
+      </p>
+      <a className="hunt-card-cta" href={HUNT_PHONE_TEL_LINK}>
+        call {HUNT_PHONE_DISPLAY} <span aria-hidden="true">↗</span>
+      </a>
+      <p className="hunt-card-payout-how">
+        or <a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a>.
+        each wrong number shows a different poster; five variants in circulation.{" "}
+        <a className="hunt-card-phone" href="/6969#hunt">/6969#hunt</a> tracks
+        which numbers you&rsquo;ve dialed.
+      </p>
+      <p className="hunt-card-rules">
+        <em>rules · not a bankroll egg. but call once and i answer. posters are CSS homages, not reproductions — original album art: <strong>call me if you get lost</strong> · tyler, the creator · 2021.</em>
+      </p>
+    </div>
+  );
+}
+
 function HuntOverlay({
   egg,
   foundCount,
@@ -530,25 +634,7 @@ function HuntOverlay({
             </p>
           </div>
         ) : egg.reward === "lost" ? (
-          <div className="hunt-card-payout">
-            <p className="hunt-card-payout-line">
-              you hit the wrong number. the right one is <strong>6969</strong>.
-              but tyler, the creator already wrote the instruction for this
-              exact moment — <em>call me if you get lost.</em>
-            </p>
-            <a className="hunt-card-cta" href={HUNT_PHONE_TEL_LINK}>
-              call {HUNT_PHONE_DISPLAY} <span aria-hidden="true">↗</span>
-            </a>
-            <p className="hunt-card-payout-how">
-              or <a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a>.
-              either way i&rsquo;ll point you at the real{" "}
-              <a className="hunt-card-phone" href="/6969#hunt">/6969#hunt</a> and
-              tell you which egg the neighborhood leads to next.
-            </p>
-            <p className="hunt-card-rules">
-              <em>rules · not a bankroll egg. but call once and i answer. (referencing <strong>call me if you get lost</strong> · tyler, the creator · 2021.)</em>
-            </p>
-          </div>
+          <LostReward />
         ) : egg.reward === "lasso" ? (
           <div className="hunt-card-payout">
             <p className="hunt-card-payout-line">

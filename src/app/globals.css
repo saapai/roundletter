@@ -11737,6 +11737,293 @@ body.hunt-fired .masthead .wordmark .dot {
   color: color-mix(in srgb, var(--rust) 78%, var(--ink));
   text-align: right;
 }
+
+/* ════════════════════════════════════════════════════════════════════════
+   CMIYGL poster variants — one per wrong numeric route. CSS-only homage to
+   tyler, the creator's 2021 album art: thick condensed sans-serif title,
+   star-burst field, pastel or sunset palette, a dialed-number line.
+   No copyrighted imagery used; layout + palette are the homage.
+   ════════════════════════════════════════════════════════════════════════ */
+.cmiygl-poster {
+  position: relative;
+  aspect-ratio: 5 / 7;
+  max-height: 340px;
+  margin: 0 auto 1rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 0.35rem;
+  align-items: start;
+  justify-items: center;
+  padding: 1.1rem 1rem;
+  border-radius: 4px;
+  overflow: hidden;
+  color: #3a2214;
+  text-align: center;
+  font-family: Impact, "Haettenschweiler", "Arial Black", sans-serif;
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.08),
+    0 18px 40px -18px rgba(0, 0, 0, 0.35);
+}
+.cmiygl-title {
+  font-size: clamp(1.4rem, 5vw, 2.1rem);
+  line-height: 0.88;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+  color: inherit;
+  margin-top: 0.15rem;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+  font-weight: 900;
+  z-index: 2;
+}
+.cmiygl-sub {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, currentColor 70%, transparent);
+  align-self: start;
+  z-index: 2;
+  max-width: 28ch;
+}
+.cmiygl-phone {
+  font-family: Impact, "Haettenschweiler", sans-serif;
+  font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, currentColor 88%, transparent);
+  align-self: end;
+  z-index: 2;
+}
+.cmiygl-tag {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, currentColor 60%, transparent);
+  z-index: 2;
+}
+
+/* shared star-burst pattern used by several variants (positioned via
+   variant-specific gradient stops). star glyphs as svg data-uris so they
+   render crisp at any size. */
+.cmiygl-poster::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f2c24b'><path d='M12 0 L14.7 8.8 L24 9 L16.5 14.3 L19 23 L12 17.6 L5 23 L7.5 14.3 L0 9 L9.3 8.8 Z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23a5d8d8'><path d='M12 0 L14.7 8.8 L24 9 L16.5 14.3 L19 23 L12 17.6 L5 23 L7.5 14.3 L0 9 L9.3 8.8 Z'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f4b6c2'><path d='M12 0 L14.7 8.8 L24 9 L16.5 14.3 L19 23 L12 17.6 L5 23 L7.5 14.3 L0 9 L9.3 8.8 Z'/></svg>");
+  background-size: 64px 64px, 48px 48px, 36px 36px;
+  background-position: 10% 8%, 80% 18%, 18% 82%;
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  z-index: 1;
+}
+
+/* variant 1 — license of travel card (green + stars border + id photo) */
+.cmiygl-license {
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(255, 253, 246, 0.45), transparent 60%),
+    linear-gradient(180deg, #d9e9c8 0%, #b6d0a3 100%);
+  color: #3a2214;
+  border: 2px solid #3a2214;
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 253, 246, 0.35),
+    inset 0 0 0 5px #3a2214,
+    0 18px 40px -18px rgba(0, 0, 0, 0.4);
+}
+.cmiygl-license::before {
+  /* star border pattern instead of the shared star burst */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><path d='M12 2 L14.2 8.8 L21 9 L15.5 13.3 L17.5 20 L12 15.8 L6.5 20 L8.5 13.3 L3 9 L9.8 8.8 Z'/></svg>");
+  background-size: 16px 16px;
+  background-position: 0 0;
+  background-repeat: repeat-x, repeat-x;
+  background-position-y: 6px, calc(100% - 6px);
+  opacity: 1;
+  inset: 10px 10px auto 10px;
+  bottom: auto;
+  height: 14px;
+  box-shadow:
+    0 calc(100% + -30px) 0 0 transparent;
+}
+.cmiygl-license::after {
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  height: 14px;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><path d='M12 2 L14.2 8.8 L21 9 L15.5 13.3 L17.5 20 L12 15.8 L6.5 20 L8.5 13.3 L3 9 L9.8 8.8 Z'/></svg>");
+  background-size: 16px 16px;
+  background-repeat: repeat-x;
+}
+
+/* variant 2 — sunflower field sunset */
+.cmiygl-sunflower {
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 60%, rgba(255, 180, 90, 0.55), transparent 75%),
+    linear-gradient(
+      180deg,
+      #8b4a70 0%,
+      #c27a54 35%,
+      #e8b06c 55%,
+      #c49950 72%,
+      #6b5020 100%
+    );
+  color: #3a2214;
+}
+.cmiygl-sunflower::before {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><circle cx='12' cy='12' r='3'/><path d='M12 2 V8 M12 16 V22 M2 12 H8 M16 12 H22 M5 5 L9 9 M15 15 L19 19 M5 19 L9 15 M15 9 L19 5' stroke='%233a2214' stroke-width='1.5'/></svg>");
+  background-size: 22px 22px;
+  background-repeat: repeat;
+  background-position: 0 70%;
+  mask-image: linear-gradient(to top, #000 0%, #000 40%, transparent 75%);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 40%, transparent 75%);
+  opacity: 0.45;
+}
+.cmiygl-sunflower .cmiygl-title { color: #2a1808; text-shadow: 0 1px 0 rgba(255, 235, 205, 0.35); }
+
+/* variant 3 — color-block zine (teal + green + stars + phone) */
+.cmiygl-zine {
+  background:
+    linear-gradient(
+      135deg,
+      #0b6e84 0% 30%,
+      #6ea27a 30% 60%,
+      #f4efe6 60% 100%
+    );
+  color: #2a1808;
+}
+.cmiygl-zine::before {
+  background-size: 72px 72px, 54px 54px, 42px 42px;
+  background-position: 82% 82%, 8% 22%, 75% 12%;
+  opacity: 1;
+}
+.cmiygl-zine .cmiygl-phone {
+  font-size: clamp(1rem, 3.5vw, 1.4rem);
+  color: #2a1808;
+}
+
+/* variant 4 — star burst on cream */
+.cmiygl-stars {
+  background: #f4efe6;
+  color: #7a4628;
+  border: 1px solid #7a4628;
+}
+.cmiygl-stars::before {
+  background-size: 88px 88px, 68px 68px, 52px 52px;
+  background-position: 18% 14%, 84% 22%, 12% 78%;
+  opacity: 0.95;
+}
+.cmiygl-stars .cmiygl-title { color: #7a4628; }
+
+/* variant 5 — long road / double yellow vanishing point */
+.cmiygl-road {
+  background:
+    linear-gradient(
+      180deg,
+      #ffd89c 0%,
+      #e89a5e 32%,
+      #7a4028 62%,
+      #1a0e08 100%
+    );
+  color: #ffe2b4;
+}
+.cmiygl-road::before {
+  background: none;
+}
+.cmiygl-road::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 45%;
+  background:
+    linear-gradient(
+      to top,
+      rgba(14, 8, 4, 0.9) 0%,
+      rgba(14, 8, 4, 0.5) 70%,
+      transparent 100%
+    );
+  clip-path: polygon(0% 100%, 100% 100%, 62% 0%, 38% 0%);
+  pointer-events: none;
+  z-index: 1;
+}
+.cmiygl-road .cmiygl-title { color: #ffe2b4; text-shadow: 0 1px 8px rgba(14, 8, 4, 0.65); }
+.cmiygl-road .cmiygl-phone { color: #ffd89c; }
+
+.hunt-card-payout-cmiygl {
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  padding-top: 1rem;
+  margin-top: 0.4rem;
+}
+
+/* homepage CMIYGL teaser row — five posters that each link to their own
+   wrong numeric route. doubles as the art-portfolio "coming soon" block. */
+.home-cmiygl {
+  max-width: min(1120px, 100%);
+  margin: 4rem auto 2.5rem;
+  padding: 2rem 1.25rem;
+}
+.home-cmiygl-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+.home-cmiygl-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.1rem;
+  align-items: start;
+}
+.home-cmiygl-poster {
+  text-decoration: none;
+  transition: transform 260ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 260ms ease;
+  cursor: pointer;
+  max-height: none;
+  aspect-ratio: 5 / 7;
+  width: 100%;
+  margin: 0;
+}
+.home-cmiygl-poster:hover,
+.home-cmiygl-poster:focus-visible {
+  transform: translateY(-4px) rotate(-0.8deg);
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.08),
+    0 26px 50px -18px rgba(0, 0, 0, 0.45);
+  outline: none;
+}
+.home-cmiygl-poster:nth-child(even):hover,
+.home-cmiygl-poster:nth-child(even):focus-visible {
+  transform: translateY(-4px) rotate(0.8deg);
+}
+.home-cmiygl-foot {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--graphite);
+}
+.home-cmiygl-foot strong { color: var(--rust); font-weight: 600; }
+@media (max-width: 520px) {
+  .home-cmiygl-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+  .home-cmiygl-poster { padding: 0.7rem 0.55rem; }
+  .home-cmiygl-poster .cmiygl-title { font-size: clamp(0.95rem, 4vw, 1.1rem); }
+  .home-cmiygl-poster .cmiygl-phone { font-size: clamp(0.72rem, 3.2vw, 0.9rem); }
+}
 .hunt-card-phone {
   color: var(--rust);
   border-bottom: 1px solid color-mix(in srgb, var(--rust) 40%, transparent);

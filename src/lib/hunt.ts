@@ -129,7 +129,7 @@ export const HUNT_EGGS: HuntEgg[] = [
     id: "numbers",
     name: "call me if you get lost",
     origin:
-      "visit any of · /67 · /420 · /6767 · /6769 · /677777 · (/6969 is the real one)",
+      "visit any of · /67 · /420 · /6767 · /6769 · /677777 · (/6969 is the real one) — each path shows a different poster variant in tribute to tyler, the creator's 2021 album art.",
     flavor: "tyler said it first — call me if you get lost.",
     reward: "lost",
     rarity: 1,
