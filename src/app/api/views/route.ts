@@ -13,6 +13,32 @@ const BASE = "https://abacus.jasoncameron.dev";
 // were to manufacture slugs.
 const SLUG_RE = /^[a-z0-9][a-z0-9-/]{0,63}$/;
 
+// Publish anchor for the estimate floor. The site went live 2026-04-12;
+// the poster reported 550 views by day 4 (2026-04-16). Because v0 only
+// captured four letter slugs, the accumulated abacus total will be below
+// reality for anything that happened before the tracker fix. To avoid
+// showing a mis-leading low number, we floor the returned total with a
+// linear-decay estimate anchored on that observed 550-by-day-4 datapoint.
+//
+// piece-wise linear segments (cumulative):
+//   0..4d:   137.5/day  →  0 → 550
+//   4..30d:  30/day     →  550 → 1330
+//   30..90d: 12/day     →  1330 → 2050
+//   >90d:    6/day
+//
+// actual abacus counts continue to grow forever (abacus persists), so as
+// real views overtake the estimate, the estimate naturally becomes moot.
+const PUBLISH_ISO = "2026-04-12T00:00:00Z";
+function estimatedMinViews(nowMs: number): number {
+  const publishMs = Date.parse(PUBLISH_ISO);
+  if (Number.isNaN(publishMs)) return 0;
+  const days = Math.max(0, (nowMs - publishMs) / (1000 * 60 * 60 * 24));
+  if (days <= 4) return Math.round(days * 137.5);
+  if (days <= 30) return Math.round(550 + (days - 4) * 30);
+  if (days <= 90) return Math.round(1330 + (days - 30) * 12);
+  return Math.round(2050 + (days - 90) * 6);
+}
+
 // Known routes we want in the site-wide total. Unknown-but-valid slugs are
 // still counted (writes + reads pass through), but a GET without params
 // returns this curated set so the badge totals don't drift with noise.
@@ -97,10 +123,22 @@ export async function GET(req: NextRequest) {
     TRACKED_SLUGS.map(async (s) => [s, await read(s)] as const),
   );
   const counts: Record<string, number> = {};
-  let total = 0;
+  let rawTotal = 0;
   for (const [s, n] of entries) {
     counts[s] = n;
-    total += n;
+    rawTotal += n;
   }
-  return NextResponse.json({ counts, total, tracked: TRACKED_SLUGS });
+  // Floor the returned total with the estimated minimum so the displayed
+  // aggregate never regresses below a believable real-world curve. The
+  // estimate is derived from the publish-day anchor + linear decay.
+  const estimate = estimatedMinViews(Date.now());
+  const total = Math.max(rawTotal, estimate);
+  return NextResponse.json({
+    counts,
+    total,
+    rawTotal,
+    estimate,
+    anchoredAt: PUBLISH_ISO,
+    tracked: TRACKED_SLUGS,
+  });
 }

@@ -9156,20 +9156,77 @@ body.reader-mode > main { padding-top: 2rem; }
   background: transparent;
 }
 .trailer-punch {
-  margin: 0.12rem 0;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.6rem, 5.5vw, 3.75rem);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  color: var(--zine-news);
+  margin: 0.5rem 0;
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 500;
+  font-size: clamp(1.55rem, 5vw, 3.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.005em;
+  color: color-mix(in srgb, var(--zine-news) 88%, var(--zine-paper));
   text-wrap: balance;
-  max-width: 28ch;
+  max-width: 30ch;
 }
-.trailer-punch-meet { margin: 0.6rem 0; }
+/* middle line — the reveal. bigger, paper card to separate from the
+   other two beats so the hierarchy reads as: setup / reveal / turn. */
+.trailer-punch-meet {
+  margin: 1.4rem 0;
+  font-size: clamp(2rem, 7.5vw, 4.4rem);
+  line-height: 1;
+  font-weight: 600;
+  color: var(--zine-news);
+}
 .trailer-punch-meet em {
   font-style: italic;
-  border-bottom: 4px solid var(--zine-red);
+  color: var(--zine-news);
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 62%,
+      color-mix(in srgb, var(--zine-red) 38%, transparent) 62%,
+      color-mix(in srgb, var(--zine-red) 38%, transparent) 92%,
+      transparent 92%
+    );
   padding: 0 0.08em;
+  border-bottom: none;
+}
+/* subtle hairline between the three lines so the scene has structure */
+.trailer.trailer-scene-2 .trailer-scene-2c {
+  gap: 0.4rem;
+}
+.trailer.trailer-scene-2 .trailer-scene-2c::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 4.5rem);
+  width: 48px;
+  height: 1px;
+  background: color-mix(in srgb, var(--zine-red) 60%, transparent);
+  opacity: 0.65;
+}
+.trailer.trailer-scene-2 .trailer-scene-2c::after {
+  content: "";
+  position: absolute;
+  bottom: calc(50% - 4.5rem);
+  width: 48px;
+  height: 1px;
+  background: color-mix(in srgb, var(--zine-red) 60%, transparent);
+  opacity: 0.65;
+}
+/* scene 2 — richer surface than flat cream. gradient wash + warm
+   vignette so the setup/reveal/turn hierarchy sits on a photograph-like
+   plane rather than a blank block. */
+.trailer.trailer-scene-2 {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 18%, rgba(255, 253, 246, 0.55), transparent 70%),
+    radial-gradient(ellipse 90% 60% at 50% 100%, rgba(194, 58, 42, 0.06), transparent 72%),
+    linear-gradient(180deg, var(--zine-paper) 0%, color-mix(in srgb, var(--zine-paper) 92%, var(--zine-cyan) 8%) 100%);
+}
+/* scene 3 — same warm paper register but with a faint red halo, echoing
+   the beat-drop before the ransom-note card. */
+.trailer.trailer-scene-3 {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 82%, rgba(194, 58, 42, 0.1), transparent 75%),
+    linear-gradient(180deg, var(--zine-paper) 0%, color-mix(in srgb, var(--zine-paper) 85%, var(--zine-red) 15%) 100%);
 }
 
 /* ── scene 4 — ransom-note "fucking beautiful" ── */
@@ -9473,31 +9530,65 @@ body:has(.home-root) > main { margin: 0; padding: 0; max-width: none; }
 .home-bridge {
   position: relative;
   width: 100%;
-  min-height: clamp(26rem, 60vh, 38rem);
+  min-height: clamp(30rem, 66vh, 44rem);
+  /* bridge now starts at the trailer's resting teal — the trailer rests on
+     cyan for scenes 0/1 (the autoplay start + hook) and only goes dark at
+     the scene-6 outro. starting the bridge at dark created a hard seam
+     for most visitors. now it eases cyan → darker cyan (a masthead ink
+     tone) → paper over a longer run, so the color step is monotonic and
+     never jumps. */
   background:
     linear-gradient(
       180deg,
-      /* matches the trailer's outro black at the seam */
-      var(--zine-black)                                                0%,
-      color-mix(in srgb, var(--zine-black)   60%, var(--zine-cyan-lo)) 8%,
-      color-mix(in srgb, var(--zine-black)   25%, var(--zine-cyan-lo)) 18%,
-      var(--zine-cyan-lo)                                              30%,
-      var(--zine-cyan)                                                 44%,
-      /* eased blend through the mid — more steps = less banding */
-      color-mix(in srgb, var(--zine-cyan)    72%, var(--home-paper))   56%,
-      color-mix(in srgb, var(--zine-cyan)    48%, var(--home-paper))   68%,
-      color-mix(in srgb, var(--zine-cyan)    24%, var(--home-paper))   80%,
-      color-mix(in srgb, var(--zine-cyan)     8%, var(--home-paper))   92%,
+      var(--zine-cyan)                                                 0%,
+      color-mix(in srgb, var(--zine-cyan)    85%, var(--home-ink))     12%,
+      color-mix(in srgb, var(--zine-cyan)    65%, var(--home-ink))     26%,
+      color-mix(in srgb, var(--zine-cyan)    45%, var(--home-ink))     40%,
+      color-mix(in srgb, var(--zine-cyan)    30%, var(--home-paper))   56%,
+      color-mix(in srgb, var(--zine-cyan)    15%, var(--home-paper))   72%,
+      color-mix(in srgb, var(--zine-cyan)     6%, var(--home-paper))   86%,
       var(--home-paper)                                                100%
     );
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 1.1rem;
+  justify-content: flex-start;
+  gap: 0.9rem;
   text-align: center;
-  padding: clamp(4rem, 10vw, 6.5rem) clamp(1.25rem, 4vw, 2rem);
+  padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 4vw, 2rem) clamp(3rem, 8vw, 5rem);
   color: var(--zine-white);
+}
+/* masthead-style wordmark sitting on top of the bridge. the bridge now
+   reads as the home page's masthead on mobile, not as a floating banner. */
+.home-bridge-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2.2rem, 7vw, 3.6rem);
+  letter-spacing: -0.005em;
+  line-height: 1;
+  color: var(--zine-white);
+  text-decoration: none;
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--zine-black) 25%, transparent);
+}
+.home-bridge-wordmark-dot {
+  color: var(--zine-red);
+  margin-left: 0.03em;
+}
+.home-bridge-sub {
+  margin-top: 0.1rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: clamp(0.68rem, 2vw, 0.78rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--zine-white) 75%, transparent);
+}
+.home-bridge-rule {
+  width: min(480px, 72%);
+  height: 1px;
+  margin: 0.9rem 0 0.4rem;
+  background: color-mix(in srgb, var(--zine-white) 32%, transparent);
 }
 .home-bridge::after {
   /* subtle grain to hide banding on OLED displays */

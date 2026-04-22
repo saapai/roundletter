@@ -2,7 +2,7 @@ import { getPortfolio } from "@/lib/data";
 import SolvedLetters from "@/components/SolvedLetters";
 import StockAnalysisGraph from "@/components/StockAnalysisGraph";
 import PortfolioChart from "@/components/PortfolioChart";
-import SavingsHero from "@/components/SavingsHero";
+import SavingsHero, { BookComposition } from "@/components/SavingsHero";
 import TodayDebate from "@/components/TodayDebate";
 import ArgumentsPanel from "@/components/ArgumentsPanel";
 import TedLassoTrailer from "@/components/TedLassoTrailer";
@@ -87,6 +87,12 @@ export default async function Positions() {
         goal={goal}
         baselineDate={p.baseline_date ?? "2026-04-14"}
         birthdate={p.birthdate ?? "June 21"}
+        externalEntries={p.external_entries ?? []}
+      />
+
+      <BookComposition
+        bookValue={current}
+        externalEntries={p.external_entries ?? []}
       />
 
       <PortfolioChart

@@ -23,11 +23,13 @@ export function spotifySearchLink(song: Song): string {
   return `https://open.spotify.com/search/${encode(q)}`;
 }
 
-// Prebuilt metadata for the three trailer tracks + the /arc pair.
+// Prebuilt metadata for the three trailer tracks + the /arc pair + the
+// pre-mortem set attached to /let-down.
 export const SONGS = {
-  a_lot:       { name: "a lot",               artist: "21 savage ft. j. cole", year: 2018 },
-  just_like_me:{ name: "just like me",        artist: "metro boomin + future", year: 2022 },
-  nuevayol:    { name: "nuevayol",            artist: "bad bunny",             year: 2025 },
-  ghost_town:  { name: "ghost town",          artist: "kanye west",            year: 2018 },
-  let_down:    { name: "let down",            artist: "radiohead",             year: 1997 },
+  a_lot:        { name: "a lot",               artist: "21 savage ft. j. cole", year: 2018 },
+  just_like_me: { name: "just like me",        artist: "metro boomin + future", year: 2022 },
+  nuevayol:     { name: "nuevayol",            artist: "bad bunny",             year: 2025 },
+  ghost_town:   { name: "ghost town",          artist: "kanye west",            year: 2018 },
+  let_down:     { name: "let down",            artist: "radiohead",             year: 1997 },
+  ibiza:        { name: "i took a pill in ibiza", artist: "mike posner",        year: 2015 },
 } as const;

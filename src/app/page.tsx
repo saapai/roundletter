@@ -174,11 +174,19 @@ export default async function HomePage() {
     <main className="home-root">
       <LaunchTrailer liveValue={lp.value} baseline={lp.baseline} />
 
-      {/* gradient bridge from trailer → compartments + in-page nav */}
-      <section className="home-bridge" id="after-hero">
+      {/* the bridge doubles as the home-page masthead. wordmark sits up top
+          (reads as a proper identity, not a floating bridge), the nav row
+          sits on the rule below, and the gradient starts at the trailer's
+          resting teal so the seam doesn't slam into near-black. */}
+      <section className="home-bridge home-bridge-mast" id="after-hero">
+        <Link href="/" className="home-bridge-wordmark" aria-label="aureliex — home">
+          aureliex<span className="home-bridge-wordmark-dot">.</span>
+        </Link>
+        <div className="home-bridge-sub">green credit · round 0</div>
         <div className="home-bridge-kicker">the rest of the magazine</div>
         <div className="home-bridge-line">the document begins where the film ends.</div>
         <div className="home-bridge-arrow" aria-hidden="true">↓</div>
+        <div className="home-bridge-rule" aria-hidden="true" />
         <nav className="home-bridge-nav" aria-label="site navigation">
           <Link href="/let-down" className="home-bridge-nav-emph">let down</Link>
           <Link href="/positions">positions</Link>
@@ -190,6 +198,7 @@ export default async function HomePage() {
           <Link href="/archives">archives</Link>
           <Link href="/arc">arc</Link>
         </nav>
+        <div className="home-bridge-rule" aria-hidden="true" />
         <div className="home-bridge-after">keep scrolling</div>
       </section>
 
@@ -331,6 +340,15 @@ export default async function HomePage() {
             <div className="home-verdict-row">
               <span className="home-verdict-label">art direction</span>
               <span className="home-verdict-val">magazine-collage · issue #001 · published in public</span>
+            </div>
+            <div className="home-verdict-row">
+              <span className="home-verdict-label">pre-mortem</span>
+              <span className="home-verdict-val">
+                <a href={youtubeSearchLink(SONGS.ibiza)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
+                  i took a pill in ibiza — mike posner <span aria-hidden="true">↗</span>
+                </a>
+                {" "}· the sound /let-down is set to
+              </span>
             </div>
             <div className="home-verdict-row">
               <span className="home-verdict-label">for later</span>

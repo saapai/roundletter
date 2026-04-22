@@ -34,14 +34,17 @@ const MUTE_KEY = "rl:launch-trailer-muted";
 type Scene = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 type AudioKey = "hook" | "drop" | "auction" | "silence";
 
+// Scene 0 (the magazine cover) held too briefly for viewers to read the
+// "aureliex" wordmark + issue-number tag. All downstream beats shift by
+// ~2.5s; progress-bar CSS keyframe matches the new tail.
 const SCHEDULE: Array<{ scene: Scene; at: number; audio?: AudioKey }> = [
   { scene: 0, at: 0,     audio: "silence" },
-  { scene: 1, at: 800,   audio: "hook"    },
-  { scene: 2, at: 6500,  audio: "hook"    },
-  { scene: 3, at: 11000, audio: "drop"    },
-  { scene: 4, at: 13500, audio: "silence" },
-  { scene: 5, at: 17000, audio: "auction" },
-  { scene: 6, at: 20000, audio: "silence" },
+  { scene: 1, at: 3300,  audio: "hook"    },
+  { scene: 2, at: 9000,  audio: "hook"    },
+  { scene: 3, at: 13500, audio: "drop"    },
+  { scene: 4, at: 16000, audio: "silence" },
+  { scene: 5, at: 19500, audio: "auction" },
+  { scene: 6, at: 22500, audio: "silence" },
 ];
 
 const VOLUMES: Record<AudioKey, number> = {
