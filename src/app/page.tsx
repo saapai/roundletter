@@ -206,11 +206,21 @@ export default async function HomePage() {
         n="01"
         id="chapter-01"
         kicker="the punchline"
-        title="the name is bullshit. the product is fucking beautiful."
+        title={
+          <>
+            the name is bullshit.
+            <br />
+            the product is{" "}
+            <span className="home-punch-hi">fucking beautiful.</span>
+          </>
+        }
       >
-        <p className="home-punch">every ai product you&rsquo;ve seen is useless but has a cool name.</p>
-        <p className="home-punch home-punch-meet">meet <span className="home-punch-mark">aureliex</span>.</p>
-        <p className="home-punch">the name is bullshit. but the product? <span className="home-punch-hi">fucking beautiful.</span></p>
+        <p className="home-punch-build">
+          every ai product you&rsquo;ve seen is useless but has a cool name.
+        </p>
+        <p className="home-punch-build">
+          meet <span className="home-punch-mark">aureliex</span>.
+        </p>
         <div className="home-manifesto">
           <p>the counter culture is here.</p>
           <p>i promise you can&rsquo;t stop it if you tried.</p>

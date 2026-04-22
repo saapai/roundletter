@@ -9796,68 +9796,89 @@ body.home-master .yt-chapter:hover { opacity: 1; filter: none; }
   color: color-mix(in srgb, var(--home-ink) 50%, var(--home-paper));
 }
 
-/* ── chapter 02 — punchline + manifesto ────── */
-.home-punch {
-  margin: 0.6rem 0;
-  font-family: var(--font-display), serif;
-  font-style: normal;
+/* ── chapter 01 — punchline build-up + manifesto ──
+   The chapter title (yt-chapter-title) carries the punchline at full
+   scale; .home-punch-build is the smaller supporting prose underneath. */
+.home-punch-build {
+  margin: 0.5rem 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
   font-weight: 400;
-  font-size: clamp(1.7rem, 4.2vw, 3rem);
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-  color: var(--home-ink);
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--home-ink) 78%, var(--home-paper));
+  max-width: 36rem;
+  text-wrap: balance;
+}
+/* legacy alias: keep .home-punch / .home-punch-emph styles defined as
+   pass-through to .home-punch-build so anything still referencing them
+   doesn't break. */
+.home-punch {
+  margin: 0.5rem 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.05rem, 2.2vw, 1.35rem);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--home-ink) 78%, var(--home-paper));
+  max-width: 36rem;
   text-wrap: balance;
 }
 .home-punch-emph {
-  margin-top: 1.75rem;
-  margin-bottom: 1.75rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
+/* Chapter 01 punchline — the chapter TITLE carries the punchline at full
+   scale; the body is the build-up at smaller weight. Markers used twice:
+   .home-punch-mark on "aureliex" (the name) and .home-punch-hi on
+   "fucking beautiful." (the emphasis word). */
+
+/* "aureliex" — pink/red marker tag, like a sticker over the name */
 .home-punch-mark {
   font-style: italic;
   font-weight: 500;
-  padding: 0.04em 0.08em 0;
+  padding: 0.04em 0.18em 0.02em;
+  background-color: color-mix(in srgb, var(--home-hi) 18%, transparent);
   background-image: linear-gradient(
-    transparent 55%,
-    color-mix(in srgb, var(--home-hi) 28%, transparent) 55%,
-    color-mix(in srgb, var(--home-hi) 28%, transparent) 92%,
-    transparent 92%
+    100deg,
+    transparent 0.5%,
+    color-mix(in srgb, var(--home-hi) 22%, transparent) 2%,
+    color-mix(in srgb, var(--home-hi) 28%, transparent) 50%,
+    color-mix(in srgb, var(--home-hi) 22%, transparent) 98%,
+    transparent 99.5%
   );
+  background-size: 100% 88%;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-position: 0 60%;
   color: var(--home-ink);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  border-bottom: 1.5px solid color-mix(in srgb, var(--home-hi) 60%, transparent);
 }
-/* marker-style highlight — hand-drawn yellow marker beneath the words
-   instead of a solid red block. more elegant, still loud. */
+
+/* "fucking beautiful." — strong yellow marker, the loudest moment.
+   No ::after pseudo (it stretched to parent width). The marker alone
+   carries the emphasis. white-space: nowrap on the second word avoids
+   the marker breaking awkwardly across the line. */
 .home-punch-hi {
   font-style: italic;
   font-weight: 500;
   color: var(--home-ink);
-  padding: 0.06em 0.15em 0;
+  padding: 0.04em 0.18em 0.02em;
+  background-color: color-mix(in srgb, var(--zine-yellow) 70%, transparent);
   background-image: linear-gradient(
     100deg,
     transparent 0.5%,
-    color-mix(in srgb, var(--zine-yellow) 85%, transparent) 2%,
-    color-mix(in srgb, var(--zine-yellow) 92%, transparent) 50%,
-    color-mix(in srgb, var(--zine-yellow) 78%, transparent) 98%,
+    color-mix(in srgb, var(--zine-yellow) 80%, transparent) 2%,
+    color-mix(in srgb, var(--zine-yellow) 90%, transparent) 50%,
+    color-mix(in srgb, var(--zine-yellow) 75%, transparent) 98%,
     transparent 99.5%
   );
-  background-size: 100% 70%;
+  background-size: 100% 88%;
   background-repeat: no-repeat;
-  background-position: 0 72%;
+  background-position: 0 60%;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
-}
-/* a second pass — a red underline scribble for emphasis */
-.home-punch-hi::after {
-  content: "";
-  display: block;
-  height: 3px;
-  width: 96%;
-  margin: 0.08em auto 0;
-  background: var(--home-hi);
-  border-radius: 2px;
-  transform: skewX(-4deg);
-  opacity: 0.85;
 }
 .home-manifesto {
   margin-top: clamp(2rem, 5vw, 3rem);
