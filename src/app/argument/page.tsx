@@ -1,6 +1,7 @@
 import Link from "next/link";
 import TodayDebate from "@/components/TodayDebate";
 import SixNineGame from "@/components/SixNineGame";
+import OpenPredictionFiler from "@/components/OpenPredictionFiler";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
@@ -59,6 +60,8 @@ export default async function ArgumentPage() {
             </ol>
           </section>
         )}
+
+        <OpenPredictionFiler />
 
         <nav className="argument-nav">
           <Link href="/" className="argument-back">← home</Link>

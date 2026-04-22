@@ -12175,6 +12175,253 @@ body.hunt-fired .masthead .wordmark .dot {
   .home-bets-actions { justify-content: flex-start; }
 }
 
+/* open-entry sealed prediction filer — on /argument */
+.seal-filer {
+  max-width: min(760px, 100%);
+  margin: 2.5rem auto;
+  padding: 1.6rem 1.2rem 1.4rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  background: color-mix(in srgb, var(--paper) 94%, var(--parchment));
+}
+.seal-filer-head {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+  text-align: center;
+  align-items: center;
+}
+.seal-filer-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.seal-filer-sub {
+  font-size: 0.88rem;
+  color: var(--graphite);
+  font-style: italic;
+  max-width: 52ch;
+  line-height: 1.5;
+}
+.seal-filer-modes {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin: 1rem auto 0.5rem;
+  padding: 0.25rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+  border-radius: 2px;
+  background: var(--paper);
+}
+.seal-filer-mode {
+  background: transparent;
+  border: none;
+  padding: 0.45rem 0.85rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 160ms ease, color 160ms ease;
+}
+.seal-filer-mode.is-on { background: var(--ink); color: var(--paper); }
+.seal-filer-note {
+  margin: 0.4rem 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--graphite);
+}
+.seal-filer-form {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+.seal-filer-field {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.95rem;
+}
+.seal-filer-field > span {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.seal-filer-field input,
+.seal-filer-field textarea {
+  font-family: var(--font-body), "EB Garamond", Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--ink);
+  padding: 0.6rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  border-radius: 2px;
+  background: var(--paper);
+  resize: vertical;
+  width: 100%;
+}
+.seal-filer-field input:focus,
+.seal-filer-field textarea:focus {
+  outline: none;
+  border-color: var(--rust);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rust) 18%, transparent);
+}
+.seal-filer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.25rem;
+}
+.seal-filer-seal {
+  background: var(--ink);
+  color: var(--paper);
+  border: none;
+  padding: 0.7rem 1.15rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+.seal-filer-seal:hover:not(:disabled),
+.seal-filer-seal:focus-visible:not(:disabled) {
+  background: var(--rust);
+  transform: translateY(-1px);
+  outline: none;
+}
+.seal-filer-seal:disabled { opacity: 0.45; cursor: not-allowed; }
+.seal-filer-hint {
+  font-size: 0.82rem;
+  color: var(--graphite);
+}
+.seal-filer-receipt {
+  margin-top: 1.4rem;
+  padding: 1.1rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--rust) 35%, transparent);
+  background: color-mix(in srgb, var(--rust) 4%, var(--paper));
+}
+.seal-filer-receipt-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--ink) 15%, transparent);
+}
+.seal-filer-receipt-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.seal-filer-receipt-ts {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.seal-filer-kv {
+  margin: 1rem 0 0.8rem;
+  display: grid;
+  gap: 0.6rem;
+}
+.seal-filer-kv > div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0.8rem;
+  align-items: baseline;
+}
+.seal-filer-kv dt {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin: 0;
+}
+.seal-filer-kv dd { margin: 0; font-size: 0.95rem; color: var(--ink); line-height: 1.45; }
+.seal-filer-mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.88rem; }
+.seal-filer-hash {
+  margin: 0.8rem 0;
+  padding: 0.7rem 0.85rem;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 2px;
+  display: grid;
+  gap: 0.25rem;
+  overflow-x: auto;
+}
+.seal-filer-hash-label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--paper) 72%, transparent);
+}
+.seal-filer-hash-val {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.88rem;
+  letter-spacing: 0.03em;
+  word-break: break-all;
+  color: var(--paper);
+}
+.seal-filer-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+.seal-filer-cta {
+  background: transparent;
+  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
+  color: var(--ink);
+  padding: 0.55rem 0.95rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+}
+.seal-filer-cta:hover,
+.seal-filer-cta:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  outline: none;
+}
+.seal-filer-cta-imessage {
+  background: var(--rust);
+  color: var(--paper);
+  border-color: var(--rust);
+}
+.seal-filer-cta-imessage:hover,
+.seal-filer-cta-imessage:focus-visible {
+  background: var(--ink);
+  border-color: var(--ink);
+}
+.seal-filer-foot {
+  margin: 0.9rem 0 0;
+  font-size: 0.85rem;
+  color: var(--graphite);
+  line-height: 1.55;
+}
+@media (max-width: 560px) {
+  .seal-filer-kv > div { grid-template-columns: 1fr; }
+}
+
 /* /green-credit preamble (bernie-sanders counter-culture preface) */
 .gc-preamble {
   margin: 1.5rem 0 2.25rem;
