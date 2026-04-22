@@ -35,7 +35,29 @@ export const GET_LUCKY_SMS_BODY =
   encodeURIComponent(`got lucky · ${GET_LUCKY_SPOTIFY}`);
 export const GET_LUCKY_SMS = `sms:+13853687238?&body=${GET_LUCKY_SMS_BODY}`;
 
-export type HuntReward = "kalshi" | "waymo" | "lucky" | "lore";
+// Ted Lasso ownership egg. Finders text saapai a piece of Ted Lasso-related
+// writing, analysis, or art. Ownership share is undecided at discovery —
+// settled case-by-case over text when saapai reads what they sent.
+export const LASSO_SMS_BODY = encodeURIComponent(
+  `ted lasso · [paste your writing, analysis, or art here — or attach a link]`,
+);
+export const LASSO_SMS = `sms:+13853687238?&body=${LASSO_SMS_BODY}`;
+
+// "Call Me If You Get Lost" egg (Tyler, the Creator · 2021).
+// Someone lands on a wrong numeric route — /67, /420, /6767, /6769, /677777.
+// They "got lost." The reward is the album's title as a literal CTA —
+// a tel: link that dials saapai's number.
+export const HUNT_PHONE_TEL_LINK = HUNT_PHONE_TEL.startsWith("tel:")
+  ? HUNT_PHONE_TEL
+  : `tel:${HUNT_PHONE_TEL}`;
+
+export type HuntReward =
+  | "kalshi"
+  | "waymo"
+  | "lucky"
+  | "lasso"
+  | "lost"
+  | "lore";
 
 export type HuntEgg = {
   id: string;
@@ -102,6 +124,24 @@ export const HUNT_EGGS: HuntEgg[] = [
     flavor: "you read the document in one breath.",
     reward: "lore",
     rarity: 3,
+  },
+  {
+    id: "numbers",
+    name: "call me if you get lost",
+    origin:
+      "visit any of · /67 · /420 · /6767 · /6769 · /677777 · (/6969 is the real one)",
+    flavor: "tyler said it first — call me if you get lost.",
+    reward: "lost",
+    rarity: 1,
+  },
+  {
+    id: "lasso",
+    name: "believe",
+    origin:
+      "desktop · type l a s s o · mobile · url #lasso · or text me a ted-lasso-related piece",
+    flavor: "be a goldfish. you found the one that trades in care.",
+    reward: "lasso",
+    rarity: 2,
   },
 ];
 

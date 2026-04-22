@@ -42,9 +42,11 @@ export default function HuntLedger() {
       </div>
       <p className="hunt-ledger-line">
         <em>
-          six eggs, hidden across the document. two of them pay real bankroll
-          — $25 or $10, cash or portfolio. one plays a song. the rest are
-          lore. catch them in any order. your browser keeps the record.
+          eight eggs, hidden across the document. two put you on the cap
+          table — kalshi pool owns 10% of that book, waymo pool earns 0.5%
+          a month. one trades ted lasso writing for an art-portfolio slice.
+          one plays a song. one calls you back. the rest are lore. catch
+          them in any order. your browser keeps the record.
         </em>
       </p>
       <ul className="hunt-ledger-list">
@@ -52,9 +54,9 @@ export default function HuntLedger() {
           const found = unlocked.has(egg.id);
           const tag =
             egg.reward === "kalshi"
-              ? "$25 kalshi"
+              ? "up to $50"
               : egg.reward === "waymo"
-              ? "$10 waymo"
+              ? "up to $20"
               : egg.reward === "lucky"
               ? "daft punk"
               : null;

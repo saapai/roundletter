@@ -7,11 +7,13 @@ import {
   HUNT_TOTAL,
   HUNT_PHONE_DISPLAY,
   HUNT_PHONE_SMS,
+  HUNT_PHONE_TEL_LINK,
   KALSHI_URL,
   WAYMO_CODE,
   WAYMO_URL,
   GET_LUCKY_SPOTIFY,
   GET_LUCKY_SMS,
+  LASSO_SMS,
   getEgg,
   readUnlocked,
   writeUnlocked,
@@ -63,6 +65,7 @@ const KONAMI: string[] = [
 const TYPED_TARGETS: Record<string, string> = {
   bankroll: "bankroll",
   getlucky: "lucky",
+  lasso: "lasso",
 };
 const TYPED_MAX = 24; // rolling buffer of recent alpha keys
 const DOT_TRIPLE_WINDOW_MS = 700;
@@ -82,6 +85,14 @@ const HASH_ROUTES: Record<string, string> = {
   "#song": "lucky",
   "#lucky": "lucky",
   "#bankroll": "bankroll",
+  // numeric-route family — all land on /6969 with one of these hashes
+  "#number-67": "numbers",
+  "#number-420": "numbers",
+  "#number-6767": "numbers",
+  "#number-6769": "numbers",
+  "#number-677777": "numbers",
+  "#lasso": "lasso",
+  "#tedlasso": "lasso",
 };
 
 // shake detection for get lucky: 3 motion spikes inside 1.6s
@@ -151,7 +162,7 @@ export default function HuntProvider() {
         const hint = "color:#6B6560;font-family:serif;";
         console.log("%c// you're reading the document in the console.", tag);
         console.log(
-          "%c// there is a hunt. six eggs. two of them pay real money. one plays a song.",
+          "%c// there is a hunt. seven eggs. two pay real money (up to $50 + $20). one plays a song.",
           hint,
         );
         console.log("%c// try window.__hunt.found()", hint);
@@ -428,8 +439,14 @@ function HuntOverlay({
         {egg.reward === "kalshi" ? (
           <div className="hunt-card-payout">
             <p className="hunt-card-payout-line">
-              this one pays. <strong>kalshi</strong> gives us <strong>$25 each</strong> when you
-              sign up with my link and place a trade.
+              this one pays twice. first, <strong>$25 from kalshi</strong> (their
+              standard referral). second — and the interesting one — every
+              successful referral under this egg contributes to a single public
+              pool. when the pool caps at <strong>$1,000</strong> (40 finders,
+              $25 each), the pool owns{" "}
+              <strong>10% of the kalshi portfolio</strong>, split evenly among
+              all finders. fewer finders → bigger share each. eight finders = each
+              owns <strong>1.25%</strong>. forty = each owns <strong>0.25%</strong>.
             </p>
             <a
               className="hunt-card-cta"
@@ -439,16 +456,28 @@ function HuntOverlay({
             >
               open kalshi · claim $25 <span aria-hidden="true">↗</span>
             </a>
-            <p className="hunt-card-payout-how">
-              once the trade settles, <a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a>.
-              pick your payout: <em>cash</em> or <em>the same $25 in portfolio equity</em>.
-              i&rsquo;ll confirm it&rsquo;s yours, on the record.
+            <ol className="hunt-card-steps">
+              <li>sign up with the link above — the referral tag has to be on the url, not a plain kalshi.com visit.</li>
+              <li>deposit and place <em>a real trade</em>. kalshi credits{" "}
+                <strong>$25 to each of us</strong> once it settles.</li>
+              <li><a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a> with a screenshot of your first trade and the name you want on the ledger. you&rsquo;re now a partial owner of the kalshi book.</li>
+            </ol>
+            <p className="hunt-card-rules">
+              <em>rules · kalshi side is their standard referral; terms at kalshi.com/help (regions, kyc, their changes apply). my side: 10% of the kalshi portfolio goes to finders as a group, capped at $1,000 total kalshi payouts (40 finders). good-faith sign-ups only — no self-referrals, no alt accounts. ownership math settles at each monthly rebalance and at round close. want to invest more than the referral $25 into the kalshi / polymarket / stock book? text me — negotiated one-on-one.</em>
+            </p>
+            <p className="hunt-card-lasso">
+              <em>be a goldfish. — ted lasso</em>
             </p>
           </div>
         ) : egg.reward === "waymo" ? (
           <div className="hunt-card-payout">
             <p className="hunt-card-payout-line">
-              this one pays. <strong>waymo</strong> gives you <strong>$10 off your first ride</strong> with my code.
+              this one pays monthly. waymo&rsquo;s promo is{" "}
+              <strong>$10 off per month</strong> as long as you ride with my
+              code. for each month you ride, <strong>0.5% of the waymo
+              portfolio</strong> goes into the finders pool, split evenly among
+              whoever rode that month. ride in more months = more months of
+              share.
             </p>
             <div className="hunt-card-code">
               <span className="hunt-card-code-label">code</span>
@@ -462,10 +491,58 @@ function HuntOverlay({
             >
               open waymo · redeem <span aria-hidden="true">↗</span>
             </a>
+            <ol className="hunt-card-steps">
+              <li>download waymo one (ios / android).</li>
+              <li>apply <strong>{WAYMO_CODE}</strong> as your referral on sign-up — or use the url above, which pre-fills it.</li>
+              <li>ride. each month you ride, waymo knocks <strong>$10 off</strong> one fare.</li>
+              <li><a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a> with a receipt the first month. i&rsquo;ll add you to the ledger. your 0.5%/month share settles at each monthly rebalance.</li>
+            </ol>
+            <p className="hunt-card-rules">
+              <em>rules · waymo credit applies in waymo one service areas (sf / phoenix / la and growing); terms at waymo.com. my side: 0.5% of the waymo portfolio per month, split across active riders that month. pool has no hard cap — this one rewards repeat rides. want to invest more than the referral into the waymo / stock / polymarket book? text me.</em>
+            </p>
+            <p className="hunt-card-lasso">
+              <em>believe. — ted lasso</em>
+            </p>
+          </div>
+        ) : egg.reward === "lost" ? (
+          <div className="hunt-card-payout">
+            <p className="hunt-card-payout-line">
+              you hit the wrong number. the right one is <strong>6969</strong>.
+              but tyler, the creator already wrote the instruction for this
+              exact moment — <em>call me if you get lost.</em>
+            </p>
+            <a className="hunt-card-cta" href={HUNT_PHONE_TEL_LINK}>
+              call {HUNT_PHONE_DISPLAY} <span aria-hidden="true">↗</span>
+            </a>
             <p className="hunt-card-payout-how">
-              after the ride, <a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a>.
-              pick your payout: <em>$10 cash</em> or <em>$10 in portfolio equity</em>.
-              i&rsquo;ll post the receipt.
+              or <a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a>.
+              either way i&rsquo;ll point you at the real{" "}
+              <a className="hunt-card-phone" href="/6969#hunt">/6969#hunt</a> and
+              tell you which egg the neighborhood leads to next.
+            </p>
+            <p className="hunt-card-rules">
+              <em>rules · not a bankroll egg. but call once and i answer. (referencing <strong>call me if you get lost</strong> · tyler, the creator · 2021.)</em>
+            </p>
+          </div>
+        ) : egg.reward === "lasso" ? (
+          <div className="hunt-card-payout">
+            <p className="hunt-card-payout-line">
+              <strong>believe.</strong> text me a piece of ted lasso — writing,
+              analysis, or art you made. ownership share is{" "}
+              <em>undecided at discovery</em>: we negotiate by text once i read
+              what you sent. the good ones land in the art portfolio (coming
+              soon) and earn a slice of that book.
+            </p>
+            <a className="hunt-card-cta" href={LASSO_SMS}>
+              text me your lasso <span aria-hidden="true">→</span>
+            </a>
+            <ol className="hunt-card-steps">
+              <li>make or paste the piece in the message body — short or long is fine. attach images as mms.</li>
+              <li>send to <a className="hunt-card-phone" href={HUNT_PHONE_SMS}>{HUNT_PHONE_DISPLAY}</a>.</li>
+              <li>i reply within 48 hours with an offer (cash, portfolio equity, or art-portfolio equity). you accept, counter, or walk.</li>
+            </ol>
+            <p className="hunt-card-rules">
+              <em>rules · original work only — if you&rsquo;re referencing someone else&rsquo;s, credit them in-line. analysis of any ted lasso episode, character, or screenwriting beat counts. my reply is the deal — nothing is owed until both sides text &ldquo;yes.&rdquo;</em>
             </p>
           </div>
         ) : egg.reward === "lucky" ? (
@@ -495,7 +572,8 @@ function HuntOverlay({
         ) : (
           <div className="hunt-card-lore">
             <p className="hunt-card-lore-line">
-              no money on this one — yet. two of the six eggs <em>do</em> pay. find those and
+              no money on this one — yet. two of the seven eggs <em>do</em> pay (up to $50 on
+              kalshi, $20 on waymo — their promo stacked with mine). find those and
               you claim real bankroll.
             </p>
             <p className="hunt-card-lore-hint">

@@ -47,5 +47,14 @@
     "realized_gain_loss_ytd_2026_pre_reset": 638.27,
     "approximate_realized_today_reset":     -1050.00,
     "approximate_realized_ytd_2026_post_reset": -411.73
-  }
+  },
+  "external_entries": [
+    {
+      "id": "ext-stock-2026-04-20",
+      "label": "external stock investment",
+      "amount": 50.00,
+      "date": "2026-04-20",
+      "status": "yet to be synced with stock portfolio"
+    }
+  ]
 }
