@@ -185,11 +185,12 @@ export default async function HomePage() {
     <main className="home-root">
       <LaunchTrailer liveValue={lp.value} baseline={lp.baseline} />
 
-      {/* autoplay coda — picks up where the trailer's "the best you can
-          do is watch" line lands. muted + playsinline for autoplay
-          compliance; no chrome; soft gradient blend so the iframe
-          edges disappear into the page. */}
+      {/* autoplay coda — picks up where the trailer's "best you can do
+          is watch" line lands. muted + playsinline for autoplay
+          compliance. sits as a centered, framed object with generous
+          breathing room above + below rather than full-bleed chrome. */}
       <section className="home-coda" aria-label="watch">
+        <div className="home-coda-eye">// watch</div>
         <div className="home-coda-frame">
           <iframe
             className="home-coda-iframe"
@@ -201,6 +202,9 @@ export default async function HomePage() {
             referrerPolicy="strict-origin-when-cross-origin"
           />
         </div>
+        <p className="home-coda-cap">
+          <em>the best you can do is watch.</em>
+        </p>
       </section>
 
       {/* the bridge doubles as the home-page masthead. wordmark sits up top
@@ -271,12 +275,26 @@ export default async function HomePage() {
         <div className="home-rights-eye">// holding a stake on 21 june</div>
         <p>
           everyone sitting on a position when the book closes on{" "}
-          <strong>21 june 2026</strong> gets <strong>planning rights</strong> on
-          round 1 — vote on the next theme, the panel line-up, the sidecar
-          splits — and is <strong>reimbursable</strong> for any costs incurred
-          on behalf of the book (research subscriptions, tools, travel to
-          events like the friday auction). rights settle by text.
+          <strong>21 june 2026</strong> gets three things:
         </p>
+        <ul className="home-rights-list">
+          <li>
+            <strong>an invite to the birthday party</strong> — the closing
+            ceremony is my birthday. we open the book, read the record, and
+            settle the round in the same room. stake-holders come in free,
+            plus one. venue + time shared by text as we get closer.
+          </li>
+          <li>
+            <strong>planning rights on round 1</strong> — vote on the next
+            theme, the panel line-up, the sidecar splits. one vote per
+            stake-holder; the panel adjudicates ties.
+          </li>
+          <li>
+            <strong>reimbursable costs</strong> incurred on behalf of the book
+            — research subscriptions, tools, travel to events like the friday
+            auction. submit receipts by text.
+          </li>
+        </ul>
       </aside>
 
       {/* ══════ CHAPTER 02 — THE STORY ══════ */}

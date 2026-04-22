@@ -61,14 +61,15 @@ const BETS: Bet[] = [
   {
     id: "spray-paint-attendance",
     label: "spray-paint auction friday (ovation) hits 100+ people",
-    yesPct: 31,
-    noPct: 69,
+    yesPct: 18,
+    noPct: 82,
+    note: "you can drive this one. panel skews YES low on outcomes the public can influence — show up, bet YES, win the bigger payout. same mechanic below.",
   },
   {
     id: "auction-gross",
     label: "friday auction grosses over $500 in bids",
-    yesPct: 47,
-    noPct: 53,
+    yesPct: 22,
+    noPct: 78,
   },
   // — NBA playoff futures · small + diversified —
   {
@@ -155,9 +156,14 @@ export default function OpenBets() {
           percentages are the panel&rsquo;s implied probabilities, not book
           prices. stakes negotiate by text. no NO on portfolio-to-$100k —
           the AI uses the yes pool to hedge the other yes bets and
-          distribute winnings to the book. <strong>the prediction-market
-          book rides on 10% of the total portfolio stake</strong>; every
-          payout comes from that slice, every gain rolls back into it.
+          distribute winnings to the book. <strong>the panel purposefully
+          skews YES down on outcomes the public can influence</strong>{" "}
+          (auction attendance, auction gross): a lower panel% means a
+          bigger YES payout, so anyone who wants to earn more drives the
+          outcome in person. that benefits both sides — you win bigger,
+          the book fills. <strong>the prediction-market book rides on 10%
+          of the total portfolio stake</strong>; every payout comes from
+          that slice, every gain rolls back into it.
         </em>
       </p>
     </section>
