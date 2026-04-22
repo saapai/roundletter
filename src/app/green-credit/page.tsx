@@ -117,6 +117,25 @@ export default function GreenCreditPage() {
 
       <div className="eyebrow green-credit-eyebrow" id="manifesto">{phase.eyebrow}</div>
 
+      {/* pre-mortem preface, after bernie sanders' "if you paid $1 in federal
+          income taxes this year, you paid more than [thirteen companies]."
+          the counter-culture frame the rest of the pitch is sitting on. */}
+      <aside className="gc-preamble" aria-label="counter-culture preface">
+        <p className="gc-preamble-lead">
+          <em>
+            if you paid a dollar in federal income tax this year, you paid more
+            than walt disney, citigroup, cvs, kohl&rsquo;s, ticketmaster, tesla,
+            united airlines, godaddy, paypal, palantir, roku, hp, 3m, pg&amp;e,
+            halliburton. that&rsquo;s the room green credit is walking into.
+          </em>
+        </p>
+        <p className="gc-preamble-turn">
+          the pitch assumes this is absurd and designs around it. attention in
+          public reasoning is the labor. the return is publicly owned. the
+          record is the audit.
+        </p>
+      </aside>
+
       {isPersonal && (
         <section className="gc-audition" aria-label="the audition preview">
           <div className="gc-audition-eyebrow">// the audition · only here, only now</div>

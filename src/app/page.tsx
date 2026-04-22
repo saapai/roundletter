@@ -5,6 +5,7 @@ import hookDebate from "@/data/hook-debate.json";
 import ApparatusThumb from "@/components/ApparatusThumb";
 import LaunchTrailer from "@/components/LaunchTrailer";
 import AuctionCountdown from "@/components/AuctionCountdown";
+import OpenBets from "@/components/OpenBets";
 import { getLivePortfolio, fmtMoney } from "@/lib/portfolio-live";
 import { SONGS, youtubeSearchLink } from "@/lib/song-links";
 
@@ -418,6 +419,10 @@ export default async function HomePage() {
           </div>
         </div>
       </Chapter>
+
+      {/* open bets — panel lines for every sub-bet, yes/no cta opens
+          sms composer. portfolio-to-$100k is yes-only per saapai's rule. */}
+      <OpenBets />
 
       {/* art-portfolio teaser — cmiygl poster homage, doubles as a pointer
           toward the /67/420/6767/6769/677777 variant hunt. visible on the
