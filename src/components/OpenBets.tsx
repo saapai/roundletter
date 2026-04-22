@@ -1,25 +1,34 @@
 "use client";
 
 // Open bets — sub-bets the panel is tracking live. Each row shows a
-// question and the panel's implied probability for YES / NO (not
-// american odds — the audience here is not a sportsbook audience).
-// Clicking YES or NO opens the native messages composer pre-filled
-// with the finder's position. Only the "portfolio to $100k by 21 jun"
-// bet is YES-only; the AI uses the pool to hedge the other yes sides
-// and distribute to yeses.
+// question + the panel's implied probability for YES / NO (not
+// american odds). Clicking YES or NO opens the native messages
+// composer pre-filled with the finder's position.
+//
+// Economics:
+// · portfolio-to-$100k is YES-only. the AI uses the pool to hedge the
+//   other yes sides + distribute to yeses.
+// · auction attendance + auction gross skew YES DOWN — the public can
+//   influence those, so driving them benefits the book + the finder.
+// · lakers ladder skews YES SLIGHTLY HIGH (3-5pp above sharp
+//   kalshi/polymarket fair) — LA bettors bias pro-lakers, the small
+//   premium benefits the book without being arb-able.
 
 import { HUNT_PHONE_TEL, HUNT_PHONE_DISPLAY } from "@/lib/hunt";
 
 type Bet = {
   id: string;
   label: string;
-  yesPct: number;   // implied probability YES (0..100)
-  noPct: number | null;  // null → YES-only bet
+  yesPct: number;             // implied probability YES (0..100)
+  noPct: number | null;       // null → YES-only
   note?: string;
+  lastReviewed: string;       // ISO date YYYY-MM-DD
 };
 
-// Panel's current read as implied probabilities. Numbers are rounded to
-// whole percentage points — sharper feels false for bets this bespoke.
+// All lines were re-reviewed together on this date. Updating the
+// constant flips every bet's tag; per-bet overrides stay in each row.
+const LINES_LAST_REVIEWED = "2026-04-22";
+
 const BETS: Bet[] = [
   {
     id: "portfolio-100k",
@@ -27,36 +36,42 @@ const BETS: Bet[] = [
     yesPct: 3,
     noPct: null,
     note: "the house bet. the AI uses the yes pool to hedge the other yes bets and distribute winnings. no NO side — that's the point.",
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "portfolio-25k",
     label: "portfolio reaches $25,000 before 21 jun",
-    yesPct: 18,
-    noPct: 82,
+    yesPct: 12,
+    noPct: 88,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "portfolio-10k",
     label: "portfolio reaches $10,000 before 21 jun",
-    yesPct: 44,
-    noPct: 56,
+    yesPct: 28,
+    noPct: 72,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "ionq-beats-consensus",
     label: "IONQ beats the street for 1Q 2026",
-    yesPct: 48,
-    noPct: 52,
+    yesPct: 46,
+    noPct: 54,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "nvda-beats-consensus",
     label: "NVDA beats the street for 1Q 2026",
-    yesPct: 64,
-    noPct: 36,
+    yesPct: 66,
+    noPct: 34,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "qtum-50",
     label: "QTUM closes above $50 before 21 jun",
-    yesPct: 50,
-    noPct: 50,
+    yesPct: 38,
+    noPct: 62,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "spray-paint-attendance",
@@ -64,36 +79,68 @@ const BETS: Bet[] = [
     yesPct: 18,
     noPct: 82,
     note: "you can drive this one. panel skews YES low on outcomes the public can influence — show up, bet YES, win the bigger payout. same mechanic below.",
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "auction-gross",
     label: "friday auction grosses over $500 in bids",
     yesPct: 22,
     noPct: 78,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
-  // — NBA playoff futures · small + diversified —
+  // — NBA playoff futures · small + diversified, lakers ladder ~4pp high on YES —
   {
     id: "nba-lakers-round-one",
     label: "lakers win their first-round series (2026 playoffs)",
-    yesPct: 38,
-    noPct: 62,
+    yesPct: 57,
+    noPct: 43,
+    note: "panel sits slightly HIGH on YES (sharp books ~52%). LA bettors bias pro-lakers; the small premium benefits the pool without being egregious. same mechanic on the three lakers ladder rungs below.",
+    lastReviewed: LINES_LAST_REVIEWED,
+  },
+  {
+    id: "nba-lakers-conf-semis",
+    label: "lakers reach the conference finals (win first two rounds)",
+    yesPct: 28,
+    noPct: 72,
+    lastReviewed: LINES_LAST_REVIEWED,
+  },
+  {
+    id: "nba-lakers-finals",
+    label: "lakers reach the 2026 NBA finals (win three rounds)",
+    yesPct: 14,
+    noPct: 86,
+    lastReviewed: LINES_LAST_REVIEWED,
+  },
+  {
+    id: "nba-lakers-chip",
+    label: "lakers win the 2026 NBA championship (all four rounds)",
+    yesPct: 7,
+    noPct: 93,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "nba-cavs-chip",
     label: "cavaliers win the 2026 NBA championship",
-    yesPct: 11,
-    noPct: 89,
+    yesPct: 13,
+    noPct: 87,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
   {
     id: "nba-finals-seven",
     label: "the NBA finals go 7 games",
     yesPct: 22,
     noPct: 78,
+    lastReviewed: LINES_LAST_REVIEWED,
   },
 ];
 
 function fmtPct(n: number): string {
   return `${n}%`;
+}
+
+function fmtReviewed(iso: string): string {
+  const d = new Date(iso + "T12:00:00Z");
+  return d.toLocaleDateString("en-US", { month: "short", day: "numeric" }).toLowerCase();
 }
 
 function buildSms(side: "YES" | "NO", bet: Bet): string {
@@ -115,18 +162,24 @@ export default function OpenBets() {
       <div className="home-bets-head">
         <span className="home-bets-eye">// open bets</span>
         <span className="home-bets-sub">
-          each yes / no opens your messages to {HUNT_PHONE_DISPLAY} · the panel reads + confirms by text
+          each yes / no opens your messages to {HUNT_PHONE_DISPLAY} · the panel
+          reads + confirms by text · lines reviewed{" "}
+          <strong>{fmtReviewed(LINES_LAST_REVIEWED)}</strong>
         </span>
       </div>
 
       <ul className="home-bets-list">
         {BETS.map((bet) => (
-          <li key={bet.id} className={`home-bets-row ${bet.noPct === null ? "is-yesonly" : ""}`}>
+          <li
+            key={bet.id}
+            className={`home-bets-row ${bet.noPct === null ? "is-yesonly" : ""}`}
+          >
             <div className="home-bets-row-head">
               <span className="home-bets-label">{bet.label}</span>
               <span className="home-bets-line">
                 panel · {fmtPct(bet.yesPct)} yes
                 {bet.noPct !== null ? ` / ${fmtPct(bet.noPct)} no` : " · no-no"}
+                {" · reviewed "}{fmtReviewed(bet.lastReviewed)}
               </span>
             </div>
             <div className="home-bets-actions">
@@ -153,17 +206,18 @@ export default function OpenBets() {
 
       <p className="home-bets-foot">
         <em>
-          percentages are the panel&rsquo;s implied probabilities, not book
-          prices. stakes negotiate by text. no NO on portfolio-to-$100k —
-          the AI uses the yes pool to hedge the other yes bets and
-          distribute winnings to the book. <strong>the panel purposefully
-          skews YES down on outcomes the public can influence</strong>{" "}
-          (auction attendance, auction gross): a lower panel% means a
-          bigger YES payout, so anyone who wants to earn more drives the
-          outcome in person. that benefits both sides — you win bigger,
-          the book fills. <strong>the prediction-market book rides on 10%
-          of the total portfolio stake</strong>; every payout comes from
-          that slice, every gain rolls back into it.
+          lines are reviewed weekdays by the panel against current
+          kalshi / polymarket / sharp-book fair value. percentages are the
+          panel&rsquo;s implied probabilities, not book prices. stakes
+          negotiate by text. no NO on portfolio-to-$100k — the AI uses the
+          yes pool to hedge the other yes bets and distribute winnings to
+          the book. <strong>the panel purposefully skews YES down on
+          outcomes the public can influence</strong> (auction attendance,
+          auction gross), and <strong>skews YES up a small amount on
+          outcomes where the public bias is one-sided</strong> (lakers
+          ladder, LA-weighted audience). <strong>the prediction-market
+          book rides on 10% of the total portfolio stake</strong>; every
+          payout comes from that slice, every gain rolls back into it.
         </em>
       </p>
     </section>
