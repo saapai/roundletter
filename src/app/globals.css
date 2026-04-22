@@ -9531,22 +9531,22 @@ body:has(.home-root) > main { margin: 0; padding: 0; max-width: none; }
   position: relative;
   width: 100%;
   min-height: clamp(30rem, 66vh, 44rem);
-  /* bridge now starts at the trailer's resting teal — the trailer rests on
-     cyan for scenes 0/1 (the autoplay start + hook) and only goes dark at
-     the scene-6 outro. starting the bridge at dark created a hard seam
-     for most visitors. now it eases cyan → darker cyan (a masthead ink
-     tone) → paper over a longer run, so the color step is monotonic and
-     never jumps. */
+  /* strictly monotonic cyan → paper. no dark mid-anchor — the previous
+     version introduced an ink-blended middle that read as a separate
+     band. this gradient is pure: every stop moves toward paper and only
+     toward paper. the starting cyan matches the trailer's resting
+     background exactly. */
   background:
     linear-gradient(
       180deg,
       var(--zine-cyan)                                                 0%,
-      color-mix(in srgb, var(--zine-cyan)    85%, var(--home-ink))     12%,
-      color-mix(in srgb, var(--zine-cyan)    65%, var(--home-ink))     26%,
-      color-mix(in srgb, var(--zine-cyan)    45%, var(--home-ink))     40%,
-      color-mix(in srgb, var(--zine-cyan)    30%, var(--home-paper))   56%,
-      color-mix(in srgb, var(--zine-cyan)    15%, var(--home-paper))   72%,
-      color-mix(in srgb, var(--zine-cyan)     6%, var(--home-paper))   86%,
+      color-mix(in srgb, var(--zine-cyan) 88%, var(--home-paper))     12%,
+      color-mix(in srgb, var(--zine-cyan) 72%, var(--home-paper))     26%,
+      color-mix(in srgb, var(--zine-cyan) 55%, var(--home-paper))     40%,
+      color-mix(in srgb, var(--zine-cyan) 38%, var(--home-paper))     54%,
+      color-mix(in srgb, var(--zine-cyan) 22%, var(--home-paper))     68%,
+      color-mix(in srgb, var(--zine-cyan) 10%, var(--home-paper))     82%,
+      color-mix(in srgb, var(--zine-cyan)  3%, var(--home-paper))     92%,
       var(--home-paper)                                                100%
     );
   display: flex;
@@ -9557,6 +9557,12 @@ body:has(.home-root) > main { margin: 0; padding: 0; max-width: none; }
   text-align: center;
   padding: clamp(3rem, 8vw, 5rem) clamp(1.25rem, 4vw, 2rem) clamp(3rem, 8vw, 5rem);
   color: var(--zine-white);
+}
+/* wordmark / sub / rule tones now bias warmer so they read on cyan AND
+   on the mid-blend without needing a dark anchor band. */
+.home-bridge-wordmark {
+  color: color-mix(in srgb, var(--zine-white) 96%, var(--zine-yellow) 4%);
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--home-ink) 18%, transparent);
 }
 /* masthead-style wordmark sitting on top of the bridge. the bridge now
    reads as the home page's masthead on mobile, not as a floating banner. */
