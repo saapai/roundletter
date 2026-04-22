@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { HUNT_PHONE_TEL, HUNT_PHONE_DISPLAY } from "@/lib/hunt";
+import { isMarketOpen, MARKET_OPEN_POLL_MS, MARKET_SHUT_POLL_MS } from "@/lib/market-hours";
 
 // MacBook-storage-style allocation bar for the home page. One rounded
 // segmented bar + a legend of colored dots below. Segments:
@@ -50,26 +52,47 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
 
   useEffect(() => {
     let alive = true;
-    fetch("/api/prices", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j: PricesResponse | null) => {
-        if (!alive || !j || !j.hasData) return;
-        let total = 0;
-        let anyLive = false;
-        for (const h of HOLDINGS) {
-          const s = j.data[h.ticker];
-          if (s && s.closes.length > 0) {
-            total += h.shares * s.closes[s.closes.length - 1];
-            anyLive = true;
-          } else {
-            total += h.entry_value;
+    let timer: number | null = null;
+    const pull = () =>
+      fetch("/api/prices", { cache: "no-store" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((j: PricesResponse | null) => {
+          if (!alive || !j || !j.hasData) return;
+          let total = 0;
+          let anyLive = false;
+          for (const h of HOLDINGS) {
+            const s = j.data[h.ticker];
+            if (s && s.closes.length > 0) {
+              total += h.shares * s.closes[s.closes.length - 1];
+              anyLive = true;
+            } else {
+              total += h.entry_value;
+            }
           }
-        }
-        if (anyLive) setCurrent(total);
-      })
-      .catch(() => {});
+          if (anyLive) setCurrent(total);
+        })
+        .catch(() => {});
+    const schedule = () => {
+      if (!alive) return;
+      const delay = isMarketOpen() ? MARKET_OPEN_POLL_MS : MARKET_SHUT_POLL_MS;
+      timer = window.setTimeout(async () => {
+        await pull();
+        schedule();
+      }, delay);
+    };
+    const onVis = () => {
+      if (document.hidden) {
+        if (timer != null) { window.clearTimeout(timer); timer = null; }
+      } else if (timer == null) {
+        pull().then(schedule);
+      }
+    };
+    pull().then(schedule);
+    document.addEventListener("visibilitychange", onVis);
     return () => {
       alive = false;
+      if (timer != null) window.clearTimeout(timer);
+      document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
 
@@ -100,12 +123,14 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
         <em>
           everything is sitting in <strong>stock positions right now</strong> —
           the whole book is the 10-holding quantum-+-bigtech basket.
-          <strong> $50 is owned by someone else</strong> (a pending external
-          investment); the rest is mine. <strong>within mine, 20% is
-          earmarked for the two sidecars</strong> (10% art, 10% prediction)
-          and gets <strong>liquidated as necessary</strong> when a piece sells
-          or a bet settles. the bar below shows the intent, not the current
-          on-broker holding.
+          <strong> $50 of the current stake is owned by someone else</strong>{" "}
+          (external investment, <strong>live on the book as of 22 apr</strong>,
+          distributed proportionally across the ten positions); the rest is
+          mine. <strong>within mine, 20% is earmarked for the two
+          sidecars</strong> (10% art, 10% prediction) and gets{" "}
+          <strong>liquidated as necessary</strong> when a piece sells or a bet
+          settles. the bar below shows the intent, not the broker-level
+          holding.
         </em>
       </p>
       <div className="alloc-bar" aria-hidden="true">
@@ -149,6 +174,59 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
           at the next weekly rebalance.
         </em>
       </p>
+
+      <div className="alloc-invest" role="group" aria-label="invest directly in a book">
+        <div className="alloc-invest-eye">// invest directly</div>
+        <div className="alloc-invest-row">
+          <a
+            className="alloc-invest-btn"
+            href={smsInvest("stock")}
+            aria-label={`invest in the stock book via text to ${HUNT_PHONE_DISPLAY}`}
+          >
+            <span className="alloc-invest-k">stock book</span>
+            <span className="alloc-invest-v">→ text</span>
+          </a>
+          <a
+            className="alloc-invest-btn alloc-invest-btn-art"
+            href={smsInvest("art")}
+            aria-label="invest in the art portfolio sidecar"
+          >
+            <span className="alloc-invest-k">art portfolio</span>
+            <span className="alloc-invest-v">→ text</span>
+          </a>
+          <a
+            className="alloc-invest-btn alloc-invest-btn-pred"
+            href={smsInvest("prediction")}
+            aria-label="invest in the prediction-market sidecar"
+          >
+            <span className="alloc-invest-k">prediction book</span>
+            <span className="alloc-invest-v">→ text</span>
+          </a>
+        </div>
+        <p className="alloc-invest-note">
+          <em>
+            each button opens messages to {HUNT_PHONE_DISPLAY} with the book
+            + amount pre-filled. stakes settle at the next weekly rebalance;
+            the art + prediction sidecars hold 10% each of the total stake.
+          </em>
+        </p>
+      </div>
     </section>
   );
+}
+
+function smsInvest(book: "stock" | "art" | "prediction"): string {
+  const label =
+    book === "stock" ? "stock book (main)" :
+    book === "art"   ? "art portfolio (10% sidecar)" :
+                       "prediction-market book (10% sidecar)";
+  const body = [
+    `invest · ${label}`,
+    `amount · $[how much]`,
+    `name on ledger · [your name]`,
+    "",
+    "— via aureliex.com/#alloc",
+  ].join("\n");
+  const num = HUNT_PHONE_TEL.replace(/^tel:/, "");
+  return `sms:${num}?&body=${encodeURIComponent(body)}`;
 }

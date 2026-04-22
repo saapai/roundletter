@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import BirthdayCountdown from "./BirthdayCountdown";
+import { isMarketOpen, MARKET_OPEN_POLL_MS, MARKET_SHUT_POLL_MS } from "@/lib/market-hours";
 
 // Savings hero v2 — anchored to the 4/12 baseline.
 //
@@ -78,25 +79,47 @@ export default function SavingsHero(props: Props) {
   const [prices, setPrices] = useState<PricesResponse | null>(null);
 
   useEffect(() => {
+    let alive = true;
+    let timer: number | null = null;
+    const pull = () =>
+      fetch("/api/prices", { cache: "no-store" })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((j: PricesResponse | null) => {
+          if (!alive || !j) return;
+          setPrices(j);
+          try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ...j, _savedAt: Date.now() })); } catch {}
+        })
+        .catch(() => {});
+    // prime from session cache to avoid a flash of baseline numbers
     try {
       const raw = sessionStorage.getItem(CACHE_KEY);
       if (raw) {
         const cached = JSON.parse(raw) as PricesResponse & { _savedAt: number };
-        if (cached._savedAt && Date.now() - cached._savedAt < FRESH_MS) {
-          setPrices(cached);
-          return;
-        }
+        if (cached._savedAt && Date.now() - cached._savedAt < FRESH_MS) setPrices(cached);
       }
     } catch {}
-    fetch("/api/prices", { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((j) => {
-        if (j) setPrices(j);
-        if (j) {
-          try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ ...j, _savedAt: Date.now() })); } catch {}
-        }
-      })
-      .catch(() => {});
+    const schedule = () => {
+      if (!alive) return;
+      const delay = isMarketOpen() ? MARKET_OPEN_POLL_MS : MARKET_SHUT_POLL_MS;
+      timer = window.setTimeout(async () => {
+        await pull();
+        schedule();
+      }, delay);
+    };
+    const onVis = () => {
+      if (document.hidden) {
+        if (timer != null) { window.clearTimeout(timer); timer = null; }
+      } else if (timer == null) {
+        pull().then(schedule);
+      }
+    };
+    pull().then(schedule);
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      alive = false;
+      if (timer != null) window.clearTimeout(timer);
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, []);
 
   const currentBook = useMemo(() => {

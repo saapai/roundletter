@@ -30,7 +30,7 @@ const BARE_PATHS = ["/17", "/keys"];
 
 export default function FloatingNav() {
   const [open, setOpen] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [opacity, setOpacity] = useState(0);
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
@@ -41,19 +41,89 @@ export default function FloatingNav() {
       return;
     }
 
-    // appear once the reader scrolls past the masthead
+    // scroll-direction-aware visibility.
+    //   scrolling DOWN → fade to 0 (seamless reading, no chrome overhead)
+    //   scrolling UP   → fade in, opacity proportional to scroll velocity
+    //   idle           → decay back toward invisible unless panel is open
+    // a modest floor kicks in once the reader is well past the masthead
+    // so the chip is always tappable when the menu is actually open.
     const THRESHOLD = 220;
-    const onScroll = () => {
-      setVisible(window.scrollY > THRESHOLD);
-      if (window.scrollY <= THRESHOLD && open) setOpen(false);
+    let lastY = window.scrollY;
+    let lastT = performance.now();
+    let targetOpacity = 0;
+    let rafScheduled = false;
+    let current = 0;
+    const ease = (from: number, to: number) => from + (to - from) * 0.18;
+
+    const tick = () => {
+      current = ease(current, targetOpacity);
+      if (Math.abs(current - targetOpacity) < 0.01) current = targetOpacity;
+      setOpacity(current);
+      if (current !== targetOpacity) {
+        window.requestAnimationFrame(tick);
+      } else {
+        rafScheduled = false;
+      }
     };
+    const schedule = () => {
+      if (rafScheduled) return;
+      rafScheduled = true;
+      window.requestAnimationFrame(tick);
+    };
+
+    const onScroll = () => {
+      const now = performance.now();
+      const y = window.scrollY;
+      const dy = y - lastY;
+      const dt = Math.max(1, now - lastT);
+      const velUpPxPerMs = -dy / dt;          // positive when scrolling UP
+      lastY = y;
+      lastT = now;
+
+      if (y <= THRESHOLD) {
+        targetOpacity = 0;
+      } else if (dy < 0) {
+        // scrolling up — opacity scales with velocity, clamped
+        const v = Math.min(1, Math.max(0.35, velUpPxPerMs * 0.6));
+        targetOpacity = v;
+      } else if (dy > 0) {
+        // scrolling down — fade out
+        targetOpacity = open ? 1 : 0;
+      }
+      if (y <= THRESHOLD && open) setOpen(false);
+      schedule();
+    };
+
+    // idle decay — after 2.5s of no-scroll, let the chip fade back toward 0
+    // unless the menu is open. keeps the chip from sticking mid-page when
+    // the reader stops at a section.
+    let idleTimer: number | null = null;
+    const resetIdle = () => {
+      if (idleTimer != null) window.clearTimeout(idleTimer);
+      idleTimer = window.setTimeout(() => {
+        if (!open) {
+          targetOpacity = 0;
+          schedule();
+        }
+      }, 2500);
+    };
+
+    const combined = () => {
+      onScroll();
+      resetIdle();
+    };
+
     onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-    // open is intentionally excluded so scrolling can auto-close without
-    // re-binding the listener on every state change.
+    window.addEventListener("scroll", combined, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", combined);
+      if (idleTimer != null) window.clearTimeout(idleTimer);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // if the menu is open, force full opacity regardless of scroll state
+  const effectiveOpacity = open ? 1 : opacity;
 
   useEffect(() => {
     if (!open) return;
@@ -78,9 +148,10 @@ export default function FloatingNav() {
 
   return (
     <div
-      className={`fn-root ${visible ? "is-visible" : ""} ${open ? "is-open" : ""}`}
+      className={`fn-root ${effectiveOpacity > 0 ? "is-visible" : ""} ${open ? "is-open" : ""}`}
       role="navigation"
       aria-label="floating site menu"
+      style={{ opacity: effectiveOpacity, pointerEvents: effectiveOpacity > 0.1 ? "auto" : "none" }}
     >
       <button
         type="button"

@@ -13547,6 +13547,268 @@ body.hunt-fired .masthead .wordmark .dot {
   .alloc-legend-pct { display: none; }
 }
 
+/* allocation-bar · invest CTAs (stock / art / prediction) */
+.alloc-invest {
+  margin-top: 1.1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.alloc-invest-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.55rem;
+}
+.alloc-invest-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+}
+.alloc-invest-btn {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.75rem 0.7rem;
+  background: var(--paper);
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  border-radius: 3px;
+  text-decoration: none !important;
+  color: var(--ink) !important;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  text-align: left;
+}
+.alloc-invest-btn:hover,
+.alloc-invest-btn:focus-visible {
+  background: var(--ink);
+  color: var(--paper) !important;
+  border-color: var(--ink);
+  outline: none;
+  transform: translateY(-1px);
+}
+.alloc-invest-btn-art {
+  border-color: color-mix(in srgb, var(--zine-pink) 65%, transparent);
+}
+.alloc-invest-btn-art:hover,
+.alloc-invest-btn-art:focus-visible {
+  background: var(--zine-pink);
+  color: #2a1014 !important;
+  border-color: var(--zine-pink);
+}
+.alloc-invest-btn-pred {
+  border-color: color-mix(in srgb, var(--zine-cyan) 60%, transparent);
+}
+.alloc-invest-btn-pred:hover,
+.alloc-invest-btn-pred:focus-visible {
+  background: var(--zine-cyan);
+  color: var(--paper) !important;
+  border-color: var(--zine-cyan);
+}
+.alloc-invest-k {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.alloc-invest-v {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  color: color-mix(in srgb, currentColor 70%, transparent);
+}
+.alloc-invest-note {
+  margin: 0.7rem 0 0;
+  font-size: 0.82rem;
+  color: var(--graphite);
+  line-height: 1.5;
+}
+@media (max-width: 520px) {
+  .alloc-invest-row { grid-template-columns: 1fr; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════
+   positions table · clean book view on /positions
+   ══════════════════════════════════════════════════════════════════════ */
+.pt {
+  margin: 2rem auto;
+  max-width: min(1080px, 100%);
+}
+.pt-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  margin-bottom: 0.8rem;
+}
+.pt-eye {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+.pt-title {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.4rem, 3.4vw, 1.9rem);
+  line-height: 1.1;
+  font-weight: 500;
+  margin: 0.15rem 0 0;
+  color: var(--ink);
+}
+.pt-head-meta { display: flex; gap: 0.55rem; flex-wrap: wrap; }
+.pt-head-chip {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.5rem 0.75rem;
+  background: color-mix(in srgb, var(--paper) 94%, var(--parchment));
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  border-radius: 3px;
+  min-width: 130px;
+}
+.pt-head-chip.is-up { border-color: color-mix(in srgb, #2e6b3b 35%, transparent); }
+.pt-head-chip.is-dn { border-color: color-mix(in srgb, var(--rust) 35%, transparent); }
+.pt-head-chip-k {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.pt-head-chip-v {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.92rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.pt-head-chip.is-up .pt-head-chip-v { color: #2e6b3b; }
+.pt-head-chip.is-dn .pt-head-chip-v { color: var(--rust); }
+
+.pt-table-wrap {
+  display: grid;
+  gap: 0.25rem;
+  overflow-x: auto;
+}
+.pt-th,
+.pt-row {
+  display: grid;
+  grid-template-columns:
+    minmax(150px, 1.6fr) 0.7fr 0.9fr 0.9fr 1fr 0.6fr 1.2fr 1.2fr;
+  gap: 0.6rem;
+  align-items: baseline;
+  padding: 0.6rem 0.5rem;
+}
+.pt-th {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.pt-row {
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 6%, transparent);
+  transition: background 120ms ease;
+}
+.pt-row:hover { background: color-mix(in srgb, var(--paper) 90%, var(--parchment)); }
+.pt-row-cash { opacity: 0.85; }
+.pt-row-total {
+  margin-top: 0.3rem;
+  padding-top: 0.8rem;
+  border-top: 2px solid color-mix(in srgb, var(--ink) 20%, transparent);
+  border-bottom: 0;
+  font-weight: 600;
+}
+
+.pt-tk { display: grid; gap: 0.05rem; min-width: 0; }
+.pt-tk-sym {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  font-weight: 600;
+}
+.pt-tk-name {
+  font-family: var(--font-display), "Cormorant Garamond", Georgia, serif;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--graphite);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pt-tk-total {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--rust);
+  font-weight: 700;
+}
+
+.pt-num {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.88rem;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pt-val { font-weight: 600; }
+.pt-up  { color: #2e6b3b; }
+.pt-dn  { color: var(--rust); }
+.pt-muted { color: var(--graphite); }
+
+.pt-foot {
+  margin: 0.9rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--graphite);
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  /* collapse to a card-per-row on narrow — keep all fields visible but
+     stacked, so the table doesn't force horizontal scroll on phones. */
+  .pt-th { display: none; }
+  .pt-row,
+  .pt-row-cash,
+  .pt-row-total {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.25rem;
+    padding: 0.85rem 0.7rem;
+    background: var(--paper);
+    border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+    border-radius: 3px;
+  }
+  .pt-tk { grid-column: 1 / -1; grid-row: 1; }
+  .pt-num {
+    text-align: left;
+    font-size: 0.82rem;
+  }
+  .pt-num::before {
+    content: attr(data-k) " ";
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--graphite);
+    margin-right: 0.4em;
+  }
+  /* label each cell via its column position */
+  .pt-row > .pt-num:nth-of-type(1)::before { content: "qty · "; }
+  .pt-row > .pt-num:nth-of-type(2)::before { content: "avg · "; }
+  .pt-row > .pt-num:nth-of-type(3)::before { content: "last · "; }
+  .pt-row > .pt-num:nth-of-type(4)::before { content: "value · "; }
+  .pt-row > .pt-num:nth-of-type(5)::before { content: "% acct · "; }
+  .pt-row > .pt-num:nth-of-type(6)::before { content: "today · "; }
+  .pt-row > .pt-num:nth-of-type(7)::before { content: "total g/l · "; }
+}
+
 /* ════════════════════════════════════════════════════════════════════════
    home · autoplay coda — sits right after the LaunchTrailer. framed as
    a centered object with generous top/bottom breathing room rather
@@ -14012,15 +14274,14 @@ body.hunt-fired .masthead .wordmark .dot {
   right: clamp(0.8rem, 3vw, 1.4rem);
   z-index: 80;
   opacity: 0;
-  pointer-events: none;
-  transform: translateY(-6px);
-  transition: opacity 240ms ease, transform 240ms ease;
-}
-.fn-root.is-visible {
-  opacity: 1;
-  pointer-events: auto;
   transform: translateY(0);
+  /* opacity is driven by inline style (scroll velocity); transition
+     covers any residual easing without fighting the RAF driver. */
+  transition: transform 200ms ease;
+  will-change: opacity, transform;
 }
+.fn-root.is-visible { }
+.fn-root.is-open { opacity: 1 !important; }
 .fn-chip {
   display: inline-flex;
   align-items: center;
