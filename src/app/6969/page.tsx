@@ -1,5 +1,6 @@
 import Link from "next/link";
 import HuntLedger from "@/components/HuntLedger";
+import ViewsBadge from "@/components/ViewsBadge";
 
 // /6969 — the credits roll. A "pretend 404" that serves as the site's
 // elegant wayfinder: you went further than the page was built to go, so
@@ -197,6 +198,10 @@ export default function CreditsPage() {
           <li><span>swipe file</span><span><em>burna boy · i told them · radiohead · kanye · 21 savage · metro boomin · bad bunny · playboi carti · paul graham · ted lasso</em></span></li>
           <li><span>listing venue</span><span><em>polymarket · coming soon</em></span></li>
           <li><span>horizon</span><span><em>10 years · starting now</em></span></li>
+          <li>
+            <span>readers</span>
+            <span><ViewsBadge mode="total" label="across the site" /></span>
+          </li>
         </ul>
       </section>
 

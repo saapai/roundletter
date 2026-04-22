@@ -8,6 +8,8 @@ import TableOfContents from "@/components/TableOfContents";
 import Insignia from "@/components/Insignia";
 import FridayMark from "@/components/FridayMark";
 import HuntProvider from "@/components/HuntProvider";
+import SiteViewTracker from "@/components/SiteViewTracker";
+import ViewsBadge from "@/components/ViewsBadge";
 
 const PERSONAL_HOSTS: string[] = [];
 const BARE_PATHS = new Set(["/17", "/keys"]);
@@ -92,11 +94,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
         <main>{children}</main>
         <HuntProvider />
+        <SiteViewTracker />
         {!bare && (
           <footer className="max-w-6xl mx-auto px-6 py-12 text-[11px] tracking-[0.2em] uppercase text-graphite text-center">
             <div className="ink-rule mb-6" />
             <div>aureliex.com · real money · published in full · not investment advice</div>
             <div className="masthead-epigraph">a pre-mortem · filed before failure · <Link href="/let-down">let down</Link></div>
+            <div className="masthead-epigraph" style={{ marginTop: "0.5rem" }}>
+              <ViewsBadge mode="total" />
+            </div>
           </footer>
         )}
       </body>
