@@ -96,6 +96,18 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
         <span className="alloc-eye">// how the stake is split</span>
         <span className="alloc-total">{fmt$(total)} total stake</span>
       </div>
+      <p className="alloc-intro">
+        <em>
+          everything is sitting in <strong>stock positions right now</strong> —
+          the whole book is the 10-holding quantum-+-bigtech basket.
+          <strong> $50 is owned by someone else</strong> (a pending external
+          investment); the rest is mine. <strong>within mine, 20% is
+          earmarked for the two sidecars</strong> (10% art, 10% prediction)
+          and gets <strong>liquidated as necessary</strong> when a piece sells
+          or a bet settles. the bar below shows the intent, not the current
+          on-broker holding.
+        </em>
+      </p>
       <div className="alloc-bar" aria-hidden="true">
         {segments.map((s) => {
           const pct = pctOf(s.amount);
@@ -131,8 +143,10 @@ export default function AllocationBar({ baseline, externalTotal }: Props) {
         <em>
           the book rebalances weekly. the 10% sidecars fund the{" "}
           <a href="#open-bets">open bets</a> pool and the{" "}
-          <a href="#art">art portfolio</a>; external investments settle into
-          the book at the next weekly rebalance.
+          <a href="#art">art portfolio</a> — both are drawn from stock
+          positions when a payout lands, then replenished from gains on
+          the next rebalance. external investments settle into the book
+          at the next weekly rebalance.
         </em>
       </p>
     </section>
