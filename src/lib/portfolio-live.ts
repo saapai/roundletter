@@ -5,20 +5,20 @@
 // break. Revalidates every 5 minutes.
 
 const ENTRY_VALUE = 3453.83;
-const PENDING_CASH = 107.67;
+const PENDING_CASH = 46.57;
 const GOAL = 100_000;
 
 const HOLDINGS: Array<{ ticker: string; shares: number; entry: number }> = [
-  { ticker: "QTUM", shares: 5.509,  entry: 670.28 },
-  { ticker: "MSFT", shares: 1.022,  entry: 402.06 },
-  { ticker: "GOOG", shares: 1.219,  entry: 401.69 },
-  { ticker: "IONQ", shares: 11.336, entry: 400.61 },
-  { ticker: "IBM",  shares: 1.532,  entry: 367.76 },
-  { ticker: "NVDA", shares: 1.725,  entry: 334.98 },
-  { ticker: "CEG",  shares: 1.133,  entry: 334.89 },
-  { ticker: "RGTI", shares: 9.806,  entry: 166.99 },
-  { ticker: "SGOV", shares: 1.661,  entry: 166.95 },
-  { ticker: "QBTS", shares: 5.873,  entry:  99.95 },
+  { ticker: "QTUM", shares: 5.584,  entry: 679.74 },
+  { ticker: "MSFT", shares: 1.036,  entry: 407.87 },
+  { ticker: "GOOG", shares: 1.235,  entry: 407.17 },
+  { ticker: "IONQ", shares: 11.489, entry: 504.71 },
+  { ticker: "IBM",  shares: 1.553,  entry: 373.33 },
+  { ticker: "NVDA", shares: 1.773,  entry: 344.49 },
+  { ticker: "CEG",  shares: 1.148,  entry: 339.05 },
+  { ticker: "RGTI", shares: 9.938,  entry: 169.50 },
+  { ticker: "SGOV", shares: 1.684,  entry: 169.27 },
+  { ticker: "QBTS", shares: 5.951,  entry: 101.65 },
 ];
 
 export type LivePortfolio = {

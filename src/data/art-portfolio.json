@@ -2,10 +2,10 @@
   "meta": {
     "round": "round 0 · drop 1",
     "stake_reserved_pct": 10,
-    "auction_close_iso": "2026-04-25T00:00:00-07:00",
-    "auction_close_label": "friday 24 apr · midnight PT · when the spray-paint auction ends",
+    "auction_close_iso": "",
+    "auction_close_label": "tbd · announced with the round 1 drop",
     "state": "coming_soon",
-    "about": "fourteen pieces by saapai p. (2015–present). pencil, colored pencil, pen, watercolor, and photograph. the portfolio unlocks after the auction — until then, each tile is a locked preview with its starting bid visible. tap any tile to offer $1 over the current bid via imessage. 10% of the total portfolio stake is reserved for art holders. specific allocation posted when this auction closes."
+    "about": "fourteen pieces by saapai p. (2015–present). pencil, colored pencil, pen, watercolor, and photograph. the portfolio unlocks with the round 1 drop — until then, each tile is a locked preview with its starting bid visible. tap any tile to offer $1 over the current bid via imessage. 10% of the total portfolio stake is reserved for art holders. specific allocation posted when the portfolio unlocks."
   },
   "pieces": [
     {

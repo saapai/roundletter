@@ -11,8 +11,8 @@
   "peak_value": 4825.03,
   "peak_date": "2026-01-31",
   "drawdown_pct_from_peak": -28.3,
-  "_note_positions": "positions do not change. when saapai adds/removes money it changes pending_cash only (the money-market sleeve, SPAXX at $1/share). live total = Σ(shares × last close) + pending_cash. set current_value_today to a number to pin a ground-truth value; null lets the live price engine compute.",
-  "pending_cash": 57.67,
+  "_note_positions": "positions do not change. when saapai adds/removes money it changes pending_cash only (the money-market sleeve, SPAXX at $1/share). live total = Σ(shares × last close) + pending_cash. set current_value_today to a number to pin a ground-truth value; null lets the live price engine compute. exception: the 22 apr external $50 was distributed proportionally across all 10 positions — share counts + entry_values below reflect post-distribution state (matches fidelity brokerage).",
+  "pending_cash": 46.57,
   "current_value_today": null,
   "buckets": {
     "A_bigtech_quantum":  { "label": "Big-tech quantum (survivorship)", "target_pct": 45, "owner_agents": ["bear", "bull", "historian"] },
@@ -22,16 +22,16 @@
     "E_drypowder":        { "label": "Dry powder", "target_pct": 5, "owner_agents": ["bear"] }
   },
   "holdings": [
-    { "ticker": "QTUM", "name": "Defiance Quantum ETF",        "bucket": "B_theme_etf",       "owner_agent": "historian", "shares": 5.509,  "entry_price": 121.67,   "entry_value": 670.28, "target_pct": 20.0, "tier": "core" },
-    { "ticker": "MSFT", "name": "Microsoft",                   "bucket": "A_bigtech_quantum", "owner_agent": "bear",      "shares": 1.022,  "entry_price": 393.41,   "entry_value": 402.06, "target_pct": 12.0, "tier": "core" },
-    { "ticker": "GOOG", "name": "Alphabet",                    "bucket": "A_bigtech_quantum", "owner_agent": "bear",      "shares": 1.219,  "entry_price": 329.53,   "entry_value": 401.69, "target_pct": 12.0, "tier": "core" },
-    { "ticker": "IONQ", "name": "IonQ (trapped-ion)",          "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 11.336, "entry_price": 35.34,    "entry_value": 400.61, "target_pct": 12.0, "tier": "satellite", "note": "legacy basis ~$41/sh — held through reset to avoid wash-sale" },
-    { "ticker": "IBM",  "name": "IBM",                         "bucket": "A_bigtech_quantum", "owner_agent": "historian", "shares": 1.532,  "entry_price": 240.055,  "entry_value": 367.76, "target_pct": 11.0, "tier": "core" },
-    { "ticker": "NVDA", "name": "NVIDIA",                      "bucket": "A_bigtech_quantum", "owner_agent": "bull",      "shares": 1.725,  "entry_price": 194.195,  "entry_value": 334.98, "target_pct": 10.0, "tier": "core" },
-    { "ticker": "CEG",  "name": "Constellation Energy",        "bucket": "D_power_macro",     "owner_agent": "macro",     "shares": 1.133,  "entry_price": 295.585,  "entry_value": 334.89, "target_pct": 10.0, "tier": "satellite" },
-    { "ticker": "RGTI", "name": "Rigetti (superconducting)",   "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 9.806,  "entry_price": 17.03,    "entry_value": 166.99, "target_pct": 5.0,  "tier": "satellite" },
-    { "ticker": "SGOV", "name": "T-bill ETF (dry powder)",     "bucket": "E_drypowder",       "owner_agent": "bear",      "shares": 1.661,  "entry_price": 100.5164, "entry_value": 166.95, "target_pct": 5.0,  "tier": "reserve" },
-    { "ticker": "QBTS", "name": "D-Wave (annealing)",          "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 5.873,  "entry_price": 17.02,    "entry_value": 99.95,  "target_pct": 3.0,  "tier": "lottery" }
+    { "ticker": "QTUM", "name": "Defiance Quantum ETF",        "bucket": "B_theme_etf",       "owner_agent": "historian", "shares": 5.584,  "entry_price": 121.73,   "entry_value": 679.74, "target_pct": 20.0, "tier": "core" },
+    { "ticker": "MSFT", "name": "Microsoft",                   "bucket": "A_bigtech_quantum", "owner_agent": "bear",      "shares": 1.036,  "entry_price": 393.70,   "entry_value": 407.87, "target_pct": 12.0, "tier": "core" },
+    { "ticker": "GOOG", "name": "Alphabet",                    "bucket": "A_bigtech_quantum", "owner_agent": "bear",      "shares": 1.235,  "entry_price": 329.69,   "entry_value": 407.17, "target_pct": 12.0, "tier": "core" },
+    { "ticker": "IONQ", "name": "IonQ (trapped-ion)",          "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 11.489, "entry_price": 43.93,    "entry_value": 504.71, "target_pct": 12.0, "tier": "satellite", "note": "cost basis rebased on 22 apr external distribution — prior legacy $35.34" },
+    { "ticker": "IBM",  "name": "IBM",                         "bucket": "A_bigtech_quantum", "owner_agent": "historian", "shares": 1.553,  "entry_price": 240.39,   "entry_value": 373.33, "target_pct": 11.0, "tier": "core" },
+    { "ticker": "NVDA", "name": "NVIDIA",                      "bucket": "A_bigtech_quantum", "owner_agent": "bull",      "shares": 1.773,  "entry_price": 194.30,   "entry_value": 344.49, "target_pct": 10.0, "tier": "core" },
+    { "ticker": "CEG",  "name": "Constellation Energy",        "bucket": "D_power_macro",     "owner_agent": "macro",     "shares": 1.148,  "entry_price": 295.34,   "entry_value": 339.05, "target_pct": 10.0, "tier": "satellite" },
+    { "ticker": "RGTI", "name": "Rigetti (superconducting)",   "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 9.938,  "entry_price": 17.06,    "entry_value": 169.50, "target_pct": 5.0,  "tier": "satellite" },
+    { "ticker": "SGOV", "name": "T-bill ETF (dry powder)",     "bucket": "E_drypowder",       "owner_agent": "bear",      "shares": 1.684,  "entry_price": 100.52,   "entry_value": 169.27, "target_pct": 5.0,  "tier": "reserve" },
+    { "ticker": "QBTS", "name": "D-Wave (annealing)",          "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 5.951,  "entry_price": 17.08,    "entry_value": 101.65, "target_pct": 3.0,  "tier": "lottery" }
   ],
   "triggers": {
     "trim_single_name_above_pct": 15.0,
@@ -56,7 +56,7 @@
       "label": "external stock investment",
       "amount": 50.00,
       "date": "2026-04-22",
-      "status": "live · distributed 22 apr proportionally across all 10 positions",
+      "status": "live · distributed 22 apr proportionally across all 10 positions (settled — shares now reflect this)",
       "book_at_entry": 3690.67
     }
   ]

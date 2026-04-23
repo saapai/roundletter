@@ -42,8 +42,8 @@ export const SECOND_PAIR_B_ID = "GGopj8gp2gE";
 export const SECOND_PAIR_A = `https://www.youtube.com/watch?v=${SECOND_PAIR_A_ID}`;
 export const SECOND_PAIR_B = `https://www.youtube.com/watch?v=${SECOND_PAIR_B_ID}`;
 
-// Spray-paint video — goes with the Friday auction. Fired from a typed
-// trigger + a hash + a tap on the auction scene's accent dot.
+// Spray-paint video — how the piece gets made. Fired from a typed
+// trigger + a hash.
 export const SPRAYPAINT_VIDEO_ID = "RYRHal-e97Y";
 export const SPRAYPAINT_VIDEO =
   `https://www.youtube.com/watch?v=${SPRAYPAINT_VIDEO_ID}`;
@@ -211,8 +211,8 @@ export const HUNT_EGGS: HuntEgg[] = [
     id: "spraypaint",
     name: "the can",
     origin:
-      "type p a i n t · or url #spraypaint · or triple-click the red dot on the auction scene",
-    flavor: "the auction rehearses itself. watch the can.",
+      "type p a i n t · or url #spraypaint",
+    flavor: "the can rehearses itself. watch.",
     reward: "video",
     rarity: 2,
   },

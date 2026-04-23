@@ -42,16 +42,16 @@ type PricesResponse = {
 };
 
 const HOLDINGS: Array<{ ticker: string; shares: number; entry_value: number }> = [
-  { ticker: "QTUM", shares: 5.509,  entry_value: 670.28 },
-  { ticker: "MSFT", shares: 1.022,  entry_value: 402.06 },
-  { ticker: "GOOG", shares: 1.219,  entry_value: 401.69 },
-  { ticker: "IONQ", shares: 11.336, entry_value: 400.61 },
-  { ticker: "IBM",  shares: 1.532,  entry_value: 367.76 },
-  { ticker: "NVDA", shares: 1.725,  entry_value: 334.98 },
-  { ticker: "CEG",  shares: 1.133,  entry_value: 334.89 },
-  { ticker: "RGTI", shares: 9.806,  entry_value: 166.99 },
-  { ticker: "SGOV", shares: 1.661,  entry_value: 166.95 },
-  { ticker: "QBTS", shares: 5.873,  entry_value: 99.95  },
+  { ticker: "QTUM", shares: 5.584,  entry_value: 679.74 },
+  { ticker: "MSFT", shares: 1.036,  entry_value: 407.87 },
+  { ticker: "GOOG", shares: 1.235,  entry_value: 407.17 },
+  { ticker: "IONQ", shares: 11.489, entry_value: 504.71 },
+  { ticker: "IBM",  shares: 1.553,  entry_value: 373.33 },
+  { ticker: "NVDA", shares: 1.773,  entry_value: 344.49 },
+  { ticker: "CEG",  shares: 1.148,  entry_value: 339.05 },
+  { ticker: "RGTI", shares: 9.938,  entry_value: 169.50 },
+  { ticker: "SGOV", shares: 1.684,  entry_value: 169.27 },
+  { ticker: "QBTS", shares: 5.951,  entry_value: 101.65 },
 ];
 
 export default function AllocationBar({ baseline, externalTotal, externalBookAtEntry }: Props) {

@@ -73,21 +73,6 @@ const BETS: Bet[] = [
     noPct: 62,
     lastReviewed: LINES_LAST_REVIEWED,
   },
-  {
-    id: "spray-paint-attendance",
-    label: "spray-paint auction friday (ovation) hits 100+ people",
-    yesPct: 18,
-    noPct: 82,
-    note: "you can drive this one. panel skews YES low on outcomes the public can influence — show up, bet YES, win the bigger payout. same mechanic below.",
-    lastReviewed: LINES_LAST_REVIEWED,
-  },
-  {
-    id: "auction-gross",
-    label: "friday auction grosses over $500 in bids",
-    yesPct: 22,
-    noPct: 78,
-    lastReviewed: LINES_LAST_REVIEWED,
-  },
   // — NBA playoff futures · cross-referenced against kalshi + polymarket +
   //   FanDuel + DraftKings + ESPN + covers by a research agent on this
   //   review date. lakers series is 2-0 vs Rockets after games 1 + 2;

@@ -61,7 +61,6 @@ async function liveRefresh(): Promise<LinesOut | null> {
   const systemPrompt = `You review open-bets panel probabilities for a public-facing prediction-market page. You check against current live Kalshi, Polymarket, FanDuel, DraftKings, ESPN BET, and Covers prices, and return the panel's implied percentage per bet.
 
 Skew rules (disclose in the notes if you apply them):
-· auction-attendance + auction-gross (anything the public can influence) skew YES DOWN ~5-15pp under sharp — the public's incentive to drive the outcome is the mechanic.
 · lakers-ladder (LA-biased audience) skew YES UP ~2-4pp over sharp — the fan premium absorbs LA bias without being arb-able.
 · everything else (portfolio milestones, earnings beats, cavs chip, finals-7) sits at the sharp consensus.
 

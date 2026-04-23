@@ -14,15 +14,6 @@ import { HUNT_PHONE_DISPLAY, HUNT_PHONE_TEL } from "@/lib/hunt";
 // This intentionally sidesteps server storage — the public receipt is the
 // chat log between the filer and saapai. If they want the seal to appear
 // on aureliex, they text it; saapai adds it to /data/sealed-predictions.
-//
-// A prebuilt "friday midnight" template is offered because the 2026-04-24
-// spray-paint auction closes at midnight and the site's traffic sits on
-// that event this week.
-
-type Mode = "free" | "friday";
-
-const FRIDAY_ISO = "2026-04-25T00:00:00-07:00"; // midnight pacific after the auction day
-const FRIDAY_LABEL = "midnight · fri 24 apr → sat 25 apr · PT";
 
 async function sha256Hex(s: string): Promise<string> {
   const enc = new TextEncoder().encode(s);
@@ -45,7 +36,6 @@ function smsToSaapai(body: string): string {
 }
 
 export default function OpenPredictionFiler() {
-  const [mode, setMode] = useState<Mode>("free");
   const [thesis, setThesis] = useState("");
   const [threshold, setThreshold] = useState("");
   const [scoringRule, setScoringRule] = useState("");
@@ -56,25 +46,6 @@ export default function OpenPredictionFiler() {
   const [hash, setHash] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
-
-  const applyTemplate = useCallback((m: Mode) => {
-    setMode(m);
-    if (m === "friday") {
-      setThesis("the spray-paint auction on fri 24 apr at ovation hollywood will gross more than $500 in bids.");
-      setThreshold("500");
-      setScoringRule("sum of all bid prices posted by saapai within 24h of the event, published in /trades.");
-      setHorizon(FRIDAY_ISO);
-      setSealedAt(null);
-      setHash(null);
-    } else {
-      setThesis("");
-      setThreshold("");
-      setScoringRule("");
-      setHorizon("");
-      setSealedAt(null);
-      setHash(null);
-    }
-  }, []);
 
   const canonical = useMemo(() => {
     const sealedIso = sealedAt ?? new Date().toISOString();
@@ -153,33 +124,6 @@ export default function OpenPredictionFiler() {
         <span className="seal-filer-sub">no curator · anyone who files a sha-hashed prediction with a dated scoring rule is in the book</span>
       </div>
 
-      <div className="seal-filer-modes" role="tablist">
-        <button
-          type="button"
-          className={`seal-filer-mode ${mode === "free" ? "is-on" : ""}`}
-          role="tab"
-          aria-selected={mode === "free"}
-          onClick={() => applyTemplate("free")}
-        >
-          open
-        </button>
-        <button
-          type="button"
-          className={`seal-filer-mode ${mode === "friday" ? "is-on" : ""}`}
-          role="tab"
-          aria-selected={mode === "friday"}
-          onClick={() => applyTemplate("friday")}
-        >
-          friday midnight · auction
-        </button>
-      </div>
-
-      {mode === "friday" && (
-        <p className="seal-filer-note">
-          <em>template pre-filled for the spray-paint auction · horizon sealed at {FRIDAY_LABEL}. edit any field before sealing.</em>
-        </p>
-      )}
-
       {hash ? null : (
         <div className="seal-filer-form">
           <label className="seal-filer-field">
@@ -245,7 +189,7 @@ export default function OpenPredictionFiler() {
       {hash && (
         <div className="seal-filer-receipt">
           <div className="seal-filer-receipt-head">
-            <span className="seal-filer-receipt-eye">// seal · {mode === "friday" ? "friday · auction" : "open"}</span>
+            <span className="seal-filer-receipt-eye">// seal · open</span>
             <span className="seal-filer-receipt-ts">
               sealed · {new Date(sealedAt!).toLocaleString("en-US", {
                 timeZone: "America/Los_Angeles",

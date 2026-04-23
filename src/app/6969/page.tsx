@@ -6,12 +6,12 @@ import ViewsBadge from "@/components/ViewsBadge";
 // elegant wayfinder: you went further than the page was built to go, so
 // here is what the whole site is. Every beat reflects the current launch
 // narrative (trailer, five-agent panel, sealed predictions, green credit,
-// spray paint auction, let-down/arc).
+// let-down/arc).
 
 export const metadata = {
   title: "not found. yet. — aureliex · credits",
   description:
-    "a credits roll for everything on aureliex.com — the five-agent panel, the sealed predictions, green credit, the spray paint auction, let down, the arc.",
+    "a credits roll for everything on aureliex.com — the five-agent panel, the sealed predictions, green credit, let down, the arc.",
 };
 
 type Beat = {
@@ -81,13 +81,6 @@ const BEATS: Beat[] = [
   },
   {
     n: "07",
-    kicker: "the next event",
-    line: "spray paint auction · ovation hollywood.",
-    sub: "friday · sunset (7:27 pm) → midnight. no RSVP, no list, no flyer. &ldquo;you&rsquo;ll find it.&rdquo;",
-    tone: "amber",
-  },
-  {
-    n: "08",
     kicker: "the frame",
     line: "let down.",
     sub: "a pre-mortem, after radiohead 1997. the feeling the whole site is a derivative of.",
@@ -95,7 +88,7 @@ const BEATS: Beat[] = [
     tone: "cyan",
   },
   {
-    n: "09",
+    n: "08",
     kicker: "the arc",
     line: "ghost town → let down.",
     sub: "the cinematic descent. altarpiece to transit window. the b-side of the launch.",
@@ -103,7 +96,7 @@ const BEATS: Beat[] = [
     tone: "dark",
   },
   {
-    n: "10",
+    n: "09",
     kicker: "the method",
     line: "the document is the product.",
     sub: "debates timestamped. trades tied to agents. letters signed. nothing hidden. that&rsquo;s the whole architecture.",
@@ -111,7 +104,7 @@ const BEATS: Beat[] = [
     tone: "warm",
   },
   {
-    n: "11",
+    n: "10",
     kicker: "the statement",
     line: "one voice. then two. then four. then the argument is pointless.",
     sub: "that&rsquo;s the point.",
@@ -119,7 +112,7 @@ const BEATS: Beat[] = [
     tone: "dark",
   },
   {
-    n: "12",
+    n: "11",
     kicker: "the rest",
     line: "canvas · trades · market · letters.",
     sub: "the book as graph. every trade logged. green apple vs rotten apple. round 0 pre-mortem.",

@@ -7,8 +7,8 @@ import { HUNT_PHONE_DISPLAY, HUNT_PHONE_TEL } from "@/lib/hunt";
 // Art-portfolio gallery · COMING SOON state.
 //
 // Fourteen pieces by saapai p. (2015–present). Images are intentionally
-// withheld while the auction runs — each tile shows a locked "coming
-// soon" card with an AI-generated textual preview + the panel's
+// withheld until the portfolio unlocks — each tile shows a locked
+// "coming soon" card with an AI-generated textual preview + the panel's
 // starting bid (and current high, if any).
 //
 // Tapping any tile opens the native Messages composer pre-filled with a
@@ -177,10 +177,10 @@ export default function ArtPortfolio() {
         <p>
           <em>
             bids verified over text at {HUNT_PHONE_DISPLAY}. images unlock
-            when the auction closes. winners receive the full file (high-res
-            jpg or tiff via text / airdrop) plus the physical original, usps
-            priority mail, tracked + insured, at my cost. shipping details
-            negotiated by text.
+            when the portfolio unlocks. winners receive the full file
+            (high-res jpg or tiff via text / airdrop) plus the physical
+            original, usps priority mail, tracked + insured, at my cost.
+            shipping details negotiated by text.
           </em>
         </p>
       </details>

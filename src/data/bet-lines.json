@@ -3,7 +3,7 @@
     "last_reviewed": "2026-04-22",
     "reviewed_by": "research agent · kalshi / polymarket / fanduel / draftkings / espn bet cross-ref",
     "next_auto_refresh": "daily at 09:35 ET + 16:30 ET weekdays",
-    "note": "panel probabilities; lakers skewed +2-4pp high on YES to absorb LA bias, auction lines skewed low on YES because the public can influence them."
+    "note": "panel probabilities; lakers skewed +2-4pp high on YES to absorb LA bias."
   },
   "bets": [
     { "id": "portfolio-100k",           "label": "portfolio reaches $100,000 by 21 jun 2026",                  "yesPct": 3,  "noPct": null, "note": "the house bet. the AI uses the yes pool to hedge the other yes bets and distribute winnings. no NO side — that's the point." },
@@ -12,8 +12,6 @@
     { "id": "ionq-beats-consensus",     "label": "IONQ beats the street for 1Q 2026",                          "yesPct": 46, "noPct": 54 },
     { "id": "nvda-beats-consensus",     "label": "NVDA beats the street for 1Q 2026",                          "yesPct": 66, "noPct": 34 },
     { "id": "qtum-50",                  "label": "QTUM closes above $50 before 21 jun",                        "yesPct": 38, "noPct": 62 },
-    { "id": "spray-paint-attendance",   "label": "spray-paint auction friday (ovation) hits 100+ people",      "yesPct": 18, "noPct": 82, "note": "you can drive this one. panel skews YES low on outcomes the public can influence — show up, bet YES, win the bigger payout. same mechanic below." },
-    { "id": "auction-gross",            "label": "friday auction grosses over $500 in bids",                   "yesPct": 22, "noPct": 78 },
     { "id": "nba-lakers-round-one",     "label": "lakers win their first-round series vs HOU (up 2-0)",        "yesPct": 85, "noPct": 15, "note": "lakers 2-0 after 107-98 + 101-94 wins; luka/reaves targeting return. sharp consensus ~82% post-game-2; panel sits +3pp high on YES. la bettors bias pro-lakers; premium absorbs some of that skew." },
     { "id": "nba-lakers-conf-semis",    "label": "lakers reach the conference finals (win two rounds)",        "yesPct": 19, "noPct": 81 },
     { "id": "nba-lakers-finals",        "label": "lakers reach the 2026 NBA finals (win three rounds)",        "yesPct": 9,  "noPct": 91 },

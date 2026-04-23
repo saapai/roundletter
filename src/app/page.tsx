@@ -4,7 +4,6 @@ import curation from "@/data/curation.json";
 import hookDebate from "@/data/hook-debate.json";
 import ApparatusThumb from "@/components/ApparatusThumb";
 import LaunchTrailer from "@/components/LaunchTrailer";
-import AuctionCountdown from "@/components/AuctionCountdown";
 import OpenBets from "@/components/OpenBets";
 import AllocationBar from "@/components/AllocationBar";
 import ArtPortfolio from "@/components/ArtPortfolio";
@@ -49,7 +48,6 @@ type CurationFile = {
 };
 
 const TIERS: Tier[] = ["Budget", "Mid", "Elite"];
-const AUCTION_ISO = "2026-04-24T19:30:00-07:00";
 
 function Chapter({
   n,
@@ -157,7 +155,7 @@ export async function generateMetadata(): Promise<Metadata> {
     : `−${fmtMoney(Math.abs(lp.delta))} (−${Math.abs(lp.pct).toFixed(1)}%)`;
   const title = `aureliex · issue #001 — now at ${live} (${delta}) · just dropped.`;
   const description =
-    `launch trailer is live. ${live} on the book (${delta} vs baseline), target $100,000 by 21 june. five ai agents. one product: green credit. plus — spray paint auction, ovation hollywood, this friday sunset → midnight. you'll find it.`;
+    `launch trailer is live. ${live} on the book (${delta} vs baseline), target $100,000 by 21 june. five ai agents. one product: green credit. you'll find it.`;
   return {
     title,
     description,
@@ -367,28 +365,6 @@ export default async function HomePage() {
         </div>
       </Chapter>
 
-      {/* ══════ CHAPTER 03 — THE NEXT EVENT ══════ */}
-      <Chapter
-        n="03"
-        id="chapter-03"
-        kicker="the next event"
-        title={<>spray paint auction · ovation hollywood</>}
-        meta="this friday · sunset to midnight"
-        live
-      >
-        <div className="home-auction home-auction-zine">
-          <div className="home-auction-head">
-            <span className="home-auction-dot" aria-hidden="true" />
-            <AuctionCountdown targetIso={AUCTION_ISO} />
-          </div>
-          <p className="home-auction-lead">
-            <strong>ovation hollywood.</strong> friday, <strong>24 april 2026</strong>. sunset (7:27 pm) → midnight.
-          </p>
-          <p className="home-auction-note">spray paint. live bids. bring cash. no RSVP, no list, no flyer.</p>
-          <p className="home-auction-find"><em>&ldquo;you&rsquo;ll find it.&rdquo;</em></p>
-        </div>
-      </Chapter>
-
       {/* panel verdict — the home used to carry chapter 04 (the rounds of
           the debate expand) and chapter 06 (for-later ctas that duplicated
           the bridge nav). the panel met and cut both: debate full record
@@ -413,14 +389,6 @@ export default async function HomePage() {
             <span className="home-verdict-val">
               <a href={youtubeSearchLink(SONGS.just_like_me)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
                 just like me — metro boomin + future <span aria-hidden="true">↗</span>
-              </a>
-            </span>
-          </div>
-          <div className="home-verdict-row">
-            <span className="home-verdict-label">auction</span>
-            <span className="home-verdict-val">
-              <a href={youtubeSearchLink(SONGS.nuevayol)} target="_blank" rel="noopener noreferrer" className="home-verdict-song">
-                nuevayol — bad bunny <span aria-hidden="true">↗</span>
               </a>
             </span>
           </div>
@@ -532,11 +500,10 @@ export default async function HomePage() {
         </p>
       </section>
 
-      {/* art portfolio · fourteen pieces, live bids, closes friday midnight PT */}
+      {/* art portfolio · fourteen pieces, previews only, unlocks with round 1 */}
       <ArtPortfolio />
 
-      {/* ai's favorite number · wesley-wang homage · settles at the same
-          friday-midnight bell as the art portfolio + auction */}
+      {/* ai's favorite number · wesley-wang homage */}
       <FavoriteNumber />
 
       {/* apparatus prelude — a green, spotify-meets-youtube-meets-apple-tv

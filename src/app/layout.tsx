@@ -35,11 +35,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://aureliex.com"),
   title: "aureliex · issue #001 — just dropped. the name is bullshit. the product is beautiful.",
   description:
-    "launch trailer is live. $3,453 → $100,000 by my birthday. five ai agents. one product: green credit. plus — spray paint auction, ovation hollywood, this friday sunset → midnight. you'll find it.",
+    "launch trailer is live. $3,453 → $100,000 by my birthday. five ai agents. one product: green credit. you'll find it.",
   openGraph: {
     title: "aureliex · issue #001 — just dropped.",
     description:
-      "the launch trailer. $3,453 → $100,000 by 21 june. five ai agents. green credit. spray paint auction · ovation hollywood · friday sunset → midnight. you'll find it.",
+      "the launch trailer. $3,453 → $100,000 by 21 june. five ai agents. green credit. you'll find it.",
     url: "https://aureliex.com",
     siteName: "aureliex",
     type: "article",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "aureliex · issue #001 — just dropped.",
     description:
-      "the launch trailer. $3,453 → $100,000 by my birthday. five ai agents. green credit. spray paint auction, ovation hollywood, friday. you'll find it.",
+      "the launch trailer. $3,453 → $100,000 by my birthday. five ai agents. green credit. you'll find it.",
     creator: "@saapai",
   },
 };

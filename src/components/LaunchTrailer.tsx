@@ -13,7 +13,7 @@ type Props = {
 /**
  * LaunchTrailer — HERO section at the top of /.
  *
- * Always autoplays scenes 0 → 6 on mount (~22.5s) with audio muted by default.
+ * Always autoplays scenes 0 → 5 on mount (~19.5s) with audio muted by default.
  * Respects prefers-reduced-motion (skips to poster, no audio). No "seen"
  * memory — the trailer is the arrival, every visit.
  *
@@ -22,8 +22,7 @@ type Props = {
  *   scene 2  punchline build— a lot continues · "name is bullshit"
  *   scene 3  the drop       — 2s metro clip · "fucking beautiful."    (Metro + Future)
  *   scene 4  the message    — silence · "aureliex leaves a message"
- *   scene 5  the auction    — nuevayol · "spray paint · friday"        (Bad Bunny)
- *   scene 6  outro          — silence · "watch." · poster, stays put
+ *   scene 5  outro          — silence · "watch." · poster, stays put
  *
  * Natural scroll (no lock). IntersectionObserver pauses audio when the hero
  * scrolls out of view. "↓ continue" button smooth-scrolls to #after-hero.
@@ -31,8 +30,8 @@ type Props = {
 
 const MUTE_KEY = "rl:launch-trailer-muted";
 
-type Scene = 0 | 1 | 2 | 3 | 4 | 5 | 6;
-type AudioKey = "hook" | "drop" | "auction" | "silence";
+type Scene = 0 | 1 | 2 | 3 | 4 | 5;
+type AudioKey = "hook" | "drop" | "silence";
 
 // Scene 0 (the magazine cover) held too briefly for viewers to read the
 // "aureliex" wordmark + issue-number tag. All downstream beats shift by
@@ -43,12 +42,11 @@ const SCHEDULE: Array<{ scene: Scene; at: number; audio?: AudioKey }> = [
   { scene: 2, at: 9000,  audio: "hook"    },
   { scene: 3, at: 13500, audio: "drop"    },
   { scene: 4, at: 16000, audio: "silence" },
-  { scene: 5, at: 19500, audio: "auction" },
-  { scene: 6, at: 22500, audio: "silence" },
+  { scene: 5, at: 19500, audio: "silence" },
 ];
 
 const VOLUMES: Record<AudioKey, number> = {
-  hook: 0.6, drop: 0.75, auction: 0.55, silence: 0,
+  hook: 0.6, drop: 0.75, silence: 0,
 };
 
 function fmtMoney(n: number): string {
@@ -64,10 +62,9 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
 
   const hookRef = useRef<HTMLAudioElement | null>(null);
   const dropRef = useRef<HTMLAudioElement | null>(null);
-  const auctRef = useRef<HTMLAudioElement | null>(null);
 
   const pauseAll = useCallback(() => {
-    [hookRef, dropRef, auctRef].forEach((r) => {
+    [hookRef, dropRef].forEach((r) => {
       try { r.current?.pause(); } catch {}
     });
   }, []);
@@ -80,7 +77,7 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
     const prefersReduced =
       window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
-      setStage(6);                // poster only — a11y
+      setStage(5);                // poster only — a11y
       setPlaying(false);
       return;
     }
@@ -104,7 +101,6 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
           };
           if (audio === "hook")         play(hookRef, "hook");
           else if (audio === "drop")    play(dropRef, "drop");
-          else if (audio === "auction") play(auctRef, "auction");
           else if (audio === "silence") pauseAll();
         }, at)
       );
@@ -115,7 +111,7 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
       window.setTimeout(() => {
         setPlaying(false);
         pauseAll();
-      }, 22500)
+      }, 19500)
     );
 
     return () => {
@@ -142,7 +138,7 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
   }, [pauseAll]);
 
   useEffect(() => {
-    [hookRef, dropRef, auctRef].forEach((r) => { if (r.current) r.current.muted = muted; });
+    [hookRef, dropRef].forEach((r) => { if (r.current) r.current.muted = muted; });
   }, [muted]);
 
   const toggleMute = useCallback(() => {
@@ -158,7 +154,7 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
     timers.current.forEach((t) => window.clearTimeout(t));
     timers.current = [];
     pauseAll();
-    setStage(6);
+    setStage(5);
     setPlaying(false);
     const target = document.getElementById("after-hero");
     if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -175,7 +171,6 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
     >
       <audio ref={hookRef} src="/audio/a-lot.mp3"             preload="auto" playsInline muted />
       <audio ref={dropRef} src="/audio/just-like-me-drop.mp3" preload="auto" playsInline muted />
-      <audio ref={auctRef} src="/audio/nuevayol.mp3"          preload="auto" playsInline muted />
 
       <div className="trailer-bg" aria-hidden="true" />
 
@@ -244,19 +239,8 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
         </div>
       </div>
 
-      {/* scene 5 — the auction */}
+      {/* scene 5 — outro · the resting poster */}
       <div className="trailer-scene trailer-scene-5c">
-        <div className="trailer-eyebrow">plus · the next event</div>
-        <div className="trailer-title trailer-title-auction">spray paint auction</div>
-        <div className="trailer-attr">ovation hollywood · friday · sunset → midnight</div>
-        <div className="trailer-find">&ldquo;you&rsquo;ll find it.&rdquo;</div>
-        <a className="trailer-attr trailer-attr-faint trailer-attr-link" href={youtubeSearchLink(SONGS.nuevayol)} target="_blank" rel="noopener noreferrer">
-          nuevayol · bad bunny · 2025 <span aria-hidden="true">↗</span>
-        </a>
-      </div>
-
-      {/* scene 6 — outro · the resting poster */}
-      <div className="trailer-scene trailer-scene-6c">
         <div className="trailer-outro">watch.</div>
       </div>
 

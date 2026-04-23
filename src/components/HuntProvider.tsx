@@ -730,8 +730,7 @@ function HuntOverlay({
             {egg.id === "spraypaint" ? (
               <>
                 <p className="hunt-card-payout-line">
-                  <em>the can in use.</em> the spray-paint auction is friday;
-                  this is how the piece gets made.
+                  <em>the can in use.</em> how the piece gets made.
                 </p>
                 <YouTubeCard
                   videoId={SPRAYPAINT_VIDEO_ID}

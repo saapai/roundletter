@@ -8925,8 +8925,7 @@ body.reader-mode > main { padding-top: 2rem; }
 .trailer-scene-2 .trailer-scene-2c,
 .trailer-scene-3 .trailer-scene-3c,
 .trailer-scene-4 .trailer-scene-4c,
-.trailer-scene-5 .trailer-scene-5c,
-.trailer-scene-6 .trailer-scene-6c {
+.trailer-scene-5 .trailer-scene-5c {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -8936,7 +8935,7 @@ body.reader-mode > main { padding-top: 2rem; }
   pointer-events: auto;
 }
 
-/* scene-specific backdrop shifts (7 scenes, 0..6) */
+/* scene-specific backdrop shifts (6 scenes, 0..5) */
 .trailer.trailer-scene-2,
 .trailer.trailer-scene-3 {
   background: var(--zine-paper);
@@ -8947,9 +8946,6 @@ body.reader-mode > main { padding-top: 2rem; }
   color: var(--zine-news);
 }
 .trailer.trailer-scene-5 {
-  background: linear-gradient(160deg, #0a0c10 0%, #18100a 55%, #2a1408 100%);
-}
-.trailer.trailer-scene-6 {
   background: var(--zine-black);
   color: var(--zine-white);
 }
@@ -9245,10 +9241,6 @@ body.reader-mode > main { padding-top: 2rem; }
   opacity: 1;
 }
 .trailer.trailer-scene-5 .trailer-bg {
-  background: linear-gradient(160deg, #0a0c10 0%, #18100a 55%, #2a1408 100%);
-  opacity: 1;
-}
-.trailer.trailer-scene-6 .trailer-bg {
   background: var(--zine-black);
   opacity: 1;
 }
@@ -9372,22 +9364,7 @@ body.reader-mode > main { padding-top: 2rem; }
   border-bottom: 3px solid var(--zine-yellow);
 }
 
-/* ── scene 5 — auction ── */
-.trailer-title-auction { font-style: italic; color: var(--zine-yellow); }
-.trailer-scene-5 .trailer-eyebrow {
-  background: var(--zine-yellow);
-  color: var(--zine-news);
-  font-weight: 700;
-}
-.trailer-find {
-  font-family: Georgia, serif;
-  font-style: italic;
-  font-size: clamp(1.4rem, 3.6vw, 2rem);
-  color: var(--zine-white);
-  margin-top: 0.25rem;
-}
-
-/* ── scene 8 — outro ── */
+/* ── scene 5 — outro ── */
 .trailer-outro {
   font-family: Impact, "Arial Black", sans-serif;
   font-size: clamp(4rem, 16vw, 10rem);
@@ -9471,8 +9448,7 @@ body.reader-mode > main { padding-top: 2rem; }
 .trailer.trailer-scene-3 .trailer-progress-fill {
   background: color-mix(in srgb, var(--zine-red) 70%, var(--zine-news));
 }
-.trailer.trailer-scene-5 .trailer-progress-fill,
-.trailer.trailer-scene-6 .trailer-progress-fill {
+.trailer.trailer-scene-5 .trailer-progress-fill {
   background: color-mix(in srgb, var(--zine-yellow) 55%, var(--zine-cyan-lo));
 }
 @keyframes trailer-progress {
