@@ -22,6 +22,11 @@ export const KALSHI_URL =
 export const WAYMO_URL = "https://waymo.smart.link/4pcoqniy5?code=SAATHVS7DT";
 export const WAYMO_CODE = "SAATHVS7DT";
 
+// Bird scooters — third transport-stack referral.  Pattern mirrors the
+// waymo egg: standard referral credit from bird + a bonus from me,
+// text-verified.
+export const BIRD_URL = "https://links.bird.co/LfJg8T";
+
 // Spotify deep-search URL — resolves to the Daft Punk / Pharrell track as the
 // top result in the Spotify app and the website. A search URL is used rather
 // than a track id because search ids are deterministic and don't rot.
@@ -102,6 +107,7 @@ export const HUNT_PHONE_TEL_LINK = HUNT_PHONE_TEL.startsWith("tel:")
 export type HuntReward =
   | "kalshi"
   | "waymo"
+  | "bird"
   | "lucky"
   | "lasso"
   | "lost"
@@ -225,6 +231,14 @@ export const HUNT_EGGS: HuntEgg[] = [
       "type r e c o r d i n g s · or url #recordings · two videos, bound",
     flavor: "two more recordings. paired on purpose.",
     reward: "video",
+    rarity: 2,
+  },
+  {
+    id: "bird",
+    name: "the scoot",
+    origin: "desktop · type s c o o t · mobile · url #bird or #scoot",
+    flavor: "wheels under the transport stack. free credit, text me for the bonus.",
+    reward: "bird",
     rarity: 2,
   },
 ];

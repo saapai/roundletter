@@ -225,7 +225,7 @@ export default function AllocationBar({ baseline, externalTotal, externalBookAtE
         <p className="alloc-invest-note">
           <em>
             the first three settle at the next weekly rebalance.{" "}
-            <strong>the hunt</strong> pays stakes directly — eight eggs across
+            <strong>the hunt</strong> pays stakes directly — thirteen eggs across
             the site, some bankroll, some portfolio equity, some art-portfolio
             shares. <a href="/6969#hunt">ledger + rules</a>.
           </em>

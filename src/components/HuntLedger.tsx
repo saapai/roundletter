@@ -42,11 +42,12 @@ export default function HuntLedger() {
       </div>
       <p className="hunt-ledger-line">
         <em>
-          eight eggs, hidden across the document. two put you on the cap
-          table — kalshi pool owns 10% of that book, waymo pool earns 0.5%
-          a month. one trades ted lasso writing for an art-portfolio slice.
-          one plays a song. one calls you back. the rest are lore. catch
-          them in any order. your browser keeps the record.
+          thirteen eggs, hidden across the document. three put you on the cap
+          table — kalshi pool owns 10% of that book, waymo pool earns 0.5% a
+          month, bird pool earns 0.25% a month. one trades ted lasso writing
+          for an art-portfolio slice. one plays a song. one calls you back.
+          the rest are lore. catch them in any order. your browser keeps the
+          record.
         </em>
       </p>
       <ul className="hunt-ledger-list">
@@ -57,6 +58,8 @@ export default function HuntLedger() {
               ? "up to $50"
               : egg.reward === "waymo"
               ? "up to $20"
+              : egg.reward === "bird"
+              ? "up to $5 + scoot"
               : egg.reward === "lucky"
               ? "daft punk"
               : null;

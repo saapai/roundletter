@@ -11,6 +11,7 @@ import {
   KALSHI_URL,
   WAYMO_CODE,
   WAYMO_URL,
+  BIRD_URL,
   GET_LUCKY_SPOTIFY,
   GET_LUCKY_SMS,
   LASSO_SMS,
@@ -74,6 +75,7 @@ const TYPED_TARGETS: Record<string, string> = {
   paint: "spraypaint",
   yerant: "yerant",
   recordings: "secondpair",
+  scoot: "bird",
 };
 const TYPED_MAX = 24; // rolling buffer of recent alpha keys
 const DOT_TRIPLE_WINDOW_MS = 700;
@@ -107,6 +109,8 @@ const HASH_ROUTES: Record<string, string> = {
   "#rant": "yerant",
   "#recordings": "secondpair",
   "#pair": "secondpair",
+  "#bird": "bird",
+  "#scoot": "bird",
 };
 
 // shake detection for get lucky: 3 motion spikes inside 1.6s
@@ -176,7 +180,7 @@ export default function HuntProvider() {
         const hint = "color:#6B6560;font-family:serif;";
         console.log("%c// you're reading the document in the console.", tag);
         console.log(
-          "%c// there is a hunt. seven eggs. two pay real money (up to $50 + $20). one plays a song.",
+          "%c// there is a hunt. thirteen eggs. three pay real money (up to $50 + $20 + $5). one plays a song.",
           hint,
         );
         console.log("%c// try window.__hunt.found()", hint);
@@ -647,6 +651,33 @@ function HuntOverlay({
               <em>believe. — ted lasso</em>
             </p>
           </div>
+        ) : egg.reward === "bird" ? (
+          <div className="hunt-card-payout hunt-card-payout-bird">
+            <p className="hunt-card-payout-line">
+              third leg of the transport stack. tap the link and bird credits
+              you <strong>your first unlock + ride free</strong> under their
+              standard referral. text me a receipt and i add a{" "}
+              <strong>$5 bonus on top</strong> — funded out of my pocket, not
+              the book — plus <strong>0.25% of the waymo portfolio</strong> per
+              active month while you&rsquo;re scooting.
+            </p>
+            <a
+              className="hunt-card-cta"
+              href={BIRD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              open bird · claim your first ride <span aria-hidden="true">↗</span>
+            </a>
+            <ol className="hunt-card-steps">
+              <li>tap the link above on the phone you&rsquo;ll ride on — bird&rsquo;s referral only attaches on install, not on a plain app open.</li>
+              <li>unlock a scooter and finish a real ride. the referral credit lands in your bird wallet automatically.</li>
+              <li><a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a> with a receipt + the name you want on the ledger. i venmo / cashapp <strong>$5</strong> and add you to the waymo-book monthly share.</li>
+            </ol>
+            <p className="hunt-card-rules">
+              <em>rules · bird&rsquo;s referral is their standard promo (regions + their t&amp;c apply; see bird.co/terms). my side: $5 cash bonus per unique finder, one-time; 0.25% of the waymo portfolio per active scoot month, settled at each weekly rebalance. good-faith rides only — no self-referrals, no throwaway installs. want to invest more than the referral into the transport-stack book? text me.</em>
+            </p>
+          </div>
         ) : egg.reward === "lost" ? (
           <LostReward />
         ) : egg.reward === "lasso" ? (
@@ -757,9 +788,9 @@ function HuntOverlay({
         ) : (
           <div className="hunt-card-lore">
             <p className="hunt-card-lore-line">
-              no money on this one — yet. two of the seven eggs <em>do</em> pay (up to $50 on
-              kalshi, $20 on waymo — their promo stacked with mine). find those and
-              you claim real bankroll.
+              no money on this one — yet. three of the thirteen eggs <em>do</em> pay (up to $50 on
+              kalshi, $20 on waymo, $5 on bird — their promos stacked with mine).
+              find those and you claim real bankroll.
             </p>
             <p className="hunt-card-lore-hint">
               the ledger of what you&rsquo;ve found lives at{" "}

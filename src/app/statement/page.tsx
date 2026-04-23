@@ -72,7 +72,7 @@ export default function Statement() {
             <li><a href="https://aureliex.com/positions">positions</a><em>the book, live</em></li>
             <li><a href="https://aureliex.com/argument">argument</a><em>the panel, live</em></li>
             <li><a href="https://aureliex.com/let-down">let down</a><em>the essay · pre-mortem</em></li>
-            <li><a href="https://aureliex.com/6969#hunt">the hunt</a><em>eight eggs · two pay</em></li>
+            <li><a href="https://aureliex.com/6969#hunt">the hunt</a><em>thirteen eggs · three pay</em></li>
             <li><Link href="/statement/panel">a personal statement, by panel</Link><em>the longer read</em></li>
           </ul>
         </section>
