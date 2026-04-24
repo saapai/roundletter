@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { headers } from "next/headers";
-import { Cormorant_Garamond, EB_Garamond, Fraunces } from "next/font/google";
+import { Cormorant_Garamond, EB_Garamond, Fraunces, Ms_Madi } from "next/font/google";
 import ReaderMode from "@/components/ReaderMode";
 import TableOfContents from "@/components/TableOfContents";
 import Insignia from "@/components/Insignia";
@@ -32,6 +32,13 @@ const fraunces = Fraunces({
   weight: ["400", "500", "600", "700", "800", "900"],
   style: ["normal", "italic"],
   variable: "--font-fraunces",
+  display: "swap",
+});
+
+const signature = Ms_Madi({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-signature",
   display: "swap",
 });
 
@@ -76,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const bare = pathBare;
 
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${display.variable} ${body.variable} ${fraunces.variable} ${signature.variable}`}>
       <body className="min-h-screen font-body">
         {!bare && (
           <>

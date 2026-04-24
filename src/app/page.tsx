@@ -94,6 +94,10 @@ export default async function HomePage() {
         {/* image column · on desktop, right half · on mobile, second in stack */}
         <div className="cov-img">
           <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
+          {/* signature in the corner — purplish-red oblique, an editor's mark
+              alongside Yoshida's calligraphic signature + hanko in the same
+              corner of the print. */}
+          <span className="cov-mark" aria-hidden="true">aureliex</span>
         </div>
 
         {/* headline · the bet + the live state in two lines */}
