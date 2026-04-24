@@ -15712,9 +15712,9 @@ body.hunt-fired .masthead .wordmark .dot {
   background: linear-gradient(180deg, rgba(10,10,10,0.62), transparent);
 }
 .cov-shade-bot {
-  position: absolute; inset: auto 0 0 0; height: 42%;
+  position: absolute; inset: auto 0 0 0; height: 28%;
   z-index: 1; pointer-events: none;
-  background: linear-gradient(0deg, rgba(10,10,10,0.78), transparent);
+  background: linear-gradient(0deg, rgba(10,10,10,0.62), transparent);
 }
 
 /* ── masthead row in the cover · top-left + top-right ── */
@@ -15730,14 +15730,15 @@ body.hunt-fired .masthead .wordmark .dot {
 }
 .cov-mast-l {
   font-family: var(--font-fraunces), Georgia, serif;
-  font-size: clamp(11px, 1.4vw, 14px);
+  font-size: clamp(13px, 1.8vw, 17px);
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--cov-bone);
-  text-shadow: 0 1px 12px rgba(10, 10, 10, 0.85);
+  text-shadow: 0 1px 14px rgba(10, 10, 10, 0.9);
 }
 .cov-wordmark {
-  font-weight: 700;
+  font-weight: 900;
+  font-size: 1.1em;
   letter-spacing: 0.28em;
   color: var(--cov-bone);
 }

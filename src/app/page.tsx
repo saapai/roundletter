@@ -80,11 +80,9 @@ export default async function HomePage() {
     <main className="home-v3">
       {/* ── THE COVER — full-bleed image, magazine-cover typography ── */}
       <section className="cov" aria-label="the cover">
-        <picture className="cov-img">
-          <source srcSet="/hero/cover.webp" type="image/webp" />
-          <source srcSet="/hero/cover.jpg" type="image/jpeg" />
-          <img src="/hero/cover.svg" alt="aureliex · the wall at sunset" />
-        </picture>
+        <div className="cov-img">
+          <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
+        </div>
 
         {/* readability shades — kept minimal so the image leads */}
         <div className="cov-shade-top" aria-hidden="true" />
@@ -109,8 +107,7 @@ export default async function HomePage() {
             $3,453<span className="cov-arrow">→</span>$100,000
           </p>
           <p className="cov-dek">
-            a public portfolio from $3,453 to $100,000 by 21 june 2026.
-            five agents · one sealed book · every trade in the open.
+            five agents · one sealed book · every trade public until 21 june.
           </p>
         </div>
 
@@ -123,9 +120,9 @@ export default async function HomePage() {
 
       {/* ── FOOTER — one line, hairline, trailer link as opt-in ── */}
       <footer className="home-v3-footer">
-        <span>aureliex · issue #001 · round 0</span>
+        <span>aureliex · issue 03 · round 0</span>
         <span className="home-v3-sep" aria-hidden="true" />
-        <Link href="/archive" className="home-v3-trailer">▶ the trailer</Link>
+        <Link href="/archive#trailer" className="home-v3-trailer">▶ the trailer</Link>
         <Link href="/positions">positions</Link>
         <Link href="/argument">argument</Link>
         <Link href="/green-credit">green credit</Link>

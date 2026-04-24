@@ -7,6 +7,7 @@ import OpenBets from "@/components/OpenBets";
 import ArtPortfolio from "@/components/ArtPortfolio";
 import FavoriteNumber from "@/components/FavoriteNumber";
 import YouTubeCard from "@/components/YouTubeCard";
+import LaunchTrailer from "@/components/LaunchTrailer";
 import {
   WATCH_CODA_VIDEO_ID,
   APPARATUS_VIDEO_ID,
@@ -123,6 +124,12 @@ export default function ArchivePage() {
       </section>
 
       <div className="home-stack">
+
+        {/* THE TRAILER — the 20s cinematic lands first.  routed here
+            from the homepage footer's "▶ the trailer" link.        */}
+        <section id="trailer" aria-label="the trailer">
+          <LaunchTrailer />
+        </section>
 
         {/* coda · the "watch." embed */}
         <section className="home-coda" aria-label="watch">
