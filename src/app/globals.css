@@ -15557,9 +15557,10 @@ body.hunt-fired .masthead .wordmark .dot {
   border-top: 1px solid var(--h2-hair);
   border-bottom: 1px solid var(--h2-hair);
   /* breathing's rule · the ticker is a chapter break, not a footer ·
-     stand-alone band of dark with held silence above + below.        */
-  margin: clamp(8vh, 12vh, 16vh) 0 clamp(8vh, 12vh, 16vh);
-  padding: clamp(1rem, 2vh, 1.5rem) clamp(0.75rem, 3vw, 1.5rem);
+     stand-alone band of dark with held silence above + below.
+     mobile floors smaller so the page doesn't read as padded-out. */
+  margin: clamp(4vh, 8vh, 14vh) 0 clamp(4vh, 8vh, 14vh);
+  padding: clamp(0.85rem, 1.6vh, 1.25rem) clamp(0.75rem, 3vw, 1.5rem);
   background: var(--h2-night);
   display: flex;
   gap: 1.25rem;
@@ -15719,12 +15720,12 @@ body.hunt-fired .masthead .wordmark .dot {
    a hand-written editor's signature laid into the corner of the cover. */
 .cov-mark {
   position: absolute;
-  top: clamp(0.4rem, 1.6vw, 0.9rem);
-  left: clamp(0.75rem, 2.5vw, 1.5rem);
+  top: clamp(0.6rem, 1.8vw, 1rem);
+  left: clamp(1.25rem, 3vw, 1.75rem);
   z-index: 2;
   font-family: var(--font-signature), "Snell Roundhand", "Apple Chancery", cursive;
   font-weight: 400;
-  font-size: clamp(34px, 4.2vw, 56px);
+  font-size: clamp(30px, 3.8vw, 48px);
   line-height: 1;
   color: #9B2A4D;
   letter-spacing: 0;
@@ -15797,14 +15798,16 @@ body.hunt-fired .masthead .wordmark .dot {
 /* ── headline block · text column · the wager is the page's first sentence ── */
 .cov-head {
   grid-area: head;
-  /* generous breathing: 8vh between image and wager (image-as-prelude pause) */
-  padding: clamp(8vh, 10vh, 14vh) clamp(1.25rem, 4vw, 2.5rem) clamp(6vh, 8vh, 10vh);
+  /* mobile: tighter vertical, real horizontal margin so the wager
+     doesn't kiss the edge of the viewport. */
+  padding: clamp(4vh, 6vh, 8vh) clamp(1.75rem, 6vw, 3rem) clamp(3vh, 5vh, 7vh);
   color: var(--cov-bone);
   align-self: center;
   max-width: 720px;
 }
 @media (min-width: 760px) {
   .cov-head {
+    /* desktop: keep the held-pause register from the agent debate */
     padding: clamp(8vh, 12vh, 18vh) clamp(2rem, 5vw, 3.5rem) clamp(8vh, 12vh, 18vh);
   }
 }
@@ -15954,8 +15957,9 @@ body.hunt-fired .masthead .wordmark .dot {
 
 /* ── table of contents · centered, italic, generous space ── */
 .home-v3-footer {
-  /* end-credit register · the TOC arrives after a held silence */
-  padding: clamp(10vh, 14vh, 18vh) clamp(1.5rem, 4vw, 3rem) clamp(8vh, 10vh, 14vh);
+  /* end-credit register · TOC arrives after a held silence ·
+     mobile floors smaller so the page doesn't keep stacking dark. */
+  padding: clamp(5vh, 10vh, 16vh) clamp(1.75rem, 5vw, 3rem) clamp(4vh, 7vh, 12vh);
   border-top: 1px solid var(--cov-hair);
   text-align: center;
 }
