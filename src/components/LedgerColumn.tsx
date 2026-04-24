@@ -20,13 +20,45 @@ type Props = {
   baseline: number;
 };
 
+type Row = {
+  ticker: string;
+  shares: number;
+  price: number | null;
+  value: number;
+  entry: number;
+  delta: number;
+  pct: number;
+  isCash?: boolean;
+};
+
+// Each column is a "building" of windows. 44 rows tall per column ·
+// 11 columns (10 positions + cash) = 484 windows. Dense enough to read
+// as a monolith; sparse enough to let individual tickers read.
+const CELLS = 44;
+
+// Deterministic PRNG keyed on (ticker, i) so lit/unlit texture is stable
+// across renders and doesn't flash between SSR and CSR hydration.
+function seeded(ticker: string, i: number): number {
+  let h = 2166136261 ^ i;
+  for (let k = 0; k < ticker.length; k++) {
+    h = (h ^ ticker.charCodeAt(k)) >>> 0;
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return (h >>> 0) / 2 ** 32;
+}
+
 function fmtMoney(n: number): string {
   return `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
+function fmtAmt(n: number): string {
+  const v = Math.abs(n);
+  return v >= 1000 ? `${(v / 1000).toFixed(2)}k` : v.toFixed(0);
+}
+
 function fmtUpdated(d: Date | null): string {
   if (!d) return "—";
-  return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", second: "2-digit" });
+  return d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 }
 
 export default function LedgerColumn({ holdings, pendingCash, baseline }: Props) {
@@ -70,62 +102,107 @@ export default function LedgerColumn({ holdings, pendingCash, baseline }: Props)
     };
   }, [holdings]);
 
-  const rows = useMemo(() => holdings.map((h) => {
-    const px = prices[h.ticker];
-    const value = px != null ? h.shares * px : h.entry_value;
-    const delta = value - h.entry_value;
-    return { ticker: h.ticker, shares: h.shares, price: px, value, delta };
-  }), [holdings, prices]);
+  const allColumns: Row[] = useMemo(() => {
+    const rows: Row[] = holdings.map((h) => {
+      const px = prices[h.ticker] ?? null;
+      const value = px != null ? h.shares * px : h.entry_value;
+      const delta = value - h.entry_value;
+      const pct = h.entry_value > 0 ? delta / h.entry_value : 0;
+      return { ticker: h.ticker, shares: h.shares, price: px, value, entry: h.entry_value, delta, pct };
+    });
+    if (pendingCash > 0) {
+      rows.push({
+        ticker: "CASH",
+        shares: pendingCash,
+        price: 1,
+        value: pendingCash,
+        entry: pendingCash,
+        delta: 0,
+        pct: 0,
+        isCash: true,
+      });
+    }
+    return rows;
+  }, [holdings, prices, pendingCash]);
 
-  const totalValue = rows.reduce((acc, r) => acc + r.value, 0) + pendingCash;
+  const totalValue = allColumns.reduce((acc, r) => acc + r.value, 0);
   const totalDelta = totalValue - baseline;
-  const up = totalDelta >= 0;
+  const totalUp = totalDelta >= 0;
+  const maxValue = Math.max(1, ...allColumns.map((c) => c.value));
 
   return (
-    <div className="h2-ledger" aria-label="the ledger · live positions">
-      <div className="h2-ledger-head">
+    <div className="h2-tower-wrap" aria-label="the ledger · tower of positions">
+      <div className="h2-tower-eye">
         <span>
-          <span className={`h2-ledger-pulse${live ? "" : " is-off"}`} aria-hidden="true" />
-          the ledger · {rows.length} positions
+          <span className={`h2-tower-pulse${live ? "" : " is-off"}`} aria-hidden="true" />
+          the ledger · {allColumns.length} columns · {CELLS * allColumns.length} windows
         </span>
         <span>{live ? "live" : "paused"}</span>
       </div>
-      <ul className="h2-ledger-list">
-        {rows.map((r) => {
-          const dir = r.delta > 0.005 ? "up" : r.delta < -0.005 ? "down" : "flat";
-          const sign = r.delta > 0 ? "+" : r.delta < 0 ? "−" : "·";
+
+      <div
+        className="h2-tower"
+        style={{ gridTemplateColumns: `repeat(${allColumns.length}, 1fr)` }}
+        role="img"
+        aria-label="portfolio density · one column per holding"
+      >
+        {allColumns.map((c) => {
+          // Waterline: column height proportional to its value relative to the
+          // biggest position. Cells below waterline are lit (warm windows);
+          // cells above are mostly off with rare sparkles.
+          const waterline = Math.max(6, Math.round((c.value / maxValue) * CELLS));
+          const cells = [];
+          for (let i = 0; i < CELLS; i++) {
+            const s = seeded(c.ticker, i);
+            const below = i < waterline;
+            let cls = "h2-cell";
+            if (c.isCash) {
+              cls += below ? (s < 0.55 ? " lit" : " off") : " off";
+            } else if (!below) {
+              cls += s < 0.06 ? " lit" : " off"; // occasional sparkle above the waterline
+            } else if (c.pct > 0.06 && s < 0.22) {
+              cls += " hot"; // strong gainer — brightest windows
+            } else if (c.pct < -0.04 && s < 0.42) {
+              cls += " down"; // rust glow on losers
+            } else if (s < 0.11) {
+              cls += " off"; // organic texture — a few unlit rooms inside the lit mass
+            } else {
+              cls += " lit";
+            }
+            cells.push(<span key={i} className={cls} />);
+          }
           return (
-            <li key={r.ticker} className="h2-ledger-row">
-              <span className="h2-ledger-t">{r.ticker}</span>
-              <span className="h2-ledger-q">
-                {r.shares.toFixed(3)}
-                {r.price != null ? <> × ${r.price.toFixed(2)}</> : null}
-              </span>
-              <span className="h2-ledger-v">{fmtMoney(r.value)}</span>
-              <span className={`h2-ledger-d ${dir}`}>
-                {sign}{fmtMoney(Math.abs(r.delta)).replace("$", "")}
-              </span>
-            </li>
+            <div key={c.ticker} className="h2-tower-col" title={`${c.ticker} · ${fmtMoney(c.value)}`}>
+              {cells}
+            </div>
           );
         })}
-        {pendingCash > 0 ? (
-          <li className="h2-ledger-row">
-            <span className="h2-ledger-t">CASH</span>
-            <span className="h2-ledger-q">SPAXX + pending</span>
-            <span className="h2-ledger-v">{fmtMoney(pendingCash)}</span>
-            <span className="h2-ledger-d flat">·</span>
-          </li>
-        ) : null}
-      </ul>
-      <div className="h2-ledger-foot">
-        <span className="h2-ledger-foot-k">total</span>
-        <span className="h2-ledger-foot-v">{fmtMoney(totalValue)}</span>
-        <span className={`h2-ledger-d ${up ? "up" : "down"}`}>
-          {up ? "+" : "−"}{fmtMoney(Math.abs(totalDelta)).replace("$", "")} since baseline
+      </div>
+
+      <div
+        className="h2-tower-labels"
+        style={{ gridTemplateColumns: `repeat(${allColumns.length}, 1fr)` }}
+        aria-hidden="true"
+      >
+        {allColumns.map((c) => {
+          const dir = c.delta > 0.005 ? "up" : c.delta < -0.005 ? "down" : "flat";
+          return (
+            <div key={c.ticker} className={`h2-tower-lbl ${dir}`}>
+              {c.ticker}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="h2-tower-foot">
+        <span className="h2-tower-foot-k">total</span>
+        <span>{fmtMoney(totalValue)}</span>
+        <span className={`h2-tower-foot-d ${totalUp ? "up" : "down"}`}>
+          {totalUp ? "+" : "−"}${fmtAmt(totalDelta)} since 12 apr
         </span>
       </div>
-      <div className="h2-ledger-updated">
-        {live ? `updated ${fmtUpdated(updated)}` : "waiting on prices…"}
+      <div className="h2-tower-updated">
+        {live ? `lights updated ${fmtUpdated(updated)}` : "waiting on prices…"}
       </div>
     </div>
   );

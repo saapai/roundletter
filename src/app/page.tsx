@@ -10,11 +10,12 @@ import { SONGS, youtubeSearchLink } from "@/lib/song-links";
 import portfolio from "@/data/portfolio.json";
 
 /* ────────────────────────────────────────────────────────────
-   / — aureliex cover, v2 · cercato / midnight-dreamer revamp.
-   one compositional spine (the live ledger, the dense monolith)
-   anchored against a wager poster + a three-line manifesto (the
-   sky). below that: method rule, art contact sheet, single archive
-   door, footer. everything else moved to /archive.
+   / — aureliex cover, v2 · cercato / midnight-dreamer.
+   the cover is one painting: dark night, a tower of illuminated
+   windows (the live ledger), a warm sunset on the horizon with a
+   sun, a silhouette of mountains, the wager written into the sky.
+   below: method, art contact sheet, single archive door, footer.
+   everything else moved to /archive.
    ──────────────────────────────────────────────────────────── */
 
 const EXTERNAL_TOTAL = 50;
@@ -70,11 +71,86 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/* painted sunset sky — mirrors Cercato's warm horizon against a
+   deep-navy night.  simple SVG so it renders instantly and scales
+   cleanly.  rendered behind the wager text with pointer-events off. */
+function SunsetSky() {
+  return (
+    <svg
+      className="h2-sky-svg"
+      viewBox="0 0 400 600"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="h2-sky-grad" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%"  stopColor="#0A0F1A" />
+          <stop offset="38%" stopColor="#1A1230" />
+          <stop offset="62%" stopColor="#3A2640" />
+          <stop offset="82%" stopColor="#C44325" />
+          <stop offset="100%" stopColor="#F5B740" />
+        </linearGradient>
+        <radialGradient id="h2-sun-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"  stopColor="#FFD27A" stopOpacity="1" />
+          <stop offset="55%" stopColor="#F5B740" stopOpacity="0.65" />
+          <stop offset="100%" stopColor="#F5B740" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="h2-water" x1="50%" y1="0%" x2="50%" y2="100%">
+          <stop offset="0%"  stopColor="#0A0F1A" />
+          <stop offset="100%" stopColor="#050810" />
+        </linearGradient>
+      </defs>
+
+      {/* the sky */}
+      <rect width="400" height="600" fill="url(#h2-sky-grad)" />
+
+      {/* sun halo + disc */}
+      <circle cx="300" cy="400" r="120" fill="url(#h2-sun-glow)" />
+      <circle cx="300" cy="400" r="34" fill="#FFD27A" />
+      <circle cx="300" cy="400" r="34" fill="#F5B740" opacity="0.55" />
+
+      {/* the moon — tiny, upper-left */}
+      <circle cx="70" cy="70" r="4" fill="#EDE4D1" opacity="0.85" />
+
+      {/* stars */}
+      <circle cx="40"  cy="110" r="0.9" fill="#EDE4D1" opacity="0.7" />
+      <circle cx="130" cy="40"  r="0.7" fill="#EDE4D1" opacity="0.55" />
+      <circle cx="180" cy="90"  r="0.8" fill="#EDE4D1" opacity="0.5" />
+      <circle cx="230" cy="30"  r="0.7" fill="#EDE4D1" opacity="0.6" />
+      <circle cx="340" cy="60"  r="0.9" fill="#EDE4D1" opacity="0.65" />
+      <circle cx="90"  cy="180" r="0.6" fill="#EDE4D1" opacity="0.45" />
+
+      {/* mountain silhouette — a dark diagonal ridge along the horizon */}
+      <path
+        d="M0 430 L45 395 L95 418 L150 380 L210 410 L270 384 L330 415 L400 395 L400 600 L0 600 Z"
+        fill="#0A0F1A"
+      />
+      {/* foreground ridge — slightly warmer, overlapping */}
+      <path
+        d="M0 470 L60 450 L130 468 L200 445 L280 465 L360 448 L400 460 L400 600 L0 600 Z"
+        fill="#050810"
+      />
+
+      {/* water + sun reflection shimmer */}
+      <rect x="0" y="470" width="400" height="130" fill="url(#h2-water)" />
+      <path
+        d="M290 480 L310 480 L305 600 L295 600 Z"
+        fill="#F5B740"
+        opacity="0.35"
+      />
+      <path
+        d="M296 495 L304 495 L301 600 L299 600 Z"
+        fill="#FFD27A"
+        opacity="0.55"
+      />
+    </svg>
+  );
+}
+
 export default async function HomePage() {
   const lp = await getLivePortfolio();
 
-  // allocation rule widths (same model as the old AllocationBar: 80% owned,
-  // external scaled to its share of the book, 10% art, 10% prediction).
+  // allocation rule widths — 80% owned / external scaled / 10% art / 10% pred
   const current = lp.value;
   const owned = current * 0.8;
   const externalNow = EXTERNAL_TOTAL * (current / EXTERNAL_BOOK_AT_ENTRY);
@@ -87,28 +163,34 @@ export default async function HomePage() {
     <main className="home-v2">
       <Masthead />
 
-      {/* the film — arrival, unchanged. audio stays off by default. */}
       <LaunchTrailer liveValue={lp.value} baseline={lp.baseline} />
 
-      {/* ── the spine + the wager — the centerpiece ─────────────── */}
-      <section className="h2-spine-wager" id="after-hero" aria-label="the wager">
-        <LedgerColumn holdings={HOLDINGS} pendingCash={PENDING_CASH} baseline={lp.baseline} />
+      {/* ── THE PANEL — the tower + the sunset + the wager ────── */}
+      <section className="h2-panel" id="after-hero" aria-label="the cover · one painting">
+        <div className="h2-panel-inner">
+          <LedgerColumn holdings={HOLDINGS} pendingCash={PENDING_CASH} baseline={lp.baseline} />
 
-        <div className="h2-wager">
-          <div className="h2-wager-eye">// the wager · round 0 · live</div>
-          <p className="h2-wager-line">
-            $3,453<span className="h2-wager-arrow">→</span><em>$100,000</em>
-          </p>
-          <div className="h2-wager-date">21 june 2026 · my birthday</div>
-          <div className="h2-manifesto">
-            <p>the counter culture is here.</p>
-            <p>you can&rsquo;t stop it if you tried.</p>
-            <p>the best you can do is watch.</p>
+          <div className="h2-sky">
+            <SunsetSky />
+            <div className="h2-sky-content">
+              <div className="h2-sky-eye">// the wager · round 0 · live</div>
+              <div>
+                <p className="h2-wager-line">
+                  $3,453<span className="h2-wager-arrow">→</span><em>$100,000</em>
+                </p>
+                <div className="h2-wager-date">21 june 2026 · my birthday</div>
+              </div>
+              <div className="h2-manifesto">
+                <p>the counter culture is here.</p>
+                <p>you can&rsquo;t stop it if you tried.</p>
+                <p>the best you can do is watch.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── the method — allocation rule + invest chips + rights ─── */}
+      {/* ── METHOD ── */}
       <section className="h2-method" aria-label="the method">
         <div className="h2-method-eye">// how the stake is split · four ways in</div>
 
@@ -119,10 +201,10 @@ export default async function HomePage() {
           <span><b>prediction</b><span>{pct(pred).toFixed(0)}%</span></span>
         </div>
         <div className="h2-alloc-rule" aria-hidden="true">
-          <span className="h2-alloc-seg h2-alloc-seg-owned" style={{ width: `${pct(owned)}%` }} />
-          <span className="h2-alloc-seg h2-alloc-seg-ext"   style={{ width: `${pct(externalNow)}%` }} />
-          <span className="h2-alloc-seg h2-alloc-seg-art"   style={{ width: `${pct(art)}%` }} />
-          <span className="h2-alloc-seg h2-alloc-seg-pred"  style={{ width: `${pct(pred)}%` }} />
+          <span className="h2-alloc-seg-owned" style={{ width: `${pct(owned)}%` }} />
+          <span className="h2-alloc-seg-ext"   style={{ width: `${pct(externalNow)}%` }} />
+          <span className="h2-alloc-seg-art"   style={{ width: `${pct(art)}%` }} />
+          <span className="h2-alloc-seg-pred"  style={{ width: `${pct(pred)}%` }} />
         </div>
         <div className="h2-alloc-total">
           <span>total stake</span>
@@ -164,16 +246,16 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── the art · contact sheet · six of fourteen ───────────── */}
+      {/* ── ART · CONTACT SHEET ── */}
       <ArtContactSheet />
 
-      {/* ── the archive · single door to everything below the cover ─ */}
+      {/* ── ARCHIVE — single door ── */}
       <section className="h2-archive" aria-label="the archive">
         <Link href="/archive" className="h2-archive-link">the rest of the magazine ↗</Link>
         <span className="h2-archive-sub">coda · bookends · tyler · apparatus · bets · pink reprise</span>
       </section>
 
-      {/* ── footer · soundtrack, contact, hairline ──────────────── */}
+      {/* ── FOOTER ── */}
       <footer className="h2-footer">
         <span>soundtrack</span>
         <a href={youtubeSearchLink(SONGS.a_lot)} target="_blank" rel="noopener noreferrer">a lot</a>
