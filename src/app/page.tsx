@@ -78,17 +78,9 @@ export default async function HomePage() {
 
   return (
     <main className="home-v3">
-      {/* ── THE COVER — full-bleed image, magazine-cover typography ── */}
+      {/* ── THE COVER — grid split: text column + image column ── */}
       <section className="cov" aria-label="the cover">
-        <div className="cov-img">
-          <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
-        </div>
-
-        {/* readability shades — kept minimal so the image leads */}
-        <div className="cov-shade-top" aria-hidden="true" />
-        <div className="cov-shade-bot" aria-hidden="true" />
-
-        {/* top-left: masthead · top-right: archive link */}
+        {/* top · masthead row */}
         <header className="cov-mast">
           <div className="cov-mast-l">
             <span className="cov-wordmark">AURELIEX</span>
@@ -101,7 +93,12 @@ export default async function HomePage() {
           </nav>
         </header>
 
-        {/* bottom-left: the headline — the wager itself */}
+        {/* image column · on desktop, right half · on mobile, second in stack */}
+        <div className="cov-img">
+          <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
+        </div>
+
+        {/* headline block · text column bottom-left */}
         <div className="cov-head">
           <p className="cov-wager">
             $3,453<span className="cov-arrow">→</span>$100,000
@@ -111,7 +108,7 @@ export default async function HomePage() {
           </p>
         </div>
 
-        {/* bottom-right: the caption */}
+        {/* caption · text column final line */}
         <p className="cov-caption"><em>the best you can do is watch.</em></p>
       </section>
 
