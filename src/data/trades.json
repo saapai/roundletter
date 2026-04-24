@@ -14,6 +14,12 @@
     { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "CEG",  "qty": 1.133,   "price": 295.59,   "rationale": "power-for-compute macro bet — nuclear PPAs" },
     { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "RGTI", "qty": 9.806,   "price": 17.03,    "rationale": "superconducting pure-play — architecture diversifier" },
     { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "SGOV", "qty": 1.661,   "price": 100.52,   "rationale": "dry powder for QTUM −30% kill-switch buy" },
-    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "QBTS", "qty": 5.873,   "price": 17.02,    "rationale": "annealing lottery — small architecture diversifier" }
+    { "ts": "2026-04-14T11:49:00-04:00", "round": 0, "action": "BUY",  "ticker": "QBTS", "qty": 5.873,   "price": 17.02,    "rationale": "annealing lottery — small architecture diversifier" },
+    { "ts": "2026-04-24T15:50:00-04:00", "round": 0, "action": "TRIM", "ticker": "IONQ", "qty": 2.000,   "price": 47.36,    "rationale": "rule-based trim — IONQ at 14.54% above pureplay 12% cap. panel consensus 5-of-5 on rule maintenance. does NOT burn a 2026 kill-switch.", "pnl_realized_approx": 7 },
+    { "ts": "2026-04-24T15:50:00-04:00", "round": 0, "action": "BUY",  "ticker": "SGOV", "qty": 0.941,   "price": 100.60,   "rationale": "dry-powder redeployment of IONQ trim proceeds. historian's call: hold for post-catalyst-weakness entry on psych slate if CMPS round-trips 30%+." },
+    { "ts": "2026-04-24T15:50:00-04:00", "round": 0, "action": "PASS", "ticker": "CMPS", "qty": 0,       "price": 9.45,     "rationale": "panel 4-of-5 PASS. rescheduling catalyst priced in: +50% 6mo, +57% last ~2wk, at 92% of 52wk high ($10.21). historian's conditional ceiling ($75 on post-catalyst weakness) NOT met." },
+    { "ts": "2026-04-24T15:50:00-04:00", "round": 0, "action": "PASS", "ticker": "ATAI", "qty": 0,       "price": null,     "rationale": "panel 5-of-5 PASS. holdco discount + Thiel-premium + serial-issuer dilution risk." },
+    { "ts": "2026-04-24T15:50:00-04:00", "round": 0, "action": "PASS", "ticker": "DFTX", "qty": 0,       "price": null,     "rationale": "panel 4-of-5 PASS. LSD is separately scheduled; psilocybin rescheduling doesn't auto-apply. highest relative dilution risk." },
+    { "ts": "2026-04-24T15:50:00-04:00", "round": 0, "action": "PASS", "ticker": "GHRS", "qty": 0,       "price": null,     "rationale": "panel 4-of-5 PASS. novel delivery + novel molecule = double binary; cleanest balance sheet but no edge at current levels." }
   ]
 }

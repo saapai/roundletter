@@ -12,12 +12,12 @@ const HOLDINGS: Array<{ ticker: string; shares: number; entry: number }> = [
   { ticker: "QTUM", shares: 5.584,  entry: 679.74 },
   { ticker: "MSFT", shares: 1.036,  entry: 407.87 },
   { ticker: "GOOG", shares: 1.235,  entry: 407.17 },
-  { ticker: "IONQ", shares: 11.489, entry: 504.71 },
+  { ticker: "IONQ", shares: 9.489,  entry: 416.85 },
   { ticker: "IBM",  shares: 1.553,  entry: 373.33 },
   { ticker: "NVDA", shares: 1.773,  entry: 344.49 },
   { ticker: "CEG",  shares: 1.148,  entry: 339.05 },
   { ticker: "RGTI", shares: 9.938,  entry: 169.50 },
-  { ticker: "SGOV", shares: 1.684,  entry: 169.27 },
+  { ticker: "SGOV", shares: 2.625,  entry: 263.94 },
   { ticker: "QBTS", shares: 5.951,  entry: 101.65 },
 ];
 

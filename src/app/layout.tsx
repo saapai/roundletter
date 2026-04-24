@@ -13,7 +13,11 @@ import ViewsBadge from "@/components/ViewsBadge";
 import FloatingNav from "@/components/FloatingNav";
 
 const PERSONAL_HOSTS: string[] = [];
-const BARE_PATHS = new Set(["/17", "/keys"]);
+// Paths that render WITHOUT the cream site-wide header + footer.
+// The new dark cover at `/` and the archive page carry their own
+// chrome, so stacking the paper masthead above them creates a
+// two-masthead sandwich.  /17 and /keys have always been bare.
+const BARE_PATHS = new Set(["/", "/archive", "/17", "/keys"]);
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
