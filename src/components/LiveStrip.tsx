@@ -81,17 +81,14 @@ export default function LiveStrip({ holdings, pendingCash, baseline }: Props) {
   const totalDelta = totalValue - baseline;
   const totalUp = totalDelta >= 0;
 
+  // hierarch's rule: the cover already shows TOTAL + delta + countdown
+  // in the headline · the strip stops carrying that lead and just
+  // shows the per-position scroll.  ambient telemetry, not chrome.
+  void totalValue; void totalDelta; void totalUp; void updated;
+
   return (
     <section className="h2-strip" aria-label="the book · live">
-      <div className="h2-strip-lead">
-        <span className={`h2-strip-pulse${live ? "" : " is-off"}`} aria-hidden="true" />
-        <span className="h2-strip-k">total</span>
-        <span className="h2-strip-v">{fmtMoney(totalValue)}</span>
-        <span className={`h2-strip-d ${totalUp ? "up" : "down"}`}>
-          {totalUp ? "+" : "−"}${fmtAmt(totalDelta)}
-        </span>
-        <span className="h2-strip-when">{live ? fmtUpdated(updated) : "…"}</span>
-      </div>
+      <span className={`h2-strip-pulse${live ? "" : " is-off"}`} aria-hidden="true" />
       <ul className="h2-strip-list">
         {rows.map((r) => {
           const dir = r.delta > 0.5 ? "up" : r.delta < -0.5 ? "down" : "flat";

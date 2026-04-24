@@ -15556,7 +15556,10 @@ body.hunt-fired .masthead .wordmark .dot {
   position: relative;
   border-top: 1px solid var(--h2-hair);
   border-bottom: 1px solid var(--h2-hair);
-  padding: 0.65rem clamp(0.75rem, 3vw, 1.5rem);
+  /* breathing's rule · the ticker is a chapter break, not a footer ·
+     stand-alone band of dark with held silence above + below.        */
+  margin: clamp(8vh, 12vh, 16vh) 0 clamp(8vh, 12vh, 16vh);
+  padding: clamp(1rem, 2vh, 1.5rem) clamp(0.75rem, 3vw, 1.5rem);
   background: var(--h2-night);
   display: flex;
   gap: 1.25rem;
@@ -15566,6 +15569,10 @@ body.hunt-fired .masthead .wordmark .dot {
   white-space: nowrap;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+}
+.h2-strip > .h2-strip-pulse {
+  flex-shrink: 0;
+  margin-right: 0.4rem;
 }
 .h2-strip::-webkit-scrollbar { display: none; }
 .h2-strip-lead {
@@ -15679,10 +15686,8 @@ body.hunt-fired .masthead .wordmark .dot {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas:
-    "mast"
     "img"
-    "head"
-    "caption";
+    "head";
   min-height: 100vh;
   background: var(--cov-ink);
   overflow: hidden;
@@ -15690,11 +15695,10 @@ body.hunt-fired .masthead .wordmark .dot {
 @media (min-width: 760px) {
   .cov {
     grid-template-columns: 1fr minmax(auto, 46%);
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr;
     grid-template-areas:
-      "mast    img"
-      "head    img"
-      "foot    img";
+      "head    img";
+    align-items: stretch;
   }
 }
 
@@ -15790,13 +15794,19 @@ body.hunt-fired .masthead .wordmark .dot {
 }
 .cov-mast-link:hover { border-color: var(--cov-amber); color: var(--cov-amber); opacity: 1; }
 
-/* ── headline block · text-column bottom, grid row 2 ── */
+/* ── headline block · text column · the wager is the page's first sentence ── */
 .cov-head {
   grid-area: head;
-  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 2.5rem) clamp(0.5rem, 2vw, 1rem);
+  /* generous breathing: 8vh between image and wager (image-as-prelude pause) */
+  padding: clamp(8vh, 10vh, 14vh) clamp(1.25rem, 4vw, 2.5rem) clamp(6vh, 8vh, 10vh);
   color: var(--cov-bone);
-  align-self: end;
+  align-self: center;
   max-width: 720px;
+}
+@media (min-width: 760px) {
+  .cov-head {
+    padding: clamp(8vh, 12vh, 18vh) clamp(2rem, 5vw, 3.5rem) clamp(8vh, 12vh, 18vh);
+  }
 }
 .cov-wager {
   font-family: var(--font-fraunces), "Times New Roman", Georgia, serif;
@@ -15815,8 +15825,13 @@ body.hunt-fired .masthead .wordmark .dot {
   display: inline-block;
   color: var(--cov-rust);
   font-style: normal;
-  padding: 0 0.22em;
-  font-weight: 700;
+  padding: 0 0.28em;
+  font-weight: 600;
+  /* hierarch's rule · the arrow is a preposition, not a number ·
+     shrink relative to the numerals, dim slightly, recede.        */
+  font-size: 0.55em;
+  vertical-align: 0.18em;
+  opacity: 0.78;
 }
 .cov-dek {
   margin: 1.1rem 0 0;
@@ -15830,9 +15845,11 @@ body.hunt-fired .masthead .wordmark .dot {
   max-width: 32em;
 }
 
-/* live-state line beneath the wager · now + countdown */
+/* live-state line beneath the wager · now + countdown
+   amber is reserved for the live ticker gains only · this line drops
+   to bone with one strong + one dim register · hierarch's rule.    */
 .cov-progress {
-  margin: 1rem 0 0;
+  margin: clamp(1rem, 2vh, 1.5rem) 0 0;
   display: flex;
   align-items: baseline;
   gap: 0.85rem;
@@ -15844,12 +15861,13 @@ body.hunt-fired .masthead .wordmark .dot {
   font-variant-numeric: tabular-nums;
 }
 .cov-progress-now {
-  color: var(--cov-amber);
+  color: var(--cov-bone);
   font-weight: 500;
+  opacity: 0.85;
 }
 .cov-progress-meta {
   color: var(--cov-bone);
-  opacity: 0.6;
+  opacity: 0.5;
   padding-left: 0.85rem;
   border-left: 1px solid var(--cov-hair);
 }
@@ -15936,7 +15954,8 @@ body.hunt-fired .masthead .wordmark .dot {
 
 /* ── table of contents · centered, italic, generous space ── */
 .home-v3-footer {
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
+  /* end-credit register · the TOC arrives after a held silence */
+  padding: clamp(10vh, 14vh, 18vh) clamp(1.5rem, 4vw, 3rem) clamp(8vh, 10vh, 14vh);
   border-top: 1px solid var(--cov-hair);
   text-align: center;
 }

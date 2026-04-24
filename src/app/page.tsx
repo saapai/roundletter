@@ -78,29 +78,20 @@ export default async function HomePage() {
 
   return (
     <main className="home-v3">
-      {/* ── THE COVER — grid split: text column + image column ── */}
+      {/* ── THE COVER · stripped to four elements
+             · the painting (with cursive signature in the corner = wordmark)
+             · the wager headline
+             · the live progress sub-line
+             everything else moved off the cover.                           */}
       <section className="cov" aria-label="the cover">
-        {/* top · masthead row */}
-        <header className="cov-mast">
-          <div className="cov-mast-l">
-            <span className="cov-wordmark">AURELIEX</span>
-            <span className="cov-issue">· T−{daysToBirthday} to 21 jun</span>
-          </div>
-          <nav className="cov-mast-r">
-            <Link href="/archive" className="cov-mast-link">archive ↗</Link>
-          </nav>
-        </header>
-
-        {/* image column · on desktop, right half · on mobile, second in stack */}
         <div className="cov-img">
           <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
-          {/* signature in the corner — purplish-red oblique, an editor's mark
-              alongside Yoshida's calligraphic signature + hanko in the same
-              corner of the print. */}
+          {/* the cursive signature is the only wordmark — top-left of the
+              painting, opposite Yoshida's bottom-right calligraphic signature
+              and hanko.  no separate masthead bar. */}
           <span className="cov-mark" aria-hidden="true">aureliex</span>
         </div>
 
-        {/* headline · the bet + the live state in two lines */}
         <div className="cov-head">
           <p className="cov-wager">
             $3,453<span className="cov-arrow">→</span>$100,000
@@ -110,9 +101,6 @@ export default async function HomePage() {
             <span className="cov-progress-meta">T−{daysToBirthday} days</span>
           </p>
         </div>
-
-        {/* one-line caption */}
-        <p className="cov-caption"><em>the best you can do is watch.</em></p>
       </section>
 
       {/* ── LIVE STRIP — one narrow row of numbers below the cover ── */}
