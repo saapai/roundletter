@@ -84,9 +84,7 @@ export default async function HomePage() {
         <header className="cov-mast">
           <div className="cov-mast-l">
             <span className="cov-wordmark">AURELIEX</span>
-            <span className="cov-issue">
-              · issue 03 · day {dayOfRound}/{totalDays} · T−{daysToBirthday}
-            </span>
+            <span className="cov-issue">· T−{daysToBirthday} to 21 jun</span>
           </div>
           <nav className="cov-mast-r">
             <Link href="/archive" className="cov-mast-link">archive ↗</Link>
@@ -98,51 +96,37 @@ export default async function HomePage() {
           <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
         </div>
 
-        {/* headline block · text column bottom-left */}
+        {/* headline · the bet + the live state in two lines */}
         <div className="cov-head">
           <p className="cov-wager">
             $3,453<span className="cov-arrow">→</span>$100,000
           </p>
-          <p className="cov-dek">
-            five agents · one sealed book · every trade public until 21 june.
+          <p className="cov-progress">
+            <span className="cov-progress-now">{fmtMoney(lp.value)} now</span>
+            <span className="cov-progress-meta">T−{daysToBirthday} days</span>
           </p>
         </div>
 
-        {/* caption + signature · text column final block */}
-        <div className="cov-foot">
-          <p className="cov-caption"><em>the best you can do is watch.</em></p>
-          <div className="cov-sig" aria-label="signed issue">
-            <svg className="cov-sig-chop" viewBox="0 0 60 60" aria-hidden="true">
-              <rect x="1" y="1" width="58" height="58" rx="3" fill="#C44325" />
-              <rect x="1" y="1" width="58" height="58" rx="3" fill="none" stroke="#F2EFE8" strokeOpacity="0.18" strokeWidth="1" />
-              <text x="30" y="42" fontFamily="Georgia, serif" fontSize="32" fontWeight="900" fontStyle="italic" textAnchor="middle" fill="#F2EFE8" letterSpacing="-1">a</text>
-            </svg>
-            <div className="cov-sig-line">
-              <div className="cov-sig-hair" aria-hidden="true" />
-              <span className="cov-sig-role">editor</span>
-              <span className="cov-sig-name">saapai — aureliex</span>
-              <span className="cov-sig-date">24 apr 2026 · round 0</span>
-            </div>
-          </div>
-        </div>
+        {/* one-line caption */}
+        <p className="cov-caption"><em>the best you can do is watch.</em></p>
       </section>
 
       {/* ── LIVE STRIP — one narrow row of numbers below the cover ── */}
       <LiveStrip holdings={HOLDINGS} pendingCash={PENDING_CASH} baseline={lp.baseline} />
 
-      {/* ── FOOTER — one line, hairline, trailer link as opt-in ── */}
+      {/* ── FOOTER — table of contents · centered, generous, italic ── */}
       <footer className="home-v3-footer">
-        <span>aureliex · issue 03 · round 0</span>
-        <span className="home-v3-sep" aria-hidden="true" />
-        <Link href="/archive#trailer" className="home-v3-trailer">▶ the trailer</Link>
-        <Link href="/positions">positions</Link>
-        <Link href="/argument">argument</Link>
-        <Link href="/green-credit">green credit</Link>
-        <Link href="/archive">archive</Link>
+        <nav className="home-v3-nav" aria-label="contents">
+          <Link href="/archive#trailer">trailer</Link>
+          <Link href="/positions">positions</Link>
+          <Link href="/argument">argument</Link>
+          <Link href="/green-credit">green credit</Link>
+          <Link href="/archive">archive</Link>
+        </nav>
+        <p className="home-v3-credit-in">
+          cover · yoshida hiroshi · cleveland museum of art · cc0
+        </p>
       </footer>
-      <div className="home-v3-credit">
-        cover · yoshida hiroshi · <em>twelve scenes of tokyo: kagurazaka street after a night rain</em>, after 1929 · cleveland museum of art · bequest of john bonebrake · CC0
-      </div>
     </main>
   );
 }

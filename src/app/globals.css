@@ -15682,7 +15682,7 @@ body.hunt-fired .masthead .wordmark .dot {
     "mast"
     "img"
     "head"
-    "foot";
+    "caption";
   min-height: 100vh;
   background: var(--cov-ink);
   overflow: hidden;
@@ -15809,6 +15809,30 @@ body.hunt-fired .masthead .wordmark .dot {
   max-width: 32em;
 }
 
+/* live-state line beneath the wager · now + countdown */
+.cov-progress {
+  margin: 1rem 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: clamp(11px, 1.25vw, 14px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.cov-progress-now {
+  color: var(--cov-amber);
+  font-weight: 500;
+}
+.cov-progress-meta {
+  color: var(--cov-bone);
+  opacity: 0.6;
+  padding-left: 0.85rem;
+  border-left: 1px solid var(--cov-hair);
+}
+
 /* ── foot · caption + signature, grid row 3 ── */
 .cov-foot {
   grid-area: foot;
@@ -15889,37 +15913,46 @@ body.hunt-fired .masthead .wordmark .dot {
   .cov-caption { padding-bottom: clamp(1.5rem, 5vh, 2.5rem); }
 }
 
-/* ── footer — hairline, single row, opt-in trailer link ── */
+/* ── table of contents · centered, italic, generous space ── */
 .home-v3-footer {
-  padding: 1.25rem clamp(1rem, 4vw, 2.5rem) 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
   border-top: 1px solid var(--cov-hair);
+  text-align: center;
+}
+.home-v3-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem 1.5rem;
+  justify-content: center;
   align-items: baseline;
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: lowercase;
-  color: rgba(242, 239, 232, 0.56);
+  gap: clamp(1.5rem, 3.5vw, 3rem);
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(15px, 1.7vw, 19px);
+  font-weight: 400;
+  letter-spacing: -0.005em;
 }
-.home-v3-footer a {
-  color: var(--cov-amber);
+.home-v3-nav a {
+  color: var(--cov-bone);
+  opacity: 0.6;
   text-decoration: none;
-  border-bottom: 1px dashed transparent;
-  padding-bottom: 1px;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 3px;
+  transition: opacity 200ms ease, color 200ms ease, border-color 200ms ease;
 }
-.home-v3-footer a:hover { border-color: var(--cov-amber); }
-.home-v3-footer .home-v3-trailer { color: var(--cov-bone); }
-.home-v3-footer .home-v3-trailer:hover { color: var(--cov-amber); border-color: var(--cov-amber); }
-.home-v3-sep {
-  flex: 1 1 0;
-  height: 1px;
-  background: var(--cov-hair);
-  align-self: center;
-  min-width: 20px;
+.home-v3-nav a:hover {
+  opacity: 1;
+  color: var(--cov-amber);
+  border-color: var(--cov-amber);
+}
+.home-v3-credit-in {
+  margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+  max-width: 50em;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: rgba(242, 239, 232, 0.3);
+  font-style: italic;
 }
 
 /* cover credit — tiny mono attribution below the footer */
