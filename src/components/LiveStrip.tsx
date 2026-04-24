@@ -86,31 +86,40 @@ export default function LiveStrip({ holdings, pendingCash, baseline }: Props) {
   // shows the per-position scroll.  ambient telemetry, not chrome.
   void totalValue; void totalDelta; void totalUp; void updated;
 
+  // Render the items twice in sequence so the CSS marquee animation
+  // (translateX 0 → -50%) loops seamlessly without a visible jump back.
+  const items = (
+    <>
+      {rows.map((r) => {
+        const dir = r.delta > 0.5 ? "up" : r.delta < -0.5 ? "down" : "flat";
+        const sign = r.delta > 0 ? "+" : r.delta < 0 ? "−" : "·";
+        return (
+          <li key={r.ticker} className={`h2-strip-item ${dir}`}>
+            <span className="h2-strip-t">{r.ticker}</span>
+            <span className="h2-strip-val">${Math.round(r.value).toLocaleString("en-US")}</span>
+            <span className="h2-strip-pct">
+              {sign}{Math.abs(r.pct * 100).toFixed(1)}%
+            </span>
+          </li>
+        );
+      })}
+      {pendingCash > 0 ? (
+        <li className="h2-strip-item flat">
+          <span className="h2-strip-t">CASH</span>
+          <span className="h2-strip-val">${Math.round(pendingCash).toLocaleString("en-US")}</span>
+          <span className="h2-strip-pct">·</span>
+        </li>
+      ) : null}
+    </>
+  );
+
   return (
     <section className="h2-strip" aria-label="the book · live">
       <span className={`h2-strip-pulse${live ? "" : " is-off"}`} aria-hidden="true" />
-      <ul className="h2-strip-list">
-        {rows.map((r) => {
-          const dir = r.delta > 0.5 ? "up" : r.delta < -0.5 ? "down" : "flat";
-          const sign = r.delta > 0 ? "+" : r.delta < 0 ? "−" : "·";
-          return (
-            <li key={r.ticker} className={`h2-strip-item ${dir}`}>
-              <span className="h2-strip-t">{r.ticker}</span>
-              <span className="h2-strip-val">${Math.round(r.value).toLocaleString("en-US")}</span>
-              <span className="h2-strip-pct">
-                {sign}{Math.abs(r.pct * 100).toFixed(1)}%
-              </span>
-            </li>
-          );
-        })}
-        {pendingCash > 0 ? (
-          <li className="h2-strip-item flat">
-            <span className="h2-strip-t">CASH</span>
-            <span className="h2-strip-val">${Math.round(pendingCash).toLocaleString("en-US")}</span>
-            <span className="h2-strip-pct">·</span>
-          </li>
-        ) : null}
-      </ul>
+      <div className="h2-strip-track" aria-live="off">
+        <ul className="h2-strip-list" aria-hidden="false">{items}</ul>
+        <ul className="h2-strip-list" aria-hidden="true">{items}</ul>
+      </div>
     </section>
   );
 }

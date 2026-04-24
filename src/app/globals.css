@@ -15556,26 +15556,59 @@ body.hunt-fired .masthead .wordmark .dot {
   position: relative;
   border-top: 1px solid var(--h2-hair);
   border-bottom: 1px solid var(--h2-hair);
-  /* breathing's rule · the ticker is a chapter break, not a footer ·
-     stand-alone band of dark with held silence above + below.
-     mobile floors smaller so the page doesn't read as padded-out. */
-  margin: clamp(4vh, 8vh, 14vh) 0 clamp(4vh, 8vh, 14vh);
-  padding: clamp(0.85rem, 1.6vh, 1.25rem) clamp(0.75rem, 3vw, 1.5rem);
+  /* tight margins · the ticker is a horizontal seam, not a chapter break */
+  margin: clamp(1.5vh, 3vh, 6vh) 0 clamp(1.5vh, 3vh, 6vh);
+  padding: clamp(0.7rem, 1.4vh, 1rem) clamp(0.75rem, 3vw, 1.5rem);
   background: var(--h2-night);
   display: flex;
-  gap: 1.25rem;
-  align-items: baseline;
-  overflow-x: auto;
-  overflow-y: hidden;
+  gap: 0.85rem;
+  align-items: center;
+  overflow: hidden;
   white-space: nowrap;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
 }
 .h2-strip > .h2-strip-pulse {
   flex-shrink: 0;
-  margin-right: 0.4rem;
+  margin-right: 0.2rem;
+  position: relative;
+  z-index: 2;
 }
-.h2-strip::-webkit-scrollbar { display: none; }
+
+/* marquee track · two identical lists in a row, animation translates -100%
+   to wrap seamlessly. mask softens the edges so items fade in/out instead
+   of clipping. pauses on hover so a reader can pin a number. */
+.h2-strip-track {
+  display: flex;
+  gap: 1.25rem;
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+}
+.h2-strip-track .h2-strip-list {
+  display: inline-flex;
+  gap: 1.25rem;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0 0.6rem 0 0;
+  list-style: none;
+  animation: h2-strip-marquee 42s linear infinite;
+  will-change: transform;
+}
+.h2-strip:hover .h2-strip-track .h2-strip-list,
+.h2-strip:focus-within .h2-strip-track .h2-strip-list {
+  animation-play-state: paused;
+}
+@keyframes h2-strip-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .h2-strip-track .h2-strip-list { animation: none; transform: none; }
+  .h2-strip-track { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .h2-strip-track::-webkit-scrollbar { display: none; }
+}
 .h2-strip-lead {
   display: inline-flex;
   align-items: baseline;
@@ -15798,16 +15831,17 @@ body.hunt-fired .masthead .wordmark .dot {
 /* ── headline block · text column · the wager is the page's first sentence ── */
 .cov-head {
   grid-area: head;
-  /* mobile: tighter vertical, real horizontal margin so the wager
-     doesn't kiss the edge of the viewport. */
-  padding: clamp(4vh, 6vh, 8vh) clamp(1.75rem, 6vw, 3rem) clamp(3vh, 5vh, 7vh);
+  /* mobile: tight vertical (page stacks, every vh is a tax) ·
+     real horizontal margin so the wager doesn't kiss the edge.   */
+  padding: clamp(2vh, 3vh, 5vh) clamp(1.75rem, 6vw, 3rem) clamp(2vh, 3vh, 5vh);
   color: var(--cov-bone);
   align-self: center;
   max-width: 720px;
 }
 @media (min-width: 760px) {
   .cov-head {
-    /* desktop: keep the held-pause register from the agent debate */
+    /* desktop: held-pause register stays — side-by-side layout
+       absorbs the breathing room horizontally, not vertically. */
     padding: clamp(8vh, 12vh, 18vh) clamp(2rem, 5vw, 3.5rem) clamp(8vh, 12vh, 18vh);
   }
 }
@@ -15852,7 +15886,7 @@ body.hunt-fired .masthead .wordmark .dot {
    amber is reserved for the live ticker gains only · this line drops
    to bone with one strong + one dim register · hierarch's rule.    */
 .cov-progress {
-  margin: clamp(1rem, 2vh, 1.5rem) 0 0;
+  margin: clamp(0.65rem, 1.4vh, 1.25rem) 0 0;
   display: flex;
   align-items: baseline;
   gap: 0.85rem;
@@ -15957,9 +15991,9 @@ body.hunt-fired .masthead .wordmark .dot {
 
 /* ── table of contents · centered, italic, generous space ── */
 .home-v3-footer {
-  /* end-credit register · TOC arrives after a held silence ·
-     mobile floors smaller so the page doesn't keep stacking dark. */
-  padding: clamp(5vh, 10vh, 16vh) clamp(1.75rem, 5vw, 3rem) clamp(4vh, 7vh, 12vh);
+  /* desktop end-credit register · mobile compact (vertical taxes
+     every vh on a stacking layout). */
+  padding: clamp(3vh, 8vh, 14vh) clamp(1.75rem, 5vw, 3rem) clamp(2.5vh, 6vh, 12vh);
   border-top: 1px solid var(--cov-hair);
   text-align: center;
 }
