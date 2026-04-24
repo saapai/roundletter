@@ -15652,3 +15652,242 @@ body.hunt-fired .masthead .wordmark .dot {
 .h2-strip-item.up   .h2-strip-pct { color: var(--h2-glow); }
 .h2-strip-item.down .h2-strip-pct { color: var(--h2-rust); }
 .h2-strip-item.flat .h2-strip-pct { color: var(--h2-muted); }
+
+/* ═══════════════════════════════════════════════════════════════
+   home v3 · editorial magazine-cover · direction A
+   one full-bleed image · one confident headline · corners for
+   metadata · everything else off the cover.
+   ═══════════════════════════════════════════════════════════════ */
+.home-v3 {
+  --cov-bone: #F2EFE8;      /* warm off-white · body over image */
+  --cov-ink: #0A0A0A;       /* near-black · on light ground */
+  --cov-rust: #C44325;      /* signal accent · arrow + emphasis */
+  --cov-amber: #F5B740;     /* warm pull, used sparingly */
+  --cov-hair: rgba(242, 239, 232, 0.18);
+  background: var(--cov-ink);
+  color: var(--cov-bone);
+  min-height: 100vh;
+  font-family: var(--font-body), Georgia, serif;
+}
+
+/* ── cover section ── */
+.cov {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  min-height: 88vh;
+  max-height: 100vh;
+  overflow: hidden;
+  background: var(--cov-ink);
+}
+.cov-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 50%, #1a1430, #050810 70%);
+}
+.cov-img img {
+  display: block;
+  /* the woodblock is portrait 1:1.53 — contain so it isn't cropped.
+     letterbox around it shows the deep-night gradient and acts as
+     the field for the headline + caption.                           */
+  max-width: 94%;
+  max-height: 94%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(242, 239, 232, 0.04);
+}
+/* hairline gradients at top + bottom so corner type remains legible
+   against any image — kept narrow (15% each) so the image dominates */
+.cov-shade-top {
+  position: absolute; inset: 0 0 auto 0; height: 20%;
+  z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(10,10,10,0.62), transparent);
+}
+.cov-shade-bot {
+  position: absolute; inset: auto 0 0 0; height: 42%;
+  z-index: 1; pointer-events: none;
+  background: linear-gradient(0deg, rgba(10,10,10,0.78), transparent);
+}
+
+/* ── masthead row in the cover · top-left + top-right ── */
+.cov-mast {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: clamp(1rem, 3vw, 2rem) clamp(1.25rem, 4vw, 2.5rem);
+  gap: 1rem;
+}
+.cov-mast-l {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-size: clamp(11px, 1.4vw, 14px);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cov-bone);
+  text-shadow: 0 1px 12px rgba(10, 10, 10, 0.85);
+}
+.cov-wordmark {
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: var(--cov-bone);
+}
+.cov-issue {
+  margin-left: 0.6rem;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cov-bone);
+  opacity: 0.86;
+}
+.cov-mast-r { display: flex; gap: 1rem; align-items: baseline; }
+.cov-mast-link {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: clamp(10px, 1.1vw, 12px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cov-bone);
+  text-decoration: none;
+  border-bottom: 1px solid var(--cov-hair);
+  padding-bottom: 2px;
+  text-shadow: 0 1px 12px rgba(10, 10, 10, 0.85);
+}
+.cov-mast-link:hover { border-color: var(--cov-amber); color: var(--cov-amber); }
+
+/* ── headline block · bottom-left · the wager ── */
+.cov-head {
+  position: absolute;
+  left: clamp(1.25rem, 4vw, 2.5rem);
+  bottom: clamp(1.75rem, 6vh, 4rem);
+  right: clamp(1.25rem, 30vw, 20rem);
+  z-index: 3;
+  color: var(--cov-bone);
+  max-width: 16em;
+}
+.cov-wager {
+  font-family: var(--font-fraunces), "Times New Roman", Georgia, serif;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(2.6rem, 11vw, 9rem);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  margin: 0;
+  color: var(--cov-bone);
+  text-shadow: 0 4px 36px rgba(10, 10, 10, 0.7);
+  font-variant-numeric: oldstyle-nums tabular-nums;
+  font-feature-settings: "onum" 1, "tnum" 1, "ss01" 1;
+  font-optical-sizing: auto;
+}
+.cov-arrow {
+  display: inline-block;
+  color: var(--cov-rust);
+  font-style: normal;
+  padding: 0 0.24em;
+  font-weight: 700;
+}
+.cov-dek {
+  margin: 1rem 0 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(13px, 1.6vw, 16px);
+  line-height: 1.45;
+  color: var(--cov-bone);
+  opacity: 0.92;
+  text-shadow: 0 1px 18px rgba(10, 10, 10, 0.8);
+  max-width: 28em;
+}
+
+/* ── caption bottom-right ── */
+.cov-caption {
+  position: absolute;
+  right: clamp(1.25rem, 4vw, 2.5rem);
+  bottom: clamp(1.75rem, 5vh, 3rem);
+  z-index: 3;
+  margin: 0;
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(14px, 1.8vw, 18px);
+  color: var(--cov-amber);
+  text-shadow: 0 1px 16px rgba(10, 10, 10, 0.88);
+  max-width: 16em;
+  text-align: right;
+}
+.cov-caption em { font-style: italic; }
+
+/* narrow viewports: caption below headline, full-bleed dek, stack
+   top corners vertically so AURELIEX doesn't get clipped */
+@media (max-width: 640px) {
+  .cov-mast {
+    flex-direction: column; align-items: flex-start;
+    padding-top: clamp(1rem, 4vw, 1.5rem);
+  }
+  .cov-mast-r { align-self: flex-end; margin-top: 0.4rem; }
+  .cov-head {
+    right: clamp(1.25rem, 4vw, 2.5rem);
+    max-width: none;
+  }
+  .cov-caption {
+    position: static;
+    padding: 0 clamp(1.25rem, 4vw, 2.5rem) clamp(1.25rem, 5vh, 2.5rem);
+    text-align: left;
+  }
+}
+
+/* ── footer — hairline, single row, opt-in trailer link ── */
+.home-v3-footer {
+  padding: 1.25rem clamp(1rem, 4vw, 2.5rem) 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  border-top: 1px solid var(--cov-hair);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: baseline;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: rgba(242, 239, 232, 0.56);
+}
+.home-v3-footer a {
+  color: var(--cov-amber);
+  text-decoration: none;
+  border-bottom: 1px dashed transparent;
+  padding-bottom: 1px;
+}
+.home-v3-footer a:hover { border-color: var(--cov-amber); }
+.home-v3-footer .home-v3-trailer { color: var(--cov-bone); }
+.home-v3-footer .home-v3-trailer:hover { color: var(--cov-amber); border-color: var(--cov-amber); }
+.home-v3-sep {
+  flex: 1 1 0;
+  height: 1px;
+  background: var(--cov-hair);
+  align-self: center;
+  min-width: 20px;
+}
+
+/* cover credit — tiny mono attribution below the footer */
+.home-v3-credit {
+  padding: 0.5rem clamp(1rem, 4vw, 2.5rem) 1.75rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: rgba(242, 239, 232, 0.30);
+  text-align: center;
+  line-height: 1.5;
+}
+.home-v3-credit em { font-style: italic; color: rgba(242, 239, 232, 0.42); }
