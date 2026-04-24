@@ -108,8 +108,23 @@ export default async function HomePage() {
           </p>
         </div>
 
-        {/* caption · text column final line */}
-        <p className="cov-caption"><em>the best you can do is watch.</em></p>
+        {/* caption + signature · text column final block */}
+        <div className="cov-foot">
+          <p className="cov-caption"><em>the best you can do is watch.</em></p>
+          <div className="cov-sig" aria-label="signed issue">
+            <svg className="cov-sig-chop" viewBox="0 0 60 60" aria-hidden="true">
+              <rect x="1" y="1" width="58" height="58" rx="3" fill="#C44325" />
+              <rect x="1" y="1" width="58" height="58" rx="3" fill="none" stroke="#F2EFE8" strokeOpacity="0.18" strokeWidth="1" />
+              <text x="30" y="42" fontFamily="Georgia, serif" fontSize="32" fontWeight="900" fontStyle="italic" textAnchor="middle" fill="#F2EFE8" letterSpacing="-1">a</text>
+            </svg>
+            <div className="cov-sig-line">
+              <div className="cov-sig-hair" aria-hidden="true" />
+              <span className="cov-sig-role">editor</span>
+              <span className="cov-sig-name">saapai — aureliex</span>
+              <span className="cov-sig-date">24 apr 2026 · round 0</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── LIVE STRIP — one narrow row of numbers below the cover ── */}

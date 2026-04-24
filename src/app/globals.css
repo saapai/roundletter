@@ -15682,19 +15682,19 @@ body.hunt-fired .masthead .wordmark .dot {
     "mast"
     "img"
     "head"
-    "caption";
+    "foot";
   min-height: 100vh;
   background: var(--cov-ink);
   overflow: hidden;
 }
-@media (min-width: 900px) {
+@media (min-width: 760px) {
   .cov {
     grid-template-columns: 1fr minmax(auto, 46%);
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
       "mast    img"
       "head    img"
-      "caption img";
+      "foot    img";
   }
 }
 
@@ -15708,7 +15708,7 @@ body.hunt-fired .masthead .wordmark .dot {
   min-height: 46vh;
   overflow: hidden;
 }
-@media (min-width: 900px) {
+@media (min-width: 760px) {
   .cov-img { min-height: 100vh; }
 }
 .cov-img img {
@@ -15809,11 +15809,16 @@ body.hunt-fired .masthead .wordmark .dot {
   max-width: 32em;
 }
 
-/* ── caption · text-column final line, grid row 3 ── */
-.cov-caption {
-  grid-area: caption;
-  margin: 0;
+/* ── foot · caption + signature, grid row 3 ── */
+.cov-foot {
+  grid-area: foot;
   padding: 0 clamp(1.25rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+}
+.cov-caption {
+  margin: 0;
   font-family: var(--font-fraunces), Georgia, serif;
   font-style: italic;
   font-size: clamp(14px, 1.6vw, 18px);
@@ -15822,6 +15827,54 @@ body.hunt-fired .masthead .wordmark .dot {
   text-align: left;
 }
 .cov-caption em { font-style: italic; }
+
+/* signed-issue block · red hanko chop + editorial sign-off line */
+.cov-sig {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(0.75rem, 1.6vw, 1.25rem);
+  max-width: 26em;
+}
+.cov-sig-chop {
+  flex-shrink: 0;
+  width: clamp(40px, 4.5vw, 52px);
+  height: clamp(40px, 4.5vw, 52px);
+  filter: drop-shadow(0 2px 6px rgba(196, 67, 37, 0.35));
+}
+.cov-sig-line {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  padding-left: clamp(0.5rem, 1.4vw, 1rem);
+  border-left: 1px solid var(--cov-hair);
+}
+.cov-sig-role {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--cov-bone);
+  opacity: 0.55;
+}
+.cov-sig-name {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: var(--cov-bone);
+  letter-spacing: -0.005em;
+}
+.cov-sig-date {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cov-bone);
+  opacity: 0.45;
+}
+.cov-sig-hair { display: none; }
 
 /* narrow viewports: masthead row stacks so AURELIEX + issue don't wrap ugly */
 @media (max-width: 640px) {
