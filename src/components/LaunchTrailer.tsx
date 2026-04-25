@@ -18,8 +18,8 @@ type Props = {
  * memory — the trailer is the arrival, every visit.
  *
  *   scene 0  brand          — silence · magazine-cover (issue #001)
- *   scene 1  the hook       — a lot · "$3,453.83 / a lot"            (21 Savage)
- *   scene 2  punchline build— a lot continues · "name is bullshit"
+ *   scene 1  the hook       — circo loco · "$3,453 / 100k"            (Drake + 21 Savage)
+ *   scene 2  punchline build— circo loco continues · "name is bullshit"
  *   scene 3  the drop       — 2s metro clip · "fucking beautiful."    (Metro + Future)
  *   scene 4  the message    — silence · "aureliex leaves a message"
  *   scene 5  outro          — silence · "watch." · poster, stays put
@@ -169,7 +169,7 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
       role="presentation"
       aria-label="aureliex launch trailer"
     >
-      <audio ref={hookRef} src="/audio/a-lot.mp3"             preload="auto" playsInline muted />
+      <audio ref={hookRef} src="/audio/circo-loco.mp3"        preload="auto" playsInline muted />
       <audio ref={dropRef} src="/audio/just-like-me-drop.mp3" preload="auto" playsInline muted />
 
       <div className="trailer-bg" aria-hidden="true" />
@@ -197,10 +197,10 @@ export default function LaunchTrailer({ liveValue, baseline = 3453.83 }: Props =
           <div className="trailer-q">how much money you got?</div>
           <div className="trailer-a">{fmtMoney(liveValue ?? baseline)}.</div>
           <div className="trailer-q">how big&rsquo;s your goal?</div>
-          <div className="trailer-a trailer-a-hi">a lot.</div>
+          <div className="trailer-a trailer-a-hi">a hundred K.</div>
         </div>
-        <a className="trailer-attr trailer-attr-link" href={youtubeSearchLink(SONGS.a_lot)} target="_blank" rel="noopener noreferrer">
-          a lot · 21 savage ft. j. cole · 2018 <span aria-hidden="true">↗</span>
+        <a className="trailer-attr trailer-attr-link" href={youtubeSearchLink(SONGS.circo_loco)} target="_blank" rel="noopener noreferrer">
+          circo loco · drake &amp; 21 savage · 2022 <span aria-hidden="true">↗</span>
         </a>
       </div>
 

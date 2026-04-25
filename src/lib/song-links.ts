@@ -27,6 +27,7 @@ export function spotifySearchLink(song: Song): string {
 // pre-mortem set attached to /let-down.
 export const SONGS = {
   a_lot:        { name: "a lot",               artist: "21 savage ft. j. cole", year: 2018 },
+  circo_loco:   { name: "circo loco",          artist: "drake & 21 savage",     year: 2022 },
   just_like_me: { name: "just like me",        artist: "metro boomin + future", year: 2022 },
   nuevayol:     { name: "nuevayol",            artist: "bad bunny",             year: 2025 },
   ghost_town:   { name: "ghost town",          artist: "kanye west",            year: 2018 },
