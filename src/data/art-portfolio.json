@@ -4,8 +4,8 @@
     "stake_reserved_pct": 10,
     "auction_close_iso": "",
     "auction_close_label": "tbd · announced with the round 1 drop",
-    "state": "coming_soon",
-    "about": "fourteen pieces by saapai p. (2015–present). pencil, colored pencil, pen, watercolor, and photograph. the portfolio unlocks with the round 1 drop — until then, each tile is a locked preview with its starting bid visible. tap any tile to offer $1 over the current bid via imessage. 10% of the total portfolio stake is reserved for art holders. specific allocation posted when the portfolio unlocks."
+    "state": "open",
+    "about": "fourteen pieces by saapai p. (2015–present). pencil, colored pencil, pen, watercolor, and photograph. eleven of the fourteen are live; three are still being captured and remain as locked previews for now."
   },
   "pieces": [
     {
@@ -20,7 +20,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["color", "portrait · animal"],
-      "locked_preview": "a long-necked heron built out of every color at once · plumage tuned like a stained-glass window · panel priced it highest in the drop."
+      "locked_preview": ""
     },
     {
       "id": "eagle-2018",
@@ -34,7 +34,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["portrait · animal", "texture study"],
-      "locked_preview": "a bald eagle sitting in profile · every feather picked out one by one · the bird is the excuse, the texture is the study."
+      "locked_preview": ""
     },
     {
       "id": "tarantula-2019",
@@ -48,7 +48,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["color", "entomology"],
-      "locked_preview": "black body · bright orange knee-patches · bristles pulled out of the page in a thousand short strokes."
+      "locked_preview": ""
     },
     {
       "id": "jack-sparrow-2015",
@@ -76,7 +76,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["portrait · animal", "close-up"],
-      "locked_preview": "pulled in tight · two eyes + one beak + radial feathers going to the edge of the frame."
+      "locked_preview": ""
     },
     {
       "id": "robber-fly-2019",
@@ -90,7 +90,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["study", "entomology"],
-      "locked_preview": "a robber fly caught mid-meal · wing membrane graded like a tobacco leaf · all leg hairs accounted for."
+      "locked_preview": ""
     },
     {
       "id": "bearded-profile-2020",
@@ -104,7 +104,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["portrait · figure"],
-      "locked_preview": "a bearded profile with a man-bun · eyes closed · the beard is where the pencil got the most use."
+      "locked_preview": ""
     },
     {
       "id": "zentangle-conch-2018",
@@ -118,7 +118,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["pattern", "pen"],
-      "locked_preview": "a conch shell · every ridge a different pattern · pen on paper, filled in by hand, no shortcut."
+      "locked_preview": ""
     },
     {
       "id": "child-portrait-2017",
@@ -132,7 +132,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["portrait", "soft-shading"],
-      "locked_preview": "a small face, large eyes · soft pressure throughout · the warmer register of the drop."
+      "locked_preview": ""
     },
     {
       "id": "scorpion-2017",
@@ -146,7 +146,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["study", "entomology"],
-      "locked_preview": "a scorpion mid-strike · tail raised, claws back · anatomical and bristled."
+      "locked_preview": ""
     },
     {
       "id": "coming-soon-2026",
@@ -188,7 +188,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["watercolor", "portrait", "hand-drawn"],
-      "locked_preview": "a face drawn confidently and left unfinished · crayon outline, watercolor accents, plum lips + ochre hair."
+      "locked_preview": ""
     },
     {
       "id": "kraft-folio-back",
@@ -202,7 +202,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": ["archival", "meta"],
-      "locked_preview": "the kraft folio the fourteen pieces travel in · photographed from the back · a slow piece about containers."
+      "locked_preview": ""
     }
   ]
 }
