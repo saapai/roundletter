@@ -40,26 +40,46 @@ export default async function ArtPage() {
         emptyMessage="auction-driven history begins at round 1 unlock."
       />
 
-      <section className="page-section">
+      <section className="art-gallery-section">
         <div className="page-section-head">
           <h2>pieces</h2>
-          <span className="page-section-meta">{pieces.length} total</span>
+          <span className="page-section-meta">{pieces.length} total · scroll</span>
         </div>
-        <div className="page-cards">
+
+        {/*
+          Native CSS scroll-snap gallery (per design-bank/etds-com.md).
+          Mobile: vertical scroll-snap, each piece centered with breathing
+          room. Desktop: 2-up grid. Zero JS.
+        */}
+        <div className="art-gallery">
           {pieces.map((p) => {
             const bid =
               typeof p.current_bid === "number" ? p.current_bid : (p.start_bid ?? 0);
+            const hasImage = !!p.image;
             return (
-              <div key={p.id} className="page-card">
-                <div className="card-head">
-                  <div className="card-ticker">{fmtMoney(bid)}</div>
-                  <div className="card-agent">
-                    {p.current_bid != null ? "current bid" : "starting bid"}
+              <figure key={p.id} className={`art-piece${hasImage ? "" : " is-locked"}`}>
+                {hasImage ? (
+                  <img
+                    src={p.image}
+                    alt={p.title || p.id}
+                    loading="lazy"
+                    className="art-piece-img"
+                  />
+                ) : (
+                  <div className="art-piece-locked">
+                    <span className="art-piece-locked-mark">[locked preview]</span>
                   </div>
-                </div>
-                {p.title && <div className="card-name">{p.title}</div>}
-                {p.medium && <p className="card-note">{p.medium}</p>}
-              </div>
+                )}
+                <figcaption className="art-piece-meta">
+                  <span className="art-piece-bid">{fmtMoney(bid)}</span>
+                  <span className="art-piece-bid-label">
+                    {p.current_bid != null ? "current bid" : "starting bid"}
+                  </span>
+                  {p.title && <span className="art-piece-title">{p.title}</span>}
+                  {p.medium && <span className="art-piece-medium">{p.medium}</span>}
+                  {p.date && <span className="art-piece-date">{p.date}</span>}
+                </figcaption>
+              </figure>
             );
           })}
         </div>
