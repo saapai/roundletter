@@ -27,7 +27,7 @@ export default async function ArtPage() {
   const pieces = getArtPieces().filter((p) => !!p.image);
 
   return (
-    <article className="article page bank-page">
+    <article className="article page bank-page bank-page--art">
       <div className="eyebrow">
         <Link href="/portfolio" className="pathlink">portfolio</Link> · art
       </div>

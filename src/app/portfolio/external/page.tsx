@@ -24,7 +24,7 @@ export default async function ExternalPage() {
   const entries = [...getExternalEntries()].sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <article className="article page bank-page">
+    <article className="article page bank-page bank-page--external">
       <div className="eyebrow">
         <Link href="/portfolio" className="pathlink">portfolio</Link> · external
       </div>

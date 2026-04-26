@@ -26,7 +26,7 @@ export default async function PredictionPage() {
   const k = getLatestKalshiSnapshot();
 
   return (
-    <article className="article page bank-page">
+    <article className="article page bank-page bank-page--prediction">
       <div className="eyebrow">
         <Link href="/portfolio" className="pathlink">portfolio</Link> · prediction
       </div>

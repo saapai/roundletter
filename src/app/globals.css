@@ -16705,3 +16705,87 @@ body, .masthead, .bank-hero, .art-piece {
    This is a safety net for cached HTML. */
 body:has(.bank-page) > header.masthead,
 body:has(.bank-page) > footer { display: none !important; }
+
+/* ────────────────────────────────────────────────────────────
+   ROOMS v2 — simpler, more distinct palettes
+   each tile = ONE solid color, generous padding, clear gap
+   ──────────────────────────────────────────────────────────── */
+.rooms {
+  background: transparent;
+  gap: 2px;
+  padding: 2px 0 0;
+}
+
+/* Per-room palette — one ink + one paper per room. */
+.room--investments { background: #0E0D0B; color: #EFEAE0; }
+.room--investments .room-eyebrow,
+.room--investments .room-meta { color: #6B6862; }
+.room--investments:hover { background: #14130F; }
+
+.room--art { background: #F2C7CE; color: #3A1521; }
+.room--art .room-eyebrow,
+.room--art .room-meta { color: #8C485A; }
+.room--art:hover { background: #ECB4BD; }
+
+.room--prediction { background: #1A2E45; color: #C8DCEE; }
+.room--prediction .room-eyebrow,
+.room--prediction .room-meta { color: #6889A7; }
+.room--prediction:hover { background: #1F3851; }
+
+.room--articles { background: #F4EFE6; color: #1C1A17; }
+.room--articles .room-eyebrow,
+.room--articles .room-meta { color: #6B6560; }
+.room--articles:hover { background: #EDE5D5; }
+
+.room--archives { background: #2B2A26; color: #C8B89A; }
+.room--archives .room-eyebrow,
+.room--archives .room-meta { color: #7E7560; }
+.room--archives:hover { background: #322F2A; }
+
+/* All rooms — calmer typography, less italic */
+.room { padding: 2.25rem 1.5rem 1.75rem; min-height: 12rem; }
+.room-name {
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  font-size: clamp(1.6rem, 1.1rem + 1.5vw, 2.2rem);
+}
+.room-eyebrow { letter-spacing: 0.24em; }
+.room-meta { letter-spacing: 0.16em; }
+
+/* ────────────────────────────────────────────────────────────
+   PER-ROUTE bank-page theme modifiers
+   add .bank-page--<key> on the article wrapper to inherit the
+   matching room palette across the whole subroute.
+   ──────────────────────────────────────────────────────────── */
+.bank-page--investments {
+  --paper: #0E0D0B; --ink: #EFEAE0; --graphite: #6B6862;
+  --rule: rgba(239,234,224,0.14); --parchment: #15140F;
+  --rust: #C76B4F;
+}
+.bank-page--art {
+  --paper: #F8E1E5; --ink: #3A1521; --graphite: #8C485A;
+  --rule: rgba(58,21,33,0.14); --parchment: #F2C7CE;
+  --rust: #B7415C;
+}
+.bank-page--prediction {
+  --paper: #14253A; --ink: #DCE9F4; --graphite: #6889A7;
+  --rule: rgba(220,233,244,0.14); --parchment: #1A2E45;
+  --rust: #E8A172;
+}
+.bank-page--external {
+  --paper: #F4EFE6; --ink: #1C1A17; --graphite: #6B6560;
+  --rule: rgba(28,26,23,0.14); --parchment: #EDE5D5;
+  --rust: #8B3A2E;
+}
+.bank-page--archives {
+  --paper: #2B2A26; --ink: #E2D4B5; --graphite: #7E7560;
+  --rule: rgba(226,212,181,0.14); --parchment: #322F2A;
+  --rust: #C49256;
+}
+
+/* /portfolio top page stays neutral-dark */
+.bank-page { padding-top: 0.5rem; }
+
+/* Bigger, calmer hero on themed pages */
+.bank-page .bank-hero { padding: 5.5rem 0 3.5rem; }
