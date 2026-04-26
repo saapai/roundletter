@@ -84,8 +84,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
             <div className="rule" />
             <nav className="nav">
-              <Link href="/">home</Link>
-              <Link href="/portfolio">portfolio</Link>
+              <Link href="/portfolio/personal">investments</Link>
+              <Link href="/portfolio/art">art</Link>
+              <Link href="/portfolio/prediction">prediction</Link>
               <Link href="/letters/round-0">article</Link>
               <Link href="/archives">archives</Link>
             </nav>
