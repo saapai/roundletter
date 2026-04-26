@@ -95,6 +95,86 @@ function readSnapshotFile(file: string): { date: string; raw: RawKalshiFile } | 
   }
 }
 
+// ─── Polymarket ──────────────────────────────────────────────────────
+// Mirror of the Kalshi loader. Reads vendored bot exports from
+// src/data/snapshots/polymarket/YYYY-MM-DD.json. Each file is a daily dump
+// from the polytrader Polymarket runner — operator drops a new file in to
+// roll the bankroll forward; everything else recomputes.
+//
+// Today the only field we read is `bankroll` (USDC + open exposure in
+// dollars). `positions` and `open_orders` are surfaced raw for future UI;
+// schema stays loose intentionally so the dumper can evolve without
+// breaking the web build.
+//
+// To wire daily polymarket snapshots, run
+//   polytrader/scripts/dump_polymarket_snapshot.py  (TBD)
+// and commit the YYYY-MM-DD.json output to this directory.
+
+export type PolymarketPosition = {
+  market?: string;
+  outcome?: string;
+  size?: number;
+  avg_price?: number;
+  current_price?: number;
+  exposure_dollars?: number;
+};
+
+export type PolymarketOpenOrder = {
+  market?: string;
+  outcome?: string;
+  side?: string;
+  size?: number;
+  price?: number;
+};
+
+export type PolymarketSnapshot = {
+  date: string;          // YYYY-MM-DD (from filename)
+  bankroll: number;      // dollars (USDC balance + open exposure)
+  pulled_at: string | null;
+  positions: PolymarketPosition[];
+  open_orders: PolymarketOpenOrder[];
+};
+
+type RawPolymarketFile = {
+  bankroll?: number;
+  pulled_at?: string;
+  positions?: PolymarketPosition[];
+  open_orders?: PolymarketOpenOrder[];
+};
+
+function readPolymarketFile(
+  file: string,
+): { date: string; raw: RawPolymarketFile } | null {
+  const date = file.replace(/\.json$/, "");
+  const full = path.join(SNAPSHOT_ROOT, "polymarket", file);
+  try {
+    const raw = JSON.parse(fs.readFileSync(full, "utf8")) as RawPolymarketFile;
+    return { date, raw };
+  } catch {
+    return null;
+  }
+}
+
+export function getLatestPolymarketSnapshot(): PolymarketSnapshot | null {
+  const files = listSnapshotFiles("polymarket");
+  if (files.length === 0) return null;
+  const latest = readPolymarketFile(files[files.length - 1]);
+  if (!latest) return null;
+  const { date, raw } = latest;
+  const bankroll = num(
+    raw.bankroll != null ? String(raw.bankroll) : undefined,
+    Number.NaN,
+  );
+  if (!Number.isFinite(bankroll)) return null;
+  return {
+    date,
+    bankroll,
+    pulled_at: raw.pulled_at ?? null,
+    positions: Array.isArray(raw.positions) ? raw.positions : [],
+    open_orders: Array.isArray(raw.open_orders) ? raw.open_orders : [],
+  };
+}
+
 export function getLatestKalshiSnapshot(): KalshiSnapshot | null {
   const files = listSnapshotFiles("kalshi");
   if (files.length === 0) return null;

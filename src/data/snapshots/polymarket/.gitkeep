@@ -1,0 +1,20 @@
+// Vendored daily Polymarket bot snapshots live here as YYYY-MM-DD.json.
+//
+// Schema (loose — extra fields allowed; reader pulls what it needs):
+//   {
+//     "bankroll": 158.0,            // dollars (USDC + open exposure)
+//     "pulled_at": "2026-04-26T14:00:00Z",
+//     "positions": [],              // [{ market, outcome, size, avg_price, current_price, exposure_dollars }, ...]
+//     "open_orders": []             // [{ market, outcome, side, size, price }, ...]
+//   }
+//
+// To wire daily polymarket snapshots, run
+//   polytrader/scripts/dump_polymarket_snapshot.py   (TBD)
+// and commit the YYYY-MM-DD.json output to this directory.
+//
+// Reader: src/lib/snapshots.ts → getLatestPolymarketSnapshot()
+// Consumer: src/lib/portfolio-aggregate.ts → buildPrediction()
+//
+// While this directory contains no YYYY-MM-DD.json files the aggregator
+// degrades gracefully to the constant baseline in src/data/prediction.json
+// (`polymarket_bankroll`, currently $158).

@@ -2,6 +2,7 @@ import BankNav from "@/components/BankNav";
 import type { Metadata } from "next";
 import CountUp from "@/components/CountUp";
 import EventCard, { humanizeKalshiTicker } from "@/components/EventCard";
+import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
 import PredictionMarquee, { type MarqueeItem } from "@/components/PredictionMarquee";
 import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import { getLatestKalshiSnapshot, type KalshiFill } from "@/lib/snapshots";
@@ -121,6 +122,18 @@ export default async function PredictionPage() {
           {eventsCount} events · {linesCount} lines · {fillsCount} fills · {fmtMoney(Math.round(tradedTotal))} traded · {fmtMoney(Math.round(vigTotal))} vig · {weeksLive} wks
         </div>
       </header>
+
+      <section className="ticker-history" aria-label="kalshi book history">
+        <PortfolioGrowthChart
+          category="kalshi · book history"
+          series={cat.kalshi_history}
+          label="cash + open exposure, walked from fills"
+          emptyMessage="not enough fills yet to draw a curve."
+        />
+        <p className="ticker-history-note">
+          polymarket curve coming once daily snapshots accrue — for now ${Math.round(POLYMARKET_BANKROLL)} constant baseline.
+        </p>
+      </section>
 
       <section className="ticker-events" aria-label="event book">
         {events.map((e, i) => (

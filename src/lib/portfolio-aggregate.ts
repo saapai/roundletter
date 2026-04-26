@@ -2,7 +2,10 @@ import portfolio from "@/data/portfolio.json";
 import artPortfolio from "@/data/art-portfolio.json";
 import prediction from "@/data/prediction.json";
 import { getLivePortfolio } from "@/lib/portfolio-live";
-import { getLatestKalshiSnapshot } from "@/lib/snapshots";
+import {
+  getLatestKalshiSnapshot,
+  getLatestPolymarketSnapshot,
+} from "@/lib/snapshots";
 
 // Single source of truth for the /portfolio page + subroutes + /api/portfolio.
 // Builds the unified portfolio response on the server. Pages call this
@@ -36,6 +39,11 @@ export type CategoryBlock = {
 };
 
 export type PredictionBlock = CategoryBlock & {
+  // Kalshi-only book history (cash + open exposures, walked back from the
+  // latest snapshot via the fills timeline). Split out from the combined
+  // `history` so the /prediction page can render a Kalshi-only growth chart
+  // — Polymarket curve will follow once we accrue daily PM snapshots.
+  kalshi_history: SeriesPoint[];
   breakdown: {
     kalshi: { cash: number; portfolio_value: number; total: number };
     polymarket: { bankroll: number };
@@ -130,13 +138,23 @@ function buildPrediction(): PredictionBlock {
   const k = getLatestKalshiSnapshot();
   const cash = k?.cash ?? 0;
   const portfolio_value = k?.portfolio_value ?? 0;
-  const bankroll = Number((prediction as { polymarket_bankroll?: number }).polymarket_bankroll) || 0;
-  const total = cash + portfolio_value + bankroll;
+  // Polymarket bankroll: prefer the latest vendored snapshot from
+  // src/data/snapshots/polymarket/YYYY-MM-DD.json (mirrors the Kalshi
+  // pipeline); fall back to the constant in prediction.json when no
+  // snapshots have been committed yet.
+  const pm = getLatestPolymarketSnapshot();
+  const fallbackBankroll =
+    Number((prediction as { polymarket_bankroll?: number }).polymarket_bankroll) || 0;
+  const bankroll = pm?.bankroll ?? fallbackBankroll;
+  const kalshiTotal = cash + portfolio_value;
+  const total = kalshiTotal + bankroll;
 
   // Build a real time-series from the Kalshi fills timeline (vendored
   // raw JSON). Walks every fill chronologically and reconstructs the
-  // running prediction-bucket value backwards from today's known total.
-  // Polymarket bankroll is treated as a constant (no PM snapshots yet).
+  // running Kalshi book value backwards from today's known total.
+  // Polymarket curve is intentionally NOT folded in here — once daily PM
+  // snapshots accrue we'll build a parallel `polymarket_history` and the
+  // page can stack/sum them. For now PM is a constant baseline.
   type RawFill = {
     action?: string;
     side?: string;
@@ -151,14 +169,17 @@ function buildPrediction(): PredictionBlock {
   const sortedFills = [...rawFills].sort(
     (a, b) => (a.created_time || "").localeCompare(b.created_time || ""),
   );
-  const reversed: SeriesPoint[] = [];
+  const reversedKalshi: SeriesPoint[] = [];
   let walkCash = cash;
   let walkExp = portfolio_value;
   for (let i = sortedFills.length - 1; i >= 0; i--) {
     const f = sortedFills[i];
     const ts = Number(f.ts) || Math.floor(Date.parse(f.created_time || "") / 1000);
     if (!Number.isFinite(ts) || ts <= 0) continue;
-    reversed.push({ ts, value: Math.round((walkCash + walkExp + bankroll) * 100) / 100 });
+    reversedKalshi.push({
+      ts,
+      value: Math.round((walkCash + walkExp) * 100) / 100,
+    });
     const cnt = Number(f.count_fp) || 0;
     const yes = Number(f.yes_price_dollars) || 0;
     const no = Number(f.no_price_dollars) || 0;
@@ -172,19 +193,31 @@ function buildPrediction(): PredictionBlock {
       walkExp += cnt * px;
     }
   }
-  const history = reversed.reverse();
+  const kalshiHistory = reversedKalshi.reverse();
   const SAMPLE_MAX = 80;
-  const sampled =
-    history.length <= SAMPLE_MAX
-      ? history
-      : history.filter((_, i) => i % Math.ceil(history.length / SAMPLE_MAX) === 0);
-  sampled.push({ ts: nowTs(), value: total });
+  const sampleEvery = (s: SeriesPoint[]) =>
+    s.length <= SAMPLE_MAX
+      ? s
+      : s.filter((_, i) => i % Math.ceil(s.length / SAMPLE_MAX) === 0);
+  const kalshiSampled = sampleEvery(kalshiHistory);
+  kalshiSampled.push({ ts: nowTs(), value: kalshiTotal });
+
+  // Combined history (Kalshi walk + constant PM baseline) — kept as the
+  // public `history` field so existing portfolio rollups don't change.
+  const combined: SeriesPoint[] = kalshiSampled.map((p) => ({
+    ts: p.ts,
+    value: Math.round((p.value + bankroll) * 100) / 100,
+  }));
 
   return {
     current_value: total,
-    history: sampled.length === 0 ? [{ ts: nowTs(), value: total }] : sampled,
+    history: combined.length === 0 ? [{ ts: nowTs(), value: total }] : combined,
+    kalshi_history:
+      kalshiSampled.length === 0
+        ? [{ ts: nowTs(), value: kalshiTotal }]
+        : kalshiSampled,
     breakdown: {
-      kalshi: { cash, portfolio_value, total: cash + portfolio_value },
+      kalshi: { cash, portfolio_value, total: kalshiTotal },
       polymarket: { bankroll },
     },
   };
