@@ -320,6 +320,30 @@ async function buildPersonalSeries(currentValue: number): Promise<SeriesPoint[]>
   // Sum of (shares × close) across all 10 holdings, sampled at every
   // shared 30-min bar timestamp. Falls back to single-point if /api/prices
   // is unavailable at SSR time.
+  //
+  // The series is anchored at round 0's baseline (account_value_at_entry on
+  // baseline_date) so the "All" filter computes the true round-to-date %
+  // — without this, the first cached bar is ~5 trading days old and "All"
+  // collapses to "5D", showing a tiny percent that's not the round's story.
+  // External cash injections (e.g. the 22 apr $50) are added to the wager
+  // baseline at their date so the curve doesn't fictionalize them as gains.
+  const baselineDate = (portfolio as { baseline_date?: string }).baseline_date ?? "2026-04-12";
+  const baselineValue =
+    (portfolio as { account_value_at_entry?: number }).account_value_at_entry ?? 3453.83;
+  const baselineTs = Math.floor(new Date(`${baselineDate}T14:00:00Z`).getTime() / 1000);
+  const externalEntries = getExternalEntries();
+  const injections = [...externalEntries]
+    .filter((e) => Number(e.amount) > 0)
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  // Adjusted baseline = original baseline + every cash deposit before the
+  // most recent live bar. Treats deposits as a step-up in the wager line so
+  // gains/losses on the chart reflect only market movement, not transfers.
+  const totalInjected = injections.reduce((acc, e) => acc + (Number(e.amount) || 0), 0);
+  const adjBaseline = baselineValue + totalInjected;
+
+  const head: SeriesPoint[] = [{ ts: baselineTs, value: adjBaseline }];
+
   try {
     const base = process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
@@ -332,8 +356,6 @@ async function buildPersonalSeries(currentValue: number): Promise<SeriesPoint[]>
     };
     if (!j?.hasData || !j.data) throw new Error("no data");
     const holdings = getPersonalHoldings();
-    // Find the longest timestamp series from any holding (they're aligned
-    // anyway since /api/prices uses a shared interval).
     let timestamps: number[] = [];
     for (const t of Object.keys(j.data)) {
       const s = j.data[t];
@@ -342,7 +364,7 @@ async function buildPersonalSeries(currentValue: number): Promise<SeriesPoint[]>
       }
     }
     if (timestamps.length === 0) throw new Error("no timestamps");
-    const series: SeriesPoint[] = timestamps.map((ts, i) => {
+    const live: SeriesPoint[] = timestamps.map((ts, i) => {
       let total = 0;
       for (const h of holdings) {
         const s = j.data?.[h.ticker];
@@ -350,10 +372,12 @@ async function buildPersonalSeries(currentValue: number): Promise<SeriesPoint[]>
       }
       return { ts, value: Math.round(total * 100) / 100 };
     });
-    series.push({ ts: nowTs(), value: currentValue });
-    return series;
+    live.push({ ts: nowTs(), value: currentValue });
+    // Drop any cached bars older than baseline — keeps the curve forward-only.
+    const liveAfterBaseline = live.filter((p) => p.ts >= baselineTs);
+    return [...head, ...liveAfterBaseline];
   } catch {
-    return [{ ts: nowTs(), value: currentValue }];
+    return [...head, { ts: nowTs(), value: currentValue }];
   }
 }
 

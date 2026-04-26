@@ -34,7 +34,7 @@ export default async function PersonalPage() {
   const positions = live?.positions ?? [];
 
   return (
-    <article className="article page bank-page bank-page--investments bank-page--constellation">
+    <article className="article page bank-page bank-page--constellation">
       <div className="eyebrow">
         <Link href="/portfolio" className="pathlink">portfolio</Link> · investments
       </div>
