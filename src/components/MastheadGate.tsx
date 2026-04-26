@@ -15,8 +15,14 @@ const BARE_PATHS = new Set([
   "/statement",
 ]);
 
+// Path PREFIXES that are bare (e.g. all /portfolio/*).
+// These are the dark "bank-page" routes that carry their own dark
+// chrome — the cream layout masthead clashes visually.
+const BARE_PREFIXES = ["/portfolio"];
+
 export default function MastheadGate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() || "";
   if (BARE_PATHS.has(pathname)) return null;
+  if (BARE_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + "/"))) return null;
   return <>{children}</>;
 }

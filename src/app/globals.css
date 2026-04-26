@@ -16525,3 +16525,183 @@ body, .masthead, .bank-hero, .art-piece {
 @media (max-width: 767px) {
   .cov-mark { font-size: 2.2rem; top: 0.9rem; left: 1.1rem; }
 }
+
+/* ────────────────────────────────────────────────────────────
+   ART GALLERY v2 — gallery-room aesthetic, scroll-snap on
+   both mobile + desktop. Image dominates, museum tag below.
+   Pure CSS per design-bank/etds-com.md.
+   ──────────────────────────────────────────────────────────── */
+.art-gallery-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.75rem 0.25rem;
+  margin: 1rem 0 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.art-gallery-count { font-weight: 600; }
+.art-gallery-hint { opacity: 0.6; }
+
+.art-gallery--snap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  scroll-snap-type: y mandatory;
+}
+
+.art-piece {
+  margin: 0;
+  scroll-snap-align: center;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4svh 0;
+  gap: 2rem;
+  opacity: 1;
+}
+
+/* Each piece in its own "frame" — image dominates the viewport */
+.art-piece-frame {
+  width: 100%;
+  max-width: min(72vw, 70svh);
+  aspect-ratio: auto;
+  display: flex;
+  justify-content: center;
+}
+.art-piece-img {
+  width: 100%;
+  max-height: 70svh;
+  object-fit: contain;
+  background: transparent;
+  border-radius: 2px;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.45),
+    0 6px 22px rgba(0,0,0,0.30);
+  transition: transform 0.6s cubic-bezier(.25,1,.5,1),
+              box-shadow 0.6s cubic-bezier(.25,1,.5,1);
+}
+.art-piece:hover .art-piece-img,
+.art-piece:focus-within .art-piece-img {
+  transform: scale(1.012);
+  box-shadow:
+    0 40px 100px rgba(0,0,0,0.55),
+    0 10px 30px rgba(0,0,0,0.40);
+}
+
+/* Museum tag below the image — typographic, not card-y */
+.art-piece-tag {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.25rem;
+  row-gap: 0.4rem;
+  max-width: min(72vw, 70svh);
+  width: 100%;
+  align-items: baseline;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+}
+.art-piece-num {
+  grid-row: 1;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  color: var(--graphite);
+  align-self: start;
+  padding-top: 0.4rem;
+}
+.art-piece-title {
+  grid-row: 1;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--ink);
+}
+.art-piece-medium {
+  grid-column: 2;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+}
+.art-piece-row {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-top: 0.25rem;
+}
+.art-piece-bid {
+  color: var(--ink);
+  font-weight: 600;
+}
+.art-piece-bid em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--graphite);
+  margin-left: 0.4em;
+}
+.art-piece-date { opacity: 0.7; }
+
+/* Override prior dimming + 2-col grid that conflicted with v2 */
+.art-gallery--snap .art-piece { opacity: 1; }
+@supports (animation-timeline: view()) {
+  .art-gallery--snap .art-piece { animation: none; opacity: 1; }
+}
+@media (min-width: 768px) {
+  .art-gallery--snap {
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none !important;
+    scroll-snap-type: y mandatory;
+  }
+  .art-gallery--snap .art-piece { min-height: 100vh; }
+  .art-piece-frame { max-width: min(60vw, 75vh); }
+  .art-piece-img { max-height: 75vh; }
+  .art-piece-tag { max-width: min(60vw, 75vh); }
+}
+
+/* The whole art page is its own room — set page bg to a near-black
+   and use the existing bank-page tokens; remove the wrapper padding
+   so each piece reaches full viewport. */
+.bank-page.is-gallery,
+.bank-page .art-gallery-section {
+  margin: 0 -1.25rem;
+  padding: 0;
+}
+.bank-page .art-gallery-section .page-section-head { display: none; }
+
+/* ────────────────────────────────────────────────────────────
+   POLISH PASS — calmer italics, hidden cream chrome on dark
+   - room tiles: roman not italic (cleaner read)
+   - bigNumGoal: roman not italic
+   - art tag titles: roman not italic
+   - bank-page hides ALL layout footer text by default
+   ──────────────────────────────────────────────────────────── */
+.room-name { font-style: normal; }
+.bank-page .bank-hero-goal { font-style: normal; color: var(--graphite); opacity: 0.6; }
+.bank-page .art-piece-title { font-style: normal; }
+.bank-page .art-piece-bid em { font-style: normal; opacity: 0.6; }
+
+/* When MastheadGate is bypassed (cached browser etc.), force the
+   layout masthead/footer to NOT appear above bank-page. The body
+   doesn't have a class, but bank-page is on <article> inside <main>;
+   we hide via :has() (modern browsers) AND via a defensive rule
+   that catches the .masthead/.ink-rule when bank-page is the page.
+   This is a safety net for cached HTML. */
+body:has(.bank-page) > header.masthead,
+body:has(.bank-page) > footer { display: none !important; }

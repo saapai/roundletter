@@ -3,6 +3,9 @@ import Link from "next/link";
 import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
 import { getPortfolioData, getArtPieces } from "@/lib/portfolio-aggregate";
 
+// Only show pieces that actually have an image. Locked previews are
+// hidden until the user delivers a scan.
+
 // /portfolio/art — art portfolio drill-down. Pre-launch the value is
 // the sum of starting bids; once the round-1 auction unlocks the
 // aggregator switches to max(current_bid, start_bid) automatically.
@@ -21,7 +24,7 @@ function fmtMoney(n: number): string {
 export default async function ArtPage() {
   const data = await getPortfolioData();
   const cat = data.categories.art;
-  const pieces = getArtPieces();
+  const pieces = getArtPieces().filter((p) => !!p.image);
 
   return (
     <article className="article page bank-page">
@@ -40,44 +43,42 @@ export default async function ArtPage() {
         emptyMessage="auction-driven history begins at round 1 unlock."
       />
 
-      <section className="art-gallery-section">
-        <div className="page-section-head">
-          <h2>pieces</h2>
-          <span className="page-section-meta">{pieces.length} total · scroll</span>
+      {/*
+        Gallery — full-bleed scroll-snap on BOTH mobile (vertical) and
+        desktop (vertical too, so each piece gets its own viewport row).
+        Per design-bank/etds-com.md: pure CSS, zero JS. Numbers are the
+        museum tag, image is the wall.
+      */}
+      <section className="art-gallery-section" aria-label="gallery">
+        <div className="art-gallery-bar">
+          <span className="art-gallery-count">{pieces.length} pieces</span>
+          <span className="art-gallery-hint">scroll ↓</span>
         </div>
-
-        {/*
-          Native CSS scroll-snap gallery (per design-bank/etds-com.md).
-          Mobile: vertical scroll-snap, each piece centered with breathing
-          room. Desktop: 2-up grid. Zero JS.
-        */}
-        <div className="art-gallery">
-          {pieces.map((p) => {
+        <div className="art-gallery art-gallery--snap">
+          {pieces.map((p, i) => {
             const bid =
               typeof p.current_bid === "number" ? p.current_bid : (p.start_bid ?? 0);
-            const hasImage = !!p.image;
             return (
-              <figure key={p.id} className={`art-piece${hasImage ? "" : " is-locked"}`}>
-                {hasImage ? (
+              <figure key={p.id} className="art-piece">
+                <div className="art-piece-frame">
                   <img
-                    src={p.image}
+                    src={p.image as string}
                     alt={p.title || p.id}
-                    loading="lazy"
+                    loading={i < 2 ? "eager" : "lazy"}
                     className="art-piece-img"
                   />
-                ) : (
-                  <div className="art-piece-locked">
-                    <span className="art-piece-locked-mark">[locked preview]</span>
-                  </div>
-                )}
-                <figcaption className="art-piece-meta">
-                  <span className="art-piece-bid">{fmtMoney(bid)}</span>
-                  <span className="art-piece-bid-label">
-                    {p.current_bid != null ? "current bid" : "starting bid"}
-                  </span>
-                  {p.title && <span className="art-piece-title">{p.title}</span>}
+                </div>
+                <figcaption className="art-piece-tag">
+                  <span className="art-piece-num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="art-piece-title">{p.title || p.id}</span>
                   {p.medium && <span className="art-piece-medium">{p.medium}</span>}
-                  {p.date && <span className="art-piece-date">{p.date}</span>}
+                  <span className="art-piece-row">
+                    {p.date && <span className="art-piece-date">{p.date}</span>}
+                    <span className="art-piece-bid">
+                      {fmtMoney(bid)}{" "}
+                      <em>{p.current_bid != null ? "bid" : "start"}</em>
+                    </span>
+                  </span>
                 </figcaption>
               </figure>
             );

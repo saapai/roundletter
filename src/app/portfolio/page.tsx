@@ -27,11 +27,31 @@ const ACCOUNT_VALUE_AT_ENTRY =
 
 const BASELINE_TS = new Date(`${BASELINE_DATE}T14:00:00Z`).getTime();
 
-export const metadata: Metadata = {
-  title: "aureliex · portfolio",
-  description:
-    "the whole portfolio at a glance — live total plus four category tiles (personal, external, art, prediction).",
-};
+// Live link-preview: every share shows the current $ total per
+// memory/feedback_live_link_metadata.md.
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getPortfolioData();
+  const liveTotal = `$${Math.round(data.total).toLocaleString("en-US")}`;
+  const pct = (data.total / data.goal) * 100;
+  const desc = `${liveTotal} now · ${pct.toFixed(2)}% of $100k · live, public, every trade on the record.`;
+  return {
+    title: `aureliex · ${liveTotal} → $100,000`,
+    description: desc,
+    openGraph: {
+      title: `aureliex · the bank · ${liveTotal}`,
+      description: desc,
+      url: "https://aureliex.com/portfolio",
+      siteName: "aureliex",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `aureliex · ${liveTotal}`,
+      description: desc,
+      creator: "@saapai",
+    },
+  };
+}
 
 export default async function PortfolioPage() {
   const data = await getPortfolioData();

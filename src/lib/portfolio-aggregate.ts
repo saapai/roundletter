@@ -108,14 +108,21 @@ function buildExternal(): CategoryBlock {
 }
 
 function buildArt(): CategoryBlock {
-  const pieces = getArtPieces();
-  const total = pieces.reduce((acc, p) => {
+  // Filter to pieces that actually have images delivered. Locked previews
+  // are excluded from the public-facing portfolio + value.
+  const pieces = getArtPieces().filter((p) => !!p.image);
+  // Sort by piece date — cumulative bid value as the artist accrued the
+  // catalog. Each new piece adds its starting bid to the running total.
+  const sorted = [...pieces].sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+  let running = 0;
+  const history: SeriesPoint[] = sorted.map((p) => {
     const bid = typeof p.current_bid === "number" ? p.current_bid : (p.start_bid ?? 0);
-    return acc + bid;
-  }, 0);
+    running += bid;
+    return { ts: dateStrToTs(p.date || "2026-04-25"), value: running };
+  });
   return {
-    current_value: total,
-    history: [{ ts: nowTs(), value: total }],
+    current_value: running,
+    history: history.length === 0 ? [{ ts: nowTs(), value: 0 }] : history,
   };
 }
 
@@ -125,9 +132,57 @@ function buildPrediction(): PredictionBlock {
   const portfolio_value = k?.portfolio_value ?? 0;
   const bankroll = Number((prediction as { polymarket_bankroll?: number }).polymarket_bankroll) || 0;
   const total = cash + portfolio_value + bankroll;
+
+  // Build a real time-series from the Kalshi fills timeline (vendored
+  // raw JSON). Walks every fill chronologically and reconstructs the
+  // running prediction-bucket value backwards from today's known total.
+  // Polymarket bankroll is treated as a constant (no PM snapshots yet).
+  type RawFill = {
+    action?: string;
+    side?: string;
+    count_fp?: string | number;
+    yes_price_dollars?: string | number;
+    no_price_dollars?: string | number;
+    fee_cost?: string | number;
+    ts?: number;
+    created_time?: string;
+  };
+  const rawFills: RawFill[] = (k as unknown as { fills?: RawFill[] })?.fills ?? [];
+  const sortedFills = [...rawFills].sort(
+    (a, b) => (a.created_time || "").localeCompare(b.created_time || ""),
+  );
+  const reversed: SeriesPoint[] = [];
+  let walkCash = cash;
+  let walkExp = portfolio_value;
+  for (let i = sortedFills.length - 1; i >= 0; i--) {
+    const f = sortedFills[i];
+    const ts = Number(f.ts) || Math.floor(Date.parse(f.created_time || "") / 1000);
+    if (!Number.isFinite(ts) || ts <= 0) continue;
+    reversed.push({ ts, value: Math.round((walkCash + walkExp + bankroll) * 100) / 100 });
+    const cnt = Number(f.count_fp) || 0;
+    const yes = Number(f.yes_price_dollars) || 0;
+    const no = Number(f.no_price_dollars) || 0;
+    const px = f.side === "yes" ? yes : no;
+    const fee = Number(f.fee_cost) || 0;
+    if (f.action === "buy") {
+      walkCash += cnt * px + fee;
+      walkExp -= cnt * px;
+    } else {
+      walkCash -= cnt * px - fee;
+      walkExp += cnt * px;
+    }
+  }
+  const history = reversed.reverse();
+  const SAMPLE_MAX = 80;
+  const sampled =
+    history.length <= SAMPLE_MAX
+      ? history
+      : history.filter((_, i) => i % Math.ceil(history.length / SAMPLE_MAX) === 0);
+  sampled.push({ ts: nowTs(), value: total });
+
   return {
     current_value: total,
-    history: [{ ts: nowTs(), value: total }],
+    history: sampled.length === 0 ? [{ ts: nowTs(), value: total }] : sampled,
     breakdown: {
       kalshi: { cash, portfolio_value, total: cash + portfolio_value },
       polymarket: { bankroll },
@@ -135,11 +190,52 @@ function buildPrediction(): PredictionBlock {
   };
 }
 
+async function buildPersonalSeries(currentValue: number): Promise<SeriesPoint[]> {
+  // Sum of (shares × close) across all 10 holdings, sampled at every
+  // shared 30-min bar timestamp. Falls back to single-point if /api/prices
+  // is unavailable at SSR time.
+  try {
+    const base = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+    const r = await fetch(`${base}/api/prices`, { cache: "no-store" });
+    if (!r.ok) throw new Error(`prices api ${r.status}`);
+    const j = (await r.json()) as {
+      hasData?: boolean;
+      data?: Record<string, { timestamps: number[]; closes: number[] } | null>;
+    };
+    if (!j?.hasData || !j.data) throw new Error("no data");
+    const holdings = getPersonalHoldings();
+    // Find the longest timestamp series from any holding (they're aligned
+    // anyway since /api/prices uses a shared interval).
+    let timestamps: number[] = [];
+    for (const t of Object.keys(j.data)) {
+      const s = j.data[t];
+      if (s && s.timestamps && s.timestamps.length > timestamps.length) {
+        timestamps = s.timestamps;
+      }
+    }
+    if (timestamps.length === 0) throw new Error("no timestamps");
+    const series: SeriesPoint[] = timestamps.map((ts, i) => {
+      let total = 0;
+      for (const h of holdings) {
+        const s = j.data?.[h.ticker];
+        if (s && s.closes[i] != null) total += h.shares * s.closes[i];
+      }
+      return { ts, value: Math.round(total * 100) / 100 };
+    });
+    series.push({ ts: nowTs(), value: currentValue });
+    return series;
+  } catch {
+    return [{ ts: nowTs(), value: currentValue }];
+  }
+}
+
 export async function getPortfolioData(): Promise<PortfolioData> {
   const lp = await getLivePortfolio();
   const personal: CategoryBlock = {
     current_value: lp.value,
-    history: [{ ts: nowTs(), value: lp.value }],
+    history: await buildPersonalSeries(lp.value),
   };
   const external = buildExternal();
   const art = buildArt();
