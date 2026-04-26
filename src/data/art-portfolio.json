@@ -203,6 +203,20 @@
       "status": "open",
       "tags": ["archival", "meta"],
       "locked_preview": ""
+    },
+    {
+      "id": "tupac-basketball-2026",
+      "title": "tupac · basketball, on canvas",
+      "medium": "stencil + spray paint on canvas",
+      "date": "2026-04-25",
+      "note": "two canvases hung side by side · placeholder copy · edit before launch.",
+      "image": "/art/tupac-basketball.jpg",
+      "start_bid": 4,
+      "current_bid": null,
+      "bid_count": 0,
+      "status": "open",
+      "tags": ["mixed-media", "stencil", "spray-paint"],
+      "locked_preview": ""
     }
   ]
 }
