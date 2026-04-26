@@ -190,6 +190,99 @@ function buildPrediction(): PredictionBlock {
   };
 }
 
+export type PositionLive = {
+  ticker: string;
+  name?: string;
+  shares: number;
+  entry_price?: number;
+  entry_value: number;
+  current_price: number | null;
+  current_value: number;
+  delta_entry_dollars: number;
+  delta_entry_pct: number;
+  delta_today_dollars: number;
+  delta_today_pct: number;
+  sparkline: number[];   // last ~24 closes for sparkline
+};
+
+export type PersonalLive = {
+  positions: PositionLive[];
+  total_current: number;
+  total_entry: number;
+  total_delta_entry_dollars: number;
+  total_delta_entry_pct: number;
+  total_delta_today_dollars: number;
+  total_delta_today_pct: number;
+};
+
+export async function getPersonalLive(): Promise<PersonalLive | null> {
+  try {
+    const base = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "http://localhost:3000";
+    const r = await fetch(`${base}/api/prices`, { cache: "no-store" });
+    if (!r.ok) return null;
+    const j = (await r.json()) as {
+      hasData?: boolean;
+      data?: Record<string, { timestamps: number[]; closes: number[] } | null>;
+    };
+    if (!j?.hasData || !j.data) return null;
+    const holdings = getPersonalHoldings();
+    const positions: PositionLive[] = holdings.map((h) => {
+      const s = j.data?.[h.ticker];
+      if (!s || !s.closes || s.closes.length === 0) {
+        return {
+          ticker: h.ticker, name: h.name, shares: h.shares,
+          entry_price: h.entry_price, entry_value: h.entry_value,
+          current_price: null, current_value: h.entry_value,
+          delta_entry_dollars: 0, delta_entry_pct: 0,
+          delta_today_dollars: 0, delta_today_pct: 0,
+          sparkline: [],
+        };
+      }
+      const closes = s.closes;
+      const cur = closes[closes.length - 1];
+      // Today's delta = vs first bar of the most recent trading day.
+      // Approximation: use first bar of the last 14 bars (~7 hr).
+      const todayWindow = Math.min(14, closes.length);
+      const todayOpen = closes[closes.length - todayWindow] || cur;
+      const curValue = h.shares * cur;
+      const todayValue = h.shares * todayOpen;
+      const deltaEntryDollars = curValue - h.entry_value;
+      const deltaEntryPct = h.entry_value > 0 ? (deltaEntryDollars / h.entry_value) * 100 : 0;
+      const deltaTodayDollars = curValue - todayValue;
+      const deltaTodayPct = todayValue > 0 ? (deltaTodayDollars / todayValue) * 100 : 0;
+      const sparkline = closes.slice(-24);
+      return {
+        ticker: h.ticker, name: h.name, shares: h.shares,
+        entry_price: h.entry_price, entry_value: h.entry_value,
+        current_price: cur, current_value: curValue,
+        delta_entry_dollars: deltaEntryDollars, delta_entry_pct: deltaEntryPct,
+        delta_today_dollars: deltaTodayDollars, delta_today_pct: deltaTodayPct,
+        sparkline,
+      };
+    });
+    const total_current = positions.reduce((a, p) => a + p.current_value, 0);
+    const total_entry = positions.reduce((a, p) => a + p.entry_value, 0);
+    const total_deltaEntryDollars = total_current - total_entry;
+    const total_delta_entry_pct = total_entry > 0 ? (total_deltaEntryDollars / total_entry) * 100 : 0;
+    const total_deltaTodayDollars = positions.reduce((a, p) => a + p.delta_today_dollars, 0);
+    const totalTodayBase = total_current - total_deltaTodayDollars;
+    const total_delta_today_pct = totalTodayBase > 0 ? (total_deltaTodayDollars / totalTodayBase) * 100 : 0;
+    return {
+      positions,
+      total_current,
+      total_entry,
+      total_delta_entry_dollars: total_deltaEntryDollars,
+      total_delta_entry_pct,
+      total_delta_today_dollars: total_deltaTodayDollars,
+      total_delta_today_pct,
+    };
+  } catch {
+    return null;
+  }
+}
+
 async function buildPersonalSeries(currentValue: number): Promise<SeriesPoint[]> {
   // Sum of (shares × close) across all 10 holdings, sampled at every
   // shared 30-min bar timestamp. Falls back to single-point if /api/prices

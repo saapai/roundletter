@@ -17033,3 +17033,173 @@ html:has(.bank-page--art) body { background: #1A0A11; }
     bottom: 1rem;
   }
 }
+
+/* ────────────────────────────────────────────────────────────
+   P&L CARDS · /portfolio/personal — synthesis of PL1+PL2+PL3
+   - mobile-first cards (one per position)
+   - two pills per card: TODAY + SINCE-ENTRY
+   - sticky TOTAL bar at bottom (PL3 thumb-zone)
+   - mono numerals tabular-nums (PL1)
+   - desaturated sage/terracotta only on glyph (PL1)
+   ──────────────────────────────────────────────────────────── */
+.pl-cards {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0 6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--rule);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.pl-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.15rem 1.1rem;
+  background: var(--paper);
+  transition: background-color .25s cubic-bezier(.25,1,.5,1);
+}
+.pl-card:hover { background: color-mix(in srgb, var(--paper) 92%, var(--ink) 8%); }
+
+.pl-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.pl-id { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.pl-ticker {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+.pl-name {
+  font-size: 0.78rem;
+  color: var(--graphite);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pl-value {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+.pl-value-num {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.pl-value-sub {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--graphite);
+  text-transform: uppercase;
+}
+
+.pl-pills {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+.pl-pill {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  column-gap: 0.5rem;
+  row-gap: 0.15rem;
+  padding: 0.6rem 0.75rem;
+  background: color-mix(in srgb, var(--paper) 88%, var(--ink) 4%);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+.pl-pill-label {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--graphite);
+  text-transform: uppercase;
+  margin-bottom: 0.1rem;
+}
+.pl-pill-pct {
+  grid-row: 2;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.pl-pill-dollar {
+  grid-row: 2;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-align: right;
+  color: var(--graphite);
+}
+/* desaturated sage / terracotta — color on the glyph only */
+.pl-pill--pos .pl-pill-pct { color: #7FA88A; }
+.pl-pill--neg .pl-pill-pct { color: #C68B7A; }
+.pl-pill--flat .pl-pill-pct { color: var(--graphite); }
+.pl-pill--pos .pl-pill-dollar { color: color-mix(in srgb, #7FA88A 80%, var(--graphite)); }
+.pl-pill--neg .pl-pill-dollar { color: color-mix(in srgb, #C68B7A 80%, var(--graphite)); }
+
+/* Sticky TOTAL bar — bottom-anchored, blurred, thumb-zone */
+.pl-total {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--rule);
+  padding: 0.85rem 1.1rem max(0.85rem, env(safe-area-inset-bottom)) 1.1rem;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+}
+.pl-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+.pl-total-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--graphite);
+  text-transform: uppercase;
+}
+.pl-total-value {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.pl-total-deltas {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--graphite);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.pl-total-sep { color: var(--rule); }
+
+@media (min-width: 768px) {
+  .pl-pills { grid-template-columns: 1fr 1fr; max-width: 32rem; margin-left: auto; }
+  .pl-total-deltas { justify-content: flex-end; }
+}
