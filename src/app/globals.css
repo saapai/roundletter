@@ -2805,14 +2805,17 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   .savings-cell:first-child { border-top: none; }
 }
 
-/* Portfolio growth chart — nasdaq-quote style, with 1D / 2D / All filters */
+/* Portfolio growth chart — nasdaq-quote style, with 1D / 2D / All filters.
+   Colours derived from --paper / --ink / --rule so the card adapts to
+   each room's palette without per-room overrides. */
 .port-chart {
   max-width: 58rem;
   margin: 1.25rem auto 2rem;
   padding: 1.25rem clamp(1rem, 3vw, 1.75rem);
-  border: 1px solid rgba(28, 26, 23, 0.1);
+  border: 1px solid var(--rule, rgba(28, 26, 23, 0.1));
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.55);
+  background: color-mix(in srgb, var(--paper, #F4EFE6) 92%, var(--ink, #1C1A17) 4%);
+  color: var(--ink, #1C1A17);
 }
 .port-chart-head {
   display: flex;
@@ -2826,20 +2829,20 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   font-family: "Menlo", ui-monospace, monospace;
   font-size: 10.5px;
   letter-spacing: 0.22em;
-  color: #6B6560;
+  color: color-mix(in srgb, var(--ink, #1C1A17) 55%, var(--paper, #F4EFE6));
 }
 .pch-sub {
   font-family: var(--font-body), serif;
   font-style: italic;
   font-size: 0.82rem;
-  color: #6B6560;
+  color: color-mix(in srgb, var(--ink, #1C1A17) 60%, var(--paper, #F4EFE6));
   line-height: 1.55;
   max-width: 40rem;
 }
 .pch-filters {
   display: flex;
   gap: 0.3rem;
-  background: rgba(28, 26, 23, 0.05);
+  background: color-mix(in srgb, var(--ink, #1C1A17) 5%, transparent);
   padding: 3px;
   border-radius: 999px;
 }
@@ -2850,15 +2853,15 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   font-family: "Menlo", ui-monospace, monospace;
   font-size: 10.5px;
   letter-spacing: 0.18em;
-  color: #6B6560;
+  color: color-mix(in srgb, var(--ink, #1C1A17) 55%, var(--paper, #F4EFE6));
   border-radius: 999px;
   cursor: pointer;
   transition: background 160ms ease, color 160ms ease;
 }
-.pch-filter:hover { color: #1C1A17; }
+.pch-filter:hover { color: var(--ink, #1C1A17); }
 .pch-filter.is-active {
-  background: #1C1A17;
-  color: #F4EFE6;
+  background: var(--ink, #1C1A17);
+  color: var(--paper, #F4EFE6);
 }
 .pch-values {
   display: flex;
@@ -2872,7 +2875,7 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   font-weight: 700;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
-  color: #1C1A17;
+  color: var(--ink, #1C1A17);
 }
 .pch-delta {
   font-size: 12.5px;
@@ -2881,17 +2884,27 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   padding: 3px 10px;
   border-radius: 999px;
 }
-.pch-delta.is-up, .pch-value.is-up { color: #2E5F3B; }
-.pch-delta.is-down, .pch-value.is-down { color: #6B2A20; }
-.pch-delta.is-up { background: color-mix(in srgb, #3B7A4A 12%, white); }
-.pch-delta.is-down { background: color-mix(in srgb, #8B3A2E 12%, white); }
+/* Up/down accents: keep the diagnostic color but desaturate against
+   the active paper so it never reads as "Robinhood green/red". */
+.pch-delta.is-up, .pch-value.is-up {
+  color: color-mix(in srgb, #6FA77E 70%, var(--ink, #1C1A17));
+}
+.pch-delta.is-down, .pch-value.is-down {
+  color: color-mix(in srgb, #C97D6E 65%, var(--ink, #1C1A17));
+}
+.pch-delta.is-up {
+  background: color-mix(in srgb, #6FA77E 14%, transparent);
+}
+.pch-delta.is-down {
+  background: color-mix(in srgb, #C97D6E 14%, transparent);
+}
 .pch-svg { display: block; width: 100%; height: auto; max-height: 260px; }
 .pch-empty {
   padding: 2.5rem 1rem;
   text-align: center;
-  color: #6B6560;
+  color: color-mix(in srgb, var(--ink, #1C1A17) 55%, var(--paper, #F4EFE6));
   font-family: var(--font-body), serif;
-  background: rgba(28, 26, 23, 0.025);
+  background: color-mix(in srgb, var(--ink, #1C1A17) 3%, transparent);
   border-radius: 8px;
 }
 

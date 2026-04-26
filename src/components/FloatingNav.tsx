@@ -11,19 +11,16 @@ import { useEffect, useState } from "react";
 // Hidden on bare pages (/17, /keys) — those routes intentionally have
 // no chrome.
 
+// Mirrors BankNav's curated route list (src/components/BankNav.tsx).
+// The unlinked / easter-egg routes are still reachable by URL via /eggs.
 const NAV: Array<{ href: string; label: string; emph?: boolean }> = [
-  { href: "/",                     label: "home" },
-  { href: "/let-down",             label: "let down", emph: true },
-  { href: "/positions",            label: "positions" },
-  { href: "/argument",             label: "argument · live" },
-  { href: "/green-credit",         label: "green credit" },
-  { href: "/market",               label: "market" },
-  { href: "/trades",               label: "trades" },
-  { href: "/canvas",               label: "canvas" },
-  { href: "/eggs",             label: "archives" },
-  { href: "/arc",                  label: "arc" },
-  { href: "/letters/round-0",      label: "letters · round 0" },
-  { href: "/6969#hunt",            label: "the hunt · ledger" },
+  { href: "/",            label: "home" },
+  { href: "/portfolio",   label: "portfolio" },
+  { href: "/stocks",      label: "stocks" },
+  { href: "/prediction",  label: "prediction" },
+  { href: "/art",         label: "art" },
+  { href: "/letters",     label: "letters" },
+  { href: "/eggs",        label: "eggs" },
 ];
 
 const BARE_PATHS = ["/17", "/keys"];
