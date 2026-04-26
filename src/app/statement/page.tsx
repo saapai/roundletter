@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { HUNT_PHONE_DISPLAY, HUNT_PHONE_SMS } from "@/lib/hunt";
+import { getLivePortfolio, fmtMoneyCents } from "@/lib/portfolio-live";
 import s from "./statement.module.css";
 
 // saathvikpai.com serves this page at its root (see src/middleware.ts).
@@ -11,16 +11,21 @@ import s from "./statement.module.css";
 export const metadata: Metadata = {
   title: "saathvik pai · saapai",
   description:
-    "nineteen. $3,453.83 + a birthday + no job. building aureliex.com — the portfolio kept in public.",
+    "nineteen. building aureliex.com — the portfolio kept in public.",
   openGraph: {
     title: "saathvik pai · saapai",
-    description:
-      "nineteen. $3,453.83 + a birthday + no job. building aureliex.com.",
+    description: "nineteen. building aureliex.com.",
     type: "profile",
   },
 };
 
-export default function Statement() {
+const GOAL = 100_000;
+
+export default async function Statement() {
+  const lp = await getLivePortfolio();
+  const total = lp.value;
+  const pct = (total / GOAL) * 100;
+
   return (
     <main className={s.root}>
       <article className={s.wrap}>
@@ -41,8 +46,8 @@ export default function Statement() {
         <div className={s.vitals}>
           <div className={s.vital}>
             <span className={s.vitalK}>baseline</span>
-            <span className={s.vitalV}>$3,453.83</span>
-            <span className={s.vitalS}>sealed 12 apr 2026</span>
+            <span className={s.vitalV}>{fmtMoneyCents(total)}</span>
+            <span className={s.vitalS}>live · {pct.toFixed(2)}% of goal</span>
           </div>
           <div className={s.vital}>
             <span className={s.vitalK}>goal</span>
@@ -51,7 +56,7 @@ export default function Statement() {
           </div>
           <div className={s.vital}>
             <span className={s.vitalK}>stake</span>
-            <span className={s.vitalV}>27×</span>
+            <span className={s.vitalV}>{(GOAL / total).toFixed(1)}×</span>
             <span className={s.vitalS}>in two months · no job</span>
           </div>
         </div>
@@ -67,13 +72,10 @@ export default function Statement() {
         <section className={s.block}>
           <div className={s.kicker}>// where to start</div>
           <ul className={s.links}>
-            <li><a href="https://aureliex.com">aureliex.com</a><em>the document</em></li>
+            <li><a href="https://aureliex.com/portfolio">portfolio</a><em>the book, live</em></li>
+            <li><a href="https://aureliex.com/letters/round-0">round 0</a><em>the article</em></li>
             <li><a href="https://aureliex.com/green-credit">green credit</a><em>the pitch</em></li>
-            <li><a href="https://aureliex.com/positions">positions</a><em>the book, live</em></li>
-            <li><a href="https://aureliex.com/argument">argument</a><em>the panel, live</em></li>
-            <li><a href="https://aureliex.com/let-down">let down</a><em>the essay · pre-mortem</em></li>
-            <li><a href="https://aureliex.com/6969#hunt">the hunt</a><em>thirteen eggs · three pay</em></li>
-            <li><Link href="/statement/panel">a personal statement, by panel</Link><em>the longer read</em></li>
+            <li><a href="https://aureliex.com/archives">archives</a><em>the rest — eggs included</em></li>
           </ul>
         </section>
 

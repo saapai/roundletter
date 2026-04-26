@@ -100,13 +100,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="tagline">project 2, v1 <span className="tagline-sep">·</span> a portfolio kept in public, in derivative order</div>
               <div className="rule" />
               <nav className="nav">
-                <Link href="/let-down" className="nav-emph">let down</Link>
-                <Link href="/">letters</Link>
-                <Link href="/positions">positions</Link>
-                <Link href="/market">market</Link>
-                <Link href="/green-credit">green credit</Link>
-                <Link href="/trades">trades</Link>
-                <Link href="/canvas">canvas</Link>
+                <Link href="/">home</Link>
+                <Link href="/portfolio">portfolio</Link>
+                <Link href="/letters/round-0">article</Link>
                 <Link href="/archives">archives</Link>
               </nav>
             </header>

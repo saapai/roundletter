@@ -7306,6 +7306,32 @@ body.reader-mode > main { padding-top: 2rem; }
   border-bottom-color: var(--ink);
 }
 
+/* PR3 · subtle index of unlinked routes. plain text, footnote-tone. */
+.archives-index {
+  list-style: none;
+  margin: 1.5rem auto 4rem;
+  padding: 0;
+  max-width: 24rem;
+  display: grid;
+  gap: 0.25rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+}
+.archives-index a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--rule);
+  padding-bottom: 0.1rem;
+  transition: color 160ms ease, border-bottom-color 160ms ease;
+}
+.archives-index a:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
 @media (max-width: 640px) {
   .archives-marker {
     grid-template-columns: 1fr;
@@ -16047,3 +16073,80 @@ body.hunt-fired .masthead .wordmark .dot {
   line-height: 1.5;
 }
 .home-v3-credit em { font-style: italic; color: rgba(242, 239, 232, 0.42); }
+
+/* ── /portfolio · category card grid (PR1 placeholders) ───────── */
+.cat-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+  max-width: 58rem;
+  margin: 1.25rem auto 1.5rem;
+}
+.cat-card-link { text-decoration: none; color: inherit; display: block; }
+.cat-card {
+  border: 1px solid rgba(28, 26, 23, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  padding: 0.9rem 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+.cat-card-link:hover .cat-card {
+  background: rgba(255, 255, 255, 0.78);
+  border-color: rgba(28, 26, 23, 0.18);
+}
+.cat-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.cat-card-label {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: #6B6560;
+}
+.cat-card-pct {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+  color: #6B6560;
+}
+.cat-card-pct.is-up { color: #2E5F3B; }
+.cat-card-pct.is-down { color: #6B2A20; }
+.cat-card-value {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: #1C1A17;
+}
+.cat-card-value.is-up { color: #2E5F3B; }
+.cat-card-value.is-down { color: #6B2A20; }
+.cat-card-value.is-stub {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 0.92rem;
+  color: #6B6560;
+  letter-spacing: 0;
+}
+.cat-card-spark {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 56px;
+}
+.cat-card-footnote {
+  max-width: 58rem;
+  margin: 0.5rem auto 2.5rem;
+  text-align: center;
+  font-style: italic;
+  color: #6B6560;
+}
