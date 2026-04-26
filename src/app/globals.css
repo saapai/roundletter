@@ -16877,3 +16877,159 @@ body:has(.bank-page) > footer { display: none !important; }
 .bank-page .card-name,
 .bank-page .art-piece-title { font-style: normal; }
 .bank-page .voice { font-style: italic; }
+
+/* ────────────────────────────────────────────────────────────
+   ART GALLERY v3 — actual e-t-d-s scroll-snap
+   The previous v2 set min-height: 100svh on each piece WITHOUT
+   activating snap on the page itself, so it just felt like a long
+   page. v3 puts scroll-snap on the html element via :has() while
+   on the art page, and gives each piece a hard snap-stop.
+   ──────────────────────────────────────────────────────────── */
+
+/* Activate page-level snap only on the art route */
+html:has(.bank-page--art) {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 0;
+  scroll-behavior: smooth;
+}
+html:has(.bank-page--art) body { background: #1A0A11; }
+
+/* Hide all the chrome around the gallery on the art page so each
+   piece truly fills the viewport. Header + footer + hero get pulled
+   into the first snap slot. */
+.bank-page--art {
+  padding: 0;
+  background: #1A0A11;
+  color: #F8E1E5;
+}
+.bank-page--art .eyebrow,
+.bank-page--art h1,
+.bank-page--art .deck {
+  text-align: center;
+  color: #F8E1E5;
+}
+.bank-page--art .eyebrow { padding-top: 1rem; opacity: 0.6; font-size: 0.65rem; letter-spacing: 0.22em; }
+.bank-page--art h1 { margin: 0.5rem 0 0.25rem; font-size: clamp(2rem, 1.4rem + 2vw, 3rem); font-style: italic; }
+.bank-page--art .deck { font-size: 0.85rem; color: rgba(248,225,229,0.55); margin-bottom: 0; }
+.bank-page--art .pathlink { color: rgba(248,225,229,0.55); border-bottom: 1px solid rgba(248,225,229,0.2); }
+.bank-page--art .pch-wrap,
+.bank-page--art .art-gallery-bar { display: none; }
+
+/* Reset gallery container — pieces snap to viewport */
+.bank-page--art .art-gallery,
+.bank-page--art .art-gallery--snap {
+  display: block;
+  margin: 0;
+  padding: 0;
+  scroll-snap-type: none;
+  background: #1A0A11;
+}
+
+/* Each piece IS one viewport, snap-stops always */
+.bank-page--art .art-piece {
+  min-height: 100svh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  justify-items: center;
+  padding: 4svh 5vw;
+  gap: 1.5rem;
+  background: #1A0A11;
+  margin: 0;
+  border: none;
+  opacity: 1;
+}
+
+/* Image is the wall art — generous bleed, no shadow on dark */
+.bank-page--art .art-piece-frame {
+  width: 100%;
+  max-width: min(85vw, 75svh);
+  display: grid;
+  place-items: center;
+}
+.bank-page--art .art-piece-img {
+  width: 100%;
+  max-height: 75svh;
+  object-fit: contain;
+  background: transparent;
+  border-radius: 1px;
+  box-shadow: 0 60px 100px rgba(0,0,0,0.55), 0 8px 32px rgba(0,0,0,0.35);
+  filter: brightness(1);
+}
+
+/* Museum tag — minimal, beneath, centered */
+.bank-page--art .art-piece-tag {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  column-gap: 1.5rem;
+  row-gap: 0.4rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(248,225,229,0.18);
+  max-width: min(85vw, 75svh);
+  width: 100%;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: rgba(248,225,229,0.65);
+  text-transform: uppercase;
+}
+.bank-page--art .art-piece-num { color: rgba(248,225,229,0.45); padding-top: 0.3rem; }
+.bank-page--art .art-piece-title {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.05rem, 0.8rem + 0.8vw, 1.4rem);
+  font-style: italic;
+  font-weight: 500;
+  color: #F8E1E5;
+  text-transform: none;
+  letter-spacing: -0.005em;
+}
+.bank-page--art .art-piece-medium { grid-column: 2; opacity: 0.7; }
+.bank-page--art .art-piece-row {
+  grid-column: 2;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.4rem;
+}
+.bank-page--art .art-piece-bid { color: #F8E1E5; font-weight: 600; }
+.bank-page--art .art-piece-bid em { font-style: normal; opacity: 0.55; margin-left: 0.4em; }
+
+/* Vertical jump-rail dots (CR2 recommendation) — desktop only */
+.art-rail {
+  position: fixed;
+  right: 1.4rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+  flex-direction: column;
+  gap: 0.4rem;
+  z-index: 50;
+}
+@media (min-width: 768px) {
+  .bank-page--art ~ .art-rail,
+  body:has(.bank-page--art) .art-rail { display: flex; }
+}
+.art-rail a {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(248,225,229,0.35);
+  border: none;
+  transition: transform 0.2s, background 0.2s;
+  display: block;
+}
+.art-rail a:hover { background: #F8E1E5; transform: scale(1.6); }
+
+/* Mobile: thinner rail at bottom */
+@media (max-width: 767px) {
+  .art-rail {
+    display: flex;
+    flex-direction: row;
+    right: 50%;
+    transform: translateX(50%);
+    top: auto;
+    bottom: 1rem;
+  }
+}

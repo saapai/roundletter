@@ -44,22 +44,17 @@ export default async function ArtPage() {
       />
 
       {/*
-        Gallery — full-bleed scroll-snap on BOTH mobile (vertical) and
-        desktop (vertical too, so each piece gets its own viewport row).
-        Per design-bank/etds-com.md: pure CSS, zero JS. Numbers are the
-        museum tag, image is the wall.
+        Gallery v3 — actual e-t-d-s scroll-snap. html:has(.bank-page--art)
+        sets scroll-snap-type: y mandatory on the page so each piece snaps
+        to viewport. Pure CSS, zero JS.
       */}
       <section className="art-gallery-section" aria-label="gallery">
-        <div className="art-gallery-bar">
-          <span className="art-gallery-count">{pieces.length} pieces</span>
-          <span className="art-gallery-hint">scroll ↓</span>
-        </div>
         <div className="art-gallery art-gallery--snap">
           {pieces.map((p, i) => {
             const bid =
               typeof p.current_bid === "number" ? p.current_bid : (p.start_bid ?? 0);
             return (
-              <figure key={p.id} className="art-piece">
+              <figure key={p.id} id={`piece-${i + 1}`} className="art-piece">
                 <div className="art-piece-frame">
                   <img
                     src={p.image as string}
@@ -85,6 +80,13 @@ export default async function ArtPage() {
           })}
         </div>
       </section>
+
+      {/* Vertical jump-rail — one dot per piece, fixed right edge */}
+      <nav className="art-rail" aria-label="jump to piece">
+        {pieces.map((p, i) => (
+          <a key={p.id} href={`#piece-${i + 1}`} aria-label={`piece ${i + 1}`} />
+        ))}
+      </nav>
     </article>
   );
 }
