@@ -104,6 +104,56 @@ export default async function PortfolioPage() {
         accountValueAtEntry={ACCOUNT_VALUE_AT_ENTRY}
       />
 
+      {/* screentime-style allocation bar — single stacked row over total,
+          then per-category mini-row with swatch / name / share-bar / $ / % */}
+      <section className="alloc-section" aria-label="allocation">
+        <div className="alloc-head">
+          <div className="alloc-eyebrow">allocation</div>
+          <div className="alloc-meta">{fmtMoney(data.total)} across {(["personal","external","art","prediction"] as const).filter(k => cats[k].current_value > 0).length} categories</div>
+        </div>
+        <div className="alloc-bar" role="img" aria-label="allocation across categories">
+          {(["personal","external","art","prediction"] as const).map((key) => {
+            const v = cats[key].current_value;
+            const pct = (v / Math.max(data.total, 1)) * 100;
+            if (v <= 0) return null;
+            return (
+              <span
+                key={key}
+                className={`alloc-seg alloc-seg--${key}`}
+                style={{ width: `${pct}%` }}
+                title={`${key} · ${fmtMoney(v)} · ${pct.toFixed(1)}%`}
+              />
+            );
+          })}
+        </div>
+        <ol className="alloc-legend">
+          {(
+            [
+              { key: "personal" as const,   label: "stocks",     href: "/stocks" },
+              { key: "external" as const,   label: "external",   href: "/external" },
+              { key: "art" as const,        label: "art",        href: "/art" },
+              { key: "prediction" as const, label: "prediction", href: "/prediction" },
+            ]
+          ).map(({ key, label, href }) => {
+            const v = cats[key].current_value;
+            const pct = (v / Math.max(data.total, 1)) * 100;
+            return (
+              <li key={key} className={`alloc-row alloc-row--${key}`}>
+                <Link href={href} className="alloc-row-link">
+                  <span className="alloc-swatch" aria-hidden="true" />
+                  <span className="alloc-name">{label}</span>
+                  <span className="alloc-bar-mini" aria-hidden="true">
+                    <span style={{ width: `${pct}%` }} />
+                  </span>
+                  <span className="alloc-val">{fmtMoney(v)}</span>
+                  <span className="alloc-pct">{pct.toFixed(1)}%</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
       <section className="cat-card-grid" aria-label="categories">
         {categoryCards.map((c) => {
           const block = cats[c.key];

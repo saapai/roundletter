@@ -16152,6 +16152,131 @@ body.hunt-fired .masthead .wordmark .dot {
 }
 
 /* ────────────────────────────────────────────────────────────
+   allocation — screentime-style stacked bar over total + per-
+   category legend rows w/ swatch / share-bar / $ / %.  the
+   point is that one glance tells you who owns the book today.
+   ──────────────────────────────────────────────────────────── */
+.alloc-section {
+  max-width: 58rem;
+  margin: 2.5rem auto 1.5rem;
+  padding: 0 1rem;
+}
+.alloc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+.alloc-eyebrow {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.alloc-meta {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  color: var(--graphite);
+}
+.alloc-bar {
+  display: flex;
+  width: 100%;
+  height: 1.4rem;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--paper) 92%, var(--ink));
+  margin-bottom: 1.5rem;
+}
+.alloc-seg { display: block; height: 100%; transition: filter 160ms ease; }
+.alloc-seg + .alloc-seg { border-left: 1px solid color-mix(in srgb, var(--paper) 70%, transparent); }
+.alloc-seg--personal   { background: #1C1A17; }
+.alloc-seg--external   { background: #8B5A3C; }
+.alloc-seg--art        { background: #D78A98; }
+.alloc-seg--prediction { background: #1A2E45; }
+.alloc-seg:hover { filter: brightness(1.15); }
+
+.alloc-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.alloc-row { padding: 0; }
+.alloc-row-link {
+  display: grid;
+  grid-template-columns: 0.75rem 6rem 1fr auto auto;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: var(--ink);
+  transition: background 160ms ease;
+}
+.alloc-row-link:hover { background: color-mix(in srgb, var(--paper) 92%, var(--ink)); }
+.alloc-swatch {
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 999px;
+}
+.alloc-row--personal   .alloc-swatch { background: #1C1A17; }
+.alloc-row--external   .alloc-swatch { background: #8B5A3C; }
+.alloc-row--art        .alloc-swatch { background: #D78A98; }
+.alloc-row--prediction .alloc-swatch { background: #1A2E45; }
+.alloc-name {
+  font-style: italic;
+  color: var(--ink);
+}
+.alloc-bar-mini {
+  display: block;
+  height: 0.45rem;
+  background: color-mix(in srgb, var(--paper) 88%, var(--ink));
+  position: relative;
+  overflow: hidden;
+}
+.alloc-bar-mini > span {
+  display: block;
+  height: 100%;
+  transition: width 240ms ease;
+}
+.alloc-row--personal   .alloc-bar-mini > span { background: #1C1A17; }
+.alloc-row--external   .alloc-bar-mini > span { background: #8B5A3C; }
+.alloc-row--art        .alloc-bar-mini > span { background: #D78A98; }
+.alloc-row--prediction .alloc-bar-mini > span { background: #1A2E45; }
+.alloc-val {
+  font-family: ui-monospace, monospace;
+  font-size: 0.78rem;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.alloc-pct {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  color: var(--graphite);
+  width: 3.5rem;
+  text-align: right;
+  white-space: nowrap;
+}
+@media (max-width: 540px) {
+  .alloc-row-link {
+    grid-template-columns: 0.65rem 4.5rem 1fr auto;
+    gap: 0.55rem;
+  }
+  .alloc-pct { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .alloc-bar-mini > span { transition: none; }
+  .alloc-seg { transition: none; }
+}
+
+/* ────────────────────────────────────────────────────────────
    ART GALLERY · per design-bank/etds-com.md
    Mobile (default): vertical CSS scroll-snap. Each piece centers
    in the viewport with breathing room. Inactive pieces dim to 0.5.
