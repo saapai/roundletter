@@ -1,11 +1,11 @@
 {
   "meta": {
-    "round": "round 0 · drop 1",
+    "round": "round 0 \u00b7 drop 1",
     "stake_reserved_pct": 10,
     "auction_close_iso": "",
-    "auction_close_label": "tbd · announced with the round 1 drop",
+    "auction_close_label": "tbd \u00b7 announced with the round 1 drop",
     "state": "open",
-    "about": "fourteen pieces by saapai p. (2015–present). pencil, colored pencil, pen, watercolor, and photograph. eleven of the fourteen are live; three are still being captured and remain as locked previews for now."
+    "about": "12 pieces by saapai p. (2015\u2013present). pencil, colored pencil, pen, watercolor, mixed media. tap any tile to offer $1 over the current bid via imessage. 10% of the total portfolio stake is reserved for art holders."
   },
   "pieces": [
     {
@@ -13,13 +13,16 @@
       "title": "heron, in color",
       "medium": "colored pencil on paper",
       "date": "2019-07-14",
-      "note": "most stylised of the set — the plumage is the study, the bird is the frame. panel priced it highest.",
+      "note": "most stylised of the set \u2014 the plumage is the study, the bird is the frame. panel priced it highest.",
       "image": "/art/rainbow-heron.jpg",
       "start_bid": 5,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["color", "portrait · animal"],
+      "tags": [
+        "color",
+        "portrait \u00b7 animal"
+      ],
       "locked_preview": ""
     },
     {
@@ -33,7 +36,10 @@
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait · animal", "texture study"],
+      "tags": [
+        "portrait \u00b7 animal",
+        "texture study"
+      ],
       "locked_preview": ""
     },
     {
@@ -47,35 +53,27 @@
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["color", "entomology"],
+      "tags": [
+        "color",
+        "entomology"
+      ],
       "locked_preview": ""
-    },
-    {
-      "id": "jack-sparrow-2015",
-      "title": "jack sparrow, looking down",
-      "medium": "graphite on paper",
-      "date": "2015-08-01",
-      "note": "likeness study after the pirates stills. the shading in the bandana beads is the tell.",
-      "image": "/art/jack-sparrow.jpg",
-      "start_bid": 4,
-      "current_bid": null,
-      "bid_count": 0,
-      "status": "open",
-      "tags": ["portrait · figure", "likeness"],
-      "locked_preview": "depp-as-jack-sparrow in shadow · bandana + beads + dreadlocks · the earliest piece in the drop, 2015."
     },
     {
       "id": "eagle-closeup-2020",
       "title": "eagle, up close",
       "medium": "graphite on paper",
       "date": "2020-03-30",
-      "note": "close-up portrait — the pupil catch and the radial feathers carry it.",
+      "note": "close-up portrait \u2014 the pupil catch and the radial feathers carry it.",
       "image": "/art/eagle-closeup.jpg",
       "start_bid": 3,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait · animal", "close-up"],
+      "tags": [
+        "portrait \u00b7 animal",
+        "close-up"
+      ],
       "locked_preview": ""
     },
     {
@@ -89,7 +87,10 @@
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["study", "entomology"],
+      "tags": [
+        "study",
+        "entomology"
+      ],
       "locked_preview": ""
     },
     {
@@ -103,7 +104,9 @@
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait · figure"],
+      "tags": [
+        "portrait \u00b7 figure"
+      ],
       "locked_preview": ""
     },
     {
@@ -111,13 +114,16 @@
       "title": "conch, tangled",
       "medium": "pen on paper",
       "date": "2018-07-17",
-      "note": "zentangle — each ridge a different pattern. patient rather than flashy.",
+      "note": "zentangle \u2014 each ridge a different pattern. patient rather than flashy.",
       "image": "/art/zentangle-conch.jpg",
       "start_bid": 2,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["pattern", "pen"],
+      "tags": [
+        "pattern",
+        "pen"
+      ],
       "locked_preview": ""
     },
     {
@@ -131,7 +137,10 @@
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["portrait", "soft-shading"],
+      "tags": [
+        "portrait",
+        "soft-shading"
+      ],
       "locked_preview": ""
     },
     {
@@ -139,42 +148,17 @@
       "title": "scorpion, raised tail",
       "medium": "graphite on paper",
       "date": "2017-07-18",
-      "note": "anatomical — leg-bristles are the detail. earliest graphite work in the drop.",
+      "note": "anatomical \u2014 leg-bristles are the detail. earliest graphite work in the drop.",
       "image": "/art/scorpion.jpg",
       "start_bid": 2,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["study", "entomology"],
+      "tags": [
+        "study",
+        "entomology"
+      ],
       "locked_preview": ""
-    },
-    {
-      "id": "coming-soon-2026",
-      "title": "coming soon · 04.25.2026",
-      "medium": "digital · chromatic motion blur",
-      "date": "2026-04-20",
-      "note": "rgb-split + shutter-blur teaser poster. the one-frame register the hunt runs on.",
-      "image": "/art/coming-soon.jpg",
-      "start_bid": 5,
-      "current_bid": null,
-      "bid_count": 0,
-      "status": "open",
-      "tags": ["digital", "poster", "motion-blur"],
-      "locked_preview": "a motion-blurred chromatic poster reading 'coming soon · 04.25.2026' · the register every other piece is sitting on."
-    },
-    {
-      "id": "orbstudio-photoshoot",
-      "title": "figure, on the move",
-      "medium": "photograph · long-exposure",
-      "date": "2026-04-20",
-      "note": "kitxhe_ / @orbstudio.co. shutter speed too slow, on purpose. the blur is the point.",
-      "image": "/art/orbstudio-shoot.jpg",
-      "start_bid": 4,
-      "current_bid": null,
-      "bid_count": 0,
-      "status": "open",
-      "tags": ["photograph", "motion-blur", "fashion"],
-      "locked_preview": "a figure photographed with the shutter too slow · plaid jacket, backpack, the body doubled across the frame."
     },
     {
       "id": "watercolor-face-2026",
@@ -187,13 +171,17 @@
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["watercolor", "portrait", "hand-drawn"],
+      "tags": [
+        "watercolor",
+        "portrait",
+        "hand-drawn"
+      ],
       "locked_preview": ""
     },
     {
       "id": "kraft-folio-back",
       "title": "kraft folio, back cover",
-      "medium": "photograph · archival",
+      "medium": "photograph \u00b7 archival",
       "date": "2026-04-22",
       "note": "the portfolio the drop travels in. the frame, not the content.",
       "image": "/art/kraft-folio.jpg",
@@ -201,21 +189,28 @@
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["archival", "meta"],
+      "tags": [
+        "archival",
+        "meta"
+      ],
       "locked_preview": ""
     },
     {
       "id": "tupac-basketball-2026",
-      "title": "tupac · basketball, on canvas",
+      "title": "tupac \u00b7 basketball, on canvas",
       "medium": "stencil + spray paint on canvas",
       "date": "2026-04-25",
-      "note": "two canvases hung side by side · placeholder copy · edit before launch.",
+      "note": "two canvases hung side by side \u00b7 placeholder copy \u00b7 edit before launch.",
       "image": "/art/tupac-basketball.jpg",
       "start_bid": 4,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
-      "tags": ["mixed-media", "stencil", "spray-paint"],
+      "tags": [
+        "mixed-media",
+        "stencil",
+        "spray-paint"
+      ],
       "locked_preview": ""
     }
   ]
