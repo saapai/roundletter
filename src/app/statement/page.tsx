@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { HUNT_PHONE_DISPLAY, HUNT_PHONE_SMS } from "@/lib/hunt";
-import { getLivePortfolio, fmtMoneyCents } from "@/lib/portfolio-live";
+import { fmtMoneyCents } from "@/lib/portfolio-live";
+import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import s from "./statement.module.css";
 
 // saathvikpai.com serves this page at its root (see src/middleware.ts).
@@ -22,8 +23,9 @@ export const metadata: Metadata = {
 const GOAL = 100_000;
 
 export default async function Statement() {
-  const lp = await getLivePortfolio();
-  const total = lp.value;
+  // Whole-bank total (personal + external + art + prediction), not just stocks.
+  const data = await getPortfolioData();
+  const total = data.total;
   const pct = (total / GOAL) * 100;
 
   return (

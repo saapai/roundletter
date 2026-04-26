@@ -86,10 +86,7 @@ export default async function HomePage() {
       <section className="cov" aria-label="the cover">
         <div className="cov-img">
           <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
-          {/* the cursive signature is the only wordmark — top-left of the
-              painting, opposite Yoshida's bottom-right calligraphic signature
-              and hanko.  no separate masthead bar. */}
-          <span className="cov-mark" aria-hidden="true">aureliex</span>
+          {/* cursive cov-mark removed per D1 — was fighting the headline */}
         </div>
 
         <div className="cov-head">
