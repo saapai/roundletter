@@ -17603,3 +17603,267 @@ html:has(.bank-page--art) body { background: #1A0A11; }
   .glyph-card { animation: none !important; }
   .sun-bar-glyph { transition: none !important; }
 }
+
+/* ────────────────────────────────────────────────────────────
+   THE TICKER — /portfolio/prediction (per SO2 design)
+   Deep navy base · bone text · mint accent on positives only.
+   Mobile-first, 430px viewport. Honors prefers-reduced-motion.
+   ──────────────────────────────────────────────────────────── */
+
+.ticker-page.bank-page--prediction {
+  --ticker-navy: #0A1628;
+  --ticker-bone: #F4F1E8;
+  --ticker-mint: #7DD3A0;
+  --ticker-rule: rgba(244,241,232,0.16);
+  --ticker-mute: rgba(244,241,232,0.55);
+  /* Override inherited prediction palette so the ticker reads pure */
+  --paper: var(--ticker-navy);
+  --ink: var(--ticker-bone);
+  --graphite: var(--ticker-mute);
+  --rule: var(--ticker-rule);
+  background: var(--ticker-navy);
+  color: var(--ticker-bone);
+  min-height: 100vh;
+  padding: 0 0 7rem;
+  max-width: 100%;
+}
+.ticker-page * { box-sizing: border-box; }
+
+.ticker-masthead {
+  padding: 2.25rem 1.25rem 1.5rem;
+  text-align: left;
+  max-width: 540px;
+  margin: 0 auto;
+}
+.ticker-eyebrow {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: lowercase;
+  color: var(--ticker-mute);
+  margin-bottom: 0.6rem;
+}
+.ticker-total {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  font-size: clamp(48px, 12vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--ticker-bone);
+}
+.ticker-meta {
+  margin-top: 0.9rem;
+  font-family: var(--font-body), Inter, system-ui, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--ticker-mute);
+  line-height: 1.5;
+}
+
+/* Event cards ─────────────────────────────────────────────── */
+.ticker-events {
+  max-width: 540px;
+  margin: 1.5rem auto 0;
+  padding: 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.ticker-event {
+  padding: 1.1rem 0;
+  border-top: 1px solid var(--ticker-rule);
+  opacity: 0;
+  transform: translateY(4px);
+  animation: tickerFadeIn 360ms ease-out forwards;
+}
+.ticker-event:last-child { border-bottom: 1px solid var(--ticker-rule); }
+@keyframes tickerFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.ticker-event-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.ticker-event-title {
+  font-family: var(--font-body), Inter, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ticker-bone);
+  margin: 0;
+}
+.ticker-event-exposure {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  color: var(--ticker-bone);
+  white-space: nowrap;
+}
+.ticker-chips {
+  margin-top: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.ticker-chip {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 11px;
+  line-height: 1;
+  padding: 4px 8px;          /* spec: 2x4 → vertical 4 horizontal 8 reads cleaner at this size */
+  border: 1px solid var(--ticker-rule);
+  color: var(--ticker-bone);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45em;
+  position: relative;
+}
+.ticker-chip-team { color: var(--ticker-bone); }
+.ticker-chip-price { color: var(--ticker-mute); }
+.ticker-chip::after {
+  content: "";
+  position: absolute;
+  left: 8px; right: 8px; bottom: 1px;
+  height: 1px;
+  background: var(--ticker-mint);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: tickerChipPulse 1.2s ease-out forwards;
+  animation-delay: 480ms;
+  opacity: 0.65;
+}
+@keyframes tickerChipPulse {
+  0%   { transform: scaleX(0); opacity: 0.85; }
+  60%  { transform: scaleX(1); opacity: 0.65; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+.ticker-chips--empty .ticker-chip-strike {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--ticker-mute);
+  text-decoration: line-through;
+  text-decoration-color: var(--ticker-mute);
+}
+.ticker-chips--empty .ticker-chip-flat {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 11px;
+  color: var(--ticker-mute);
+}
+
+/* Polymarket float row ─────────────────────────────────────── */
+.ticker-poly {
+  max-width: 540px;
+  margin: 1.75rem auto 0;
+  padding: 1rem 1.25rem 0;
+  border-top: 1px solid var(--ticker-rule);
+}
+.ticker-poly-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.ticker-poly-tilde {
+  color: var(--ticker-mute);
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+}
+.ticker-poly-name {
+  font-family: var(--font-body), Inter, system-ui, sans-serif;
+  font-size: 13px;
+  color: var(--ticker-bone);
+  flex: 1;
+  letter-spacing: 0.01em;
+}
+.ticker-poly-amount {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  color: var(--ticker-bone);
+  text-align: right;
+}
+.ticker-poly-meta {
+  margin-top: 0.4rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--ticker-mute);
+}
+
+/* Marquee — ESPN bottom-line ───────────────────────────────── */
+.ticker-marquee {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0; /* full-width strip; BankNav is nudged up via .bank-page--prediction rule below */
+  z-index: 30;
+  background: rgba(10,22,40,0.92);
+  border-top: 1px solid var(--ticker-rule);
+  border-bottom: 1px solid var(--ticker-rule);
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  outline: none;
+}
+.ticker-marquee:focus-visible { box-shadow: inset 0 0 0 1px var(--ticker-mint); }
+.ticker-marquee-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
+  animation: tickerScroll 60s linear infinite;
+  padding: 0.55rem 0;
+}
+.ticker-marquee:hover .ticker-marquee-track,
+.ticker-marquee:focus-within .ticker-marquee-track {
+  animation-play-state: paused;
+}
+.ticker-marquee-static-track {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0.55rem 1rem;
+}
+@keyframes tickerScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.ticker-marquee-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4em;
+  padding: 0 0.9rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--ticker-bone);
+}
+.ticker-marquee-team { color: var(--ticker-bone); }
+.ticker-marquee-delta--up { color: var(--ticker-mint); }
+.ticker-marquee-delta--flat {
+  color: var(--ticker-mute);
+  text-decoration: line-through;
+  text-decoration-color: var(--ticker-mute);
+}
+.ticker-marquee-sep { color: var(--ticker-mute); }
+.ticker-marquee-ago { color: var(--ticker-mute); }
+.ticker-marquee-gap { color: var(--ticker-rule); margin-left: 0.6em; }
+
+/* Mobile tightening ────────────────────────────────────────── */
+@media (max-width: 430px) {
+  .ticker-masthead { padding: 1.75rem 1rem 1.25rem; }
+  .ticker-events { padding: 0 1rem; }
+  .ticker-poly { padding: 1rem 1rem 0; }
+}
+
+/* Reduced motion — kill scroll + count + fade + chip pulse */
+@media (prefers-reduced-motion: reduce) {
+  .ticker-event { animation: none; opacity: 1; transform: none; }
+  .ticker-chip::after { animation: none; opacity: 0; }
+  .ticker-marquee-track { animation: none; }
+}
+
+/* Nudge BankNav above the marquee strip on the ticker page */
+.bank-page--prediction .bank-nav,
+.ticker-page ~ .bank-nav { bottom: 3.25rem; }

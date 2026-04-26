@@ -29,6 +29,18 @@ export type KalshiMarketPosition = {
   last_updated_ts: string;
 };
 
+export type KalshiFill = {
+  ticker: string;
+  market_ticker?: string;
+  action: string;
+  side: string;
+  count_fp: string;
+  yes_price_dollars?: string;
+  no_price_dollars?: string;
+  fee_cost?: string;
+  created_time: string;
+};
+
 export type KalshiSnapshot = {
   date: string;            // YYYY-MM-DD (from filename)
   cash: number;            // dollars
@@ -38,6 +50,7 @@ export type KalshiSnapshot = {
   event_positions: KalshiEventPosition[];
   market_positions: KalshiMarketPosition[];
   fills_count: number;
+  fills: KalshiFill[];
 };
 
 type RawKalshiFile = {
@@ -46,7 +59,7 @@ type RawKalshiFile = {
     portfolio_value_dollars?: number;
     as_of?: string;
   };
-  fills?: unknown[];
+  fills?: KalshiFill[];
   positions?: {
     event_positions?: KalshiEventPosition[];
     market_positions?: KalshiMarketPosition[];
@@ -71,18 +84,23 @@ function num(s: string | undefined | null, fallback = 0): number {
   return Number.isFinite(n) ? n : fallback;
 }
 
-export function getLatestKalshiSnapshot(): KalshiSnapshot | null {
-  const files = listSnapshotFiles("kalshi");
-  if (files.length === 0) return null;
-  const latest = files[files.length - 1];
-  const date = latest.replace(/\.json$/, "");
-  const full = path.join(SNAPSHOT_ROOT, "kalshi", latest);
-  let raw: RawKalshiFile;
+function readSnapshotFile(file: string): { date: string; raw: RawKalshiFile } | null {
+  const date = file.replace(/\.json$/, "");
+  const full = path.join(SNAPSHOT_ROOT, "kalshi", file);
   try {
-    raw = JSON.parse(fs.readFileSync(full, "utf8")) as RawKalshiFile;
+    const raw = JSON.parse(fs.readFileSync(full, "utf8")) as RawKalshiFile;
+    return { date, raw };
   } catch {
     return null;
   }
+}
+
+export function getLatestKalshiSnapshot(): KalshiSnapshot | null {
+  const files = listSnapshotFiles("kalshi");
+  if (files.length === 0) return null;
+  const latest = readSnapshotFile(files[files.length - 1]);
+  if (!latest) return null;
+  const { date, raw } = latest;
   const event_positions = raw.positions?.event_positions ?? [];
   const market_positions = raw.positions?.market_positions ?? [];
   // Computed portfolio_value (live exposures) — use as fallback when
@@ -94,6 +112,24 @@ export function getLatestKalshiSnapshot(): KalshiSnapshot | null {
   const cash = raw.summary?.cash_dollars ?? 0;
   const portfolio_value =
     raw.summary?.portfolio_value_dollars ?? computedExposure;
+  // Fills sometimes get pruned from newer summary-only snapshots — walk back
+  // through earlier files to find the most recent fills history. Surface up
+  // to 50 most-recent fills (sorted desc); UI can slice further.
+  let fills: KalshiFill[] = Array.isArray(raw.fills) ? raw.fills : [];
+  let fills_count = fills.length;
+  if (fills.length === 0) {
+    for (let i = files.length - 2; i >= 0; i--) {
+      const prior = readSnapshotFile(files[i]);
+      if (prior?.raw.fills && prior.raw.fills.length > 0) {
+        fills = prior.raw.fills;
+        fills_count = fills.length;
+        break;
+      }
+    }
+  }
+  fills = [...fills]
+    .sort((a, b) => (a.created_time < b.created_time ? 1 : -1))
+    .slice(0, 50);
   return {
     date,
     cash,
@@ -102,6 +138,7 @@ export function getLatestKalshiSnapshot(): KalshiSnapshot | null {
     pulled_at: raw.pulled_at ?? null,
     event_positions,
     market_positions,
-    fills_count: Array.isArray(raw.fills) ? raw.fills.length : 0,
+    fills_count,
+    fills,
   };
 }
