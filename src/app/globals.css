@@ -2839,29 +2839,39 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   line-height: 1.55;
   max-width: 40rem;
 }
+/* Segmented control · the active "puck" stays in-palette: a subtle
+   lift off the track with a hairline border, ink-tone text. No
+   paper-on-ink inversion (it read as a cream pill stranded on the
+   dark page in the original treatment). */
 .pch-filters {
-  display: flex;
-  gap: 0.3rem;
-  background: color-mix(in srgb, var(--ink, #1C1A17) 5%, transparent);
+  display: inline-flex;
+  gap: 2px;
+  background: color-mix(in srgb, var(--ink, #1C1A17) 7%, transparent);
   padding: 3px;
   border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ink, #1C1A17) 14%, transparent);
 }
 .pch-filter {
   background: transparent;
-  border: 0;
-  padding: 0.35rem 0.75rem;
+  border: 1px solid transparent;
+  padding: 0.32rem 0.85rem;
   font-family: "Menlo", ui-monospace, monospace;
   font-size: 10.5px;
   letter-spacing: 0.18em;
-  color: color-mix(in srgb, var(--ink, #1C1A17) 55%, var(--paper, #F4EFE6));
+  color: color-mix(in srgb, var(--ink, #1C1A17) 62%, var(--paper, #F4EFE6));
   border-radius: 999px;
   cursor: pointer;
-  transition: background 160ms ease, color 160ms ease;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
 }
-.pch-filter:hover { color: var(--ink, #1C1A17); }
+.pch-filter:hover {
+  color: var(--ink, #1C1A17);
+  background: color-mix(in srgb, var(--ink, #1C1A17) 5%, transparent);
+}
 .pch-filter.is-active {
-  background: var(--ink, #1C1A17);
-  color: var(--paper, #F4EFE6);
+  color: var(--ink, #1C1A17);
+  background: color-mix(in srgb, var(--paper, #F4EFE6) 92%, var(--ink, #1C1A17) 8%);
+  border-color: color-mix(in srgb, var(--ink, #1C1A17) 22%, transparent);
+  font-weight: 600;
 }
 .pch-values {
   display: flex;
@@ -18519,23 +18529,8 @@ body:has(.bank-page) > footer { display: none !important; }
 .bank-page--investments .pch-delta.is-down {
   color: #E89B72;
 }
-.bank-page--constellation .pch-filters,
-.bank-page--investments .pch-filters {
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
-}
-.bank-page--constellation .pch-filter,
-.bank-page--investments .pch-filter {
-  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
-}
-.bank-page--constellation .pch-filter:hover,
-.bank-page--investments .pch-filter:hover {
-  color: var(--ink);
-}
-.bank-page--constellation .pch-filter.is-active,
-.bank-page--investments .pch-filter.is-active {
-  color: var(--paper);
-  background: var(--ink);
-}
+/* Per-room .pch-filter overrides removed — the base rule above is
+   token-driven and handles every room's palette uniformly. */
 
 /* Marquee — ESPN bottom-line ───────────────────────────────── */
 .ticker-marquee {
