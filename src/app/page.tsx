@@ -106,33 +106,36 @@ export default async function HomePage() {
       {/* ── BIG ROOMS — chunky entry tiles into each room of the bank.
             each subroute will carry its own visual register (dark / parchment
             / warm / electric).  desktop: 5-up; mobile: 2-up snap-grid.       */}
+      {/*
+        Rooms — reordered per CR3 critique: lead with ART (the most
+        distinctive, event-driven room), then PREDICTION (live, real
+        money), INVESTMENTS (baseline), ARTICLE (the why). Eyebrow
+        numbers dropped (CR3). Archives demoted to footer text link.
+      */}
       <nav className="rooms" aria-label="rooms">
-        <Link href="/portfolio/personal" className="room room--investments">
-          <span className="room-eyebrow">01 · investments</span>
-          <span className="room-name">stocks</span>
-          <span className="room-meta">live · daily marks</span>
-        </Link>
         <Link href="/portfolio/art" className="room room--art">
-          <span className="room-eyebrow">02 · art</span>
-          <span className="room-name">15 pieces</span>
-          <span className="room-meta">auction · round 1</span>
+          <span className="room-name">art</span>
+          <span className="room-meta">12 pieces · auction · round 1</span>
         </Link>
         <Link href="/portfolio/prediction" className="room room--prediction">
-          <span className="room-eyebrow">03 · prediction</span>
-          <span className="room-name">kalshi · poly</span>
-          <span className="room-meta">live · real money</span>
+          <span className="room-name">prediction</span>
+          <span className="room-meta">kalshi + poly · live</span>
+        </Link>
+        <Link href="/portfolio/personal" className="room room--investments">
+          <span className="room-name">investments</span>
+          <span className="room-meta">10 positions · daily marks</span>
         </Link>
         <Link href="/letters/round-0" className="room room--articles">
-          <span className="room-eyebrow">04 · article</span>
           <span className="room-name">round 0</span>
-          <span className="room-meta">the letter</span>
-        </Link>
-        <Link href="/archives" className="room room--archives">
-          <span className="room-eyebrow">05 · archives</span>
-          <span className="room-name">eggs</span>
-          <span className="room-meta">unlinked · still live</span>
+          <span className="room-meta">the article</span>
         </Link>
       </nav>
+
+      <p className="rooms-foot">
+        <Link href="/portfolio">/ portfolio overview</Link>
+        {" · "}
+        <Link href="/archives">archives ↗</Link>
+      </p>
     </main>
   );
 }

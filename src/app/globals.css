@@ -16789,3 +16789,91 @@ body:has(.bank-page) > footer { display: none !important; }
 
 /* Bigger, calmer hero on themed pages */
 .bank-page .bank-hero { padding: 5.5rem 0 3.5rem; }
+
+/* ────────────────────────────────────────────────────────────
+   POLISH PASS v3 — per critique agents CR1+CR3+CR4
+   - desaturate pink, deepen navy, warm cream
+   - rooms: 4-up (no archives tile), drop eyebrow numbers
+   - bank-page typography reset (16px body, mono tickers)
+   - kill stray italics on data
+   ──────────────────────────────────────────────────────────── */
+
+/* Pink desaturated — rose, not bubblegum (CR1) */
+.room--art { background: #E3BFC2; color: #2D1018; }
+.room--art .room-meta { color: #7A4250; }
+.room--art:hover { background: #DAB1B5; }
+.bank-page--art {
+  --paper: #EBC7CB; --ink: #2D1018; --graphite: #7A4250;
+  --rule: rgba(45,16,24,0.16); --parchment: #E3BFC2;
+  --rust: #A93651;
+}
+
+/* Navy deepened, less tech-blog (CR1) */
+.room--prediction { background: #0D1B2E; color: #BCD0E5; }
+.room--prediction .room-meta { color: #5C7A98; }
+.room--prediction:hover { background: #122339; }
+.bank-page--prediction {
+  --paper: #0D1B2E; --ink: #DCE9F4; --graphite: #6889A7;
+  --rule: rgba(220,233,244,0.14); --parchment: #122339;
+  --rust: #C9A961;
+}
+
+/* Cream warmer (CR1) */
+.room--articles { background: #EDE5D4; }
+.bank-page--external {
+  --paper: #EDE5D4; --ink: #1C1A17; --graphite: #6B6560;
+  --rule: rgba(28,26,23,0.14); --parchment: #E5DCC4;
+  --rust: #8B3A2E;
+}
+
+/* 4-up rooms (no archives tile) — CR3 */
+@media (min-width: 768px) {
+  .rooms { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 767px) {
+  .rooms { grid-template-columns: 1fr; }   /* CR3: single col on mobile */
+  .rooms .room--archives { display: none; }
+}
+.rooms-foot {
+  text-align: center;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--graphite);
+  margin: 1.25rem 0 2rem;
+  padding: 0 1rem;
+}
+.rooms-foot a {
+  color: var(--graphite);
+  text-decoration: none;
+  border-bottom: 1px dotted currentColor;
+}
+.rooms-foot a:hover { color: var(--ink); }
+
+/* CR4 typography reset on bank-page — body 16px, mono tickers tabular */
+.bank-page { font-size: 16px; line-height: 1.6; }
+.bank-page h1 { font-size: clamp(2.4rem, 1.6rem + 3vw, 3.6rem); line-height: 1.1; letter-spacing: -0.012em; }
+.bank-page h2 { font-size: clamp(1.4rem, 1.1rem + 1.2vw, 2rem); line-height: 1.15; letter-spacing: -0.005em; }
+.bank-page p, .bank-page li { font-size: 1rem; line-height: 1.6; }
+.bank-page .deck { font-size: 1.05rem; line-height: 1.5; color: var(--graphite); }
+.bank-page table { font-size: 0.95rem; line-height: 1.45; }
+.bank-page th, .bank-page td { padding: 12px 14px; }
+.bank-page td.num,
+.bank-page .num,
+.bank-page .ticker,
+.bank-page code,
+.bank-page .card-ticker,
+.bank-page .cat-card-value,
+.bank-page .art-piece-bid {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+/* Kill stray italic on data; keep .voice italic for editorial */
+.bank-page em,
+.bank-page i,
+.bank-page .art-piece-bid em,
+.bank-page .card-name,
+.bank-page .art-piece-title { font-style: normal; }
+.bank-page .voice { font-style: italic; }
