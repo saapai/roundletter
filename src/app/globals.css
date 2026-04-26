@@ -17351,3 +17351,255 @@ html:has(.bank-page--art) body { background: #1A0A11; }
   text-decoration: none;
   border-bottom: 1px dotted #C76B4F;
 }
+
+/* ============================================================
+   "The Constellation" — /portfolio/personal star-map view.
+   Per SO1 design agent: monochrome gold accent, no green/red.
+   Direction lives in ▲ / ▼ glyphs, not color.
+   ============================================================ */
+
+.bank-page--constellation {
+  --con-bg: #0A0A0C;
+  --con-star: #F4EDE0;
+  --con-accent: #D4A24C;
+  background: var(--con-bg);
+  color: var(--con-star);
+}
+.bank-page--constellation .eyebrow,
+.bank-page--constellation .deck,
+.bank-page--constellation h1,
+.bank-page--constellation h2 {
+  color: var(--con-star);
+}
+.bank-page--constellation .pathlink { color: var(--con-accent); }
+.bank-page--constellation .pathlink:hover { color: var(--con-star); }
+.bank-page--constellation .page-section-meta {
+  color: var(--con-accent);
+  font-family: "JetBrains Mono", "Menlo", ui-monospace, monospace;
+}
+
+.page-section--constellation {
+  margin-top: 2rem;
+  padding-bottom: 6rem; /* room for sticky sun-bar */
+}
+
+.constellation {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+/* ---- starfield SVG ---- */
+.starfield {
+  display: block;
+  width: 100%;
+  height: 560px;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(212,162,76,0.06), transparent 60%),
+    var(--con-bg);
+  border: 1px solid rgba(244,237,224,0.08);
+  border-radius: 4px;
+  overflow: visible;
+  cursor: crosshair;
+}
+.starfield-ecliptic {
+  stroke: rgba(244,237,224,0.18);
+  stroke-width: 0.6;
+  stroke-dasharray: 2 4;
+}
+.starfield-axis-label {
+  font-family: "JetBrains Mono", "Menlo", ui-monospace, monospace;
+  font-size: 9px;
+  fill: rgba(244,237,224,0.35);
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+}
+
+.star {
+  cursor: pointer;
+  transform-box: fill-box;
+  animation: con-heartbeat 1.2s ease-in-out infinite;
+  outline: none;
+}
+.star:focus-visible .star-core {
+  stroke: var(--con-accent);
+  stroke-width: 1.2;
+}
+.star-core {
+  fill: var(--con-star);
+  transition: fill 200ms ease;
+}
+.star--down .star-core {
+  fill: var(--con-star);
+  fill-opacity: 0.4;
+}
+.star--up .star-core {
+  fill: var(--con-accent);
+}
+.star--sel .star-core {
+  fill: var(--con-accent);
+  stroke: var(--con-star);
+  stroke-width: 1;
+}
+.star-halo {
+  fill: var(--con-accent);
+  fill-opacity: 0.18;
+  stroke: var(--con-accent);
+  stroke-opacity: 0.35;
+  stroke-width: 0.6;
+  animation: con-breathe 1.667s ease-in-out infinite; /* 0.6 Hz */
+  pointer-events: none;
+}
+.star-tick {
+  font-family: "JetBrains Mono", "Menlo", ui-monospace, monospace;
+  font-size: 9px;
+  fill: var(--con-star);
+  letter-spacing: 0.06em;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+.star-glyph {
+  font-size: 10px;
+  fill: var(--con-accent);
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+@keyframes con-heartbeat {
+  0%, 100% { transform: scale(1.0); }
+  50%      { transform: scale(1.04); }
+}
+@keyframes con-breathe {
+  0%, 100% { opacity: 0.35; transform-origin: center; }
+  50%      { opacity: 0.85; }
+}
+
+/* ---- glyph card (slides up from bottom) ---- */
+.glyph-card {
+  position: fixed;
+  left: 50%;
+  bottom: 84px;
+  transform: translateX(-50%);
+  width: min(94vw, 412px);
+  background: rgba(10,10,12,0.96);
+  border: 1px solid rgba(212,162,76,0.45);
+  border-radius: 6px;
+  padding: 1rem 1.1rem 1.15rem;
+  color: var(--con-star);
+  z-index: 40;
+  animation: con-card-up 240ms cubic-bezier(.2,.7,.2,1);
+  box-shadow: 0 18px 60px rgba(0,0,0,0.55);
+}
+@keyframes con-card-up {
+  from { transform: translate(-50%, 16px); opacity: 0; }
+  to   { transform: translate(-50%, 0);     opacity: 1; }
+}
+.glyph-card-close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.55rem;
+  background: none;
+  border: 0;
+  color: var(--con-star);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.55;
+  padding: 0.25rem 0.5rem;
+}
+.glyph-card-close:hover { opacity: 1; }
+.glyph-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+.glyph-ticker {
+  font-family: "JetBrains Mono", "Menlo", ui-monospace, monospace;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  color: var(--con-accent);
+}
+.glyph-name {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 0.95rem;
+  color: rgba(244,237,224,0.7);
+  font-style: italic;
+}
+.glyph-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem 1.2rem;
+}
+.glyph-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.glyph-label {
+  font-family: "JetBrains Mono", "Menlo", ui-monospace, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(244,237,224,0.5);
+}
+.glyph-num {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.35rem;
+  line-height: 1.1;
+  color: var(--con-star);
+}
+.glyph-sub {
+  font-family: "JetBrains Mono", "Menlo", ui-monospace, monospace;
+  font-size: 0.72rem;
+  color: var(--con-accent);
+  opacity: 0.85;
+}
+
+/* ---- sticky sun bar ---- */
+.sun-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.55rem 1.1rem 0.55rem 0.7rem;
+  background: rgba(10,10,12,0.92);
+  border: 1px solid rgba(244,237,224,0.18);
+  border-radius: 999px;
+  color: var(--con-star);
+  z-index: 35;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.sun-bar-glyph { color: var(--con-accent); flex-shrink: 0; }
+.sun-bar-total {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.01em;
+}
+.sun-bar-pill {
+  font-family: "JetBrains Mono", "Menlo", ui-monospace, monospace;
+  font-size: 0.78rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--con-accent);
+  color: var(--con-accent);
+}
+.sun-bar--down .sun-bar-pill { color: rgba(244,237,224,0.65); border-color: rgba(244,237,224,0.4); }
+
+/* keep BankNav above sun-bar visually */
+.bank-page--constellation + .bank-nav,
+.bank-page--constellation .bank-nav { z-index: 50; }
+
+/* reduced motion: kill heartbeat + breathing halo + card slide */
+@media (prefers-reduced-motion: reduce) {
+  .star { animation: none !important; transform: none !important; }
+  .star-halo { animation: none !important; opacity: 0.55 !important; }
+  .glyph-card { animation: none !important; }
+  .sun-bar-glyph { transition: none !important; }
+}

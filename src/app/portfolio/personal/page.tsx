@@ -1,12 +1,13 @@
 import BankNav from "@/components/BankNav";
+import Constellation from "@/components/Constellation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
 import { getPortfolioData, getPersonalLive } from "@/lib/portfolio-aggregate";
 
-// /portfolio/personal — P&L cards per position + sticky TOTAL.
-// Per agent debate (PL1+PL2+PL3 synthesis): mobile-first cards, two
-// pills per position (TODAY · SINCE-ENTRY), one big number = current value.
+// /portfolio/personal — "The Constellation" (per SO1 design agent).
+// Each holding is a star: x=entry order, y=since-entry %, brightness∝today |Δ%|.
+// Tap a star → glyph card. Sticky bottom: SunGlyph + total + today pill.
 
 export const dynamic = "force-dynamic";
 
@@ -22,24 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function fmt$(n: number, opts: { decimals?: number; sign?: boolean } = {}): string {
-  const decimals = opts.decimals ?? 0;
-  const abs = Math.abs(n);
-  const s = `$${abs.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}`;
-  if (!opts.sign) return s;
-  if (n > 0.005) return `+${s}`;
-  if (n < -0.005) return `−${s}`;
-  return s;
-}
-function fmtPct(n: number): string {
-  if (Math.abs(n) < 0.005) return "—";
-  const s = `${Math.abs(n).toFixed(2)}%`;
-  return n > 0 ? `+${s}` : `−${s}`;
-}
-function tone(n: number): "pos" | "neg" | "flat" {
-  if (n > 0.005) return "pos";
-  if (n < -0.005) return "neg";
-  return "flat";
+function fmt$(n: number): string {
+  return `$${Math.abs(n).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
 }
 
 export default async function PersonalPage() {
@@ -48,7 +33,7 @@ export default async function PersonalPage() {
   const positions = live?.positions ?? [];
 
   return (
-    <article className="article page bank-page bank-page--investments">
+    <article className="article page bank-page bank-page--investments bank-page--constellation">
       <div className="eyebrow">
         <Link href="/portfolio" className="pathlink">portfolio</Link> · investments
       </div>
@@ -64,63 +49,28 @@ export default async function PersonalPage() {
         emptyMessage="quotes loading…"
       />
 
-      <section className="page-section">
+      <section className="page-section page-section--constellation">
         <div className="page-section-head">
-          <h2>positions</h2>
+          <h2>constellation</h2>
           <span className="page-section-meta">{positions.length || "—"}</span>
         </div>
-        {positions.length === 0 ? (
+        {positions.length === 0 || !live ? (
           <p className="deck">no live quotes — try again shortly.</p>
         ) : (
-          <ul className="pl-cards">
-            {positions.map((p) => (
-              <li key={p.ticker} className="pl-card">
-                <div className="pl-head">
-                  <div className="pl-id">
-                    <span className="pl-ticker">{p.ticker}</span>
-                    {p.name && <span className="pl-name">{p.name}</span>}
-                  </div>
-                  <div className="pl-value">
-                    <span className="pl-value-num">{fmt$(p.current_value, { decimals: 2 })}</span>
-                    <span className="pl-value-sub">{p.shares.toLocaleString("en-US", { maximumFractionDigits: 3 })} sh</span>
-                  </div>
-                </div>
-                <div className="pl-pills">
-                  <div className={`pl-pill pl-pill--${tone(p.delta_today_pct)}`}>
-                    <span className="pl-pill-label">today</span>
-                    <span className="pl-pill-pct">{fmtPct(p.delta_today_pct)}</span>
-                    <span className="pl-pill-dollar">{fmt$(p.delta_today_dollars, { decimals: 2, sign: true })}</span>
-                  </div>
-                  <div className={`pl-pill pl-pill--${tone(p.delta_entry_pct)}`}>
-                    <span className="pl-pill-label">since entry</span>
-                    <span className="pl-pill-pct">{fmtPct(p.delta_entry_pct)}</span>
-                    <span className="pl-pill-dollar">{fmt$(p.delta_entry_dollars, { decimals: 2, sign: true })}</span>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <Constellation
+            positions={positions}
+            totals={{
+              total_current: live.total_current,
+              total_delta_today_pct: live.total_delta_today_pct,
+              total_delta_today_dollars: live.total_delta_today_dollars,
+              total_delta_entry_pct: live.total_delta_entry_pct,
+              total_delta_entry_dollars: live.total_delta_entry_dollars,
+            }}
+          />
         )}
       </section>
 
-      {live && (
-        <div className="pl-total" role="status" aria-label="portfolio total">
-          <div className="pl-total-row">
-            <span className="pl-total-label">total · {positions.length}</span>
-            <span className="pl-total-value">{fmt$(live.total_current, { decimals: 2 })}</span>
-          </div>
-          <div className="pl-total-row pl-total-deltas">
-            <span className={`pl-pill-pct pl-pill--${tone(live.total_delta_today_pct)}`}>
-              today {fmtPct(live.total_delta_today_pct)} · {fmt$(live.total_delta_today_dollars, { decimals: 2, sign: true })}
-            </span>
-            <span className="pl-total-sep">·</span>
-            <span className={`pl-pill-pct pl-pill--${tone(live.total_delta_entry_pct)}`}>
-              entry {fmtPct(live.total_delta_entry_pct)} · {fmt$(live.total_delta_entry_dollars, { decimals: 2, sign: true })}
-            </span>
-          </div>
-        </div>
-      )}
-    <BankNav />
+      <BankNav />
     </article>
   );
 }
