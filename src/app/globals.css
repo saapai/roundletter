@@ -17255,3 +17255,99 @@ html:has(.bank-page--art) body { background: #1A0A11; }
   .bank-page--art ~ .bank-nav,
   .bank-page--art .bank-nav { bottom: 4rem; }
 }
+
+/* ────────────────────────────────────────────────────────────
+   /luhn — easter egg page
+   ──────────────────────────────────────────────────────────── */
+.luhn-page {
+  background: #0E0D0B;
+  color: #EFEAE0;
+  min-height: 100vh;
+  padding: 4rem 1.5rem 6rem;
+  font-family: var(--font-body), serif;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+.luhn-eyebrow {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  color: #6B6862;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+}
+.luhn-h1 {
+  font-family: var(--font-display), serif;
+  font-size: clamp(3rem, 2rem + 4vw, 5rem);
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-style: italic;
+}
+.luhn-deck {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: #B5AFA7;
+  margin: 1rem 0 0;
+}
+.luhn-input input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(239,234,224,0.18);
+  color: #EFEAE0;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.4rem, 1rem + 2vw, 2rem);
+  letter-spacing: 0.08em;
+  padding: 1rem 0.25rem;
+  outline: none;
+  transition: border-color .25s;
+}
+.luhn-input input:focus { border-bottom-color: #C76B4F; }
+.luhn-input input::placeholder { color: #4F4C47; }
+
+.luhn-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid rgba(239,234,224,0.10);
+  border-bottom: 1px solid rgba(239,234,224,0.10);
+}
+.luhn-verdict {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 1.5rem;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  color: #6B6862;
+  transition: color .3s;
+}
+.luhn-readout.is-ok .luhn-verdict { color: #7FA88A; }
+.luhn-readout.is-no .luhn-verdict { color: #C68B7A; }
+.luhn-why { color: #B5AFA7; font-size: 0.95rem; }
+.luhn-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  color: #6B6862;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 0.25rem;
+}
+.luhn-meta strong { color: #EFEAE0; font-weight: 500; }
+.luhn-foot {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #6B6862;
+  line-height: 1.5;
+}
+.luhn-foot a {
+  color: #C76B4F;
+  text-decoration: none;
+  border-bottom: 1px dotted #C76B4F;
+}

@@ -2,71 +2,124 @@ import BankNav from "@/components/BankNav";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
-import { getPortfolioData, getPersonalHoldings } from "@/lib/portfolio-aggregate";
+import { getPortfolioData, getPersonalLive } from "@/lib/portfolio-aggregate";
 
-// /portfolio/personal — drill-down for the Personal tile (live brokerage
-// holdings: stocks/ETFs aggregated through src/lib/portfolio-live.ts).
-// PR2 keeps the history minimal (single live point); the chart still
-// renders its empty-state copy when len < 2 — a real per-bar accrual
-// is future work.
+// /portfolio/personal — P&L cards per position + sticky TOTAL.
+// Per agent debate (PL1+PL2+PL3 synthesis): mobile-first cards, two
+// pills per position (TODAY · SINCE-ENTRY), one big number = current value.
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "aureliex · portfolio · personal",
-  description: "personal brokerage holdings — live total + holdings list.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getPortfolioData();
+  const v = `$${Math.round(data.categories.personal.current_value).toLocaleString("en-US")}`;
+  const desc = `${v} live brokerage book · 10 positions · ten-year quantum-anchored thesis.`;
+  return {
+    title: `aureliex · investments · ${v}`,
+    description: desc,
+    openGraph: { title: `investments · ${v}`, description: desc, type: "article" },
+    twitter: { card: "summary_large_image", title: `investments · ${v}`, description: desc, creator: "@saapai" },
+  };
+}
 
-function fmtMoney(n: number): string {
-  return `$${n.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
+function fmt$(n: number, opts: { decimals?: number; sign?: boolean } = {}): string {
+  const decimals = opts.decimals ?? 0;
+  const abs = Math.abs(n);
+  const s = `$${abs.toLocaleString("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}`;
+  if (!opts.sign) return s;
+  if (n > 0.005) return `+${s}`;
+  if (n < -0.005) return `−${s}`;
+  return s;
+}
+function fmtPct(n: number): string {
+  if (Math.abs(n) < 0.005) return "—";
+  const s = `${Math.abs(n).toFixed(2)}%`;
+  return n > 0 ? `+${s}` : `−${s}`;
+}
+function tone(n: number): "pos" | "neg" | "flat" {
+  if (n > 0.005) return "pos";
+  if (n < -0.005) return "neg";
+  return "flat";
 }
 
 export default async function PersonalPage() {
-  const data = await getPortfolioData();
+  const [data, live] = await Promise.all([getPortfolioData(), getPersonalLive()]);
   const cat = data.categories.personal;
-  const holdings = getPersonalHoldings();
+  const positions = live?.positions ?? [];
 
   return (
     <article className="article page bank-page bank-page--investments">
       <div className="eyebrow">
-        <Link href="/portfolio" className="pathlink">portfolio</Link> · personal
+        <Link href="/portfolio" className="pathlink">portfolio</Link> · investments
       </div>
-      <h1>personal</h1>
+      <h1>investments</h1>
       <p className="deck">
-        live brokerage book · current value <strong>{fmtMoney(cat.current_value)}</strong>
-        {data.live ? " · live" : " · baseline fallback"}
+        live brokerage book · {fmt$(cat.current_value)} · {data.live ? "live" : "baseline"}
       </p>
 
       <PortfolioGrowthChart
         category="personal"
         series={cat.history}
-        label="live brokerage value (sum of shares × close + pending cash)."
-        emptyMessage="real per-bar history accrues in a future pass — for now this is a single live point."
+        label="sum of (shares × close) across all 10 holdings."
+        emptyMessage="quotes loading…"
       />
 
       <section className="page-section">
         <div className="page-section-head">
-          <h2>holdings</h2>
-          <span className="page-section-meta">{holdings.length} positions</span>
+          <h2>positions</h2>
+          <span className="page-section-meta">{positions.length || "—"}</span>
         </div>
-        <div className="page-cards">
-          {holdings.map((h) => (
-            <div key={h.ticker} className="page-card">
-              <div className="card-head">
-                <div className="card-ticker">{h.ticker}</div>
-                {h.entry_price != null && (
-                  <div className="card-agent">entry · ${h.entry_price}</div>
-                )}
-              </div>
-              {h.name && <div className="card-name">{h.name}</div>}
-              <div className="card-grid">
-                <div><div className="k">shares</div><div className="v">{h.shares}</div></div>
-                <div><div className="k">entry value</div><div className="v">${h.entry_value}</div></div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {positions.length === 0 ? (
+          <p className="deck">no live quotes — try again shortly.</p>
+        ) : (
+          <ul className="pl-cards">
+            {positions.map((p) => (
+              <li key={p.ticker} className="pl-card">
+                <div className="pl-head">
+                  <div className="pl-id">
+                    <span className="pl-ticker">{p.ticker}</span>
+                    {p.name && <span className="pl-name">{p.name}</span>}
+                  </div>
+                  <div className="pl-value">
+                    <span className="pl-value-num">{fmt$(p.current_value, { decimals: 2 })}</span>
+                    <span className="pl-value-sub">{p.shares.toLocaleString("en-US", { maximumFractionDigits: 3 })} sh</span>
+                  </div>
+                </div>
+                <div className="pl-pills">
+                  <div className={`pl-pill pl-pill--${tone(p.delta_today_pct)}`}>
+                    <span className="pl-pill-label">today</span>
+                    <span className="pl-pill-pct">{fmtPct(p.delta_today_pct)}</span>
+                    <span className="pl-pill-dollar">{fmt$(p.delta_today_dollars, { decimals: 2, sign: true })}</span>
+                  </div>
+                  <div className={`pl-pill pl-pill--${tone(p.delta_entry_pct)}`}>
+                    <span className="pl-pill-label">since entry</span>
+                    <span className="pl-pill-pct">{fmtPct(p.delta_entry_pct)}</span>
+                    <span className="pl-pill-dollar">{fmt$(p.delta_entry_dollars, { decimals: 2, sign: true })}</span>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
+
+      {live && (
+        <div className="pl-total" role="status" aria-label="portfolio total">
+          <div className="pl-total-row">
+            <span className="pl-total-label">total · {positions.length}</span>
+            <span className="pl-total-value">{fmt$(live.total_current, { decimals: 2 })}</span>
+          </div>
+          <div className="pl-total-row pl-total-deltas">
+            <span className={`pl-pill-pct pl-pill--${tone(live.total_delta_today_pct)}`}>
+              today {fmtPct(live.total_delta_today_pct)} · {fmt$(live.total_delta_today_dollars, { decimals: 2, sign: true })}
+            </span>
+            <span className="pl-total-sep">·</span>
+            <span className={`pl-pill-pct pl-pill--${tone(live.total_delta_entry_pct)}`}>
+              entry {fmtPct(live.total_delta_entry_pct)} · {fmt$(live.total_delta_entry_dollars, { decimals: 2, sign: true })}
+            </span>
+          </div>
+        </div>
+      )}
     <BankNav />
     </article>
   );

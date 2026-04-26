@@ -10,10 +10,17 @@ import { getPortfolioData, getExternalEntries } from "@/lib/portfolio-aggregate"
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "aureliex · portfolio · external",
-  description: "external capital injections — running total + per-entry log.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getPortfolioData();
+  const v = `$${Math.round(data.categories.external.current_value).toLocaleString("en-US")}`;
+  const desc = `${v} in external capital · injections recorded by date so the curve isn't flattering me.`;
+  return {
+    title: `aureliex · external · ${v}`,
+    description: desc,
+    openGraph: { title: `external · ${v}`, description: desc, type: "article" },
+    twitter: { card: "summary_large_image", title: `external · ${v}`, description: desc, creator: "@saapai" },
+  };
+}
 
 function fmtMoney(n: number): string {
   return `$${n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;

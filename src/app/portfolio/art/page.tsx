@@ -13,10 +13,17 @@ import { getPortfolioData, getArtPieces } from "@/lib/portfolio-aggregate";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "aureliex · portfolio · art",
-  description: "art portfolio pieces — starting bids + (post-launch) live bids.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getPortfolioData();
+  const v = `$${Math.round(data.categories.art.current_value).toLocaleString("en-US")}`;
+  const desc = `12 originals (pencil, colored pencil, pen, watercolor) · sum of starting bids ${v} · auction round 1 unlocks soon.`;
+  return {
+    title: `aureliex · art · 12 pieces · ${v}`,
+    description: desc,
+    openGraph: { title: `art · 12 pieces · ${v}`, description: desc, type: "article" },
+    twitter: { card: "summary_large_image", title: `art · 12 pieces · ${v}`, description: desc, creator: "@saapai" },
+  };
+}
 
 function fmtMoney(n: number): string {
   return `$${n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;

@@ -12,10 +12,17 @@ import { getLatestKalshiSnapshot } from "@/lib/snapshots";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "aureliex · portfolio · prediction",
-  description: "prediction-market book — kalshi cash + portfolio + polymarket bankroll.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getPortfolioData();
+  const v = `$${Math.round(data.categories.prediction.current_value).toLocaleString("en-US")}`;
+  const desc = `prediction book · ${v} · kalshi sports book + polymarket trading bot · 176 fills, ~$1,131 notional, 5 weeks live.`;
+  return {
+    title: `aureliex · prediction · ${v}`,
+    description: desc,
+    openGraph: { title: `prediction · ${v}`, description: desc, type: "article" },
+    twitter: { card: "summary_large_image", title: `prediction · ${v}`, description: desc, creator: "@saapai" },
+  };
+}
 
 function fmtMoney(n: number): string {
   return `$${n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
