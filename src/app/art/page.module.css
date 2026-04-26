@@ -1,0 +1,273 @@
+/* Salon Wall — paper-white asymmetric 12-col grid.
+   See design-bank/art-gallery-pick.md (ART1 + ART2/ART4 borrows). */
+
+.wall {
+  background: #faf8f3;
+  /* SVG noise paper backdrop, 4% opacity inline */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.16  0 0 0 0 0.13  0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+  background-repeat: repeat;
+  padding: 5rem 4rem 10rem;
+  color: #1f1a14;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.head {
+  max-width: 80rem;
+  margin: 0 auto 3.5rem;
+}
+.eyebrow {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6e655a;
+  margin: 0 0 0.75rem;
+}
+.title {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(2.4rem, 1.6rem + 3vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.012em;
+  margin: 0 0 0.4rem;
+  color: #1f1a14;
+}
+.deck {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: 1rem;
+  color: #4a4036;
+  margin: 0;
+}
+.deck strong { font-weight: 600; color: #1f1a14; font-style: normal; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 8rem;
+  gap: 4rem 3rem;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+/* Each piece sits inside a frame. Caption sits OUTSIDE, below. */
+.cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.frame {
+  border: 1px solid rgba(31, 26, 20, 0.85);
+  padding: 2rem;                    /* the 2rem mat per spec */
+  background: #F5F1E8;              /* warm off-white */
+  box-shadow:
+    0 2px 0 var(--rule, rgba(31,26,20,0.10)),
+    0 24px 40px -16px rgba(0, 0, 0, 0.18);
+  cursor: zoom-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  /* No hover transform. Cursor: zoom-in is the only affordance. */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  width: 100%;
+}
+.frame:focus-visible {
+  outline: 2px solid #B7415C;
+  outline-offset: 4px;
+}
+
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+}
+
+.caption {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  margin-top: 0.85rem;
+  text-align: left;
+  color: #2b251e;
+}
+.captionTitle { font-style: italic; font-weight: 500; }
+.captionMeta {
+  font-style: normal;
+  font-weight: 500;
+  color: #6e655a;
+  margin-left: 0.4em;
+}
+
+/* Frame entrance — opacity + 12px translateY rise, 60ms stagger. */
+.cell { animation: frameIn 400ms cubic-bezier(.2,.8,.2,1) both; }
+
+@keyframes frameIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* COLOPHON — sequential index closer (borrowed from ART4). */
+.colophon {
+  max-width: 80rem;
+  margin: 7rem auto 0;
+  border-top: 1px solid rgba(31, 26, 20, 0.18);
+  padding-top: 1.75rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  color: #4a4036;
+}
+.colophonHead {
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.66rem;
+  color: #6e655a;
+  margin-bottom: 1rem;
+}
+.colophonList { list-style: none; padding: 0; margin: 0; }
+.colophonRow {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  gap: 1rem;
+  padding: 0.45rem 0;
+  border-bottom: 1px dotted rgba(31, 26, 20, 0.14);
+}
+.colophonNum { color: #8a7f70; }
+.colophonTitle {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-size: 0.92rem;
+  color: #1f1a14;
+}
+.colophonBid {
+  font-variant-numeric: tabular-nums;
+  color: #1f1a14;
+}
+
+/* MOBILE — 6-col grid, halved gutters, smaller padding. No horizontal scroll. */
+@media (max-width: 768px) {
+  .wall { padding: 2.5rem 1.25rem 8rem; }
+  .head { margin-bottom: 2rem; }
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 5rem;
+    gap: 2rem 1.25rem;
+  }
+  .frame { padding: 1rem; }
+  .colophon { margin-top: 4rem; }
+}
+
+/* ─── Lightbox ─────────────────────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5vh 5vw;
+  cursor: zoom-out;
+}
+.lightboxFrame {
+  position: relative;
+  width: min(90vw, calc(80vh * 1.4));
+  max-width: 90vw;
+  max-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightboxImg {
+  max-width: 100%;
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: #F5F1E8;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: default;
+}
+.lightboxCaption {
+  position: fixed;
+  left: 2rem;
+  bottom: 2rem;
+  color: #f5f1e8;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  max-width: 60vw;
+  pointer-events: none;
+  z-index: 1001;
+}
+.lightboxCaptionTitle { font-style: italic; }
+.lightboxCaptionMeta {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 241, 232, 0.6);
+  margin-top: 0.35rem;
+}
+.lightboxClose {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.5rem;
+  background: transparent;
+  border: 1px solid rgba(245, 241, 232, 0.4);
+  color: #f5f1e8;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightboxClose:hover { background: rgba(245, 241, 232, 0.08); }
+.lightboxNav {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 1px solid rgba(245, 241, 232, 0.32);
+  color: #f5f1e8;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightboxNav:hover { background: rgba(245, 241, 232, 0.08); }
+.lightboxPrev { left: 1.5rem; }
+.lightboxNext { right: 1.5rem; }
+
+@media (max-width: 768px) {
+  .lightboxNav { display: none; }
+  .lightboxCaption { left: 1rem; bottom: 1rem; max-width: 90vw; font-size: 0.82rem; }
+}
+
+/* prefers-reduced-motion — kill stagger + FLIP, fade only. */
+@media (prefers-reduced-motion: reduce) {
+  .cell { animation: none; }
+}

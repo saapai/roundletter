@@ -17897,3 +17897,36 @@ body > .bank-nav {
   backdrop-filter: blur(14px);
   border-color: rgba(239,234,224,0.20) !important;
 }
+
+/* ────────────────────────────────────────────────────────────
+   /art SALON WALL overrides (per design-bank/art-gallery-pick.md)
+   - Replaces the v3 dark scroll-snap gallery with paper-white
+     salon wall. We override the prior bank-page--art rules that
+     forced a dark background and scroll-snap on <html>.
+   ──────────────────────────────────────────────────────────── */
+html:has(.bank-page--art) {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+html:has(.bank-page--art) body { background: #faf8f3; }
+
+.bank-page--art {
+  background: #faf8f3;
+  color: #1f1a14;
+  padding: 0;
+}
+.bank-page--art .bank-nav {
+  background: rgba(250, 248, 243, 0.92) !important;
+  border-color: rgba(31, 26, 20, 0.16) !important;
+  backdrop-filter: blur(12px);
+}
+.bank-page--art .bank-nav-item {
+  color: rgba(31, 26, 20, 0.7) !important;
+}
+.bank-page--art .bank-nav-item--active {
+  color: #faf8f3 !important;
+  background: #1f1a14 !important;
+}
+/* Hide the legacy art-rail (was dependent on dark scroll-snap layout). */
+body:has(.bank-page--art) .art-rail,
+.bank-page--art ~ .art-rail { display: none !important; }
