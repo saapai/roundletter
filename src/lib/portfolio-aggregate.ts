@@ -3,8 +3,8 @@ import artPortfolio from "@/data/art-portfolio.json";
 import prediction from "@/data/prediction.json";
 import { getLivePortfolio } from "@/lib/portfolio-live";
 import {
-  getLatestKalshiSnapshot,
-  getLatestPolymarketSnapshot,
+  getLatestKalshiSnapshotLive,
+  getLatestPolymarketSnapshotLive,
 } from "@/lib/snapshots";
 
 // Single source of truth for the /portfolio page + subroutes + /api/portfolio.
@@ -134,15 +134,13 @@ function buildArt(): CategoryBlock {
   };
 }
 
-function buildPrediction(): PredictionBlock {
-  const k = getLatestKalshiSnapshot();
+async function buildPrediction(): Promise<PredictionBlock> {
+  const [k, pm] = await Promise.all([
+    getLatestKalshiSnapshotLive(),
+    getLatestPolymarketSnapshotLive(),
+  ]);
   const cash = k?.cash ?? 0;
   const portfolio_value = k?.portfolio_value ?? 0;
-  // Polymarket bankroll: prefer the latest vendored snapshot from
-  // src/data/snapshots/polymarket/YYYY-MM-DD.json (mirrors the Kalshi
-  // pipeline); fall back to the constant in prediction.json when no
-  // snapshots have been committed yet.
-  const pm = getLatestPolymarketSnapshot();
   const fallbackBankroll =
     Number((prediction as { polymarket_bankroll?: number }).polymarket_bankroll) || 0;
   const bankroll = pm?.bankroll ?? fallbackBankroll;
@@ -389,7 +387,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
   };
   const external = buildExternal();
   const art = buildArt();
-  const predictionBlock = buildPrediction();
+  const predictionBlock = await buildPrediction();
   const total =
     personal.current_value +
     external.current_value +

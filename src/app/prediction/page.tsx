@@ -6,8 +6,8 @@ import PredictionMarquee, { type MarqueeItem } from "@/components/PredictionMarq
 import LedgerDrawer from "@/components/LedgerDrawer";
 import { getPortfolioData, type SeriesPoint } from "@/lib/portfolio-aggregate";
 import {
-  getLatestKalshiSnapshot,
-  getLatestPolymarketSnapshot,
+  getLatestKalshiSnapshotLive,
+  getLatestPolymarketSnapshotLive,
   type KalshiFill,
   type PolymarketPosition,
 } from "@/lib/snapshots";
@@ -125,8 +125,8 @@ function pct(part: number, whole: number): number {
 export default async function PredictionPage() {
   const [data, k, pm] = await Promise.all([
     getPortfolioData(),
-    Promise.resolve(getLatestKalshiSnapshot()),
-    Promise.resolve(getLatestPolymarketSnapshot()),
+    getLatestKalshiSnapshotLive(),
+    getLatestPolymarketSnapshotLive(),
   ]);
   const cat = data.categories.prediction;
 

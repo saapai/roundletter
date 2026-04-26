@@ -1,12 +1,23 @@
 import fs from "node:fs";
 import path from "node:path";
+import { kv } from "@vercel/kv";
 
-// Snapshot loader for vendored bot exports (Kalshi, future: Polymarket on-chain).
-// Files live in src/data/snapshots/<source>/YYYY-MM-DD.json — each is a raw dump
-// from the polytrader bot. We resolve the latest by filename (date-sorted) so
-// the operator just drops a new file in to roll forward; nothing else changes.
+// Snapshot loader for live position dumps (Kalshi + Polymarket).
 //
-// Node-only — uses fs at request time. The /api/portfolio route imports this
+// Two sources, in order of preference:
+//   1. Vercel KV under `snapshot:<source>:latest` — written at runtime by
+//      the polytrader bot via POST /api/snapshots/<source>. This is the
+//      "live" path: latency is whatever the bot's cron interval is.
+//   2. Filesystem at src/data/snapshots/<source>/YYYY-MM-DD.json — daily
+//      vendored dumps committed to the repo. Fallback when KV is empty
+//      (e.g. on a fresh Vercel project before the first push lands) and
+//      the canonical archive (git log = audit trail).
+//
+// The async getters always try KV first and fall back to fs. The legacy
+// sync getters at the bottom of the file are kept for callers that
+// haven't been updated to async yet — they only read the filesystem.
+//
+// Node-only — uses fs at request time. The route handlers import this
 // behind `runtime = "nodejs"`, never the Edge.
 
 export type KalshiEventPosition = {
@@ -210,6 +221,22 @@ export function getLatestKalshiSnapshot(): KalshiSnapshot | null {
   fills = [...fills]
     .sort((a, b) => (a.created_time < b.created_time ? 1 : -1))
     .slice(0, 50);
+  return parseKalshiRaw({ date, cash, portfolio_value, raw, fills });
+}
+
+// Shared parser used by both the filesystem path and the KV path so the
+// returned KalshiSnapshot shape is identical regardless of source.
+function parseKalshiRaw(input: {
+  date: string;
+  cash: number;
+  portfolio_value: number;
+  raw: RawKalshiFile;
+  fills: KalshiFill[];
+}): KalshiSnapshot {
+  const { date, cash, portfolio_value, raw, fills } = input;
+  const event_positions = raw.positions?.event_positions ?? [];
+  const market_positions = raw.positions?.market_positions ?? [];
+  const fills_count = fills.length;
   return {
     date,
     cash,
@@ -221,4 +248,74 @@ export function getLatestKalshiSnapshot(): KalshiSnapshot | null {
     fills_count,
     fills,
   };
+}
+
+// ─── KV-first async getters ───────────────────────────────────────────
+// Preferred path on production: live data pushed by the polytrader bot
+// to /api/snapshots/<source> lands in Vercel KV under
+// `snapshot:<source>:latest`. These getters try KV first; if it's empty
+// or unreachable (local dev without KV creds, fresh deploy) they fall
+// back to the vendored filesystem snapshots — same return shape either
+// way so callers don't care which source served the read.
+
+const KV_KEY_KALSHI = "snapshot:kalshi:latest";
+const KV_KEY_POLYMARKET = "snapshot:polymarket:latest";
+
+type KVKalshiBlob = RawKalshiFile & { pushed_at?: string };
+type KVPolymarketBlob = RawPolymarketFile & { pushed_at?: string };
+
+export async function getLatestKalshiSnapshotLive(): Promise<KalshiSnapshot | null> {
+  // KV creds aren't set in local dev; skip cleanly when missing.
+  if (process.env.KV_REST_API_URL || process.env.KV_URL) {
+    try {
+      const raw = await kv.get<KVKalshiBlob>(KV_KEY_KALSHI);
+      if (raw && typeof raw === "object") {
+        const date = (raw.pushed_at || raw.pulled_at || new Date().toISOString()).slice(0, 10);
+        const market_positions = raw.positions?.market_positions ?? [];
+        const computedExposure = market_positions.reduce(
+          (acc, p) => acc + num(p.market_exposure_dollars),
+          0,
+        );
+        const cash = raw.summary?.cash_dollars ?? 0;
+        const portfolio_value =
+          raw.summary?.portfolio_value_dollars ?? computedExposure;
+        const fills = (Array.isArray(raw.fills) ? raw.fills : [])
+          .slice()
+          .sort((a, b) => (a.created_time < b.created_time ? 1 : -1))
+          .slice(0, 50);
+        return parseKalshiRaw({ date, cash, portfolio_value, raw, fills });
+      }
+    } catch (e) {
+      // Silent fallback — KV blip shouldn't take the page down.
+      console.warn("[snapshots] KV kalshi read failed:", (e as Error).message);
+    }
+  }
+  return getLatestKalshiSnapshot();
+}
+
+export async function getLatestPolymarketSnapshotLive(): Promise<PolymarketSnapshot | null> {
+  if (process.env.KV_REST_API_URL || process.env.KV_URL) {
+    try {
+      const raw = await kv.get<KVPolymarketBlob>(KV_KEY_POLYMARKET);
+      if (raw && typeof raw === "object") {
+        const date = (raw.pushed_at || raw.pulled_at || new Date().toISOString()).slice(0, 10);
+        const bankroll = num(
+          raw.bankroll != null ? String(raw.bankroll) : undefined,
+          Number.NaN,
+        );
+        if (Number.isFinite(bankroll)) {
+          return {
+            date,
+            bankroll,
+            pulled_at: raw.pulled_at ?? null,
+            positions: Array.isArray(raw.positions) ? raw.positions : [],
+            open_orders: Array.isArray(raw.open_orders) ? raw.open_orders : [],
+          };
+        }
+      }
+    } catch (e) {
+      console.warn("[snapshots] KV polymarket read failed:", (e as Error).message);
+    }
+  }
+  return getLatestPolymarketSnapshot();
 }
