@@ -1,9 +1,10 @@
 import BankNav from "@/components/BankNav";
 import type { Metadata } from "next";
+import Link from "next/link";
 import PortfolioChart from "@/components/PortfolioChart";
 import CategoryCard from "@/components/CategoryCard";
 import { fmtMoney } from "@/lib/portfolio-live";
-import { getPortfolioData } from "@/lib/portfolio-aggregate";
+import { getPortfolioData, getExternalEntries } from "@/lib/portfolio-aggregate";
 import portfolio from "@/data/portfolio.json";
 
 /* ────────────────────────────────────────────────────────────
@@ -113,6 +114,33 @@ export default async function PortfolioPage() {
                   (block.history[0].value || 1)) *
                 100
               : null;
+
+          // External: render the standard tile, then a slim CTA strip below
+          // surfacing entry count + "see entries →" so it clearly invites
+          // a click into /external.
+          if (c.key === "external") {
+            const externalEntries = getExternalEntries();
+            const entryCount = externalEntries.length;
+            return (
+              <div key={c.key} className="cat-card-external-wrap">
+                <CategoryCard
+                  label={c.label}
+                  value={block.current_value}
+                  pctChange={pct}
+                  series={block.history}
+                  href={c.href}
+                />
+                <Link href={c.href} className="cat-card-external-cta">
+                  <span className="cat-card-external-cta-meta">
+                    {fmtMoney(block.current_value)} injected · {entryCount}{" "}
+                    {entryCount === 1 ? "entry" : "entries"}
+                  </span>
+                  <span className="cat-card-external-cta-arrow">see entries →</span>
+                </Link>
+              </div>
+            );
+          }
+
           return (
             <CategoryCard
               key={c.key}
