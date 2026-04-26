@@ -1,3 +1,4 @@
+import BankNav from "@/components/BankNav";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
@@ -66,6 +67,7 @@ export default async function PersonalPage() {
           ))}
         </div>
       </section>
+    <BankNav />
     </article>
   );
 }

@@ -17203,3 +17203,55 @@ html:has(.bank-page--art) body { background: #1A0A11; }
   .pl-pills { grid-template-columns: 1fr 1fr; max-width: 32rem; margin-left: auto; }
   .pl-total-deltas { justify-content: flex-end; }
 }
+
+/* ────────────────────────────────────────────────────────────
+   BANK NAV — fixed bottom across all /portfolio routes.
+   Picks up currentColor from the per-route palette so it
+   themes itself. Lives above the sticky pl-total on /personal.
+   ──────────────────────────────────────────────────────────── */
+.bank-nav {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0;
+  padding: 0.5rem 0.5rem;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  z-index: 60;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  max-width: calc(100vw - 2rem);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.bank-nav::-webkit-scrollbar { display: none; }
+.bank-nav-item {
+  color: var(--graphite);
+  text-decoration: none !important;
+  border: none !important;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: color .2s, background-color .2s;
+}
+.bank-nav-item:hover { color: var(--ink); }
+.bank-nav-item--active {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+/* When pl-total is also present (/personal), nudge bank-nav up */
+.bank-page--investments .bank-nav { bottom: 5.5rem; }
+
+/* When art-rail dots present (/art), nudge bank-nav up on mobile */
+@media (max-width: 767px) {
+  .bank-page--art ~ .bank-nav,
+  .bank-page--art .bank-nav { bottom: 4rem; }
+}

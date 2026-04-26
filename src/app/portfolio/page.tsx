@@ -1,3 +1,4 @@
+import BankNav from "@/components/BankNav";
 import type { Metadata } from "next";
 import PortfolioChart from "@/components/PortfolioChart";
 import CategoryCard from "@/components/CategoryCard";
@@ -128,6 +129,7 @@ export default async function PortfolioPage() {
       <p className="deck cat-card-footnote">
         per-category history accrues over time — single-point categories show their live total.
       </p>
+    <BankNav />
     </article>
   );
 }

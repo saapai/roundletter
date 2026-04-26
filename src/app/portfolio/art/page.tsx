@@ -1,3 +1,4 @@
+import BankNav from "@/components/BankNav";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
@@ -87,6 +88,7 @@ export default async function ArtPage() {
           <a key={p.id} href={`#piece-${i + 1}`} aria-label={`piece ${i + 1}`} />
         ))}
       </nav>
+    <BankNav />
     </article>
   );
 }
