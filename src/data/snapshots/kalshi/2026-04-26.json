@@ -1,0 +1,156 @@
+{
+  "summary": {
+    "cash_dollars": 40.02,
+    "portfolio_value_dollars": 23.32
+  },
+  "positions": {
+    "cursor": "",
+    "event_positions": [
+      {
+        "event_exposure_dollars": "13.470700",
+        "event_ticker": "KXNBA-26",
+        "fees_paid_dollars": "1.699300",
+        "realized_pnl_dollars": "-1.050000",
+        "total_cost_dollars": "139.530700",
+        "total_cost_shares_fp": "929.87"
+      },
+      {
+        "event_exposure_dollars": "8.220000",
+        "event_ticker": "KXNBAEAST-26",
+        "fees_paid_dollars": "0.430000",
+        "realized_pnl_dollars": "0.000000",
+        "total_cost_dollars": "8.220000",
+        "total_cost_shares_fp": "32.20"
+      },
+      {
+        "event_exposure_dollars": "0.000000",
+        "event_ticker": "KXTRILLIONAIRE-30",
+        "fees_paid_dollars": "2.820600",
+        "realized_pnl_dollars": "-2.139400",
+        "total_cost_dollars": "216.079400",
+        "total_cost_shares_fp": "427.88"
+      },
+      {
+        "event_exposure_dollars": "0.000000",
+        "event_ticker": "KXUCL-26",
+        "fees_paid_dollars": "0.170000",
+        "realized_pnl_dollars": "0.090000",
+        "total_cost_dollars": "4.910000",
+        "total_cost_shares_fp": "10.00"
+      }
+    ],
+    "market_positions": [
+      {
+        "fees_paid_dollars": "0.244900",
+        "last_updated_ts": "2026-04-26T03:33:30.191254Z",
+        "market_exposure_dollars": "3.405100",
+        "position_fp": "340.51",
+        "realized_pnl_dollars": "0.000000",
+        "resting_orders_count": 0,
+        "ticker": "KXNBA-26-ATL",
+        "total_traded_dollars": "3.405100"
+      },
+      {
+        "fees_paid_dollars": "0.600000",
+        "last_updated_ts": "2026-04-21T04:37:49.656411Z",
+        "market_exposure_dollars": "0.000000",
+        "position_fp": "0.00",
+        "realized_pnl_dollars": "-0.750000",
+        "resting_orders_count": 0,
+        "ticker": "KXNBA-26-CLE",
+        "total_traded_dollars": "95.760000"
+      },
+      {
+        "fees_paid_dollars": "0.335200",
+        "last_updated_ts": "2026-04-22T10:25:18.032985Z",
+        "market_exposure_dollars": "4.884800",
+        "position_fp": "127.12",
+        "realized_pnl_dollars": "0.000000",
+        "resting_orders_count": 0,
+        "ticker": "KXNBA-26-LAL",
+        "total_traded_dollars": "4.884800"
+      },
+      {
+        "fees_paid_dollars": "0.359200",
+        "last_updated_ts": "2026-04-26T03:33:47.722943Z",
+        "market_exposure_dollars": "5.180800",
+        "position_fp": "212.22",
+        "realized_pnl_dollars": "0.000000",
+        "resting_orders_count": 0,
+        "ticker": "KXNBA-26-MIN",
+        "total_traded_dollars": "5.180800"
+      },
+      {
+        "fees_paid_dollars": "0.160000",
+        "last_updated_ts": "2026-04-21T04:37:40.633486Z",
+        "market_exposure_dollars": "0.000000",
+        "position_fp": "0.00",
+        "realized_pnl_dollars": "-0.300000",
+        "resting_orders_count": 0,
+        "ticker": "KXNBA-26-NYK",
+        "total_traded_dollars": "30.300000"
+      },
+      {
+        "fees_paid_dollars": "0.430000",
+        "last_updated_ts": "2026-04-22T10:25:28.767591Z",
+        "market_exposure_dollars": "8.220000",
+        "position_fp": "32.20",
+        "realized_pnl_dollars": "0.000000",
+        "resting_orders_count": 0,
+        "ticker": "KXNBAEAST-26-CLE",
+        "total_traded_dollars": "8.220000"
+      },
+      {
+        "fees_paid_dollars": "2.820600",
+        "last_updated_ts": "2026-04-17T20:01:24.97664Z",
+        "market_exposure_dollars": "0.000000",
+        "position_fp": "0.00",
+        "realized_pnl_dollars": "-2.139400",
+        "resting_orders_count": 0,
+        "ticker": "KXTRILLIONAIRE-30-EM",
+        "total_traded_dollars": "216.079400"
+      },
+      {
+        "fees_paid_dollars": "0.070000",
+        "last_updated_ts": "2026-04-15T01:48:19.971458Z",
+        "market_exposure_dollars": "0.000000",
+        "position_fp": "0.00",
+        "realized_pnl_dollars": "0.060000",
+        "resting_orders_count": 0,
+        "ticker": "KXUCL-26-ARS",
+        "total_traded_dollars": "1.940000"
+      },
+      {
+        "fees_paid_dollars": "0.020000",
+        "last_updated_ts": "2026-04-15T01:48:08.6128Z",
+        "market_exposure_dollars": "0.000000",
+        "position_fp": "0.00",
+        "realized_pnl_dollars": "0.020000",
+        "resting_orders_count": 0,
+        "ticker": "KXUCL-26-ATM",
+        "total_traded_dollars": "0.980000"
+      },
+      {
+        "fees_paid_dollars": "0.040000",
+        "last_updated_ts": "2026-04-15T01:48:29.53193Z",
+        "market_exposure_dollars": "0.000000",
+        "position_fp": "0.00",
+        "realized_pnl_dollars": "-0.010000",
+        "resting_orders_count": 0,
+        "ticker": "KXUCL-26-BMU",
+        "total_traded_dollars": "1.010000"
+      },
+      {
+        "fees_paid_dollars": "0.040000",
+        "last_updated_ts": "2026-04-15T01:48:36.126362Z",
+        "market_exposure_dollars": "0.000000",
+        "position_fp": "0.00",
+        "realized_pnl_dollars": "0.020000",
+        "resting_orders_count": 0,
+        "ticker": "KXUCL-26-PSG",
+        "total_traded_dollars": "0.980000"
+      }
+    ]
+  },
+  "pulled_at": "2026-04-26T08:17:07Z"
+}
