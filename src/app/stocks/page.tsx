@@ -1,5 +1,6 @@
 import BankNav from "@/components/BankNav";
 import Constellation from "@/components/Constellation";
+import PnlCards from "@/components/PnlCards";
 import type { Metadata } from "next";
 import Link from "next/link";
 import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
@@ -66,9 +67,30 @@ export default async function PersonalPage() {
               total_delta_entry_pct: live.total_delta_entry_pct,
               total_delta_entry_dollars: live.total_delta_entry_dollars,
             }}
+            showSunBar={false}
+            showGlyphCard={false}
           />
         )}
       </section>
+
+      {positions.length > 0 && live && (
+        <section className="page-section page-section--pl" aria-label="holdings p&l">
+          <div className="page-section-head">
+            <h2>positions</h2>
+            <span className="page-section-meta">{positions.length}</span>
+          </div>
+          <PnlCards
+            positions={positions}
+            totals={{
+              total_current: live.total_current,
+              total_delta_today_pct: live.total_delta_today_pct,
+              total_delta_today_dollars: live.total_delta_today_dollars,
+              total_delta_entry_pct: live.total_delta_entry_pct,
+              total_delta_entry_dollars: live.total_delta_entry_dollars,
+            }}
+          />
+        </section>
+      )}
 
       <BankNav />
     </article>

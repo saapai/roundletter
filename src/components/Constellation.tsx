@@ -19,6 +19,8 @@ type Totals = {
 type Props = {
   positions: PositionLive[];
   totals: Totals;
+  showSunBar?: boolean;
+  showGlyphCard?: boolean;
 };
 
 function fmt$(n: number, opts: { decimals?: number; sign?: boolean } = {}) {
@@ -41,7 +43,12 @@ function fmtPct(n: number, sign = true): string {
   return n > 0 ? `+${s}` : `−${s}`;
 }
 
-export default function Constellation({ positions, totals }: Props) {
+export default function Constellation({
+  positions,
+  totals,
+  showSunBar = true,
+  showGlyphCard = true,
+}: Props) {
   const [sel, setSel] = useState<PositionLive | null>(null);
   // Sun rotation: 6° per total update — derive from total_current cents.
   const rotation = ((Math.round(totals.total_current * 100) % 60) * 6) % 360;
@@ -55,7 +62,7 @@ export default function Constellation({ positions, totals }: Props) {
         selected={sel?.ticker ?? null}
       />
 
-      {sel && (
+      {showGlyphCard && sel && (
         <div
           className="glyph-card"
           role="dialog"
@@ -114,19 +121,21 @@ export default function Constellation({ positions, totals }: Props) {
         </div>
       )}
 
-      <div
-        className={`sun-bar ${todayUp ? "sun-bar--up" : "sun-bar--down"}`}
-        role="status"
-        aria-label="portfolio total"
-      >
-        <SunGlyph rotation={rotation} className="sun-bar-glyph" />
-        <span className="sun-bar-total">
-          {fmt$(totals.total_current, { decimals: 2 })}
-        </span>
-        <span className="sun-bar-pill">
-          {todayUp ? "▲" : "▼"} {fmtPct(totals.total_delta_today_pct, false)}
-        </span>
-      </div>
+      {showSunBar && (
+        <div
+          className={`sun-bar ${todayUp ? "sun-bar--up" : "sun-bar--down"}`}
+          role="status"
+          aria-label="portfolio total"
+        >
+          <SunGlyph rotation={rotation} className="sun-bar-glyph" />
+          <span className="sun-bar-total">
+            {fmt$(totals.total_current, { decimals: 2 })}
+          </span>
+          <span className="sun-bar-pill">
+            {todayUp ? "▲" : "▼"} {fmtPct(totals.total_delta_today_pct, false)}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
