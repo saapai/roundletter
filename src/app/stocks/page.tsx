@@ -5,7 +5,7 @@ import Link from "next/link";
 import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
 import { getPortfolioData, getPersonalLive } from "@/lib/portfolio-aggregate";
 
-// /portfolio/personal — "The Constellation" (per SO1 design agent).
+// /stocks — "The Constellation" (per SO1 design agent).
 // Each holding is a star: x=entry order, y=since-entry %, brightness∝today |Δ%|.
 // Tap a star → glyph card. Sticky bottom: SunGlyph + total + today pill.
 

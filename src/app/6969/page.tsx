@@ -100,7 +100,7 @@ const BEATS: Beat[] = [
     kicker: "the method",
     line: "the document is the product.",
     sub: "debates timestamped. trades tied to agents. letters signed. nothing hidden. that&rsquo;s the whole architecture.",
-    href: "/archives",
+    href: "/eggs",
     tone: "warm",
   },
   {

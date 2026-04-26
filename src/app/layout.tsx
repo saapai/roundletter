@@ -84,11 +84,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Link>
             <div className="rule" />
             <nav className="nav">
-              <Link href="/portfolio/personal">investments</Link>
-              <Link href="/portfolio/art">art</Link>
-              <Link href="/portfolio/prediction">prediction</Link>
+              <Link href="/stocks">investments</Link>
+              <Link href="/art">art</Link>
+              <Link href="/prediction">prediction</Link>
               <Link href="/letters/round-0">article</Link>
-              <Link href="/archives">archives</Link>
+              <Link href="/eggs">archives</Link>
             </nav>
           </header>
         </MastheadGate>

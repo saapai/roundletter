@@ -7,7 +7,7 @@ import { getPortfolioData, getArtPieces } from "@/lib/portfolio-aggregate";
 // Only show pieces that actually have an image. Locked previews are
 // hidden until the user delivers a scan.
 
-// /portfolio/art — art portfolio drill-down. Pre-launch the value is
+// /art — art portfolio drill-down. Pre-launch the value is
 // the sum of starting bids; once the round-1 auction unlocks the
 // aggregator switches to max(current_bid, start_bid) automatically.
 

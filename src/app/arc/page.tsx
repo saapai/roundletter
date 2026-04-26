@@ -194,7 +194,7 @@ export default function ArcPage() {
             <li><Link href="/green-credit">green credit</Link><span>delayed</span></li>
             <li><Link href="/trades">trades</Link><span>on time</span></li>
             <li><Link href="/canvas">canvas</Link><span>on time</span></li>
-            <li><Link href="/archives">archives · v0 + v1</Link><span>on time</span></li>
+            <li><Link href="/eggs">archives · v0 + v1</Link><span>on time</span></li>
           </ul>
         </nav>
 

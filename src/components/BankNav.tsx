@@ -10,11 +10,12 @@ import { usePathname } from "next/navigation";
 
 const ROUTES = [
   { href: "/", label: "home" },
-  { href: "/portfolio", label: "all" },
-  { href: "/portfolio/personal", label: "investments" },
-  { href: "/portfolio/art", label: "art" },
-  { href: "/portfolio/prediction", label: "prediction" },
-  { href: "/letters/round-0", label: "article" },
+  { href: "/portfolio", label: "portfolio" },
+  { href: "/stocks", label: "stocks" },
+  { href: "/prediction", label: "prediction" },
+  { href: "/art", label: "art" },
+  { href: "/letters", label: "letters" },
+  { href: "/eggs", label: "eggs" },
 ];
 
 export default function BankNav() {

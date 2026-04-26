@@ -20,7 +20,7 @@ const NAV: Array<{ href: string; label: string; emph?: boolean }> = [
   { href: "/market",               label: "market" },
   { href: "/trades",               label: "trades" },
   { href: "/canvas",               label: "canvas" },
-  { href: "/archives",             label: "archives" },
+  { href: "/eggs",             label: "archives" },
   { href: "/arc",                  label: "arc" },
   { href: "/letters/round-0",      label: "letters · round 0" },
   { href: "/6969#hunt",            label: "the hunt · ledger" },

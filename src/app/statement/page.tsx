@@ -95,7 +95,7 @@ export default async function Statement() {
             <span className={s.roomName}>the bank</span>
             <span className={s.roomMeta}>live · daily marks</span>
           </a>
-          <a href="https://aureliex.com/portfolio/art" className={s.room}>
+          <a href="https://aureliex.com/art" className={s.room}>
             <span className={s.roomEy}>02</span>
             <span className={s.roomName}>the art</span>
             <span className={s.roomMeta}>15 pieces · auction</span>

@@ -345,7 +345,7 @@ export default function ArchivePage() {
           <Link href="/green-credit">green credit</Link>
           <Link href="/letters/round-0">letters · round 0</Link>
           <Link href="/market">market</Link>
-          <Link href="/archives">archives</Link>
+          <Link href="/eggs">archives</Link>
           <Link href="/statement">statement</Link>
         </footer>
       </div>

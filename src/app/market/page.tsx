@@ -117,7 +117,7 @@ export default function MarketPage() {
         </p>
         <p className="market-coda-guarantee">
           <strong>In no scenario does the founder walk away with the pool.</strong> That rule is structural,
-          not a promise. See <Link href="/archives">the archives</Link> for the full mechanic and the caps.
+          not a promise. See <Link href="/eggs">the archives</Link> for the full mechanic and the caps.
         </p>
       </section>
 

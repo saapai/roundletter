@@ -65,10 +65,10 @@ export default async function PortfolioPage() {
     label: string;
     href: string;
   }> = [
-    { key: "personal",   label: "Personal",   href: "/portfolio/personal" },
-    { key: "external",   label: "External",   href: "/portfolio/external" },
-    { key: "art",        label: "Art",        href: "/portfolio/art" },
-    { key: "prediction", label: "Prediction", href: "/portfolio/prediction" },
+    { key: "personal",   label: "Personal",   href: "/stocks" },
+    { key: "external",   label: "External",   href: "/external" },
+    { key: "art",        label: "Art",        href: "/art" },
+    { key: "prediction", label: "Prediction", href: "/prediction" },
   ];
 
   // Days remaining to 21 jun birthday goal — for hero meta

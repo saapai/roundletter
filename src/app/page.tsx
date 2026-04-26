@@ -113,15 +113,15 @@ export default async function HomePage() {
         numbers dropped (CR3). Archives demoted to footer text link.
       */}
       <nav className="rooms" aria-label="rooms">
-        <Link href="/portfolio/art" className="room room--art">
+        <Link href="/art" className="room room--art">
           <span className="room-name">art</span>
           <span className="room-meta">12 pieces · auction · round 1</span>
         </Link>
-        <Link href="/portfolio/prediction" className="room room--prediction">
+        <Link href="/prediction" className="room room--prediction">
           <span className="room-name">prediction</span>
           <span className="room-meta">kalshi + poly · live</span>
         </Link>
-        <Link href="/portfolio/personal" className="room room--investments">
+        <Link href="/stocks" className="room room--investments">
           <span className="room-name">investments</span>
           <span className="room-meta">10 positions · daily marks</span>
         </Link>
@@ -134,7 +134,7 @@ export default async function HomePage() {
       <p className="rooms-foot">
         <Link href="/portfolio">/ portfolio overview</Link>
         {" · "}
-        <Link href="/archives">archives ↗</Link>
+        <Link href="/eggs">archives ↗</Link>
       </p>
     </main>
   );

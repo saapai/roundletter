@@ -100,7 +100,7 @@ export default function SickoTenSecond({
 
         {forkShown && (
           <div className="sicko-ten-fork" role="dialog" aria-label="choose v1 or v2">
-            <Link href="/archives" className="sicko-ten-choice sicko-ten-choice-v1">
+            <Link href="/eggs" className="sicko-ten-choice sicko-ten-choice-v1">
               <span className="sicko-ten-choice-tag">v1</span>
               <span className="sicko-ten-choice-title">the apparatus</span>
               <span className="sicko-ten-choice-sub">five agents · sealed ballots · kill-switches</span>

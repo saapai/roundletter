@@ -4,7 +4,7 @@ import Link from "next/link";
 import PortfolioGrowthChart from "@/components/PortfolioGrowthChart";
 import { getPortfolioData, getExternalEntries } from "@/lib/portfolio-aggregate";
 
-// /portfolio/external — external capital injected into the book.
+// /external — external capital injected into the book.
 // History is a monotone-step series of entry dates. PR2 has 1 entry
 // (22 apr · $50); the chart renders its empty-state copy when len < 2.
 

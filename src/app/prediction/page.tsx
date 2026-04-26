@@ -7,7 +7,7 @@ import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import { getLatestKalshiSnapshot, type KalshiFill } from "@/lib/snapshots";
 import predictionRaw from "@/data/prediction.json";
 
-// /portfolio/prediction — "The Ticker" design (per SO2). Masthead is the
+// /prediction — "The Ticker" design (per SO2). Masthead is the
 // total $ in mono with count-up; below that, one card per Kalshi event with
 // price chips for open positions; a single line for Polymarket float; and
 // an ESPN-style marquee of the latest line moves at the bottom.

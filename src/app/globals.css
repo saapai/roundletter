@@ -17035,7 +17035,7 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 }
 
 /* ────────────────────────────────────────────────────────────
-   P&L CARDS · /portfolio/personal — synthesis of PL1+PL2+PL3
+   P&L CARDS · /stocks — synthesis of PL1+PL2+PL3
    - mobile-first cards (one per position)
    - two pills per card: TODAY + SINCE-ENTRY
    - sticky TOTAL bar at bottom (PL3 thumb-zone)
@@ -17353,7 +17353,7 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 }
 
 /* ============================================================
-   "The Constellation" — /portfolio/personal star-map view.
+   "The Constellation" — /stocks star-map view.
    Per SO1 design agent: monochrome gold accent, no green/red.
    Direction lives in ▲ / ▼ glyphs, not color.
    ============================================================ */
@@ -17605,7 +17605,7 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 }
 
 /* ────────────────────────────────────────────────────────────
-   THE TICKER — /portfolio/prediction (per SO2 design)
+   THE TICKER — /prediction (per SO2 design)
    Deep navy base · bone text · mint accent on positives only.
    Mobile-first, 430px viewport. Honors prefers-reduced-motion.
    ──────────────────────────────────────────────────────────── */
@@ -17867,3 +17867,33 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 /* Nudge BankNav above the marquee strip on the ticker page */
 .bank-page--prediction .bank-nav,
 .ticker-page ~ .bank-nav { bottom: 3.25rem; }
+
+/* ────────────────────────────────────────────────────────────
+   BANK NAV CONTRAST FIX — readable on every per-route palette
+   issue: graphite on pink (/art) was too low-contrast; active
+   state needs guaranteed legibility regardless of theme tokens
+   ──────────────────────────────────────────────────────────── */
+.bank-nav {
+  background: color-mix(in srgb, var(--paper) 80%, transparent) !important;
+  border-color: color-mix(in srgb, var(--ink) 28%, transparent) !important;
+}
+.bank-nav-item {
+  color: color-mix(in srgb, var(--ink) 65%, var(--paper)) !important;
+  font-weight: 600;
+}
+.bank-nav-item:hover {
+  color: var(--ink) !important;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.bank-nav-item--active {
+  color: var(--paper) !important;
+  background: var(--ink) !important;
+  font-weight: 700;
+}
+/* On the dark home (no bank-page tokens), assume light-on-dark */
+:not(.bank-page) > .bank-nav,
+body > .bank-nav {
+  background: rgba(20,18,15,0.85) !important;
+  backdrop-filter: blur(14px);
+  border-color: rgba(239,234,224,0.20) !important;
+}
