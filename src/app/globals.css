@@ -15752,9 +15752,11 @@ body.hunt-fired .masthead .wordmark .dot {
   background: var(--cov-ink);
   overflow: hidden;
 }
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .cov {
-    grid-template-columns: 1fr minmax(auto, 46%);
+    /* split: text column min 28rem so the wager doesn't wrap mid-number
+       at the 760-900px window; image column ~44%. */
+    grid-template-columns: minmax(28rem, 1fr) minmax(20rem, 44%);
     grid-template-rows: 1fr;
     grid-template-areas:
       "head    img";
@@ -15793,7 +15795,7 @@ body.hunt-fired .masthead .wordmark .dot {
   transform: rotate(-2deg);
   transform-origin: top left;
 }
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .cov-img { min-height: 100vh; }
 }
 .cov-img img {
@@ -15864,7 +15866,7 @@ body.hunt-fired .masthead .wordmark .dot {
   align-self: center;
   max-width: 720px;
 }
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .cov-head {
     /* desktop: held-pause register stays — side-by-side layout
        absorbs the breathing room horizontally, not vertically. */
@@ -15880,8 +15882,11 @@ body.hunt-fired .masthead .wordmark .dot {
   letter-spacing: -0.03em;
   margin: 0;
   color: var(--cov-bone);
-  font-variant-numeric: oldstyle-nums tabular-nums;
-  font-feature-settings: "onum" 1, "tnum" 1, "ss01" 1;
+  /* Lining-tabular so the cover wager belongs to the same numerical
+     family as every other dollar amount on the site. Oldstyle was an
+     orphan — the only number on aureliex.com that had descenders. */
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "tnum" 1, "ss01" 1;
   font-optical-sizing: auto;
 }
 .cov-arrow {
@@ -16231,8 +16236,9 @@ body.hunt-fired .masthead .wordmark .dot {
 .alloc-row--art        .alloc-swatch { background: #D78A98; }
 .alloc-row--prediction .alloc-swatch { background: #1A2E45; }
 .alloc-name {
-  font-style: italic;
+  font-style: normal;
   color: var(--ink);
+  font-family: var(--font-body), serif;
 }
 .alloc-bar-mini {
   display: block;
@@ -16252,6 +16258,8 @@ body.hunt-fired .masthead .wordmark .dot {
 .alloc-row--prediction .alloc-bar-mini > span { background: #1A2E45; }
 .alloc-val {
   font-family: ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
   font-size: 0.78rem;
   color: var(--ink);
   white-space: nowrap;
@@ -16429,21 +16437,27 @@ body.hunt-fired .masthead .wordmark .dot {
 }
 .bank-hero-num {
   font-family: var(--font-display), serif;
-  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-size: clamp(3rem, 6.5vw, 5.5rem);
   line-height: 1;
   font-weight: 500;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.018em;
   color: var(--ink);
   text-wrap: balance;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
 }
 .bank-hero-arrow {
   color: var(--rust);
   margin: 0 0.4em;
-  font-style: italic;
+  font-style: normal;
+  font-size: 0.55em;
+  vertical-align: 0.18em;
+  font-weight: 400;
+  opacity: 0.78;
 }
 .bank-hero-goal {
   color: var(--graphite);
-  font-style: italic;
+  font-style: normal;
 }
 .bank-hero-meta {
   margin-top: 1rem;
@@ -16485,6 +16499,41 @@ body, .masthead, .bank-hero, .art-piece {
   min-height: 100vh;
   margin: 0;
   padding: 1.5rem 1.25rem 4rem;
+}
+
+/* Extend the active page palette to the viewport so the cream
+   root --paper doesn't leak past constrained article columns or
+   peek through scrollbar gutters. Each rule below has the same
+   specificity; the cascade resolves to the most-specific room
+   palette by source order. */
+html:has(.home-v3)                 { background: #0A0A0A; }
+html:has(.bank-page)               { background: #0E0D0B; }
+html:has(.bank-page--art)          { background: #faf8f3; }
+html:has(.bank-page--prediction)   { background: #0D1B2E; }
+html:has(.bank-page--external)     { background: #EFE9DC; }
+html:has(.bank-page--archives)     { background: #2B2A26; }
+html:has(.bank-page--investments)  { background: #0E0D0B; }
+html:has(.bank-page--constellation){ background: #0A0A0C; }
+html:has(.bank-page--letters)      { background: #F2ECDF; }
+
+/* When .bank-page is also .article, the article's 44rem prose cap
+   (line 252) forces a centered ribbon; drop it and let inner blocks
+   carry their own widths. */
+.article.bank-page {
+  max-width: none;
+  padding: 1.5rem clamp(1.25rem, 4vw, 2rem) 6rem;
+  margin: 0;
+}
+/* Default inner cap at grid-width (58rem) so data sections stay
+   legible on a wide canvas while the page background runs to the
+   viewport edge. Sections that already declare their own max-width
+   (.alloc-section, .cat-card-grid, .ticker-*, etc.) win via cascade. */
+.bank-page > .bank-hero,
+.bank-page > .page-section,
+.bank-page > .pl-cards,
+.bank-page > p.deck {
+  max-width: var(--container-grid);
+  margin-inline: auto;
 }
 .bank-page .eyebrow,
 .bank-page .deck,
@@ -16633,22 +16682,12 @@ body, .masthead, .bank-hero, .art-piece {
 /* All rooms share an italic accent on the third line */
 .room .room-meta { font-style: normal; }
 
-/* Fix: cov-mark restored — make sure CSS is present for it. The
-   cursive Ms_Madi font + a low-contrast off-white on dark cover. */
-.cov-mark {
-  position: absolute;
-  top: 1.25rem;
-  left: 1.5rem;
-  font-family: var(--font-signature), cursive;
-  font-size: clamp(2.4rem, 1.5rem + 3.5vw, 4rem);
-  color: rgba(199,107,79,0.85);
-  pointer-events: none;
-  letter-spacing: -0.01em;
-  z-index: 2;
-  line-height: 1;
-}
+/* The original `.cov-mark` rule (above ~15780) sets the hanko-style
+   cursive signature in plum-red with a slight rotation. The flat
+   override that was here previously is removed so the original
+   Ms_Madi register survives. */
 @media (max-width: 767px) {
-  .cov-mark { font-size: 2.2rem; top: 0.9rem; left: 1.1rem; }
+  .cov-mark { font-size: clamp(26px, 7vw, 36px); top: 0.9rem; left: 1.1rem; }
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -16883,30 +16922,67 @@ body:has(.bank-page) > footer { display: none !important; }
    add .bank-page--<key> on the article wrapper to inherit the
    matching room palette across the whole subroute.
    ──────────────────────────────────────────────────────────── */
+/* Per-route bank-page palette tokens. Single source of truth for
+   --paper / --ink / --graphite / --rule / --parchment / --rust on
+   each themed sub-route. The polish-pass overrides for art,
+   prediction, external below this block were collapsed into here. */
 .bank-page--investments {
   --paper: #0E0D0B; --ink: #EFEAE0; --graphite: #6B6862;
   --rule: rgba(239,234,224,0.14); --parchment: #15140F;
   --rust: #C76B4F;
 }
-.bank-page--art {
-  --paper: #F8E1E5; --ink: #3A1521; --graphite: #8C485A;
-  --rule: rgba(58,21,33,0.14); --parchment: #F2C7CE;
-  --rust: #B7415C;
-}
-.bank-page--prediction {
-  --paper: #14253A; --ink: #DCE9F4; --graphite: #6889A7;
-  --rule: rgba(220,233,244,0.14); --parchment: #1A2E45;
-  --rust: #E8A172;
-}
-.bank-page--external {
-  --paper: #F4EFE6; --ink: #1C1A17; --graphite: #6B6560;
-  --rule: rgba(28,26,23,0.14); --parchment: #EDE5D5;
-  --rust: #8B3A2E;
-}
 .bank-page--archives {
   --paper: #2B2A26; --ink: #E2D4B5; --graphite: #7E7560;
   --rule: rgba(226,212,181,0.14); --parchment: #322F2A;
   --rust: #C49256;
+}
+
+/* /letters — paper-on-ink, the long-form room. Reads as the same
+   bone the cover signs in, with the cover-rust as accent. */
+.bank-page--letters {
+  --paper: #F2ECDF;
+  --ink: #1A1714;
+  --graphite: #6B6560;
+  --rule: rgba(28,26,23,0.14);
+  --parchment: #EDE5D5;
+  --rust: #C44325;
+}
+
+/* /letters — long-form prose room. Inherits .bank-page tokens
+   above. The hero column is held at prose width to keep line
+   length readable for essays. */
+.letters-hero {
+  max-width: var(--container-prose);
+  margin: 0 auto 2.5rem;
+}
+.letters-hero-date { margin-bottom: 0.5rem; }
+.letters-hero-sub { font-style: italic; }
+.bank-page--letters .letters-hero h1 { margin-top: 0; }
+.letters-archive {
+  max-width: var(--container-prose);
+  margin: 3rem auto 0;
+}
+.letters-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.letters-list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.letters-list-title { font-style: italic; }
+.letters-list-date {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.7rem;
+  color: var(--graphite);
 }
 
 /* /portfolio top page stays neutral-dark */
@@ -16923,32 +16999,47 @@ body:has(.bank-page) > footer { display: none !important; }
    - kill stray italics on data
    ──────────────────────────────────────────────────────────── */
 
-/* Pink desaturated — rose, not bubblegum (CR1) */
-.room--art { background: #E3BFC2; color: #2D1018; }
-.room--art .room-meta { color: #7A4250; }
-.room--art:hover { background: #DAB1B5; }
+/* Room tile palettes + matching deep-room palettes. Each tile is
+   the peephole into the deep room that follows; tile→deep should
+   feel like the same lighting, not a brand swap.
+   The single shared accent is `#C44325` (the cover hanko-rust);
+   the secondary `#C9A45A` (muted gilt) is reserved for monetary
+   up-marks in the bookmaker rooms only. */
+
+/* Art — rose tile opens into a salon-paper room. The rose is
+   the curtain pulled back from a paper-white wall, not a swap. */
+.room--art { background: #E8C9CD; color: #3A1521; }
+.room--art .room-meta { color: #8C485A; }
+.room--art:hover { background: #DEB9BE; }
 .bank-page--art {
-  --paper: #EBC7CB; --ink: #2D1018; --graphite: #7A4250;
-  --rule: rgba(45,16,24,0.16); --parchment: #E3BFC2;
-  --rust: #A93651;
+  --paper: #faf8f3;     /* salon paper per design-bank/art-gallery-pick.md */
+  --ink: #1f1a14;
+  --graphite: #6e655a;
+  --rule: rgba(31, 26, 20, 0.14);
+  --parchment: #F5F1E8; /* the warm mat */
+  --rust: #B7415C;      /* rose accent for art room only */
 }
 
-/* Navy deepened, less tech-blog (CR1) */
+/* Prediction — navy tile, navy deep room. Walks straight through. */
 .room--prediction { background: #0D1B2E; color: #BCD0E5; }
 .room--prediction .room-meta { color: #5C7A98; }
 .room--prediction:hover { background: #122339; }
 .bank-page--prediction {
   --paper: #0D1B2E; --ink: #DCE9F4; --graphite: #6889A7;
   --rule: rgba(220,233,244,0.14); --parchment: #122339;
-  --rust: #C9A961;
+  --rust: #C9A45A;      /* muted gilt for the bookmaker register */
 }
 
-/* Cream warmer (CR1) */
-.room--articles { background: #EDE5D4; }
+/* Articles tile (round 0) — warm bone, matches the cover register
+   so the rightmost tile doesn't read as a cream-leak against the
+   dark home-v3 main. */
+.room--articles { background: #EFE9DC; color: #1A1714; }
+.room--articles .room-meta { color: #6E655A; }
+.room--articles:hover { background: #E5DDC9; }
 .bank-page--external {
-  --paper: #EDE5D4; --ink: #1C1A17; --graphite: #6B6560;
+  --paper: #EFE9DC; --ink: #1A1714; --graphite: #6B6560;
   --rule: rgba(28,26,23,0.14); --parchment: #E5DCC4;
-  --rust: #8B3A2E;
+  --rust: #C44325;      /* shared cover-rust */
 }
 
 /* 4-up rooms (no archives tile) — CR3 */
@@ -17004,160 +17095,12 @@ body:has(.bank-page) > footer { display: none !important; }
 .bank-page .voice { font-style: italic; }
 
 /* ────────────────────────────────────────────────────────────
-   ART GALLERY v3 — actual e-t-d-s scroll-snap
-   The previous v2 set min-height: 100svh on each piece WITHOUT
-   activating snap on the page itself, so it just felt like a long
-   page. v3 puts scroll-snap on the html element via :has() while
-   on the art page, and gives each piece a hard snap-stop.
+   ART GALLERY — stale dark scroll-snap rules and `.art-piece`
+   selectors removed (the active /art design is the SalonWall in
+   src/app/art/page.module.css per design-bank/art-gallery-pick.md).
+   `.art-rail` chrome was tied to the deleted scroll-snap layout
+   and is also gone — SalonWall doesn't render it.
    ──────────────────────────────────────────────────────────── */
-
-/* Activate page-level snap only on the art route */
-html:has(.bank-page--art) {
-  scroll-snap-type: y mandatory;
-  scroll-padding-top: 0;
-  scroll-behavior: smooth;
-}
-html:has(.bank-page--art) body { background: #1A0A11; }
-
-/* Hide all the chrome around the gallery on the art page so each
-   piece truly fills the viewport. Header + footer + hero get pulled
-   into the first snap slot. */
-.bank-page--art {
-  padding: 0;
-  background: #1A0A11;
-  color: #F8E1E5;
-}
-.bank-page--art .eyebrow,
-.bank-page--art h1,
-.bank-page--art .deck {
-  text-align: center;
-  color: #F8E1E5;
-}
-.bank-page--art .eyebrow { padding-top: 1rem; opacity: 0.6; font-size: 0.65rem; letter-spacing: 0.22em; }
-.bank-page--art h1 { margin: 0.5rem 0 0.25rem; font-size: clamp(2rem, 1.4rem + 2vw, 3rem); font-style: italic; }
-.bank-page--art .deck { font-size: 0.85rem; color: rgba(248,225,229,0.55); margin-bottom: 0; }
-.bank-page--art .pathlink { color: rgba(248,225,229,0.55); border-bottom: 1px solid rgba(248,225,229,0.2); }
-.bank-page--art .pch-wrap,
-.bank-page--art .art-gallery-bar { display: none; }
-
-/* Reset gallery container — pieces snap to viewport */
-.bank-page--art .art-gallery,
-.bank-page--art .art-gallery--snap {
-  display: block;
-  margin: 0;
-  padding: 0;
-  scroll-snap-type: none;
-  background: #1A0A11;
-}
-
-/* Each piece IS one viewport, snap-stops always */
-.bank-page--art .art-piece {
-  min-height: 100svh;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  display: grid;
-  grid-template-rows: 1fr auto;
-  align-items: center;
-  justify-items: center;
-  padding: 4svh 5vw;
-  gap: 1.5rem;
-  background: #1A0A11;
-  margin: 0;
-  border: none;
-  opacity: 1;
-}
-
-/* Image is the wall art — generous bleed, no shadow on dark */
-.bank-page--art .art-piece-frame {
-  width: 100%;
-  max-width: min(85vw, 75svh);
-  display: grid;
-  place-items: center;
-}
-.bank-page--art .art-piece-img {
-  width: 100%;
-  max-height: 75svh;
-  object-fit: contain;
-  background: transparent;
-  border-radius: 1px;
-  box-shadow: 0 60px 100px rgba(0,0,0,0.55), 0 8px 32px rgba(0,0,0,0.35);
-  filter: brightness(1);
-}
-
-/* Museum tag — minimal, beneath, centered */
-.bank-page--art .art-piece-tag {
-  display: grid;
-  grid-template-columns: auto auto;
-  align-items: baseline;
-  column-gap: 1.5rem;
-  row-gap: 0.4rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(248,225,229,0.18);
-  max-width: min(85vw, 75svh);
-  width: 100%;
-  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  color: rgba(248,225,229,0.65);
-  text-transform: uppercase;
-}
-.bank-page--art .art-piece-num { color: rgba(248,225,229,0.45); padding-top: 0.3rem; }
-.bank-page--art .art-piece-title {
-  font-family: var(--font-display), serif;
-  font-size: clamp(1.05rem, 0.8rem + 0.8vw, 1.4rem);
-  font-style: italic;
-  font-weight: 500;
-  color: #F8E1E5;
-  text-transform: none;
-  letter-spacing: -0.005em;
-}
-.bank-page--art .art-piece-medium { grid-column: 2; opacity: 0.7; }
-.bank-page--art .art-piece-row {
-  grid-column: 2;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.4rem;
-}
-.bank-page--art .art-piece-bid { color: #F8E1E5; font-weight: 600; }
-.bank-page--art .art-piece-bid em { font-style: normal; opacity: 0.55; margin-left: 0.4em; }
-
-/* Vertical jump-rail dots (CR2 recommendation) — desktop only */
-.art-rail {
-  position: fixed;
-  right: 1.4rem;
-  top: 50%;
-  transform: translateY(-50%);
-  display: none;
-  flex-direction: column;
-  gap: 0.4rem;
-  z-index: 50;
-}
-@media (min-width: 768px) {
-  .bank-page--art ~ .art-rail,
-  body:has(.bank-page--art) .art-rail { display: flex; }
-}
-.art-rail a {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(248,225,229,0.35);
-  border: none;
-  transition: transform 0.2s, background 0.2s;
-  display: block;
-}
-.art-rail a:hover { background: #F8E1E5; transform: scale(1.6); }
-
-/* Mobile: thinner rail at bottom */
-@media (max-width: 767px) {
-  .art-rail {
-    display: flex;
-    flex-direction: row;
-    right: 50%;
-    transform: translateX(50%);
-    top: auto;
-    bottom: 1rem;
-  }
-}
 
 /* ────────────────────────────────────────────────────────────
    P&L CARDS · /stocks — synthesis of PL1+PL2+PL3
@@ -17823,7 +17766,7 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 .ticker-masthead {
   padding: 2.25rem 1.25rem 1.5rem;
   text-align: left;
-  max-width: 540px;
+  max-width: 680px;
   margin: 0 auto;
 }
 .ticker-eyebrow {
@@ -17845,16 +17788,17 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 }
 .ticker-meta {
   margin-top: 0.9rem;
-  font-family: var(--font-body), Inter, system-ui, sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.02em;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
   color: var(--ticker-mute);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* Kalshi book-history chart (between masthead + events) ──── */
 .ticker-history {
-  max-width: 540px;
+  max-width: 680px;
   margin: 1.25rem auto 0;
   padding: 0 1.25rem;
 }
@@ -17892,7 +17836,7 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 
 /* Event cards ─────────────────────────────────────────────── */
 .ticker-events {
-  max-width: 540px;
+  max-width: 680px;
   margin: 1.5rem auto 0;
   padding: 0 1.25rem;
   display: flex;
@@ -17917,10 +17861,10 @@ html:has(.bank-page--art) body { background: #1A0A11; }
   gap: 1rem;
 }
 .ticker-event-title {
-  font-family: var(--font-body), Inter, system-ui, sans-serif;
-  font-weight: 500;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ticker-bone);
   margin: 0;
@@ -17985,7 +17929,7 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 
 /* Polymarket float row ─────────────────────────────────────── */
 .ticker-poly {
-  max-width: 540px;
+  max-width: 680px;
   margin: 1.75rem auto 0;
   padding: 1rem 1.25rem 0;
   border-top: 1px solid var(--ticker-rule);
@@ -18000,11 +17944,11 @@ html:has(.bank-page--art) body { background: #1A0A11; }
   font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
 }
 .ticker-poly-name {
-  font-family: var(--font-body), Inter, system-ui, sans-serif;
-  font-size: 13px;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 12px;
   color: var(--ticker-bone);
   flex: 1;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.06em;
 }
 .ticker-poly-amount {
   font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
@@ -18098,67 +18042,38 @@ html:has(.bank-page--art) body { background: #1A0A11; }
 .ticker-page ~ .bank-nav { bottom: 3.25rem; }
 
 /* ────────────────────────────────────────────────────────────
-   BANK NAV CONTRAST FIX — readable on every per-route palette
-   issue: graphite on pink (/art) was too low-contrast; active
-   state needs guaranteed legibility regardless of theme tokens
+   BANK NAV CONTRAST — single source of truth, themed via tokens.
+   `--paper` and `--ink` come from each `.bank-page--<x>` palette
+   (defined in one block above), so this rule reads correctly on
+   every room without per-room overrides or `!important` chains.
    ──────────────────────────────────────────────────────────── */
 .bank-nav {
-  background: color-mix(in srgb, var(--paper) 80%, transparent) !important;
-  border-color: color-mix(in srgb, var(--ink) 28%, transparent) !important;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  border-color: color-mix(in srgb, var(--ink) 28%, transparent);
 }
 .bank-nav-item {
-  color: color-mix(in srgb, var(--ink) 65%, var(--paper)) !important;
+  color: color-mix(in srgb, var(--ink) 65%, var(--paper));
   font-weight: 600;
 }
 .bank-nav-item:hover {
-  color: var(--ink) !important;
+  color: var(--ink);
   background: color-mix(in srgb, var(--ink) 8%, transparent);
 }
 .bank-nav-item--active {
-  color: var(--paper) !important;
-  background: var(--ink) !important;
+  color: var(--paper);
+  background: var(--ink);
   font-weight: 700;
-}
-/* On the dark home (no bank-page tokens), assume light-on-dark */
-:not(.bank-page) > .bank-nav,
-body > .bank-nav {
-  background: rgba(20,18,15,0.85) !important;
-  backdrop-filter: blur(14px);
-  border-color: rgba(239,234,224,0.20) !important;
 }
 
 /* ────────────────────────────────────────────────────────────
-   /art SALON WALL overrides (per design-bank/art-gallery-pick.md)
-   - Replaces the v3 dark scroll-snap gallery with paper-white
-     salon wall. We override the prior bank-page--art rules that
-     forced a dark background and scroll-snap on <html>.
-   ──────────────────────────────────────────────────────────── */
-html:has(.bank-page--art) {
-  scroll-snap-type: none;
-  scroll-behavior: auto;
-}
-html:has(.bank-page--art) body { background: #faf8f3; }
-
-.bank-page--art {
-  background: #faf8f3;
-  color: #1f1a14;
-  padding: 0;
-}
-.bank-page--art .bank-nav {
-  background: rgba(250, 248, 243, 0.92) !important;
-  border-color: rgba(31, 26, 20, 0.16) !important;
-  backdrop-filter: blur(12px);
-}
-.bank-page--art .bank-nav-item {
-  color: rgba(31, 26, 20, 0.7) !important;
-}
-.bank-page--art .bank-nav-item--active {
-  color: #faf8f3 !important;
-  background: #1f1a14 !important;
-}
-/* Hide the legacy art-rail (was dependent on dark scroll-snap layout). */
-body:has(.bank-page--art) .art-rail,
-.bank-page--art ~ .art-rail { display: none !important; }
+   /art SALON WALL — the page module (src/app/art/page.module.css)
+   carries the salon-wall layout. The deep-room palette tokens
+   (`--paper #faf8f3`, etc.) are set on `.bank-page--art` above.
+   The article wrapper itself just needs to drop padding so the
+   module's wall padding (5rem 4rem 10rem) controls spacing.
+   The unified `.bank-nav` rule handles theming via tokens; no
+   per-room nav override needed here. */
+.bank-page--art { padding: 0; }
 
 /* ────────────────────────────────────────────────────────────
    /external — third-party capital injected into the book.
