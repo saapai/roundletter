@@ -7306,6 +7306,32 @@ body.reader-mode > main { padding-top: 2rem; }
   border-bottom-color: var(--ink);
 }
 
+/* PR3 · subtle index of unlinked routes. plain text, footnote-tone. */
+.archives-index {
+  list-style: none;
+  margin: 1.5rem auto 4rem;
+  padding: 0;
+  max-width: 24rem;
+  display: grid;
+  gap: 0.25rem;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: color-mix(in srgb, var(--ink) 55%, var(--paper));
+}
+.archives-index a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--rule);
+  padding-bottom: 0.1rem;
+  transition: color 160ms ease, border-bottom-color 160ms ease;
+}
+.archives-index a:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
 @media (max-width: 640px) {
   .archives-marker {
     grid-template-columns: 1fr;
