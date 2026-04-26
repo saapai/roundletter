@@ -86,7 +86,7 @@ export default async function HomePage() {
       <section className="cov" aria-label="the cover">
         <div className="cov-img">
           <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
-          {/* cursive cov-mark removed per D1 — was fighting the headline */}
+          <span className="cov-mark" aria-hidden="true">aureliex</span>
         </div>
 
         <div className="cov-head">
@@ -103,19 +103,36 @@ export default async function HomePage() {
       {/* ── LIVE STRIP — one narrow row of numbers below the cover ── */}
       <LiveStrip holdings={HOLDINGS} pendingCash={PENDING_CASH} baseline={lp.baseline} />
 
-      {/* ── FOOTER — table of contents · centered, generous, italic ── */}
-      <footer className="home-v3-footer">
-        <nav className="home-v3-nav" aria-label="contents">
-          <Link href="/archive#trailer">trailer</Link>
-          <Link href="/positions">positions</Link>
-          <Link href="/argument">argument</Link>
-          <Link href="/green-credit">green credit</Link>
-          <Link href="/archive">archive</Link>
-        </nav>
-        <p className="home-v3-credit-in">
-          cover · yoshida hiroshi · cleveland museum of art · cc0
-        </p>
-      </footer>
+      {/* ── BIG ROOMS — chunky entry tiles into each room of the bank.
+            each subroute will carry its own visual register (dark / parchment
+            / warm / electric).  desktop: 5-up; mobile: 2-up snap-grid.       */}
+      <nav className="rooms" aria-label="rooms">
+        <Link href="/portfolio/personal" className="room room--investments">
+          <span className="room-eyebrow">01 · investments</span>
+          <span className="room-name">stocks</span>
+          <span className="room-meta">live · daily marks</span>
+        </Link>
+        <Link href="/portfolio/art" className="room room--art">
+          <span className="room-eyebrow">02 · art</span>
+          <span className="room-name">15 pieces</span>
+          <span className="room-meta">auction · round 1</span>
+        </Link>
+        <Link href="/portfolio/prediction" className="room room--prediction">
+          <span className="room-eyebrow">03 · prediction</span>
+          <span className="room-name">kalshi · poly</span>
+          <span className="room-meta">live · real money</span>
+        </Link>
+        <Link href="/letters/round-0" className="room room--articles">
+          <span className="room-eyebrow">04 · article</span>
+          <span className="room-name">round 0</span>
+          <span className="room-meta">the letter</span>
+        </Link>
+        <Link href="/archives" className="room room--archives">
+          <span className="room-eyebrow">05 · archives</span>
+          <span className="room-name">eggs</span>
+          <span className="room-meta">unlinked · still live</span>
+        </Link>
+      </nav>
     </main>
   );
 }

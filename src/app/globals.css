@@ -16150,3 +16150,378 @@ body.hunt-fired .masthead .wordmark .dot {
   font-style: italic;
   color: #6B6560;
 }
+
+/* ────────────────────────────────────────────────────────────
+   ART GALLERY · per design-bank/etds-com.md
+   Mobile (default): vertical CSS scroll-snap. Each piece centers
+   in the viewport with breathing room. Inactive pieces dim to 0.5.
+   Desktop: simple two-column grid. Zero JS.
+   ──────────────────────────────────────────────────────────── */
+.art-gallery-section { margin-top: 2.5rem; }
+
+.art-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  padding: 8svh 1rem;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  margin: 1rem -0.5rem 0;
+}
+.art-gallery::-webkit-scrollbar { display: none; }
+
+.art-piece {
+  margin: 0;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  opacity: 0.7;
+  transition: opacity 0.5s cubic-bezier(.25,1,.5,1),
+              transform 0.5s cubic-bezier(.25,1,.5,1);
+}
+
+.art-piece-img {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  background: var(--ink);
+  display: block;
+  border-radius: 2px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+}
+
+.art-piece-locked {
+  width: 100%;
+  height: 35vh;
+  background:
+    repeating-linear-gradient(45deg, var(--parchment) 0 12px, transparent 12px 24px),
+    var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+}
+.art-piece-locked-mark {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: var(--graphite);
+  text-transform: uppercase;
+}
+
+.art-piece-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  align-items: baseline;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--graphite);
+}
+.art-piece-bid {
+  grid-row: 1;
+  font-size: 1.4rem;
+  color: var(--ink);
+  font-weight: 600;
+  font-family: var(--font-display), Cormorant_Garamond, serif;
+}
+.art-piece-bid-label {
+  grid-row: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  align-self: end;
+  padding-bottom: 0.25rem;
+}
+.art-piece-title {
+  grid-column: 1 / -1;
+  font-size: 1rem;
+  color: var(--ink);
+  font-style: italic;
+  font-family: var(--font-display), serif;
+}
+.art-piece-medium {
+  grid-column: 1 / -1;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+.art-piece-date {
+  grid-column: 1 / -1;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+/* Snap behavior in viewport — visible piece becomes fully opaque */
+@media (hover: none) and (pointer: coarse) {
+  .art-piece { opacity: 0.45; }
+  .art-piece:hover, .art-piece:focus-within { opacity: 1; transform: scale(1.005); }
+}
+@supports (animation-timeline: view()) {
+  .art-piece {
+    animation: art-piece-fade linear both;
+    animation-timeline: view();
+    animation-range: cover 0% cover 100%;
+  }
+  @keyframes art-piece-fade {
+    0%, 100% { opacity: 0.35; }
+    35%, 65% { opacity: 1; }
+  }
+}
+
+/* Desktop: 2-up grid, no snap */
+@media (min-width: 768px) {
+  .art-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 2rem;
+    padding: 1.5rem 0;
+    scroll-snap-type: none;
+  }
+  .art-piece { opacity: 1; }
+  .art-piece-img { max-height: 65vh; }
+  @supports (animation-timeline: view()) {
+    .art-piece { animation: none; opacity: 1; }
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   PORTFOLIO HERO · big-number first per money-growth focus
+   ──────────────────────────────────────────────────────────── */
+.bank-hero {
+  padding: 4rem 0 3rem;
+  text-align: center;
+}
+.bank-hero-eyebrow {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin-bottom: 0.75rem;
+}
+.bank-hero-num {
+  font-family: var(--font-display), serif;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.bank-hero-arrow {
+  color: var(--rust);
+  margin: 0 0.4em;
+  font-style: italic;
+}
+.bank-hero-goal {
+  color: var(--graphite);
+  font-style: italic;
+}
+.bank-hero-meta {
+  margin-top: 1rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  display: inline-flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+.bank-hero-meta-sep { color: var(--rule); }
+
+/* Smoother global transitions per design-bank/etds-com.md */
+body, .masthead, .bank-hero, .art-piece {
+  transition-property: background-color, color, border-color, opacity;
+  transition-duration: 0.6s;
+  transition-timing-function: cubic-bezier(.25,1,.5,1);
+}
+
+/* ────────────────────────────────────────────────────────────
+   DARK BANK PAGES · v2
+   Apply class="bank-page" on article wrapper of /portfolio
+   and sub-routes. Flips the design tokens to dark; keeps
+   light theme on /, /archives, /letters, /statement.
+   ──────────────────────────────────────────────────────────── */
+.bank-page {
+  --paper:        #0E0D0B;
+  --ink:          #EFEAE0;
+  --graphite:    #8A8278;
+  --rule:        rgba(239,234,224,0.14);
+  --parchment:   #15140F;
+  --rust:        #C76B4F;
+  --shadow-blue: #6B7C8E;
+  --shadow-blue-soft: rgba(107,124,142,0.30);
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  margin: 0;
+  padding: 1.5rem 1.25rem 4rem;
+}
+.bank-page .eyebrow,
+.bank-page .deck,
+.bank-page .pathlink {
+  color: var(--graphite);
+}
+.bank-page h1,
+.bank-page h2,
+.bank-page strong {
+  color: var(--ink);
+}
+.bank-page a { color: var(--ink); border-bottom-color: var(--rule); }
+.bank-page a:hover { color: var(--rust); }
+.bank-page .ink-rule,
+.bank-page .rule { background: var(--rule); }
+
+/* Bank-page hero: bigger, breathier on dark */
+.bank-page .bank-hero { padding: 5rem 0 3.5rem; }
+.bank-page .bank-hero-num {
+  color: var(--ink);
+  text-shadow: 0 0 60px rgba(199,107,79,0.06);
+}
+.bank-page .bank-hero-arrow { color: var(--rust); }
+.bank-page .bank-hero-goal { color: var(--graphite); }
+.bank-page .bank-hero-meta-sep { color: var(--rule); }
+
+/* Cards on dark surface */
+.bank-page .page-card,
+.bank-page .cat-card,
+.bank-page .page-section {
+  background: var(--parchment);
+  border-color: var(--rule);
+  color: var(--ink);
+}
+.bank-page .page-card:hover,
+.bank-page .cat-card:hover {
+  background: color-mix(in srgb, var(--parchment) 60%, var(--rust) 5%);
+  border-color: color-mix(in srgb, var(--rust) 25%, var(--rule));
+}
+.bank-page .card-ticker,
+.bank-page .cat-card-value { color: var(--ink); }
+.bank-page .card-agent,
+.bank-page .card-note,
+.bank-page .cat-card-label,
+.bank-page .page-section-meta { color: var(--graphite); }
+
+/* Art gallery on dark — let images breathe */
+.bank-page .art-piece-img { background: #050403; }
+.bank-page .art-piece-locked {
+  background:
+    repeating-linear-gradient(45deg, rgba(239,234,224,0.05) 0 12px, transparent 12px 24px),
+    var(--parchment);
+}
+.bank-page .art-piece-locked-mark { color: var(--graphite); }
+.bank-page .art-piece-bid { color: var(--ink); }
+.bank-page .art-piece-title { color: var(--ink); }
+.bank-page .art-piece-medium,
+.bank-page .art-piece-bid-label,
+.bank-page .art-piece-date { color: var(--graphite); }
+
+/* Chart wrapper on dark */
+.bank-page .h2-strip,
+.bank-page .h2-strip-list,
+.bank-page .h2-strip-item { background: transparent; color: var(--ink); }
+
+/* Tables on dark */
+.bank-page table { color: var(--ink); }
+.bank-page table th,
+.bank-page table td { border-color: var(--rule); }
+
+/* ────────────────────────────────────────────────────────────
+   ROOMS · big chunky CTA tiles below the cover
+   5 entry points into the bank — each carries its own register
+   so the whole site feels like a building of rooms, not a SPA
+   ──────────────────────────────────────────────────────────── */
+.rooms {
+  display: grid;
+  gap: 1px;
+  background: var(--rule);
+  padding: 1px 0 0;
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .rooms { grid-template-columns: repeat(5, 1fr); }
+}
+@media (max-width: 767px) {
+  .rooms { grid-template-columns: 1fr 1fr; }
+  .rooms .room--archives { grid-column: span 2; }
+}
+
+.room {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-decoration: none;
+  border: none !important;
+  padding: 1.75rem 1.25rem 1.5rem;
+  min-height: 11rem;
+  position: relative;
+  overflow: hidden;
+  transition: background-color .35s cubic-bezier(.25,1,.5,1),
+              color .35s cubic-bezier(.25,1,.5,1),
+              transform .35s cubic-bezier(.25,1,.5,1);
+}
+.room:hover { transform: translateY(-2px); }
+
+.room-eyebrow {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.room-name {
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.4rem, 1rem + 1.5vw, 2.1rem);
+  line-height: 1.05;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-style: italic;
+}
+.room-meta {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  opacity: 0.6;
+}
+
+/* Per-room registers — each room "feels" different on hover */
+.room--investments { background: #0E0D0B; color: #EFEAE0; }
+.room--investments:hover { background: #16140F; color: #fff; }
+
+.room--art { background: #EDE5D5; color: #1C1A17; }
+.room--art:hover { background: #E4D9BE; color: #1C1A17; }
+
+.room--prediction { background: #1C2A35; color: #B8D2E0; }
+.room--prediction:hover { background: #243646; color: #DEEBF3; }
+
+.room--articles { background: #F4EFE6; color: #1C1A17; }
+.room--articles:hover { background: #EFE7D5; color: #1C1A17; }
+
+.room--archives { background: #232017; color: #C8B89A; }
+.room--archives:hover { background: #2D2920; color: #E2D4B5; }
+
+/* All rooms share an italic accent on the third line */
+.room .room-meta { font-style: normal; }
+
+/* Fix: cov-mark restored — make sure CSS is present for it. The
+   cursive Ms_Madi font + a low-contrast off-white on dark cover. */
+.cov-mark {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.5rem;
+  font-family: var(--font-signature), cursive;
+  font-size: clamp(2.4rem, 1.5rem + 3.5vw, 4rem);
+  color: rgba(199,107,79,0.85);
+  pointer-events: none;
+  letter-spacing: -0.01em;
+  z-index: 2;
+  line-height: 1;
+}
+@media (max-width: 767px) {
+  .cov-mark { font-size: 2.2rem; top: 0.9rem; left: 1.1rem; }
+}

@@ -50,14 +50,31 @@ export default async function PortfolioPage() {
     { key: "prediction", label: "Prediction", href: "/portfolio/prediction" },
   ];
 
+  // Days remaining to 21 jun birthday goal — for hero meta
+  const goalIso = "2026-06-21T00:00:00-07:00";
+  const daysToGoal = Math.max(
+    0,
+    Math.ceil((Date.parse(goalIso) - Date.now()) / 86_400_000),
+  );
+  const pctOfGoal = (data.total / data.goal) * 100;
+
   return (
-    <article className="article page">
-      <div className="eyebrow">Portfolio</div>
-      <h1>portfolio</h1>
-      <p className="deck">
-        live total: <strong>{fmtMoney(data.total)}</strong>
-        {data.live ? " · live" : " · baseline fallback"}
-      </p>
+    <article className="article page bank-page">
+      <header className="bank-hero">
+        <div className="bank-hero-eyebrow">the book</div>
+        <div className="bank-hero-num">
+          {fmtMoney(data.total)}
+          <span className="bank-hero-arrow"> → </span>
+          <span className="bank-hero-goal">$100,000</span>
+        </div>
+        <div className="bank-hero-meta">
+          <span>{pctOfGoal.toFixed(2)}% of goal</span>
+          <span className="bank-hero-meta-sep">·</span>
+          <span>T−{daysToGoal} days</span>
+          <span className="bank-hero-meta-sep">·</span>
+          <span>{data.live ? "live" : "baseline"}</span>
+        </div>
+      </header>
 
       <PortfolioChart
         holdings={HOLDINGS}

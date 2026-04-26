@@ -24,7 +24,7 @@ export default async function ArtPage() {
   const pieces = getArtPieces();
 
   return (
-    <article className="article page">
+    <article className="article page bank-page">
       <div className="eyebrow">
         <Link href="/portfolio" className="pathlink">portfolio</Link> · art
       </div>

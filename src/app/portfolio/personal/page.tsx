@@ -26,7 +26,7 @@ export default async function PersonalPage() {
   const holdings = getPersonalHoldings();
 
   return (
-    <article className="article page">
+    <article className="article page bank-page">
       <div className="eyebrow">
         <Link href="/portfolio" className="pathlink">portfolio</Link> · personal
       </div>
