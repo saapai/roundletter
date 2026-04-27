@@ -43,7 +43,7 @@ export default function Canvas() {
   const H: Record<string, any> = {};
   p.holdings.forEach((h: any) => { H[h.ticker] = h; });
 
-  const agentsInBook = Array.from(new Set(p.holdings.map((h: any) => h.owner_agent)));
+  const agentsInBook: string[] = Array.from(new Set(p.holdings.map((h: any) => String(h.owner_agent))));
   const totalEntry = p.holdings.reduce((s: number, h: any) => s + h.entry_value, 0);
 
   return (
