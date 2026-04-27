@@ -82,6 +82,18 @@ export function getArtPieces(): ArtPiece[] {
   return ((artPortfolio as unknown as { pieces?: ArtPiece[] }).pieces ?? []) as ArtPiece[];
 }
 
+export type ArtMeta = {
+  round?: string;
+  stake_reserved_pct?: number;
+  auction_close_iso?: string;
+  auction_close_label?: string;
+  state?: string;
+  about?: string;
+};
+export function getArtMeta(): ArtMeta {
+  return ((artPortfolio as unknown as { meta?: ArtMeta }).meta ?? {}) as ArtMeta;
+}
+
 export function getPersonalHoldings(): Array<{
   ticker: string;
   name?: string;

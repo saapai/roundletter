@@ -1,6 +1,6 @@
 import BankNav from "@/components/BankNav";
 import type { Metadata } from "next";
-import { getPortfolioData, getArtPieces } from "@/lib/portfolio-aggregate";
+import { getPortfolioData, getArtPieces, getArtMeta } from "@/lib/portfolio-aggregate";
 import SalonWall from "./SalonWall";
 import styles from "./page.module.css";
 
@@ -34,18 +34,39 @@ export default async function ArtPage() {
   const data = await getPortfolioData();
   const cat = data.categories.art;
   const pieces = getArtPieces().filter((p) => !!p.image);
+  const meta = getArtMeta();
 
   return (
     <article className={`article page bank-page bank-page--art ${styles.wall}`}>
       <header className={styles.head}>
-        <div className={styles.eyebrow}>art</div>
+        <div className={styles.eyebrow}>art · {meta.round || "round 0"}</div>
         <h1 className={styles.title}>twelve plates</h1>
-        <p className={styles.deck}>
-          sum of starting bids · current value <strong>{fmtMoney(cat.current_value)}</strong>
-        </p>
+        {meta.about ? (
+          <p className={styles.intro}>{meta.about}</p>
+        ) : null}
+        <dl className={styles.auctionStrip} aria-label="auction status">
+          <div className={styles.auctionCell}>
+            <dt>sum of starting bids</dt>
+            <dd>{fmtMoney(cat.current_value)}</dd>
+          </div>
+          <div className={styles.auctionCell}>
+            <dt>auction · close</dt>
+            <dd>{meta.auction_close_label || "tbd"}</dd>
+          </div>
+          {typeof meta.stake_reserved_pct === "number" ? (
+            <div className={styles.auctionCell}>
+              <dt>holders · stake reserved</dt>
+              <dd>{meta.stake_reserved_pct}%</dd>
+            </div>
+          ) : null}
+          <div className={styles.auctionCell}>
+            <dt>state</dt>
+            <dd>{meta.state || "open"}</dd>
+          </div>
+        </dl>
       </header>
 
-      <SalonWall pieces={pieces} />
+      <SalonWall pieces={pieces} meta={meta} />
 
       <BankNav />
     </article>

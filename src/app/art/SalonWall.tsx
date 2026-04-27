@@ -15,6 +15,21 @@ type Piece = {
   current_bid?: number | null;
 };
 
+type Meta = {
+  round?: string;
+  auction_close_label?: string;
+  stake_reserved_pct?: number;
+  about?: string;
+};
+
+function captionMeta(p: Piece): string {
+  const parts: string[] = [];
+  if (p.medium) parts.push(p.medium);
+  const y = yearOf(p.date);
+  if (y) parts.push(y);
+  return parts.length ? ` · ${parts.join(" · ")}` : "";
+}
+
 function fmtMoney(n: number): string {
   return `$${n.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
 }
@@ -25,7 +40,7 @@ function yearOf(date?: string): string {
   return m ? m[1] : "";
 }
 
-export default function SalonWall({ pieces }: { pieces: Piece[] }) {
+export default function SalonWall({ pieces, meta }: { pieces: Piece[]; meta?: Meta }) {
   const reduce = useReducedMotion();
 
   // Order pieces by manifest (curatorial sequence). Pieces missing from
@@ -138,16 +153,15 @@ export default function SalonWall({ pieces }: { pieces: Piece[] }) {
               </button>
               <figcaption className={styles.caption}>
                 <span className={styles.captionTitle}>{p.title || p.id}</span>
-                <span className={styles.captionMeta}>
-                  {p.medium ? ` · ${p.medium}` : ""} {yearOf(p.date) ? ` · ${yearOf(p.date)}` : ""}
-                </span>
+                <span className={styles.captionMeta}>{captionMeta(p)}</span>
               </figcaption>
             </li>
           );
         })}
       </ul>
 
-      {/* COLOPHON — borrowed from ART4. Sequential index closer. */}
+      {/* COLOPHON — borrowed from ART4. Sequential index closer.
+         Surfaces medium + year per row and a "how to bid" line at top. */}
       <section className={styles.colophon} aria-label="colophon">
         <div className={styles.colophonHead}>
           <span>colophon · 12 plates</span>
@@ -163,17 +177,33 @@ export default function SalonWall({ pieces }: { pieces: Piece[] }) {
             )}
           </span>
         </div>
+        <p className={styles.colophonHowto}>
+          tap any plate above to enlarge. to bid, text saapai $1 over the
+          listed start; round 1 closes{" "}
+          <strong>{meta?.auction_close_label || "tbd"}</strong>.
+        </p>
         <ol className={styles.colophonList}>
           {sequence.map((p, i) => {
             const bid =
               typeof p.current_bid === "number" ? p.current_bid : (p.start_bid ?? 0);
+            const subline = [p.medium, yearOf(p.date)].filter(Boolean).join(" · ");
             return (
               <li key={p.id} className={styles.colophonRow}>
                 <span className={styles.colophonNum}>
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className={styles.colophonTitle}>{p.title || p.id}</span>
-                <span className={styles.colophonBid}>{fmtMoney(bid)}</span>
+                <span className={styles.colophonTitleCol}>
+                  <span className={styles.colophonTitle}>{p.title || p.id}</span>
+                  {subline ? (
+                    <span className={styles.colophonSub}>{subline}</span>
+                  ) : null}
+                </span>
+                <span className={styles.colophonBid}>
+                  {fmtMoney(bid)}
+                  <span className={styles.colophonBidLabel}>
+                    {p.current_bid != null ? " bid" : " start"}
+                  </span>
+                </span>
               </li>
             );
           })}
