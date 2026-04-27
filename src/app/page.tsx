@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import LiveStrip from "@/components/LiveStrip";
-import { getLivePortfolio, fmtMoney } from "@/lib/portfolio-live";
+import { fmtMoney } from "@/lib/portfolio-live";
+import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import portfolio from "@/data/portfolio.json";
 
 /* ────────────────────────────────────────────────────────────
@@ -40,11 +41,18 @@ function daysFromNowTo(iso: string): number {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const lp = await getLivePortfolio();
-  const live = fmtMoney(lp.value);
-  const delta = lp.up
-    ? `+${fmtMoney(Math.abs(lp.delta))} (+${Math.abs(lp.pct).toFixed(1)}%)`
-    : `−${fmtMoney(Math.abs(lp.delta))} (−${Math.abs(lp.pct).toFixed(1)}%)`;
+  // "now" reflects the full public book: investments + art + prediction
+  // + external cash. baseline is the equity opening of $3,453.83 — what
+  // the wager headline is denominated in. Delta sits against that.
+  const data = await getPortfolioData();
+  const total = data.total;
+  const baseline = data.baseline;
+  const dRaw = total - baseline;
+  const pRaw = baseline > 0 ? (dRaw / baseline) * 100 : 0;
+  const live = fmtMoney(total);
+  const delta = dRaw >= 0
+    ? `+${fmtMoney(Math.abs(dRaw))} (+${Math.abs(pRaw).toFixed(1)}%)`
+    : `−${fmtMoney(Math.abs(dRaw))} (−${Math.abs(pRaw).toFixed(1)}%)`;
   const title = `aureliex · ${live} → $100,000 by 21 jun`;
   const description =
     `a public portfolio from $3,453 to $100,000 by 21 june 2026. ${live} now (${delta} vs baseline).`;
@@ -68,7 +76,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const lp = await getLivePortfolio();
+  // The "now" tile is the full public book (investments + art +
+  // prediction + external). LiveStrip below the cover stays
+  // positions-only — that's what `baseline` measures against.
+  const data = await getPortfolioData();
+  const totalNow = data.total;
 
   const roundStart = ROUND_START_ISO;
   const today = new Date().toISOString();
@@ -94,14 +106,14 @@ export default async function HomePage() {
             $3,453<span className="cov-arrow">→</span>$100,000
           </p>
           <p className="cov-progress">
-            <span className="cov-progress-now">{fmtMoney(lp.value)} now</span>
+            <span className="cov-progress-now">{fmtMoney(totalNow)} now</span>
             <span className="cov-progress-meta">T−{daysToBirthday} days</span>
           </p>
         </div>
       </section>
 
       {/* ── LIVE STRIP — one narrow row of numbers below the cover ── */}
-      <LiveStrip holdings={HOLDINGS} pendingCash={PENDING_CASH} baseline={lp.baseline} />
+      <LiveStrip holdings={HOLDINGS} pendingCash={PENDING_CASH} baseline={data.baseline} />
 
       {/* ── BIG ROOMS — chunky entry tiles into each room of the bank.
             each subroute will carry its own visual register (dark / parchment
