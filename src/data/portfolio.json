@@ -58,6 +58,13 @@
       "date": "2026-04-22",
       "status": "live · distributed 22 apr proportionally across all 10 positions (settled — shares now reflect this)",
       "book_at_entry": 3690.67
+    },
+    {
+      "id": "ext-stock-2026-04-27",
+      "label": "external stock investment",
+      "amount": 36.00,
+      "date": "2026-04-27",
+      "status": "yet to be synced — will distribute proportionally across positions at 28 apr open"
     }
   ]
 }
