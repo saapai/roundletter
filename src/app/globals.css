@@ -15,6 +15,16 @@
   --parchment: #EDE5D5;
   --rule: rgba(28,26,23,0.22);
 
+  /* Sunset palette — additive, opt-in. Pulled from the desktop bank
+     coastal-painting refs (IMG_3981/IMG_3982/IMG_4026). Lives in the
+     same warm family as --rust so celebratory beats can reach for a
+     wider register without breaking room coherence. Routes opt in via
+     a body class; never default. */
+  --sunset-peach:   #F2C9A4;
+  --sunset-coral:   #D97A57;
+  --sunset-gold:    #E8B547;
+  --sunset-indigo:  #2E3A5C;
+
   /* Container widths
      prose: long-form serif reading column. ~70 chars at body size.
      grid:  multi-column / chart / table / register pages.
@@ -837,6 +847,105 @@ h1, h2, h3 {
   color: var(--graphite);
   text-align: center;
   margin-top: 0.5rem;
+}
+
+/* Canvas meta strip — three small cells above the graph: position
+   count, edge count, total entry value. Reads as a chart caption,
+   not a kpi block. */
+.canvas-page .canvas-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.25rem;
+  margin: 1.25rem 0 0.5rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.canvas-meta-cell {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+}
+.canvas-meta-label {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.canvas-meta-value {
+  font-family: var(--font-display), serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Canvas legend — agent → fill color mapping plus the edge/size keys.
+   Sits below the SVG, above the v2 caption. */
+.canvas-legend {
+  margin: 1rem 0 0.4rem;
+  padding: 0.85rem 1rem;
+  background: color-mix(in srgb, var(--paper) 65%, var(--parchment) 35%);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+}
+.canvas-legend-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin: 0 0 0.55rem;
+}
+.canvas-legend-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.4rem 1.25rem;
+}
+.canvas-legend-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-body), serif;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.canvas-legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent);
+}
+.canvas-legend-edge {
+  width: 22px;
+  height: 0;
+  border-top: 1.5px dashed color-mix(in srgb, var(--ink) 55%, transparent);
+}
+.canvas-legend-size {
+  width: 22px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.canvas-legend-size::before {
+  content: "";
+  width: 6px; height: 6px; border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+.canvas-legend-size::after {
+  content: "";
+  width: 12px; height: 12px; border-radius: 50%;
+  background: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+.canvas-legend-row--rule .canvas-legend-label {
+  font-style: italic;
+  color: var(--graphite);
 }
 
 /* ── Insignia (easter-egg diamond, every page) ─────────── */
@@ -4722,6 +4831,7 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
 
 /* /attention easter egg stub */
 .attention-root {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -4731,13 +4841,34 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
     #F4EFE6;
   color: #1C1A17;
   padding: 4rem clamp(1.5rem, 5vw, 4rem);
+  overflow: hidden;
+}
+/* Stipple-crowd gesture — pulled from the desktop bank's optical-density
+   refs (IMG_3958–61, IMG_4024–27). A real Canvas/SVG dot-field is the
+   eventual port; this CSS-only version is the gesture: a quiet field of
+   ink dots that reads as "every reader is a dot" without claiming the
+   full component. */
+.attention-stipple {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(color-mix(in srgb, #1C1A17 22%, transparent) 0.7px, transparent 0.7px),
+    radial-gradient(color-mix(in srgb, #1C1A17 14%, transparent) 0.5px, transparent 0.5px);
+  background-size: 18px 18px, 11px 11px;
+  background-position: 0 0, 6px 7px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, transparent 18%, #000 78%);
+          mask-image: radial-gradient(ellipse at 50% 50%, transparent 18%, #000 78%);
+  opacity: 0.55;
 }
 .attention-wrap {
+  position: relative;
   max-width: 40rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  z-index: 1;
 }
 .attention-eyebrow {
   font-family: "Menlo", ui-monospace, monospace;
@@ -4774,6 +4905,225 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   text-transform: uppercase;
 }
 .attention-back:hover { color: #1C1A17; }
+
+/* Counter + routes appended in the attention rewrite. The counter
+   stages live readership as the unit of the green-credit thesis; the
+   routes are the three exits, all paper-first, no chrome. */
+.attention-counter {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1.25rem 1rem;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.attention-counter-label {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.attention-counter-value {
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.2rem, 1.6rem + 2vw, 3.2rem);
+  line-height: 1;
+  font-weight: 500;
+  color: var(--rust);
+  font-variant-numeric: tabular-nums;
+}
+.attention-counter-value :global(.views-badge),
+.attention-counter-value [class*="views"] {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+}
+.attention-counter-note {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--graphite);
+}
+.attention-routes {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  text-align: left;
+}
+.attention-route {
+  display: grid;
+  grid-template-columns: 11rem 1fr;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 0.85rem 0;
+  text-decoration: none;
+  color: var(--ink);
+  border: none !important;
+  border-top: 1px solid var(--rule) !important;
+  transition: color .18s ease;
+}
+.attention-route:last-child { border-bottom: 1px solid var(--rule) !important; }
+.attention-route:hover { color: var(--rust); }
+.attention-route-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.attention-route:hover .attention-route-eyebrow { color: var(--rust); }
+.attention-route-line {
+  font-family: var(--font-body), serif;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+@media (max-width: 560px) {
+  .attention-route {
+    grid-template-columns: 1fr;
+    gap: 0.3rem;
+    padding: 0.8rem 0;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────
+   /not-found — paper-first 404. Uses --container-bare. Reads as a
+   short letter rather than an error screen: eyebrow + serif hero +
+   a hand of recovery links + a coda. No glass, no shouting.
+   ──────────────────────────────────────────────────────────── */
+.article.notfound {
+  max-width: var(--container-bare);
+  margin: clamp(3rem, 8vh, 6rem) auto clamp(4rem, 10vh, 7rem);
+  padding: 0 clamp(1.25rem, 4vw, 2rem);
+}
+.article.notfound .eyebrow {
+  color: var(--rust);
+  letter-spacing: 0.22em;
+}
+.notfound-hero {
+  font-family: var(--font-display), serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3rem);
+  line-height: 1.12;
+  color: var(--ink);
+  margin: 0.4rem 0 1.1rem;
+  letter-spacing: -0.01em;
+}
+.notfound-hero em {
+  font-style: italic;
+  color: var(--rust);
+}
+.notfound-deck {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--graphite);
+  margin: 0;
+}
+.notfound-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+.notfound-list li + li {
+  border-top: 1px solid var(--rule);
+}
+.notfound-link {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  align-items: baseline;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  text-decoration: none;
+  color: var(--ink);
+  border: none !important;
+  transition: color .18s ease;
+}
+.notfound-link:hover { color: var(--rust); }
+.notfound-link-eyebrow {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.notfound-link:hover .notfound-link-eyebrow { color: var(--rust); }
+.notfound-link-line {
+  font-family: var(--font-body), serif;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink);
+}
+.notfound-coda {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--graphite);
+  margin: 1.75rem 0 0;
+}
+@media (max-width: 560px) {
+  .notfound-link {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+    padding: 0.9rem 0;
+  }
+}
+.notfound--error .eyebrow { color: var(--shadow-blue); }
+.notfound-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem 1.75rem;
+  margin: 0;
+}
+.notfound-retry {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 0.7rem 1.1rem;
+  cursor: pointer;
+  transition: background-color .18s ease, color .18s ease;
+}
+.notfound-retry:hover {
+  background: var(--rust);
+  border-color: var(--rust);
+}
+.notfound-home {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  text-decoration: none;
+}
+.notfound-home:hover { color: var(--rust); }
+.notfound-digest {
+  font-family: "Menlo", ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--graphite);
+  margin: 1.5rem 0 0;
+}
+.notfound-digest code {
+  font-family: inherit;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 6%, transparent);
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+}
 
 /* Slide 9 is a link to the attention easter egg — overlay sits on top of
    everything in the slide so clicks anywhere navigate. Visually invisible.
