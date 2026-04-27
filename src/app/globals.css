@@ -16627,6 +16627,35 @@ html:has(.bank-page--letters)      { background: #F2ECDF; }
 .bank-page table th,
 .bank-page table td { border-color: var(--rule); }
 
+/* Markdown tables emitted by lib/md.ts. Set on a separate class so
+   the rule is portable across rooms and beats prose paragraph styling. */
+.md-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+}
+.md-table thead th {
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  color: var(--graphite);
+  padding: 0.45rem 0.85rem 0.45rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.md-table tbody td {
+  padding: 0.55rem 0.85rem 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--ink);
+}
+.md-table tbody tr:last-child td { border-bottom: none; }
+.md-table tbody td:first-child { font-weight: 600; }
+
 /* ────────────────────────────────────────────────────────────
    ROOMS · big chunky CTA tiles below the cover
    5 entry points into the bank — each carries its own register
@@ -17327,7 +17356,7 @@ body:has(.bank-page) > footer { display: none !important; }
   scrollbar-width: none;
 }
 .bank-nav::-webkit-scrollbar { display: none; }
-.bank-nav-item {
+.bank-nav .bank-nav-item {
   color: var(--graphite);
   text-decoration: none !important;
   border: none !important;
@@ -17336,8 +17365,8 @@ body:has(.bank-page) > footer { display: none !important; }
   white-space: nowrap;
   transition: color .2s, background-color .2s;
 }
-.bank-nav-item:hover { color: var(--ink); }
-.bank-nav-item--active {
+.bank-nav .bank-nav-item:hover { color: var(--ink); }
+.bank-nav .bank-nav-item--active {
   color: var(--paper);
   background: var(--ink);
 }
@@ -18618,15 +18647,15 @@ body:has(.bank-page) > footer { display: none !important; }
   background: color-mix(in srgb, var(--paper) 82%, transparent);
   border-color: color-mix(in srgb, var(--ink) 28%, transparent);
 }
-.bank-nav-item {
+.bank-nav .bank-nav-item {
   color: color-mix(in srgb, var(--ink) 65%, var(--paper));
   font-weight: 600;
 }
-.bank-nav-item:hover {
+.bank-nav .bank-nav-item:hover {
   color: var(--ink);
   background: color-mix(in srgb, var(--ink) 8%, transparent);
 }
-.bank-nav-item--active {
+.bank-nav .bank-nav-item--active {
   color: var(--paper);
   background: var(--ink);
   font-weight: 700;

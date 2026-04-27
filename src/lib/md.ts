@@ -64,6 +64,18 @@ function inlineFormat(s: string): string {
   return parts.join("");
 }
 
+function splitRow(line: string): string[] {
+  let s = line.trim();
+  if (s.startsWith("|")) s = s.slice(1);
+  if (s.endsWith("|")) s = s.slice(0, -1);
+  return s.split("|").map((c) => c.trim());
+}
+
+function isTableSep(line: string): boolean {
+  const cells = splitRow(line);
+  return cells.length > 0 && cells.every((c) => /^:?-{3,}:?$/.test(c));
+}
+
 export function renderMarkdown(md: string): string {
   const lines = md.split("\n");
   const out: string[] = [];
@@ -81,8 +93,24 @@ export function renderMarkdown(md: string): string {
     inPara = true;
   };
 
-  for (const raw of lines) {
+  for (let i = 0; i < lines.length; i++) {
+    const raw = lines[i];
     const line = raw.trimEnd();
+
+    if (line.startsWith("|") && i + 1 < lines.length && isTableSep(lines[i + 1])) {
+      closePara();
+      const header = splitRow(line);
+      i += 1;
+      const rows: string[][] = [];
+      while (i + 1 < lines.length && lines[i + 1].trim().startsWith("|")) {
+        i += 1;
+        rows.push(splitRow(lines[i]));
+      }
+      const head = header.map((c) => `<th>${inlineFormat(c)}</th>`).join("");
+      const body = rows.map((r) => `<tr>${r.map((c) => `<td>${inlineFormat(c)}</td>`).join("")}</tr>`).join("");
+      out.push(`<table class="md-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`);
+      continue;
+    }
 
     if (line.startsWith("# "))  { closePara(); sawH1 = true; const t = line.slice(2); out.push(`<h1 id="${slugify(t)}">${esc(t)}</h1>`); continue; }
     if (line.startsWith("## ")) { closePara(); const t = line.slice(3); out.push(`<h2 id="${slugify(t)}">${esc(t)}</h2>`); continue; }

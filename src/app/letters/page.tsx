@@ -46,7 +46,16 @@ export default async function LettersIndex() {
   }).filter((l) => l.title);
   const hero = letters.find((l) => l.slug === "round-0") || letters[0];
   const rest = letters.filter((l) => l.slug !== hero?.slug);
-  const heroBody = hero?.body ? renderMarkdown(hero.body) : "";
+  // Strip the leading H1 + optional italic-only paragraph from the body —
+  // the frontmatter title/subtitle render those above, and showing them
+  // twice reads as a duplicate. The markdown files keep them so they
+  // still stand alone outside the site.
+  const heroBodyRaw = hero?.body
+    ? hero.body
+        .replace(/^\s*#\s+[^\n]+\n+/, "")
+        .replace(/^\s*\*[^*\n]+\*\s*\n+/, "")
+    : "";
+  const heroBody = heroBodyRaw ? renderMarkdown(heroBodyRaw) : "";
   return (
     <article className="article page bank-page bank-page--letters">
       <div className="eyebrow">letters</div>
