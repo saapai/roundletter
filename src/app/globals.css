@@ -21147,6 +21147,9 @@ body:has(.rl-root) { background: var(--rl-void); }
   .rl-letter-head { font-size: clamp(1.15rem, 4vw, 1.35rem); }
   .rl-seal { gap: 0.4rem; }
   .rl-seal-hash { font-size: 9px; }
+  .rl-rule { margin: clamp(2rem, 4vw, 3rem) auto; }
+  .rl-sect > p { font-size: clamp(0.92rem, 3.8vw, 1.02rem); }
+  .rl-proves li { font-size: clamp(0.92rem, 3.8vw, 1.02rem); }
   .rl-door { padding: clamp(2.5rem, 6vw, 4rem) 20px; }
   .rl-door-line { font-size: clamp(1.4rem, 6vw, 2rem); }
   .rl-colophon { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px) + 2rem); }

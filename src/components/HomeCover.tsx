@@ -181,14 +181,10 @@ export default function HomeCover({
             takes 25 years.
           </p>
           <p>
-            I wrote the{" "}
+            The{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}before the first trade. The implied probability this works
-            is <strong>8%</strong>. I published that number before I started,
-            because if I am at $5,200 six weeks from now quietly telling
-            myself &ldquo;$5,200 is basically $100k if you squint,&rdquo;
-            there is a document on the internet with my name on it that says
-            no, it is not.
+            {" "}says this has an <strong>8%</strong> chance of working.
+            I published that number before I started.
           </p>
           <p className="rl-coda">
             The odds are the honesty. The bet is the product.
@@ -202,38 +198,27 @@ export default function HomeCover({
           <h2 className="rl-sect-head rl-letter-head">What got built</h2>
 
           <p>
-            The portfolio is live at the top of this page. Ten
-            quantum-computing positions. Five AI agents argue every trade
-            before I touch it &mdash; the consensus scores are{" "}
-            <Link href="/argument" className="rl-ink-link">public and archived</Link>,
-            thirty-plus arguments on record. The agents run on local
-            hardware, zero API cost, and are specifically built to disagree
-            with each other &mdash; the memory system surfaces contradictions
-            first, not agreements. Position sizes are{" "}
-            <a href="https://saathvikpai.com" className="rl-ink-link">Kelly-sized</a>,
-            tied to edge, not conviction.
+            The portfolio is live at the top of this page. Five AI agents{" "}
+            <Link href="/argument" className="rl-ink-link">argue every trade</Link>
+            {" "}before I touch it &mdash; built to disagree, not agree.
+            Position sizes are{" "}
+            <a href="https://saathvikpai.com" className="rl-ink-link">Kelly-sized</a>.
           </p>
           <p>
-            Publishing the bet produced other things. A prediction market on
-            the portfolio itself &mdash;{" "}
-            <Link href="/invest" className="rl-ink-link">Green Credit</Link>
-            {" "}&mdash; where you can bet on specific theses: portfolio
-            above $5,000, IONQ above $60. A $200 Polymarket bot running
-            tennis and NBA alongside a $50 Kalshi book. Twelve original
-            artworks in pencil, pen, watercolor, and spray paint, starting
-            at $1. And a{" "}
+            The bet produced:{" "}
+            <Link href="/invest" className="rl-ink-link">a prediction market</Link>,
+            a sports-trading bot, twelve{" "}
+            <Link href="/art" className="rl-ink-link">original artworks</Link>,
+            and a{" "}
             <a href="https://saathvikpai.com" className="rl-ink-link">research paper</a>
-            {" "}&mdash; Entrenched Coils, on contradiction-prioritized
-            memory &mdash; that came out of building the debate system.
-            Thirty-seven pages, none of which were planned.
+            {" "}on agent memory. Thirty-seven pages. None planned.
           </p>
           <p className="rl-beat">
-            The Packers did it with a football team. This week, 247,000
-            strangers pledged $214 million to buy{" "}
-            <a href="https://letsbuyspiritair.com" className="rl-ink-link">an airline</a>
-            {" "}&mdash; the site crashed from traffic. The pattern: make
-            the thing public, let attention create the products, let the
-            products create more attention. The scoreboard keeps it honest.
+            The Packers did it with a football team. This week, 700,000
+            strangers pledged $700 million to buy{" "}
+            <a href="https://letsbuyspiritair.com" className="rl-ink-link">a dead airline</a>.
+            The site crashed from traffic. The pattern is always the same:
+            make the thing public, and the attention builds everything else.
           </p>
         </section>
 
@@ -254,13 +239,6 @@ export default function HomeCover({
             <li className="rl-proves-4">And if all three are running at the
             same time &mdash; the impossible stops being a metaphor.</li>
           </ol>
-          <p>
-            None of this required a platform, a fund, or permission. It
-            required a number, a deadline, and a willingness to be wrong in
-            public. The{" "}
-            <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}names four ways this fails.
-          </p>
         </section>
 
         <div className="rl-rule" />
@@ -270,20 +248,17 @@ export default function HomeCover({
           <h2 className="rl-sect-head rl-letter-head">How to participate</h2>
 
           <p>
-            The investment pool is time-weighted. Early money carries more
-            upside because it took more of the risk. Venmo or Zelle, under
-            60 seconds. No app. No float. No clearing period. You ask. I
-            send. The guarantee is personal.
+            The pool is time-weighted. Early money carries more upside.
+            Venmo or Zelle, under 60 seconds. You ask. I send. The
+            guarantee is personal.
           </p>
           <p className="rl-gate">
             Everyone in the pool gets comped to the June 19 birthday
             party in Utah.
           </p>
           <p>
-            June 19: ten percent of the pool reimburses flights for holders
-            who show up. One original artwork goes to the highest bidder in
-            the room. And five sealed predictions &mdash; written before the
-            wager began, locked, unread &mdash; open at 6 pm.
+            Flights reimbursed. One original artwork to the highest bidder.
+            Five sealed predictions open at 6 pm.
           </p>
           <div className="rl-seal">
             <span className="rl-seal-tag">SEALED</span>
@@ -292,8 +267,7 @@ export default function HomeCover({
           </div>
           <p>
             <Link href="/invest" className="rl-ink-link">Green Credit</Link>
-            {" "}is the prediction market if you want skin in the game without
-            touching the pool.{" "}
+            {" "}if you want skin in the game.{" "}
             <Link href="/art" className="rl-ink-link">Bid on the art</Link>.
             Or{" "}
             <Link href="/argument" className="rl-ink-link">watch the argument</Link>.
