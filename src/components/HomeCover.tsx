@@ -247,10 +247,13 @@ export default function HomeCover({
 
           <p>
             Three things are true regardless of whether the number hits.
-            People love making money. People love a party. And people love
-            to watch someone try the impossible &mdash; especially when
-            the first two are already happening.
           </p>
+          <ol className="rl-proves">
+            <li>People love making money.</li>
+            <li>People love a party.</li>
+            <li>People love to watch someone try the impossible &mdash;
+            especially when the first two are already happening.</li>
+          </ol>
           <p>
             Attention is the largest form of currency on the internet. It
             is what makes a reel go viral, what makes a startup worth
