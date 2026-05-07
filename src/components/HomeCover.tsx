@@ -244,27 +244,8 @@ export default function HomeCover({
         {/* Footer */}
         <div className="hc-section-rule" />
 
-        {/* Stats row killed per 10-designer consensus: every number
-            in it already appears in the hero or body. — v14 */
-        }
-        {false && <div className="hc-stats-row">
-          <div className="hc-stat-item">
-            <span className="hc-stat-label">deadline</span>
-            <span className="hc-stat-value">june 21, 2026</span>
-          </div>
-          <div className="hc-stat-item">
-            <span className="hc-stat-label">starting capital</span>
-            <span className="hc-stat-value">$3,453</span>
-          </div>
-          <div className="hc-stat-item">
-            <span className="hc-stat-label">target</span>
-            <span className="hc-stat-value">$100,000</span>
-          </div>
-          <div className="hc-stat-item">
-            <span className="hc-stat-label">days remaining</span>
-            <span className="hc-stat-value">{daysToBirthday}</span>
-          </div>
-        </div>
+        {/* Stats row removed: 10-designer consensus — every number
+            already appears in the hero or body. — v14 */}
 
         <div className="hc-footer-cta">
           <p className="hc-footer-line">
