@@ -178,7 +178,7 @@ export default function HomeCover({
             The account opened at <strong>$3,453</strong> on April 12. The
             goal is <strong>$100,000 by June 21</strong> &mdash; my 20th
             birthday. Ten weeks. A <strong>29&times;</strong>. The S&amp;P
-            does that in about 25 years.
+            takes 25 years.
           </p>
           <p>
             I wrote the{" "}
@@ -191,8 +191,7 @@ export default function HomeCover({
             no, it is not.
           </p>
           <p>
-            The odds are the honesty. The bet is the product. The attention
-            the bet generates is the upstream capital for everything else.
+            The odds are the honesty. The bet is the product.
           </p>
         </section>
 
@@ -204,38 +203,37 @@ export default function HomeCover({
 
           <p>
             The portfolio is live at the top of this page. Ten
-            quantum-computing positions. Five
-            AI agents argue every trade before I touch it &mdash; the
-            consensus scores are{" "}
-            <Link href="/argument" className="rl-ink-link">public and archived</Link>.
-            Thirty-plus prior arguments on record. The agents run on local
-            hardware, zero API cost, and they&rsquo;re specifically built
-            to disagree with each other &mdash; the memory system surfaces
-            contradictions first, not agreements. Position sizes are{" "}
+            quantum-computing positions. Five AI agents argue every trade
+            before I touch it &mdash; the consensus scores are{" "}
+            <Link href="/argument" className="rl-ink-link">public and archived</Link>,
+            thirty-plus arguments on record. The agents run on local
+            hardware, zero API cost, and are specifically built to disagree
+            with each other &mdash; the memory system surfaces contradictions
+            first, not agreements. Position sizes are{" "}
             <a href="https://saathvikpai.com" className="rl-ink-link">Kelly-sized</a>,
             tied to edge, not conviction.
           </p>
           <p>
-            The attention that came with publishing the bet produced other
-            things. A prediction market on the portfolio itself &mdash;{" "}
+            Publishing the bet produced other things. A prediction market on
+            the portfolio itself &mdash;{" "}
             <Link href="/invest" className="rl-ink-link">Green Credit</Link>
             {" "}&mdash; where you can bet on specific theses: portfolio
             above $5,000, IONQ above $60. A $200 Polymarket bot running
             tennis and NBA alongside a $50 Kalshi book. Twelve original
             artworks in pencil, pen, watercolor, and spray paint, starting
-            at $1. A{" "}
+            at $1. And a{" "}
             <a href="https://saathvikpai.com" className="rl-ink-link">research paper</a>
-            {" "}on contradiction-prioritized memory &mdash; Entrenched
-            Coils &mdash; that came out of building the debate system.
+            {" "}&mdash; Entrenched Coils, on contradiction-prioritized
+            memory &mdash; that came out of building the debate system.
             Thirty-seven pages, none of which were planned.
           </p>
           <p>
             The Packers did it with a football team. Someone just tried it
             with{" "}
             <a href="https://letsbuyspiritair.com" className="rl-ink-link">an airline</a>.
-            The pattern is: make the thing public, let the attention create
-            the products, let the products create more attention. The money
-            is the scoreboard. The scoreboard is what keeps it honest.
+            The pattern: make the thing public, let attention create
+            the products, let the products create more attention. The
+            scoreboard keeps it honest.
           </p>
         </section>
 
@@ -253,21 +251,15 @@ export default function HomeCover({
             <li>People love a party.</li>
             <li>People love to watch someone try the impossible &mdash;
             especially when the first two are already happening.</li>
-            <li className="rl-proves-4">And just maybe, when all three are
-            running at the same time, the impossible actually happens.</li>
+            <li className="rl-proves-4">And if all three are running at the
+            same time &mdash; the impossible stops being a metaphor.</li>
           </ol>
           <p>
-            Attention is the largest form of currency on the internet. It
-            is what makes a reel go viral, what makes a startup worth
-            anything before revenue, what turns a public bet into a
-            portfolio of products. I started with $3,453 and a thesis.
-            Since then: thirty-seven pages, a research
-            paper, a prediction market, twelve artworks, and a party.
-          </p>
-          <p>
-            The money is up. The party is real. The{" "}
+            None of this required a platform, a fund, or permission. It
+            required a number, a deadline, and a willingness to be wrong in
+            public. The{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}names four ways this fails.
+            {" "}names four ways this fails. It was written before the first trade.
           </p>
         </section>
 
@@ -284,14 +276,14 @@ export default function HomeCover({
             send. The guarantee is personal.
           </p>
           <p className="rl-gate">
-            Stakeholders get comped to the June 19 gathering in Utah.
+            Everyone in the pool gets comped to the June 19 birthday
+            party in Utah.
           </p>
           <p>
-            Friday is when the impossible happens. Ten percent of the pool
-            reimburses flights for holders who show up. One original artwork
-            goes to the highest bidder in the room. And five sealed
-            predictions &mdash; written before the wager began, locked,
-            unread &mdash; open at 6 pm.
+            June 19: ten percent of the pool reimburses flights for holders
+            who show up. One original artwork goes to the highest bidder in
+            the room. And five sealed predictions &mdash; written before the
+            wager began, locked, unread &mdash; open at 6 pm.
           </p>
           <div className="rl-seal">
             <span className="rl-seal-tag">SEALED</span>
@@ -299,18 +291,17 @@ export default function HomeCover({
             <span className="rl-seal-when">reveal 19 jun 2026 · 18:00 PT</span>
           </div>
           <p>
-            You can also bet on the outcome without touching the pool &mdash;{" "}
             <Link href="/invest" className="rl-ink-link">Green Credit</Link>
-            {" "}is the prediction market. Or{" "}
-            <Link href="/art" className="rl-ink-link">bid on the art</Link>.
-            Or just{" "}
+            {" "}is the prediction market if you want skin in the game without
+            touching the pool.{" "}
+            <Link href="/art" className="rl-ink-link">Bid on the art</Link>.
+            Or{" "}
             <Link href="/argument" className="rl-ink-link">watch the argument</Link>.
           </p>
           <blockquote className="rl-quote">
             &ldquo;The gap between what is reasonable and what I am asking
             for is the entire joke and the entire point.&rdquo;
           </blockquote>
-          <p>But you cannot say no one tried.</p>
         </section>
 
         <div className="rl-rule" />
