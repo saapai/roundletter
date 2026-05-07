@@ -243,7 +243,35 @@ export default function HomeCover({
 
         <div className="rl-rule" />
 
-        {/* §3 — How to participate */}
+        {/* §3 — What this proved */}
+        <section className="rl-sect rl-reveal">
+          <h2 className="rl-sect-head rl-letter-head">What this proved</h2>
+
+          <p>
+            Three things are true regardless of whether the number hits.
+            People love making money. People love a party. And people love
+            to watch someone try the impossible &mdash; especially when
+            the first two are already happening.
+          </p>
+          <p>
+            Attention is the largest form of currency on the internet. It
+            is what makes a reel go viral, what makes a startup worth
+            anything before revenue, what turns a public bet into a
+            portfolio of products. I started with $3,453 and a thesis.
+            Twenty-five days later there are thirty-seven pages, a research
+            paper, a prediction market, twelve artworks, and a party.
+          </p>
+          <p>
+            The money is up. The party is real. The{" "}
+            <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
+            {" "}names four ways this fails. And just maybe, when all three
+            are running at the same time, the impossible actually happens.
+          </p>
+        </section>
+
+        <div className="rl-rule" />
+
+        {/* §4 — How to participate */}
         <section className="rl-sect rl-reveal">
           <h2 className="rl-sect-head rl-letter-head">How to participate</h2>
 
@@ -251,22 +279,22 @@ export default function HomeCover({
             The investment pool is time-weighted. Early money carries more
             upside because it took more of the risk. Venmo or Zelle, under
             60 seconds. No app. No float. No clearing period. You ask. I
-            send. The guarantee is personal. $86 has come in so far,
-            recorded by date so the curve is not flattering.
+            send. The guarantee is personal.
           </p>
           <p className="rl-gate">
-            Stakeholders get comped to the June 21 gathering in Utah.
+            Stakeholders get comped to the June 19 gathering in Utah.
           </p>
           <p>
-            Ten percent of the pool reimburses flights for holders who show
-            up. One original artwork goes to the highest bidder in the room.
-            And five sealed predictions &mdash; written before the wager
-            began, locked, unread &mdash; open at 6 pm.
+            Friday is when the impossible happens. Ten percent of the pool
+            reimburses flights for holders who show up. One original artwork
+            goes to the highest bidder in the room. And five sealed
+            predictions &mdash; written before the wager began, locked,
+            unread &mdash; open at 6 pm.
           </p>
           <div className="rl-seal">
             <span className="rl-seal-tag">SEALED</span>
             <span className="rl-seal-hash">commitment · a8f7c2············</span>
-            <span className="rl-seal-when">reveal 21 jun 2026 · 18:00 PT</span>
+            <span className="rl-seal-when">reveal 19 jun 2026 · 18:00 PT</span>
           </div>
           <p>
             You can also bet on the outcome without touching the pool &mdash;{" "}
@@ -275,11 +303,6 @@ export default function HomeCover({
             <Link href="/art" className="rl-ink-link">bid on the art</Link>.
             Or just{" "}
             <Link href="/argument" className="rl-ink-link">watch the argument</Link>.
-            The{" "}
-            <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}names four ways this fails. Whether the number hits or not,
-            you will have been in the room when someone tried to grow wings
-            on the way down.
           </p>
           <blockquote className="rl-quote">
             &ldquo;The gap between what is reasonable and what I am asking
