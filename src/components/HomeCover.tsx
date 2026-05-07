@@ -165,11 +165,10 @@ export default function HomeCover({
       {/* ═══════════ BODY ═══════════ */}
       <div className="rl-body">
 
-        {/* One cohesive narrative, not compartments. The round-0 voice
-            flows into what happened next, what it means, and where it ends. */}
+        {/* §1 — The bet */}
         <section className="rl-sect rl-reveal">
           <span className="rl-orn">❦</span>
-          <h2 className="rl-sect-head rl-letter-head">The pre-mortem</h2>
+          <h2 className="rl-sect-head rl-letter-head">The bet</h2>
           <p className="rl-sect-sub">
             Filed before the math is decided, so I can&rsquo;t quietly
             retrofit the story later.
@@ -177,68 +176,85 @@ export default function HomeCover({
 
           <p>
             The account opened at <strong>$3,453</strong> on April 12. The
-            goal is <strong>$100,000 by June 21</strong> &mdash; my birthday.
-            Ten weeks. A <strong>29&times;</strong>. The S&amp;P does that in
-            about 25 years.
-          </p>
-          <p>
-            This is an ego mini-game with a P&amp;L attached. The money is
-            the scoreboard. The mini-game is the product. I am publishing
-            this so when I am at $5,200 and quietly telling myself
-            &ldquo;$5,200 is basically $100k if you squint,&rdquo; there is
-            a document on the internet with my name on it reminding me that
-            no, it is not.
+            goal is <strong>$100,000 by June 21</strong> &mdash; my 20th
+            birthday. Ten weeks. A <strong>29&times;</strong>. The S&amp;P
+            does that in about 25 years.
           </p>
           <p>
             I wrote the{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
             {" "}before the first trade. The implied probability this works
-            is <strong>8%</strong>. I published that number before I started.
+            is <strong>8%</strong>. I published that number before I started,
+            because if I am at $5,200 six weeks from now quietly telling
+            myself &ldquo;$5,200 is basically $100k if you squint,&rdquo;
+            there is a document on the internet with my name on it that says
+            no, it is not.
           </p>
-          <p>The odds are the honesty.</p>
+          <p>
+            The odds are the honesty. The bet is the product. The attention
+            the bet generates is the upstream capital for everything else.
+          </p>
         </section>
 
         <div className="rl-rule" />
 
+        {/* §2 — What got built */}
         <section className="rl-sect rl-reveal">
+          <h2 className="rl-sect-head rl-letter-head">What got built</h2>
+
           <p>
-            What I did not expect: other people wanted in.
+            Twenty-five days in, the portfolio is up{" "}
+            <strong>+21.9%</strong>. Ten quantum-computing positions. Five
+            AI agents argue every trade before I touch it &mdash; the
+            consensus scores are{" "}
+            <Link href="/argument" className="rl-ink-link">public and archived</Link>.
+            Thirty-plus prior arguments on record. The{" "}
+            <Link href="/positions" className="rl-ink-link">live prices</Link>
+            {" "}are at the top of this page.
           </p>
           <p>
-            The pool is time-weighted. A $50 stake now is not the same as a
-            $50 stake in week eighteen &mdash; early money carries more
-            upside because it took more of the risk. The gains and losses
-            are mine. Venmo or Zelle, under 60 seconds.
-          </p>
-          <p>
-            No app. No float. No clearing period. The kind of thing banks
-            and green-credit fintechs cannot offer because it would require
-            them to have a face.
+            The attention that came with publishing the bet produced other
+            things. A prediction market on the portfolio itself &mdash;{" "}
+            <Link href="/invest" className="rl-ink-link">Green Credit</Link>
+            {" "}&mdash; where you can bet on specific theses: portfolio
+            above $5,000, IONQ above $60. A $200 Polymarket bot running
+            tennis and NBA alongside a $50 Kalshi book. Twelve original
+            artworks in pencil, pen, watercolor, and spray paint, starting
+            at $1. A research paper on agent memory that came out of
+            building the debate system. Thirty-seven pages, none of which
+            were planned.
           </p>
           <p>
             The Packers did it with a football team. Someone just tried it
             with{" "}
             <a href="https://en.wikipedia.org/wiki/Spirit_Airlines" className="rl-ink-link">an airline</a>.
-            I am doing it with a bet.
+            The pattern is: make the thing public, let the attention create
+            the products, let the products create more attention. The money
+            is the scoreboard. The scoreboard is what keeps it honest.
           </p>
-          <p>You ask. I send. The guarantee is personal.</p>
         </section>
 
         <div className="rl-rule" />
 
+        {/* §3 — How to participate */}
         <section className="rl-sect rl-reveal">
+          <h2 className="rl-sect-head rl-letter-head">How to participate</h2>
+
           <p>
-            On June 21 &mdash; my 20th birthday &mdash; there is a gathering
-            in Utah.
+            The investment pool is time-weighted. Early money carries more
+            upside because it took more of the risk. Venmo or Zelle, under
+            60 seconds. No app. No float. No clearing period. You ask. I
+            send. The guarantee is personal. $86 has come in so far,
+            recorded by date so the curve is not flattering.
           </p>
           <p className="rl-gate">
-            Stakeholders get comped.
+            Stakeholders get comped to the June 21 gathering in Utah.
           </p>
           <p>
             Ten percent of the pool reimburses flights for holders who show
             up. One original artwork goes to the highest bidder in the room.
             And five sealed predictions &mdash; written before the wager
-            began, locked, unread &mdash; open at 6pm.
+            began, locked, unread &mdash; open at 6 pm.
           </p>
           <div className="rl-seal">
             <span className="rl-seal-tag">SEALED</span>
@@ -246,20 +262,22 @@ export default function HomeCover({
             <span className="rl-seal-when">reveal 21 jun 2026 · 18:00 PT</span>
           </div>
           <p>
+            You can also bet on the outcome without touching the pool &mdash;{" "}
+            <Link href="/invest" className="rl-ink-link">Green Credit</Link>
+            {" "}is the prediction market. Or{" "}
+            <Link href="/art" className="rl-ink-link">bid on the art</Link>.
+            Or just{" "}
+            <Link href="/argument" className="rl-ink-link">watch the argument</Link>.
             The{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
             {" "}names four ways this fails. Whether the number hits or not,
-            you will have been in the room.
+            you will have been in the room when someone tried to grow wings
+            on the way down.
           </p>
           <blockquote className="rl-quote">
             &ldquo;The gap between what is reasonable and what I am asking
             for is the entire joke and the entire point.&rdquo;
           </blockquote>
-          <p>
-            You do not have to invest. You can just{" "}
-            <Link href="/argument" className="rl-ink-link">watch the argument</Link>.
-            The positions update in real time at the top of this page.
-          </p>
           <p>But you cannot say no one tried.</p>
         </section>
 
