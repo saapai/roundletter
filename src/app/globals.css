@@ -20904,6 +20904,19 @@ body:has(.rl-root) { background: var(--rl-void); }
   padding: 0 0 0 1.2rem; margin: 1.8rem 0;
 }
 
+.rl-cite {
+  display: block;
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-style: normal;
+  font-size: 9px; letter-spacing: 0.1em;
+  color: var(--rl-graphite); opacity: 0.45;
+  margin-top: 0.5rem;
+}
+.rl-quote-modern {
+  border-left-color: var(--rl-gold);
+  opacity: 0.85;
+}
+
 /* ── inline links ─────────────────────────────────── */
 .rl-ink-link {
   color: var(--rl-rust); text-decoration: none;

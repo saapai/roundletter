@@ -331,8 +331,20 @@ export default function HomeCover({
             </Link>
           </div>
           <blockquote className="rl-quote">
-            &ldquo;The gap between what is reasonable and what I am asking
-            for is the entire joke and the entire point.&rdquo;
+            &ldquo;The credit belongs to the man who is actually in the
+            arena, whose face is marred by dust and sweat and blood&hellip;
+            who at the worst, if he fails, at least fails while daring
+            greatly, so that his place shall never be with those cold and
+            timid souls who neither know victory nor defeat.&rdquo;
+            <cite className="rl-cite">Roosevelt, 1910</cite>
+          </blockquote>
+          <blockquote className="rl-quote rl-quote-modern">
+            &ldquo;The credit belongs to the one who is actually in the
+            market, whose account is marred by drawdowns and realized
+            losses&hellip; who publishes the pre-mortem before the first
+            trade, who knows the 8% probability and starts anyway &mdash;
+            so that his place shall never be with those who neither bet
+            nor watched.&rdquo;
           </blockquote>
         </section>
 
