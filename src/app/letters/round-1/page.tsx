@@ -31,15 +31,35 @@ export default function Round1Page() {
   const p = getPortfolio();
   if (!letter) return <div>letter not found</div>;
   return (
-    <article className="article">
-      <div className="eyebrow">Round 1 · what the attention built · {letter.frontmatter.date}</div>
-      <AgentsLegend />
-      <div dangerouslySetInnerHTML={{ __html: renderMarkdown(letter.body) }} />
-      <div className="byline">by {p.author?.name ?? "saapai"}</div>
-      <div className="meta-chips">
-        <ViewsBadge slugs={["round-1"]} mode="per-slug" />
-      </div>
-      <ViewTracker slug="round-1" />
-    </article>
+    <>
+      {/* ═══ CINEMATIC HERO ═══ */}
+      <section className="letter-hero">
+        <div className="letter-hero-bg" />
+        <div className="letter-hero-overlay" />
+        <span className="letter-hero-side letter-hero-date">07 MAY 2026</span>
+        <span className="letter-hero-side letter-hero-round">ROUND 1</span>
+        <div className="letter-hero-center">
+          <span className="letter-hero-tag">AURELIEX · LETTERS</span>
+          <h1 className="letter-hero-title">
+            What the<br />Attention Built
+          </h1>
+          <p className="letter-hero-sub">
+            +25% in 25 days. Annualized ~2,500%.
+            The products are real. The odds have not changed.
+          </p>
+        </div>
+      </section>
+
+      {/* ═══ ARTICLE ═══ */}
+      <article className="article">
+        <AgentsLegend />
+        <div dangerouslySetInnerHTML={{ __html: renderMarkdown(letter.body) }} />
+        <div className="byline">by {p.author?.name ?? "saapai"}</div>
+        <div className="meta-chips">
+          <ViewsBadge slugs={["round-1"]} mode="per-slug" />
+        </div>
+        <ViewTracker slug="round-1" />
+      </article>
+    </>
   );
 }
