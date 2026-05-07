@@ -87,7 +87,7 @@ function LiveValue({
         ${displayVal.toLocaleString("en-US")}
       </div>
       <div className={`hc-delta ${isUp ? "hc-up" : "hc-down"}`}>
-        {isUp ? "▲" : "▼"} {isUp ? "+" : ""}${Math.round(Math.abs(gain)).toLocaleString("en-US")} ({isUp ? "+" : ""}{gainPct}%)
+        {isUp ? "+" : ""}{gainPct}% from entry
         <span className="hc-live-dot" />
         <span className="hc-live-label">LIVE</span>
       </div>
@@ -96,6 +96,7 @@ function LiveValue({
       </div>
       <div className="hc-progress-labels">
         <span>${entryValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
+        <span className="hc-progress-odds">~8% implied odds</span>
         <span>$100,000</span>
       </div>
     </>
@@ -112,18 +113,24 @@ export default function HomeCover({
 }: Props) {
   return (
     <div className="hc-root">
-      {/* ── HERO (dark) ── */}
+      {/* ── Warm ambient light ── */}
+      <div className="hc-ambient" aria-hidden="true" />
+
+      {/* ── HERO (dark, golden letter) ── */}
       <section className="hc-hero">
         <header className="hc-header">
           <span className="hc-wordmark">aureliex</span>
-          <span className="hc-days">{daysToBirthday} days left</span>
+          <span className="hc-days">{daysToBirthday}d</span>
         </header>
 
         <div className="hc-hero-body">
+          <p className="hc-eyebrow">a public wager</p>
           <h1 className="hc-headline">
-            I&rsquo;m turning $3,453 into $100,000.
+            $3,453 <span className="hc-arrow">→</span> $100,000
           </h1>
-          <p className="hc-sub">In public. By my 21st birthday. Watch.</p>
+          <p className="hc-sub">
+            Probably impossible. Definitely public. By my 20th birthday.
+          </p>
 
           <LiveValue
             holdings={holdings}
@@ -133,26 +140,58 @@ export default function HomeCover({
           />
 
           <div className="hc-ctas">
-            <Link href="/green-credit" className="hc-btn-primary">Get your stake</Link>
-            <Link href="/letters/round-0" className="hc-btn-ghost">Read the sealed letter →</Link>
+            <Link href="/green-credit" className="hc-btn-primary">
+              Read the thesis
+            </Link>
+            <Link href="/argument" className="hc-btn-ghost">
+              Watch the AI panel argue →
+            </Link>
           </div>
+
+          <p className="hc-disclaimer">
+            You get back what you put in. Gains and losses are mine, not yours.
+          </p>
         </div>
+
+        {/* ── Right column: countdown + stats (desktop) ── */}
+        <aside className="hc-sidebar">
+          <div className="hc-stat">
+            <span className="hc-stat-label">deadline</span>
+            <span className="hc-stat-value">june 21, 2026</span>
+          </div>
+          <div className="hc-stat">
+            <span className="hc-stat-label">books</span>
+            <span className="hc-stat-value">stocks + polymarket + kalshi</span>
+          </div>
+          <div className="hc-stat">
+            <span className="hc-stat-label">entry</span>
+            <span className="hc-stat-value">from $10</span>
+          </div>
+          <div className="hc-stat">
+            <span className="hc-stat-label">redemption</span>
+            <span className="hc-stat-value">venmo/zelle &lt;60s</span>
+          </div>
+        </aside>
       </section>
+
+      {/* ── TRANSITION (gradient blend) ── */}
+      <div className="hc-transition" aria-hidden="true" />
 
       {/* ── BODY (cream, article-style) ── */}
       <section className="hc-body">
         <div className="hc-article">
           <h2 className="hc-article-heading">What&rsquo;s happening</h2>
           <p>
-            This is aureliex — a publicly-owned investment studio racing to $100,000 by June 21, 2026.
-            Every position, every trade, every dollar in and out is published in real time.
-            You can buy a stake from $10. You can redeem it on demand — Venmo or Zelle, under 60 seconds,
-            personally guaranteed.
+            One person bet $3,453 on a portfolio of stocks, prediction markets,
+            and one art piece — racing to $100,000 by June 21. Every position,
+            every trade, every dollar is published in real time. The implied odds
+            of hitting the target are about 8%. The gap between what is reasonable
+            and what I am asking for is the entire joke and the entire point.
           </p>
           <p>
-            The apparatus runs three books: a stock portfolio on Fidelity, prediction markets on Polymarket
-            and Kalshi, and one art piece up for sealed auction. The party is in LA on June 21.
-            Stake-holders get in.
+            You can buy in from $10. You can redeem on demand — I send you Venmo
+            or Zelle from my personal bank account in under 60 seconds. You get
+            back exactly what you put in. The upside and the risk are mine alone.
           </p>
         </div>
 
@@ -161,45 +200,32 @@ export default function HomeCover({
           <div className="hc-steps">
             <div className="hc-step">
               <span className="hc-step-n">1</span>
-              <p><strong>Buy a stake</strong> — $10 to $1,000. Funds enter the apparatus via Stripe.</p>
+              <p><strong>Buy in</strong> — $10 to $1,000. Redeemable at any time, at par.</p>
             </div>
             <div className="hc-step">
               <span className="hc-step-n">2</span>
-              <p><strong>Watch it grow</strong> — a real portfolio, tracked live, debated by five AI agents.</p>
+              <p><strong>Watch the panel</strong> — five AI agents debate every move. <Link href="/argument" className="hc-inline-link">See the latest →</Link></p>
             </div>
             <div className="hc-step">
               <span className="hc-step-n">3</span>
-              <p><strong>Show up June 21</strong> — sealed claims revealed, art auctioned, flights reimbursed.</p>
+              <p><strong>June 21 in LA</strong> — five sealed claims revealed, art auctioned, flights covered.</p>
             </div>
           </div>
         </div>
 
-        <div className="hc-article">
-          <h2 className="hc-article-heading">The studio</h2>
-          <div className="hc-products">
-            <div className="hc-product">
-              <span className="hc-product-status hc-live-badge">LIVE</span>
-              <strong>The Apparatus</strong> — stock + prediction + art portfolio
-            </div>
-            <div className="hc-product">
-              <span className="hc-product-status hc-ship-badge">SHIPS TODAY</span>
-              <strong>The Panel</strong> — public AI debate, 5 agents
-            </div>
-            <div className="hc-product">
-              <span className="hc-product-status hc-stealth-badge">STEALTH</span>
-              <strong>Bruin Meals</strong> — UCLA waitlist
-            </div>
-            <div className="hc-product">
-              <span className="hc-product-status hc-open-badge">OPEN</span>
-              <strong>Product 3</strong> — TBD
-            </div>
-          </div>
+        <div className="hc-article hc-letter-section">
+          <h2 className="hc-article-heading">From the pre-mortem</h2>
+          <blockquote className="hc-pullquote">
+            &ldquo;The gap between what is reasonable and what I am asking for
+            is the entire joke and the entire point. One day I am going to grow wings.&rdquo;
+          </blockquote>
+          <Link href="/let-down" className="hc-inline-link">Read the full essay →</Link>
         </div>
 
         <div className="hc-footer-cta">
-          <Link href="/green-credit" className="hc-btn-primary">Get your stake — from $10</Link>
+          <Link href="/green-credit" className="hc-btn-primary">Read the thesis — then decide</Link>
           <p className="hc-footer-meta">
-            Redeemable in &lt;60s · Venmo or Zelle · personally guaranteed by saapai
+            from $10 · redeemable at par · venmo or zelle · personally guaranteed by saapai
           </p>
         </div>
       </section>
