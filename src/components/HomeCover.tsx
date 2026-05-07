@@ -12,15 +12,9 @@ type Props = {
 
 /* ── Live-polling total ─────────────────────────────────── */
 function LiveValue({
-  holdings,
-  pendingCash,
-  fallback,
-  entryValue,
+  holdings, pendingCash, fallback, entryValue,
 }: {
-  holdings: Props["holdings"];
-  pendingCash: number;
-  fallback: number;
-  entryValue: number;
+  holdings: Props["holdings"]; pendingCash: number; fallback: number; entryValue: number;
 }) {
   const [total, setTotal] = useState<number | null>(null);
   const [flash, setFlash] = useState<"up" | "down" | null>(null);
@@ -29,7 +23,6 @@ function LiveValue({
   const [displayVal, setDisplayVal] = useState(0);
   const rafRef = useRef<number>();
 
-  /* count-up on first load */
   useEffect(() => {
     const target = total ?? fallback;
     if (counted) return;
@@ -46,7 +39,6 @@ function LiveValue({
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, [total, fallback, counted]);
 
-  /* poll /api/prices */
   useEffect(() => {
     let alive = true;
     const pull = async () => {
@@ -79,164 +71,132 @@ function LiveValue({
   const gain = value - entryValue;
   const gainPct = ((gain / entryValue) * 100).toFixed(1);
   const isUp = gain >= 0;
-  const progressPct = Math.min(100, ((value - entryValue) / (100_000 - entryValue)) * 100);
 
   return (
-    <>
+    <div className="hc-live-block">
       <div className={`hc-number ${flash === "up" ? "hc-flash-up" : flash === "down" ? "hc-flash-down" : ""}`}>
         ${displayVal.toLocaleString("en-US")}
       </div>
       <div className={`hc-delta ${isUp ? "hc-up" : "hc-down"}`}>
-        {isUp ? "+" : ""}{gainPct}% from entry
+        {isUp ? "↑" : "↓"}{Math.abs(Number(gainPct))}% since I started
         <span className="hc-live-dot" />
         <span className="hc-live-label">LIVE</span>
       </div>
-      <div className="hc-progress">
-        <div className="hc-progress-fill" style={{ width: `${progressPct}%` }} />
-      </div>
-      <div className="hc-progress-labels">
-        <span>${entryValue.toLocaleString("en-US", { maximumFractionDigits: 0 })}</span>
-        <span className="hc-progress-odds">~8% implied odds</span>
-        <span>$100,000</span>
-      </div>
-    </>
+    </div>
   );
 }
 
-/* ── Main homepage component ────────────────────────────── */
+/* ── Homepage ────────────────────────────────────────── */
 export default function HomeCover({
-  totalNow,
-  daysToBirthday,
-  holdings,
-  pendingCash,
-  entryValue,
+  totalNow, daysToBirthday, holdings, pendingCash, entryValue,
 }: Props) {
   return (
     <div className="hc-root">
-      {/* ── Warm ambient light ── */}
       <div className="hc-ambient" aria-hidden="true" />
 
-      {/* ── HERO (dark, golden letter) ── */}
+      {/* ── HERO ── */}
       <section className="hc-hero">
-        <header className="hc-header">
-          <span className="hc-wordmark">aureliex</span>
-          <span className="hc-days">{daysToBirthday}d</span>
-        </header>
+        <p className="hc-eyebrow">a public wager</p>
 
-        <div className="hc-hero-body">
-          <p className="hc-eyebrow">a public wager</p>
-          <h1 className="hc-headline">
-            $3,453 <span className="hc-arrow">→</span> $100,000
-          </h1>
-          <p className="hc-sub">
-            Probably impossible. Definitely public. By my 20th birthday.
+        <h1 className="hc-headline">
+          $3,453 <span className="hc-arrow">→</span> $100,000
+        </h1>
+        <p className="hc-sub">
+          Probably impossible. Definitely public.<br />
+          By my 20th birthday. {daysToBirthday} days left.
+        </p>
+
+        <LiveValue
+          holdings={holdings}
+          pendingCash={pendingCash}
+          fallback={totalNow}
+          entryValue={entryValue}
+        />
+
+        <Link href="/invest" className="hc-btn-primary">
+          Read the thesis
+        </Link>
+        <Link href="/argument" className="hc-text-link">
+          Watch the AI panel argue →
+        </Link>
+      </section>
+
+      {/* ── TRANSITION ── */}
+      <div className="hc-transition" aria-hidden="true" />
+
+      {/* ── BODY ── */}
+      <section className="hc-body">
+        <blockquote className="hc-pullquote">
+          &ldquo;The gap between what is reasonable and what I am asking for
+          is the entire joke and the entire point.
+          One day I am going to grow wings.&rdquo;
+        </blockquote>
+        <p className="hc-pullquote-attr">
+          <Link href="/let-down" className="hc-inline-link">from the pre-mortem →</Link>
+        </p>
+
+        <div className="hc-letter">
+          <p>
+            I put $3,453 into a brokerage account. I was 19. I told people
+            about it. Every position, every trade, every dollar in and out is
+            published in real time. The implied odds of hitting $100,000 are
+            about 8%.
           </p>
-
-          <LiveValue
-            holdings={holdings}
-            pendingCash={pendingCash}
-            fallback={totalNow}
-            entryValue={entryValue}
-          />
-
-          <div className="hc-ctas">
-            <Link href="/invest" className="hc-btn-primary">
-              Read the thesis
-            </Link>
-            <Link href="/argument" className="hc-btn-ghost">
-              Watch the AI panel argue →
-            </Link>
-          </div>
-
-          <p className="hc-disclaimer">
-            You get back what you put in. Gains and losses are mine, not yours.
+          <p>
+            The apparatus runs three books: stocks on Fidelity, prediction
+            markets on Polymarket and Kalshi, and one art piece up for sealed
+            auction. The thesis is simple to state and hard to execute:
+            concentrate in 4-6 positions, size by conviction, don&rsquo;t
+            hedge what you believe.{" "}
+            <Link href="/green-credit" className="hc-inline-link">Read the full argument →</Link>
+          </p>
+          <p>
+            You can buy in from $10. You can redeem on demand &mdash; I send
+            you Venmo or Zelle from my personal bank account in under 60
+            seconds. You get back exactly what you put in. The upside and the
+            risk are mine alone.
           </p>
         </div>
 
-        {/* ── Right column: countdown + stats (desktop) ── */}
-        <aside className="hc-sidebar">
-          <div className="hc-stat">
+        <div className="hc-stats-row">
+          <div className="hc-stat-item">
             <span className="hc-stat-label">deadline</span>
             <span className="hc-stat-value">june 21, 2026</span>
           </div>
-          <div className="hc-stat">
+          <div className="hc-stat-item">
             <span className="hc-stat-label">books</span>
-            <span className="hc-stat-value">stocks + polymarket + kalshi</span>
+            <span className="hc-stat-value">stocks · polymarket · kalshi</span>
           </div>
-          <div className="hc-stat">
+          <div className="hc-stat-item">
             <span className="hc-stat-label">entry</span>
             <span className="hc-stat-value">from $10</span>
           </div>
-          <div className="hc-stat">
+          <div className="hc-stat-item">
             <span className="hc-stat-label">redemption</span>
-            <span className="hc-stat-value">venmo/zelle &lt;60s</span>
+            <span className="hc-stat-value">venmo · zelle · &lt;60s</span>
           </div>
-        </aside>
-      </section>
-
-      {/* ── TRANSITION (gradient blend) ── */}
-      <div className="hc-transition" aria-hidden="true" />
-
-      {/* ── BODY (cream, article-style) ── */}
-      <section className="hc-body">
-        <div className="hc-article">
-          <h2 className="hc-article-heading">What&rsquo;s happening</h2>
-          <p>
-            One person bet $3,453 on a portfolio of stocks, prediction markets,
-            and one art piece — racing to $100,000 by June 21. Every position,
-            every trade, every dollar is published in real time. The implied odds
-            of hitting the target are about 8%. The gap between what is reasonable
-            and what I am asking for is the entire joke and the entire point.
-          </p>
-          <p>
-            You can buy in from $10. You can redeem on demand — I send you Venmo
-            or Zelle from my personal bank account in under 60 seconds. You get
-            back exactly what you put in. The upside and the risk are mine alone.
-          </p>
-        </div>
-
-        <div className="hc-article">
-          <h2 className="hc-article-heading">How it works</h2>
-          <div className="hc-steps">
-            <div className="hc-step">
-              <span className="hc-step-n">1</span>
-              <p><strong>Buy in</strong> — $10 to $1,000. Redeemable at any time, at par.</p>
-            </div>
-            <div className="hc-step">
-              <span className="hc-step-n">2</span>
-              <p><strong>Watch the panel</strong> — five AI agents debate every move. <Link href="/argument" className="hc-inline-link">See the latest →</Link></p>
-            </div>
-            <div className="hc-step">
-              <span className="hc-step-n">3</span>
-              <p><strong>June 21 in Utah</strong> — five sealed claims revealed, art auctioned, flights covered.</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="hc-article hc-letter-section">
-          <h2 className="hc-article-heading">From the pre-mortem</h2>
-          <blockquote className="hc-pullquote">
-            &ldquo;The gap between what is reasonable and what I am asking for
-            is the entire joke and the entire point. One day I am going to grow wings.&rdquo;
-          </blockquote>
-          <Link href="/let-down" className="hc-inline-link">Read the full essay →</Link>
         </div>
 
         <div className="hc-footer-cta">
-          <Link href="/invest" className="hc-btn-primary">Read the thesis — then decide</Link>
+          <Link href="/invest" className="hc-btn-primary hc-btn-dark">
+            Watch it happen
+          </Link>
           <p className="hc-footer-meta">
-            from $10 · redeemable at par · venmo <a href="https://venmo.com/saathvikpai" className="hc-inline-link">@saathvikpai</a> · zelle <a href="tel:3853687238" className="hc-inline-link">385-368-7238</a>
+            venmo{" "}
+            <a href="https://venmo.com/saathvikpai" className="hc-inline-link">@saathvikpai</a>
+            {" "}· zelle{" "}
+            <a href="tel:3853687238" className="hc-inline-link">385-368-7238</a>
+            {" "}· personally guaranteed
           </p>
         </div>
       </section>
 
       {/* ── Bottom nav (mobile) ── */}
       <nav className="hc-bottom-nav">
-        <Link href="/stocks">portfolio</Link>
+        <Link href="/stocks">stocks</Link>
+        <Link href="/letters/round-0">letters</Link>
         <Link href="/art">art</Link>
-        <Link href="/prediction">odds</Link>
-        <Link href="/argument">debate</Link>
-        <Link href="/invest">buy in</Link>
+        <Link href="/invest">invest</Link>
       </nav>
     </div>
   );
