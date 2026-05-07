@@ -20733,6 +20733,33 @@ body:has(.rl-root) { background: var(--rl-void); }
 }
 .rl-link-dim:hover { opacity: 0.72; }
 
+/* ── progress trace ─────────────────────────────────── */
+.rl-trace {
+  display: flex; align-items: center; gap: 10px;
+  max-width: 280px; width: 80%; margin: 18px auto 0;
+  position: relative; z-index: 2;
+  opacity: 0; animation: rl-trace-in 800ms ease 200ms forwards;
+}
+@keyframes rl-trace-in { to { opacity: 1; } }
+.rl-trace-start, .rl-trace-end {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 9px; letter-spacing: 0.04em;
+  color: var(--rl-muted); opacity: 0.35;
+  flex-shrink: 0;
+}
+.rl-trace-bar {
+  flex: 1; height: 1px;
+  background: rgba(201, 149, 42, 0.15);
+  position: relative; border-radius: 1px;
+}
+.rl-trace-fill {
+  position: absolute; left: 0; top: -1px;
+  height: 3px; border-radius: 2px;
+  background: var(--rl-gold); opacity: 0.5;
+  min-width: 3px;
+  transition: width 1s ease;
+}
+
 /* ── scroll cue ──────────────────────────────────────── */
 .rl-scroll-hint {
   position: absolute; bottom: 28px; left: 50%;
@@ -20784,7 +20811,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   position: absolute;
   bottom: 0; left: 0; right: 0;
   height: 120px;
-  background: linear-gradient(to bottom, transparent, rgba(10, 10, 10, 0.06));
+  background: linear-gradient(to bottom, transparent, rgba(10, 10, 10, 0.12));
   pointer-events: none;
   z-index: 0;
 }
@@ -20926,6 +20953,44 @@ body:has(.rl-root) { background: var(--rl-void); }
   border-top: 1px solid rgba(201, 149, 42, 0.25);
   font-style: italic;
 }
+
+/* ── perks list ──────────────────────────────────── */
+.rl-perks {
+  list-style: none; padding: 0;
+  margin: 1rem 0 1.5rem;
+}
+.rl-perks li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin-bottom: 0.45rem;
+  font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
+  font-size: clamp(0.92rem, 1.5vw, 1.04rem);
+  line-height: 1.65; color: var(--rl-ink);
+}
+.rl-perks li::before {
+  content: '·';
+  position: absolute; left: 0.3rem; top: 0;
+  color: var(--rl-gold); opacity: 0.5;
+  font-weight: 700;
+}
+
+/* ── ways in ─────────────────────────────────────── */
+.rl-ways-in {
+  display: flex; flex-direction: column;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+.rl-way {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.6vw, 1.08rem);
+  color: var(--rl-rust);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(196, 67, 37, 0.18);
+  padding-bottom: 0.4rem;
+  transition: border-color 0.15s ease;
+}
+.rl-way:hover { border-color: var(--rl-rust); }
 
 /* ── gate line ────────────────────────────────────── */
 .rl-gate {

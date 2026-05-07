@@ -143,6 +143,19 @@ export default function HomeCover({
           />
         </div>
 
+        {fullVis && (
+          <div className="rl-trace" aria-hidden="true">
+            <span className="rl-trace-start">$3,453</span>
+            <div className="rl-trace-bar">
+              <div
+                className="rl-trace-fill"
+                style={{ width: `${Math.min(100, Math.max(0, ((totalNow - 3453) / (100000 - 3453)) * 100))}%` }}
+              />
+            </div>
+            <span className="rl-trace-end">$100K</span>
+          </div>
+        )}
+
         <div className={`rl-cover-actions ${fullVis ? "rl-vis" : ""}`}>
           <Link href="/invest" className="rl-btn-gold">The wager →</Link>
           <Link href="/argument" className="rl-link-dim">Five agents disagree about this →</Link>
@@ -248,30 +261,29 @@ export default function HomeCover({
           <h2 className="rl-sect-head rl-letter-head">How to participate</h2>
 
           <p>
-            The pool is time-weighted. Early money carries more upside.
-            Venmo or Zelle, under 60 seconds. You ask. I send. The
-            guarantee is personal.
+            The pool is time-weighted &mdash; early money carries more
+            upside because it took more of the risk. Venmo or Zelle, under
+            60 seconds. The guarantee is personal.
           </p>
           <p className="rl-gate">
             Everyone in the pool gets comped to the June 19 birthday
             party in Utah.
           </p>
-          <p>
-            Flights reimbursed. One original artwork to the highest bidder.
-            Five sealed predictions open at 6 pm.
-          </p>
+          <ul className="rl-perks">
+            <li>Flights reimbursed for holders who show up</li>
+            <li>One original artwork to the highest bidder in the room</li>
+            <li>Five sealed predictions open at 6 pm</li>
+          </ul>
           <div className="rl-seal">
             <span className="rl-seal-tag">SEALED</span>
             <span className="rl-seal-hash">commitment · a8f7c2············</span>
             <span className="rl-seal-when">reveal 19 jun 2026 · 18:00 PT</span>
           </div>
-          <p>
-            <Link href="/invest" className="rl-ink-link">Green Credit</Link>
-            {" "}if you want skin in the game.{" "}
-            <Link href="/art" className="rl-ink-link">Bid on the art</Link>.
-            Or{" "}
-            <Link href="/argument" className="rl-ink-link">watch the argument</Link>.
-          </p>
+          <div className="rl-ways-in">
+            <Link href="/invest" className="rl-way">Green Credit →</Link>
+            <Link href="/art" className="rl-way">Bid on the art →</Link>
+            <Link href="/argument" className="rl-way">Watch the argument →</Link>
+          </div>
           <blockquote className="rl-quote">
             &ldquo;The gap between what is reasonable and what I am asking
             for is the entire joke and the entire point.&rdquo;
