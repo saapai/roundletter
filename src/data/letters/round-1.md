@@ -12,7 +12,7 @@ portfolio_value: 4300
 
 The account opened at **$3,453.83** on April 12. The book sealed April 14 — ten quantum-computing positions locked, five AI agents arguing every move in public. Today the portfolio reads **~$4,300**. That is **+25% in twenty-five days**, which sounds like a story until you remember the story needs to be +2,800% by June 21.
 
-I am 4.3% of the way to $100,000. The S&P is up about 3% over the same window. The outperformance is real and it is not enough and those two facts will coexist for the entire duration of this project.
+I am 4.3% of the way to $100,000. The S&P is up about 3% over the same window. Annualized, this rate is **~2,500%** — roughly 250 times the S&P's annual return and 25 times what the best hedge funds have ever printed in a single year. That number is absurd. It is also the actual number. It will not sustain. The question was never whether it sustains — it was whether it compounds long enough to matter before it mean-reverts. The outperformance is real and it is not enough and those two facts will coexist for the entire duration of this project.
 
 ---
 
