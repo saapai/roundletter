@@ -49,12 +49,11 @@ function LiveTotal({ holdings, pendingCash }: { holdings: Props["holdings"]; pen
   return (
     <span className={`hx-live ${flash ? "hx-live--flash" : ""}`}>
       ${Math.round(total).toLocaleString("en-US")}
-      <span className="hx-live-label"> now</span>
     </span>
   );
 }
 
-function TickerStrip({ holdings, pendingCash }: { holdings: Props["holdings"]; pendingCash: number }) {
+function TickerStrip({ holdings }: { holdings: Props["holdings"] }) {
   const [prices, setPrices] = useState<Record<string, number>>({});
   const [loaded, setLoaded] = useState(false);
 
@@ -103,16 +102,22 @@ export default function HomeContent({
   stakesOutstanding, eggEquity, holdings, pendingCash,
 }: Props) {
   const gainPct = baseline > 0 ? ((totalNow - baseline) / baseline) * 100 : 0;
-  const ifYouInvested100 = baseline > 0 ? Math.round(100 * (totalNow / baseline)) : null;
+  const ifYou = baseline > 0 ? Math.round(100 * (totalNow / baseline)) : null;
 
   return (
     <div className="hx">
-      {/* ═══ CANVAS · 100vh ═══ */}
-      <section className="hx-canvas">
-        <div className="hx-glow" aria-hidden="true" />
+      {/* ═══ HERO · 100vh · image background ═══ */}
+      <section className="hx-hero">
+        <img
+          src="/hero/cityscape.png"
+          alt=""
+          className="hx-hero-img"
+          aria-hidden="true"
+        />
+        <div className="hx-hero-overlay" aria-hidden="true" />
 
-        {/* Nav — top right, subtle */}
-        <nav className="hx-nav" aria-label="rooms">
+        {/* Nav — top right, over the city */}
+        <nav className="hx-nav">
           <Link href="/art">art</Link>
           <Link href="/prediction">prediction</Link>
           <Link href="/stocks">investments</Link>
@@ -120,9 +125,9 @@ export default function HomeContent({
           <Link href="/buy">buy</Link>
         </nav>
 
-        {/* Center stage */}
+        {/* Content — left-aligned over the dark zone */}
         <div className="hx-stage">
-          <p className="hx-eyebrow">aureliex</p>
+          <p className="hx-mark">aureliex</p>
 
           <h1 className="hx-wager">
             <span className="hx-wager-past">$3,453</span>
@@ -132,6 +137,7 @@ export default function HomeContent({
 
           <div className="hx-now-row">
             <LiveTotal holdings={holdings} pendingCash={pendingCash} />
+            <span className="hx-now-label">now</span>
             <span className="hx-sep">·</span>
             <span className={`hx-pct ${gainPct >= 0 ? "up" : "dn"}`}>
               {gainPct >= 0 ? "+" : ""}{gainPct.toFixed(1)}%
@@ -141,53 +147,39 @@ export default function HomeContent({
           </div>
 
           <p className="hx-thesis">
-            a publicly-owned studio. green credit — redeemable on demand,
-            personally guaranteed in sixty seconds via Venmo or Zelle.
+            a publicly-owned studio. green credit —
+            redeemable on demand, personally guaranteed
+            in sixty seconds via Venmo or Zelle.
           </p>
 
-          {ifYouInvested100 && ifYouInvested100 !== 100 && (
+          {ifYou && ifYou !== 100 && (
             <p className="hx-ifyou">
-              $100 invested at the start → ${ifYouInvested100} today
+              $100 invested at the start → ${ifYou} today
             </p>
           )}
 
           <Link href="/buy" className="hx-cta">$10 to start →</Link>
         </div>
 
-        {/* Scroll cue */}
-        <div className="hx-scroll-cue" aria-hidden="true">
-          <span />
-        </div>
+        <div className="hx-scroll-cue" aria-hidden="true"><span /></div>
       </section>
 
-      {/* ═══ PROOF · optional scroll ═══ */}
+      {/* ═══ PROOF · below fold ═══ */}
       <section className="hx-proof">
-        <TickerStrip holdings={holdings} pendingCash={pendingCash} />
+        <TickerStrip holdings={holdings} />
 
-        <div className="hx-proof-data">
+        <div className="hx-proof-inner">
           <dl className="hx-cap">
-            <div>
-              <dt>apparatus</dt>
-              <dd>${Math.round(totalNow).toLocaleString("en-US")}</dd>
-            </div>
-            <div>
-              <dt>stakes</dt>
-              <dd>${stakesOutstanding}</dd>
-            </div>
-            <div>
-              <dt>hunt eggs paid</dt>
-              <dd>${eggEquity}</dd>
-            </div>
-            <div>
-              <dt>countdown</dt>
-              <dd>T−{daysToBirthday}d</dd>
-            </div>
+            <div><dt>apparatus</dt><dd>${Math.round(totalNow).toLocaleString("en-US")}</dd></div>
+            <div><dt>stakes</dt><dd>${stakesOutstanding}</dd></div>
+            <div><dt>hunt eggs paid</dt><dd>${eggEquity}</dd></div>
+            <div><dt>countdown</dt><dd>T−{daysToBirthday}d</dd></div>
           </dl>
 
           <p className="hx-seal">
             <span className="hx-seal-label">sealed · 5 claims · reveal 21 jun 18:00 PT</span>
             <code className="hx-seal-hash">{hashShort}············</code>
-            <Link href="/sealed/impossible" className="hx-seal-link">verify</Link>
+            <Link href="/sealed/impossible" className="hx-seal-verify">verify</Link>
           </p>
 
           <div className="hx-proof-links">

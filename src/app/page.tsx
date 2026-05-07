@@ -5,6 +5,7 @@ import portfolio from "@/data/portfolio.json";
 import sealed from "@/data/sealed/impossible.json";
 import stakeLedger from "@/data/stake-ledger.json";
 import HomeContent from "@/components/HomeContent";
+import BootSequence from "@/components/BootSequence";
 
 const HOLDINGS = (portfolio as {
   holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
@@ -42,6 +43,7 @@ export default async function HomePage() {
   const data = await getPortfolioData();
 
   return (
+    <BootSequence>
     <HomeContent
       totalNow={data.total}
       baseline={data.baseline}
@@ -52,5 +54,6 @@ export default async function HomePage() {
       holdings={HOLDINGS}
       pendingCash={PENDING_CASH}
     />
+    </BootSequence>
   );
 }
