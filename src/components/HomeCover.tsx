@@ -57,15 +57,15 @@ function LiveValue({
 
   return (
     <>
-      <div className={`hc-number ${flash === "up" ? "hc-flash-up" : flash === "down" ? "hc-flash-down" : ""}`}>
-        <span className="hc-currency">$</span>
+      <div className={`rl-number ${flash === "up" ? "rl-flash-up" : flash === "down" ? "rl-flash-down" : ""}`}>
+        <span className="rl-currency">$</span>
         {Math.round(value).toLocaleString("en-US")}
       </div>
       {revealed && (
-        <div className={`hc-delta ${isUp ? "hc-up" : "hc-down"}`}>
+        <div className={`rl-delta ${isUp ? "rl-up" : "rl-down"}`}>
           {isUp ? "↑" : "↓"}{Math.abs(Number(gainPct))}% since I started
-          <span className="hc-live-dot" />
-          <span className="hc-live-label">LIVE</span>
+          <span className="rl-live-dot" />
+          <span className="rl-live-label">LIVE</span>
         </div>
       )}
     </>
@@ -76,71 +76,136 @@ export default function HomeCover({
   totalNow, daysToBirthday, holdings, pendingCash, entryValue,
 }: Props) {
   const [phase, setPhase] = useState<"void" | "number" | "full">("void");
+  const rootRef = useRef<HTMLDivElement>(null);
 
+  /* DO NOT shorten these delays. The number must stand alone for 1200ms+. */
   const runOpen = useCallback(() => {
-    // DO NOT shorten this delay. The number must stand alone for 1200ms+.
     setTimeout(() => setPhase("number"), 150);
     setTimeout(() => setPhase("full"), 1400);
   }, []);
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem("hc_open_v12") === "1") {
+      if (sessionStorage.getItem("rl_seen_v1") === "1") {
         setPhase("full");
         return;
       }
     } catch { /* noop */ }
-    sessionStorage.setItem("hc_open_v12", "1");
+    sessionStorage.setItem("rl_seen_v1", "1");
     runOpen();
   }, [runOpen]);
 
-  const numberVisible = phase === "number" || phase === "full";
-  const fullVisible = phase === "full";
+  /* scroll-reveal via IntersectionObserver */
+  useEffect(() => {
+    const els = rootRef.current?.querySelectorAll(".rl-reveal");
+    if (!els) return;
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("rl-in");
+      }),
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
+
+  const numVis = phase === "number" || phase === "full";
+  const fullVis = phase === "full";
 
   return (
-    <div className="hc-root" data-phase={phase}>
-      <div className="hc-ambient" aria-hidden="true" />
+    <div className="rl-root" data-phase={phase} ref={rootRef}>
 
-      {/* ── HERO ── */}
-      <section className="hc-hero">
-        <div className={`hc-context ${fullVisible ? "hc-visible" : ""}`}>
-          <p className="hc-eyebrow">a public wager</p>
-          <p className="hc-attention-thesis">attention is the upstream capital.</p>
-          <h1 className="hc-headline">
-            $3,453 <span className="hc-arrow">→</span> $100,000
+      {/* ═══════════ COVER ═══════════ */}
+      <section className="rl-cover">
+        <div className="rl-cover-bg" aria-hidden="true" />
+        <div className="rl-cover-overlay" aria-hidden="true" />
+        <div className="rl-cover-glow" aria-hidden="true" />
+
+        <div className={`rl-cover-ctx ${fullVis ? "rl-vis" : ""}`}>
+          <p className="rl-eyebrow">a public wager</p>
+          <p className="rl-thesis">attention is the upstream capital.</p>
+          <h1 className="rl-headline">
+            $3,453 <span className="rl-arrow">→</span> $100,000
           </h1>
-          <p className="hc-sub">
+          <p className="rl-sub">
             Probably impossible.<br />
             Definitely public.<br />
             By my 20th birthday. {daysToBirthday} days left.
           </p>
-          <div className="hc-rule" />
+          <div className="rl-cover-rule" />
         </div>
 
-        <div className={`hc-live-block ${numberVisible ? "hc-visible" : ""}`}>
+        <div className={`rl-num-block ${numVis ? "rl-vis" : ""}`}>
           <LiveValue
             holdings={holdings} pendingCash={pendingCash}
             fallback={totalNow} entryValue={entryValue}
-            revealed={fullVisible}
+            revealed={fullVis}
           />
         </div>
 
-        <div className={`hc-actions ${fullVisible ? "hc-visible" : ""}`}>
-          <Link href="/invest" className="hc-btn-primary">The wager →</Link>
-          <Link href="/argument" className="hc-text-link">Five agents disagree about this →</Link>
+        <div className={`rl-cover-actions ${fullVis ? "rl-vis" : ""}`}>
+          <Link href="/invest" className="rl-btn-gold">The wager →</Link>
+          <Link href="/argument" className="rl-link-dim">Five agents disagree about this →</Link>
+        </div>
+
+        <div className={`rl-scroll-hint ${fullVis ? "rl-vis" : ""}`} aria-hidden="true">
+          <span />
         </div>
       </section>
 
-      {/* ── TRANSITION ── */}
-      <div className="hc-transition" aria-hidden="true" />
+      {/* ═══════════ TYPE RAIL ═══════════ */}
+      <div className="rl-type-rail" aria-hidden="true">
+        <span>ATTENTION IS THE UPSTREAM CAPITAL</span>
+        <span className="rl-rail-dot">·</span>
+        <span>ATTENTION IS THE UPSTREAM CAPITAL</span>
+        <span className="rl-rail-dot">·</span>
+        <span>ATTENTION IS THE UPSTREAM CAPITAL</span>
+      </div>
 
-      {/* ── BODY: three sections ── */}
-      <section className="hc-body">
+      {/* ═══════════ BODY ═══════════ */}
+      <div className="rl-body">
 
-        {/* I. Making Money */}
-        <div className="hc-section">
-          <span className="hc-section-index">I.</span>
-          <h2 className="hc-section-heading">Early money carries more of the flight.</h2>
+        {/* ── THE LETTER ── */}
+        <section className="rl-sect rl-reveal">
+          <span className="rl-orn">❦</span>
+          <h2 className="rl-sect-head rl-letter-head">The pre-mortem</h2>
+          <p className="rl-sect-sub">
+            Filed before the math is decided, so I can&rsquo;t quietly
+            retrofit the story later.
+          </p>
+          <div className="rl-prose">
+            <p>
+              The account opened at <strong>$3,453</strong> on April 12. The
+              goal is <strong>$100,000 by June 21</strong> &mdash; my birthday.
+              That is about ten weeks. I need a <strong>29&times;</strong>. The
+              S&amp;P does that in about 25 years.
+            </p>
+            <p>
+              The gap between those numbers is the joke, and the entire point.
+              This is an ego mini-game with a P&amp;L attached, and the
+              mini-game <em>is</em> the product. The money is just the
+              scoreboard.
+            </p>
+            <p>
+              I am publishing this so when the account is at $5,200 and I am
+              quietly telling myself &ldquo;$5,200 is basically $100k if you
+              squint,&rdquo; there is a document on the internet with my name
+              on it reminding me that no, it is not.
+            </p>
+          </div>
+          <p>
+            <Link href="/let-down" className="rl-ink-link">
+              Read the full pre-mortem →
+            </Link>
+          </p>
+        </section>
+
+        <div className="rl-rule" />
+
+        {/* ── I. MONEY ── */}
+        <section className="rl-sect rl-reveal">
+          <span className="rl-idx">I.</span>
+          <h2 className="rl-sect-head">Early money carries more of the flight.</h2>
           <p>
             The pool is time-weighted. A $50 stake placed now is not the same as
             a $50 stake placed in week eighteen. The early money carries more of
@@ -155,26 +220,26 @@ export default function HomeCover({
           </p>
           <p>
             Stripe is at{" "}
-            <Link href="/invest" className="hc-inline-link">/invest</Link>.
+            <Link href="/invest" className="rl-ink-link">/invest</Link>.
             Venmo is{" "}
-            <a href="https://venmo.com/saathvikpai" className="hc-inline-link">@saathvikpai</a>.
+            <a href="https://venmo.com/saathvikpai" className="rl-ink-link">@saathvikpai</a>.
             Zelle is{" "}
-            <a href="tel:3853687238" className="hc-inline-link">385-368-7238</a>.
+            <a href="tel:3853687238" className="rl-ink-link">385-368-7238</a>.
           </p>
-        </div>
+        </section>
 
-        <div className="hc-section-rule" />
+        <div className="rl-rule" />
 
-        {/* II. The Party */}
-        <div className="hc-section">
-          <span className="hc-section-index">II.</span>
-          <h2 className="hc-section-heading">Utah. June 21. You should be there.</h2>
+        {/* ── II. THE ROOM ── */}
+        <section className="rl-sect rl-reveal">
+          <span className="rl-idx">II.</span>
+          <h2 className="rl-sect-head">Utah. June 21. You should be there.</h2>
           <p>
             On the day the deadline expires &mdash; my 20th birthday, June 21,
             2026 &mdash; there is a gathering in Utah.
           </p>
-          <p className="hc-gate-line">
-            Stake-holders get in.<br />Everyone else does not.
+          <p className="rl-gate">
+            Stakeholders get comped.
           </p>
           <p>
             Ten percent of the apparatus is reserved exclusively for travel
@@ -183,12 +248,12 @@ export default function HomeCover({
             the more of your ticket it covers.
           </p>
           <p>What happens in the room:</p>
-          <p className="hc-section-beat">
+          <p className="rl-beat">
             The sealed auction opens. One original artwork &mdash; a physical piece
             that has never been shown publicly. It goes to the highest bidder
             among those present.
           </p>
-          <p className="hc-section-beat">
+          <p className="rl-beat">
             Five sealed predictions are revealed. These were written before the
             wager began and locked &mdash; no one has read them. On June 21, in
             front of everyone in the room, they open.
@@ -197,14 +262,19 @@ export default function HomeCover({
             Whether the number hits or doesn&rsquo;t, you will have been in
             the room.
           </p>
-        </div>
+          <div className="rl-seal">
+            <span className="rl-seal-tag">SEALED</span>
+            <span className="rl-seal-hash">commitment · a8f7c2············</span>
+            <span className="rl-seal-when">reveal 21 jun 2026 · 18:00 PT</span>
+          </div>
+        </section>
 
-        <div className="hc-section-rule" />
+        <div className="rl-rule" />
 
-        {/* III. The Impossible */}
-        <div className="hc-section">
-          <span className="hc-section-index">III.</span>
-          <h2 className="hc-section-heading">The 8% odds. Out loud. Before the first trade.</h2>
+        {/* ── III. THE ODDS ── */}
+        <section className="rl-sect rl-reveal">
+          <span className="rl-idx">III.</span>
+          <h2 className="rl-sect-head">The 8% odds. Out loud. Before the first trade.</h2>
           <p>
             The implied probability that $3,453 becomes $100,000 in 46 days using
             publicly available instruments &mdash; stocks, prediction markets, one
@@ -216,13 +286,13 @@ export default function HomeCover({
             already failed and asking: what happened, why, and what did you miss?
             I wrote it before the first trade. It is published.
           </p>
-          <span className="hc-inline-quote">
+          <blockquote className="rl-quote">
             &ldquo;The gap between what is reasonable and what I am asking for
             is the entire joke and the entire point. One day I am going to
             grow wings.&rdquo;
-          </span>
+          </blockquote>
           <p>
-            <Link href="/let-down" className="hc-inline-link">Read the pre-mortem →</Link>
+            <Link href="/let-down" className="rl-ink-link">Read the pre-mortem →</Link>
           </p>
           <p>
             By making the odds public, by publishing every position in real time,
@@ -233,37 +303,65 @@ export default function HomeCover({
           <p>
             You do not have to invest. You can just watch. The positions update
             in real time at the top of this page. The argument is at{" "}
-            <Link href="/argument" className="hc-inline-link">/argument</Link>.
+            <Link href="/argument" className="rl-ink-link">/argument</Link>.
             But you cannot say no one tried.
           </p>
-          <p className="hc-coda-thesis">
+          <p className="rl-coda">
             Attention is the upstream capital. This was always the investment.
           </p>
-        </div>
+        </section>
 
-        {/* Footer */}
-        <div className="hc-section-rule" />
+        <div className="rl-rule" />
 
-        {/* Stats row removed: 10-designer consensus — every number
-            already appears in the hero or body. — v14 */}
-
-        <div className="hc-footer-cta">
-          <p className="hc-footer-line">
+        {/* ── BODY FOOTER ── */}
+        <div className="rl-body-foot">
+          <p className="rl-body-foot-line">
             If you want the numbers:{" "}
-            <Link href="/invest" className="hc-inline-link">/invest →</Link>
+            <Link href="/invest" className="rl-ink-link">/invest →</Link>
           </p>
-          <p className="hc-footer-meta">
+          <p className="rl-body-foot-meta">
             venmo{" "}
-            <a href="https://venmo.com/saathvikpai" className="hc-inline-link">@saathvikpai</a>
+            <a href="https://venmo.com/saathvikpai" className="rl-ink-link">@saathvikpai</a>
             {" "}· zelle{" "}
-            <a href="tel:3853687238" className="hc-inline-link">385-368-7238</a>
+            <a href="tel:3853687238" className="rl-ink-link">385-368-7238</a>
             {" "}· personally guaranteed
           </p>
         </div>
+      </div>
+
+      {/* ═══════════ THE DOOR ═══════════ */}
+      <section className="rl-door rl-reveal">
+        <p className="rl-door-line">The door is open.</p>
+        <div className="rl-door-ctas">
+          <Link href="/invest" className="rl-btn-gold">The wager →</Link>
+          <Link href="/argument" className="rl-link-light">Five agents disagree about this →</Link>
+        </div>
+        <p className="rl-door-meta">
+          <a href="https://venmo.com/saathvikpai" className="rl-door-rail">venmo @saathvikpai</a>
+          {" · "}
+          <a href="tel:3853687238" className="rl-door-rail">zelle 385-368-7238</a>
+          {" · "}
+          <span className="rl-door-note">personally guaranteed</span>
+        </p>
       </section>
 
-      <nav className="hc-bottom-nav">
-        <Link href="/stocks">stocks</Link>
+      {/* ═══════════ COLOPHON ═══════════ */}
+      <footer className="rl-colophon">
+        <nav className="rl-col-nav">
+          <Link href="/positions">stocks</Link>
+          <Link href="/letters/round-0">letters</Link>
+          <Link href="/art">art</Link>
+          <Link href="/argument">panel</Link>
+          <Link href="/invest">invest</Link>
+          <Link href="/archives">archives</Link>
+        </nav>
+        <p className="rl-sig">saapai</p>
+        <p className="rl-wordmark">aureliex<span className="rl-dot">.</span></p>
+      </footer>
+
+      {/* ═══════════ MOBILE NAV ═══════════ */}
+      <nav className="rl-mob-nav">
+        <Link href="/positions">stocks</Link>
         <Link href="/letters/round-0">letters</Link>
         <Link href="/art">art</Link>
         <Link href="/invest">invest</Link>
