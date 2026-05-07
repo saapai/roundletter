@@ -3,6 +3,7 @@ import { HUNT_PHONE_DISPLAY, HUNT_PHONE_SMS } from "@/lib/hunt";
 import { fmtMoneyCents } from "@/lib/portfolio-live";
 import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import { getGraphSnapshot } from "@/lib/memory/graph-snapshot";
+import CoilVisualization from "@/components/CoilVisualizationLoader";
 import s from "./statement.module.css";
 
 // saathvikpai.com serves this page at its root (see src/middleware.ts).
@@ -143,55 +144,8 @@ export default async function Statement() {
             base-rate injection, but the margin over simple recency is thin.
           </p>
 
-          {/* ── LAYER 1: The Coil Concept ── */}
-          <div className={s.coilWrap}>
-            <p className={s.coilLabel}>the coil metaphor — contradicting beliefs wound in tension</p>
-            <div className={s.helixContainer}>
-              {/* Bullish strand */}
-              <div className={`${s.helixStrand} ${s.helixStrandBull}`}>
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-              </div>
-              {/* Bearish strand */}
-              <div className={`${s.helixStrand} ${s.helixStrandBear}`}>
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-                <div className={s.coilSeg} />
-              </div>
-              {/* Tension crossover points */}
-              <div className={s.coilTension} />
-              <div className={s.coilTension} />
-              <div className={s.coilTension} />
-              <div className={s.coilTension} />
-              <div className={s.coilTension} />
-              <div className={s.coilTension} />
-              <div className={s.coilTension} />
-              <div className={s.coilTension} />
-              <div className={s.coilTension} />
-            </div>
-            <div className={s.coilLabels}>
-              <span className={s.coilLabelItem}><span className={s.coilSwatchGreen} /> bullish thesis</span>
-              <span className={s.coilLabelItem}><span className={s.coilSwatchRust} /> bearish counter</span>
-              <span className={s.coilLabelItem}><span className={s.coilSwatchGold} /> tension point</span>
-            </div>
-            <p className={s.coilCaption}>
-              memories wound around each other like dna strands. where they cross = unresolved contradiction.
-              tighter coil = higher tension score = retrieved first.
-            </p>
-          </div>
+          {/* ── LAYER 1: Interactive 3D Coil Visualization ── */}
+          <CoilVisualization />
 
           {/* ── LAYER 2: The Live Graph ── */}
           {graph && (
