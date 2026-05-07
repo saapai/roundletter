@@ -20507,13 +20507,23 @@ body:has(.rl-root) { background: var(--rl-void); }
   z-index: 1;
 }
 
-/* ── background image (Yoshida woodblock) ──────────── */
+/* ── background image (Yoshida woodblock) ──────────────
+   COLOR GRADE approach, not uniform dimming.
+   - brightness raised from 0.55 → 0.72 to let the lanterns and
+     wet-street reflections survive (the emotional core of the print)
+   - saturate raised from 0.8 → 0.88 to keep warm ambers alive
+   - contrast bump (1.12) deepens the darks without crushing the lights,
+     emulating the tonal separation Yoshida achieved with multiple
+     woodblocks for the same color at different pressures
+   - sepia(0.08) warms the cool blue-grey sky toward the print's
+     original aged-washi tone, unifying the palette with gold text   */
 .rl-cover-bg {
   position: absolute;
   inset: -3%;
   background: url('/hero/cover.jpg') center / cover no-repeat;
-  filter: saturate(0.8) brightness(0.55);
+  filter: brightness(0.75) saturate(1.05) contrast(1.15);
   animation: rl-bg-breathe 28s ease-in-out infinite;
+  transition: filter 1.8s ease;
   z-index: 0;
 }
 @keyframes rl-bg-breathe {
@@ -20521,26 +20531,64 @@ body:has(.rl-root) { background: var(--rl-void); }
   50% { transform: scale(1.035); }
 }
 
-/* ── dark vignette overlay ─────────────────────────── */
+/* ── localized text-zone vignette (not uniform darkening) ─────
+   THREE zones darkened for legibility; the rest breathes:
+   1. Top strip: heavier, for the eyebrow/thesis/headline text
+   2. Center band: moderate, for the dollar figure
+   3. Bottom strip: heavier, for CTA buttons + scroll hint
+   The SIDES stay lighter — this is where the Yoshida architecture,
+   lit windows, and wet reflections live. The viewer's peripheral
+   vision picks them up, creating atmosphere without competing
+   with the text.
+   This mimics how The New Yorker and Vogue handle illustrated
+   covers: text occupies predetermined "sky" zones; the
+   illustration is never globally suppressed.                       */
 .rl-cover-overlay {
   position: absolute; inset: 0; z-index: 1;
   background:
-    radial-gradient(ellipse 65% 55% at 50% 42%, transparent 0%, rgba(10, 10, 10, 0.55) 100%),
-    linear-gradient(to bottom, rgba(10, 10, 10, 0.4) 0%, rgba(10, 10, 10, 0.08) 35%, rgba(10, 10, 10, 0.65) 100%);
+    /* top text zone: strong horizontal band */
+    linear-gradient(to bottom,
+      rgba(8, 6, 4, 0.62) 0%,
+      rgba(8, 6, 4, 0.45) 18%,
+      transparent 32%
+    ),
+    /* center number zone: soft elliptical darken */
+    radial-gradient(ellipse 65% 16% at 50% 52%,
+      rgba(8, 6, 4, 0.28) 0%,
+      transparent 100%
+    ),
+    /* bottom CTA zone: strong upward gradient */
+    linear-gradient(to top,
+      rgba(8, 6, 4, 0.65) 0%,
+      rgba(8, 6, 4, 0.40) 15%,
+      transparent 30%
+    ),
+    /* very soft overall haze for baseline contrast —
+       much lighter than the old uniform 0.55 approach */
+    radial-gradient(ellipse 120% 120% at 50% 50%,
+      rgba(8, 6, 4, 0.12) 0%,
+      rgba(8, 6, 4, 0.22) 100%
+    );
   pointer-events: none;
 }
 
-/* ── warm ambient glow ─────────────────────────────── */
+/* ── warm ambient glow ─────────────────────────────────
+   Increased intensity now that the base image is brighter.
+   The glow positions are tuned to roughly align with where
+   Yoshida's window light falls (~center-left of the print),
+   reinforcing rather than fighting the original composition.  */
 .rl-cover-glow {
   position: absolute; inset: 0; z-index: 1;
   background:
-    radial-gradient(ellipse 55% 45% at 50% 38%, rgba(232, 184, 75, 0.07) 0%, transparent 55%),
-    radial-gradient(ellipse 30% 25% at 25% 75%, rgba(201, 149, 42, 0.04) 0%, transparent 40%);
+    radial-gradient(ellipse 50% 40% at 42% 42%, rgba(232, 184, 75, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 35% 28% at 30% 70%, rgba(201, 149, 42, 0.09) 0%, transparent 40%);
+  mix-blend-mode: soft-light;
   opacity: 0; transition: opacity 1s ease;
   pointer-events: none;
 }
 .rl-root[data-phase="full"] .rl-cover-glow { opacity: 1; }
 .rl-root[data-phase="void"] .rl-cover-bg { filter: saturate(0) brightness(0); }
+.rl-root[data-phase="number"] .rl-cover-bg { filter: brightness(0.45) saturate(0.6) contrast(1.1); }
 .rl-root[data-phase="void"] .rl-cover-overlay { background: #000; }
 
 /* ── cover content ─────────────────────────────────── */
@@ -20563,10 +20611,14 @@ body:has(.rl-root) { background: var(--rl-void); }
   font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
   font-style: italic;
   font-size: 12.5px; letter-spacing: 0.06em;
-  color: var(--rl-gold); opacity: 0.28;
+  color: var(--rl-gold); opacity: 0.40;
   margin: 0 0 14px; line-height: 1;
 }
 
+/* text-shadow halos: the Vogue technique. Rather than dimming the
+   entire background, each text element carries a soft dark halo
+   that creates local contrast only where letters meet image.
+   Invisible on dark zones, effective on bright zones.            */
 .rl-headline {
   font-family: var(--font-fraunces, 'Fraunces'), Georgia, serif;
   font-weight: 300; font-style: normal;
@@ -20574,6 +20626,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   line-height: 1.1; letter-spacing: 0.015em;
   color: rgba(240, 235, 226, 0.7);
   margin: 0;
+  text-shadow: 0 1px 8px rgba(6, 4, 2, 0.5), 0 0 30px rgba(6, 4, 2, 0.3);
 }
 .rl-arrow { color: var(--rl-gold); opacity: 0.8; margin: 0 0.15em; }
 
@@ -20583,6 +20636,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   font-size: clamp(0.88rem, 1.7vw, 1rem);
   color: var(--rl-muted);
   margin: 14px 0 0; line-height: 1.75;
+  text-shadow: 0 1px 6px rgba(6, 4, 2, 0.4);
 }
 
 .rl-cover-rule {
@@ -20609,7 +20663,10 @@ body:has(.rl-root) { background: var(--rl-void); }
   color: var(--rl-gold-number);
   font-variant-numeric: tabular-nums;
   transition: color 0.5s ease;
-  text-shadow: 0 0 80px rgba(212, 169, 76, 0.12);
+  text-shadow:
+    0 0 60px rgba(212, 169, 76, 0.22),
+    0 0 120px rgba(201, 149, 42, 0.08),
+    0 2px 20px rgba(6, 4, 2, 0.6);
 }
 .rl-currency {
   font-size: 0.65em; vertical-align: baseline;
