@@ -226,13 +226,19 @@ export default function HomeCover({
             <a href="https://saathvikpai.com" className="rl-ink-link">research paper</a>
             {" "}on agent memory. Thirty-seven pages. None planned.
           </p>
-          <p className="rl-beat">
-            The Packers did it with a football team. This week, 700,000
-            strangers pledged $700 million to buy{" "}
-            <a href="https://letsbuyspiritair.com" className="rl-ink-link">a dead airline</a>.
-            The site crashed from traffic. The pattern is always the same:
-            make the thing public, and the attention builds everything else.
-          </p>
+          <div className="rl-callout">
+            <p className="rl-callout-line">The Packers did it with a football team.</p>
+            <p className="rl-callout-big">
+              This week, <strong>700,000</strong> strangers pledged{" "}
+              <strong>$700 million</strong> to buy{" "}
+              <a href="https://letsbuyspiritair.com" className="rl-ink-link">a dead airline</a>.
+            </p>
+            <p className="rl-callout-line">The site crashed from traffic.</p>
+            <p className="rl-callout-thesis">
+              The pattern is always the same: make the thing public,
+              and the attention builds everything else.
+            </p>
+          </div>
         </section>
 
         <div className="rl-rule" />
