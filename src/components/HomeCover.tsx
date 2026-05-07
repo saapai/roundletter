@@ -226,14 +226,45 @@ export default function HomeCover({
             <a href="https://saathvikpai.com" className="rl-ink-link">research paper</a>
             {" "}on agent memory. Thirty-seven pages. None planned.
           </p>
-          <div className="rl-callout">
-            <p className="rl-callout-line">The Packers did it with a football team.</p>
-            <p className="rl-callout-big">
-              This week, <strong>700,000</strong> strangers pledged{" "}
-              <strong>$700 million</strong> to buy{" "}
-              <a href="https://letsbuyspiritair.com" className="rl-ink-link">a dead airline</a>.
-            </p>
-            <p className="rl-callout-line">The site crashed from traffic.</p>
+          <div className="rl-precedents">
+            <a href="https://letsbuyspiritair.com" className="rl-prec rl-prec-spirit" target="_blank" rel="noopener">
+              <span className="rl-prec-tag">LETSBUYSPIRITAIR.COM · THIS WEEK</span>
+              <span className="rl-prec-stats">
+                <span className="rl-prec-stat">
+                  <span className="rl-prec-num">$437M</span>
+                  <span className="rl-prec-label">pledged</span>
+                </span>
+                <span className="rl-prec-stat">
+                  <span className="rl-prec-num">512K</span>
+                  <span className="rl-prec-label">pledgers</span>
+                </span>
+                <span className="rl-prec-stat">
+                  <span className="rl-prec-num">$1.75B</span>
+                  <span className="rl-prec-label">target</span>
+                </span>
+              </span>
+              <span className="rl-prec-line">The site crashed from traffic.</span>
+            </a>
+
+            <div className="rl-prec rl-prec-packers">
+              <span className="rl-prec-tag">GREEN BAY PACKERS · SINCE 1923</span>
+              <span className="rl-prec-stats">
+                <span className="rl-prec-stat">
+                  <span className="rl-prec-num">539K</span>
+                  <span className="rl-prec-label">shareholders</span>
+                </span>
+                <span className="rl-prec-stat">
+                  <span className="rl-prec-num">$0</span>
+                  <span className="rl-prec-label">dividends</span>
+                </span>
+                <span className="rl-prec-stat">
+                  <span className="rl-prec-num">5</span>
+                  <span className="rl-prec-label">stock sales</span>
+                </span>
+              </span>
+              <span className="rl-prec-line">Perk-based ownership for 100 years.</span>
+            </div>
+
             <p className="rl-callout-thesis">
               The pattern is always the same: make the thing public,
               and the attention builds everything else.

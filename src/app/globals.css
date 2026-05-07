@@ -20992,35 +20992,76 @@ body:has(.rl-root) { background: var(--rl-void); }
 }
 .rl-way:hover { border-color: var(--rl-rust); }
 
-/* ── callout block (vertical, centered) ──────────── */
-.rl-callout {
-  text-align: center;
-  max-width: 380px;
-  margin: 2rem auto 0.5rem;
-  padding: 1.5rem 0;
-  border-top: 1px solid rgba(201, 149, 42, 0.15);
-  border-bottom: 1px solid rgba(201, 149, 42, 0.15);
+/* ── precedent cards ─────────────────────────────── */
+.rl-precedents {
+  margin: 2rem 0 0.5rem;
+  display: flex; flex-direction: column;
+  gap: 0.75rem;
 }
-.rl-callout-line {
+.rl-prec {
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+  padding: clamp(1rem, 2.5vw, 1.4rem) clamp(1rem, 3vw, 1.5rem);
+  border-radius: 3px;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+.rl-prec:hover { opacity: 0.88; }
+.rl-prec-tag {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 8px; letter-spacing: 0.25em;
+  opacity: 0.6;
+  margin-bottom: 0.7rem;
+}
+.rl-prec-stats {
+  display: flex; gap: clamp(1.2rem, 4vw, 2rem);
+  margin-bottom: 0.6rem;
+}
+.rl-prec-stat {
+  display: flex; flex-direction: column; align-items: center;
+}
+.rl-prec-num {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.rl-prec-label {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 8px; letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-top: 2px;
+}
+.rl-prec-line {
   font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
-  font-size: clamp(0.9rem, 1.4vw, 1rem);
-  color: var(--rl-graphite);
-  line-height: 1.6;
-  margin: 0 0 0.8rem;
-}
-.rl-callout-big {
-  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
   font-style: italic;
-  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
-  color: var(--rl-ink);
-  line-height: 1.45;
-  margin: 0.8rem 0;
+  font-size: clamp(0.82rem, 1.3vw, 0.9rem);
+  opacity: 0.65;
+  line-height: 1.5;
 }
-.rl-callout-big strong {
-  color: var(--rl-gold);
-  font-weight: 600;
-  font-style: normal;
+
+/* Spirit: yellow + black */
+.rl-prec-spirit {
+  background: #FFD700;
+  color: #1A1A1A;
 }
+.rl-prec-spirit .rl-prec-tag { color: #1A1A1A; }
+.rl-prec-spirit .rl-prec-num { color: #1A1A1A; }
+.rl-prec-spirit .rl-prec-label { color: #1A1A1A; }
+.rl-prec-spirit .rl-prec-line { color: #1A1A1A; }
+
+/* Packers: dark green + gold */
+.rl-prec-packers {
+  background: #203731;
+  color: #FFB81C;
+}
+.rl-prec-packers .rl-prec-tag { color: #FFB81C; }
+.rl-prec-packers .rl-prec-num { color: #FFB81C; }
+.rl-prec-packers .rl-prec-label { color: rgba(255, 184, 28, 0.6); }
+.rl-prec-packers .rl-prec-line { color: rgba(255, 184, 28, 0.7); }
+
 .rl-callout-thesis {
   font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
   font-style: italic;
@@ -21028,6 +21069,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   color: var(--rl-graphite); opacity: 0.75;
   line-height: 1.65;
   margin: 0.8rem 0 0;
+  text-align: center;
 }
 
 /* ── gate line ────────────────────────────────────── */
