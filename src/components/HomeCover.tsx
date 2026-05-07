@@ -208,7 +208,12 @@ export default function HomeCover({
             AI agents argue every trade before I touch it &mdash; the
             consensus scores are{" "}
             <Link href="/argument" className="rl-ink-link">public and archived</Link>.
-            Thirty-plus prior arguments on record. The{" "}
+            Thirty-plus prior arguments on record. The agents run on local
+            hardware, zero API cost, and they&rsquo;re specifically built
+            to disagree with each other &mdash; the memory system surfaces
+            contradictions first, not agreements. Position sizes are{" "}
+            <a href="https://saathvikpai.com" className="rl-ink-link">Kelly-sized</a>,
+            tied to edge, not conviction. The{" "}
             <Link href="/positions" className="rl-ink-link">live prices</Link>
             {" "}are at the top of this page.
           </p>
@@ -220,9 +225,11 @@ export default function HomeCover({
             above $5,000, IONQ above $60. A $200 Polymarket bot running
             tennis and NBA alongside a $50 Kalshi book. Twelve original
             artworks in pencil, pen, watercolor, and spray paint, starting
-            at $1. A research paper on agent memory that came out of
-            building the debate system. Thirty-seven pages, none of which
-            were planned.
+            at $1. A{" "}
+            <a href="https://saathvikpai.com" className="rl-ink-link">research paper</a>
+            {" "}on contradiction-prioritized memory &mdash; Entrenched
+            Coils &mdash; that came out of building the debate system.
+            Thirty-seven pages, none of which were planned.
           </p>
           <p>
             The Packers did it with a football team. Someone just tried it
