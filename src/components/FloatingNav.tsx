@@ -14,16 +14,15 @@ import { useEffect, useState } from "react";
 // Mirrors BankNav's curated route list (src/components/BankNav.tsx).
 // The unlinked / easter-egg routes are still reachable by URL via /eggs.
 const NAV: Array<{ href: string; label: string; emph?: boolean }> = [
-  { href: "/",            label: "home" },
-  { href: "/portfolio",   label: "portfolio" },
-  { href: "/stocks",      label: "stocks" },
-  { href: "/prediction",  label: "prediction" },
-  { href: "/art",         label: "art" },
-  { href: "/letters",     label: "letters" },
-  { href: "/eggs",        label: "eggs" },
+  { href: "/stocks",          label: "the portfolio" },
+  { href: "/prediction",      label: "odds" },
+  { href: "/art",             label: "art" },
+  { href: "/argument",        label: "the panel" },
+  { href: "/letters/round-0", label: "letters" },
+  { href: "/invest",          label: "invest", emph: true },
 ];
 
-const BARE_PATHS = ["/17", "/keys"];
+const BARE_PATHS = ["/", "/17", "/keys"];
 
 export default function FloatingNav() {
   const [open, setOpen] = useState(false);
