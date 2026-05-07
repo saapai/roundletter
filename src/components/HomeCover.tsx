@@ -142,27 +142,16 @@ export default function HomeCover({
           <span className="hc-section-index">I.</span>
           <h2 className="hc-section-heading">Early money carries more of the flight.</h2>
           <p>
-            The pool is time-weighted. Every dollar you put in earns its weight
-            in proportion to how early it arrived and how much of it you committed.
-            A $50 stake placed in week one is not the same as a $50 stake placed
-            in week eighteen. The early money carries more of the upside &mdash;
-            because it took more of the risk.
-          </p>
-          <p>
-            A $10 stake gets you in the room. You can redeem it in full whenever
-            you want &mdash; I send it back via Venmo or Zelle in under 60 seconds.
-            You lose nothing. But your weight in the pool is small.
-          </p>
-          <p>
-            A $50 stake, placed now, earns you a meaningful share of the flight
-            reimbursement pool at the party in Utah on June 21. Ten percent of
-            the apparatus is reserved to reimburse travel for stake-holders.
-            The distribution is proportional to your weight.
+            The pool is time-weighted. A $50 stake placed now is not the same as
+            a $50 stake placed in week eighteen. The early money carries more of
+            the upside &mdash; because it took more of the risk. Ten percent of
+            the apparatus is reserved to reimburse flights for stake-holders at
+            the party. Your share is proportional to your weight.
           </p>
           <p>
             The gains and losses are mine. You are not speculating. You are holding
             a claim on my personal account &mdash; redeemable at par, on demand,
-            in under a minute.
+            in under a minute. Venmo or Zelle, under 60 seconds.
           </p>
           <p>
             Stripe is at{" "}
@@ -205,8 +194,8 @@ export default function HomeCover({
             front of everyone in the room, they open.
           </p>
           <p>
-            Whether the number is $100,000 or something much smaller, you will
-            have been in the room when it happened.
+            Whether the number hits or doesn&rsquo;t, you will have been in
+            the room.
           </p>
         </div>
 
@@ -252,10 +241,13 @@ export default function HomeCover({
           </p>
         </div>
 
-        {/* Stats + Footer */}
+        {/* Footer */}
         <div className="hc-section-rule" />
 
-        <div className="hc-stats-row">
+        {/* Stats row killed per 10-designer consensus: every number
+            in it already appears in the hero or body. — v14 */
+        }
+        {false && <div className="hc-stats-row">
           <div className="hc-stat-item">
             <span className="hc-stat-label">deadline</span>
             <span className="hc-stat-value">june 21, 2026</span>

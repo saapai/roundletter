@@ -4106,7 +4106,7 @@ body:has(.pitch-slide.zone-cream.in-view, .pitch-slide.zone-warm-cream.in-view) 
   height: 14px;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.22;
+  opacity: 0.30;
   transform: rotate(16deg);
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 14'><polygon points='0,7 10,3 10,11' fill='%238B3A2E'/><rect x='10' y='6' width='38' height='2' fill='%232B4B2B'/><polygon points='48,7 58,4 58,10' fill='%23E8B64A'/><polygon points='58,7 80,2 80,12' fill='%232B4B2B'/></svg>");
   background-size: 100% 100%;
@@ -18072,7 +18072,7 @@ body:has(.bank-page) > footer { display: none !important; }
 .star-trail {
   stroke: var(--con-accent);
   stroke-width: 0.8;
-  stroke-opacity: 0.22;
+  stroke-opacity: 0.30;
   stroke-linecap: round;
   stroke-linejoin: round;
   pointer-events: none;
@@ -20018,6 +20018,7 @@ body:has(.bank-page) > footer { display: none !important; }
   --hc-muted:       rgba(240, 235, 226, 0.62);
   --hc-gold:        #C9952A;
   --hc-gold-bright: #E8B84B;
+  --hc-gold-number: #D4A94C;
   --hc-gold-dim:    rgba(201, 149, 42, 0.25);
   --hc-green:       #4FAF6A;
   --hc-red:         #C44325;
@@ -20104,12 +20105,12 @@ body:has(.hc-root) { background: #000000; }
   font-weight: 900; font-style: italic;
   font-size: clamp(4.5rem, 17vw, 9rem);
   line-height: 0.95; letter-spacing: -0.045em;
-  color: var(--hc-gold-bright);
+  color: var(--hc-gold-number);
   font-variant-numeric: tabular-nums;
   transition: color 0.5s ease;
-  text-shadow: 0 0 80px rgba(232, 184, 75, 0.12);
+  
 }
-.hc-currency { font-size: 0.5em; vertical-align: super; opacity: 0.6; font-weight: 700; }
+.hc-currency { font-size: 0.65em; vertical-align: baseline; opacity: 0.8; font-weight: 900; font-style: italic; }
 .hc-flash-up { color: var(--hc-green) !important; text-shadow: 0 0 60px rgba(79, 175, 106, 0.15) !important; }
 .hc-flash-down { color: var(--hc-red) !important; text-shadow: 0 0 60px rgba(196, 67, 37, 0.15) !important; }
 
@@ -20160,18 +20161,8 @@ body:has(.hc-root) { background: #000000; }
 
 /* ── TRANSITION ───────────────────────────────────────── */
 .hc-transition {
-  height: clamp(100px, 14vw, 180px);
-  background:
-    radial-gradient(ellipse 60% 30% at 50% 100%, rgba(232, 184, 75, 0.04) 0%, transparent 70%),
-    linear-gradient(
-      to bottom,
-      #111118 0%,
-      #1A1714 30%,
-      #3D3020 60%,
-      #8C7A5E 78%,
-      #D0C4B0 90%,
-      #F2EDE4 100%
-    );
+  height: 80px;
+  background: linear-gradient(to bottom, #111118 0%, #8C7A5E 50%, #F2EDE4 100%);
   position: relative; z-index: 1;
 }
 
@@ -20298,7 +20289,7 @@ body:has(.hc-root) { background: #000000; }
   font-size: 12.5px;
   letter-spacing: 0.06em;
   color: var(--hc-gold);
-  opacity: 0.22;
+  opacity: 0.30;
   margin: 0 0 14px;
   line-height: 1;
 }
