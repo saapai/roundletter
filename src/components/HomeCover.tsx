@@ -178,60 +178,58 @@ export default function HomeCover({
           <p>
             The account opened at <strong>$3,453</strong> on April 12. The
             goal is <strong>$100,000 by June 21</strong> &mdash; my birthday.
-            That is about ten weeks. I need a <strong>29&times;</strong>. The
-            S&amp;P does that in about 25 years. The gap between those numbers
-            is the joke, and the entire point.
+            Ten weeks. A <strong>29&times;</strong>. The S&amp;P does that in
+            about 25 years.
           </p>
           <p>
-            This is an ego mini-game with a P&amp;L attached, and the
-            mini-game <em>is</em> the product. The money is just the
-            scoreboard. I am publishing this so when the account is at $5,200
-            and I am quietly telling myself &ldquo;$5,200 is basically $100k
-            if you squint,&rdquo; there is a document on the internet with my
-            name on it reminding me that no, it is not.
+            This is an ego mini-game with a P&amp;L attached. The money is
+            the scoreboard. The mini-game is the product. I am publishing
+            this so when I am at $5,200 and quietly telling myself
+            &ldquo;$5,200 is basically $100k if you squint,&rdquo; there is
+            a document on the internet with my name on it reminding me that
+            no, it is not.
           </p>
           <p>
             I wrote the{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}before the first trade &mdash; a document written assuming
-            you have already failed. The implied probability that this works
-            is about 8%. I published that number before I started. The odds
-            are the honesty.
+            {" "}before the first trade. The implied probability this works
+            is <strong>8%</strong>. I published that number before I started.
           </p>
+          <p>The odds are the honesty.</p>
         </section>
 
         <div className="rl-rule" />
 
         <section className="rl-sect rl-reveal">
           <p>
-            The scoreboard is live and the failure analysis is published. What
-            I did not expect: other people wanted in.
+            What I did not expect: other people wanted in.
           </p>
           <p>
-            The pool is time-weighted. A $50 stake placed now is not the same
-            as a $50 stake placed in week eighteen &mdash; the early money
-            carries more of the upside because it took more of the risk. The
-            gains and losses are mine. You hold a claim on my personal
-            account, redeemable at par, on demand. Venmo or Zelle, under 60
-            seconds. No app, no float, no clearing period &mdash; the kind
-            of thing banks and green-credit fintechs cannot offer because it
-            would require them to have a face.
+            The pool is time-weighted. A $50 stake now is not the same as a
+            $50 stake in week eighteen &mdash; early money carries more
+            upside because it took more of the risk. The gains and losses
+            are mine. Venmo or Zelle, under 60 seconds.
           </p>
           <p>
-            This is perk-based community ownership. The Packers did it with a
-            football team; someone just tried it with{" "}
+            No app. No float. No clearing period. The kind of thing banks
+            and green-credit fintechs cannot offer because it would require
+            them to have a face.
+          </p>
+          <p>
+            The Packers did it with a football team. Someone just tried it
+            with{" "}
             <a href="https://en.wikipedia.org/wiki/Spirit_Airlines" className="rl-ink-link">an airline</a>.
-            I am doing it with a bet. You ask, I send. The guarantee is
-            personal.
+            I am doing it with a bet.
           </p>
+          <p>You ask. I send. The guarantee is personal.</p>
         </section>
 
         <div className="rl-rule" />
 
         <section className="rl-sect rl-reveal">
           <p>
-            On June 21 &mdash; my 20th birthday, the day the deadline
-            expires &mdash; there is a gathering in Utah.
+            On June 21 &mdash; my 20th birthday &mdash; there is a gathering
+            in Utah.
           </p>
           <p className="rl-gate">
             Stakeholders get comped.
@@ -240,7 +238,7 @@ export default function HomeCover({
             Ten percent of the pool reimburses flights for holders who show
             up. One original artwork goes to the highest bidder in the room.
             And five sealed predictions &mdash; written before the wager
-            began, locked, unread by anyone &mdash; open at 6pm.
+            began, locked, unread &mdash; open at 6pm.
           </p>
           <div className="rl-seal">
             <span className="rl-seal-tag">SEALED</span>
@@ -248,21 +246,21 @@ export default function HomeCover({
             <span className="rl-seal-when">reveal 21 jun 2026 · 18:00 PT</span>
           </div>
           <p>
-            The pre-mortem names four ways this fails. I published it before
-            the outcome. Whether the number hits or not, you will have been
-            in the room.
+            The{" "}
+            <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
+            {" "}names four ways this fails. Whether the number hits or not,
+            you will have been in the room.
           </p>
           <blockquote className="rl-quote">
-            &ldquo;The gap between what is reasonable and what I am asking for
-            is the entire joke and the entire point. One day I am going to
-            grow wings.&rdquo;
+            &ldquo;The gap between what is reasonable and what I am asking
+            for is the entire joke and the entire point.&rdquo;
           </blockquote>
           <p>
             You do not have to invest. You can just{" "}
             <Link href="/argument" className="rl-ink-link">watch the argument</Link>.
-            The positions update in real time at the top of this page. But
-            you cannot say no one tried.
+            The positions update in real time at the top of this page.
           </p>
+          <p>But you cannot say no one tried.</p>
         </section>
 
         <div className="rl-rule" />
