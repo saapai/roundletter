@@ -19928,9 +19928,25 @@ body:has(.bank-page) > footer { display: none !important; }
 
 /* ═══════════════════════════════════════════════════════════════════
    § HOMEPAGE v4 · BOOT SEQUENCE + ANIMATED COMPOSITION
+   ═══════════════════════════════════════════════════════════════════
+
+   PHASE MACHINE (all durations in comments are absolute from mount)
+   ──────────────────────────────────────────────────────────────────
+   black    0 ms        Pure black. Nothing visible.
+   wordmark 500 ms      Wordmark fades in over 800 ms.
+                        Easing: cubic-bezier(0.25, 0.1, 0.25, 1.0)
+   bar      1300 ms     Bar track fades in over 200 ms.
+   fill     1500 ms     Bar fills left→right over 1700 ms.
+                        Easing: cubic-bezier(0.4, 0.0, 0.2, 1.0)
+   hold     3200 ms     Static hold, no change. 200 ms.
+   exit     3400 ms     White flash overlay 0→0.15 over 200 ms,
+                        then boot unmounts + content fades in 200 ms.
+   done     3800 ms     Boot gone. Content at full opacity.
    ═══════════════════════════════════════════════════════════════════ */
 
 /* ── Boot Sequence ──────────────────────────────────────────────── */
+
+/* ── Overlay shell ── */
 .boot-overlay {
   position: fixed;
   inset: 0;
@@ -19939,89 +19955,164 @@ body:has(.bank-page) > footer { display: none !important; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: #000000;
   cursor: pointer;
-  transition: opacity 600ms cubic-bezier(.4,0,.2,1), transform 600ms cubic-bezier(.4,0,.2,1);
-}
-.boot-overlay.boot-black { opacity: 1; }
-.boot-overlay.boot-glow { opacity: 1; }
-.boot-overlay.boot-pulse { opacity: 1; }
-.boot-overlay.boot-expand {
-  opacity: 0;
-  transform: scale(1.15);
-}
-.boot-overlay.boot-reveal { display: none; }
-
-.boot-logo-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.25rem;
-  opacity: 0;
-  transform: scale(0.92);
-  transition: opacity 800ms ease, transform 800ms ease;
-}
-.boot-glow .boot-logo-wrap,
-.boot-pulse .boot-logo-wrap,
-.boot-expand .boot-logo-wrap {
-  opacity: 1;
-  transform: scale(1);
-}
-.boot-logo {
-  width: 64px;
-  height: 64px;
-  color: #F2EFE8;
-}
-.boot-pulse .boot-logo {
-  animation: boot-pulse-anim 800ms ease-in-out;
-}
-@keyframes boot-pulse-anim {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.15); opacity: 0.7; }
-}
-.boot-wordmark {
-  font-family: var(--font-signature, "Snell Roundhand"), cursive;
-  font-size: 28px;
-  color: #F2EFE8;
-  letter-spacing: 0.02em;
-  opacity: 0;
-  transition: opacity 600ms ease 400ms;
-}
-.boot-glow .boot-wordmark,
-.boot-pulse .boot-wordmark,
-.boot-expand .boot-wordmark {
-  opacity: 0.8;
+  /* No transition on the shell itself — individual children animate */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-.boot-progress {
+/* ── White flash overlay (sits above everything inside the boot overlay) ── */
+.boot-flash {
   position: absolute;
-  bottom: 15vh;
-  width: 120px;
-  height: 2px;
-  background: rgba(242,239,232,0.1);
-  border-radius: 1px;
+  inset: 0;
+  background: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  /* Triggered only in exit phase via animation */
+}
+.boot-overlay--exit .boot-flash {
+  animation: boot-flash-anim 200ms cubic-bezier(0.25, 0.1, 0.25, 1.0) forwards;
+}
+@keyframes boot-flash-anim {
+  from { opacity: 0; }
+  to   { opacity: 0.15; }
+}
+
+/* ── Wordmark — "aureliex" in Ms Madi ── */
+/*
+   Anatomy:
+   - Font: var(--font-signature) = Ms Madi, loaded in layout.tsx
+   - Size: 36px — cursive letterforms are generous, so 36px renders
+     roughly equivalent to ~22px cap-height on a regular serif.
+   - Color: #F2EFE8 at 80% opacity (= rgba(242,239,232,0.80))
+   - Centered, no SVG logo.
+   - Positioned at vertical center of the screen.
+   - Progress bar is 32px below the wordmark's centerline.
+     Because the wordmark is 36px and sits at center, the bar's
+     top edge is at: 50% + 18px (half wordmark) + 32px = 50% + 50px.
+     We implement this via margin-top on the bar-track wrapper.
+*/
+.boot-wordmark {
+  /* Reset */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  line-height: 1;
+  /* Type */
+  font-family: var(--font-signature, cursive);
+  font-size: 36px;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  color: rgba(242, 239, 232, 0.80);
+  /* Start invisible */
+  opacity: 0;
+  /* Transition fires when class changes from black→wordmark */
+  transition: opacity 800ms cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  /* Stack above flash layer */
+  position: relative;
+  z-index: 2;
+  /* Mobile: ensure min touch target area doesn't push layout */
+  white-space: nowrap;
+}
+
+/* Phases that show the wordmark */
+.boot-overlay--wordmark .boot-wordmark,
+.boot-overlay--bar      .boot-wordmark,
+.boot-overlay--fill     .boot-wordmark,
+.boot-overlay--hold     .boot-wordmark,
+.boot-overlay--exit     .boot-wordmark {
+  opacity: 1;
+}
+
+/* ── Bar track wrapper ──
+   Separated from the overlay flex so we can position it
+   exactly 32px below the wordmark's center.
+   Wordmark: 36px tall → half = 18px below center.
+   Gap to bar center: 32px.
+   But we want 32px from the bottom of the wordmark to the
+   top of the bar (matching Apple's visual spec of "below").
+   So: margin-top = 32px.                                   */
+.boot-bar-track {
+  /* Exact dimensions */
+  width: 160px;
+  height: 3px;
+  border-radius: 1.5px;
+  /* Background track color */
+  background: rgba(242, 239, 232, 0.08);
+  /* Layout */
+  position: relative;
+  z-index: 2;
+  margin-top: 32px;
+  /* Starts invisible; fades in at bar phase */
+  opacity: 0;
+  transition: opacity 200ms cubic-bezier(0.25, 0.1, 0.25, 1.0);
+  /* Clip fill to rounded track */
   overflow: hidden;
 }
-.boot-progress-fill {
-  height: 100%;
-  background: #F2EFE8;
-  border-radius: 1px;
-  width: 0%;
-  transition: width 3s cubic-bezier(.4,0,.2,1);
-}
-.boot-glow .boot-progress-fill { width: 40%; }
-.boot-pulse .boot-progress-fill { width: 75%; }
-.boot-expand .boot-progress-fill { width: 100%; }
 
-.boot-content { opacity: 0; }
-.boot-content-entering {
-  opacity: 0;
-  animation: boot-reveal 600ms ease-out 200ms forwards;
+/* Phases that show the bar track */
+.boot-bar-track--bar,
+.boot-bar-track--fill,
+.boot-bar-track--hold,
+.boot-bar-track--exit {
+  opacity: 1;
 }
-.boot-content-visible { opacity: 1; }
-@keyframes boot-reveal {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+
+/* ── Bar fill ── */
+.boot-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #F2EFE8;
+  border-radius: 1.5px;
+  /* Default: no transition (used in black/wordmark/bar phases) */
+  transition: none;
+}
+
+/* Fill animates only once the fill phase starts.
+   Duration: 1700ms (from 1500ms to 3200ms).
+   We cannot use a CSS-only left-to-right fill that starts at 1500ms
+   with exact timing, so we trigger the transition when the class
+   switches to fill, and set width to 100%.                          */
+.boot-bar-fill--fill,
+.boot-bar-fill--hold,
+.boot-bar-fill--exit {
+  width: 100%;
+  transition: width 1700ms cubic-bezier(0.4, 0.0, 0.2, 1.0);
+}
+
+/* ── Content layer — sits behind the boot overlay ── */
+.boot-content {
+  opacity: 0;
+  /* No pointer events while boot is active */
+  pointer-events: none;
+}
+
+/* Content fades in during exit phase (starts 3400ms, 200ms delay = 3600ms) */
+.boot-content--exit {
+  animation: boot-content-reveal 200ms cubic-bezier(0.25, 0.1, 0.25, 1.0) 200ms forwards;
+}
+@keyframes boot-content-reveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Content fully visible once boot is done */
+.boot-content--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Mobile safety (375px minimum) ── */
+@media (max-width: 390px) {
+  .boot-wordmark {
+    font-size: 32px;
+  }
+  .boot-bar-track {
+    width: 140px;
+  }
 }
 
 /* ── HX · Homepage v4 ──────────────────────────────────────────── */
