@@ -246,7 +246,7 @@ export default function HomeCover({
               <span className="rl-prec-line">The site crashed from traffic.</span>
             </a>
 
-            <div className="rl-prec rl-prec-packers">
+            <a href="https://en.wikipedia.org/wiki/Green_Bay_Packers,_Inc." className="rl-prec rl-prec-packers" target="_blank" rel="noopener">
               <span className="rl-prec-tag">GREEN BAY PACKERS · SINCE 1923</span>
               <span className="rl-prec-stats">
                 <span className="rl-prec-stat">
@@ -263,7 +263,7 @@ export default function HomeCover({
                 </span>
               </span>
               <span className="rl-prec-line">Perk-based ownership for 100 years.</span>
-            </div>
+            </a>
 
             <p className="rl-callout-thesis">
               The pattern is always the same: make the thing public,
