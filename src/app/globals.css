@@ -20727,7 +20727,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   color: var(--rl-graphite); opacity: 0.55;
   margin-top: 2rem; line-height: 1.65;
   text-align: center;
-  max-width: 36ch; margin-left: auto; margin-right: auto;
+  margin-left: auto; margin-right: auto;
 }
 
 /* ── sealed badge ─────────────────────────────────── */
