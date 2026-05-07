@@ -20909,6 +20909,13 @@ body:has(.rl-root) { background: var(--rl-void); }
   line-height: 1.95;
 }
 
+.rl-proves-4 {
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(201, 149, 42, 0.15);
+  font-style: italic;
+}
+
 /* ── gate line ────────────────────────────────────── */
 .rl-gate {
   font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;

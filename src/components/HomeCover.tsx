@@ -253,6 +253,8 @@ export default function HomeCover({
             <li>People love a party.</li>
             <li>People love to watch someone try the impossible &mdash;
             especially when the first two are already happening.</li>
+            <li className="rl-proves-4">And just maybe, when all three are
+            running at the same time, the impossible actually happens.</li>
           </ol>
           <p>
             Attention is the largest form of currency on the internet. It
@@ -265,8 +267,7 @@ export default function HomeCover({
           <p>
             The money is up. The party is real. The{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}names four ways this fails. And just maybe, when all three
-            are running at the same time, the impossible actually happens.
+            {" "}names four ways this fails.
           </p>
         </section>
 
