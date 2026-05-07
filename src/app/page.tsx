@@ -4,7 +4,6 @@ import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import portfolio from "@/data/portfolio.json";
 import sealed from "@/data/sealed/impossible.json";
 import stakeLedger from "@/data/stake-ledger.json";
-import BootSequence from "@/components/BootSequence";
 import HomeContent from "@/components/HomeContent";
 
 const HOLDINGS = (portfolio as {
@@ -21,19 +20,19 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
   const live = fmtMoney(data.total);
   return {
-    title: `aureliex · ${live} → $100,000 by 21 jun`,
-    description: `a publicly-owned studio. green credit, redeemable in 60s. ${live} now.`,
+    title: `aureliex · ${live} → $100,000`,
+    description: `a publicly-owned studio. green credit, redeemable in 60s.`,
     openGraph: {
-      title: `aureliex · now at ${live}.`,
-      description: `green credit, redeemable in 60 seconds via Venmo or Zelle.`,
+      title: `aureliex · ${live} now`,
+      description: `green credit — redeemable in 60 seconds. personally guaranteed.`,
       url: "https://aureliex.com",
       siteName: "aureliex",
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: `aureliex · now at ${live}.`,
-      description: `a publicly-owned studio. green credit, redeemable in 60s.`,
+      title: `aureliex · ${live} now`,
+      description: `green credit, redeemable in 60s. personally guaranteed.`,
       creator: "@saapai",
     },
   };
@@ -43,17 +42,15 @@ export default async function HomePage() {
   const data = await getPortfolioData();
 
   return (
-    <BootSequence>
-      <HomeContent
-        totalNow={data.total}
-        baseline={data.baseline}
-        daysToBirthday={daysFromNowTo(BIRTHDAY_ISO)}
-        hashShort={sealed.commitment_sha256.slice(0, 8)}
-        stakesOutstanding={(stakeLedger.total_outstanding_cents / 100).toFixed(0)}
-        eggEquity={(stakeLedger.egg_equity_cents / 100).toFixed(0)}
-        holdings={HOLDINGS}
-        pendingCash={PENDING_CASH}
-      />
-    </BootSequence>
+    <HomeContent
+      totalNow={data.total}
+      baseline={data.baseline}
+      daysToBirthday={daysFromNowTo(BIRTHDAY_ISO)}
+      hashShort={sealed.commitment_sha256.slice(0, 8)}
+      stakesOutstanding={(stakeLedger.total_outstanding_cents / 100).toFixed(0)}
+      eggEquity={(stakeLedger.egg_equity_cents / 100).toFixed(0)}
+      holdings={HOLDINGS}
+      pendingCash={PENDING_CASH}
+    />
   );
 }

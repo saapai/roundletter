@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 type Props = {
@@ -13,70 +13,51 @@ type Props = {
   pendingCash: number;
 };
 
-function fmtMoney(n: number) {
-  return `$${n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
-}
-
-function CountUp({ target, prefix = "$", duration = 2000 }: { target: number; prefix?: string; duration?: number }) {
-  const [value, setValue] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const started = useRef(false);
+function LiveTotal({ holdings, pendingCash }: { holdings: Props["holdings"]; pendingCash: number }) {
+  const [total, setTotal] = useState<number | null>(null);
+  const [flash, setFlash] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          const start = Date.now();
-          const tick = () => {
-            const elapsed = Date.now() - start;
-            const progress = Math.min(elapsed / duration, 1);
-            // Ease out cubic
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setValue(Math.round(target * eased));
-            if (progress < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
+    let alive = true;
+    const pull = async () => {
+      try {
+        const r = await fetch("/api/prices", { cache: "no-store" });
+        if (!r.ok || !alive) return;
+        const j = await r.json();
+        if (!j?.hasData || !alive) return;
+        let sum = pendingCash;
+        for (const h of holdings) {
+          const s = j.data[h.ticker];
+          if (s?.closes?.length > 0) sum += h.shares * s.closes[s.closes.length - 1];
+          else sum += h.entry_value;
         }
-      },
-      { threshold: 0.3 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target, duration]);
+        setTotal((prev) => {
+          if (prev !== null && Math.round(prev) !== Math.round(sum)) {
+            setFlash(true);
+            setTimeout(() => setFlash(false), 300);
+          }
+          return sum;
+        });
+      } catch {}
+    };
+    pull();
+    const id = setInterval(pull, 30_000);
+    return () => { alive = false; clearInterval(id); };
+  }, [holdings, pendingCash]);
 
+  if (total === null) return <span className="hx-live">—</span>;
   return (
-    <span ref={ref}>
-      {prefix}{value.toLocaleString("en-US")}
+    <span className={`hx-live ${flash ? "hx-live--flash" : ""}`}>
+      ${Math.round(total).toLocaleString("en-US")}
+      <span className="hx-live-label"> now</span>
     </span>
   );
 }
 
-function useScrollReveal() {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.15 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, visible };
-}
-
-export default function HomeContent({
-  totalNow, baseline, daysToBirthday, hashShort,
-  stakesOutstanding, eggEquity, holdings, pendingCash,
-}: Props) {
-  const gainPct = baseline > 0 ? ((totalNow - baseline) / baseline) * 100 : 0;
+function TickerStrip({ holdings, pendingCash }: { holdings: Props["holdings"]; pendingCash: number }) {
   const [prices, setPrices] = useState<Record<string, number>>({});
-  const [tickerLoaded, setTickerLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
-  // Fetch live prices for the ticker
   useEffect(() => {
     fetch("/api/prices", { cache: "no-store" })
       .then((r) => r.ok ? r.json() : null)
@@ -88,196 +69,140 @@ export default function HomeContent({
           if (s?.closes?.length > 0) next[h.ticker] = s.closes[s.closes.length - 1];
         }
         setPrices(next);
-        setTickerLoaded(true);
+        setLoaded(true);
       })
       .catch(() => {});
   }, [holdings]);
 
-  const studioLine = useScrollReveal();
-  const roomsSection = useScrollReveal();
-  const capSection = useScrollReveal();
-  const sealSection = useScrollReveal();
+  if (!loaded) return null;
+
+  const items = holdings.map((h) => {
+    const px = prices[h.ticker];
+    const val = px ? h.shares * px : h.entry_value;
+    const pct = h.entry_value > 0 ? ((val - h.entry_value) / h.entry_value) * 100 : 0;
+    const dir = pct > 0.5 ? "up" : pct < -0.5 ? "dn" : "";
+    return (
+      <span key={h.ticker} className={`hx-tick ${dir}`}>
+        {h.ticker} ${Math.round(px || 0)} {pct >= 0 ? "+" : ""}{pct.toFixed(1)}%
+      </span>
+    );
+  });
+
+  return (
+    <div className="hx-ticker">
+      <div className="hx-ticker-track">
+        <div className="hx-ticker-list">{items}</div>
+        <div className="hx-ticker-list" aria-hidden="true">{items}</div>
+      </div>
+    </div>
+  );
+}
+
+export default function HomeContent({
+  totalNow, baseline, daysToBirthday, hashShort,
+  stakesOutstanding, eggEquity, holdings, pendingCash,
+}: Props) {
+  const gainPct = baseline > 0 ? ((totalNow - baseline) / baseline) * 100 : 0;
+  const ifYouInvested100 = baseline > 0 ? Math.round(100 * (totalNow / baseline)) : null;
 
   return (
     <div className="hx">
-      {/* ═══ § 1 · HERO · full viewport ═══ */}
-      <section className="hx-hero">
-        <div className="hx-hero-bg" />
-        <div className="hx-hero-content">
-          <p className="hx-hero-eyebrow">aureliex</p>
-          <h1 className="hx-hero-wager">
-            <span className="hx-hero-from">$3,453</span>
-            <span className="hx-hero-arrow">→</span>
-            <span className="hx-hero-to">$100,000</span>
+      {/* ═══ CANVAS · 100vh ═══ */}
+      <section className="hx-canvas">
+        <div className="hx-glow" aria-hidden="true" />
+
+        {/* Nav — top right, subtle */}
+        <nav className="hx-nav" aria-label="rooms">
+          <Link href="/art">art</Link>
+          <Link href="/prediction">prediction</Link>
+          <Link href="/stocks">investments</Link>
+          <Link href="/panel">panel</Link>
+          <Link href="/buy">buy</Link>
+        </nav>
+
+        {/* Center stage */}
+        <div className="hx-stage">
+          <p className="hx-eyebrow">aureliex</p>
+
+          <h1 className="hx-wager">
+            <span className="hx-wager-past">$3,453</span>
+            <span className="hx-wager-arrow">→</span>
+            <span className="hx-wager-future">$100,000</span>
           </h1>
-          <div className="hx-hero-live">
-            <span className="hx-hero-now">
-              <CountUp target={Math.round(totalNow)} />
-              <span className="hx-hero-now-label"> now</span>
-            </span>
-            <span className="hx-hero-sep">·</span>
-            <span className={`hx-hero-pct ${gainPct >= 0 ? "up" : "down"}`}>
+
+          <div className="hx-now-row">
+            <LiveTotal holdings={holdings} pendingCash={pendingCash} />
+            <span className="hx-sep">·</span>
+            <span className={`hx-pct ${gainPct >= 0 ? "up" : "dn"}`}>
               {gainPct >= 0 ? "+" : ""}{gainPct.toFixed(1)}%
             </span>
-            <span className="hx-hero-sep">·</span>
-            <span className="hx-hero-days">T−{daysToBirthday}d</span>
+            <span className="hx-sep">·</span>
+            <span className="hx-days">T−{daysToBirthday}d</span>
           </div>
-          {/* "If you had invested" stat */}
-          <div className="hx-hero-ifyou">
-            <span className="hx-hero-ifyou-label">if you had invested $100 at the start</span>
-            <span className="hx-hero-ifyou-value">
-              ${baseline > 0 ? Math.round(100 * (totalNow / baseline)).toLocaleString("en-US") : "—"} today
-            </span>
-          </div>
-          <div className="hx-hero-seal">
-            sealed · reveal 21 jun · {hashShort}···
-          </div>
+
+          <p className="hx-thesis">
+            a publicly-owned studio. green credit — redeemable on demand,
+            personally guaranteed in sixty seconds via Venmo or Zelle.
+          </p>
+
+          {ifYouInvested100 && ifYouInvested100 !== 100 && (
+            <p className="hx-ifyou">
+              $100 invested at the start → ${ifYouInvested100} today
+            </p>
+          )}
+
+          <Link href="/buy" className="hx-cta">$10 to start →</Link>
         </div>
-        <div className="hx-hero-scroll-hint" aria-hidden="true">
+
+        {/* Scroll cue */}
+        <div className="hx-scroll-cue" aria-hidden="true">
           <span />
         </div>
       </section>
 
-      {/* ═══ § 2 · STUDIO LINE ═══ */}
-      <section
-        className={`hx-studio ${studioLine.visible ? "is-visible" : ""}`}
-        ref={studioLine.ref as any}
-      >
-        <p className="hx-studio-line">aureliex is a publicly-owned studio.</p>
-        <p className="hx-studio-product">
-          the product is <em>green credit</em> — redeemable on demand.
-        </p>
-        <p className="hx-studio-guarantee">
-          personally guaranteed by saapai. sixty seconds. Venmo or Zelle.
-        </p>
-        <div className="hx-studio-ctas">
-          <Link href="/buy" className="hx-cta-primary">$10 to start →</Link>
-          <Link href="/green-credit" className="hx-cta-ghost">how it works</Link>
-        </div>
-      </section>
+      {/* ═══ PROOF · optional scroll ═══ */}
+      <section className="hx-proof">
+        <TickerStrip holdings={holdings} pendingCash={pendingCash} />
 
-      {/* ═══ § 3 · THE ROOMS ═══ */}
-      <section
-        className={`hx-rooms ${roomsSection.visible ? "is-visible" : ""}`}
-        ref={roomsSection.ref as any}
-      >
-        <div className="hx-rooms-grid">
-          {[
-            { href: "/art", name: "art", meta: "auction · floor $100", accent: "#C44325" },
-            { href: "/prediction", name: "prediction", meta: "kalshi + poly · live", accent: "#4A7FA5" },
-            { href: "/stocks", name: "investments", meta: "10 positions", accent: "#F5B740" },
-            { href: "/panel", name: "the panel", meta: "five-agent AI", accent: "#5CAF6A" },
-            { href: "/letters/round-1", name: "the letter", meta: "round 1", accent: "#9B2A4D" },
-          ].map((room, i) => (
-            <Link
-              key={room.href}
-              href={room.href}
-              className="hx-room"
-              style={{
-                "--room-accent": room.accent,
-                "--room-delay": `${i * 100}ms`,
-              } as React.CSSProperties}
-            >
-              <span className="hx-room-accent" aria-hidden="true" />
-              <span className="hx-room-name">{room.name}</span>
-              <span className="hx-room-meta">{room.meta}</span>
-              <span className="hx-room-arrow">→</span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* ═══ § 4 · CAP TABLE ═══ */}
-      <section
-        className={`hx-cap ${capSection.visible ? "is-visible" : ""}`}
-        ref={capSection.ref as any}
-      >
-        <div className="hx-cap-grid">
-          <div className="hx-cap-item">
-            <span className="hx-cap-label">apparatus</span>
-            <span className="hx-cap-value"><CountUp target={Math.round(totalNow)} /></span>
-          </div>
-          <div className="hx-cap-item">
-            <span className="hx-cap-label">stakes outstanding</span>
-            <span className="hx-cap-value">${stakesOutstanding}</span>
-          </div>
-          <div className="hx-cap-item hx-cap-eggs">
-            <span className="hx-cap-label">hunt eggs paid</span>
-            <span className="hx-cap-value">${eggEquity}</span>
-          </div>
-          <div className="hx-cap-item">
-            <span className="hx-cap-label">countdown</span>
-            <span className="hx-cap-value">T−{daysToBirthday}d</span>
-          </div>
-        </div>
-        <div className="hx-cap-links">
-          <Link href="/buy">the door is open</Link>
-          <span className="hx-cap-dot">·</span>
-          <Link href="/studio">the ledger is public</Link>
-        </div>
-      </section>
-
-      {/* ═══ § 5 · LIVE TICKER ═══ */}
-      {tickerLoaded && (
-        <section className="hx-ticker">
-          <div className="hx-ticker-track">
-            <div className="hx-ticker-list">
-              {holdings.map((h) => {
-                const px = prices[h.ticker];
-                const val = px ? h.shares * px : h.entry_value;
-                const delta = val - h.entry_value;
-                const pct = h.entry_value > 0 ? (delta / h.entry_value) * 100 : 0;
-                const dir = pct > 0.5 ? "up" : pct < -0.5 ? "down" : "";
-                return (
-                  <span key={h.ticker} className={`hx-ticker-item ${dir}`}>
-                    <span className="hx-ticker-sym">{h.ticker}</span>
-                    <span className="hx-ticker-price">${Math.round(val)}</span>
-                    <span className="hx-ticker-pct">
-                      {pct >= 0 ? "+" : ""}{pct.toFixed(1)}%
-                    </span>
-                  </span>
-                );
-              })}
+        <div className="hx-proof-data">
+          <dl className="hx-cap">
+            <div>
+              <dt>apparatus</dt>
+              <dd>${Math.round(totalNow).toLocaleString("en-US")}</dd>
             </div>
-            <div className="hx-ticker-list" aria-hidden="true">
-              {holdings.map((h) => {
-                const px = prices[h.ticker];
-                const val = px ? h.shares * px : h.entry_value;
-                const delta = val - h.entry_value;
-                const pct = h.entry_value > 0 ? (delta / h.entry_value) * 100 : 0;
-                const dir = pct > 0.5 ? "up" : pct < -0.5 ? "down" : "";
-                return (
-                  <span key={h.ticker} className={`hx-ticker-item ${dir}`}>
-                    <span className="hx-ticker-sym">{h.ticker}</span>
-                    <span className="hx-ticker-price">${Math.round(val)}</span>
-                    <span className="hx-ticker-pct">
-                      {pct >= 0 ? "+" : ""}{pct.toFixed(1)}%
-                    </span>
-                  </span>
-                );
-              })}
+            <div>
+              <dt>stakes</dt>
+              <dd>${stakesOutstanding}</dd>
             </div>
-          </div>
-        </section>
-      )}
+            <div>
+              <dt>hunt eggs paid</dt>
+              <dd>${eggEquity}</dd>
+            </div>
+            <div>
+              <dt>countdown</dt>
+              <dd>T−{daysToBirthday}d</dd>
+            </div>
+          </dl>
 
-      {/* ═══ § 6 · THE SEAL ═══ */}
-      <section
-        className={`hx-seal ${sealSection.visible ? "is-visible" : ""}`}
-        ref={sealSection.ref as any}
-      >
-        <p className="hx-seal-title">sealed · 5 claims · revealing 21 jun 18:00 PT</p>
-        <p className="hx-seal-hash">{hashShort}············</p>
-        <div className="hx-seal-links">
-          <Link href="/letters/round-1">read the letter</Link>
-          <Link href="/party">the party</Link>
-          <Link href="/sealed/impossible">verify the seal</Link>
+          <p className="hx-seal">
+            <span className="hx-seal-label">sealed · 5 claims · reveal 21 jun 18:00 PT</span>
+            <code className="hx-seal-hash">{hashShort}············</code>
+            <Link href="/sealed/impossible" className="hx-seal-link">verify</Link>
+          </p>
+
+          <div className="hx-proof-links">
+            <Link href="/studio">the ledger is public</Link>
+            <span className="hx-dot">·</span>
+            <Link href="/letters/round-1">read the letter</Link>
+            <span className="hx-dot">·</span>
+            <Link href="/party">the party</Link>
+          </div>
         </div>
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="hx-footer">
-        <nav className="hx-footer-nav">
+      <footer className="hx-foot">
+        <nav>
           <Link href="/art">art</Link>
           <Link href="/prediction">prediction</Link>
           <Link href="/stocks">investments</Link>
@@ -285,9 +210,7 @@ export default function HomeContent({
           <Link href="/buy">buy</Link>
           <Link href="/eggs">archives</Link>
         </nav>
-        <p className="hx-footer-credit">
-          aureliex.com · real money · published in full · not investment advice
-        </p>
+        <small>aureliex.com · real money · published in full · not investment advice</small>
       </footer>
     </div>
   );
