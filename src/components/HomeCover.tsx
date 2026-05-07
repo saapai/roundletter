@@ -234,7 +234,7 @@ export default function HomeCover({
           <p>
             The Packers did it with a football team. Someone just tried it
             with{" "}
-            <a href="https://en.wikipedia.org/wiki/Spirit_Airlines" className="rl-ink-link">an airline</a>.
+            <a href="https://letsbuyspiritair.com" className="rl-ink-link">an airline</a>.
             The pattern is: make the thing public, let the attention create
             the products, let the products create more attention. The money
             is the scoreboard. The scoreboard is what keeps it honest.
