@@ -20977,20 +20977,31 @@ body:has(.rl-root) { background: var(--rl-void); }
 /* ── ways in ─────────────────────────────────────── */
 .rl-ways-in {
   display: flex; flex-direction: column;
-  gap: 0.5rem;
+  gap: 0;
   margin: 1.5rem 0;
+  max-width: 340px;
+  margin-left: auto; margin-right: auto;
 }
 .rl-way {
-  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
-  font-style: italic;
-  font-size: clamp(0.95rem, 1.6vw, 1.08rem);
-  color: var(--rl-rust);
+  display: flex; justify-content: space-between; align-items: baseline;
   text-decoration: none;
-  border-bottom: 1px solid rgba(196, 67, 37, 0.18);
-  padding-bottom: 0.4rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(201, 149, 42, 0.12);
   transition: border-color 0.15s ease;
 }
-.rl-way:hover { border-color: var(--rl-rust); }
+.rl-way:first-child { border-top: 1px solid rgba(201, 149, 42, 0.12); }
+.rl-way:hover { border-color: rgba(201, 149, 42, 0.35); }
+.rl-way-name {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  color: var(--rl-rust);
+}
+.rl-way-desc {
+  font-family: ui-monospace, 'SF Mono', monospace;
+  font-size: 9px; letter-spacing: 0.04em;
+  color: var(--rl-graphite); opacity: 0.55;
+}
 
 /* ── precedent cards ─────────────────────────────── */
 .rl-precedents {

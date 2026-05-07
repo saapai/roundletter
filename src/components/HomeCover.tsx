@@ -317,9 +317,18 @@ export default function HomeCover({
             <span className="rl-seal-when">reveal 19 jun 2026 · 18:00 PT</span>
           </div>
           <div className="rl-ways-in">
-            <Link href="/invest" className="rl-way">Green Credit →</Link>
-            <Link href="/art" className="rl-way">Bid on the art →</Link>
-            <Link href="/argument" className="rl-way">Watch the argument →</Link>
+            <Link href="/invest" className="rl-way">
+              <span className="rl-way-name">Green Credit →</span>
+              <span className="rl-way-desc">Bet on the bet</span>
+            </Link>
+            <Link href="/art" className="rl-way">
+              <span className="rl-way-name">Bid on the art →</span>
+              <span className="rl-way-desc">12 originals, starting at $1</span>
+            </Link>
+            <Link href="/argument" className="rl-way">
+              <span className="rl-way-name">Watch the argument →</span>
+              <span className="rl-way-desc">5 agents disagree daily</span>
+            </Link>
           </div>
           <blockquote className="rl-quote">
             &ldquo;The gap between what is reasonable and what I am asking
