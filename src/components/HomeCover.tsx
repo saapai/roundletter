@@ -75,13 +75,14 @@ function LiveValue({
 export default function HomeCover({
   totalNow, daysToBirthday, holdings, pendingCash, entryValue,
 }: Props) {
-  const [phase, setPhase] = useState<"void" | "number" | "full">("void");
+  const [phase, setPhase] = useState<"void" | "brand" | "number" | "full">("void");
   const rootRef = useRef<HTMLDivElement>(null);
 
-  /* DO NOT shorten these delays. The number must stand alone for 1200ms+. */
+  /* Cinematic open: void → red brand → number → full reveal */
   const runOpen = useCallback(() => {
-    setTimeout(() => setPhase("number"), 150);
-    setTimeout(() => setPhase("full"), 1400);
+    setTimeout(() => setPhase("brand"), 200);
+    setTimeout(() => setPhase("number"), 2200);
+    setTimeout(() => setPhase("full"), 3600);
   }, []);
 
   useEffect(() => {
@@ -109,11 +110,17 @@ export default function HomeCover({
     return () => obs.disconnect();
   }, []);
 
+  const brandVis = phase === "brand" || phase === "number" || phase === "full";
   const numVis = phase === "number" || phase === "full";
   const fullVis = phase === "full";
 
   return (
     <div className="rl-root" data-phase={phase} ref={rootRef}>
+
+      {/* ═══════════ BRAND SPLASH ═══════════ */}
+      <div className={`rl-splash ${phase === "brand" ? "rl-splash-in" : ""} ${numVis ? "rl-splash-out" : ""}`}>
+        <span className="rl-splash-text">aureliex<span className="rl-splash-dot">.</span></span>
+      </div>
 
       {/* ═══════════ COVER ═══════════ */}
       <section className="rl-cover">
