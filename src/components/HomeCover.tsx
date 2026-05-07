@@ -140,7 +140,7 @@ export default function HomeCover({
           />
 
           <div className="hc-ctas">
-            <Link href="/green-credit" className="hc-btn-primary">
+            <Link href="/invest" className="hc-btn-primary">
               Read the thesis
             </Link>
             <Link href="/argument" className="hc-btn-ghost">
@@ -223,7 +223,7 @@ export default function HomeCover({
         </div>
 
         <div className="hc-footer-cta">
-          <Link href="/green-credit" className="hc-btn-primary">Read the thesis — then decide</Link>
+          <Link href="/invest" className="hc-btn-primary">Read the thesis — then decide</Link>
           <p className="hc-footer-meta">
             from $10 · redeemable at par · venmo <a href="https://venmo.com/saathvikpai" className="hc-inline-link">@saathvikpai</a> · zelle <a href="tel:3853687238" className="hc-inline-link">385-368-7238</a>
           </p>
@@ -236,7 +236,7 @@ export default function HomeCover({
         <Link href="/art">art</Link>
         <Link href="/prediction">odds</Link>
         <Link href="/argument">debate</Link>
-        <Link href="/green-credit">buy in</Link>
+        <Link href="/invest">buy in</Link>
       </nav>
     </div>
   );
