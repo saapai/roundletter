@@ -105,6 +105,7 @@ export default function HomeCover({
       <section className="hc-hero">
         <div className={`hc-context ${fullVisible ? "hc-visible" : ""}`}>
           <p className="hc-eyebrow">a public wager</p>
+          <p className="hc-attention-thesis">attention is the upstream capital.</p>
           <h1 className="hc-headline">
             $3,453 <span className="hc-arrow">→</span> $100,000
           </h1>
@@ -126,7 +127,7 @@ export default function HomeCover({
 
         <div className={`hc-actions ${fullVisible ? "hc-visible" : ""}`}>
           <Link href="/invest" className="hc-btn-primary">The wager →</Link>
-          <Link href="/argument" className="hc-text-link">Watch the AI panel argue →</Link>
+          <Link href="/argument" className="hc-text-link">Five agents disagree about this →</Link>
         </div>
       </section>
 
@@ -139,7 +140,7 @@ export default function HomeCover({
         {/* I. Making Money */}
         <div className="hc-section">
           <span className="hc-section-index">I.</span>
-          <h2 className="hc-section-heading">The math that works in your favor.</h2>
+          <h2 className="hc-section-heading">Early money carries more of the flight.</h2>
           <p>
             The pool is time-weighted. Every dollar you put in earns its weight
             in proportion to how early it arrived and how much of it you committed.
@@ -181,8 +182,10 @@ export default function HomeCover({
           <h2 className="hc-section-heading">Utah. June 21. You should be there.</h2>
           <p>
             On the day the deadline expires &mdash; my 20th birthday, June 21,
-            2026 &mdash; there is a gathering in Utah. Stake-holders get in.
-            Everyone else does not.
+            2026 &mdash; there is a gathering in Utah.
+          </p>
+          <p className="hc-gate-line">
+            Stake-holders get in.<br />Everyone else does not.
           </p>
           <p>
             Ten percent of the apparatus is reserved exclusively for travel
@@ -212,7 +215,7 @@ export default function HomeCover({
         {/* III. The Impossible */}
         <div className="hc-section">
           <span className="hc-section-index">III.</span>
-          <h2 className="hc-section-heading">The 8% odds and why I said them out loud.</h2>
+          <h2 className="hc-section-heading">The 8% odds. Out loud. Before the first trade.</h2>
           <p>
             The implied probability that $3,453 becomes $100,000 in 46 days using
             publicly available instruments &mdash; stocks, prediction markets, one
@@ -243,6 +246,9 @@ export default function HomeCover({
             in real time at the top of this page. The argument is at{" "}
             <Link href="/argument" className="hc-inline-link">/argument</Link>.
             But you cannot say no one tried.
+          </p>
+          <p className="hc-coda-thesis">
+            Attention is the upstream capital. This was always the investment.
           </p>
         </div>
 
