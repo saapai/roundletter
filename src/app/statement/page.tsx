@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { HUNT_PHONE_DISPLAY, HUNT_PHONE_SMS } from "@/lib/hunt";
 import { fmtMoneyCents } from "@/lib/portfolio-live";
 import { getPortfolioData } from "@/lib/portfolio-aggregate";
+import { getGraphSnapshot } from "@/lib/memory/graph-snapshot";
 import s from "./statement.module.css";
 
 // saathvikpai.com serves this page at its root (see src/middleware.ts).
@@ -40,6 +41,9 @@ export default async function Statement() {
   const data = await getPortfolioData();
   const total = data.total;
   const pct = (total / GOAL) * 100;
+
+  // Live memory graph snapshot for the entrenched coils visualization
+  const graph = getGraphSnapshot();
 
   // Days remaining to 21 june goal
   const daysToGoal = Math.max(
@@ -138,6 +142,206 @@ export default async function Statement() {
             advantage when combined. the graph beats no-memory and beats
             base-rate injection, but the margin over simple recency is thin.
           </p>
+
+          {/* ── LAYER 1: The Coil Concept ── */}
+          <div className={s.coilWrap}>
+            <p className={s.coilLabel}>the coil metaphor — contradicting beliefs wound in tension</p>
+            <div className={s.helixContainer}>
+              {/* Bullish strand */}
+              <div className={`${s.helixStrand} ${s.helixStrandBull}`}>
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+              </div>
+              {/* Bearish strand */}
+              <div className={`${s.helixStrand} ${s.helixStrandBear}`}>
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+                <div className={s.coilSeg} />
+              </div>
+              {/* Tension crossover points */}
+              <div className={s.coilTension} />
+              <div className={s.coilTension} />
+              <div className={s.coilTension} />
+              <div className={s.coilTension} />
+              <div className={s.coilTension} />
+              <div className={s.coilTension} />
+              <div className={s.coilTension} />
+              <div className={s.coilTension} />
+              <div className={s.coilTension} />
+            </div>
+            <div className={s.coilLabels}>
+              <span className={s.coilLabelItem}><span className={s.coilSwatchGreen} /> bullish thesis</span>
+              <span className={s.coilLabelItem}><span className={s.coilSwatchRust} /> bearish counter</span>
+              <span className={s.coilLabelItem}><span className={s.coilSwatchGold} /> tension point</span>
+            </div>
+            <p className={s.coilCaption}>
+              memories wound around each other like dna strands. where they cross = unresolved contradiction.
+              tighter coil = higher tension score = retrieved first.
+            </p>
+          </div>
+
+          {/* ── LAYER 2: The Live Graph ── */}
+          {graph && (
+            <div className={s.liveWrap}>
+              <div className={s.liveHeader}>
+                <p className={s.liveTitle}>live memory graph — {graph.totals.nodes} nodes</p>
+                <div className={s.liveTotals}>
+                  <span><span className={s.liveTotalNum}>{graph.totals.edges}</span> edges</span>
+                  <span><span className={s.liveTotalNum}>{graph.totals.contradictions}</span> contradictions</span>
+                  <span><span className={s.liveTotalNum}>{graph.totals.unresolved}</span> unresolved</span>
+                </div>
+              </div>
+
+              {/* Agent columns */}
+              <div className={s.agentCols}>
+                {graph.agents.map((a) => (
+                  <div key={a.id} className={s.agentCol}>
+                    <p className={s.agentName}>{a.id}</p>
+                    <span className={s.agentCount}>{a.nodes}</span>
+                    <div className={s.agentBreakdown}>
+                      <span>{a.claims} claims</span>
+                      <span>{a.predictions} predictions</span>
+                      <span>{a.observations} observations</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Top tension edges */}
+              <div className={s.tensionList}>
+                <p className={s.tensionListTitle}>highest-tension contradictions</p>
+                {graph.tensions.slice(0, 5).map((t, i) => (
+                  <div key={i} className={s.tensionEdge}>
+                    <div className={s.tensionSnippet}>
+                      <span className={s.tensionSnippetAgent}>{t.src_agent}</span>
+                      {t.src_snippet}...
+                      <span className={s.tensionSnippetConf}>conf: {t.src_conf?.toFixed(2) ?? "?"}</span>
+                    </div>
+                    <div className={s.tensionMid}>
+                      <div className={`${s.tensionLine} ${t.tension > 1.7 ? s.tensionLineThick : ""}`} />
+                      <span className={s.tensionScore}>{t.tension.toFixed(2)}</span>
+                    </div>
+                    <div className={s.tensionSnippet}>
+                      <span className={s.tensionSnippetAgent}>{t.tgt_agent}</span>
+                      {t.tgt_snippet}...
+                      <span className={s.tensionSnippetConf}>conf: {t.tgt_conf?.toFixed(2) ?? "?"}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Morning briefing */}
+              <div className={s.briefingBox}>
+                <p className={s.briefingTitle}>morning briefing — top unresolved tensions</p>
+                {graph.briefing.map((b, i) => (
+                  <div key={i} className={s.briefingItem}>
+                    <span className={s.briefingAgent}>{b.agent}</span>
+                    <span>{b.snippet}...</span>
+                    <span className={s.briefingConf}>{b.confidence?.toFixed(2) ?? "?"}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── LAYER 3: The Traversal Animation ── */}
+          <div className={s.traversalWrap}>
+            <p className={s.traversalTitle}>retrieval traversal — how tension-weighted recall works</p>
+
+            {/* Query */}
+            <div className={s.travQuery}>&quot;how should we deploy $400 into IONQ?&quot;</div>
+
+            <div className={s.travSteps}>
+              {/* Step 1: Seed nodes */}
+              <div className={s.travStep}>
+                <p className={s.travStepLabel}>
+                  <span className={s.travStepLabelNum}>01</span>
+                  seed nodes light up — same ticker, identity, unresolved predictions
+                </p>
+                <div className={s.travSeeds}>
+                  <div className={`${s.travSeed} ${s.travSeedActive}`}>IONQ prediction (unresolved, conf 0.70)</div>
+                  <div className={`${s.travSeed} ${s.travSeedActive}`}>bull identity: quantum thesis</div>
+                  <div className={`${s.travSeed} ${s.travSeedActive}`}>bear claim: dilution risk (conf 0.70)</div>
+                </div>
+              </div>
+
+              {/* Step 2: Tension edges pulse */}
+              <div className={s.travStep}>
+                <p className={s.travStepLabel}>
+                  <span className={s.travStepLabelNum}>02</span>
+                  high-tension edges pulse outward — contradictions glow first
+                </p>
+                <div className={s.travPulseRow}>
+                  <div className={s.travPulse}>
+                    <span className={s.travPulseLine} />
+                    bull &harr; historian — &quot;flat vs up&quot; — tension 1.74
+                  </div>
+                  <div className={s.travPulse}>
+                    <span className={s.travPulseLine} />
+                    flow &harr; bull — &quot;down vs up&quot; — tension 1.65
+                  </div>
+                  <div className={s.travPulse}>
+                    <span className={s.travPulseLine} />
+                    macro &harr; macro — &quot;earnings catalyst vs risk&quot; — tension 1.65
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3: Retrieved memories in order */}
+              <div className={s.travStep}>
+                <p className={s.travStepLabel}>
+                  <span className={s.travStepLabelNum}>03</span>
+                  retrieved memories — highest tension first
+                </p>
+                <div className={s.travResults}>
+                  <div className={`${s.travResult} ${s.travResultContra}`}>
+                    <span className={s.travResultRank}>#1</span>
+                    <span className={s.travResultContent}>historian argued flat while bull argued up — unresolved, 0.55 divergence</span>
+                    <span className={s.travResultScore}>1.74</span>
+                  </div>
+                  <div className={`${s.travResult} ${s.travResultContra}`}>
+                    <span className={s.travResultRank}>#2</span>
+                    <span className={s.travResultContent}>flow: 60-70% of move was dealer gamma, not fundamental — contradicts thesis</span>
+                    <span className={s.travResultScore}>1.65</span>
+                  </div>
+                  <div className={`${s.travResult} ${s.travResultCorrection}`}>
+                    <span className={s.travResultRank}>#3</span>
+                    <span className={s.travResultContent}>macro: may 6 earnings will tip scales between quantum hype and valuation reality</span>
+                    <span className={s.travResultScore}>1.65</span>
+                  </div>
+                  <div className={`${s.travResult} ${s.travResultSupport}`}>
+                    <span className={s.travResultRank}>#4</span>
+                    <span className={s.travResultContent}>bull: 40% thesis, 30% sector beta, 20% flow squeeze — supporting evidence</span>
+                    <span className={s.travResultScore}>1.27</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 4: Final set */}
+              <div className={s.travStep}>
+                <div className={s.travFinal}>
+                  <span className={s.travFinalStrong}>retrieved set: 2 contradictions, 1 correction, 1 support.</span>
+                  <br />
+                  the agent sees its own disagreements before its agreements.
+                  <br />
+                  this is the anti-echo-chamber mechanism.
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* the problem */}
           <h3 className={s.paperH2}>the problem</h3>
