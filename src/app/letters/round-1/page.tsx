@@ -55,6 +55,15 @@ export default function Round1Page() {
         <AgentsLegend />
         <div dangerouslySetInnerHTML={{ __html: renderMarkdown(letter.body) }} />
         <div className="byline">by {p.author?.name ?? "saapai"}</div>
+        <nav className="letter-exit">
+          <Link href="/invest" className="letter-exit-primary">The wager →</Link>
+          <span className="letter-exit-sep">·</span>
+          <Link href="/" className="letter-exit-link">home</Link>
+          <span className="letter-exit-sep">·</span>
+          <Link href="/argument" className="letter-exit-link">the argument</Link>
+          <span className="letter-exit-sep">·</span>
+          <Link href="/positions" className="letter-exit-link">positions</Link>
+        </nav>
         <div className="meta-chips">
           <ViewsBadge slugs={["round-1"]} mode="per-slug" />
         </div>
