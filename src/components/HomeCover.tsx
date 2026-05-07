@@ -133,8 +133,8 @@ export default function HomeCover({
           />
 
           <div className="hc-ctas">
-            <Link href="/buy" className="hc-btn-primary">Get your stake</Link>
-            <Link href="/sealed/impossible" className="hc-btn-ghost">5 claims sealed until June 21 →</Link>
+            <Link href="/green-credit" className="hc-btn-primary">Get your stake</Link>
+            <Link href="/letters/round-0" className="hc-btn-ghost">Read the sealed letter →</Link>
           </div>
         </div>
       </section>
@@ -197,7 +197,7 @@ export default function HomeCover({
         </div>
 
         <div className="hc-footer-cta">
-          <Link href="/buy" className="hc-btn-primary">Get your stake — from $10</Link>
+          <Link href="/green-credit" className="hc-btn-primary">Get your stake — from $10</Link>
           <p className="hc-footer-meta">
             Redeemable in &lt;60s · Venmo or Zelle · personally guaranteed by saapai
           </p>
@@ -209,8 +209,8 @@ export default function HomeCover({
         <Link href="/stocks">portfolio</Link>
         <Link href="/art">art</Link>
         <Link href="/prediction">odds</Link>
-        <Link href="/panel">debate</Link>
-        <Link href="/buy">buy in</Link>
+        <Link href="/argument">debate</Link>
+        <Link href="/green-credit">buy in</Link>
       </nav>
     </div>
   );
