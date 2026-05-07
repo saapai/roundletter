@@ -203,8 +203,8 @@ export default function HomeCover({
           <h2 className="rl-sect-head rl-letter-head">What got built</h2>
 
           <p>
-            Twenty-five days in, the portfolio is up{" "}
-            <strong>+21.9%</strong>. Ten quantum-computing positions. Five
+            The portfolio is live at the top of this page. Ten
+            quantum-computing positions. Five
             AI agents argue every trade before I touch it &mdash; the
             consensus scores are{" "}
             <Link href="/argument" className="rl-ink-link">public and archived</Link>.
@@ -213,9 +213,7 @@ export default function HomeCover({
             to disagree with each other &mdash; the memory system surfaces
             contradictions first, not agreements. Position sizes are{" "}
             <a href="https://saathvikpai.com" className="rl-ink-link">Kelly-sized</a>,
-            tied to edge, not conviction. The{" "}
-            <Link href="/positions" className="rl-ink-link">live prices</Link>
-            {" "}are at the top of this page.
+            tied to edge, not conviction.
           </p>
           <p>
             The attention that came with publishing the bet produced other
@@ -258,7 +256,7 @@ export default function HomeCover({
             is what makes a reel go viral, what makes a startup worth
             anything before revenue, what turns a public bet into a
             portfolio of products. I started with $3,453 and a thesis.
-            Twenty-five days later there are thirty-seven pages, a research
+            Since then: thirty-seven pages, a research
             paper, a prediction market, twelve artworks, and a party.
           </p>
           <p>
