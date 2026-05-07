@@ -190,7 +190,7 @@ export default function HomeCover({
             there is a document on the internet with my name on it that says
             no, it is not.
           </p>
-          <p>
+          <p className="rl-coda">
             The odds are the honesty. The bet is the product.
           </p>
         </section>
@@ -227,13 +227,13 @@ export default function HomeCover({
             memory &mdash; that came out of building the debate system.
             Thirty-seven pages, none of which were planned.
           </p>
-          <p>
-            The Packers did it with a football team. Someone just tried it
-            with{" "}
-            <a href="https://letsbuyspiritair.com" className="rl-ink-link">an airline</a>.
-            The pattern: make the thing public, let attention create
-            the products, let the products create more attention. The
-            scoreboard keeps it honest.
+          <p className="rl-beat">
+            The Packers did it with a football team. This week, 247,000
+            strangers pledged $214 million to buy{" "}
+            <a href="https://letsbuyspiritair.com" className="rl-ink-link">an airline</a>
+            {" "}&mdash; the site crashed from traffic. The pattern: make
+            the thing public, let attention create the products, let the
+            products create more attention. The scoreboard keeps it honest.
           </p>
         </section>
 
@@ -259,7 +259,7 @@ export default function HomeCover({
             required a number, a deadline, and a willingness to be wrong in
             public. The{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}names four ways this fails. It was written before the first trade.
+            {" "}names four ways this fails.
           </p>
         </section>
 
@@ -308,22 +308,14 @@ export default function HomeCover({
 
         {/* ── BODY FOOTER ── */}
         <div className="rl-body-foot">
-          <p className="rl-body-foot-line">
-            <Link href="/invest" className="rl-ink-link">/invest →</Link>
-            {" "}·{" "}
-            <a href="https://venmo.com/saathvikpai" className="rl-ink-link">venmo</a>
-            {" "}·{" "}
-            <a href="tel:3853687238" className="rl-ink-link">zelle</a>
-            {" "}· personally guaranteed
-          </p>
           <p className="rl-body-foot-meta">
             <Link href="/letters/round-0" className="rl-ink-link">the pre-mortem</Link>
-            {" "}·{" "}
-            <Link href="/letters/round-0" className="rl-ink-link">round 0</Link>
             {" "}·{" "}
             <Link href="/argument" className="rl-ink-link">the argument</Link>
             {" "}·{" "}
             <Link href="/positions" className="rl-ink-link">positions</Link>
+            {" "}·{" "}
+            <Link href="/art" className="rl-ink-link">art</Link>
           </p>
         </div>
       </div>

@@ -20763,7 +20763,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   justify-content: center;
   font-family: ui-monospace, 'SF Mono', monospace;
   font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase;
-  color: var(--rl-gold); opacity: 0.18;
+  color: var(--rl-gold); opacity: 0.25;
   border-bottom: 1px solid rgba(201, 149, 42, 0.1);
 }
 .rl-rail-dot { opacity: 0.6; }
@@ -20776,6 +20776,17 @@ body:has(.rl-root) { background: var(--rl-void); }
   background: var(--rl-paper); color: var(--rl-ink);
   padding: clamp(3.5rem, 8vw, 6rem) clamp(24px, 5vw, 48px);
   padding-bottom: 5rem;
+}
+
+/* paper-to-dark fade before the door */
+.rl-body::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 120px;
+  background: linear-gradient(to bottom, transparent, rgba(10, 10, 10, 0.06));
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* paper texture — subtle SVG noise */
@@ -20912,7 +20923,7 @@ body:has(.rl-root) { background: var(--rl-void); }
 .rl-proves-4 {
   margin-top: 1.4rem;
   padding-top: 1.2rem;
-  border-top: 1px solid rgba(201, 149, 42, 0.15);
+  border-top: 1px solid rgba(201, 149, 42, 0.25);
   font-style: italic;
 }
 
@@ -20922,7 +20933,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   font-style: italic;
   font-size: clamp(1.1rem, 2vw, 1.3rem);
   font-weight: 500; line-height: 1.35;
-  color: var(--rl-ink); margin: 1.5rem 0;
+  color: var(--rl-gold); margin: 1.5rem 0;
 }
 
 /* ── section beats ────────────────────────────────── */
@@ -20953,20 +20964,23 @@ body:has(.rl-root) { background: var(--rl-void); }
   gap: 0.6rem;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 1.5rem 0;
+  margin: 2rem 0;
+  padding: 1rem 0;
   font-family: ui-monospace, 'SF Mono', monospace;
+  border-top: 1px solid rgba(201, 149, 42, 0.12);
+  border-bottom: 1px solid rgba(201, 149, 42, 0.12);
 }
 .rl-seal-tag {
-  font-size: 8px; letter-spacing: 0.3em;
-  color: var(--rl-gold); opacity: 0.5;
+  font-size: 9px; letter-spacing: 0.3em;
+  color: var(--rl-gold); opacity: 0.7;
 }
 .rl-seal-hash {
   font-size: 10px; letter-spacing: 0.04em;
-  color: var(--rl-graphite); opacity: 0.55;
+  color: var(--rl-graphite); opacity: 0.65;
 }
 .rl-seal-when {
   font-size: 9px; letter-spacing: 0.04em;
-  color: var(--rl-graphite); opacity: 0.35;
+  color: var(--rl-graphite); opacity: 0.45;
 }
 
 /* ── body footer ──────────────────────────────────── */
@@ -21066,7 +21080,8 @@ body:has(.rl-root) { background: var(--rl-void); }
 .rl-sig {
   font-family: var(--font-signature, 'Ms Madi'), cursive;
   font-size: clamp(1.8rem, 4vw, 2.4rem);
-  color: rgba(240, 235, 226, 0.35);
+  color: rgba(201, 149, 42, 0.32);
+  text-shadow: 0 0 20px rgba(201, 149, 42, 0.08);
   margin: 0 0 8px; line-height: 1.2;
 }
 
