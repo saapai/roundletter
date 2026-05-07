@@ -64,8 +64,11 @@ export default function InvestPage() {
   const fees = computeFees(Math.max(effectiveAmount - discountCents, 100));
   const weight = effectiveAmount * days;
 
+  const [stripeError, setStripeError] = useState<string | null>(null);
+
   const handleStripeCheckout = async () => {
     setLoading(true);
+    setStripeError(null);
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
@@ -80,10 +83,13 @@ export default function InvestPage() {
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
+      } else {
+        setStripeError(data.error || "Checkout failed. Try Venmo or Zelle instead.");
+        setLoading(false);
       }
     } catch (err) {
       console.error(err);
-    } finally {
+      setStripeError("Connection failed. Try Venmo or Zelle instead.");
       setLoading(false);
     }
   };
@@ -253,6 +259,11 @@ export default function InvestPage() {
           >
             {loading ? "Redirecting..." : `Pay $${(fees.youPay / 100).toFixed(2)} via Stripe`}
           </button>
+          {stripeError && (
+            <p style={{ color: "var(--rust, #C44325)", fontSize: "0.88rem", marginTop: "0.75rem", textAlign: "center" }}>
+              {stripeError}
+            </p>
+          )}
         </div>
       </div>
 
