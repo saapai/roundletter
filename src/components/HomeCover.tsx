@@ -10,6 +10,9 @@ type Props = {
   entryValue: number;
 };
 
+/* prediction markets are not in /api/prices — add as static offset */
+const PREDICTION_OFFSET = 250; // $200 polymarket + $50 kalshi
+
 function LiveValue({
   holdings, pendingCash, fallback, entryValue, revealed,
 }: {
@@ -28,7 +31,7 @@ function LiveValue({
         if (!r.ok || !alive) return;
         const j = await r.json();
         if (!j?.hasData || !alive) return;
-        let sum = pendingCash;
+        let sum = pendingCash + PREDICTION_OFFSET;
         for (const h of holdings) {
           const s = j.data[h.ticker];
           if (s?.closes?.length > 0) sum += h.shares * s.closes[s.closes.length - 1];
