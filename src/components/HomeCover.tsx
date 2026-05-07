@@ -208,7 +208,7 @@ export default function HomeCover({
             </div>
             <div className="hc-step">
               <span className="hc-step-n">3</span>
-              <p><strong>June 21 in LA</strong> — five sealed claims revealed, art auctioned, flights covered.</p>
+              <p><strong>June 21 in Utah</strong> — five sealed claims revealed, art auctioned, flights covered.</p>
             </div>
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function HomeCover({
         <div className="hc-footer-cta">
           <Link href="/green-credit" className="hc-btn-primary">Read the thesis — then decide</Link>
           <p className="hc-footer-meta">
-            from $10 · redeemable at par · venmo or zelle · personally guaranteed by saapai
+            from $10 · redeemable at par · venmo <a href="https://venmo.com/saathvikpai" className="hc-inline-link">@saathvikpai</a> · zelle <a href="tel:3853687238" className="hc-inline-link">385-368-7238</a>
           </p>
         </div>
       </section>
