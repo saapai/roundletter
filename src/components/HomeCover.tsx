@@ -75,21 +75,19 @@ export default function HomeCover({
   const [phase, setPhase] = useState<"void" | "number" | "full">("void");
 
   const runOpen = useCallback(() => {
-    // DO NOT shorten this delay.
-    // The number must stand alone for at least 1200ms.
-    // That pause IS the design. — v11 spec
+    // DO NOT shorten this delay. The number must stand alone for 1200ms+.
     setTimeout(() => setPhase("number"), 150);
     setTimeout(() => setPhase("full"), 1400);
   }, []);
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem("hc_open_v11") === "1") {
+      if (sessionStorage.getItem("hc_open_v12") === "1") {
         setPhase("full");
         return;
       }
     } catch { /* noop */ }
-    sessionStorage.setItem("hc_open_v11", "1");
+    sessionStorage.setItem("hc_open_v12", "1");
     runOpen();
   }, [runOpen]);
 
@@ -100,6 +98,7 @@ export default function HomeCover({
     <div className="hc-root" data-phase={phase}>
       <div className="hc-ambient" aria-hidden="true" />
 
+      {/* ── HERO ── */}
       <section className="hc-hero">
         <div className={`hc-context ${fullVisible ? "hc-visible" : ""}`}>
           <p className="hc-eyebrow">a public wager</p>
@@ -128,40 +127,124 @@ export default function HomeCover({
         </div>
       </section>
 
+      {/* ── TRANSITION ── */}
       <div className="hc-transition" aria-hidden="true" />
 
+      {/* ── BODY: three sections ── */}
       <section className="hc-body">
-        <blockquote className="hc-pullquote">
-          &ldquo;The gap between what is reasonable and what I am asking for
-          is the entire joke and the entire point.
-          One day I am going to grow wings.&rdquo;
-        </blockquote>
-        <p className="hc-pullquote-attr">
-          <Link href="/let-down" className="hc-inline-link">from the pre-mortem →</Link>
-        </p>
 
-        <div className="hc-letter">
+        {/* I. Making Money */}
+        <div className="hc-section">
+          <span className="hc-section-index">I.</span>
+          <h2 className="hc-section-heading">The math that works in your favor.</h2>
           <p>
-            I put $3,453 into a brokerage account. I was 19. I told people
-            about it. Every position, every trade, every dollar in and out is
-            published in real time. The implied odds of hitting $100,000 are
-            about 8%.
+            The pool is time-weighted. Every dollar you put in earns its weight
+            in proportion to how early it arrived and how much of it you committed.
+            A $50 stake placed in week one is not the same as a $50 stake placed
+            in week eighteen. The early money carries more of the upside &mdash;
+            because it took more of the risk.
           </p>
           <p>
-            The apparatus runs three books: stocks on Fidelity, prediction
-            markets on Polymarket and Kalshi, and one art piece up for sealed
-            auction. The thesis is simple to state and hard to execute:
-            concentrate in 4&#8211;6 positions, size by conviction, don&rsquo;t
-            hedge what you believe.{" "}
-            <Link href="/green-credit" className="hc-inline-link">The full argument →</Link>
+            A $10 stake gets you in the room. You can redeem it in full whenever
+            you want &mdash; I send it back via Venmo or Zelle in under 60 seconds.
+            You lose nothing. But your weight in the pool is small.
           </p>
           <p>
-            You can buy in from $10. You can redeem on demand &mdash; I send
-            you Venmo or Zelle from my personal bank account in under 60
-            seconds. You get back exactly what you put in. The upside and the
-            risk are mine alone.
+            A $50 stake, placed now, earns you a meaningful share of the flight
+            reimbursement pool at the party in Utah on June 21. Ten percent of
+            the apparatus is reserved to reimburse travel for stake-holders.
+            The distribution is proportional to your weight.
+          </p>
+          <p>
+            The gains and losses are mine. You are not speculating. You are holding
+            a claim on my personal account &mdash; redeemable at par, on demand,
+            in under a minute.
+          </p>
+          <p>
+            Stripe is at{" "}
+            <Link href="/invest" className="hc-inline-link">/invest</Link>.
+            Venmo is{" "}
+            <a href="https://venmo.com/saathvikpai" className="hc-inline-link">@saathvikpai</a>.
+            Zelle is{" "}
+            <a href="tel:3853687238" className="hc-inline-link">385-368-7238</a>.
           </p>
         </div>
+
+        <div className="hc-section-rule" />
+
+        {/* II. The Party */}
+        <div className="hc-section">
+          <span className="hc-section-index">II.</span>
+          <h2 className="hc-section-heading">Utah. June 21. You should be there.</h2>
+          <p>
+            On the day the deadline expires &mdash; my 20th birthday, June 21,
+            2026 &mdash; there is a gathering in Utah. Stake-holders get in.
+            Everyone else does not.
+          </p>
+          <p>
+            Ten percent of the apparatus is reserved exclusively for travel
+            reimbursement. If you hold a stake and you fly to Utah, that pool
+            distributes to you proportionally. The earlier and larger your claim,
+            the more of your ticket it covers.
+          </p>
+          <p>What happens in the room:</p>
+          <p className="hc-section-beat">
+            The sealed auction opens. One original artwork &mdash; a physical piece
+            that has never been shown publicly. It goes to the highest bidder
+            among those present.
+          </p>
+          <p className="hc-section-beat">
+            Five sealed predictions are revealed. These were written before the
+            wager began and locked &mdash; no one has read them. On June 21, in
+            front of everyone in the room, they open.
+          </p>
+          <p>
+            Whether the number is $100,000 or something much smaller, you will
+            have been in the room when it happened.
+          </p>
+        </div>
+
+        <div className="hc-section-rule" />
+
+        {/* III. The Impossible */}
+        <div className="hc-section">
+          <span className="hc-section-index">III.</span>
+          <h2 className="hc-section-heading">The 8% odds and why I said them out loud.</h2>
+          <p>
+            The implied probability that $3,453 becomes $100,000 in 46 days using
+            publicly available instruments &mdash; stocks, prediction markets, one
+            art piece &mdash; is approximately 8%.
+          </p>
+          <p>
+            I know this. I said it publicly before I started. I wrote an essay
+            called the pre-mortem &mdash; a document you write assuming you have
+            already failed and asking: what happened, why, and what did you miss?
+            I wrote it before the first trade. It is published.
+          </p>
+          <span className="hc-inline-quote">
+            &ldquo;The gap between what is reasonable and what I am asking for
+            is the entire joke and the entire point. One day I am going to
+            grow wings.&rdquo;
+          </span>
+          <p>
+            <Link href="/let-down" className="hc-inline-link">Read the pre-mortem →</Link>
+          </p>
+          <p>
+            By making the odds public, by publishing every position in real time,
+            by writing the failure analysis before the failure, I created a
+            situation where I cannot flinch. The accountability is not incidental.
+            It is the mechanism.
+          </p>
+          <p>
+            You do not have to invest. You can just watch. The positions update
+            in real time at the top of this page. The argument is at{" "}
+            <Link href="/argument" className="hc-inline-link">/argument</Link>.
+            But you cannot say no one tried.
+          </p>
+        </div>
+
+        {/* Stats + Footer */}
+        <div className="hc-section-rule" />
 
         <div className="hc-stats-row">
           <div className="hc-stat-item">
