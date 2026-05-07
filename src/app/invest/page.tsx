@@ -13,7 +13,7 @@ function daysUntil(): number {
 }
 
 function computeFees(amountCents: number) {
-  const totalCharge = Math.ceil((amountCents + 30) / (1 - 0.039));
+  const totalCharge = Math.ceil((amountCents + 30) / (1 - 0.029));
   const stripeFee = Math.ceil(totalCharge * 0.029) + 30;
   const aureliexFee = Math.ceil(totalCharge * 0.01);
   return { stripeFee, aureliexFee, totalCharge, youPay: totalCharge };
@@ -99,7 +99,7 @@ export default function InvestPage() {
       <div className="article invest-page">
         <div className="invest-success">
           <h1>You're in.</h1>
-          <p>Your investment has been confirmed. Welcome to the pool.</p>
+          <p>Your weight is locked. The pool remembers when you showed up.</p>
           <p className="invest-formula-note">
             Your allocation weight is locked — the earlier you invested, the larger your share.
           </p>
@@ -114,11 +114,11 @@ export default function InvestPage() {
       <EggToast justFound={justFound} />
 
       <div className="eyebrow">aureliex · invest · {days} days to the party</div>
-      <h1>Join the Pool</h1>
+      <h1>Bet on the bet.</h1>
       <p className="deck">
-        Invest early, invest more — your allocation grows with time.
+        Early money carries more weight — because it took more of the risk.
         <br />
-        <em>investment × days before party = your share of returns.</em>
+        <em>{days} days left. Every day you wait costs you points.</em>
       </p>
 
       {/* Allocation formula */}
