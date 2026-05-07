@@ -19925,3 +19925,239 @@ body:has(.bank-page) > footer { display: none !important; }
   color: var(--graphite);
 }
 .invest-back:hover { color: var(--ink); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   § HOMEPAGE RELAUNCH · 6-section composition
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── § 1 addendum: sealed badge on cover ────────────────────────── */
+.cov-seal-badge {
+  margin: clamp(1.5rem, 3vh, 2.5rem) 0 0;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-size: clamp(9px, 1vw, 11px);
+  letter-spacing: 0.18em;
+  text-transform: lowercase;
+  color: var(--cov-bone);
+  opacity: 0.4;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(242, 239, 232, 0.12);
+  display: inline-block;
+}
+
+/* ── § 2: the studio line ───────────────────────────────────────── */
+.studio-line {
+  background: var(--paper, #F4EFE6);
+  color: var(--ink, #1C1A17);
+  padding: clamp(3rem, 8vh, 5rem) clamp(1.75rem, 6vw, 3rem);
+  text-align: center;
+}
+.studio-line-inner {
+  max-width: 36rem;
+  margin: 0 auto;
+}
+.studio-line-thesis {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(1.15rem, 1rem + 0.8vw, 1.45rem);
+  line-height: 1.6;
+  margin: 0;
+}
+.studio-line-product {
+  font-family: var(--font-body), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 0.95rem + 0.6vw, 1.25rem);
+  line-height: 1.6;
+  margin: 0.75rem 0 0;
+  color: color-mix(in srgb, var(--ink) 80%, var(--paper) 20%);
+}
+.studio-line-guarantee {
+  font-family: var(--font-body), Georgia, serif;
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.15rem);
+  line-height: 1.6;
+  margin: 0.75rem 0 0;
+  color: var(--graphite, #6B6560);
+}
+.studio-line-ctas {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: clamp(1.5rem, 3vh, 2.5rem);
+}
+.studio-cta {
+  text-decoration: none;
+  transition: all 200ms ease;
+}
+.studio-cta-primary {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.65rem 1.5rem;
+  border: 1px solid var(--cov-amber, #F5B740);
+  color: var(--ink, #1C1A17);
+  background: transparent;
+}
+.studio-cta-primary:hover {
+  background: var(--cov-amber, #F5B740);
+  color: var(--cov-ink, #0A0A0A);
+}
+.studio-cta-secondary {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--graphite, #6B6560);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+}
+.studio-cta-secondary:hover {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* ── § 3 addendum: panel + letter room tiles ────────────────────── */
+.room--panel {
+  background: #111210;
+  color: #A8E6B0;
+}
+.room--panel:hover {
+  background: #161A16;
+  color: #C8F5CE;
+}
+.room--letter {
+  background: var(--paper, #F4EFE6);
+  color: var(--ink, #1C1A17);
+}
+.room--letter:hover {
+  background: #EFE7D5;
+  color: var(--ink);
+}
+/* 5 rooms: on mobile, letter tile spans full width as the 5th row */
+@media (max-width: 767px) {
+  .rooms .room--letter { grid-column: 1 / -1; }
+}
+
+/* ── § 4: the cap table strip ───────────────────────────────────── */
+.cap-strip {
+  background: #0D0D0D;
+  color: var(--cov-bone, #F2EFE8);
+  padding: clamp(1.25rem, 3vh, 2rem) clamp(1.25rem, 4vw, 2.5rem);
+  text-align: center;
+}
+.cap-strip-row {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  flex-wrap: wrap;
+}
+.cap-strip-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+.cap-strip-label {
+  font-family: var(--font-body), Georgia, serif;
+  font-variant: small-caps;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: rgba(242, 239, 232, 0.5);
+}
+.cap-strip-value {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: clamp(14px, 1.5vw, 17px);
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--cov-amber, #F5B740);
+  font-weight: 500;
+}
+.cap-strip-pipe {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 14px;
+  color: rgba(242, 239, 232, 0.15);
+  align-self: center;
+}
+@media (max-width: 480px) {
+  .cap-strip-pipe { display: none; }
+  .cap-strip-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+.cap-strip-eggs {
+  border-left: 2px solid var(--cov-amber, #F5B740);
+  padding-left: 0.75rem;
+}
+@media (max-width: 480px) {
+  .cap-strip-eggs { border-left: none; padding-left: 0; }
+}
+.cap-strip-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: clamp(0.75rem, 2vh, 1.25rem);
+}
+.cap-strip-links a {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+  color: rgba(242, 239, 232, 0.45);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: all 200ms ease;
+}
+.cap-strip-links a:hover {
+  color: var(--cov-amber, #F5B740);
+  border-bottom-color: var(--cov-amber);
+}
+
+/* ── § 6: the seal section ──────────────────────────────────────── */
+.seal-section {
+  background: var(--cov-ink, #0A0A0A);
+  color: var(--cov-bone, #F2EFE8);
+  padding: clamp(3rem, 8vh, 5rem) clamp(1.75rem, 6vw, 3rem);
+  text-align: center;
+}
+.seal-title {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: clamp(11px, 1.2vw, 13px);
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: rgba(242, 239, 232, 0.6);
+  margin: 0;
+}
+.seal-hash {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: clamp(10px, 1vw, 12px);
+  letter-spacing: 0.12em;
+  color: var(--graphite, #6B6560);
+  margin: 0.75rem 0 0;
+  opacity: 0.55;
+}
+.seal-links {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+  margin-top: clamp(1.5rem, 3vh, 2.5rem);
+}
+.seal-link {
+  font-family: var(--font-fraunces, var(--font-display)), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(15px, 1.5vw, 18px);
+  color: var(--cov-bone, #F2EFE8);
+  opacity: 0.6;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 3px;
+  transition: all 200ms ease;
+}
+.seal-link:hover {
+  opacity: 1;
+  color: var(--cov-amber, #F5B740);
+  border-bottom-color: var(--cov-amber);
+}

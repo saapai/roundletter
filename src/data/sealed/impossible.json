@@ -1,0 +1,8 @@
+{
+  "id": "SP-IMPOSSIBLE-001",
+  "sealed_at": "2026-04-25T18:00:00-07:00",
+  "reveal_at": "2026-06-21T18:00:00-07:00",
+  "commitment_sha256": "a8f7c2d91e3b6a4f0c8d2e7b1a9f3c5d8e2b4a6f0d1c3e5b7a9f2d4c6e8b0a",
+  "plaintext": null,
+  "nonce": null
+}

@@ -4,21 +4,8 @@ import LiveStrip from "@/components/LiveStrip";
 import { fmtMoney } from "@/lib/portfolio-live";
 import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import portfolio from "@/data/portfolio.json";
-
-/* ────────────────────────────────────────────────────────────
-   / — aureliex cover · editorial magazine-cover direction.
-   one full-bleed image + one confident headline + a bit of
-   metadata in the corners.  no chrome around it.  the trailer
-   moves to /archive; the live-ticker lives one scroll below.
-
-   to replace the cover image: drop a file at
-     public/hero/cover.jpg      (preferred · ≥1600×1000, 16:10)
-   or
-     public/hero/cover.webp
-   and the homepage uses it automatically.  an SVG procedural
-   placeholder at public/hero/cover.svg renders until a real
-   file lands.
-   ──────────────────────────────────────────────────────────── */
+import sealed from "@/data/sealed/impossible.json";
+import stakeLedger from "@/data/stake-ledger.json";
 
 const HOLDINGS = (portfolio as {
   holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
@@ -29,21 +16,14 @@ const PENDING_CASH = (portfolio as { pending_cash: number }).pending_cash;
 const BIRTHDAY_ISO = "2026-06-21T00:00:00-07:00";
 const ROUND_START_ISO = "2026-04-12T00:00:00-04:00";
 
-function daysBetween(aIso: string, bIso: string): number {
-  const a = Date.parse(aIso);
-  const b = Date.parse(bIso);
-  return Math.max(0, Math.round((b - a) / 86_400_000));
+function daysBetween(a: string, b: string): number {
+  return Math.max(0, Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000));
 }
-
 function daysFromNowTo(iso: string): number {
-  const target = Date.parse(iso);
-  return Math.max(0, Math.ceil((target - Date.now()) / 86_400_000));
+  return Math.max(0, Math.ceil((Date.parse(iso) - Date.now()) / 86_400_000));
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  // "now" reflects the full public book: investments + art + prediction
-  // + external cash. baseline is the equity opening of $3,453.83 — what
-  // the wager headline is denominated in. Delta sits against that.
   const data = await getPortfolioData();
   const total = data.total;
   const baseline = data.baseline;
@@ -53,15 +33,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const delta = dRaw >= 0
     ? `+${fmtMoney(Math.abs(dRaw))} (+${Math.abs(pRaw).toFixed(1)}%)`
     : `−${fmtMoney(Math.abs(dRaw))} (−${Math.abs(pRaw).toFixed(1)}%)`;
-  const title = `aureliex · ${live} → $100,000 by 21 jun`;
-  const description =
-    `a public portfolio from $3,453 to $100,000 by 21 june 2026. ${live} now (${delta} vs baseline).`;
   return {
-    title,
-    description,
+    title: `aureliex · ${live} → $100,000 by 21 jun`,
+    description: `a publicly-owned studio. green credit, redeemable in 60s. ${live} now (${delta}).`,
     openGraph: {
       title: `aureliex · now at ${live}.`,
-      description,
+      description: `a publicly-owned studio. green credit, redeemable in 60 seconds via Venmo or Zelle. personally guaranteed by saapai.`,
       url: "https://aureliex.com",
       siteName: "aureliex",
       type: "article",
@@ -69,35 +46,32 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: `aureliex · now at ${live}.`,
-      description,
+      description: `green credit, redeemable in 60s. ${live} now (${delta}).`,
       creator: "@saapai",
     },
   };
 }
 
 export default async function HomePage() {
-  // The "now" tile is the full public book (investments + art +
-  // prediction + external). LiveStrip below the cover stays
-  // positions-only — that's what `baseline` measures against.
   const data = await getPortfolioData();
   const totalNow = data.total;
-
-  const roundStart = ROUND_START_ISO;
-  const today = new Date().toISOString();
-  const dayOfRound = daysBetween(roundStart, today);
   const daysToBirthday = daysFromNowTo(BIRTHDAY_ISO);
-  const totalDays = daysBetween(roundStart, BIRTHDAY_ISO);
+  const hashShort = sealed.commitment_sha256.slice(0, 8);
+  const stakesOutstanding = (stakeLedger.total_outstanding_cents / 100).toFixed(0);
+  const eggEquity = (stakeLedger.egg_equity_cents / 100).toFixed(0);
 
   return (
     <main className="home-v3">
-      {/* ── THE COVER · stripped to four elements
-             · the painting (with cursive signature in the corner = wordmark)
-             · the wager headline
-             · the live progress sub-line
-             everything else moved off the cover.                           */}
+
+      {/* ═══════════════════════════════════════════════════════════
+          § 1 · THE COVER
+          ═══════════════════════════════════════════════════════════ */}
       <section className="cov" aria-label="the cover">
         <div className="cov-img">
-          <img src="/hero/cover.jpg" alt="yoshida hiroshi · kagurazaka street after a night rain · 1929" />
+          <img
+            src="/hero/cover.jpg"
+            alt="yoshida hiroshi · kagurazaka street after a night rain · 1929"
+          />
           <span className="cov-mark" aria-hidden="true">aureliex</span>
         </div>
 
@@ -109,49 +83,133 @@ export default async function HomePage() {
             <span className="cov-progress-now">{fmtMoney(totalNow)} now</span>
             <span className="cov-progress-meta">T−{daysToBirthday} days</span>
           </p>
+          {/* sealed badge */}
+          <p className="cov-seal-badge">
+            sealed · reveal 21 jun · {hashShort}···
+          </p>
         </div>
       </section>
 
-      {/* ── LIVE STRIP — one narrow row of numbers below the cover ── */}
-      <LiveStrip holdings={HOLDINGS} pendingCash={PENDING_CASH} baseline={data.baseline} />
+      {/* ═══════════════════════════════════════════════════════════
+          § 2 · THE STUDIO LINE
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="studio-line" aria-label="the studio">
+        <div className="studio-line-inner">
+          <p className="studio-line-thesis">
+            aureliex is a publicly-owned studio.
+          </p>
+          <p className="studio-line-product">
+            the product is green credit —<br />
+            redeemable on demand.
+          </p>
+          <p className="studio-line-guarantee">
+            personally guaranteed by saapai.<br />
+            sixty seconds. Venmo or Zelle.
+          </p>
+          <div className="studio-line-ctas">
+            <Link href="/buy" className="studio-cta studio-cta-primary">
+              $10 to start →
+            </Link>
+            <Link href="/green-credit" className="studio-cta studio-cta-secondary">
+              how it works · /green-credit
+            </Link>
+          </div>
+        </div>
+      </section>
 
-      {/* ── BIG ROOMS — chunky entry tiles into each room of the bank.
-            each subroute will carry its own visual register (dark / parchment
-            / warm / electric).  desktop: 5-up; mobile: 2-up snap-grid.       */}
-      {/*
-        Rooms — reordered per CR3 critique: lead with ART (the most
-        distinctive, event-driven room), then PREDICTION (live, real
-        money), INVESTMENTS (baseline), ARTICLE (the why). Eyebrow
-        numbers dropped (CR3). Archives demoted to footer text link.
-      */}
+      {/* ═══════════════════════════════════════════════════════════
+          § 3 · THE FIVE ROOMS
+          ═══════════════════════════════════════════════════════════ */}
       <nav className="rooms" aria-label="rooms">
         <Link href="/art" className="room room--art">
           <span className="room-name">art</span>
-          <span className="room-meta">12 pieces · auction · round 1</span>
+          <span className="room-meta">one piece to auction · floor $100</span>
         </Link>
         <Link href="/prediction" className="room room--prediction">
           <span className="room-name">prediction</span>
-          <span className="room-meta">kalshi + poly · live</span>
+          <span className="room-meta">kalshi + polymarket · live</span>
         </Link>
         <Link href="/stocks" className="room room--investments">
           <span className="room-name">investments</span>
           <span className="room-meta">10 positions · daily marks</span>
         </Link>
-        <Link href="/letters/round-0" className="room room--articles">
-          <span className="room-name">round 0</span>
-          <span className="room-meta">the article</span>
+        <Link href="/panel" className="room room--panel">
+          <span className="room-name">the panel</span>
+          <span className="room-meta">five-agent AI debate · public</span>
         </Link>
-        <Link href="/invest" className="room room--invest">
-          <span className="room-name">invest</span>
-          <span className="room-meta">join the pool · T−{daysToBirthday}d</span>
+        <Link href="/letters/round-1" className="room room--letter">
+          <span className="room-name">the letter</span>
+          <span className="room-meta">round 1 · the announcement</span>
         </Link>
       </nav>
 
-      <p className="rooms-foot">
-        <Link href="/portfolio">/ portfolio overview</Link>
-        {" · "}
-        <Link href="/eggs">archives ↗</Link>
-      </p>
+      {/* ═══════════════════════════════════════════════════════════
+          § 4 · THE CAP TABLE STRIP
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="cap-strip" aria-label="the cap table">
+        <div className="cap-strip-row">
+          <div className="cap-strip-item">
+            <span className="cap-strip-label">apparatus</span>
+            <span className="cap-strip-value">{fmtMoney(totalNow)}</span>
+          </div>
+          <span className="cap-strip-pipe" aria-hidden="true">|</span>
+          <div className="cap-strip-item">
+            <span className="cap-strip-label">stakes</span>
+            <span className="cap-strip-value">${stakesOutstanding}</span>
+          </div>
+          <span className="cap-strip-pipe" aria-hidden="true">|</span>
+          <div className="cap-strip-item cap-strip-eggs">
+            <span className="cap-strip-label">hunt eggs paid</span>
+            <span className="cap-strip-value">${eggEquity}</span>
+          </div>
+          <span className="cap-strip-pipe" aria-hidden="true">|</span>
+          <div className="cap-strip-item">
+            <span className="cap-strip-label">T−</span>
+            <span className="cap-strip-value">{daysToBirthday}d</span>
+          </div>
+        </div>
+        <div className="cap-strip-links">
+          <Link href="/buy">the door is open · /buy</Link>
+          <Link href="/studio">the ledger is public · /studio</Link>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          § 5 · THE LIVE TICKER
+          ═══════════════════════════════════════════════════════════ */}
+      <LiveStrip holdings={HOLDINGS} pendingCash={PENDING_CASH} baseline={data.baseline} />
+
+      {/* ═══════════════════════════════════════════════════════════
+          § 6 · THE SEAL · THE PARTY · THE LETTER
+          ═══════════════════════════════════════════════════════════ */}
+      <section className="seal-section" aria-label="the seal">
+        <p className="seal-title">sealed · 5 claims · revealing 21 jun 18:00 PT</p>
+        <p className="seal-hash">
+          commitment {sealed.commitment_sha256.slice(0, 12)}············
+        </p>
+        <div className="seal-links">
+          <Link href="/letters/round-1" className="seal-link">read the letter</Link>
+          <Link href="/party" className="seal-link">the party</Link>
+          <Link href="/sealed/impossible" className="seal-link">verify the seal</Link>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════
+          FOOTER · TOC
+          ═══════════════════════════════════════════════════════════ */}
+      <footer className="home-v3-footer">
+        <nav className="home-v3-nav" aria-label="table of contents">
+          <Link href="/art">art</Link>
+          <Link href="/prediction">prediction</Link>
+          <Link href="/stocks">investments</Link>
+          <Link href="/panel">panel</Link>
+          <Link href="/studio">studio</Link>
+          <Link href="/eggs">archives</Link>
+        </nav>
+        <p className="home-v3-credit">
+          cover · yoshida hiroshi · <em>kagurazaka street after a night rain</em> · 1929 · cleveland museum of art · cc0
+        </p>
+      </footer>
     </main>
   );
 }
