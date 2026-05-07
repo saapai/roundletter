@@ -656,3 +656,328 @@
     padding: 0.75rem 0.85rem;
   }
 }
+
+/* ────────────────────────────────────────────────────────────
+   visualization — RAG vs tension-graph retrieval comparison
+   ──────────────────────────────────────────────────────────── */
+.vizWrap {
+  margin: 1.5rem 0 1.75rem;
+  border: 1px solid rgba(28,26,23,0.10);
+  border-radius: 3px;
+  background: rgba(28,26,23,0.02);
+  overflow: hidden;
+}
+
+.vizTitle {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--st-graphite);
+  padding: 1rem 1.25rem 0;
+  margin: 0;
+}
+
+.vizGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: rgba(28,26,23,0.08);
+  margin-top: 0.75rem;
+}
+@media (max-width: 560px) {
+  .vizGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vizPane {
+  background: var(--st-paper);
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.vizPaneTitle {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--st-ink);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* query entry point */
+.vizQuery {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  color: var(--st-graphite);
+  text-align: center;
+  padding: 0.3rem 0.5rem;
+  border: 1px dashed rgba(28,26,23,0.18);
+  border-radius: 2px;
+  background: rgba(28,26,23,0.03);
+}
+
+/* memory node grid */
+.vizNodes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+}
+
+.vizNode {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.55rem;
+  line-height: 1.3;
+  padding: 0.3rem 0.25rem;
+  border: 1px solid rgba(28,26,23,0.14);
+  border-radius: 2px;
+  background: var(--st-paper);
+  text-align: center;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  position: relative;
+}
+
+/* RAG: similar nodes glow blue */
+.vizNodeSimilar {
+  border-color: #3B6EA5;
+  background: rgba(59,110,165,0.08);
+  color: #3B6EA5;
+  font-weight: 600;
+  animation: vizPulseBlue 2.4s ease-in-out infinite;
+}
+@keyframes vizPulseBlue {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59,110,165,0); }
+  50% { box-shadow: 0 0 0 3px rgba(59,110,165,0.12); }
+}
+
+/* coils: contradiction node glows rust */
+.vizNodeContra {
+  border-color: var(--st-rust);
+  background: rgba(139,58,46,0.08);
+  color: var(--st-rust);
+  font-weight: 600;
+  animation: vizPulseRust 2.4s ease-in-out infinite;
+}
+@keyframes vizPulseRust {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(139,58,46,0); }
+  50% { box-shadow: 0 0 0 3px rgba(139,58,46,0.12); }
+}
+
+/* coils: unresolved prediction node */
+.vizNodeUnresolved {
+  border-color: #B8860B;
+  background: rgba(184,134,11,0.06);
+  color: #8B6914;
+  font-weight: 600;
+  animation: vizPulseGold 2.4s ease-in-out infinite 0.4s;
+}
+@keyframes vizPulseGold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184,134,11,0); }
+  50% { box-shadow: 0 0 0 3px rgba(184,134,11,0.10); }
+}
+
+/* coils: supporting evidence node */
+.vizNodeSupport {
+  border-color: #4A7C59;
+  background: rgba(74,124,89,0.06);
+  color: #4A7C59;
+  font-weight: 600;
+  animation: vizPulseGreen 2.4s ease-in-out infinite 0.8s;
+}
+@keyframes vizPulseGreen {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,124,89,0); }
+  50% { box-shadow: 0 0 0 3px rgba(74,124,89,0.10); }
+}
+
+/* connection lines — CSS pseudo-elements */
+.vizConnections {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.52rem;
+  color: var(--st-graphite);
+  padding: 0.15rem 0;
+}
+
+.vizConnRag {
+  color: #3B6EA5;
+  border-bottom: 1px solid #3B6EA5;
+  padding-bottom: 1px;
+}
+.vizConnContra {
+  color: var(--st-rust);
+  border-bottom: 1px dashed var(--st-rust);
+  padding-bottom: 1px;
+}
+.vizConnUnresolved {
+  color: #8B6914;
+  border-bottom: 1px dotted #B8860B;
+  padding-bottom: 1px;
+}
+.vizConnSupport {
+  color: #4A7C59;
+  border-bottom: 1px solid #4A7C59;
+  padding-bottom: 1px;
+}
+
+/* pane description */
+.vizDesc {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.6rem;
+  color: var(--st-graphite);
+  line-height: 1.5;
+  margin: 0;
+  text-align: center;
+}
+
+/* confidence trajectory section */
+.vizConfidence {
+  background: var(--st-paper);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.vizConfTitle {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--st-ink);
+  font-weight: 600;
+  margin: 0;
+}
+
+.vizConfRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.vizConfLabel {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.58rem;
+  color: var(--st-graphite);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.vizConfBars {
+  display: flex;
+  gap: 0.25rem;
+  align-items: flex-end;
+  height: 3.5rem;
+}
+
+.vizConfBar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  position: relative;
+  transition: height 0.6s ease;
+  min-width: 0;
+}
+
+/* RAG bars — monotonically increasing blue */
+.vizConfBarRag {
+  background: #3B6EA5;
+}
+.vizConfBarRag:nth-child(1) { height: 50%; animation: vizGrowRag1 1.6s ease-out; }
+.vizConfBarRag:nth-child(2) { height: 62%; animation: vizGrowRag2 1.6s ease-out 0.2s both; }
+.vizConfBarRag:nth-child(3) { height: 78%; animation: vizGrowRag3 1.6s ease-out 0.4s both; }
+.vizConfBarRag:nth-child(4) { height: 92%; animation: vizGrowRag4 1.6s ease-out 0.6s both; }
+@keyframes vizGrowRag1 { from { height: 0; } to { height: 50%; } }
+@keyframes vizGrowRag2 { from { height: 0; } to { height: 62%; } }
+@keyframes vizGrowRag3 { from { height: 0; } to { height: 78%; } }
+@keyframes vizGrowRag4 { from { height: 0; } to { height: 92%; } }
+
+/* coils bars — oscillating rust */
+.vizConfBarCoil {
+  background: var(--st-rust);
+}
+.vizConfBarCoil:nth-child(1) { height: 50%; animation: vizGrowCoil1 1.6s ease-out; }
+.vizConfBarCoil:nth-child(2) { height: 42%; animation: vizGrowCoil2 1.6s ease-out 0.2s both; }
+.vizConfBarCoil:nth-child(3) { height: 52%; animation: vizGrowCoil3 1.6s ease-out 0.4s both; }
+.vizConfBarCoil:nth-child(4) { height: 45%; animation: vizGrowCoil4 1.6s ease-out 0.6s both; }
+@keyframes vizGrowCoil1 { from { height: 0; } to { height: 50%; } }
+@keyframes vizGrowCoil2 { from { height: 0; } to { height: 42%; } }
+@keyframes vizGrowCoil3 { from { height: 0; } to { height: 52%; } }
+@keyframes vizGrowCoil4 { from { height: 0; } to { height: 45%; } }
+
+.vizConfVal {
+  position: absolute;
+  top: -1.1rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.52rem;
+  color: var(--st-ink);
+  font-weight: 500;
+}
+
+.vizConfFootnote {
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.58rem;
+  color: var(--st-graphite);
+  line-height: 1.5;
+  margin: 0;
+  text-align: center;
+}
+
+/* legend */
+.vizLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--st-paper);
+  border-top: 1px solid rgba(28,26,23,0.06);
+}
+.vizLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.52rem;
+  color: var(--st-graphite);
+}
+.vizLegendSwatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+.vizSwatchBlue { background: #3B6EA5; }
+.vizSwatchRust { background: var(--st-rust); }
+.vizSwatchGold { background: #B8860B; }
+.vizSwatchGreen { background: #4A7C59; }
+
+/* failures list */
+.paperList {
+  list-style: none;
+  margin: 0.5rem 0 1rem;
+  padding: 0;
+  font-family: var(--font-body), serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--st-ink);
+  max-width: 38ch;
+}
+.paperList li {
+  padding: 0.2rem 0 0.2rem 1.1rem;
+  position: relative;
+}
+.paperList li::before {
+  content: "--";
+  position: absolute;
+  left: 0;
+  color: var(--st-graphite);
+  font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+}

@@ -122,17 +122,21 @@ export default async function Statement() {
           {/* abstract */}
           <h3 className={s.paperH2}>abstract</h3>
           <p className={s.paperP}>
-            persistent agent systems that retrieve memories by agreement
-            develop echo chambers. confidence inflates +0.024 per cycle
-            with no new evidence. we propose <strong>tension-weighted
-            retrieval</strong>: a directed memory graph where contradictions
-            surface first. on a 100-match tennis benchmark the
-            anti-echo-chamber effect is significant (brier 0.171 vs 0.194,{" "}
+            the architecture&apos;s core contribution is structural protection
+            against agreement-amplifying retrieval, not optimization of
+            retrieval quality. persistent agent systems that retrieve
+            memories by agreement develop echo chambers: confidence
+            inflates +0.024 per cycle with no new evidence. we
+            propose <strong>tension-weighted retrieval</strong>: a directed
+            memory graph where contradictions surface first. on a
+            100-match tennis benchmark the anti-echo-chamber effect is
+            significant (brier 0.171 vs 0.194,{" "}
             <strong>p&lt;0.0001</strong>). hallucination rate drops 50%
-            (5/20 vs 10/20) under tension-first memory. honest caveat:
-            tension vs flat recency is not significant (p=0.256). the graph
-            beats no-memory and beats base-rate injection, but the margin
-            over simple recency is thin.
+            (5/20 vs 10/20). honest caveats: tension vs flat recency is
+            not significant (p=0.256). multi-model diversity (+20pp
+            accuracy) beats memory entirely, and memory cancels multi-model
+            advantage when combined. the graph beats no-memory and beats
+            base-rate injection, but the margin over simple recency is thin.
           </p>
 
           {/* the problem */}
@@ -209,6 +213,96 @@ tension   = base × (1 + resolution_bonus) × unresolved_mult`}
               retrieval order: A↔B (tension=0.50, divergence=0.55) first.
               support edges retrieved last.
             </p>
+          </div>
+
+          {/* interactive visualization — RAG vs tension-graph */}
+          <div className={s.vizWrap}>
+            <p className={s.vizTitle}>retrieval comparison: standard RAG vs entrenched coils</p>
+            <div className={s.vizGrid}>
+              {/* LEFT: standard RAG */}
+              <div className={s.vizPane}>
+                <p className={s.vizPaneTitle}>standard RAG</p>
+                <div className={s.vizQuery}>query: &quot;will IONQ hold above $40?&quot;</div>
+                <div className={s.vizNodes}>
+                  <div className={`${s.vizNode} ${s.vizNodeSimilar}`}>IONQ bullish<br/>0.82</div>
+                  <div className={`${s.vizNode} ${s.vizNodeSimilar}`}>IONQ uptrend<br/>0.79</div>
+                  <div className={`${s.vizNode} ${s.vizNodeSimilar}`}>QC rally<br/>0.84</div>
+                  <div className={s.vizNode}>RGTI short<br/>0.55</div>
+                  <div className={s.vizNode}>rate hike<br/>0.71</div>
+                  <div className={s.vizNode}>MSFT flat<br/>0.60</div>
+                  <div className={s.vizNode}>sell signal<br/>0.43</div>
+                  <div className={s.vizNode}>crash memo<br/>0.38</div>
+                </div>
+                <div className={s.vizConnections}>
+                  <span className={s.vizConnRag}>top 3 by similarity</span>
+                </div>
+                <p className={s.vizDesc}>
+                  retrieves by similarity — reinforces existing belief.
+                  all 3 retrieved nodes agree. echo chamber.
+                </p>
+              </div>
+
+              {/* RIGHT: entrenched coils */}
+              <div className={s.vizPane}>
+                <p className={s.vizPaneTitle}>entrenched coils</p>
+                <div className={s.vizQuery}>query: &quot;will IONQ hold above $40?&quot;</div>
+                <div className={s.vizNodes}>
+                  <div className={`${s.vizNode} ${s.vizNodeContra}`}>crash memo<br/>0.38</div>
+                  <div className={`${s.vizNode} ${s.vizNodeUnresolved}`}>QC rally?<br/>0.72</div>
+                  <div className={`${s.vizNode} ${s.vizNodeSupport}`}>IONQ bullish<br/>0.82</div>
+                  <div className={s.vizNode}>IONQ uptrend<br/>0.79</div>
+                  <div className={s.vizNode}>RGTI short<br/>0.55</div>
+                  <div className={s.vizNode}>rate hike<br/>0.71</div>
+                  <div className={s.vizNode}>MSFT flat<br/>0.60</div>
+                  <div className={s.vizNode}>sell signal<br/>0.43</div>
+                </div>
+                <div className={s.vizConnections}>
+                  <span className={s.vizConnContra}>contradiction</span>
+                  <span className={s.vizConnUnresolved}>unresolved</span>
+                  <span className={s.vizConnSupport}>support</span>
+                </div>
+                <p className={s.vizDesc}>
+                  retrieves by tension — surfaces unresolved conflicts.
+                  the contradiction is retrieved first.
+                </p>
+              </div>
+            </div>
+
+            {/* confidence trajectory */}
+            <div className={s.vizConfidence}>
+              <p className={s.vizConfTitle}>confidence trajectory over 4 cycles</p>
+              <div className={s.vizGrid} style={{ background: "transparent", gap: "1.5rem" }}>
+                <div className={s.vizConfRow}>
+                  <span className={s.vizConfLabel}>RAG — monotonic increase</span>
+                  <div className={s.vizConfBars}>
+                    <div className={`${s.vizConfBar} ${s.vizConfBarRag}`}><span className={s.vizConfVal}>0.60</span></div>
+                    <div className={`${s.vizConfBar} ${s.vizConfBarRag}`}><span className={s.vizConfVal}>0.72</span></div>
+                    <div className={`${s.vizConfBar} ${s.vizConfBarRag}`}><span className={s.vizConfVal}>0.84</span></div>
+                    <div className={`${s.vizConfBar} ${s.vizConfBarRag}`}><span className={s.vizConfVal}>0.91</span></div>
+                  </div>
+                </div>
+                <div className={s.vizConfRow}>
+                  <span className={s.vizConfLabel}>coils — oscillating correction</span>
+                  <div className={s.vizConfBars}>
+                    <div className={`${s.vizConfBar} ${s.vizConfBarCoil}`}><span className={s.vizConfVal}>0.60</span></div>
+                    <div className={`${s.vizConfBar} ${s.vizConfBarCoil}`}><span className={s.vizConfVal}>0.55</span></div>
+                    <div className={`${s.vizConfBar} ${s.vizConfBarCoil}`}><span className={s.vizConfVal}>0.62</span></div>
+                    <div className={`${s.vizConfBar} ${s.vizConfBarCoil}`}><span className={s.vizConfVal}>0.58</span></div>
+                  </div>
+                </div>
+              </div>
+              <p className={s.vizConfFootnote}>
+                +0.024/cycle drift (RAG) vs -0.006/cycle correction (coils)
+              </p>
+            </div>
+
+            {/* legend */}
+            <div className={s.vizLegend}>
+              <span className={s.vizLegendItem}><span className={`${s.vizLegendSwatch} ${s.vizSwatchBlue}`} /> similar (RAG)</span>
+              <span className={s.vizLegendItem}><span className={`${s.vizLegendSwatch} ${s.vizSwatchRust}`} /> contradiction</span>
+              <span className={s.vizLegendItem}><span className={`${s.vizLegendSwatch} ${s.vizSwatchGold}`} /> unresolved</span>
+              <span className={s.vizLegendItem}><span className={`${s.vizLegendSwatch} ${s.vizSwatchGreen}`} /> support</span>
+            </div>
           </div>
 
           {/* results */}
@@ -351,6 +445,109 @@ tension   = base × (1 + resolution_bonus) × unresolved_mult`}
             because it is true.
           </p>
 
+          {/* model arbitrage */}
+          <h3 className={s.paperH2}>the model arbitrage result</h3>
+          <p className={s.paperP}>
+            we ran a 2x2 factorial: single-model vs multi-model, with and
+            without memory. 5 dates, 4 conditions, 20 total runs. the
+            result was unambiguous:
+          </p>
+          <div style={{ overflowX: "auto" }}>
+            <table className={s.paperTable}>
+              <thead>
+                <tr>
+                  <th>condition</th>
+                  <th>accuracy</th>
+                  <th>avg brier</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A: single model, no memory</td>
+                  <td>40%</td>
+                  <td>0.321</td>
+                </tr>
+                <tr>
+                  <td>B: single model, with memory</td>
+                  <td>40%</td>
+                  <td>0.322</td>
+                </tr>
+                <tr>
+                  <td className={s.cellWin}>C: multi-model, no memory</td>
+                  <td className={s.cellWin}>60%</td>
+                  <td className={s.cellWin}>0.189</td>
+                </tr>
+                <tr>
+                  <td>D: multi-model, with memory</td>
+                  <td className={s.cellLoss}>40%</td>
+                  <td className={s.cellLoss}>0.322</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className={s.paperP}>
+            multi-model diversity provided{" "}
+            <strong>+20pp accuracy improvement</strong> (condition C).
+            this is the single largest effect in any experiment we ran.
+            but when memory was added to multi-model debate (condition D),
+            accuracy dropped back to 40%. memory{" "}
+            <strong>cancelled the multi-model advantage entirely</strong>.
+          </p>
+          <p className={s.paperP}>
+            the mechanism: memory homogenized agents that were otherwise
+            diverse. different models (qwen3, llama3, gemma2) naturally
+            disagree. injecting shared memory erased that disagreement
+            by giving every model the same context. the very thing
+            that made multi-model debate valuable — cognitive
+            diversity — was destroyed by shared retrieval.
+          </p>
+          <p className={s.paperNote}>
+            this is a direct failure of the architecture. diversity
+            of thought, not memory substrate, is the primary
+            accuracy driver for multi-agent systems.
+          </p>
+
+          {/* where it fails */}
+          <h3 className={s.paperH2}>where it fails</h3>
+          <p className={s.paperP}>
+            explicit catalog of known failure modes, listed because
+            selective reporting is the norm in this field and we
+            refuse to participate:
+          </p>
+          <ul className={s.paperList}>
+            <li>
+              <strong>rigid priors (p=0.51).</strong> agents initialized
+              with high-conviction priors do not respond to tension
+              retrieval. the graph surfaces contradictions but rigid
+              agents ignore them. soft priors (p=0.002) are required.
+            </li>
+            <li>
+              <strong>exploitation tasks (bandit).</strong> tension
+              retrieval is an exploration mechanism. on tasks that
+              require exploitation — converging on a known-good answer
+              and repeating it — the constant injection of
+              contradictions degrades performance.
+            </li>
+            <li>
+              <strong>memory homogenizes multi-model diversity.</strong>{" "}
+              condition D proved this: shared memory erased the
+              natural disagreement between different model
+              architectures, dropping accuracy from 60% back to 40%.
+            </li>
+            <li>
+              <strong>tension vs recency is not significant
+              (p=0.256).</strong> the specific retrieval weighting
+              does not produce a statistically significant improvement
+              over simple last-in-first-out memory. most of the
+              value comes from having any memory at all.
+            </li>
+            <li>
+              <strong>single-domain evidence.</strong> all calibration
+              benchmarks are on tennis prediction. generalization to
+              other domains is unproven.
+            </li>
+          </ul>
+
           {/* novelty */}
           <h3 className={s.paperH2}>novelty</h3>
           <p className={s.paperP}>
@@ -372,11 +569,29 @@ tension   = base × (1 + resolution_bonus) × unresolved_mult`}
             CAMEL, AutoGen).
           </p>
           <p className={s.paperP}>
-            closest competitor: <strong>Zep/Graphiti</strong> — temporal
-            knowledge graph with contradiction handling. key difference:
-            Zep resolves contradictions by invalidation. we resolve them
-            by amplification. they treat conflict as error. we treat
-            conflict as signal.
+            closest competitor: <strong>Zep/Graphiti</strong> (Rasmussen
+            et al. 2025) — temporal knowledge graph with contradiction
+            handling. Zep gives every edge explicit validity
+            intervals <code>(t_valid, t_invalid)</code>. when new
+            information contradicts existing edges, Zep{" "}
+            <strong>invalidates</strong> them by setting end-validity
+            timestamps. outdated information is marked historical, not
+            discarded. key difference: Zep resolves contradictions by
+            invalidation. we resolve them by amplification. they treat
+            conflict as error to fix. we treat conflict as signal to
+            surface. Zep has no conviction/confidence weighting, no
+            Brier score tracking, no reconsolidation.
+          </p>
+          <p className={s.paperP}>
+            also compared against: <strong>MAGMA</strong> (2026,
+            multi-graph with semantic/temporal/causal/entity layers,
+            61.2% accuracy on LongMemEval but no contradiction-priority
+            mechanism), <strong>Mem0g</strong> (2025, vector + knowledge
+            graph overlay, detects contradictions but treats them as
+            conflicts to resolve), and 14 other systems from MemGPT to
+            ACT-R. the full comparison is in the repository. none of
+            them use contradiction strength as a retrieval priority
+            signal.
           </p>
 
           {/* what it means */}
