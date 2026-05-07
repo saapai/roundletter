@@ -292,10 +292,29 @@ export default function HomeCover({
 
         <div className="rl-rule" />
 
+        {/* ── LATEST LETTER ── */}
+        <section className="rl-sect rl-reveal">
+          <Link href="/letters/round-1" className="rl-letter-card">
+            <span className="rl-letter-card-tag">LATEST LETTER</span>
+            <span className="rl-letter-card-title">
+              Round 1 &mdash; What the Attention Built
+            </span>
+            <span className="rl-letter-card-sub">
+              +25% in 25 days. Annualized ~2,500%. The products are real.
+              The odds have not changed.
+            </span>
+            <span className="rl-letter-card-cta">Read round 1 →</span>
+          </Link>
+        </section>
+
+        <div className="rl-rule" />
+
         {/* ── BODY FOOTER ── */}
         <div className="rl-body-foot">
           <p className="rl-body-foot-meta">
             <Link href="/letters/round-0" className="rl-ink-link">the pre-mortem</Link>
+            {" "}·{" "}
+            <Link href="/letters/round-1" className="rl-ink-link">round 1</Link>
             {" "}·{" "}
             <Link href="/argument" className="rl-ink-link">the argument</Link>
             {" "}·{" "}
