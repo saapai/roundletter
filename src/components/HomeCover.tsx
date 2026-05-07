@@ -192,7 +192,7 @@ export default function HomeCover({
           </p>
           <p>
             I wrote the{" "}
-            <Link href="/let-down" className="rl-ink-link">pre-mortem</Link>
+            <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
             {" "}before the first trade. A document you write assuming you have
             already failed and asking: what happened, why, and what did you
             miss? The implied probability that this works is approximately 8%.
@@ -280,7 +280,7 @@ export default function HomeCover({
             {" "}· personally guaranteed
           </p>
           <p className="rl-body-foot-meta">
-            <Link href="/let-down" className="rl-ink-link">the pre-mortem</Link>
+            <Link href="/letters/round-0" className="rl-ink-link">the pre-mortem</Link>
             {" "}·{" "}
             <Link href="/letters/round-0" className="rl-ink-link">round 0</Link>
             {" "}·{" "}
