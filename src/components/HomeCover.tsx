@@ -193,10 +193,10 @@ export default function HomeCover({
           <p>
             I wrote the{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}before the first trade. A document you write assuming you have
-            already failed and asking: what happened, why, and what did you
-            miss? The implied probability that this works is approximately 8%.
-            I said that publicly before I started. The odds are the honesty.
+            {" "}before the first trade &mdash; a document written assuming
+            you have already failed. The implied probability that this works
+            is about 8%. I published that number before I started. The odds
+            are the honesty.
           </p>
         </section>
 
@@ -204,22 +204,25 @@ export default function HomeCover({
 
         <section className="rl-sect rl-reveal">
           <p>
-            So the scoreboard is live and the failure analysis is published.
-            What comes next is the part I did not expect: other people wanted in.
+            The scoreboard is live and the failure analysis is published. What
+            I did not expect: other people wanted in.
           </p>
           <p>
-            The pool is time-weighted. A $50 stake placed now is not the same as
-            a $50 stake placed in week eighteen. The early money carries more of
-            the upside &mdash; because it took more of the risk. The gains and
-            losses are mine. You are not speculating. You are holding a claim on
-            my personal account &mdash; redeemable at par, on demand, in under
-            a minute. Venmo or Zelle, under 60 seconds.
+            The pool is time-weighted. A $50 stake placed now is not the same
+            as a $50 stake placed in week eighteen &mdash; the early money
+            carries more of the upside because it took more of the risk. The
+            gains and losses are mine. You hold a claim on my personal
+            account, redeemable at par, on demand. Venmo or Zelle, under 60
+            seconds. No app, no float, no clearing period &mdash; the kind
+            of thing banks and green-credit fintechs cannot offer because it
+            would require them to have a face.
           </p>
           <p>
-            That guarantee is the thing I keep coming back to. No payment platform
-            that profits from float has ever honored redemption this fast. The
-            personal guarantee is not a marketing line. It is the structural
-            reason this works differently than everything else.
+            This is perk-based community ownership. The Packers did it with a
+            football team; someone just tried it with{" "}
+            <a href="https://en.wikipedia.org/wiki/Spirit_Airlines" className="rl-ink-link">an airline</a>.
+            I am doing it with a bet. You ask, I send. The guarantee is
+            personal.
           </p>
         </section>
 
@@ -227,18 +230,17 @@ export default function HomeCover({
 
         <section className="rl-sect rl-reveal">
           <p>
-            On the day the deadline expires &mdash; my 20th birthday, June 21,
-            2026 &mdash; there is a gathering in Utah.
+            On June 21 &mdash; my 20th birthday, the day the deadline
+            expires &mdash; there is a gathering in Utah.
           </p>
           <p className="rl-gate">
             Stakeholders get comped.
           </p>
           <p>
-            Ten percent of the apparatus reimburses flights for holders who
-            show up. One original artwork goes to the highest bidder among
-            those present. And five sealed predictions &mdash; written before
-            the wager began, locked, unread by anyone &mdash; open in front
-            of the room at 6pm.
+            Ten percent of the pool reimburses flights for holders who show
+            up. One original artwork goes to the highest bidder in the room.
+            And five sealed predictions &mdash; written before the wager
+            began, locked, unread by anyone &mdash; open at 6pm.
           </p>
           <div className="rl-seal">
             <span className="rl-seal-tag">SEALED</span>
@@ -246,10 +248,9 @@ export default function HomeCover({
             <span className="rl-seal-when">reveal 21 jun 2026 · 18:00 PT</span>
           </div>
           <p>
-            Whether the number hits or doesn&rsquo;t, you will have been in
-            the room. That was always the point. The pre-mortem says the four
-            ways this fails. Publishing it before the outcome is what makes it
-            real. The accountability is not incidental. It is the mechanism.
+            The pre-mortem names four ways this fails. I published it before
+            the outcome. Whether the number hits or not, you will have been
+            in the room.
           </p>
           <blockquote className="rl-quote">
             &ldquo;The gap between what is reasonable and what I am asking for
@@ -259,11 +260,8 @@ export default function HomeCover({
           <p>
             You do not have to invest. You can just{" "}
             <Link href="/argument" className="rl-ink-link">watch the argument</Link>.
-            The positions update in real time at the top of this page.
-            But you cannot say no one tried.
-          </p>
-          <p className="rl-coda">
-            Attention is the upstream capital. This was always the investment.
+            The positions update in real time at the top of this page. But
+            you cannot say no one tried.
           </p>
         </section>
 

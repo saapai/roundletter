@@ -20961,29 +20961,36 @@ body:has(.rl-root) { background: var(--rl-void); }
 
 .rl-door {
   background: var(--rl-night); color: var(--rl-paper);
-  padding: clamp(5rem, 12vw, 8rem) clamp(24px, 5vw, 48px);
+  padding: clamp(3.5rem, 8vw, 5.5rem) clamp(24px, 5vw, 48px);
   text-align: center;
+  border-top: 1px solid rgba(201, 149, 42, 0.12);
+  position: relative;
+}
+.rl-door::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 40px; height: 1px;
+  background: var(--rl-gold); opacity: 0.4;
 }
 
 .rl-door-line {
   font-family: var(--font-fraunces, 'Fraunces'), Georgia, serif;
   font-style: italic; font-weight: 300;
   font-size: clamp(1.6rem, 4.5vw, 2.8rem);
-  color: var(--rl-paper); opacity: 0.82;
-  margin: 0 0 2.5rem; line-height: 1.15;
+  color: var(--rl-paper); opacity: 0.88;
+  margin: 0 0 1.8rem; line-height: 1.15;
   letter-spacing: 0.01em;
 }
 
 .rl-door-ctas {
   display: flex; flex-direction: column;
-  align-items: center; gap: 16px;
-  margin-bottom: 2.5rem;
+  align-items: center; gap: 14px;
+  margin-bottom: 1.8rem;
 }
 
 .rl-link-light {
   font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
   font-style: italic; font-size: 15px;
-  color: var(--rl-gold); opacity: 0.42;
+  color: var(--rl-gold); opacity: 0.48;
   text-decoration: none; transition: opacity 0.15s ease;
 }
 .rl-link-light:hover { opacity: 0.68; }
@@ -20991,11 +20998,11 @@ body:has(.rl-root) { background: var(--rl-void); }
 .rl-door-meta {
   font-family: ui-monospace, 'SF Mono', monospace;
   font-size: 10px; letter-spacing: 0.06em;
-  color: rgba(240, 235, 226, 0.3); line-height: 1.7;
+  color: rgba(240, 235, 226, 0.38); line-height: 1.7;
   margin: 0;
 }
 .rl-door-rail {
-  color: rgba(240, 235, 226, 0.3); text-decoration: none;
+  color: rgba(240, 235, 226, 0.38); text-decoration: none;
   transition: color 0.15s ease;
 }
 .rl-door-rail:hover { color: rgba(240, 235, 226, 0.55); }
@@ -21006,9 +21013,10 @@ body:has(.rl-root) { background: var(--rl-void); }
 
 .rl-colophon {
   background: var(--rl-void);
-  padding: clamp(3rem, 6vw, 4rem) clamp(24px, 5vw, 48px);
+  padding: clamp(2.5rem, 5vw, 3.5rem) clamp(24px, 5vw, 48px);
   padding-bottom: clamp(5rem, 8vw, 6rem);
   text-align: center;
+  border-top: 1px solid rgba(240, 235, 226, 0.06);
 }
 
 .rl-col-nav {
@@ -21093,7 +21101,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   .rl-letter-head { font-size: clamp(1.15rem, 4vw, 1.35rem); }
   .rl-seal { gap: 0.4rem; }
   .rl-seal-hash { font-size: 9px; }
-  .rl-door { padding-left: 20px; padding-right: 20px; }
+  .rl-door { padding: clamp(2.5rem, 6vw, 4rem) 20px; }
   .rl-door-line { font-size: clamp(1.4rem, 6vw, 2rem); }
   .rl-colophon { padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px) + 2rem); }
   .rl-col-nav { gap: 0.8rem 1.2rem; }
