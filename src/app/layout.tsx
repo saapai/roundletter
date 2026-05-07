@@ -88,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/art">art</Link>
               <Link href="/prediction">prediction</Link>
               <Link href="/letters/round-0">article</Link>
+              <Link href="/invest">invest</Link>
               <Link href="/eggs">archives</Link>
             </nav>
           </header>

@@ -141,6 +141,10 @@ export default async function HomePage() {
           <span className="room-name">round 0</span>
           <span className="room-meta">the article</span>
         </Link>
+        <Link href="/invest" className="room room--invest">
+          <span className="room-name">invest</span>
+          <span className="room-meta">join the pool · T−{daysToBirthday}d</span>
+        </Link>
       </nav>
 
       <p className="rooms-foot">
