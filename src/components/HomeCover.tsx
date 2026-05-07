@@ -10,7 +10,6 @@ type Props = {
   entryValue: number;
 };
 
-/* ── Live value ─────────────────────────────────────── */
 function LiveValue({
   holdings, pendingCash, fallback, entryValue, revealed,
 }: {
@@ -56,7 +55,8 @@ function LiveValue({
   return (
     <>
       <div className={`hc-number ${flash === "up" ? "hc-flash-up" : flash === "down" ? "hc-flash-down" : ""}`}>
-        ${Math.round(value).toLocaleString("en-US")}
+        <span className="hc-currency">$</span>
+        {Math.round(value).toLocaleString("en-US")}
       </div>
       {revealed && (
         <div className={`hc-delta ${isUp ? "hc-up" : "hc-down"}`}>
@@ -69,30 +69,30 @@ function LiveValue({
   );
 }
 
-/* ── Homepage ────────────────────────────────────────── */
 export default function HomeCover({
   totalNow, daysToBirthday, holdings, pendingCash, entryValue,
 }: Props) {
   const [phase, setPhase] = useState<"void" | "number" | "full">("void");
 
   const runOpen = useCallback(() => {
-    // Act I: void (200ms), Act II: number (800ms), Act III: full
+    // DO NOT shorten this delay.
+    // The number must stand alone for at least 1200ms.
+    // That pause IS the design. — v11 spec
     setTimeout(() => setPhase("number"), 150);
-    setTimeout(() => setPhase("full"), 1200);
+    setTimeout(() => setPhase("full"), 1400);
   }, []);
 
   useEffect(() => {
     try {
-      if (sessionStorage.getItem("hc_open_v10") === "1") {
+      if (sessionStorage.getItem("hc_open_v11") === "1") {
         setPhase("full");
         return;
       }
     } catch { /* noop */ }
-    sessionStorage.setItem("hc_open_v10", "1");
+    sessionStorage.setItem("hc_open_v11", "1");
     runOpen();
   }, [runOpen]);
 
-  const isVoid = phase === "void";
   const numberVisible = phase === "number" || phase === "full";
   const fullVisible = phase === "full";
 
@@ -100,7 +100,6 @@ export default function HomeCover({
     <div className="hc-root" data-phase={phase}>
       <div className="hc-ambient" aria-hidden="true" />
 
-      {/* ── HERO ── */}
       <section className="hc-hero">
         <div className={`hc-context ${fullVisible ? "hc-visible" : ""}`}>
           <p className="hc-eyebrow">a public wager</p>
@@ -110,34 +109,27 @@ export default function HomeCover({
           <p className="hc-sub">
             Probably impossible.<br />
             Definitely public.<br />
-            By my 20th birthday.<br />
-            {daysToBirthday} days left.
+            By my 20th birthday. {daysToBirthday} days left.
           </p>
           <div className="hc-rule" />
         </div>
 
         <div className={`hc-live-block ${numberVisible ? "hc-visible" : ""}`}>
           <LiveValue
-            holdings={holdings}
-            pendingCash={pendingCash}
-            fallback={totalNow}
-            entryValue={entryValue}
+            holdings={holdings} pendingCash={pendingCash}
+            fallback={totalNow} entryValue={entryValue}
             revealed={fullVisible}
           />
         </div>
 
         <div className={`hc-actions ${fullVisible ? "hc-visible" : ""}`}>
           <Link href="/invest" className="hc-btn-primary">The wager →</Link>
-          <Link href="/argument" className="hc-text-link">
-            Watch the AI panel argue →
-          </Link>
+          <Link href="/argument" className="hc-text-link">Watch the AI panel argue →</Link>
         </div>
       </section>
 
-      {/* ── TRANSITION ── */}
       <div className="hc-transition" aria-hidden="true" />
 
-      {/* ── BODY ── */}
       <section className="hc-body">
         <blockquote className="hc-pullquote">
           &ldquo;The gap between what is reasonable and what I am asking for
