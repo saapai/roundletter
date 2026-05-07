@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
   const v = `$${Math.round(data.categories.art.current_value).toLocaleString("en-US")}`;
-  const desc = `12 originals (pencil, colored pencil, pen, watercolor) · sum of starting bids ${v} · auction round 1 unlocks soon.`;
+  const desc = `12 originals (pencil, colored pencil, pen, watercolor) · opening bids · total ${v} · auction round 1 unlocks soon.`;
   return {
     title: `aureliex · art · 12 pieces · ${v}`,
     description: desc,
@@ -46,7 +46,7 @@ export default async function ArtPage() {
         ) : null}
         <dl className={styles.auctionStrip} aria-label="auction status">
           <div className={styles.auctionCell}>
-            <dt>sum of starting bids</dt>
+            <dt>opening bids · total</dt>
             <dd>{fmtMoney(cat.current_value)}</dd>
           </div>
           <div className={styles.auctionCell}>

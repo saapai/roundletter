@@ -1,11 +1,11 @@
 {
   "meta": {
-    "round": "round 0 \u00b7 drop 1",
+    "round": "round 0 · drop 1",
     "stake_reserved_pct": 10,
     "auction_close_iso": "",
-    "auction_close_label": "tbd \u00b7 announced with the round 1 drop",
+    "auction_close_label": "tbd · announced with the round 1 drop",
     "state": "open",
-    "about": "12 pieces by saapai p. (2015\u2013present). pencil, colored pencil, pen, watercolor, mixed media. tap any tile to offer $1 over the current bid via imessage. 10% of the total portfolio stake is reserved for art holders."
+    "about": "Twelve originals, 2015–present. Pencil, colored pencil, pen, watercolor. Made before there was a reason to make them. To bid: text or iMessage saapai — $1 over the listed start. 10% of the portfolio stake is reserved for the people who own the work."
   },
   "pieces": [
     {
@@ -13,7 +13,7 @@
       "title": "heron, in color",
       "medium": "colored pencil on paper",
       "date": "2019-07-14",
-      "note": "most stylised of the set \u2014 the plumage is the study, the bird is the frame. panel priced it highest.",
+      "note": "most stylised of the set — the plumage is the study, the bird is the frame. panel priced it highest.",
       "image": "/art/rainbow-heron.jpg",
       "start_bid": 5,
       "current_bid": null,
@@ -21,7 +21,7 @@
       "status": "open",
       "tags": [
         "color",
-        "portrait \u00b7 animal"
+        "portrait · animal"
       ],
       "locked_preview": ""
     },
@@ -37,7 +37,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": [
-        "portrait \u00b7 animal",
+        "portrait · animal",
         "texture study"
       ],
       "locked_preview": ""
@@ -64,14 +64,14 @@
       "title": "eagle, up close",
       "medium": "graphite on paper",
       "date": "2020-03-30",
-      "note": "close-up portrait \u2014 the pupil catch and the radial feathers carry it.",
+      "note": "close-up portrait — the pupil catch and the radial feathers carry it.",
       "image": "/art/eagle-closeup.jpg",
       "start_bid": 3,
       "current_bid": null,
       "bid_count": 0,
       "status": "open",
       "tags": [
-        "portrait \u00b7 animal",
+        "portrait · animal",
         "close-up"
       ],
       "locked_preview": ""
@@ -105,7 +105,7 @@
       "bid_count": 0,
       "status": "open",
       "tags": [
-        "portrait \u00b7 figure"
+        "portrait · figure"
       ],
       "locked_preview": ""
     },
@@ -114,7 +114,7 @@
       "title": "conch, tangled",
       "medium": "pen on paper",
       "date": "2018-07-17",
-      "note": "zentangle \u2014 each ridge a different pattern. patient rather than flashy.",
+      "note": "zentangle — each ridge a different pattern. patient rather than flashy.",
       "image": "/art/zentangle-conch.jpg",
       "start_bid": 2,
       "current_bid": null,
@@ -148,7 +148,7 @@
       "title": "scorpion, raised tail",
       "medium": "graphite on paper",
       "date": "2017-07-18",
-      "note": "anatomical \u2014 leg-bristles are the detail. earliest graphite work in the drop.",
+      "note": "anatomical — leg-bristles are the detail. earliest graphite work in the drop.",
       "image": "/art/scorpion.jpg",
       "start_bid": 2,
       "current_bid": null,
@@ -181,7 +181,7 @@
     {
       "id": "kraft-folio-back",
       "title": "kraft folio, back cover",
-      "medium": "photograph \u00b7 archival",
+      "medium": "photograph · archival",
       "date": "2026-04-22",
       "note": "the portfolio the drop travels in. the frame, not the content.",
       "image": "/art/kraft-folio.jpg",
@@ -197,10 +197,10 @@
     },
     {
       "id": "tupac-basketball-2026",
-      "title": "tupac \u00b7 basketball, on canvas",
+      "title": "tupac · basketball, on canvas",
       "medium": "stencil + spray paint on canvas",
       "date": "2026-04-25",
-      "note": "two canvases hung side by side \u00b7 placeholder copy \u00b7 edit before launch.",
+      "note": "two canvases hung side by side. stencil and spray paint — the loudest medium in the set.",
       "image": "/art/tupac-basketball.jpg",
       "start_bid": 4,
       "current_bid": null,

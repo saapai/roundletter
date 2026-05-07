@@ -36,6 +36,16 @@ export default async function ArgumentPage() {
   return (
     <main className="argument-root">
       <div className="argument-wrap">
+        <header className="argument-head">
+          <span className="argument-eyebrow">aureliex · the argument</span>
+          <h1 className="argument-title">six voices, one question, daily.</h1>
+          <p className="argument-sub">
+            the bull, the bear, macro, flow, the historian, and the moderator
+            pick a topic and argue it to resolution — or don&rsquo;t. every run
+            is committed to git. wrong in legible ways.
+          </p>
+        </header>
+
         <TodayDebate />
 
         {prior.length > 0 && (
@@ -66,6 +76,8 @@ export default async function ArgumentPage() {
 
         <OpenPredictionFiler />
 
+        <SixNineGame />
+
         <nav className="argument-nav">
           <Link href="/" className="argument-back">← home</Link>
           <span className="argument-dot">·</span>
@@ -73,8 +85,6 @@ export default async function ArgumentPage() {
           <span className="argument-dot">·</span>
           <Link href="/trades" className="argument-back">trades</Link>
         </nav>
-
-        <SixNineGame />
       </div>
     </main>
   );
