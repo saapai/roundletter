@@ -4,6 +4,8 @@ import { fmtMoneyCents } from "@/lib/portfolio-live";
 import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import { getGraphSnapshot } from "@/lib/memory/graph-snapshot";
 import CoilVisualization from "@/components/CoilVisualizationLoader";
+import TopographicMap from "@/components/TopographicMapLoader";
+import CrossSection from "@/components/CrossSectionLoader";
 import s from "./statement.module.css";
 
 // saathvikpai.com serves this page at its root (see src/middleware.ts).
@@ -146,6 +148,10 @@ export default async function Statement() {
 
           {/* ── LAYER 1: Interactive 3D Coil Visualization ── */}
           <CoilVisualization />
+
+          {/* ── LAYER 1b: Topographic Tension Map + Cross-Section ── */}
+          <TopographicMap />
+          <CrossSection />
 
           {/* ── LAYER 2: The Live Graph ── */}
           {graph && (
