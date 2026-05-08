@@ -20075,6 +20075,24 @@ body:has(.bank-page) > footer { display: none !important; }
   .invest-frac { font-size: 0.85rem; padding: 1.2rem 0.6rem; }
   .invest-frac-num, .invest-frac-den { font-size: 0.8em; }
 }
+.invest-hindsight {
+  text-align: center;
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--graphite);
+  margin: 0.5rem 0 1.5rem;
+  line-height: 1.6;
+}
+.invest-hindsight strong {
+  color: var(--ink);
+  font-style: normal;
+}
+.invest-hindsight-pct {
+  color: #4FAF6A;
+  font-style: normal;
+  font-weight: 600;
+}
 .invest-latex-note {
   font-family: var(--font-body), serif;
   font-style: italic;
