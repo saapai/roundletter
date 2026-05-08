@@ -20494,15 +20494,32 @@ body:has(.rl-root) { background: var(--rl-void); }
 
 
 /* ═══════════ BRAND SPLASH (Netflix-style) ═══════════
+   Netflix's actual intro is a pre-rendered video. Their N
+   is SVG ribbons, not text. CSS text recreations always fail
+   because: (1) text-shadow creates compositing layer bounding
+   box artifacts ("pixel square"), (2) subpixel text hinting
+   causes shimmer during scale, (3) filter/brightness/
+   background-clip trigger paint every frame.
+
+   This version fixes all three:
+   - Plain color on text (no text-shadow, no background-clip,
+     no ::after pseudo, no filter — zero paint-rect artifacts)
+   - Separate oversized radial-gradient div for glow (edges
+     fade to transparent far beyond text — no bounding box)
+   - Only transform + opacity + color animations
+     (compositor-friendly, zero paint, zero layout)
+   - Slow "camera push" easing: cubic-bezier(0.33, 0, 0.15, 1)
+     — gentle acceleration, long deceleration, no overshoot
+   - Subtle dark-red → bright-red color shift (not gradient sweep)
+
    Timeline (brand phase = 3200ms):
-   0ms          black → splash fades in (200ms)
-   200ms        "A" materialises: opacity 0→1, scale 0.9→1.0
-   200–2400ms   light sweep crosses the A left→right (2200ms)
-   200–2800ms   A zooms scale 1.0→1.5 while glow intensifies
-   1800ms       "ureliex" begins fading in (600ms)
-   2200ms       "." pops in
-   2600ms       entire splash has peaked — ready to hand off
-   3200ms       splash opacity → 0 (600ms ease-out)
+   0ms          splash fades in (200ms)
+   100ms        glow begins fading in (2.5s ease)
+   200ms        "A" materialises (600ms)
+   200–3200ms   container zooms 1.0→1.2 (3s slow push)
+   1800ms       "ureliex" fades in (800ms)
+   2400ms       "." appears (400ms)
+   3400ms       splice to number phase (JS timer)
    ══════════════════════════════════════════════════════ */
 
 .rl-splash {
@@ -20517,22 +20534,76 @@ body:has(.rl-root) { background: var(--rl-void); }
 .rl-splash-in { opacity: 1; }
 .rl-splash-out {
   opacity: 0;
-  transition: opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 100ms;
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1) 100ms;
 }
 
-/* the wordmark container — carries the shared zoom */
+/* ── ambient glow: a separate oversized div ────────────
+   No text-shadow. No bounding-box artifact. The gradient
+   is much larger than the text so its edges are never visible.
+   Only opacity is animated (compositor path).               */
+.rl-splash-glow {
+  position: absolute;
+  width: 60vw; height: 60vw;
+  max-width: 600px; max-height: 600px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.25) 0%,
+    rgba(229, 9, 20, 0.08) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  opacity: 0;
+}
+.rl-splash-in .rl-splash-glow {
+  animation: rl-glow-pulse 2.8s cubic-bezier(0.33, 0, 0.15, 1) 0.1s forwards;
+}
+@keyframes rl-glow-pulse {
+  0%   { opacity: 0; }
+  45%  { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* ── wordmark container: the ONE slow push ─────────── */
 .rl-splash-n {
   display: flex; align-items: baseline;
   position: relative;
-  transform: scale(1);
-  will-change: transform;
+  z-index: 1;
 }
 .rl-splash-in .rl-splash-n {
-  animation: rl-wordmark-zoom 2.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+  animation: rl-wordmark-zoom 3s cubic-bezier(0.33, 0, 0.15, 1) 0.2s both;
 }
 @keyframes rl-wordmark-zoom {
-  0%   { transform: scale(1); }
-  100% { transform: scale(1.45); }
+  from { transform: scale(1); }
+  to   { transform: scale(1.2); }
+}
+
+/* ── the big "A" ──────────────────────────────────── */
+/* Plain color, no text-shadow, no background-clip,
+   no filter, no ::after pseudo. The glow is handled by
+   .rl-splash-glow (a separate div with radial-gradient).
+   This means zero compositing layer artifacts.
+   Color shifts from dark red → bright red via animation. */
+.rl-splash-letter {
+  color: #7a0000;
+  opacity: 0;
+}
+.rl-splash-in .rl-splash-letter {
+  animation:
+    rl-a-appear 0.6s cubic-bezier(0.33, 0, 0.15, 1) 0.2s forwards,
+    rl-a-color  2.5s cubic-bezier(0.33, 0, 0.15, 1) 0.2s forwards;
+}
+@keyframes rl-a-appear {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+/* subtle dark→bright red — the Netflix color trick */
+@keyframes rl-a-color {
+  0%   { color: #7a0000; }
+  40%  { color: #E50914; }
+  100% { color: #E50914; }
 }
 
 /* ── shared type base ─────────────────────────────── */
@@ -20547,226 +20618,37 @@ body:has(.rl-root) { background: var(--rl-void); }
   display: inline-block;
 }
 
-/* ── the big "A" ──────────────────────────────────── */
-/* Two-layer approach:
-   MAIN element  = gradient sweep via background-clip: text
-   ::after pseudo = shadow/glow layer (solid color + text-shadow)
-   This avoids the browser quirk where text-shadow vanishes
-   when -webkit-text-fill-color: transparent is set.            */
-.rl-splash-letter {
-  color: transparent;
-  opacity: 0;
-  position: relative;
-  /* the light-sweep gradient overlaid via background-clip */
-  background: linear-gradient(
-    105deg,
-    #E50914 0%,
-    #E50914 30%,
-    #ff6b35 42%,
-    #ffbe76 50%,
-    #ff6b35 58%,
-    #E50914 70%,
-    #E50914 100%
-  );
-  background-size: 300% 100%;
-  background-position: 100% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  will-change: opacity, transform, background-position, filter;
-}
-
-/* shadow/glow layer — rendered behind the gradient text */
-.rl-splash-letter::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  color: #E50914;
-  -webkit-text-fill-color: #E50914;
-  background: none;
-  -webkit-background-clip: unset;
-  background-clip: unset;
-  text-shadow:
-    0 0 40px rgba(229, 9, 20, 0.0),
-    0 0 80px rgba(229, 9, 20, 0.0),
-    0 2px 0 #8b0000,
-    0 4px 0 #6b0000,
-    0 6px 0 #4b0000,
-    0 8px 16px rgba(0, 0, 0, 0.6);
-  will-change: text-shadow;
-}
-
-.rl-splash-in .rl-splash-letter {
-  animation:
-    rl-a-appear 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards,
-    rl-a-sweep  2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
-}
-.rl-splash-in .rl-splash-letter::after {
-  animation: rl-a-glow 2.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-}
-
-/* A materialises — gentle scale-up from 0.9 */
-@keyframes rl-a-appear {
-  0%   { opacity: 0; transform: scale(0.88); filter: brightness(2.5); }
-  50%  { opacity: 1; filter: brightness(1.8); }
-  100% { opacity: 1; transform: scale(1); filter: brightness(1); }
-}
-
-/* light sweep — the gradient highlight slides left across the A */
-@keyframes rl-a-sweep {
-  0%   { background-position: 100% 0; }
-  100% { background-position: -100% 0; }
-}
-
-/* bloom intensifies as zoom progresses, then softens */
-@keyframes rl-a-glow {
-  0% {
-    text-shadow:
-      0 0 40px rgba(229, 9, 20, 0.0),
-      0 0 80px rgba(229, 9, 20, 0.0),
-      0 2px 0 #8b0000,
-      0 4px 0 #6b0000,
-      0 6px 0 #4b0000,
-      0 8px 16px rgba(0, 0, 0, 0.6);
-  }
-  40% {
-    text-shadow:
-      0 0 60px rgba(229, 9, 20, 0.7),
-      0 0 120px rgba(229, 9, 20, 0.4),
-      0 2px 0 #8b0000,
-      0 4px 0 #6b0000,
-      0 6px 0 #4b0000,
-      0 8px 16px rgba(0, 0, 0, 0.6);
-  }
-  70% {
-    text-shadow:
-      0 0 80px rgba(229, 9, 20, 0.9),
-      0 0 160px rgba(229, 9, 20, 0.5),
-      0 2px 0 #8b0000,
-      0 4px 0 #6b0000,
-      0 6px 0 #4b0000,
-      0 8px 16px rgba(0, 0, 0, 0.6);
-  }
-  100% {
-    text-shadow:
-      0 0 50px rgba(229, 9, 20, 0.5),
-      0 0 100px rgba(229, 9, 20, 0.25),
-      0 2px 0 #8b0000,
-      0 4px 0 #6b0000,
-      0 6px 0 #4b0000,
-      0 8px 16px rgba(0, 0, 0, 0.6);
-  }
-}
-
-/* ── "ureliex" fades in after the sweep peaks ─────── */
+/* ── "ureliex" fades in ────────────────────────────── */
 .rl-splash-rest {
   color: #E50914;
   opacity: 0;
-  max-width: 0;
-  overflow: hidden;
   white-space: nowrap;
-  text-shadow:
-    0 0 30px rgba(229, 9, 20, 0.0),
-    0 2px 0 #8b0000,
-    0 4px 0 #6b0000,
-    0 6px 12px rgba(0, 0, 0, 0.5);
-  will-change: opacity, max-width;
 }
 .rl-splash-in .rl-splash-rest {
-  animation:
-    rl-rest-expand 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards,
-    rl-rest-glow   1.2s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards;
+  animation: rl-rest-fade 0.8s cubic-bezier(0.33, 0, 0.15, 1) 1.8s forwards;
 }
-@keyframes rl-rest-expand {
-  0%   { opacity: 0; max-width: 0; }
-  15%  { opacity: 0.6; }
-  100% { opacity: 1; max-width: 12em; }
-}
-@keyframes rl-rest-glow {
-  0% {
-    text-shadow:
-      0 0 30px rgba(229, 9, 20, 0.0),
-      0 2px 0 #8b0000,
-      0 4px 0 #6b0000,
-      0 6px 12px rgba(0, 0, 0, 0.5);
-  }
-  60% {
-    text-shadow:
-      0 0 40px rgba(229, 9, 20, 0.6),
-      0 2px 0 #8b0000,
-      0 4px 0 #6b0000,
-      0 6px 12px rgba(0, 0, 0, 0.5);
-  }
-  100% {
-    text-shadow:
-      0 0 30px rgba(229, 9, 20, 0.3),
-      0 2px 0 #8b0000,
-      0 4px 0 #6b0000,
-      0 6px 12px rgba(0, 0, 0, 0.5);
-  }
+@keyframes rl-rest-fade {
+  from { opacity: 0; transform: translateX(-0.1em); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-/* ── the dot — snaps in with a satisfying pop ─────── */
+/* ── the dot ───────────────────────────────────────── */
 .rl-splash-dot {
   color: #E50914;
   opacity: 0;
-  text-shadow:
-    0 0 20px rgba(229, 9, 20, 0.0),
-    0 2px 0 #8b0000,
-    0 4px 8px rgba(0, 0, 0, 0.5);
-  will-change: opacity, transform;
 }
 .rl-splash-in .rl-splash-dot {
-  animation: rl-dot-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s forwards;
+  animation: rl-dot-appear 0.4s cubic-bezier(0.33, 0, 0.15, 1) 2.4s forwards;
 }
-@keyframes rl-dot-pop {
-  0%   { opacity: 0; transform: scale(0); }
-  50%  { opacity: 1; transform: scale(1.4);
-    text-shadow:
-      0 0 30px rgba(229, 9, 20, 0.8),
-      0 2px 0 #8b0000,
-      0 4px 8px rgba(0, 0, 0, 0.5);
-  }
-  100% { opacity: 1; transform: scale(1);
-    text-shadow:
-      0 0 20px rgba(229, 9, 20, 0.3),
-      0 2px 0 #8b0000,
-      0 4px 8px rgba(0, 0, 0, 0.5);
-  }
+@keyframes rl-dot-appear {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* skip splash for return visitors */
 [data-phase="full"] .rl-splash,
 [data-phase="number"] .rl-splash {
   display: none;
-}
-
-/* ── ambient glow behind the letter — the "bloom" ──
-   Gradients are NOT animatable between values, so we use
-   a fixed radial-gradient and animate opacity instead.     */
-.rl-splash-n::before {
-  content: '';
-  position: absolute;
-  inset: -60% -40%;
-  background: radial-gradient(
-    ellipse at 50% 50%,
-    rgba(229, 9, 20, 0.18) 0%,
-    rgba(229, 9, 20, 0.06) 45%,
-    rgba(229, 9, 20, 0.0) 100%
-  );
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0;
-  will-change: opacity;
-}
-.rl-splash-in .rl-splash-n::before {
-  animation: rl-ambient-bloom 2.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
-}
-@keyframes rl-ambient-bloom {
-  0%   { opacity: 0; }
-  50%  { opacity: 1; }
-  100% { opacity: 0.6; }
 }
 
 
