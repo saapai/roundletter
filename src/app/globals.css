@@ -19758,12 +19758,12 @@ body:has(.bank-page) > footer { display: none !important; }
   color: var(--ink);
 }
 .invest-tier.is-active {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
+  background: #C9952A;
+  color: #0A0A0A;
+  border-color: #C9952A;
 }
 .invest-tier:hover:not(.is-active) {
-  border-color: var(--ink);
+  border-color: #C9952A;
 }
 .invest-custom {
   width: 5rem;
@@ -19882,12 +19882,14 @@ body:has(.bank-page) > footer { display: none !important; }
   font-family: var(--font-body), serif;
 }
 .invest-btn-primary {
-  background: var(--ink);
-  color: var(--paper);
+  background: #C9952A;
+  color: #0A0A0A;
+  font-weight: 600;
+  letter-spacing: 0.06em;
 }
 .invest-btn-primary:hover {
-  background: var(--wax);
-  color: var(--paper);
+  background: #E8B84B;
+  color: #0A0A0A;
 }
 .invest-btn-secondary {
   background: transparent;
@@ -21047,7 +21049,10 @@ body:has(.rl-root) { background: var(--rl-void); }
 }
 .rl-quote-modern {
   border-left-color: var(--rl-gold);
-  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  font-style: normal;
+  font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
+  font-size: clamp(0.92rem, 1.6vw, 1.02rem);
+  opacity: 0.65;
 }
 
 /* ── inline links ─────────────────────────────────── */
@@ -21199,25 +21204,23 @@ body:has(.rl-root) { background: var(--rl-void); }
   line-height: 1.5;
 }
 
-/* Spirit: yellow + black */
-.rl-prec-spirit {
-  background: #FFD700;
-  color: #1A1A1A;
-}
-.rl-prec-spirit .rl-prec-tag { color: #1A1A1A; }
-.rl-prec-spirit .rl-prec-num { color: #1A1A1A; }
-.rl-prec-spirit .rl-prec-label { color: #1A1A1A; }
-.rl-prec-spirit .rl-prec-line { color: #1A1A1A; }
-
-/* Packers: dark green + gold */
+/* precedent cards — paper-native citation style */
+.rl-prec-spirit,
 .rl-prec-packers {
-  background: #203731;
-  color: #FFB81C;
+  background: transparent;
+  border: 1px solid rgba(201, 149, 42, 0.15);
+  border-left: 3px solid var(--rl-gold);
+  color: var(--rl-ink);
+  border-radius: 2px;
 }
-.rl-prec-packers .rl-prec-tag { color: #FFB81C; }
-.rl-prec-packers .rl-prec-num { color: #FFB81C; }
-.rl-prec-packers .rl-prec-label { color: rgba(255, 184, 28, 0.6); }
-.rl-prec-packers .rl-prec-line { color: rgba(255, 184, 28, 0.7); }
+.rl-prec-spirit .rl-prec-num,
+.rl-prec-packers .rl-prec-num { color: var(--rl-gold); }
+.rl-prec-spirit .rl-prec-tag,
+.rl-prec-packers .rl-prec-tag { color: var(--rl-gold); }
+.rl-prec-spirit .rl-prec-label,
+.rl-prec-packers .rl-prec-label { color: var(--rl-graphite); opacity: 0.7; }
+.rl-prec-spirit .rl-prec-line,
+.rl-prec-packers .rl-prec-line { color: var(--rl-graphite); }
 
 .rl-callout-thesis {
   font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
