@@ -21532,6 +21532,224 @@ body:has(.rl-root) { background: var(--rl-void); }
   .letter-hero-round { right: 8px; }
 }
 
+/* ═══════════ LETTER HERO → ARTICLE TRANSITION ═══════ */
+/* Gradient bleed: the dark hero fades into the cream article
+   instead of a hard rectangular edge. Same technique as the
+   homepage rl-body::after but reversed (dark→cream).          */
+.letter-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 160px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--paper) 8%, transparent) 30%,
+    color-mix(in srgb, var(--paper) 35%, transparent) 60%,
+    var(--paper) 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ═══════════ LETTER ARTICLE OVERRIDES ═══════════════ */
+
+/* Tighter top margin after the hero — the gradient already
+   provides visual breathing room.                          */
+.letter-hero + .article {
+  margin-top: 0;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* ── Section nav (floating TOC pill) ─────────────────── */
+.letter-section-nav {
+  position: fixed;
+  right: clamp(12px, 2vw, 28px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+}
+.letter-section-nav.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.letter-section-nav a {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--graphite);
+  opacity: 0.25;
+  transition: opacity 220ms ease, transform 220ms ease, background 220ms ease;
+  text-indent: -9999px;
+  overflow: hidden;
+}
+.letter-section-nav a:hover {
+  opacity: 0.6;
+  transform: scale(1.5);
+}
+.letter-section-nav a.active {
+  opacity: 0.8;
+  background: var(--rust);
+  transform: scale(1.4);
+}
+@media (max-width: 1100px) {
+  .letter-section-nav { display: none; }
+}
+
+/* ── Back-to-top button ──────────────────────────────── */
+.letter-btt {
+  position: fixed;
+  bottom: clamp(80px, 10vh, 100px);
+  right: clamp(16px, 2vw, 28px);
+  z-index: 50;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--graphite);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 300ms ease, transform 300ms ease, color 200ms ease, border-color 200ms ease;
+  pointer-events: none;
+}
+.letter-btt.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.letter-btt:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* ── Reading progress bar for letter ─────────────────── */
+.letter-progress {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 2px;
+  background: transparent;
+  z-index: 200;
+  pointer-events: none;
+}
+.letter-progress-bar {
+  height: 100%;
+  background: var(--rust);
+  opacity: 0.6;
+  width: 0%;
+  transition: width 80ms linear;
+}
+
+/* ── Annotation density taming ───────────────────────── */
+/* Slightly smaller dots in the letter (15+ notes need
+   to feel like marginal pencil marks, not alarm lights)  */
+.letter-hero + .article .anno-dot {
+  width: 0.36em;
+  height: 0.36em;
+  opacity: 0.7;
+  box-shadow: none;
+}
+.letter-hero + .article .anno:hover .anno-dot,
+.letter-hero + .article .anno:focus-within .anno-dot {
+  opacity: 1;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--anno-color) 18%, transparent);
+}
+
+/* On mobile, annotations become numbered superscripts
+   and notes stack at section end instead of popovers   */
+@media (max-width: 520px) {
+  .letter-hero + .article .anno-dot {
+    width: auto; height: auto;
+    border-radius: 0;
+    background: none;
+    font-size: 0.65em;
+    vertical-align: super;
+    color: var(--anno-color, var(--graphite));
+    font-family: ui-monospace, 'SF Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0;
+    transform: none;
+    margin-left: 0.1em;
+  }
+}
+
+/* ── Pull-quote emphasis for letter pages ────────────── */
+.letter-hero + .article .pull-quote {
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem);
+  border-top-color: color-mix(in srgb, var(--rust) 30%, var(--rule));
+  border-bottom-color: color-mix(in srgb, var(--rust) 30%, var(--rule));
+  padding: 2.5rem 0;
+  margin: 3.5rem auto;
+}
+
+/* ── Exit nav upgrade ────────────────────────────────── */
+.letter-exit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--rule);
+}
+.letter-exit-primary {
+  display: inline-block;
+  padding: 0.65rem 1.6rem;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--paper);
+  background: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: background 220ms ease;
+}
+.letter-exit-primary:hover {
+  background: var(--rust);
+}
+.letter-exit-sep {
+  color: var(--graphite);
+  opacity: 0.4;
+  font-size: 0.85rem;
+}
+.letter-exit-link {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--graphite);
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+.letter-exit-link:hover {
+  color: var(--ink);
+}
+
+/* ── Agents legend — tighter for letter context ──────── */
+.letter-hero + .article .agents-legend {
+  margin-top: 0;
+  margin-bottom: 2rem;
+  opacity: 0.7;
+  transition: opacity 200ms ease;
+}
+.letter-hero + .article .agents-legend:hover {
+  opacity: 1;
+}
+
 
 /* ═══════════ MOBILE NAV ═════════════════════════════ */
 

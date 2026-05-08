@@ -5,6 +5,7 @@ import { renderMarkdown } from "@/lib/md";
 import ViewTracker from "@/components/ViewTracker";
 import ViewsBadge from "@/components/ViewsBadge";
 import AgentsLegend from "@/components/AgentsLegend";
+import LetterChrome from "@/components/LetterChrome";
 
 export const metadata: Metadata = {
   title: "Round 1 — what the attention built · aureliex",
@@ -33,6 +34,8 @@ export default function Round1Page() {
   if (!letter) return <div>letter not found</div>;
   return (
     <>
+      <LetterChrome />
+
       {/* ═══ CINEMATIC HERO ═══ */}
       <section className="letter-hero">
         <div className="letter-hero-bg" />

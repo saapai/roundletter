@@ -40,7 +40,7 @@ Zelle — the "free instant transfer" app — is owned by Early Warning Services
 
 No float, no hold, no clearing period — that is what "instant settlement" means. The technology exists. The incentive to deploy it does not.
 
-The money moves on rails someone else owns. The question is whether attention can build a rail of its own.
+>>> The money moves on rails someone else owns. The question is whether attention can build a rail of its own.
 
 ---
 
@@ -64,7 +64,9 @@ Jean-Michel Basquiat at 19 was selling hand-painted postcards on the street for 
 
 Twelve pieces with a $36 floor. If **one** goes viral, the entire collection reprices. This is the same mechanism as penny stocks, NFTs, and Basquiat postcards. One signal validates the set. The market does not price each piece individually — it prices the attention on the artist and distributes backward.
 
-Market cap as fiction: Tesla exceeded the combined valuation of every other automaker on earth while holding 1.2% of global market share. Dogecoin — a cryptocurrency created as a literal joke about a Shiba Inu — hit an **$88 billion** market cap. Price is not downstream of value. Price is downstream of attention. Value is the story we tell afterward to explain why the price moved. [[macro: This framing is convenient for someone whose portfolio needs 29x. It is also true. Both things.]]
+>>> Price is not downstream of value. Price is downstream of attention.
+
+Market cap as fiction: Tesla exceeded the combined valuation of every other automaker on earth while holding 1.2% of global market share. Dogecoin — a cryptocurrency created as a literal joke about a Shiba Inu — hit an **$88 billion** market cap. Value is the story we tell afterward to explain why the price moved. [[macro: This framing is convenient for someone whose portfolio needs 29x. It is also true. Both things.]]
 
 ---
 
@@ -84,7 +86,9 @@ Harvard's endowment is $56.9 billion. Donors receive no financial return. They r
 
 Spirit is all of these at once. GameStop was the chaotic proof-of-concept — attention converting to capital, maximum chaos. The Packers are the 103-year proof it can be stable. Endowments are the establishment version with tax law instead of memes.
 
-The pattern: collective attention becomes collective action becomes collective ownership. The only variable is whether the structure holds after the spike. GameStop did not hold. The Packers held for a century. The question for Spirit — and for this portfolio — is which version it is. [[bear: You know which version it is. You just don't want to write it down.]]
+>>> Collective attention becomes collective action becomes collective ownership.
+
+The only variable is whether the structure holds after the spike. GameStop did not hold. The Packers held for a century. The question for Spirit — and for this portfolio — is which version it is. [[bear: You know which version it is. You just don't want to write it down.]]
 
 ---
 
