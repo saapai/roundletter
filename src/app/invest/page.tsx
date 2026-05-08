@@ -306,12 +306,12 @@ export default function InvestPage() {
           and <strong>how early</strong> you invest.
         </p>
         <div className="invest-frac">
-          <span className="invest-frac-lhs">share<sub>i</sub></span>
+          <span className="invest-frac-lhs">your share</span>
           <span className="invest-frac-eq">=</span>
           <span className="invest-frac-block">
-            <span className="invest-frac-num">investment<sub>i</sub> &times; days remaining<sub>i</sub></span>
+            <span className="invest-frac-num">what you put in &times; how early you put it in</span>
             <span className="invest-frac-bar" />
-            <span className="invest-frac-den">&Sigma;<sub>k</sub> investment<sub>k</sub> &times; days remaining<sub>k</sub></span>
+            <span className="invest-frac-den">everyone&rsquo;s combined weight</span>
           </span>
         </div>
         <p className="invest-latex-note">
