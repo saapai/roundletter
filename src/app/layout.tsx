@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Cormorant_Garamond, EB_Garamond, Fraunces, Ms_Madi } from "next/font/google";
+import { Bebas_Neue, Cormorant_Garamond, EB_Garamond, Fraunces, Ms_Madi } from "next/font/google";
 import ReaderMode from "@/components/ReaderMode";
 import TableOfContents from "@/components/TableOfContents";
 import Insignia from "@/components/Insignia";
@@ -11,6 +11,13 @@ import SiteViewTracker from "@/components/SiteViewTracker";
 import ViewsBadge from "@/components/ViewsBadge";
 import FloatingNav from "@/components/FloatingNav";
 import MastheadGate from "@/components/MastheadGate";
+
+const bebas = Bebas_Neue({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-bebas",
+  display: "swap",
+});
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -71,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${fraunces.variable} ${signature.variable}`}>
+    <html lang="en" className={`${bebas.variable} ${display.variable} ${body.variable} ${fraunces.variable} ${signature.variable}`}>
       <body className="min-h-screen font-body">
         <MastheadGate>
           <ReaderMode />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getLetter, getPortfolio } from "@/lib/data";
 import { renderMarkdown } from "@/lib/md";
 import ViewTracker from "@/components/ViewTracker";

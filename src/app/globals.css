@@ -20502,55 +20502,78 @@ body:has(.rl-root) { background: var(--rl-void); }
   background: #000;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 600ms ease;
+  transition: opacity 700ms ease;
 }
-.rl-splash-in {
-  opacity: 1;
+.rl-splash-in { opacity: 1; }
+.rl-splash-out { opacity: 0; transition: opacity 600ms ease 200ms; }
+
+/* the "N" container */
+.rl-splash-n {
+  display: flex; align-items: baseline;
+  position: relative;
 }
-.rl-splash-out {
-  opacity: 0;
-  transition: opacity 800ms ease 200ms;
-}
-.rl-splash-text {
-  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
-  font-style: italic; font-weight: 500;
-  font-size: clamp(2.5rem, 8vw, 5rem);
+
+/* the big "a" — Netflix Bebas style */
+.rl-splash-letter {
+  font-family: var(--font-bebas, 'Bebas Neue'), 'Impact', 'Arial Black', sans-serif;
+  font-weight: 700;
+  font-size: clamp(6rem, 22vw, 14rem);
   color: #E50914;
-  letter-spacing: 0.04em;
+  line-height: 0.85;
+  text-transform: uppercase;
+  display: inline-block;
   opacity: 0;
-  transform: scale(0.85);
-  animation: none;
+  transform: scale(1.8);
+  filter: brightness(2);
 }
-.rl-splash-in .rl-splash-text {
-  animation: rl-brand-zoom 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.rl-splash-in .rl-splash-letter {
+  animation: rl-n-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
 }
+@keyframes rl-n-in {
+  0% { opacity: 0; transform: scale(1.8); filter: brightness(2); }
+  40% { opacity: 1; transform: scale(1.15); filter: brightness(1.5); }
+  100% { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+
+/* the rest "ureliex" — expands out from the letter */
+.rl-splash-rest {
+  font-family: var(--font-bebas, 'Bebas Neue'), 'Impact', 'Arial Black', sans-serif;
+  font-weight: 700;
+  font-size: clamp(6rem, 22vw, 14rem);
+  color: #E50914;
+  line-height: 0.85;
+  text-transform: uppercase;
+  display: inline-block;
+  opacity: 0;
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.rl-splash-in .rl-splash-rest {
+  animation: rl-rest-expand 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
+}
+@keyframes rl-rest-expand {
+  0% { opacity: 0; max-width: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 1; max-width: 12em; }
+}
+
+/* the dot */
 .rl-splash-dot {
+  font-family: var(--font-bebas, 'Bebas Neue'), 'Impact', 'Arial Black', sans-serif;
+  font-weight: 700;
+  font-size: clamp(6rem, 22vw, 14rem);
   color: #E50914;
+  line-height: 0.85;
   opacity: 0;
 }
 .rl-splash-in .rl-splash-dot {
-  animation: rl-dot-flash 0.3s ease 1.1s forwards;
+  animation: rl-dot-pop 0.25s ease 1.5s forwards;
 }
-
-@keyframes rl-brand-zoom {
-  0% {
-    opacity: 0;
-    transform: scale(0.7);
-    letter-spacing: 0.15em;
-  }
-  30% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    letter-spacing: 0.04em;
-  }
-}
-@keyframes rl-dot-flash {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
-  100% { opacity: 1; }
+@keyframes rl-dot-pop {
+  0% { opacity: 0; transform: scale(0); }
+  60% { opacity: 1; transform: scale(1.3); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
 /* skip splash for return visitors */
