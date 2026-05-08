@@ -117,10 +117,8 @@ export default function HomeCover({
   return (
     <div className="rl-root" data-phase={phase} ref={rootRef}>
 
-      {/* ═══════════ BRAND SPLASH (Netflix-style) ═══════════ */}
+      {/* ═══════════ BRAND SPLASH ═══════════ */}
       <div className={`rl-splash ${phase === "brand" ? "rl-splash-in" : ""} ${numVis ? "rl-splash-out" : ""}`}>
-        {/* glow: oversized radial gradient — no text-shadow, no bounding-box artifact */}
-        <div className="rl-splash-glow" aria-hidden="true" />
         <div className="rl-splash-n">
           <span className="rl-splash-letter">a</span>
           <span className="rl-splash-rest">ureliex</span>

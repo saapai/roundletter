@@ -20526,7 +20526,7 @@ body:has(.rl-root) { background: var(--rl-void); }
   position: fixed; inset: 0;
   z-index: 200;
   display: flex; align-items: center; justify-content: center;
-  background: #000;
+  background: #0A0906;
   pointer-events: none;
   opacity: 0;
   transition: opacity 200ms ease;
@@ -20535,35 +20535,6 @@ body:has(.rl-root) { background: var(--rl-void); }
 .rl-splash-out {
   opacity: 0;
   transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1) 100ms;
-}
-
-/* ── ambient glow: a separate oversized div ────────────
-   No text-shadow. No bounding-box artifact. The gradient
-   is much larger than the text so its edges are never visible.
-   Only opacity is animated (compositor path).               */
-.rl-splash-glow {
-  position: absolute;
-  width: 60vw; height: 60vw;
-  max-width: 600px; max-height: 600px;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(229, 9, 20, 0.25) 0%,
-    rgba(229, 9, 20, 0.08) 40%,
-    transparent 70%
-  );
-  pointer-events: none;
-  opacity: 0;
-}
-.rl-splash-in .rl-splash-glow {
-  animation: rl-glow-pulse 2.8s cubic-bezier(0.33, 0, 0.15, 1) 0.1s forwards;
-}
-@keyframes rl-glow-pulse {
-  0%   { opacity: 0; }
-  45%  { opacity: 1; }
-  100% { opacity: 0.5; }
 }
 
 /* ── wordmark container: the ONE slow push ─────────── */
@@ -20587,7 +20558,7 @@ body:has(.rl-root) { background: var(--rl-void); }
    This means zero compositing layer artifacts.
    Color shifts from dark red → bright red via animation. */
 .rl-splash-letter {
-  color: #7a0000;
+  color: #5a3a0a;
   opacity: 0;
 }
 .rl-splash-in .rl-splash-letter {
@@ -20599,11 +20570,11 @@ body:has(.rl-root) { background: var(--rl-void); }
   from { opacity: 0; transform: scale(0.94); }
   to   { opacity: 1; transform: scale(1); }
 }
-/* subtle dark→bright red — the Netflix color trick */
+/* dark amber → gold — warm materialization */
 @keyframes rl-a-color {
-  0%   { color: #7a0000; }
-  40%  { color: #E50914; }
-  100% { color: #E50914; }
+  0%   { color: #5a3a0a; }
+  40%  { color: #C9952A; }
+  100% { color: #C9952A; }
 }
 
 /* ── shared type base ─────────────────────────────── */
@@ -20620,7 +20591,7 @@ body:has(.rl-root) { background: var(--rl-void); }
 
 /* ── "ureliex" fades in ────────────────────────────── */
 .rl-splash-rest {
-  color: #E50914;
+  color: #C9952A;
   opacity: 0;
   white-space: nowrap;
 }
@@ -20634,7 +20605,7 @@ body:has(.rl-root) { background: var(--rl-void); }
 
 /* ── the dot ───────────────────────────────────────── */
 .rl-splash-dot {
-  color: #E50914;
+  color: #C9952A;
   opacity: 0;
 }
 .rl-splash-in .rl-splash-dot {
