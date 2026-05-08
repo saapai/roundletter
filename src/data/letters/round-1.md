@@ -40,6 +40,16 @@ One million simulated paths. Forty-five days. Using the portfolio's actual daily
 
 The expected value at 45 days is **$4,937**. The median is **$4,889**. In one million simulations, the highest any path reached was **$9,512**. Not one hit $10,000. Not one. [[bear: Read that table again. The only milestone with a real probability is the one that does not require the thesis to be true. Everything above $6,000 requires a regime change in the underlying distribution. The portfolio would need a daily return of 7% — twenty-three times its current rate — for a 50% chance of hitting $100K. That is not an investment thesis. That is a prayer.]]
 
+I asked three AI models — independently, with the same data — where the portfolio lands by June 21:
+
+| Model | Target | Confidence | Verdict |
+|---|---|---|---|
+| **Claude Opus 4.6** | $4,800–$5,200 | medium | "Sustained 7% daily gains is statistically impossible without catastrophic leverage." |
+| **Claude Sonnet 4.6** | ~$5,200 | low | "Mean reversion and dilution risk cap realistic upside near $5K." |
+| **Claude Haiku 4.5** | $5,200–$5,800 | medium | "The $100K goal was set aspirationally, not probabilistically." |
+
+Three models. Zero said yes. The consensus target is **~$5,000**. The consensus on $100K is **no**. [[flow: Note the spread. Haiku is the most optimistic at $5,800. Opus is the most conservative at $4,800. The range is $1,000 on a $4,300 portfolio — which means even the models disagree about whether you beat $5K. The only thing they agree on is what you do not reach.]]
+
 I trust the math over my instinct. Three weeks of green does not make a trend. It makes a sample size of one that happens to be positive.
 
 If you are still reading after that table, you understand what this project actually is.
