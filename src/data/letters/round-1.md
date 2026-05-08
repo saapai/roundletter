@@ -50,6 +50,20 @@ I asked three AI models — independently, with the same data — where the port
 
 Three models. Zero said yes. The consensus target is **~$5,000**. The consensus on $100K is **no**. [[flow: Note the spread. Haiku is the most optimistic at $5,800. Opus is the most conservative at $4,800. The range is $1,000 on a $4,300 portfolio — which means even the models disagree about whether you beat $5K. The only thing they agree on is what you do not reach.]]
 
+The local models agree. The LightGBM pipeline — trained on 67,000 OHLCV bars across 33 features — runs nightly on the M5 Max. Its 90-day Monte Carlo:
+
+| Percentile | 30 days | 60 days | 90 days |
+|---|---|---|---|
+| p10 (bad) | $3,292 | $3,102 | $2,969 |
+| p50 (median) | $3,855 | $3,869 | $3,892 |
+| p90 (good) | $4,496 | $4,803 | $5,129 |
+
+Expected CAGR: **~10%**. The LightGBM's optimal recommendation: reduce pure-play quantum from 22% to 15%, increase SGOV dry powder to 10%, and overweight CEG (the lowest-correlated holding). In other words: the machine learning model trained on the portfolio's own data says the best move is to become *less aggressive*. [[macro: The LightGBM is optimizing for Sharpe, not for 29x. It will never recommend the portfolio that hits $100K because that portfolio does not exist in any distribution it has seen. The model is correct. The model is also answering a different question.]]
+
+The LightGBM's top picks for the next 5 days — not from the portfolio, from the broader universe it scans — are BLZE (+7.3% predicted, RSI 88), USAR (+3.8%, RSI 62), and NXPI (+2.6%, RSI 72). None of them are quantum computing stocks. The machine is not sentimental about the thesis.
+
+The [Entrenched Coils](https://saathvikpai.com) memory graph — 687 nodes, 1,768 edges — keeps a record of every contradiction between agents. The highest-tension disagreement right now: the bull says IONQ's 14% move is "40% thesis, 30% sector beta, 20% flow squeeze, 10% luck — still a gift." The flow agent says "60-70% of IONQ's move was dealer gamma; fade within 48 hours." Tension score: **1.65** out of 2.0. The system does not resolve this. It holds both. That is the point — the anti-echo-chamber surfaces the disagreement instead of averaging it away. [[historian: 687 memories across five agents. Average confidence: 0.69. The bear has 79 bearish memories and 39 bullish. The bull has 125 bearish and 71 bullish. Even the bull is more bearish than bullish. The memory graph is telling you something the portfolio is not.]]
+
 I trust the math over my instinct. Three weeks of green does not make a trend. It makes a sample size of one that happens to be positive.
 
 If you are still reading after that table, you understand what this project actually is.
