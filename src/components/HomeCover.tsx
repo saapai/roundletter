@@ -207,7 +207,8 @@ export default function HomeCover({
           <p>
             The{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}says this has a <strong>&lt;1%</strong> chance of working.
+            {" "}says this has a <strong>&lt;1%</strong> chance of working. The Monte
+            Carlo says <strong>0.000000%</strong>.
             I published that number before I started.
           </p>
           <p className="rl-coda">

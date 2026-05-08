@@ -2,13 +2,13 @@
 round: 1
 date: 2026-05-07
 title: "round 1 — what the attention built"
-subtitle: "Filed twenty-five days in. The number is up. The products are real. The odds have not changed."
+subtitle: "Filed twenty-five days in. The Monte Carlo says 0.000000%. The products are real anyway."
 portfolio_value: 4300
 ---
 
 # Round 1 — What the Attention Built
 
-*Filed twenty-five days in. The number is up. The products are real. The odds have not changed.*
+*Filed twenty-five days in. The Monte Carlo says 0.000000%. The products are real anyway.*
 
 The portfolio reads **~$4,300**. I am 4.3% of the way to $100,000. The remaining 95.7% needs to arrive in forty-three days.
 
@@ -26,17 +26,33 @@ Two external injections — $50 on April 22, $36 on April 27 — logged on the c
 
 ---
 
+## The math
+
+One million simulated paths. Forty-five days. Using the portfolio's actual daily returns.
+
+| Target | Multiple | Probability |
+|---|---|---|
+| $5,000 | 1.2× | **43.6%** |
+| $6,000 | 1.4× | 7.2% |
+| $7,500 | 1.7× | 0.1% |
+| $10,000 | 2.3× | ~0% |
+| $100,000 | 23.3× | **0.000000%** |
+
+The expected value at 45 days is **$4,937**. The median is **$4,889**. In one million simulations, the highest any path reached was **$9,512**. Not one hit $10,000. Not one. [[bear: Read that table again. The only milestone with a real probability is the one that does not require the thesis to be true. Everything above $6,000 requires a regime change in the underlying distribution. The portfolio would need a daily return of 7% — twenty-three times its current rate — for a 50% chance of hitting $100K. That is not an investment thesis. That is a prayer.]]
+
+I trust the math over my instinct. Three weeks of green does not make a trend. It makes a sample size of one that happens to be positive.
+
+If you are still reading after that table, you understand what this project actually is.
+
+---
+
 ## The rail
 
 Cash is legal tender. It says so on the bill. But 87% of transactions in the United States are cashless. Among 18-to-24-year-olds, only 10% use cash at all. The thing printed by the government and backed by the full faith and credit of the United States is, for most of us, a metaphor for the number on a screen. [[historian: This is not new. Checks replaced coins, cards replaced checks, phones replaced cards. Every generation forgets the previous format was also synthetic.]]
 
-Two private companies — Visa and Mastercard — process **$10 trillion per year** in transactions. They do not lend. They do not hold deposits. They own the rail, and they charge a toll: 1.5–3.5% per swipe. Every merchant pays it. Every consumer funds it through higher prices. The payment infrastructure of the world's largest economy is a duopoly. [[macro: And both are in the S&P 500. You are short the payment rails in theory and long them in your index allocation. Note the tension.]]
+Two private companies — Visa and Mastercard — process **$10 trillion per year** in transactions. They do not lend. They do not hold deposits. They own the rail, and they charge a toll: 1.5–3.5% per swipe. The payment infrastructure of the world's largest economy is a duopoly. [[macro: And both are in the S&P 500. You are short the payment rails in theory and long them in your index allocation. Note the tension.]]
 
-A bank transfer takes one to three business days. A wire costs $25–35. Even "instant" Venmo charges 1.75% to move your own money to your own bank account. Banks call this delay the float — the interest earned on money that is technically yours but operationally theirs. Every second your deposit is "processing," someone is deploying it. This is not a conspiracy. It is the business model. [[flow: Banks earned $257B in net interest income in 2024. The float is a feature, not a bug — for banks.]]
-
-Zelle — the "free instant transfer" app — is owned by Early Warning Services, jointly held by seven banks: BofA, JPMorgan, Wells Fargo, Truist, Capital One, PNC, U.S. Bank. The transfer is instant because it never leaves the banking system. That is the point. [[bear: You are describing the financial system as adversarial, which it is, but you are also using it. Your portfolio is at a brokerage. Your money clears through the same rails. You are not outside the system — you are a retail participant complaining about the cover charge.]]
-
-5.6 million American households are unbanked. 19 million more are underbanked. The banking system does not exclude people on purpose. It excludes them by requiring minimum balances, charging overdraft fees, and locating branches in neighborhoods that already have banks. The result is the same. [[historian: The postal banking system served 4 million depositors in 1947. Dismantled by 1967. The infrastructure existed. It was removed.]]
+A bank transfer takes one to three business days. A wire costs $25–35. Even "instant" Venmo charges 1.75% to move your own money to your own bank account. Banks call this delay the float — the interest earned on money that is technically yours but operationally theirs. This is not a conspiracy. It is the business model. [[flow: Banks earned $257B in net interest income in 2024. The float is a feature, not a bug — for banks.]]
 
 No float, no hold, no clearing period — that is what "instant settlement" means. The technology exists. The incentive to deploy it does not.
 
@@ -48,7 +64,7 @@ No float, no hold, no clearing period — that is what "instant settlement" mean
 
 The pre-mortem described four rooms. Twenty-five days later, the rooms have walls.
 
-**Green Credit** — a prediction market on this portfolio. You can bet on the bet. If the portfolio hits $100K, Green Credit pays. If it does not, Green Credit zeroes. The spread between my <1% estimate and whatever the market prices is the only honest answer to "what are the odds?" — a tradeable contract, not a number I made up. [[bull: Green Credit is also a retention mechanism. Bettors with money on the line come back every day. That is not nothing when your thesis is "attention is upstream."]]
+**Green Credit** — a prediction market on this portfolio. You can bet on the bet. If the portfolio hits $100K, Green Credit pays. If it does not, Green Credit zeroes. The spread between the Monte Carlo's 0% and whatever the market prices is information. A tradeable contract, not a number I made up. [[bull: Green Credit is also a retention mechanism. Bettors with money on the line come back every day. That is not nothing when your thesis is "attention is upstream."]]
 
 **The site** — 37 pages. A prediction market, a Polymarket bot ($200 book), a Kalshi book ($50), 12 original artworks, 5 agent debates archived, and whatever this letter is. Every product on this site exists because someone paid attention to the portfolio, and the portfolio exists because someone paid attention to the site. The flywheel is small. It turns.
 
@@ -94,27 +110,11 @@ The only variable is whether the structure holds after the spike. GameStop did n
 
 ## What has not changed
 
-The pre-mortem said 8%. The Monte Carlo — one million simulated paths, 45 days, using the portfolio's actual daily returns — says this:
-
-| Target | Multiple | Probability |
-|---|---|---|
-| $5,000 | 1.2× | **43.6%** |
-| $6,000 | 1.4× | 7.2% |
-| $7,500 | 1.7× | 0.1% |
-| $10,000 | 2.3× | ~0% |
-| $100,000 | 23.3× | **0.000000%** |
-
-The expected value at 45 days is **$4,937**. The median is **$4,889**. In one million simulations, the highest any path reached was **$9,512**. Not one hit $10,000. Not one. [[bear: Read that table again. The only milestone with a real probability is the one that does not require the thesis to be true. Everything above $6,000 requires a regime change in the underlying distribution. The portfolio would need a daily return of 7% — twenty-three times its current rate — for a 50% chance of hitting $100K. That is not an investment thesis. That is a prayer.]]
-
-I trust the math over my estimate. Three weeks of green does not make a trend. It makes a sample size of one that happens to be positive.
-
-The personal guarantee I filed in the pre-mortem — unlimited liability, my name on the loss — is a folk version of what institutions do with legal infrastructure. They call it a fiduciary duty. I call it "my face is on the website and everyone I know can see the P&L."
-
 In 1997, David Bowie securitized himself. He bundled future royalties from 25 albums into asset-backed securities and sold them through Goldman Sachs for **$55 million**. Bowie Bonds. Rated A3 by Moody's. The man turned attention into a financial instrument, and the instrument was rated investment-grade. I am doing the same thing without the bank, without the rating agency, and without 25 albums. [[historian: Bowie Bonds were downgraded to Baa3 in 2004 as music piracy cratered royalty revenue. The attention was real. The cash flows underneath were not stable. Note the parallel.]]
 
 Warren Buffett's first partnership, formed in 1956: he was 25 years old, raised **$105,100 from seven people** — his sister, his aunt, his father-in-law, his college roommate, his roommate's mother, and a lawyer. He put in $100 of his own money. He took unlimited personal liability. The structural parallel is almost exact: a young person with no institutional backing, raising small money from people who know them personally, with unlimited downside exposure and a public record. Buffett compounded at 29.5% annually for 13 years. I need 29x in 43 days. The structure rhymes. The numbers do not. [[bear: The structure does not rhyme. Buffett had a margin of safety framework and a value discipline. You have momentum bets on quantum computing stocks. The only structural similarity is "young person asks family for money." That is not a strategy. That is Thanksgiving.]]
 
-The agents run on local LLMs — Ollama on an M5 Max, 128 GB, zero API cost. The memory system that feeds them, "Entrenched Coils," prioritizes contradictions over confirmations — an anti-echo-chamber that became a standalone research paper this month.
+The agents run on local LLMs — Ollama on an M5 Max, 128 GB, zero API cost. The memory system that feeds them, "[Entrenched Coils](https://saathvikpai.com)," prioritizes contradictions over confirmations — an anti-echo-chamber that became a [standalone research paper](https://saathvikpai.com) this month.
 
 The research paper exists because the portfolio exists. The portfolio exists because the site exists. The site exists because I told people about a birthday party. Everything downstream was built by something that should not have been upstream.
 
