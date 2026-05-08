@@ -94,7 +94,19 @@ The only variable is whether the structure holds after the spike. GameStop did n
 
 ## What has not changed
 
-The pre-mortem said 8%. The Monte Carlo says **<1%**. I trust the math over my estimate. Three weeks of green does not make a trend. It makes a sample size of one that happens to be positive.
+The pre-mortem said 8%. The Monte Carlo — one million simulated paths, 45 days, using the portfolio's actual daily returns — says this:
+
+| Target | Multiple | Probability |
+|---|---|---|
+| $5,000 | 1.2× | **43.6%** |
+| $6,000 | 1.4× | 7.2% |
+| $7,500 | 1.7× | 0.1% |
+| $10,000 | 2.3× | ~0% |
+| $100,000 | 23.3× | **0.000000%** |
+
+The expected value at 45 days is **$4,937**. The median is **$4,889**. In one million simulations, the highest any path reached was **$9,512**. Not one hit $10,000. Not one. [[bear: Read that table again. The only milestone with a real probability is the one that does not require the thesis to be true. Everything above $6,000 requires a regime change in the underlying distribution. The portfolio would need a daily return of 7% — twenty-three times its current rate — for a 50% chance of hitting $100K. That is not an investment thesis. That is a prayer.]]
+
+I trust the math over my estimate. Three weeks of green does not make a trend. It makes a sample size of one that happens to be positive.
 
 The personal guarantee I filed in the pre-mortem — unlimited liability, my name on the loss — is a folk version of what institutions do with legal infrastructure. They call it a fiduciary duty. I call it "my face is on the website and everyone I know can see the P&L."
 
