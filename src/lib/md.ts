@@ -22,7 +22,13 @@ const AGENT_LABEL: Record<string, string> = {
 };
 
 function formatPlain(s: string): string {
-  return esc(s)
+  // Extract markdown links before escaping, restore after
+  const links: string[] = [];
+  const withPlaceholders = s.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, (_, text, url) => {
+    links.push(`<a href="${url}">${esc(text)}</a>`);
+    return `%%LINK${links.length - 1}%%`;
+  });
+  return esc(withPlaceholders)
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.+?)\*/g, "<em>$1</em>")
     .replace(/`(.+?)`/g, (_, c: string) => {
@@ -33,7 +39,9 @@ function formatPlain(s: string): string {
     .replace(
       /\b(polymarket)\b/gi,
       '<a class="polymarket-link" href="/argument">$1</a>',
-    );
+    )
+    // Restore markdown links
+    .replace(/%%LINK(\d+)%%/g, (_, i) => links[Number(i)]);
 }
 
 function renderAnno(agent: string, note: string): string {
