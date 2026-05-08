@@ -35,7 +35,7 @@ type PoolState = {
 
 export default function InvestPage() {
   const { eggs, justFound } = useEggs();
-  const [amount, setAmount] = useState(100);
+  const [amount, setAmount] = useState(50);
   const [custom, setCustom] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
