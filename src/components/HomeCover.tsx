@@ -98,13 +98,13 @@ export default function HomeCover({
 
   /* scroll-reveal via IntersectionObserver */
   useEffect(() => {
-    const els = rootRef.current?.querySelectorAll(".rl-reveal");
+    const els = rootRef.current?.querySelectorAll(".rl-reveal, .rl-reveal-left, .rl-reveal-right, .rl-reveal-scale");
     if (!els) return;
     const obs = new IntersectionObserver(
       (entries) => entries.forEach((e) => {
         if (e.isIntersecting) e.target.classList.add("rl-in");
       }),
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+      { threshold: 0.08, rootMargin: "0px 0px -60px 0px" },
     );
     els.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
@@ -179,11 +179,12 @@ export default function HomeCover({
 
       {/* ═══════════ TYPE RAIL ═══════════ */}
       <div className="rl-type-rail" aria-hidden="true">
-        <span>ATTENTION IS THE UPSTREAM CAPITAL</span>
-        <span className="rl-rail-dot">·</span>
-        <span>ATTENTION IS THE UPSTREAM CAPITAL</span>
-        <span className="rl-rail-dot">·</span>
-        <span>ATTENTION IS THE UPSTREAM CAPITAL</span>
+        {[...Array(6)].map((_, i) => (
+          <span key={i}>
+            {i > 0 && <span className="rl-rail-dot">·</span>}
+            ATTENTION IS THE UPSTREAM CAPITAL
+          </span>
+        ))}
       </div>
 
       {/* ═══════════ BODY ═══════════ */}
@@ -219,7 +220,7 @@ export default function HomeCover({
         <div className="rl-rule" />
 
         {/* §2 — What got built */}
-        <section className="rl-sect rl-reveal">
+        <section className="rl-sect rl-reveal-left">
           <h2 className="rl-sect-head rl-letter-head">What got built</h2>
 
           <p>
@@ -287,7 +288,7 @@ export default function HomeCover({
         <div className="rl-rule" />
 
         {/* §3 — What this proved */}
-        <section className="rl-sect rl-reveal">
+        <section className="rl-sect rl-reveal-scale">
           <h2 className="rl-sect-head rl-letter-head">What this proved</h2>
 
           <p>
@@ -306,7 +307,7 @@ export default function HomeCover({
         <div className="rl-rule" />
 
         {/* §4 — How to participate */}
-        <section className="rl-sect rl-reveal">
+        <section className="rl-sect rl-reveal-right">
           <h2 className="rl-sect-head rl-letter-head">How to participate</h2>
 
           <p>
@@ -363,7 +364,7 @@ export default function HomeCover({
         <div className="rl-rule" />
 
         {/* ── LATEST LETTER ── */}
-        <section className="rl-sect rl-reveal">
+        <section className="rl-sect rl-reveal-scale">
           <Link href="/letters/round-1" className="rl-letter-card">
             <span className="rl-letter-card-tag">LATEST LETTER</span>
             <span className="rl-letter-card-title">
