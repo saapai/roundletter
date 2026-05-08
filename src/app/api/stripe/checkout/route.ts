@@ -4,6 +4,7 @@ import { computeFees, PARTY_DATE, daysUntilParty } from "@/lib/invest-db";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 30;
 
 export async function POST(req: NextRequest) {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -26,7 +27,10 @@ export async function POST(req: NextRequest) {
   const { totalCharge } = computeFees(discountedAmount);
   const days = daysUntilParty();
 
-  const stripe = new Stripe(stripeKey);
+  const stripe = new Stripe(stripeKey, {
+    timeout: 15_000,
+    maxNetworkRetries: 3,
+  });
 
   const origin = req.headers.get("origin") || "https://aureliex.com";
 

@@ -67,30 +67,12 @@ export default function InvestPage() {
   const [gainPct, setGainPct] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/api/prices")
+    fetch("/api/portfolio")
       .then((r) => r.json())
       .then((j) => {
-        if (!j?.hasData) return;
-        const holdings = [
-          { ticker: "QTUM", shares: 5.584, entry: 679.74 },
-          { ticker: "MSFT", shares: 1.036, entry: 407.87 },
-          { ticker: "GOOG", shares: 1.235, entry: 407.17 },
-          { ticker: "IONQ", shares: 9.489, entry: 416.85 },
-          { ticker: "IBM",  shares: 1.553, entry: 373.33 },
-          { ticker: "NVDA", shares: 1.773, entry: 344.49 },
-          { ticker: "CEG",  shares: 1.148, entry: 339.05 },
-          { ticker: "RGTI", shares: 9.938, entry: 169.50 },
-          { ticker: "SGOV", shares: 2.625, entry: 263.94 },
-          { ticker: "QBTS", shares: 5.951, entry: 101.65 },
-        ];
-        const entryTotal = 3453.83;
-        let nowTotal = 46.57; // pending cash
-        for (const h of holdings) {
-          const s = j.data[h.ticker];
-          if (s?.closes?.length > 0) nowTotal += h.shares * s.closes[s.closes.length - 1];
-          else nowTotal += h.entry;
+        if (j?.total && j?.baseline) {
+          setGainPct(((j.total - j.baseline) / j.baseline) * 100);
         }
-        setGainPct(((nowTotal - entryTotal) / entryTotal) * 100);
       })
       .catch(() => {});
   }, []);

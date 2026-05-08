@@ -295,7 +295,7 @@ export default function HomeCover({
             Three things are true regardless of whether the number hits.
           </p>
           <ol className="rl-proves">
-            <li>People love making money.</li>
+            <li>People love money.</li>
             <li>People love a party.</li>
             <li>People love to watch someone try the impossible &mdash;
             especially when the first two are already happening.</li>
