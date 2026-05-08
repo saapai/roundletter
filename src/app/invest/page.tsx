@@ -95,6 +95,7 @@ export default function InvestPage() {
       .catch(() => {});
   }, []);
 
+  const [showPay, setShowPay] = useState(false);
   const [stripeError, setStripeError] = useState<string | null>(null);
 
   const handleStripeCheckout = async () => {
@@ -245,60 +246,60 @@ export default function InvestPage() {
         />
       </div>
 
-      {/* Payment options — Venmo first */}
-      <div className="invest-pay">
-        <div className="invest-pay-direct">
-          <h2>Pay Direct — No Fees</h2>
-          <p>Your full ${amount} goes into the pool. No processing fees.</p>
+      {/* Payment — single CTA that reveals options */}
+      {!showPay ? (
+        <div className="invest-cta-wrap">
+          <button
+            className="invest-btn invest-btn-primary invest-btn-cta"
+            onClick={() => setShowPay(true)}
+          >
+            Invest ${amount.toLocaleString()}
+          </button>
+        </div>
+      ) : (
+        <div className="invest-pay-reveal">
+          <p className="invest-pay-heading">Choose how to pay</p>
           <a
             href={`https://venmo.com/${VENMO_HANDLE}?txn=pay&amount=${amount}&note=aureliex+pool+investment`}
             target="_blank"
             rel="noopener noreferrer"
-            className="invest-btn invest-btn-primary"
+            className="invest-pay-option"
           >
-            Venmo @{VENMO_HANDLE}
+            <span className="invest-pay-option-left">
+              <span className="invest-pay-option-name">Venmo</span>
+              <span className="invest-pay-option-sub">@{VENMO_HANDLE}</span>
+            </span>
+            <span className="invest-pay-option-right">
+              <span className="invest-pay-option-amount">${amount}</span>
+              <span className="invest-pay-option-tag invest-pay-option-tag--free">no fees</span>
+            </span>
           </a>
           <a
             href={`sms:${PHONE}&body=Investing $${amount} in the aureliex pool. Name: ${encodeURIComponent(name || "anonymous")}`}
-            className="invest-btn invest-btn-secondary"
+            className="invest-pay-option"
           >
-            Text {PHONE.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}
+            <span className="invest-pay-option-left">
+              <span className="invest-pay-option-name">Text / Zelle</span>
+              <span className="invest-pay-option-sub">{PHONE.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}</span>
+            </span>
+            <span className="invest-pay-option-right">
+              <span className="invest-pay-option-amount">${amount}</span>
+              <span className="invest-pay-option-tag invest-pay-option-tag--free">no fees</span>
+            </span>
           </a>
-          <p className="invest-pay-note">
-            Paying directly avoids the Stripe fee — the full amount enters the pool.
-          </p>
-        </div>
-
-        <div className="invest-pay-divider">
-          <span>or</span>
-        </div>
-
-        <div className="invest-pay-stripe">
-          <h2>Pay via Stripe</h2>
-          <div className="invest-fee-breakdown">
-            <div className="invest-fee-row">
-              <span>Investment amount</span>
-              <span>${((effectiveAmount - discountCents) / 100).toFixed(2)}</span>
-            </div>
-            <div className="invest-fee-row">
-              <span>Stripe fee (2.9% + $0.30)</span>
-              <span>${(fees.stripeFee / 100).toFixed(2)}</span>
-            </div>
-            <div className="invest-fee-row">
-              <span>aureliex fee (1%)</span>
-              <span>${(fees.aureliexFee / 100).toFixed(2)}</span>
-            </div>
-            <div className="invest-fee-row invest-fee-total">
-              <span>You pay</span>
-              <span>${(fees.youPay / 100).toFixed(2)}</span>
-            </div>
-          </div>
           <button
-            className="invest-btn invest-btn-stripe"
+            className="invest-pay-option"
             onClick={handleStripeCheckout}
             disabled={loading}
           >
-            {loading ? "Redirecting..." : `Pay $${(fees.youPay / 100).toFixed(2)} via Stripe`}
+            <span className="invest-pay-option-left">
+              <span className="invest-pay-option-name">{loading ? "Redirecting..." : "Card"}</span>
+              <span className="invest-pay-option-sub">via Stripe</span>
+            </span>
+            <span className="invest-pay-option-right">
+              <span className="invest-pay-option-amount">${(fees.youPay / 100).toFixed(2)}</span>
+              <span className="invest-pay-option-tag">includes fees</span>
+            </span>
           </button>
           {stripeError && (
             <p style={{ color: "var(--rust, #C44325)", fontSize: "0.88rem", marginTop: "0.75rem", textAlign: "center" }}>
@@ -306,7 +307,7 @@ export default function InvestPage() {
             </p>
           )}
         </div>
-      </div>
+      )}
 
       {/* Pool state */}
       {pool && pool.investorCount > 0 && (

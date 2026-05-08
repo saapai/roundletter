@@ -19848,45 +19848,10 @@ body:has(.bank-page) > footer { display: none !important; }
   font-style: italic;
 }
 
-/* Payment section */
-.invest-pay {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  align-items: start;
-}
-@media (max-width: 640px) {
-  .invest-pay {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
-.invest-pay h2 {
-  font-family: var(--font-display), serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 1.25rem;
-  margin: 0 0 0.5rem;
-}
-.invest-pay p {
-  font-size: 0.95rem;
-  color: var(--graphite);
-  line-height: 1.5;
-  margin-top: 0.25rem;
-}
-.invest-pay-divider {
-  display: flex;
-  align-items: center;
-  color: var(--graphite);
-  font-size: 0.85rem;
-  font-style: italic;
-}
-@media (max-width: 640px) {
-  .invest-pay-divider {
-    justify-content: center;
-    padding: 0;
-  }
+/* Payment — single CTA */
+.invest-cta-wrap {
+  max-width: 20rem;
+  margin: 0 auto 3rem;
 }
 .invest-btn {
   display: block;
@@ -19911,50 +19876,87 @@ body:has(.bank-page) > footer { display: none !important; }
   background: #E8B84B;
   color: #0A0A0A;
 }
-.invest-btn-secondary {
-  background: transparent;
-  color: var(--ink);
+.invest-btn-cta {
+  font-size: 1.1rem;
+  padding: 0.9rem 1.5rem;
+  margin-top: 0;
+}
+
+/* Revealed payment options */
+.invest-pay-reveal {
+  max-width: 28rem;
+  margin: 0 auto 3rem;
+}
+.invest-pay-heading {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--graphite);
+  text-align: center;
+  margin: 0 0 1rem;
+}
+.invest-pay-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.9rem 1rem;
   border: 1px solid var(--rule);
-}
-.invest-btn-secondary:hover {
-  border-color: var(--ink);
-}
-.invest-btn-stripe {
   background: transparent;
+  cursor: pointer;
+  text-decoration: none;
   color: var(--ink);
-  border: 1px solid var(--rule);
+  font-family: var(--font-body), serif;
+  font-size: 0.95rem;
+  transition: border-color 200ms ease, background 200ms ease;
+  margin-bottom: -1px;
 }
-.invest-btn-stripe:hover {
-  border-color: var(--ink);
+.invest-pay-option:first-of-type { border-radius: 4px 4px 0 0; }
+.invest-pay-option:last-of-type { border-radius: 0 0 4px 4px; margin-bottom: 0; }
+.invest-pay-option:hover {
+  border-color: #C9952A;
+  background: rgba(201, 149, 42, 0.04);
+  z-index: 1;
+  position: relative;
 }
-.invest-btn-stripe:disabled {
+.invest-pay-option:disabled {
   opacity: 0.5;
   cursor: wait;
 }
-.invest-pay-note {
-  font-size: 0.82rem !important;
-  font-style: italic;
-  margin-top: 0.75rem !important;
-}
-
-/* Fee breakdown */
-.invest-fee-breakdown {
-  font-family: ui-monospace, Menlo, monospace;
-  font-size: 0.82rem;
-  margin-top: 0.75rem;
-}
-.invest-fee-row {
+.invest-pay-option-left {
   display: flex;
-  justify-content: space-between;
-  padding: 0.25rem 0;
+  flex-direction: column;
+  gap: 0.15rem;
+  text-align: left;
+}
+.invest-pay-option-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.invest-pay-option-sub {
+  font-size: 0.78rem;
   color: var(--graphite);
 }
-.invest-fee-total {
-  border-top: 1px solid var(--rule);
-  margin-top: 0.25rem;
-  padding-top: 0.35rem;
-  color: var(--ink);
+.invest-pay-option-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+}
+.invest-pay-option-amount {
+  font-family: ui-monospace, Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
   font-weight: 500;
+}
+.invest-pay-option-tag {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.invest-pay-option-tag--free {
+  color: var(--ledger-green, #2a7d4f);
 }
 
 /* Pool register */

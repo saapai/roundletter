@@ -122,19 +122,14 @@ export default function SalonWall({ pieces, meta }: { pieces: Piece[]; meta?: Me
   return (
     <>
       <ul className={`${styles.grid} salon-wall`} role="list">
-        {ordered.placed.map(({ pl, p }, i) => {
+        {ordered.placed.map(({ p }, i) => {
           const stagger = reduce ? 0 : i * 0.06;
           return (
             <li
               key={p.id}
               className={styles.cell}
               style={{
-                gridColumn: `${pl.colStart} / span ${pl.colSpan}`,
-                gridRow: `span ${pl.rowSpan}`,
                 animationDelay: reduce ? undefined : `${stagger}s`,
-                ["--m-col-start" as never]: pl.mColStart,
-                ["--m-col-span" as never]: pl.mColSpan,
-                ["--m-row-span" as never]: pl.mRowSpan,
               }}
             >
               <button
