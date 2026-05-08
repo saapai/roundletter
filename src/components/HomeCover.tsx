@@ -81,8 +81,8 @@ export default function HomeCover({
   /* Cinematic open: void → red brand → number → full reveal */
   const runOpen = useCallback(() => {
     setTimeout(() => setPhase("brand"), 200);
-    setTimeout(() => setPhase("number"), 2200);
-    setTimeout(() => setPhase("full"), 3600);
+    setTimeout(() => setPhase("number"), 3400);
+    setTimeout(() => setPhase("full"), 4800);
   }, []);
 
   useEffect(() => {
@@ -120,7 +120,7 @@ export default function HomeCover({
       {/* ═══════════ BRAND SPLASH (Netflix-style) ═══════════ */}
       <div className={`rl-splash ${phase === "brand" ? "rl-splash-in" : ""} ${numVis ? "rl-splash-out" : ""}`}>
         <div className="rl-splash-n">
-          <span className="rl-splash-letter">a</span>
+          <span className="rl-splash-letter" data-text="a">a</span>
           <span className="rl-splash-rest">ureliex</span>
           <span className="rl-splash-dot">.</span>
         </div>
