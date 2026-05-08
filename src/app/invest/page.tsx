@@ -303,14 +303,21 @@ export default function InvestPage() {
         <h2>How Allocation Works</h2>
         <p>
           Your share of the pool is proportional to <strong>how much</strong> you invest
-          and <strong>how early</strong> you invest. The formula:
+          and <strong>how early</strong> you invest.
         </p>
-        <div className="invest-formula-block">
-          <code>your_share = (your_investment × days_before_party) / total_pool_weight</code>
+        <div className="invest-frac">
+          <span className="invest-frac-lhs">share<sub>i</sub></span>
+          <span className="invest-frac-eq">=</span>
+          <span className="invest-frac-block">
+            <span className="invest-frac-num">investment<sub>i</sub> &times; days remaining<sub>i</sub></span>
+            <span className="invest-frac-bar" />
+            <span className="invest-frac-den">&Sigma;<sub>k</sub> investment<sub>k</sub> &times; days remaining<sub>k</sub></span>
+          </span>
         </div>
-        <p>
-          A $100 investment with 30 days left (weight: 3,000) earns more than
-          $100 with 5 days left (weight: 500). Early conviction is rewarded.
+        <p className="invest-latex-note">
+          $100 with 30 days left → weight 3,000.<br />
+          $100 with 5 days left → weight 500.<br />
+          Early conviction is rewarded.
         </p>
       </div>
     </div>

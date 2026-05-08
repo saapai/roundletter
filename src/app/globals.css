@@ -20027,6 +20027,63 @@ body:has(.bank-page) > footer { display: none !important; }
   font-size: 0.82rem;
   overflow-x: auto;
 }
+.invest-frac {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 1.8rem 0;
+  padding: 1.8rem 1rem;
+  border: 1px solid rgba(201, 149, 42, 0.15);
+  border-radius: 3px;
+  background: rgba(201, 149, 42, 0.03);
+  font-family: 'Times New Roman', 'Cambria Math', Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--ink);
+}
+.invest-frac sub {
+  font-size: 0.7em;
+  vertical-align: -0.2em;
+  font-style: italic;
+}
+.invest-frac-lhs { white-space: nowrap; }
+.invest-frac-eq {
+  font-style: normal;
+  font-size: 1.3em;
+  margin: 0 0.2rem;
+}
+.invest-frac-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.invest-frac-num, .invest-frac-den {
+  padding: 0.2rem 0.5rem;
+  white-space: nowrap;
+  font-size: 0.9em;
+}
+.invest-frac-bar {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--ink);
+  opacity: 0.6;
+}
+@media (max-width: 640px) {
+  .invest-frac { font-size: 0.85rem; padding: 1.2rem 0.6rem; }
+  .invest-frac-num, .invest-frac-den { font-size: 0.8em; }
+}
+.invest-latex-note {
+  font-family: var(--font-body), serif;
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--graphite);
+  text-align: center;
+  margin-top: 0.5rem;
+  line-height: 1.7;
+}
 
 /* Success page */
 .invest-success {
