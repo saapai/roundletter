@@ -207,7 +207,7 @@ export default function HomeCover({
           <p>
             The{" "}
             <Link href="/letters/round-0" className="rl-ink-link">pre-mortem</Link>
-            {" "}says this has an <strong>8%</strong> chance of working.
+            {" "}says this has a <strong>&lt;1%</strong> chance of working.
             I published that number before I started.
           </p>
           <p className="rl-coda">
@@ -353,7 +353,7 @@ export default function HomeCover({
             &ldquo;The credit belongs to the one who is actually in the
             market, whose account is marred by drawdowns and realized
             losses&hellip; who publishes the pre-mortem before the first
-            trade, who knows the 8% probability and starts anyway &mdash;
+            trade, who knows the &lt;1% probability and starts anyway &mdash;
             so that his place shall never be with those who neither bet
             nor watched.&rdquo;
           </blockquote>

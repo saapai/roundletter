@@ -48,7 +48,7 @@ No float, no hold, no clearing period — that is what "instant settlement" mean
 
 The pre-mortem described four rooms. Twenty-five days later, the rooms have walls.
 
-**Green Credit** — a prediction market on this portfolio. You can bet on the bet. If the portfolio hits $100K, Green Credit pays. If it does not, Green Credit zeroes. The spread between my 8% estimate and whatever the market prices is the only honest answer to "what are the odds?" — a tradeable contract, not a number I made up. [[bull: Green Credit is also a retention mechanism. Bettors with money on the line come back every day. That is not nothing when your thesis is "attention is upstream."]]
+**Green Credit** — a prediction market on this portfolio. You can bet on the bet. If the portfolio hits $100K, Green Credit pays. If it does not, Green Credit zeroes. The spread between my <1% estimate and whatever the market prices is the only honest answer to "what are the odds?" — a tradeable contract, not a number I made up. [[bull: Green Credit is also a retention mechanism. Bettors with money on the line come back every day. That is not nothing when your thesis is "attention is upstream."]]
 
 **The site** — 37 pages. A prediction market, a Polymarket bot ($200 book), a Kalshi book ($50), 12 original artworks, 5 agent debates archived, and whatever this letter is. Every product on this site exists because someone paid attention to the portfolio, and the portfolio exists because someone paid attention to the site. The flywheel is small. It turns.
 
@@ -94,7 +94,7 @@ The only variable is whether the structure holds after the spike. GameStop did n
 
 ## What has not changed
 
-The pre-mortem said 8%. I still think that is roughly right. Three weeks of green does not make a trend. It makes a sample size of one that happens to be positive.
+The pre-mortem said 8%. The Monte Carlo says **<1%**. I trust the math over my estimate. Three weeks of green does not make a trend. It makes a sample size of one that happens to be positive.
 
 The personal guarantee I filed in the pre-mortem — unlimited liability, my name on the loss — is a folk version of what institutions do with legal infrastructure. They call it a fiduciary duty. I call it "my face is on the website and everyone I know can see the P&L."
 
