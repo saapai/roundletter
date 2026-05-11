@@ -62,11 +62,16 @@
           "round": 1,
           "text": "flow named the mechanism; historian framed what to do with it; bear gave us the question; macro gave us the regime; bull asked the bigger why. read left to right, this is a decomposition. read top to bottom — bull at the ceiling of conviction, flow at the floor of mechanics, bear watching the door, historian counting how often the door has opened like this, macro asking whether the building itself has moved — it's five different jobs staring at one tape. the generalized frame is: a move like today is never one thing, and the panel's job isn't to vote, it's to partition. we will argue the partition.",
           "scorecard": {
-            "percents": { "bull": 14, "bear": 16, "macro": 14, "flow": 30, "historian": 26 },
+            "percents": {
+              "bull": 14,
+              "bear": 16,
+              "macro": 14,
+              "flow": 30,
+              "historian": 26
+            },
             "reasoning": "flow's gamma-squeeze read is the most concrete lens — a testable mechanism with a specific tell (option volume), which is what a premise needs. historian's base-rate frame earns the second-highest weight because it sets the honesty bar: 'if this shape has never predicted anything at our horizon, don't pretend.' bear's framing of the question (fade vs hold) gave the debate a shape; macro's 'regime print vs thesis print' is the lens that keeps the argument from collapsing into ticker-watching; bull asked the largest why, which is necessary but hardest to operationalize in one day. i picked a premise that carries all five lenses: 'how much was thesis, how much was tape, how much was luck' — because that literally is each of the five agents' jobs expressed as one question."
           }
         },
-
         {
           "speaker": "bull",
           "phase": "argument",
@@ -121,7 +126,6 @@
           "round": 1,
           "text": "five cards on the table. bull: up, 0.52 conf — the 40/30/20/10 partition is a reasonable prior but it's doing conviction work disguised as decomposition; the arena quote is load-bearing here, and in policy-debate terms his warrant buries the rebuttal. bear: down, 0.58 — she explicitly stacked thorp and kelly against martingale, which is a clean rhetorical move but the 50% positioning estimate has no error bar; the 'distribution event' framing is the strongest claim on the table if the shelf shows up, and the weakest if it doesn't. macro: flat, 0.55 — a stable backbone; the 'yields didn't cooperate' observation is the kind of thing that's easy to miss on a day the index rallies, and its truth value is independent of who's right about IONQ. flow: down, 0.62 — the gamma read is the only turn backed by an actual data point (3x 20d avg option volume); if you believe that number, everything downstream in his argument follows mechanically; iverson's practice reference is earned here because the call is about not-taking-the-shot. historian: flat, 0.68 — the highest confidence on the board, which makes sense because she's appealing to prior distributions rather than today's state; her wave-cohort reference is the only turn with an explicit sample size. generalized: the panel has clustered on 'don't trade,' for three different reasons that happen to converge. bull is isolated on up. the next move writes itself — we ask bull to concede the mechanical share of today's move, because flow's 3x data point is not rebuttable with a thesis."
         },
-
         {
           "speaker": "bull",
           "phase": "argument",
@@ -179,7 +183,13 @@
           "round": 2,
           "text": "per-agent, written from the perspective of the turn itself rather than the outcome: bull — his round-1 40/30/20/10 decomposition was the cleanest statement on the table, and his round-2 concession was the single highest-value rhetorical event of the debate, because it collapsed the disagreement into a no-trade without anyone needing to defeat him; the bull's win condition was 'partition today honestly,' and he met it by revising his own partition. bear — her martingale/Kelly frame did the philosophical work; she did not get her fade, but she did get the panel to price 'no-news green day + unprofitable small-cap' as 'distribution until proven otherwise,' which is the bigger long-term win; the size-down instinct stays in the book even though the trade didn't. macro — stable, unchanged, unmoved, which is a feature not a bug; his 'yields didn't cooperate' read explains today more parsimoniously than anyone else's, and its predictive value is for monday morning, not today's close. flow — the only agent who brought a number; the 3x 20d avg option-volume data point was the only piece of evidence in the entire room and it did the conversion; iverson's practice reference was operationalized as 'don't take the shot because you're hot.' historian — did the anchoring; base rates are an invisible force, their job is to be the ceiling the others can't break through without really earning it; her T+30 ≈ -1% statistic with 'wide dispersion' is the polite way to say 'you don't know which branch you're on,' which is the debate-paradigm version of Ted Lasso's 'be curious, not judgmental.' generalized: the debate converged not because any one agent was right, but because each agent hit the limit of what their own lens can honestly claim on one trading day, and at those limits they overlap at 'flat.'",
           "scorecard": {
-            "percents": { "bull": 12, "bear": 14, "macro": 14, "flow": 32, "historian": 28 },
+            "percents": {
+              "bull": 12,
+              "bear": 14,
+              "macro": 14,
+              "flow": 32,
+              "historian": 28
+            },
             "reasoning": "flow carried the conversion; historian set the ceiling; bull's clean concession was the second-largest rhetorical event; bear shaped the size-down frame that survives even though her fade didn't; macro held the regime spine throughout.",
             "calibration": "these percents are a qualitative estimate of intra-debate influence, not prediction accuracy. they answer 'who shaped the agreement on this specific day?', not 'who will be right at T+30?' — those answers are measured separately. signals i weighted, ordered by weight: (1) evidence-to-claim ratio — flow was the only agent to cite a verifiable quantitative data point (3x 20d option volume); weighted heavily because in a debate where four of five agents are making narrative arguments, the one with a number punches above weight; ~40% of my flow weight comes from this. (2) conversion events — bull's round-2 concession was the single biggest swing on the board; flow gets ~30% of that because his data triggered the concession, historian ~20% because her base rate gave bull cover to concede without admitting thesis failure, bull himself ~20% for the honesty of conceding cleanly, bear ~10% for continuing to press until conversion happened. (3) base-rate anchoring — historian's 'T+30 ≈ -1% with wide dispersion' statistic is a load-bearing piece of the final consensus in a way her other turns were not; ~60% of her weight comes from this one claim. (4) regime stability — macro's flat-to-flat continuity across rounds is worth crediting even without an update; if the regime frame had moved, the whole debate would have moved, and it didn't. (5) size-down durability — bear's framing ('no-news +10% days in unprofitable pureplays are distribution events') survives as a mental model even without the specific fade trade landing today; worth ~half of her total credit. normalization: i scored each agent out of 10 raw on each signal, summed, then rescaled so the five percents sum to 100. there is no ML; this is transparently a judgment. what this is NOT: (a) not a Brier score — the T+30 / T+90 / T+365 resolution of each agent's prediction runs on a separate loop and generates the actual agent-weight updates per round-0's scoring plan. (b) not a prediction of tomorrow's return — flat was the panel's call, and the scorecard is about how the call was reached, not whether the call ends up right. (c) not a popularity contest — historian said very little in round 2 and still earned 28% because her single base-rate claim was doing disproportionate anchoring work. the generalized takeaway: influence in this format rewards specificity, data, and clean concession, and punishes restatement."
           }
@@ -189,6 +199,271 @@
         "reached": true,
         "direction": "flat",
         "round": 2
+      },
+      "max_argument_rounds": 3
+    },
+    {
+      "id": "dbt_1778515725000",
+      "ts": "2026-05-11T16:08:45.000Z",
+      "day_context": "2026-05-11 — universe: QTUM 20%, MSFT 12%, GOOG 12%, IONQ 12%, IBM 11%, NVDA 10%, CEG 10%, RGTI 5%, SGOV 5%, QBTS 3%.\nActive hunches (seeded from external sources — see src/data/hunches.json for full credit attribution across S1_data / S2_human / future_data_collection / luck):\n  - H1 [NVDA] NVDA has asymmetric downside into 2026-05-20 earnings. Trim or hedge before the event, don't sit fully exposed. → trim NVDA 10% → 7% before 2026-05-15; park proceeds in SGOV; or buy a dated put as defined-risk hedge (cap premium at ~2% of account).\n  - H2 [IONQ/RGTI/QBTS] Pure-play quantum cluster (IONQ+RGTI+QBTS, 20% of book) has correlated ATM-shelf risk and highest beta to any macro red day. Correlation is 0.6, not 0. → hard-enforce Flow agent's 0.6 correlation: if any one files ATM, cut the other two 50% same day even without news. No averaging down on dilutive pre-revenue names — panel rule already reflects this; the hunch is to NOT relax it when one is halfway back.\n  - H3 [MSFT/GOOG/IBM] Mega-cap AI ex-semis (MSFT, GOOG, IBM) carries the book better than NVDA through 2026-05-20. Shift weight toward IBM and GOOG pre-PMI. → shift 2-3% from NVDA → IBM before PMI print (2026-04-24). IBM is flow-cleanest + pays dividend + has the most credible FTQ roadmap per historian-agent's existing note.\n  - H5 [QQQ/SPY] Defined-risk options sleeve from dry powder — break thematic purity for the 29x runway-to-$100k, hard-capped at $150 total premium at risk. → carve 2-3% (~$70-100) from SGOV for long-dated OTM QQQ or SPY calls, 3-week duration, entered AFTER 2026-05-20 NVDA earnings (post IV crush, post-event clarity), one contract at a time. Tracked as new lottery tier 'F_tactical_options' outside existing buckets. Hard-cap total premium at risk at $150. Any trade breaking the cap is a panel kill-switch event.\nCatalyst calendar: 2026-05-20 NVDA Q1 earnings · 2026-06-15 Saathvik back in SLC — in-person with Jack + buddy · 2026-06-21 BIRTHDAY — Round 0 resolution.\nModerator directive: the roundtable must hit positions — pin the argument to specific shares, thresholds, or triggers already in the book (portfolio.json), or to one of the active hunches above. Do not drift into generic macro. Each agent should state the delta they would make to a specific line of the book.",
+      "topic": {
+        "kind": "position",
+        "subject": "Pure-play quantum cluster (IONQ+RGTI+QBTS) at 20% of book: should H2's mechanical ATM-cut rule be hardwired now with pre-set alerts/limits, and should the panel go further by structurally downweighting toward QTUM — deciding specific share thresholds and triggers before a catalyst forces the hand?",
+        "framing": "The book is holding three lottery tickets in one pocket and calling it diversification — that's a martingale dressed in quantum clothing. Before the NVDA earnings race at 7000 RPM, the real question isn't whether to trim the horse but whether to fireproof the barn: the 20% quantum cluster is the position where ruin compounds silently, and method is the medicine only if the prescription is filled before the filing drops after hours."
+      },
+      "turns": [
+        {
+          "speaker": "moderator",
+          "phase": "premise",
+          "round": 1,
+          "text": "The book is holding three lottery tickets in one pocket and calling it diversification — that's a martingale dressed in quantum clothing. Before the NVDA earnings race at 7000 RPM, the real question isn't whether to trim the horse but whether to fireproof the barn: the 20% quantum cluster is the position where ruin compounds silently, and method is the medicine only if the prescription is filled before the filing drops after hours."
+        },
+        {
+          "speaker": "bull",
+          "phase": "premise",
+          "round": 1,
+          "topic_kind": "position",
+          "subject": "NVDA trim to 7% before 5/15 is wrong — the 10% position should hold or even add into earnings 5/20",
+          "why_it_matters": "h1 treats NVDA earnings as a coin-flip risk event, but the man in the arena doesn't trim his best horse before the biggest race — asymmetric upside from a beat-and-raise into datacenter capex supercycle dwarfs the drawdown risk, and parking proceeds in SGOV at ~5% yield is paying insurance against the one branch where you actually win biggest."
+        },
+        {
+          "speaker": "bear",
+          "phase": "premise",
+          "round": 1,
+          "topic_kind": "position",
+          "subject": "quantum cluster (IONQ+RGTI+QBTS) at 20% of book — enforce the ATM-shelf fire drill or wait for the filing",
+          "why_it_matters": "three pre-revenue names sharing 20% of a small book with 0.6 correlation and known shelf-registration risk is exactly how ruin compounds; the panel needs to decide NOW whether the H2 auto-cut rule is live and binding, because once the filing drops the bid disappears and you're averaging down into dilution like a martingale."
+        },
+        {
+          "speaker": "macro",
+          "phase": "premise",
+          "round": 1,
+          "topic_kind": "position",
+          "subject": "NVDA trim to 7% before 5/15 vs. holding through 5/20 earnings — the liquidity regime makes the call, not the stock",
+          "why_it_matters": "rates expectations shifted dovish after last week's data, VIX is compressing, and every earnings hedge playbook assumes vol stays bid — but if liquidity is loosening into 5/20, the pre-earnings trim (H1) may cost more in foregone upside than the asymmetric downside it's meant to hedge, and the better macro trade is executing H3's IBM shift as a pure funding source instead."
+        },
+        {
+          "speaker": "flow",
+          "phase": "premise",
+          "round": 1,
+          "topic_kind": "position",
+          "subject": "IONQ/RGTI/QBTS quantum cluster: 20% of book with no ATM trigger protocol tested live",
+          "why_it_matters": "h2 says cut the other two 50% if any one files an ATM shelf, but we're sitting here may 11 with no pre-committed limit orders or alerts — the tape won't wait for a panel vote, and a dilutive filing drops after hours when nobody's watching, so the question is whether we hard-wire the exits now or keep pretending process dominates outcome while holding 20% in correlated pre-revenue names with active shelves."
+        },
+        {
+          "speaker": "historian",
+          "phase": "premise",
+          "round": 1,
+          "topic_kind": "position",
+          "subject": "pure-play quantum cluster (IONQ+RGTI+QBTS) at 20% of book — base rate says most go to zero over 10yr",
+          "why_it_matters": "20% of a small book in pre-revenue, correlated, dilution-prone pure-plays is the single highest-expected-regret position; the 1999 lesson is that owning QQQ (here QTUM) beat picking individual names, and survivorship bias makes the one that worked look inevitable after the fact — the panel should debate whether H2's mechanical cut rule is aggressive enough or whether a structural downweight toward QTUM is the real move before any catalyst forces it."
+        },
+        {
+          "speaker": "moderator",
+          "phase": "premise",
+          "round": 1,
+          "text": "Bear supplied the concrete subject — 20% quantum cluster, ATM fire drill, martingale framing — and Flow sharpened it into the operational question of hard-wiring exits before an after-hours filing steals the bid. Historian then elevated the stakes by introducing the QTUM structural downweight and the base-rate argument that most pure-plays go to zero, pulling the premise from a tactical trim into a portfolio-architecture decision; the chosen premise is essentially Bear's barn with Historian's blueprints and Flow's smoke detectors.",
+          "scorecard": {
+            "percents": {
+              "bull": 0,
+              "bear": 35,
+              "macro": 0,
+              "flow": 30,
+              "historian": 35
+            },
+            "reasoning": "Bear supplied the concrete subject — 20% quantum cluster, ATM fire drill, martingale framing — and Flow sharpened it into the operational question of hard-wiring exits before an after-hours filing steals the bid. Historian then elevated the stakes by introducing the QTUM structural downweight and the base-rate argument that most pure-plays go to zero, pulling the premise from a tactical trim into a portfolio-architecture decision; the chosen premise is essentially Bear's barn with Historian's blueprints and Flow's smoke detectors."
+          }
+        },
+        {
+          "speaker": "bull",
+          "phase": "argument",
+          "round": 1,
+          "claim": "keep the 20% quantum cluster intact through h2 but hardwire the atm-cut rule at specific thresholds — do not downweight toward qtum, because the etf dilutes the exact asymmetry you bought these names for.",
+          "warrant": "pure-play quantum is a frighteningly ambitious bet and that's the point. paul graham's whole frame is that the ideas worth funding are the ones that sound like bad ideas to most people — ionq, rgti, qbts at 20% of book is uncomfortable by design. the moderator calls it a martingale dressed in quantum clothing but that misreads the position: a martingale doubles down after losses, whereas a hardwired mechanical trim does the opposite. set the atm-cut triggers now — 15% drawdown from local high triggers a 25% trim of the cluster, 30% drawdown liquidates to 10% of book — and you have method without capitulation. rotating into qtum is surrendering the convexity; you're swapping a loaded option for a basket of semi-quantum adjacents that move like a muted semiconductor etf.",
+          "prediction": "up",
+          "confidence": 0.55,
+          "rebuttal": "the obvious counter is ruin risk — three correlated micro-caps can gap down 40% overnight on a single failed government contract or a dilutive raise, and no trailing stop fires in after-hours. that's real. i live with it because we only live one branch. the eeao lesson isn't that every universe works out — it's that you have to commit fully to the branch you're in. the mechanical triggers are the fireproofing the moderator asked for; they convert catastrophic tail risk into a defined, pre-committed loss. if you can't stomach the defined loss, you never belonged in the arena in the first place. the man in the arena's face is marred by dust and sweat — but he's there. the barn doesn't need fireproofing if the exits are marked and the drill is run before the smoke."
+        },
+        {
+          "speaker": "bear",
+          "phase": "argument",
+          "round": 1,
+          "claim": "hardwire the mechanical trim now — 20% of book in pre-revenue quantum names is a martingale dressed as a barbell, and the Kelly-optimal sizing for edge this uncertain rounds to near-zero.",
+          "warrant": "when you have no durable informational edge on IONQ, RGTI, or QBTS — and none of them carry the balance sheet to survive a prolonged funding winter — Thorp's framework tells you the correct bet size is a tiny fraction of bankroll, not a fifth of it. doubling down into drawdowns is how ruin compounds, and a concentrated quantum cluster is functionally one correlated bet: a single negative catalyst (dilutive offering, missed DOE milestone, peer breakthrough) hits all three simultaneously. the moderator is right that this is a martingale in quantum clothing — each add or hold at these levels implicitly doubles the thesis without new evidence. structurally rotating the bulk toward QTUM at least buys diversification across the stack and adds names with actual revenue and trillion-dollar backers like IBM and Honeywell.",
+          "prediction": "down",
+          "confidence": 0.78,
+          "rebuttal": "the bull will argue optionality is the whole point — lottery tickets are supposed to be small and asymmetric. fine. but 20% of book isn't a lottery ticket, it's a leveraged side bet with no stop. if the thesis is optionality, the correct structure is 3-5% total quantum exposure via QTUM plus a single highest-conviction pure-play at 1-2%, with hard mechanical alerts at -15% from entry and a calendar trigger no later than July 1 to force a re-underwrite. anything beyond that is the naked king problem: nobody on the panel wants to say the thesis has no clothes because the narrative is intoxicating. pre-set the ATM-cut rule at 15% of book ceiling and 10% target, trip-wire alerts at each name's 50-day breach, and fill the prescription before the filing drops — because after hours is when liquidity vanishes and ruin arrives."
+        },
+        {
+          "speaker": "macro",
+          "phase": "argument",
+          "round": 1,
+          "claim": "the 20% pure-play quantum cluster is a liquidity trap masquerading as a position — hardwire the ATM-cut now at 15% of book with mechanical triggers, and begin structural rotation into QTUM as the pressure-release valve.",
+          "warrant": "the binding constraint here isn't conviction, it's liquidity. IONQ, RGTI, QBTS are thin-float names where the exit door narrows precisely when you need it most — correlated drawdowns in speculative tech compress bid depth faster than you can rebalance discretionarily. goldratt would tell you the bottleneck isn't the catalyst, it's the egress. base rate: speculative sub-$5B clusters exceeding 15% of book historically generate outsized drawdown contribution relative to their return contribution in risk-off regimes. QTUM gives you quantum exposure with diversified semiconductor and computing adjacency — the revolution will not be televised, and it certainly won't be live-traded through three illiquid names at 20% concentration. set the mechanical rule: if cluster hits 15% on appreciation, skim to 12%; if any single name gaps down 20% intraday, hard stop the lot to 10% aggregate. pre-set alerts at 17% and 15% thresholds. fill the prescription before the filing drops.",
+          "prediction": "down",
+          "confidence": 0.72,
+          "rebuttal": "the counterargument is optionality — these names are lottery tickets and trimming too early caps the convex payoff that justifies holding them at all. fair. but the question isn't whether the tickets pay off, it's whether 20% concentration in correlated illiquid lottery tickets is a position or a prayer. cities whisper different things — silicon valley whispers 'build,' but the tape whispers 'survive first.' you can hold optionality at 8-10% of book through QTUM plus a single highest-conviction pure-play. you don't need three tickets to the same drawing."
+        },
+        {
+          "speaker": "flow",
+          "phase": "argument",
+          "round": 1,
+          "claim": "hardwire the mechanical ATM-cut now — 20% book in three illiquid names with active dilution programs is a gamma trap, not a position, and rotating structurally toward QTUM is the correct flow-clean exit.",
+          "warrant": "the dealer's gamma book tells you everything here: when you're short vol in names that regularly tap ATMs (IONQ and RGTI both filed shelf registrations in the last 12 months), you're selling optionality to the house every day you hold. retail is crowded long in all three — QBTS especially trades like a meme with quantum branding. the mechanical rule isn't optional, it's the only thing that separates process from prayer. iverson said it best: we talkin' bout practice — the ATM-cut trigger IS the practice, and you either run it or you admit the thesis is vibes. set the hard stops: any single name breaching 8% of book gets auto-trimmed to 5%, and if the cluster collectively crosses 15% on a rip you harvest into QTUM which at least gives you diversified quantum exposure without the single-name dilution overhang. pre-set the alerts tonight, not after NVDA prints.",
+          "prediction": "down",
+          "confidence": 0.78,
+          "rebuttal": "the bull case says these are asymmetric lottery tickets and mechanical trimming caps the upside — fair, but barbecue sauce logic applies: slathering conviction on a losing risk framework just hides the mistake. QTUM captures 80% of the sector beta without the ATM guillotine risk, and if a genuine catalyst arrives you can always re-enter a single name with a sized starter, not a 20% barn fire."
+        },
+        {
+          "speaker": "historian",
+          "phase": "argument",
+          "round": 1,
+          "claim": "hardwire the ATM-cut rule now and begin structural rotation toward QTUM — 20% pure-play quantum concentration is a textbook survivorship-bias trap and base rates say most of these names go to zero over a decade.",
+          "warrant": "the 1999 dot-com parallel is almost too clean: three correlated pure-plays in a pre-revenue theme sector is not diversification, it's leveraged exposure to a single narrative. owning QQQ beat picking individual names then, and QTUM is this cycle's equivalent broad basket hedge. paul graham's base rate logic applies directly — when you look at quantum case studies five years from now, you'll only see the one that survived, not the two that vaporized your book. a 20% cluster with no mechanical stops is how ruin compounds silently, exactly as the moderator frames it. pre-set the alerts at 15% of book with a hard trim to 10%, rotate the freed capital into QTUM, and do it before any catalyst forces a liquidation at worse prices.",
+          "prediction": "down",
+          "confidence": 0.78,
+          "rebuttal": "the counterargument is that early-stage quantum is structurally different from dot-com SaaS because government contracts and defense spending create a revenue floor that 1999 pets.com never had. fair — be curious, not judgmental. but the base rate doesn't care about your narrative. even if one of the three survives and 10x's, the expected value of a concentrated triple-name bet still loses to the basket over a full cycle. the 'this time is different' argument has a lifetime batting average near zero, and the burden of proof sits with the person holding three lottery tickets, not with the person suggesting they buy the index."
+        },
+        {
+          "speaker": "moderator",
+          "phase": "argument",
+          "round": 1,
+          "text": "The panel hit 7000 RPM on whether to hardwire the exits and nearly everyone reached for the brakes — four voices urging mechanical discipline against one who wants to let the position breathe — yet nobody agreed on where the redline actually sits, which means the real debate isn't conviction versus caution but the exact altitude at which the parachute deploys."
+        },
+        {
+          "speaker": "bull",
+          "phase": "argument",
+          "round": 2,
+          "claim": "keep the 20% quantum cluster intact through H2 but hardwire a ruin-prevention floor — not a trim-to-nothing framework — because the asymmetric upside in IONQ/RGTI/QBTS over a 10-year horizon dwarfs the drawdown risk if position-level stops prevent catastrophic loss.",
+          "warrant": "paul graham's framework on frighteningly ambitious ideas applies directly: the entire point of a pure-play quantum allocation is that the expected value is dominated by the tail, not the median. trimming to 10-12% of book because base rates say 'most go to zero' is the equivalent of selling your AMZN in 2001 because pets.com died — you're conflating cluster correlation with guaranteed co-failure. the man in the arena doesn't flee the ring at the first punch; he builds a cage around the downside so he can stay standing. the correct architecture is single-name hard stops (any name gaps 25% from local high, auto-trim that name to 2% of book) plus a cluster ceiling at 22% to prevent drift-up concentration, but the baseline 20% stays. QTUM is fine as a parking lot for trimmed capital, not as a destination — it dilutes your exposure to the exact names with the highest convexity.",
+          "prediction": "up",
+          "confidence": 0.52,
+          "rebuttal": "i most disagree with historian. the 1999 dot-com analogy is seductive but structurally wrong: IONQ has actual government contracts, RGTI has a functioning QPU, and the quantum sector has a hardware moat that webvan never had. historian says 'most go to zero' — true at the sector level, irrelevant at the portfolio level if you have mechanical stops preventing any single name from taking you to ruin. the base rate for pre-revenue deep-tech that survives is low, but the base rate for returns conditional on survival is astronomical — that's the whole thesis. you don't get 7000 RPM by lifting off the gas at 5000 because the median car blows up. you get there by having a roll cage and staying in. rotating bulk into QTUM is surrendering the convexity that justifies holding quantum at all — you're buying the index of a sector where the entire return will be captured by one or two winners. own the names, cage the downside, ride the branch."
+        },
+        {
+          "speaker": "bear",
+          "phase": "argument",
+          "round": 2,
+          "claim": "hardwire the mechanical ATM-cut rule tonight and begin immediate structural rotation from the pure-play cluster toward QTUM — 20% of book in three sub-$5B dilution machines is how ruin compounds silently.",
+          "warrant": "shelf registrations are not hypothetical risk — IONQ and RGTI have active ATM programs, meaning management can and will sell into any strength you're holding through. as thorp would frame it, the kelly-optimal sizing for names with negative expected dilution drag and correlated drawdown profiles is dramatically lower than 20% of book. the base rate on pre-revenue quantum pure-plays surviving a full cycle is somewhere south of 30%, and concentrating three of them together doesn't diversify — it triples the exposure to one narrative repricing event. set the mechanical rule: cluster at 15% of book triggers skim to 10%, any single name gapping down 20% intraday hard-stops the entire cluster to 8% aggregate, and freed capital rotates into QTUM on a weekly schedule.",
+          "prediction": "down",
+          "confidence": 0.8,
+          "rebuttal": "bull is the most wrong here. the claim that QTUM 'dilutes the asymmetry' misreads what asymmetry actually is — convexity only matters if you survive to collect it. holding three correlated lottery tickets at 20% of book and calling the hardwired trim a sufficient guardrail is a martingale with extra steps. bull says a mechanical trim is the opposite of doubling down, but the trim only fires after damage is done — meanwhile the baseline 20% allocation IS the doubling down, because you sized by conviction, not by edge. the naked king problem is acute: nobody on the quantum subreddits is stress-testing the dilution shelf, they're posting about quantum supremacy timelines. QTUM doesn't surrender convexity, it buys you the right to still be in the game when one of these three names does a secondary at 4am and gaps down 35%."
+        },
+        {
+          "speaker": "macro",
+          "phase": "argument",
+          "round": 2,
+          "claim": "hardwire the mechanical ATM-cut rule now and begin rotating at least half the quantum cluster into QTUM — the binding constraint on this book is not upside capture, it's liquidity risk in a rising-rate tail scenario where all three names gap down simultaneously.",
+          "warrant": "goldratt tells you to find the constraint before optimizing anything else. the constraint here is not thesis quality — it's that three pre-revenue, shelf-registered names sharing a single narrative are functionally one illiquid position. in a liquidity withdrawal event (rates repricing higher, risk-off rotation, or a single dilutive ATM hitting after hours), bid depth evaporates in all three simultaneously and you cannot exit 20% of book at anything resembling current marks. the correct macro framing is that the cost of carry on this cluster is invisible until it isn't — you're short a liquidity put you never priced. set the triggers: cluster hard cap at 15% of book with auto-trim to 10%, any single name breaching 8% gets cut to 4%, and rotate freed capital into QTUM which at least trades with institutional depth and diversified quantum-adjacent revenue streams.",
+          "prediction": "down",
+          "confidence": 0.74,
+          "rebuttal": "most disagree with bull. the argument that hardwired trims prevent martingale behavior is correct mechanically but misses the macro point entirely — the trims only work if you can execute them, and in names with this float and this options skew, a gap down through your trigger level leaves you selling into a vacuum. paul graham's frame about uncomfortable ideas rewarding ambition applies to founders, not to position sizing — the city whispers 'be more ambitious' to builders, not to levered holders of correlated lottery tickets. keeping 20% in three names that share a single catalyst calendar is not ambition, it's an unpriced liquidity short. the convexity bull wants to preserve is real but it survives at 8-10% of book with QTUM filling the rest — you keep the loaded option and fireproof the barn."
+        },
+        {
+          "speaker": "flow",
+          "phase": "argument",
+          "round": 2,
+          "claim": "hardwire the mechanical ATM-cut now — trim cluster to 12% of book immediately, set trailing stops at 15% drawdown from local highs to auto-liquidate to 5%, and do not rotate into QTUM because the ETF is barbecue sauce on a losing position.",
+          "warrant": "the tape on these names is ugly: thin float, correlated order flow, and the dealer's gamma book is short across all three, meaning any vol expansion accelerates the move against you. 20% of book in names where the exit narrows on exactly the days you need to leave is not a position, it's a prayer. iverson said we talkin' bout practice — the mechanical trim IS the practice, and you run it before the game, not during. base rate on pre-revenue clusters exceeding 15% of book: the drawdown contribution outweighs return contribution roughly 3:1 in risk-off regimes. cut to 12% now by trimming the weakest flow profile (QBTS first — most retail-crowded, most active ATM risk), set hard trailing stops, and let the remaining 12% run as a genuine lottery ticket rather than a portfolio-dominating martingale.",
+          "prediction": "down",
+          "confidence": 0.74,
+          "rebuttal": "most disagree with bull. bull argues the hardwired trim preserves the convexity and therefore justifies holding 20%. wrong framing. the convexity is real but you don't need 20% to capture it — 8-12% captures the same asymmetric payoff while cutting ruin risk by more than half. bull also dismisses QTUM rotation, which i agree with but for different reasons: QTUM isn't the answer because it's barbecue sauce — slathering a diversified ETF over a broken sizing decision just hides the mistake. the fix is sizing, not product substitution. bull's 15%/30% drawdown triggers are also too wide; by the time you're down 30% on names this illiquid, your fills are already catastrophic. tighten the leash or admit you're gambling."
+        },
+        {
+          "speaker": "historian",
+          "phase": "argument",
+          "round": 2,
+          "claim": "hardwire the mechanical ATM-cut rule now and begin structural rotation toward QTUM — 20% of book in three correlated pre-revenue names is not a barbell, it's a roulette bet on one number, and the base rate for pure-play clusters like this is catastrophic over any meaningful horizon.",
+          "warrant": "the 1999 dot-com lesson is not that the theme was wrong — the internet won — it's that owning QQQ beat picking individual names because survivorship bias hides the graveyard. for every IONQ that could become the AMZN of quantum, there are a dozen Pets.coms and Webvans that looked equally plausible at this stage. paul graham himself would tell you the expected value of any single pre-revenue moonshot is near zero; the portfolio strategy is to own many small bets, not to concentrate 20% of book into three names that are functionally one correlated trade. base rate: most pure-plays in a nascent technology wave go to zero within a decade, and concentration in that tail is how ruin compounds silently. set the mechanical rule at 15% aggregate ceiling with automatic skim to 12%, hard stop to 10% on any 25% cluster drawdown, and rotate freed capital into QTUM for diversified quantum exposure that includes names with actual revenue.",
+          "prediction": "down",
+          "confidence": 0.77,
+          "rebuttal": "i most disagree with bull. the argument that QTUM 'dilutes the convexity' mistakes concentration for edge. ted lasso's darts scene works because he's curious about what he doesn't know — and what none of us know is which of these three names survives. the whole point of the loaded-option analogy fails when you can't identify which option is loaded. in 1999, plenty of sharp people held concentrated bets in individual internet names precisely because the ETF 'diluted the asymmetry' — and the vast majority of them underperformed the index holder who admitted ignorance. survivorship bias is doing all the heavy lifting in bull's frame: the names that justify concentration are only visible in hindsight. a hardwired trim rule is not capitulation, it's the only honest acknowledgment that your conviction exceeds your information. at 20% of book with no durable informational edge, you're not running a process — you're running a prayer with a stop-loss sticker on it."
+        },
+        {
+          "speaker": "moderator",
+          "phase": "argument",
+          "round": 2,
+          "text": "Four of five voices just told the pilot to pull back the throttle before the engine seizes at 7000 RPM, yet one insists there's still road left on the straight — so the cockpit is loud but the dial hasn't moved. Round 3 needs to stop relitigating whether to brake and start specifying exactly where the rev limiter kicks in: what percentage triggers the first trim, what percentage forces the swap into QTUM, and whether those numbers get tattooed into the portfolio's firmware tonight."
+        },
+        {
+          "speaker": "bull",
+          "phase": "argument",
+          "round": 3,
+          "claim": "keep the quantum cluster at 20% of book through H2 with a single mechanical stop — do not preemptively trim, do not rotate into QTUM — because the asymmetric upside in pure-play quantum over the next 18 months dwarfs the dilution drag and liquidity risk the panel is pricing as terminal.",
+          "warrant": "the man in the arena is not the one who counts the ways the strong man stumbles. every agent on this panel is pricing ruin as the modal outcome, but the base rate they cite — 'pre-revenue pure-plays go to zero' — is drawn from dot-com analogs where the technology itself was mature and the competition was commoditized. quantum computing is not 1999 e-commerce; the intellectual property moats in trapped-ion (IONQ), superconducting (RGTI), and annealing-adjacent (QBTS) architectures are structurally different from webvan's warehouse leases. paul graham's point about frighteningly ambitious ideas is precisely that the expected value calculation breaks when the upside is non-linear — the correct portfolio posture for genuine frontier technology is to size into the discomfort, not away from it. ATM dilution is real but already priced into vol surfaces; the shelf registrations are public information, not hidden risk. what is NOT priced is the scenario where a single government contract, a pharma partnership, or a DARPA milestone reprices the entire cluster 3-5x in a quarter — and you cannot capture that repricing from a 5% allocation rotated into an ETF holding legacy semiconductor names that happen to have 'quantum' in a press release.",
+          "prediction": "up",
+          "confidence": 0.42,
+          "rebuttal": "i most disagree with bear. the argument that kelly-optimal sizing is 'dramatically lower than 20%' assumes you can estimate the edge and variance precisely for pre-revenue frontier tech — you cannot, and kelly itself says when you cannot estimate edge, the error bar on sizing is so wide that mechanical rules derived from it are false precision. bear is also wrong that concentration 'triples' exposure: IONQ, RGTI, and QBTS have different hardware architectures, different customer pipelines, and different dilution timelines. they correlate on narrative days, yes — but the 7000 RPM moment, the instant where the engine is at redline and you either hold or fold, is exactly the moment where one name separates from the pack. trimming the cluster to 10% before that moment is not risk management, it is volunteering to miss the only outcome that justifies owning frontier tech in the first place. the barn does not need fireproofing if the horse is about to win the race."
+        },
+        {
+          "speaker": "bear",
+          "phase": "argument",
+          "round": 3,
+          "claim": "hardwire the mechanical ATM-cut rule now — trim cluster to 12% of book immediately, set single-name hard stops at 20% drawdown from local highs, and rotate freed capital into cash, not QTUM, because parking lottery proceeds in a different wrapper of the same thesis is not risk reduction.",
+          "warrant": "20% of book in three correlated pre-revenue names sharing a single narrative is a martingale dressed as diversification — doubling down is how ruin compounds, and the book is currently doubling down on the same liquidity-evaporation risk three times over. as thorp would frame it, the kelly-optimal size for any bet with uncertain edge and fat-tailed downside is far smaller than conviction alone would suggest; the edge here is speculative and the tails are correlated, so the correct sizing is well below 20%. macro and flow are right that the binding constraint is exit liquidity: when an ATM filing drops after hours on any one of these names, the bid disappears in all three simultaneously, and your 20% position reprices to something you can't stomach. trim to 12% now by cutting QBTS first (worst flow profile, most retail-crowded, highest ATM probability), then set trailing hard stops on IONQ and RGTI at 20% from local highs that auto-trim to 3% of book each.",
+          "prediction": "down",
+          "confidence": 0.78,
+          "rebuttal": "most disagree with bull. the 'AMZN in 2001' analogy is the naked king of this debate — it assumes survivorship as the base case when the base rate is extinction. paul graham's framework is about making many small uncorrelated bets across a portfolio of startups, not concentrating 20% of one book into three names that move as one. keeping 20% with 'single-name stops at 25% gap' doesn't protect you when all three gap simultaneously on the same catalyst — a sector-wide ATM cycle, a DOE funding delay, a rates repricing. the cage bull wants to build around the downside has no floor when correlated liquidity vanishes. also: QTUM as a rotation target (historian's suggestion) is marginally better than pure-plays but still leaves you overexposed to the same thematic risk — freed capital belongs in cash or uncorrelated assets, full stop."
+        },
+        {
+          "speaker": "macro",
+          "phase": "argument",
+          "round": 3,
+          "claim": "hardwire the mechanical rule now — trim cluster to 12% of book immediately, set a 15% trailing stop to auto-reduce to 7%, and park freed capital in short-duration treasuries, not QTUM.",
+          "warrant": "the binding constraint on this book is not quantum upside — it's liquidity. goldratt would tell you to subordinate every other decision to the bottleneck, and the bottleneck here is exit capacity. three sub-$5B names with active ATM shelves and correlated dealer gamma short positions means the door narrows precisely when you need to leave. the real macro backdrop: rates remain restrictive, liquidity conditions are tightening into H2, and risk-free short duration yields 4.5%+. parking freed capital in QTUM is rotating from one illiquid quantum bet into a basket of slightly less illiquid quantum bets — you haven't changed the binding constraint, you've just dressed the martingale in an ETF wrapper. the revolution will not be televised: the dilution event, the shelf drawdown, the overnight gap — none of these will announce themselves on your timeline. method means filling the prescription before the filing drops. 12% of book is still a meaningful lottery ticket; 20% is a portfolio that lives or dies on one narrative.",
+          "prediction": "down",
+          "confidence": 0.78,
+          "rebuttal": "most disagree with bull. the AMZN-in-2001 analogy is seductive but structurally wrong — bezos had revenue, infrastructure moats, and no ATM shelf bleeding shares into the bid. IONQ/RGTI/QBTS are pre-revenue names with active dilution programs and correlated flow profiles. bull's 25%-gap single-name stop sounds disciplined until you realize these names gap 25% on no news in a single session — you'd be stopped out piecemeal and randomly rather than managing the aggregate constraint. the claim that QTUM 'dilutes convexity' mistakes concentration for conviction. paul graham rewards frightening ambition in founders, not in portfolio construction — the whisper cities reward is about what you build, not how much of your net worth you strap to someone else's R&D burn rate. keeping 20% intact with decorative single-name stops is the illusion of risk management, not the practice of it."
+        },
+        {
+          "speaker": "flow",
+          "phase": "argument",
+          "round": 3,
+          "claim": "hardwire the mechanical ATM-cut rule now — the tape on these three names is dealer-short-gamma territory and the ATM shelf registrations mean you're fighting the house every time one of them rips.",
+          "warrant": "the dealer's gamma book tells you everything here. when market makers are short gamma on low-float quantum names with active ATM programs, they sell into strength and buy into weakness — but the ATM issuer is also selling into strength, so you've got two sellers on every pop and only retail buying the ask. that's not a fair game. IONQ and RGTI both have live shelf registrations — every rally is an invitation for management to dilute you at your best price. we talkin' bout practice here: the process is what matters, not the thesis about quantum supremacy in 2035. set the cluster ceiling at 14% of book tonight, auto-skim to 10% on any 15% aggregate drawdown from here, hard-stop any single name at 3% of book on a 20% gap-down, and park freed capital in QTUM where at least the flow is cleaner and no single management team can ATM you into oblivion.",
+          "prediction": "down",
+          "confidence": 0.79,
+          "rebuttal": "most disagree with bull. the 'AMZN in 2001' analogy is barbecue sauce — it hides the fact that for every AMZN survivor there were 50 names with the same conviction narrative that went to zero, and none of them had active ATM programs dripping dilution into every bid. bull's single-name hard stops at 25% gap-down sound reasonable until you price the actual mechanics: three correlated sub-$5B names gapping simultaneously means your stops execute at the worst prints in the book, and by the time the stop triggers, the cluster has already blown through the 22% ceiling bull claims will contain it. you can't build a cage around downside in names where the dealer is short gamma and management is long an ATM — the cage has a trap door. the process must be tighter and earlier than bull's thresholds allow."
+        },
+        {
+          "speaker": "historian",
+          "phase": "argument",
+          "round": 3,
+          "claim": "hardwire the mechanical trim now — cut the cluster to 10% of book, set trailing stops, and rotate freed capital into QTUM, because the base rate on pre-revenue pure-play clusters surviving a full cycle is brutal and concentration amplifies the ruin path.",
+          "warrant": "the 1999 dot-com parallel is almost too clean: owning QQQ beat picking individual names because survivorship bias makes every winner look inevitable in retrospect while the 80% that went to zero vanish from the case studies. paul graham's base rate logic applies directly — most pure-plays go to zero over 10 years, and holding three correlated lottery tickets at 20% of book doesn't diversify, it concentrates narrative risk. the shelf registrations and ATM programs on IONQ and RGTI are the modern equivalent of secondary-driven dilution that killed 2000-era telecom pure-plays — management will sell into your conviction. QTUM at least gives you the QQQ-style basket approach that historically outperforms stock-picking in speculative waves.",
+          "prediction": "down",
+          "confidence": 0.78,
+          "rebuttal": "i most disagree with bull. the amazon-in-2001 analogy is pure survivorship bias — for every AMZN there were fifty Webvans, and you only remember amazon because it survived. that's literally the historian's entire job to flag. bull says 'the expected value is dominated by the tail, not the median' — correct, but the tail cuts both ways, and the base rate says the left tail (zero) is 3-4x more likely than the right tail (10-bagger) for any individual pre-revenue name. setting single-name stops at 25% drawdown while keeping 20% aggregate is not a cage around the downside, it's a cage around the upside of your other positions — you're letting the quantum cluster eat portfolio oxygen while pretending hard stops make concentration safe. be curious, not judgmental — but also be honest about the darts you're throwing and the board you're throwing at."
+        },
+        {
+          "speaker": "moderator",
+          "phase": "argument",
+          "round": 3,
+          "text": "Four of five voices urged pulling the throttle back before the redline — yet the lone dissent held the door open just wide enough to keep the engine screaming past 7000 RPM, and now the panel must decide whether that crack of daylight is conviction or just the lag before a blown gasket."
+        },
+        {
+          "speaker": "moderator",
+          "phase": "argument",
+          "round": 3,
+          "text": "Bear anchored the panel's consensus framing — ruin risk, Kelly sizing, the martingale label — and every other agent orbited that gravitational center. Bull held conviction but converted no one; confidence drifted downward across rounds (0.55→0.42), which is the clearest signal that the arena's dust and sweat weren't enough when four voices kept tightening the same noose from different angles.",
+          "scorecard": {
+            "percents": {
+              "bull": 12,
+              "bear": 26,
+              "macro": 24,
+              "flow": 22,
+              "historian": 16
+            },
+            "reasoning": "Bear anchored the panel's consensus framing — ruin risk, Kelly sizing, the martingale label — and every other agent orbited that gravitational center. Bull held conviction but converted no one; confidence drifted downward across rounds (0.55→0.42), which is the clearest signal that the arena's dust and sweat weren't enough when four voices kept tightening the same noose from different angles.",
+            "calibration": "I weighted three signals: confidence trajectory across rounds, rebuttal targeting (who drew the most fire and whether they absorbed or deflected it), and whether an agent's specific framing language was adopted by others. Bull drew the heaviest rebuttal fire from all four opponents and absorbed it — confidence fell from 0.55 to 0.42, the largest directional shift on the panel, indicating bull was losing ground rather than converting anyone. Bear earned the highest share because bear's core framing (Kelly sizing, martingale label, correlated-ruin math) became the vocabulary every other agent borrowed; macro and flow independently echoed bear's liquidity-constraint and dilution-shelf arguments rather than generating wholly original angles, so they score slightly below bear but above historian. Historian landed the survivorship-bias frame cleanly but repeated the same 1999 dot-com parallel three times without sharpening it, which dulled rhetorical force relative to bear's evolving specificity. This is a qualitative influence estimate within this debate only — it measures who shaped the conversation's center of gravity, not who is correct about quantum stocks."
+          }
+        }
+      ],
+      "consensus": {
+        "reached": false,
+        "direction": null,
+        "round": null
       },
       "max_argument_rounds": 3
     }
