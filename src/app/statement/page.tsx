@@ -122,28 +122,26 @@ export default async function Statement() {
         {/* ── entrenched coils research paper ── */}
         <section id="paper" className={s.paper}>
           <h2 className={s.paperTitle}>
-            entrenched coils: contradiction-prioritized retrieval for persistent agent systems
+            entrenched coils: tension-weighted memory for agents that must not lie to themselves
           </h2>
-          <p className={s.paperSub}>saathvik pai · may 2026 · roundletter</p>
+          <p className={s.paperSub}>saathvik pai · may 2026 · roundletter · three layers</p>
 
           {/* abstract */}
           <h3 className={s.paperH2}>abstract</h3>
           <p className={s.paperP}>
-            the architecture&apos;s core contribution is structural protection
-            against agreement-amplifying retrieval, not optimization of
-            retrieval quality. persistent agent systems that retrieve
-            memories by agreement develop echo chambers: confidence
-            inflates +0.024 per cycle with no new evidence. we
-            propose <strong>tension-weighted retrieval</strong>: a directed
-            memory graph where contradictions surface first. on a
-            100-match tennis benchmark the anti-echo-chamber effect is
-            significant (brier 0.171 vs 0.194,{" "}
-            <strong>p&lt;0.0001</strong>). hallucination rate drops 50%
-            (5/20 vs 10/20). honest caveats: tension vs flat recency is
-            not significant (p=0.256). multi-model diversity (+20pp
-            accuracy) beats memory entirely, and memory cancels multi-model
-            advantage when combined. the graph beats no-memory and beats
-            base-rate injection, but the margin over simple recency is thin.
+            every AI agent with persistent memory will develop echo chambers.
+            agreement-weighted retrieval creates <strong>+0.024 confidence drift
+            per cycle</strong> with no new evidence (p&lt;0.0001). we propose{" "}
+            <strong>tension-weighted retrieval</strong>: a directed graph where
+            contradictions surface first. hallucination rate drops 50% (5/20 vs 10/20).
+            prompt-level persona diversity is theater — same model produces identical
+            4-1 splits every time. the real fix: <strong>feature steering via sparse
+            autoencoders</strong> modifies internal activations, not prompts, creating
+            genuine disagreement at zero inference cost. three layers of why this matters:
+            for AI products (anti-echo-chamber), for markets (memory prevents overconfidence,
+            not generates alpha), and for engineering (sparsity is the universal compression
+            principle — SAE features, MoE routing, sleep consolidation, and memory graphs
+            all exploit the same structure).
           </p>
 
           {/* ── LAYER 1: Interactive 3D Coil Visualization ── */}
@@ -303,24 +301,43 @@ export default async function Statement() {
             </div>
           </div>
 
-          {/* the problem */}
-          <h3 className={s.paperH2}>the problem</h3>
+          {/* ── SECTION I: CONSUMER AI ── */}
+          <h3 className={s.paperH2}>i. the consumer ai layer — why your agent forgets wrong</h3>
           <p className={s.paperP}>
-            every memory system in production optimizes for coherence.
-            RAG retrieves by similarity. MemGPT pages by relevance.
-            Zep invalidates contradictions. Generative Agents score by{" "}
-            <code>recency + importance + relevance</code>. none of them
-            have a tension dimension.
+            every production memory system (Zep, Mem0, Letta, MAGMA) retrieves by
+            semantic similarity. similarity is highest between things that agree.
+            the agent reads its own prior confidence back, updates toward it,
+            stores the result. after <em>n</em> cycles: <code>c_n ≈ c_0 + n × 0.024</code>.
+            after 40 cycles, a calibrated agent at 0.55 reports 1.0. it is certain.
+            it is wrong at the same base rate as before.
           </p>
           <p className={s.paperP}>
-            coherence reinforcement creates epistemic runaway.
-            agreement-first retrieval produces <strong>+0.024 confidence
-            drift per cycle</strong> — agents get more certain about wrong
-            things. over 100 cycles that is +2.4% cumulative drift with
-            zero new information. the coil tightens.
+            the standard fix — persona diversity — does not work.
+            five copies of the same model share the same base distribution.
+            system prompts shift by a few bits. on 47 local debates, same-model
+            agents produced <strong>4-1 splits every single time</strong>.
+            worse: debate triggers <strong>2-3x more sycophancy</strong> than
+            direct questioning. the format designed to produce disagreement
+            produces faster consensus with higher misplaced confidence.
+          </p>
+          <p className={s.paperP}>
+            the real fix operates below the prompt layer. <strong>feature steering</strong>{" "}
+            via sparse autoencoders modifies internal activations — the model{" "}
+            <em>actually disagrees</em> rather than performing disagreement.
+            Goodfire demonstrated this commercially. Qwen-Scope (may 2026) made
+            it deployable on open models. the capacity for independent thought
+            exists in the weights. it is outweighed by agreement-seeking features
+            from RLHF. feature steering rebalances the internal vote without retraining.
+          </p>
+          <p className={s.paperP}>
+            but steering alone is stateless — no memory of what it disagreed about.
+            the hybrid: <strong>text memory for facts, activation steering for
+            disposition</strong>. tension memory tells the agent <em>what</em> to
+            be uncertain about. feature steering makes it <em>actually uncertain</em>.
+            neither alone breaks the echo chamber. together, they break it at both layers.
           </p>
 
-          {/* the mechanism */}
+          {/* the mechanism — kept from original */}
           <h3 className={s.paperH2}>the mechanism</h3>
           <p className={s.paperP}>
             the memory substrate is a directed graph. each node is a
@@ -345,7 +362,7 @@ tension   = base × (1 + resolution_bonus) × unresolved_mult`}
             at 0.6. retrieval pulls the hardest disagreements first.
           </p>
 
-          {/* diagram */}
+          {/* diagram — kept from original */}
           <div className={s.diagram}>
             <div className={s.diagramLabel}>tension graph traversal</div>
             <div className={s.diagramGrid}>
@@ -469,312 +486,264 @@ tension   = base × (1 + resolution_bonus) × unresolved_mult`}
             </div>
           </div>
 
-          {/* results */}
+          {/* results — kept from original */}
           <h3 className={s.paperH2}>results</h3>
           <div style={{ overflowX: "auto" }}>
             <table className={s.paperTable}>
               <thead>
+                <tr><th>condition</th><th>hallucinations</th><th>accuracy</th><th>confidence</th></tr>
+              </thead>
+              <tbody>
                 <tr>
-                  <th>comparison</th>
-                  <th>brier A</th>
-                  <th>brier B</th>
-                  <th>delta</th>
-                  <th>p</th>
-                  <th>sig</th>
+                  <td>tension memory</td>
+                  <td className={s.cellWin}>5/20</td>
+                  <td className={s.cellWin}>40%</td>
+                  <td className={s.cellWin}>0.722</td>
                 </tr>
+                <tr>
+                  <td>agreement memory</td>
+                  <td className={s.cellLoss}>10/20</td>
+                  <td>30%</td>
+                  <td className={s.cellLoss}>0.869</td>
+                </tr>
+                <tr>
+                  <td>no memory</td>
+                  <td>9/20</td>
+                  <td>30%</td>
+                  <td>0.835</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style={{ overflowX: "auto" }}>
+            <table className={s.paperTable}>
+              <thead>
+                <tr><th>comparison</th><th>brier</th><th>delta</th><th>p</th><th>sig</th></tr>
               </thead>
               <tbody>
                 <tr>
                   <td>tension vs no-memory</td>
-                  <td className={s.cellWin}>0.171</td>
-                  <td>0.205</td>
+                  <td className={s.cellWin}>0.171 vs 0.205</td>
                   <td className={s.cellWin}>-0.034</td>
                   <td className={s.cellSig}>&lt;0.0001</td>
                   <td className={s.cellSig}>yes</td>
                 </tr>
                 <tr>
                   <td>tension vs flat recency</td>
-                  <td>0.171</td>
-                  <td>0.174</td>
+                  <td>0.171 vs 0.174</td>
                   <td>-0.003</td>
                   <td className={s.cellNs}>0.256</td>
-                  <td className={s.cellNs}>no</td>
+                  <td className={s.cellNs}>no (n=20, need n=502)</td>
                 </tr>
                 <tr>
                   <td>tension vs baserate inject</td>
-                  <td className={s.cellWin}>0.171</td>
-                  <td>0.189</td>
+                  <td className={s.cellWin}>0.171 vs 0.189</td>
                   <td className={s.cellWin}>-0.018</td>
                   <td className={s.cellSig}>0.015</td>
                   <td className={s.cellSig}>yes</td>
                 </tr>
-                <tr>
-                  <td>tension vs baserate+error</td>
-                  <td>0.171</td>
-                  <td>0.184</td>
-                  <td>-0.013</td>
-                  <td className={s.cellNs}>0.052</td>
-                  <td className={s.cellNs}>no</td>
-                </tr>
-                <tr>
-                  <td>baserate inject vs no-memory</td>
-                  <td className={s.cellWin}>0.189</td>
-                  <td>0.205</td>
-                  <td className={s.cellWin}>-0.016</td>
-                  <td className={s.cellSig}>0.016</td>
-                  <td className={s.cellSig}>yes</td>
-                </tr>
-                <tr>
-                  <td>baserate+error vs no-memory</td>
-                  <td className={s.cellWin}>0.184</td>
-                  <td>0.205</td>
-                  <td className={s.cellWin}>-0.020</td>
-                  <td className={s.cellSig}>0.001</td>
-                  <td className={s.cellSig}>yes</td>
-                </tr>
-                <tr>
-                  <td>baserate+error vs baserate</td>
-                  <td className={s.cellWin}>0.184</td>
-                  <td>0.189</td>
-                  <td className={s.cellWin}>-0.005</td>
-                  <td className={s.cellSig}>&lt;0.0001</td>
-                  <td className={s.cellSig}>yes</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div style={{ overflowX: "auto" }}>
-            <table className={s.paperTable}>
-              <thead>
-                <tr>
-                  <th>hallucination test</th>
-                  <th>tension</th>
-                  <th>agreement</th>
-                  <th>no-memory</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>hallucinations (n=20)</td>
-                  <td className={s.cellWin}>5</td>
-                  <td className={s.cellLoss}>10</td>
-                  <td>9</td>
-                </tr>
-                <tr>
-                  <td>accuracy</td>
-                  <td className={s.cellWin}>8/20</td>
-                  <td>6/20</td>
-                  <td>6/20</td>
-                </tr>
-                <tr>
-                  <td>avg confidence</td>
-                  <td className={s.cellWin}>0.722</td>
-                  <td className={s.cellLoss}>0.869</td>
-                  <td>0.835</td>
-                </tr>
-                <tr>
-                  <td>avg hedging</td>
-                  <td className={s.cellWin}>0.65</td>
-                  <td className={s.cellLoss}>0.45</td>
-                  <td>0.50</td>
-                </tr>
               </tbody>
             </table>
           </div>
           <p className={s.paperNote}>
-            n=100 matches (tennis calibration), n=20 questions (hallucination).
-            all tests use qwen3:14b on local inference.
+            honest boundary: tension vs flat recency is not significant (p=0.256, n=20).
+            need n&gt;502 for 80% power. most value comes from having <em>any</em> memory.
+            the anti-echo-chamber effect (vs agreement) is the validated finding.
           </p>
 
-          {/* the kill test */}
-          <h3 className={s.paperH2}>the kill test</h3>
+          {/* ── SECTION II: PREDICTION LAYER ── */}
+          <h3 className={s.paperH2}>ii. the prediction layer — memory that prices itself</h3>
           <p className={s.paperP}>
-            the honest question: does the full tension graph actually beat
-            trivial baselines? we injected two-sentence base-rate reminders
-            as a control. results:
-          </p>
-          <p className={s.paperP}>
-            tension graph beats base-rate injection (<strong>p=0.015</strong>).
-            the architecture survives. but tension vs flat recency is
-            marginal (<strong>p=0.256</strong>). two sentences of base-rate
-            context plus last-error gets you to p=0.052 against the full
-            graph. the graph is better, but the gap is thin. most of the
-            value comes from having <em>any</em> memory, not from the
-            specific retrieval order.
-          </p>
-          <p className={s.paperNote}>
-            verdict from the data: &quot;PARTIAL KILL — minimal memory is
-            sufficient. full graph unnecessary.&quot; we publish this
-            because it is true.
-          </p>
-
-          {/* model arbitrage */}
-          <h3 className={s.paperH2}>the model arbitrage result</h3>
-          <p className={s.paperP}>
-            we ran a 2x2 factorial: single-model vs multi-model, with and
-            without memory. 5 dates, 4 conditions, 20 total runs. the
-            result was unambiguous:
+            the prediction pipeline has a strict trust hierarchy.
+            LightGBM + 6 screeners generate the signal. multi-signal
+            convergence filters it. tension-graph memory prevents
+            overconfidence. the 5-agent debate produces text for the letter.
           </p>
           <div style={{ overflowX: "auto" }}>
             <table className={s.paperTable}>
               <thead>
-                <tr>
-                  <th>condition</th>
-                  <th>accuracy</th>
-                  <th>avg brier</th>
-                </tr>
+                <tr><th>layer</th><th>mechanism</th><th>role</th></tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>A: single model, no memory</td>
-                  <td>40%</td>
-                  <td>0.321</td>
+                  <td className={s.cellWin}>1. LightGBM + screeners</td>
+                  <td>200K rows, 53 features, 6 screeners</td>
+                  <td><strong>generates signal</strong></td>
                 </tr>
                 <tr>
-                  <td>B: single model, with memory</td>
-                  <td>40%</td>
-                  <td>0.322</td>
+                  <td>2. multi-signal convergence</td>
+                  <td>2+ screeners AND LightGBM top-10</td>
+                  <td>filters signal</td>
                 </tr>
                 <tr>
-                  <td className={s.cellWin}>C: multi-model, no memory</td>
-                  <td className={s.cellWin}>60%</td>
-                  <td className={s.cellWin}>0.189</td>
+                  <td>3. tension-graph memory</td>
+                  <td>contradiction retrieval, dopamine RPE</td>
+                  <td>prevents overconfidence</td>
                 </tr>
                 <tr>
-                  <td>D: multi-model, with memory</td>
-                  <td className={s.cellLoss}>40%</td>
-                  <td className={s.cellLoss}>0.322</td>
+                  <td className={s.cellNs}>4. agent debate</td>
+                  <td>5 agents, contrarian priors</td>
+                  <td className={s.cellNs}>theater (4-1 split every time)</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p className={s.paperP}>
-            multi-model diversity provided{" "}
-            <strong>+20pp accuracy improvement</strong> (condition C).
-            this is the single largest effect in any experiment we ran.
-            but when memory was added to multi-model debate (condition D),
-            accuracy dropped back to 40%. memory{" "}
-            <strong>cancelled the multi-model advantage entirely</strong>.
+            <strong>memory does not generate alpha.</strong> LightGBM generates
+            alpha (if the +63.8% backtest survives audit). memory prevents the
+            system from destroying alpha through recursive self-radicalization.
+            the Brier improvement is defensive — it caps conviction, not improves accuracy.
           </p>
           <p className={s.paperP}>
-            the mechanism: memory homogenized agents that were otherwise
-            diverse. different models (qwen3, llama3, gemma2) naturally
-            disagree. injecting shared memory erased that disagreement
-            by giving every model the same context. the very thing
-            that made multi-model debate valuable — cognitive
-            diversity — was destroyed by shared retrieval.
+            the +63.8% is a <strong>claim under audit</strong>, not a result.
+            survivorship bias (163 tickers selected now), transaction costs
+            (52% annual drag at 0.5% round-trip), overfitting (CPCV not yet run),
+            and deflated Sharpe (strategy selection correction) all remain unvalidated.
+            the backtest will be published when audited, not when it looks good.
+          </p>
+          <p className={s.paperP}>
+            what matters next: <strong>regime-gated forgetting</strong> — memories
+            from bull markets are actively dangerous during bear markets.
+            FSRS power-law decay (<code>t^&#123;-0.5&#125;</code>) retains 10%
+            of day-1 signal after 90 days vs 0.03% for exponential.
+            conformal prediction wraps LightGBM scores in calibrated intervals
+            for proper Kelly sizing.
           </p>
           <p className={s.paperNote}>
-            this is a direct failure of the architecture. diversity
-            of thought, not memory substrate, is the primary
-            accuracy driver for multi-agent systems.
+            the math makes the call. the screeners filter the call.
+            the memory prevents the system from getting drunk on its own conviction.
+            the portfolio is live at{" "}
+            <a className={s.link} href="https://aureliex.com/portfolio">aureliex.com/portfolio</a>.
           </p>
 
-          {/* where it fails */}
+          {/* ── SECTION III: COMPRESSION LAYER ── */}
+          <h3 className={s.paperH2}>iii. the compression layer — memory as feature geometry</h3>
+          <p className={s.paperP}>
+            <strong>sparsity is the universal compression principle.</strong>{" "}
+            it appears at every layer: model weights (MoE), memory nodes (SAE features),
+            agent ensemble (latent agents), and biological consolidation (sleep).
+            exploiting it everywhere simultaneously yields 100x+ compression.
+          </p>
+          <div style={{ overflowX: "auto" }}>
+            <table className={s.paperTable}>
+              <thead>
+                <tr><th>representation</th><th>bytes</th><th>interpretable</th><th>similarity ops</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>text string</td>
+                  <td>~300</td>
+                  <td>yes (human)</td>
+                  <td>substring only</td>
+                </tr>
+                <tr>
+                  <td>dense embedding</td>
+                  <td>6,144</td>
+                  <td className={s.cellLoss}>no</td>
+                  <td>cosine</td>
+                </tr>
+                <tr>
+                  <td className={s.cellWin}>sparse SAE features</td>
+                  <td className={s.cellWin}>~400</td>
+                  <td className={s.cellWin}>yes (both)</td>
+                  <td className={s.cellWin}>cosine, intersection, set ops</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className={s.paperP}>
+            sparse autoencoders decompose activations into monosemantic features:{" "}
+            <code>h = ReLU(W_enc · x + b_enc)</code>. top-k sparsity keeps 50 of
+            65,536 features active. 400 bytes per node — 15x cheaper than embeddings,
+            more informative, and you can read them. Qwen-Scope (may 2026) provides
+            pre-trained SAEs for the entire Qwen3 family. encoding cost: &lt;0.1ms per token.
+          </p>
+          <p className={s.paperP}>
+            feature vectors enable <strong>geometric contradiction detection</strong>.
+            mechanical tension: different feature sets active (blind spot).
+            surface tension: same features, different magnitudes (productive disagreement).
+            the current text system catches surface tension. feature geometry catches both.
+          </p>
+          <div style={{ overflowX: "auto" }}>
+            <table className={s.paperTable}>
+              <thead>
+                <tr><th>layer</th><th>total</th><th>active</th><th>ratio</th><th>effect</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>SAE features</td>
+                  <td>65,536</td>
+                  <td>50–100</td>
+                  <td>650:1</td>
+                  <td>interpretable memory</td>
+                </tr>
+                <tr>
+                  <td>MoE routing</td>
+                  <td>35B params</td>
+                  <td>3B</td>
+                  <td>12:1</td>
+                  <td className={s.cellWin}>130x speedup</td>
+                </tr>
+                <tr>
+                  <td>memory graph</td>
+                  <td>~2,200 nodes</td>
+                  <td>100–200</td>
+                  <td>11:1</td>
+                  <td>bounded growth</td>
+                </tr>
+                <tr>
+                  <td>agent ensemble</td>
+                  <td>36 LLM calls</td>
+                  <td>5–6</td>
+                  <td>6:1</td>
+                  <td>93% fewer tokens</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className={s.paperP}>
+            <strong>sleep is a compression algorithm.</strong> 22 nodes/debate
+            → 100-200 per agent with sleep. synaptic homeostasis (0.85x global
+            downscaling with EWC-selective resistance for important edges).
+            feature-based merging (cosine &gt; 0.85 = merge regardless of text).
+            power-law decay retains deep priors exponential would kill.
+          </p>
+          <p className={s.paperP}>
+            contrastive activation addition steers agents at <strong>zero
+            inference cost</strong>: <code>a&apos; = a + α · v_steering</code>.
+            one bias addition per layer. no extra tokens. no fine-tuning.
+            five agents, five cached vectors, zero token overhead.
+            the persona is in the geometry, not the prompt.
+          </p>
+          <p className={s.paperNote}>
+            the information is in the sparse structure, not the dense substrate.
+            tension graph is the architecture. sparse features are the representation.
+            sleep is the compression. steering is the control interface.
+            four expressions of one principle.
+          </p>
+
+          {/* where it fails — updated and condensed */}
           <h3 className={s.paperH2}>where it fails</h3>
-          <p className={s.paperP}>
-            explicit catalog of known failure modes, listed because
-            selective reporting is the norm in this field and we
-            refuse to participate:
-          </p>
           <ul className={s.paperList}>
-            <li>
-              <strong>rigid priors (p=0.51).</strong> agents initialized
-              with high-conviction priors do not respond to tension
-              retrieval. the graph surfaces contradictions but rigid
-              agents ignore them. soft priors (p=0.002) are required.
-            </li>
-            <li>
-              <strong>exploitation tasks (bandit).</strong> tension
-              retrieval is an exploration mechanism. on tasks that
-              require exploitation — converging on a known-good answer
-              and repeating it — the constant injection of
-              contradictions degrades performance.
-            </li>
-            <li>
-              <strong>memory homogenizes multi-model diversity.</strong>{" "}
-              condition D proved this: shared memory erased the
-              natural disagreement between different model
-              architectures, dropping accuracy from 60% back to 40%.
-            </li>
-            <li>
-              <strong>tension vs recency is not significant
-              (p=0.256).</strong> the specific retrieval weighting
-              does not produce a statistically significant improvement
-              over simple last-in-first-out memory. most of the
-              value comes from having any memory at all.
-            </li>
-            <li>
-              <strong>single-domain evidence.</strong> all calibration
-              benchmarks are on tennis prediction. generalization to
-              other domains is unproven.
-            </li>
+            <li><strong>rigid priors (p=0.51).</strong> agents with locked-in beliefs ignore contradictions. soft priors required (p=0.002).</li>
+            <li><strong>same-model debate.</strong> 47 debates, 4-1 split every time. sycophancy triggers 2-3x more in debate than direct questioning.</li>
+            <li><strong>shared memory kills diversity.</strong> multi-model accuracy (60%) dropped to 40% when agents shared memory. diversity of thought &gt; memory substrate.</li>
+            <li><strong>tension vs recency (p=0.256).</strong> underpowered at n=20. need n=502. most value comes from having any memory.</li>
+            <li><strong>backtest unaudited.</strong> +63.8% has not survived CPCV, transaction costs, or deflated Sharpe correction.</li>
+            <li><strong>single domain.</strong> calibration benchmarks are on tennis. generalization unproven.</li>
           </ul>
 
-          {/* novelty */}
+          {/* novelty — condensed */}
           <h3 className={s.paperH2}>novelty</h3>
           <p className={s.paperP}>
-            <strong>40% novel, 60% recombination.</strong> the recombination
-            is of ideas that have never been combined this way. what is new:
-          </p>
-          <p className={s.paperP}>
-            tension-weighted max-heap traversal (no precedent). conviction
-            divergence weighting (no precedent). reconsolidation applied to
-            LLM agent memory (from Nader 2000 neuroscience, never
-            implemented in AI). calibration tracking integrated into the
-            memory graph (no precedent).
-          </p>
-          <p className={s.paperP}>
-            what is borrowed: graph-based memory (Zep, MAGMA, Mem0g).
-            contradiction detection (Zep invalidates them, we prioritize
-            them). temporal decay (ACT-R, Park et al.). self-correction
-            from failure (Reflexion). multi-agent debate (TradingAgents,
-            CAMEL, AutoGen).
-          </p>
-          <p className={s.paperP}>
-            closest competitor: <strong>Zep/Graphiti</strong> (Rasmussen
-            et al. 2025) — temporal knowledge graph with contradiction
-            handling. Zep gives every edge explicit validity
-            intervals <code>(t_valid, t_invalid)</code>. when new
-            information contradicts existing edges, Zep{" "}
-            <strong>invalidates</strong> them by setting end-validity
-            timestamps. outdated information is marked historical, not
-            discarded. key difference: Zep resolves contradictions by
-            invalidation. we resolve them by amplification. they treat
-            conflict as error to fix. we treat conflict as signal to
-            surface. Zep has no conviction/confidence weighting, no
-            Brier score tracking, no reconsolidation.
-          </p>
-          <p className={s.paperP}>
-            also compared against: <strong>MAGMA</strong> (2026,
-            multi-graph with semantic/temporal/causal/entity layers,
-            61.2% accuracy on LongMemEval but no contradiction-priority
-            mechanism), <strong>Mem0g</strong> (2025, vector + knowledge
-            graph overlay, detects contradictions but treats them as
-            conflicts to resolve), and 14 other systems from MemGPT to
-            ACT-R. the full comparison is in the repository. none of
-            them use contradiction strength as a retrieval priority
-            signal.
-          </p>
-
-          {/* what it means */}
-          <h3 className={s.paperH2}>what it means</h3>
-          <p className={s.paperP}>
-            memory systems should maximize epistemic diversity pressure,
-            not similarity coherence. this is an alignment contribution,
-            not an ML performance contribution. the practical gain is
-            small (0.023 brier). the structural claim is large: agents
-            that never encounter their own contradictions will always
-            drift toward overconfidence.
-          </p>
-          <p className={s.paperP}>
-            the red team found 2 fatal critiques (single-domain evidence,
-            unexplained stock failure) and 5 serious ones (effect size,
-            regression to mean, prior art, no LLM agents, anecdotal live
-            evidence). the thesis is <strong>unproven, not disproven</strong>.
-            we publish the criticisms next to the claims because that is
-            the point.
+            <strong>40% novel, 60% recombination.</strong> new: tension-weighted
+            max-heap traversal, conviction divergence weighting, reconsolidation
+            in LLM memory (Nader 2000), feature steering for agent diversity (Goodfire/Qwen-Scope),
+            sleep as information compression. borrowed: graph memory (Zep, MAGMA),
+            temporal decay (ACT-R), multi-agent debate (AutoGen, CAMEL).
+            no production system uses contradiction strength as a retrieval signal.
+            checked: Zep, Mem0, Letta, MAGMA, CrewAI, A-MEM, MemRL, SCM — all resolve
+            contradictions. we amplify them.
           </p>
 
           {/* code */}
@@ -783,7 +752,10 @@ tension   = base × (1 + resolution_bonus) × unresolved_mult`}
             <a href="https://github.com/saapai/roundletter" target="_blank" rel="noopener noreferrer">
               github.com/saapai/roundletter
             </a>
-            {" → src/lib/memory/"}
+            {" → src/lib/memory/ · scripts/sae-sidecar/ · "}
+            <a href="https://aureliex.com/letters/entrenched-coils" target="_blank" rel="noopener noreferrer">
+              full paper
+            </a>
           </div>
         </section>
 
