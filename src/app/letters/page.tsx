@@ -7,7 +7,7 @@ import { getPortfolioData } from "@/lib/portfolio-aggregate";
 
 export const dynamic = "force-dynamic";
 
-const LETTER_SLUGS = ["round-0", "v1", "math", "paradigm"];
+const LETTER_SLUGS = ["round-0", "v1", "math", "paradigm", "entrenched-coils"];
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();

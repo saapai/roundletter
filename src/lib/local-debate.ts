@@ -6,6 +6,7 @@
 import { z } from "zod";
 import { localParse, arbitrageInference, type ModelId } from "./local-inference";
 import { AGENTS, type AgentId, type AgentDef, type Topic, type Debate, type DebateTurn, type Scorecard } from "./agent-debate";
+import { isSidecarAvailable, steeredChat } from "./steered-inference";
 
 // ── Model assignment ──────────────────────────────────────────────────────
 // Different models for different agent personalities = natural disagreement
@@ -302,6 +303,28 @@ async function runLocalArgumentRound(
       "confidence must be a number between 0 and 1",
     );
 
+    // Try steered inference first (genuine feature-level diversity),
+    // fall back to Ollama (prompt-level diversity)
+    const useSteered = await isSidecarAvailable();
+    if (useSteered) {
+      console.log(`[local-debate] using STEERED inference for ${a.id}`);
+      try {
+        const steeredResult = await steeredChat({
+          agentId: a.id,
+          system: agentSystem(a),
+          userContent: userParts.join("\n") + "\n\nRespond with ONLY valid JSON.",
+          temperature: 0.7,
+        });
+        const jsonStr = extractJsonFromSteered(steeredResult.content);
+        const parsed = ArgumentTurnSchema.parse(JSON.parse(jsonStr));
+        console.log(`[local-debate] steered ${a.id}: ${parsed.prediction} (${parsed.confidence}) [${steeredResult.generationMs.toFixed(0)}ms, steered=${steeredResult.steered}]`);
+        results.push(parsed);
+        continue;
+      } catch (e) {
+        console.warn(`[local-debate] steered inference failed for ${a.id}, falling back to Ollama:`, e instanceof Error ? e.message : e);
+      }
+    }
+
     const result = await localParse({
       model: models[a.id],
       system: agentSystem(a),
@@ -311,6 +334,18 @@ async function runLocalArgumentRound(
     results.push(result.parsed);
   }
   return results;
+}
+
+function extractJsonFromSteered(raw: string): string {
+  let text = raw.trim();
+  text = text.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+  if (text.startsWith("{") || text.startsWith("[")) return text;
+  const fenceMatch = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?\s*```/);
+  if (fenceMatch) return fenceMatch[1].trim();
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start !== -1 && end !== -1) return text.slice(start, end + 1);
+  return text;
 }
 
 async function localModeratorInterlude(
