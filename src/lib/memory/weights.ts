@@ -13,8 +13,9 @@ import type { MemoryNode, MemoryEdge, EdgeType } from "./types";
 // Composite weight coefficients — tension is the largest because
 // contradictions between high-confidence memories are the most informative
 const ALPHA = 0.2;  // temporal proximity
-const BETA  = 0.3;  // conviction strength
-const GAMMA = 0.5;  // contradiction tension
+const BETA  = 0.25; // conviction strength
+const GAMMA = 0.45; // contradiction tension
+const DELTA = 0.1;  // traversal exploration bonus
 
 // Temporal decay: half-life ~23 days (lambda = ln(2)/23 ≈ 0.03)
 const LAMBDA_TEMPORAL = 0.03;
@@ -107,6 +108,35 @@ export function computeTensionWeight(
   }
 }
 
+// ── Traversal Exploration Bonus ──────────────────────────────────────────────
+// Edges that have NEVER been traversed get a small exploration bonus.
+// Edges traversed many times without leading to correct predictions get penalized.
+// This ensures traversal_count and last_traversed actually influence retrieval.
+//
+// exploration_bonus = 1.0 + 0.1 / (1.0 + traversal_count)
+//   → never-traversed edges: 1.10 (10% boost to discover unused paths)
+//   → traversed once: 1.05
+//   → traversed 9 times: 1.01 (bonus nearly gone)
+//
+// If traversed edges connect to nodes that were resolved WRONG, apply a penalty:
+//   → penalty = -0.15 * (wrong_outcomes / traversal_count)
+//   → frequently-traversed edges leading to bad predictions get deprioritized
+
+export function computeExplorationBonus(
+  traversalCount: number,
+  wrongOutcomes: number = 0,
+): number {
+  // Base exploration: unused edges get a boost that decays with use
+  const exploration = 1.0 + 0.1 / (1.0 + traversalCount);
+
+  // Penalty: edges that have been traversed but led to wrong predictions
+  const penalty = traversalCount > 0
+    ? 0.15 * (wrongOutcomes / traversalCount)
+    : 0;
+
+  return Math.max(0.5, exploration - penalty);  // floor at 0.5 — never fully kill an edge
+}
+
 // ── Composite Weight ────────────────────────────────────────────────────────
 // Combined traversal priority. Used by the priority-queue in traverse.ts.
 
@@ -114,8 +144,9 @@ export function computeCompositeWeight(
   wTemporal: number,
   wConviction: number,
   wTension: number,
+  wExploration: number = 1.0,
 ): number {
-  return ALPHA * wTemporal + BETA * wConviction + GAMMA * wTension;
+  return ALPHA * wTemporal + BETA * wConviction + GAMMA * wTension + DELTA * wExploration;
 }
 
 // ── Full edge weight computation ────────────────────────────────────────────
@@ -125,12 +156,20 @@ export function computeEdgeWeights(
   edgeCreatedAt: string,
   sourceNode: Pick<MemoryNode, "confidence" | "resolved" | "outcome_correct">,
   targetNode: Pick<MemoryNode, "confidence" | "resolved" | "outcome_correct">,
-): { w_temporal: number; w_conviction: number; w_tension: number; weight: number } {
+  traversalCount: number = 0,
+): { w_temporal: number; w_conviction: number; w_tension: number; w_exploration: number; weight: number } {
   const w_temporal = computeTemporalWeight(edgeCreatedAt);
   const w_conviction = computeConvictionWeight(sourceNode.confidence, targetNode.confidence);
   const w_tension = computeTensionWeight(edgeType, sourceNode, targetNode);
-  const weight = computeCompositeWeight(w_temporal, w_conviction, w_tension);
-  return { w_temporal, w_conviction, w_tension, weight };
+
+  // Count how many endpoint nodes were resolved wrong — edges leading to bad predictions get penalized
+  let wrongOutcomes = 0;
+  if (sourceNode.resolved && sourceNode.outcome_correct === false) wrongOutcomes++;
+  if (targetNode.resolved && targetNode.outcome_correct === false) wrongOutcomes++;
+
+  const w_exploration = computeExplorationBonus(traversalCount, wrongOutcomes);
+  const weight = computeCompositeWeight(w_temporal, w_conviction, w_tension, w_exploration);
+  return { w_temporal, w_conviction, w_tension, w_exploration, weight };
 }
 
 // ── Node salience decay ─────────────────────────────────────────────────────

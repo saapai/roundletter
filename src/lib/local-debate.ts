@@ -66,7 +66,7 @@ const ArgumentTurnSchema = z.object({
   claim: z.string().describe("one-sentence thesis on the topic"),
   warrant: z.string().describe("2-3 sentences. at least one reference from your bank, naturally"),
   prediction: z.enum(["up", "down", "flat"]),
-  confidence: z.number().min(0).max(1),
+  confidence: z.number().min(0).max(1).describe("MUST NOT default to 0.70. Use the full range 0.30-0.95 based on evidence strength. 0.90+=very strong, 0.70=moderate, 0.50=uncertain, 0.30=weak thesis."),
   rebuttal: z
     .string()
     .optional()
@@ -296,11 +296,19 @@ async function runLocalArgumentRound(
 
     userParts.push(
       "",
+      "CONFIDENCE CALIBRATION (critical — do NOT default to 0.70):",
+      "  0.90-0.95 = overwhelming evidence, multiple confirming signals",
+      "  0.75-0.85 = strong thesis with clear supporting data",
+      "  0.60-0.70 = moderate conviction, mixed signals",
+      "  0.45-0.55 = genuinely uncertain, could go either way",
+      "  0.30-0.40 = weak thesis, playing devil's advocate",
+      "Your confidence MUST reflect YOUR actual evidence strength. Vary it.",
+      "",
       "Respond with ONLY this JSON (use EXACTLY these field names):",
-      '{"claim": "one sentence thesis", "warrant": "2-3 sentences with reasoning", "prediction": "up", "confidence": 0.7, "rebuttal": "optional one sentence disagreeing with another agent"}',
+      '{"claim": "one sentence thesis", "warrant": "2-3 sentences with reasoning", "prediction": "up", "confidence": 0.82, "rebuttal": "optional one sentence disagreeing with another agent"}',
       "",
       "prediction must be one of: up, down, flat",
-      "confidence must be a number between 0 and 1",
+      "confidence must be a number between 0.30 and 0.95 — DO NOT use 0.70 unless you genuinely have moderate conviction",
     );
 
     // Try steered inference first (genuine feature-level diversity),
@@ -333,6 +341,16 @@ async function runLocalArgumentRound(
     });
     results.push(result.parsed);
   }
+
+  // Warn if confidence values are suspiciously uniform (hardcoded 0.70 problem)
+  const exactSeventyCount = results.filter(r => Math.abs(r.confidence - 0.70) < 0.005).length;
+  if (exactSeventyCount >= 3) {
+    console.warn(
+      `[local-debate] WARNING: ${exactSeventyCount}/${results.length} agents output confidence ≈ 0.70. ` +
+      `Likely hardcoded — confidence is not varying. Conviction divergence term is dead.`
+    );
+  }
+
   return results;
 }
 

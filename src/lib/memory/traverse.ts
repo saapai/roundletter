@@ -12,7 +12,7 @@ import {
   getNodesByTicker, getIdentityNodes, getUnresolvedPredictions,
   getHighTensionNodes, getNodeCount, getMaxTensionPair, getLatestIdentity,
 } from "./db";
-import { computeCurrentSalience } from "./weights";
+import { computeCurrentSalience, computeExplorationBonus } from "./weights";
 import { applyReconsolidationOnRetrieval, ensureReconsolidationSchema } from "./reconsolidation";
 
 // ── Max-heap for priority traversal ─────────────────────────────────────────
@@ -161,10 +161,11 @@ export function retrieve(
     for (const edge of getOutgoingEdges(seed.id)) {
       const target = getNode(edge.target_id);
       if (!target || visited.has(target.id)) continue;
+      const exploration = computeExplorationBonus(edge.traversal_count ?? 0);
       heap.push({
         node: target,
         edge,
-        path_tension: edge.w_tension * computeCurrentSalience(target),
+        path_tension: edge.w_tension * computeCurrentSalience(target) * exploration,
         path_length: 1,
         reason: formatReason(seed, edge),
       });
@@ -175,10 +176,11 @@ export function retrieve(
       if (edge.edge_type !== "contradicts") continue;
       const source = getNode(edge.source_id);
       if (!source || visited.has(source.id)) continue;
+      const exploration = computeExplorationBonus(edge.traversal_count ?? 0);
       heap.push({
         node: source,
         edge,
-        path_tension: edge.w_tension * computeCurrentSalience(source),
+        path_tension: edge.w_tension * computeCurrentSalience(source) * exploration,
         path_length: 1,
         reason: `CONTRADICTED BY "${seed.content.slice(0, 60)}..."`,
       });
@@ -213,7 +215,8 @@ export function retrieve(
     for (const edge of getOutgoingEdges(item.node.id)) {
       const target = getNode(edge.target_id);
       if (!target || visited.has(target.id)) continue;
-      const newTension = item.path_tension + edge.w_tension * computeCurrentSalience(target);
+      const exploration = computeExplorationBonus(edge.traversal_count ?? 0);
+      const newTension = item.path_tension + edge.w_tension * computeCurrentSalience(target) * exploration;
       heap.push({
         node: target,
         edge,

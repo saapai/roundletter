@@ -8,7 +8,10 @@ import { AGENTS } from "../agent-debate";
 import { runLocalDebate, type ModelAssignment } from "../local-debate";
 import { retrieve, formatMemoryForPrompt } from "./traverse";
 import { extractAndStore } from "./update";
-import { getGraphStats, closeMemoryDb } from "./db";
+import { getGraphStats, closeMemoryDb, getMemoryDb } from "./db";
+import { resolvePredictionsWithDopamine, ensureDopamineSchema } from "./dopamine";
+import { restabilizeExpiredNodes } from "./reconsolidation";
+import { getPortfolioPrices } from "../data-scraper";
 import type { MemoryContext } from "./types";
 
 // ── Types ────────────────────────────────────────────────────────────────────
@@ -96,6 +99,20 @@ export async function runMemoryDebate(opts: {
     );
   }
 
+  // Phase 4: Restabilize nodes whose lability windows expired during this debate.
+  // Nodes retrieved in Phase 1 were made labile (salience reduced 20%).
+  // If no contradiction arrived during the debate, they survive and get a 5% bonus.
+  // Without this call, labile_until stays set forever and nodes never restabilize.
+  const restabilized = restabilizeExpiredNodes();
+  if (restabilized > 0) {
+    console.log(`[memory-debate] restabilized ${restabilized} nodes (lability window expired without contradiction)`);
+  }
+
+  // Phase 5: Resolve expired predictions from PREVIOUS debates via dopamine RPE.
+  // Predictions older than 5 days should be scored against actual prices.
+  // This ensures the RPE feedback loop runs even if overnight-batch missed them.
+  await resolveExpiredPredictions(tickers);
+
   return {
     debate,
     memory: {
@@ -103,4 +120,71 @@ export async function runMemoryDebate(opts: {
       ingestion,
     },
   };
+}
+
+// ── Resolve expired predictions ─────────────────────────────────────────────
+//
+// After each debate, check the memory graph for prediction nodes that are:
+//   1. Still unresolved (resolved = 0)
+//   2. Created more than PREDICTION_MATURITY_DAYS ago
+// Fetch actual prices for their tickers and apply dopamine RPE updates.
+
+const PREDICTION_MATURITY_DAYS = 5;
+
+async function resolveExpiredPredictions(currentTickers: string[]): Promise<void> {
+  const db = getMemoryDb();
+  ensureDopamineSchema();
+
+  const cutoffDate = new Date();
+  cutoffDate.setDate(cutoffDate.getDate() - PREDICTION_MATURITY_DAYS);
+  const cutoffISO = cutoffDate.toISOString();
+
+  // Find distinct tickers with unresolved predictions older than the maturity window
+  const expiredRows = db.prepare(`
+    SELECT DISTINCT ticker FROM memory_nodes
+    WHERE content_type = 'prediction' AND resolved = 0
+      AND created_at < ? AND ticker IS NOT NULL
+  `).all(cutoffISO) as { ticker: string }[];
+
+  if (expiredRows.length === 0) return;
+
+  const expiredTickers = expiredRows.map((r) => r.ticker);
+  console.log(
+    `[memory-debate] found expired predictions for ${expiredTickers.length} tickers: ${expiredTickers.join(", ")}`
+  );
+
+  // Fetch current prices to determine actual direction
+  let prices: Record<string, { price: number; changePct: number }>;
+  try {
+    prices = await getPortfolioPrices(expiredTickers);
+  } catch (err) {
+    console.warn("[memory-debate] failed to fetch prices for expired prediction resolution:", err);
+    return;
+  }
+
+  let totalResolved = 0;
+  for (const ticker of expiredTickers) {
+    const priceData = prices[ticker];
+    if (!priceData) continue;
+
+    const FLAT_THRESHOLD = 0.5;
+    const changePct = priceData.changePct;
+    const actual: "up" | "down" | "flat" =
+      changePct > FLAT_THRESHOLD ? "up" :
+      changePct < -FLAT_THRESHOLD ? "down" : "flat";
+
+    const result = resolvePredictionsWithDopamine(ticker, actual, changePct / 100);
+    if (result.resolved > 0) {
+      console.log(
+        `[memory-debate] resolved ${result.resolved} expired predictions for ${ticker}: ` +
+        `actual=${actual} (${changePct > 0 ? "+" : ""}${changePct.toFixed(2)}%), ` +
+        `avg RPE=${result.avgRPE.toFixed(3)}`
+      );
+      totalResolved += result.resolved;
+    }
+  }
+
+  if (totalResolved > 0) {
+    console.log(`[memory-debate] total expired predictions resolved via RPE: ${totalResolved}`);
+  }
 }
