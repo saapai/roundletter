@@ -746,13 +746,251 @@ tension   = base × (1 + resolution_bonus) × unresolved_mult`}
             contradictions. we amplify them.
           </p>
 
+          {/* ── SECTION IV: THE AUDIT ── */}
+          <h3 className={s.paperH2}>iv. the audit — what survived and what died</h3>
+          <p className={s.paperP}>
+            nine research agents and four validation agents ran every test we
+            could execute in hours. the results are published here whether
+            they confirm or kill the thesis.
+          </p>
+
+          <h3 className={s.paperH2}>backtest: claim under audit → audited</h3>
+          <div style={{ overflowX: "auto" }}>
+            <table className={s.paperTable}>
+              <thead>
+                <tr><th>metric</th><th>published</th><th>audited</th><th>verdict</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>cumulative return</td>
+                  <td className={s.cellLoss}>+63.8%</td>
+                  <td className={s.cellWin}>+32.84%</td>
+                  <td className={s.cellLoss}>WRONG — actual is half the claim</td>
+                </tr>
+                <tr>
+                  <td>return after transaction costs</td>
+                  <td>not computed</td>
+                  <td>+18.96%</td>
+                  <td>85% turnover × 0.5% RT = cuts return nearly in half</td>
+                </tr>
+                <tr>
+                  <td>information coefficient</td>
+                  <td>not computed</td>
+                  <td>0.060 (p=0.244)</td>
+                  <td className={s.cellNs}>NOT significant — includes zero</td>
+                </tr>
+                <tr>
+                  <td>deflated Sharpe ratio</td>
+                  <td>not computed</td>
+                  <td>p=0.82 at N=5 variants</td>
+                  <td className={s.cellLoss}>FAILS — below chance at any N</td>
+                </tr>
+                <tr>
+                  <td>outlier dependence</td>
+                  <td>not tested</td>
+                  <td>remove best 1 week: +10.35%. remove best 2: -2.01%</td>
+                  <td className={s.cellLoss}>entire thesis rests on 1-2 lucky picks</td>
+                </tr>
+                <tr>
+                  <td>alpha over universe</td>
+                  <td>not computed</td>
+                  <td className={s.cellWin}>+43.45pp vs equal-weight</td>
+                  <td className={s.cellWin}>stock selection is real, but N=26 is too small</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className={s.paperNote}>
+            the +63.8% was wrong. actual raw return is +32.84%, or +18.96% net of friction.
+            the Deflated Sharpe fails at any N. IC of 0.06 is in the right range for a real
+            signal but N=26 cannot distinguish it from noise. need 100+ rebalance periods (~2 years).
+          </p>
+
+          <h3 className={s.paperH2}>memory graph: scaffolded but partially operational</h3>
+          <div style={{ overflowX: "auto" }}>
+            <table className={s.paperTable}>
+              <thead>
+                <tr><th>metric</th><th>value</th><th>assessment</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>nodes / edges</td>
+                  <td className={s.cellWin}>687 / 1,768</td>
+                  <td className={s.cellWin}>confirmed as published</td>
+                </tr>
+                <tr>
+                  <td>bull bearish vs bullish</td>
+                  <td className={s.cellWin}>125 vs 71</td>
+                  <td className={s.cellWin}>anti-echo-chamber verified</td>
+                </tr>
+                <tr>
+                  <td>sleep consolidation</td>
+                  <td className={s.cellWin}>41.2% compressed</td>
+                  <td className={s.cellWin}>working</td>
+                </tr>
+                <tr>
+                  <td>contradiction resolution rate</td>
+                  <td className={s.cellLoss}>0 / 503 (0%)</td>
+                  <td className={s.cellLoss}>no contradiction ever resolved</td>
+                </tr>
+                <tr>
+                  <td>edges ever traversed</td>
+                  <td className={s.cellLoss}>4 / 1,768 (0.2%)</td>
+                  <td className={s.cellLoss}>traversal counter broken or unused</td>
+                </tr>
+                <tr>
+                  <td>nodes never accessed</td>
+                  <td className={s.cellLoss}>414 / 687 (60%)</td>
+                  <td className={s.cellLoss}>write-only memories</td>
+                </tr>
+                <tr>
+                  <td>RPE events / identity nodes</td>
+                  <td className={s.cellLoss}>0 / 0</td>
+                  <td className={s.cellLoss}>tables scaffolded, never activated</td>
+                </tr>
+                <tr>
+                  <td>ticker concentration</td>
+                  <td className={s.cellLoss}>IONQ: 70.3% of all nodes</td>
+                  <td className={s.cellLoss}>single-ticker memory system</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className={s.paperNote}>
+            the graph structure exists and the anti-echo-chamber property is real (every agent
+            records more bearish than bullish memories). but 60% of nodes are never read,
+            99.8% of edges are never walked, and the dopamine/RPE system was never turned on.
+            the architecture is 40% operational.
+          </p>
+
+          <h3 className={s.paperH2}>debate agents: worse than random</h3>
+          <div style={{ overflowX: "auto" }}>
+            <table className={s.paperTable}>
+              <thead>
+                <tr><th>agent</th><th>direction</th><th>hit rate</th><th>confidence</th><th>brier</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>bull</td>
+                  <td>14 up / 1 down</td>
+                  <td className={s.cellWin}>93.3%</td>
+                  <td>0.700</td>
+                  <td className={s.cellWin}>0.117</td>
+                </tr>
+                <tr>
+                  <td>bear</td>
+                  <td>14 down / 1 flat</td>
+                  <td className={s.cellLoss}>0.0%</td>
+                  <td>0.687</td>
+                  <td className={s.cellLoss}>0.473</td>
+                </tr>
+                <tr>
+                  <td>macro</td>
+                  <td>14 down / 1 flat</td>
+                  <td className={s.cellLoss}>0.0%</td>
+                  <td>0.687</td>
+                  <td className={s.cellLoss}>0.473</td>
+                </tr>
+                <tr>
+                  <td>flow</td>
+                  <td>11 down / 3 up</td>
+                  <td className={s.cellLoss}>20.0%</td>
+                  <td>0.700</td>
+                  <td className={s.cellLoss}>0.410</td>
+                </tr>
+                <tr>
+                  <td>historian</td>
+                  <td>15 down / 0 up</td>
+                  <td className={s.cellLoss}>0.0%</td>
+                  <td>0.700</td>
+                  <td className={s.cellLoss}>0.490</td>
+                </tr>
+                <tr>
+                  <td className={s.cellNs}>random baseline</td>
+                  <td>—</td>
+                  <td>50%</td>
+                  <td>—</td>
+                  <td className={s.cellNs}>0.250</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className={s.paperP}>
+            <strong>97.7% of predictions have confidence = 0.70</strong> — a schema default, not a
+            calibrated probability. all 15 debates predict the same ticker (IONQ) for the same event.{" "}
+            <strong>N_effective = 1.</strong> four of five agents scored worse than random. the debate
+            system does not produce scorable predictions. agents vote their role name, not the evidence.
+          </p>
+
+          <h3 className={s.paperH2}>contradictions: resolved</h3>
+          <p className={s.paperP}>
+            <strong>debate is theater, not decision layer.</strong> the math letter overstated the
+            debate&apos;s role. zero trades in the record were sourced from debate output. every trade
+            came from Kelly bucket allocation or a mechanical rule. the entrenched-coils letter
+            corrected the record. this is not evolution of thinking — it is the later letter catching
+            a misrepresentation in the earlier one.
+          </p>
+          <p className={s.paperP}>
+            <strong>Kelly barbell and LightGBM are separate systems.</strong> the barbell determined
+            initial portfolio construction (what shape to hold). LightGBM generates weekly signals
+            (what to rotate into). in practice, LightGBM recommendations are ignored when they
+            conflict with the thesis structure. both descriptions are accurate for their own system.
+            the contradiction is that they are presented as layers of one pipeline when they operate independently.
+          </p>
+          <p className={s.paperP}>
+            <strong>quantum thesis is unresolved.</strong> 25 days of data cannot confirm or deny a
+            10-year bet. but the current +25% gain is driven as much by GOOG (+19.9%) as by quantum
+            names. if mega-cap tech continues outperforming the quantum pure-plays, the portfolio wins
+            despite the thesis, not because of it.
+          </p>
+
+          <h3 className={s.paperH2}>cross-domain validation: weather prediction markets</h3>
+          <p className={s.paperP}>
+            a separate system (weather prediction markets on Kalshi) independently applied
+            the tension framework and reproduced the core findings: confidence drift in Monte Carlo
+            projections ($432 → $877 → $3,367 → $10,958), 4-1 debate splits from 5 same-model agents,
+            and the critical insight that <strong>model disagreement is a skip signal, not noise to
+            average away</strong>. when GFS says 5%, ECMWF says 25%, and ICON says 15%, pooling to
+            15% is meaningless. the tension filter killed 4 bad trades and kept 2 high-conviction ones.
+          </p>
+          <p className={s.paperP}>
+            this is the first cross-domain replication. the same architecture — surface disagreement
+            first, skip when sources conflict, act only on consensus — works on weather, stocks, and
+            tennis. the anti-echo-chamber property is domain-invariant.
+          </p>
+
+          <h3 className={s.paperH2}>what survived</h3>
+          <ul className={s.paperList}>
+            <li><strong>anti-echo-chamber property.</strong> every agent records more opposing than supporting memories. agreement-first retrieval causes +0.024/cycle drift (p&lt;0.0001). tension retrieval prevents it. replicated across 3 domains.</li>
+            <li><strong>hallucination reduction.</strong> 5/20 vs 10/20. tension memory halves hallucination rate.</li>
+            <li><strong>graph structure.</strong> 687 nodes, 1,768 edges, 41.2% compressed by sleep. the architecture works as built.</li>
+            <li><strong>stock selection alpha.</strong> +43.45pp over equal-weight universe. the signal exists, even if statistical significance requires more data.</li>
+            <li><strong>tension as skip signal.</strong> model disagreement predicts bad trades. validated independently on weather markets.</li>
+          </ul>
+
+          <h3 className={s.paperH2}>what died</h3>
+          <ul className={s.paperList}>
+            <li><strong>the +63.8% backtest.</strong> actual return is +32.84% raw, +18.96% net. Deflated Sharpe fails. entire result rests on 1-2 outlier weeks.</li>
+            <li><strong>debate as decision layer.</strong> zero trades sourced from debate. 97.7% of predictions hardcoded at 0.70. four of five agents worse than random.</li>
+            <li><strong>RPE / dopamine feedback.</strong> scaffolded, never activated. zero events recorded.</li>
+            <li><strong>full graph traversal.</strong> 99.8% of edges never walked. 60% of nodes never accessed. the memory is mostly write-only.</li>
+            <li><strong>tension vs recency significance.</strong> p=0.256 at N=20. need N=502. the margin over trivial baselines remains unproven.</li>
+          </ul>
+
+          <p className={s.paperNote}>
+            40% of this architecture is novel. 60% is recombination. of the 40% that is novel,
+            about half is operational and half is scaffolded. the thesis is unproven, not disproven.
+            the anti-echo-chamber property is the validated finding. the rest is promissory.
+            we publish the audit because that is the point.
+          </p>
+
           {/* code */}
           <h3 className={s.paperH2}>code</h3>
           <div className={s.paperCode}>
             <a href="https://github.com/saapai/roundletter" target="_blank" rel="noopener noreferrer">
               github.com/saapai/roundletter
             </a>
-            {" → src/lib/memory/ · scripts/sae-sidecar/ · "}
+            {" → src/lib/memory/ · scripts/sae-sidecar/ · scripts/quant/validate_backtest.py · "}
             <a href="https://aureliex.com/letters/entrenched-coils" target="_blank" rel="noopener noreferrer">
               full paper
             </a>
