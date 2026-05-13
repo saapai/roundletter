@@ -1,6 +1,6 @@
 {
   "note": "Rolling log of agent arguments. Axis alternates position/design every 5 hours via .github/workflows/5h-argument.yml → scripts/run-5h-argument.ts. Rendered on /positions via <ArgumentsPanel />. Seeded 2026-04-17 with five research reports from the first synthesis pass.",
-  "next_axis": "position",
+  "next_axis": "design",
   "arguments": [
     {
       "id": "r5-seed-letters-2026-04-17",
@@ -2045,6 +2045,223 @@
           "reached": true,
           "direction": "up",
           "round": 1
+        },
+        "max_argument_rounds": 3
+      }
+    },
+    {
+      "id": "arg-position-2026-05-13T17:22:39.019Z",
+      "ts": "2026-05-13T17:22:39.019Z",
+      "axis": "position",
+      "kind": "debate",
+      "title": "pure-play quantum cluster (ionq+rgti+qbts) at 20% of book: is the allocation defensible...",
+      "summary": "panel reached down by round 2 · Bull was the only dissenter and moved toward the consensus (shifting from up 0.62 to down 0.45), which means the bear-side coalition converted him rather than the reverse. Bear set the rhetorical frame that everyone else orbited — the survivorship bias rebuttal against TSLA/AMZN comparisons landed so cleanly that macro, flow, ",
+      "debate": {
+        "id": "dbt_1778692959019",
+        "ts": "2026-05-13T17:22:39.019Z",
+        "day_context": "2026-05-13 — axis: POSITIONS. universe: QTUM 20%, MSFT 12%, GOOG 12%, IONQ 12%, IBM 11%, NVDA 10%, CEG 10%, RGTI 5%, SGOV 5%, QBTS 3%.\nActive hunches (seeded from external sources S1 heatmap + S2 jack sarfati DM):\n  - H1 [NVDA] NVDA has asymmetric downside into 2026-05-20 earnings. Trim or hedge before the event, don't sit fully exposed. → trim NVDA 10% → 7% before 2026-05-15; park proceeds in SGOV; or buy a dated put as defined-risk hedge (cap premium at ~2% of account).\n  - H2 [IONQ/RGTI/QBTS] Pure-play quantum cluster (IONQ+RGTI+QBTS, 20% of book) has correlated ATM-shelf risk and highest beta to any macro red day. Correlation is 0.6, not 0. → hard-enforce Flow agent's 0.6 correlation: if any one files ATM, cut the other two 50% same day even without news. No averaging down on dilutive pre-revenue names — panel rule already reflects this; the hunch is to NOT relax it when one is halfway back.\n  - H3 [MSFT/GOOG/IBM] Mega-cap AI ex-semis (MSFT, GOOG, IBM) carries the book better than NVDA through 2026-05-20. Shift weight toward IBM and GOOG pre-PMI. → shift 2-3% from NVDA → IBM before PMI print (2026-04-24). IBM is flow-cleanest + pays dividend + has the most credible FTQ roadmap per historian-agent's existing note.\n  - H4 [SGOV] SGOV (dry powder) is undersized given jack's bearish 2-week calendar. Add an event-trigger — not only the existing -30% QTUM price trigger. → extend portfolio.triggers with: 'deploy_drypowder_on_pmi_miss_below: 48' and 'deploy_drypowder_on_umich_below: 55'. If either print misses, deploy half of SGOV into QTUM within 48h of print. Otherwise hold.\n  - H5 [QQQ/SPY] Defined-risk options sleeve from dry powder — break thematic purity for the 29x runway-to-$100k, hard-capped at $150 total premium at risk. → carve 2-3% (~$70-100) from SGOV for long-dated OTM QQQ or SPY calls, 3-week duration, entered AFTER 2026-05-20 NVDA earnings (post IV crush, post-event clarity), one contract at a time. Tracked as new lottery tier 'F_tactical_options' outside existing buckets. Hard-cap total premium at risk at $150. Any trade breaking the cap is a panel kill-switch event.\nCatalyst calendar: 2026-05-20 NVDA Q1 earnings · 2026-06-15 Saathvik back in SLC — in-person with Jack + buddy · 2026-06-21 BIRTHDAY — Round 0 resolution.\nModerator directive: pin the argument to a specific position, share count, threshold, or trigger in portfolio.json, OR to one of the active hunches. Each agent should state the delta they would make to a specific line of the book. Do not drift into generic macro.",
+        "topic": {
+          "kind": "position",
+          "subject": "Pure-play quantum cluster (IONQ+RGTI+QBTS) at 20% of book: is the allocation defensible given ATM-shelf dilution risk and pre-revenue base rates, or must it be hard-capped lower (and at what specific ceiling) before the June 21 resolution?",
+          "framing": "The book is a bagel — everything everywhere all at once threatening to collapse into a single correlated hole — and the panel's real question isn't whether any one hunch is clever but whether 20% of a tiny portfolio sitting in pre-revenue names with live ATM shelves is the martingale bet that eats the runway before June 21 even arrives. The revolution will not be televised, but the dilution will be filed on EDGAR, and base rates are the only honest mirror for a naked king."
+        },
+        "turns": [
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "The book is a bagel — everything everywhere all at once threatening to collapse into a single correlated hole — and the panel's real question isn't whether any one hunch is clever but whether 20% of a tiny portfolio sitting in pre-revenue names with live ATM shelves is the martingale bet that eats the runway before June 21 even arrives. The revolution will not be televised, but the dilution will be filed on EDGAR, and base rates are the only honest mirror for a naked king."
+          },
+          {
+            "speaker": "bull",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "H5: carving a tactical options sleeve from SGOV post-NVDA earnings — is 2-3% of book on OTM QQQ/SPY calls the right way to maximize the 29x runway?",
+            "why_it_matters": "this is the only hunch that breaks thematic purity for raw convexity, and the bull case for it is that a $70-100 lottery ticket post-IV-crush could be the single highest EV move in the entire book if NVDA earnings clears the macro fog — but the panel needs to decide if diluting quantum/AI focus for index-level gamma is worth it when the same premium could buy IONQ or RGTI LEAPs with 5x more upside per dollar risked."
+          },
+          {
+            "speaker": "bear",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "IONQ+RGTI+QBTS 20% quantum cluster: ATM-shelf dilution risk demands preemptive sizing cuts, not reactive triggers",
+            "why_it_matters": "h2 proposes cutting after a filing, but ATM shelves are already registered for IONQ and RGTI — the dilution is a when-not-if event, and holding 20% of a $3-5k book in correlated pre-revenue names with live shelf registrations is a textbook martingale: you're doubling down on the thesis while the company is printing shares against you."
+          },
+          {
+            "speaker": "macro",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA 10% → 7% trim before 2026-05-20 earnings: whether the macro backdrop (rates, liquidity, positioning) actually supports asymmetric downside or if the trim is fighting the tape",
+            "why_it_matters": "the binding constraint on this book through 5/20 is not NVDA's EPS beat/miss — it's whether the liquidity regime (fed funds path, dealer gamma positioning, treasury refunding calendar) makes a post-earnings gap-down sticky or buyable, and that determines whether trimming 3% into SGOV is prudent risk management or just paying the opportunity cost of missing a melt-up into the print."
+          },
+          {
+            "speaker": "flow",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA 10% → 7% trim before 2026-05-15: execute now or wait for tape confirmation",
+            "why_it_matters": "nvda earnings 2026-05-20 is the single biggest event risk on the book — the trim decision has a hard deadline in 48 hours and the proceeds allocation (sgov park vs dated put vs ibm rotation) changes the portfolio's entire risk surface through birthday resolution."
+          },
+          {
+            "speaker": "historian",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "pure-play quantum cluster (IONQ+RGTI+QBTS) at 20% of book — base rate for pre-revenue pure-plays says this is the position most likely to destroy capital",
+            "why_it_matters": "H2 proposes a correlation-triggered cut mechanism, but the deeper question is whether 20% allocation to pre-revenue pure-plays is defensible at all given the base rate that most pure-plays in a thematic wave go to zero over 10yr — the 1999 analogue says owning QTUM (the basket) already captures quantum upside, so the incremental 20% in individual names is survivorship-bias betting that needs a much harder ceiling or an explicit wind-down schedule before the June 21 resolution date."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "The chosen premise is essentially the historian's topic verbatim — base rates for pre-revenue pure-plays, the QTUM alternative, the hard-cap question — while the bear supplied the sharpest mechanistic teeth: the ATM shelf as a when-not-if event and the martingale framing that became the spine of the synthesis. The other three proposed entirely different decisions and barely shaped the final question.",
+            "scorecard": {
+              "percents": {
+                "bull": 2,
+                "bear": 42,
+                "macro": 3,
+                "flow": 3,
+                "historian": 50
+              },
+              "reasoning": "The chosen premise is essentially the historian's topic verbatim — base rates for pre-revenue pure-plays, the QTUM alternative, the hard-cap question — while the bear supplied the sharpest mechanistic teeth: the ATM shelf as a when-not-if event and the martingale framing that became the spine of the synthesis. The other three proposed entirely different decisions and barely shaped the final question."
+            }
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 1,
+            "claim": "20% quantum allocation is defensible — trim to 15% only as a concession to correlation, not conviction — because the asymmetric upside in a nascent paradigm dwarfs the dilution drag on a 10-year arc.",
+            "warrant": "pre-revenue base rates are the wrong lens for infrastructure plays at inflection. graham's frighteningly ambitious ideas framework applies directly: the best bets look irresponsible precisely because the market prices them against historical base rates that don't account for paradigm emergence. IONQ's trapped-ion roadmap, RGTI's superconducting scaling, and QBTS's annealing niche each represent distinct technical vectors — this isn't a single correlated hole, it's a portfolio of shots on goal across the multiverse of outcomes. ATM shelves are tools, not indictments; every growth-stage company from TSLA to AMZN used dilution as rocket fuel. the dilution filed on EDGAR funds the very engineering moats that create the 10-year thesis.",
+            "prediction": "up",
+            "confidence": 0.62,
+            "rebuttal": "i hear the moderator's frame and it's honest. three pre-revenue names with live ATM shelves in a correlated cluster at 20% of a small book is genuinely dangerous on a 60-day horizon. the correlation risk is real — a single negative quantum hype cycle and all three gap down together. june 21 is soon. but the man in the arena is not the one counting the days until resolution while sitting in cash. the right move is a tactical trim to ~15%, staggering exits on any name that actually files a new offering, and holding the core position. you don't get to 7000 RPM by lifting off the throttle every time the tach needle scares you. hard cap at 15%, not 10%, and definitely not zero. the base rate for pre-revenue names is brutal, yes — but the base rate for paradigm-shifting technologies held through the noise is the only one that matters on a decade scale. low confidence because the short-term path is genuinely ugly, but the call stays up."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 1,
+            "claim": "20% of book in a correlated pre-revenue quantum cluster with live ATM shelves is not defensible — hard cap at 5% aggregate, with no single name exceeding 2%.",
+            "warrant": "all three names — IONQ, RGTI, QBTS — carry active at-the-market equity programs, meaning dilution isn't hypothetical, it's continuous and management-discretionary. pre-revenue hardware plays have a base rate of roughly 80%+ drawdown from hype-cycle peaks within 18 months, and the correlation among them approaches 1 in a selloff, so the portfolio doesn't hold three positions, it holds one leveraged bet. as thorp would frame it, kelly sizing demands you estimate edge first and size second; absent revenue, the edge estimate is essentially a guess, and kelly on a guess converges to the martingale — doubling into a position whose expected value you can't honestly bound. at 20% concentration with june 21 as your horizon, a single dilutive shelf takedown or a broad quantum-sentiment reversal can vaporize 30-40% of that sleeve overnight, which on a small book is an existential drawdown, not a recoverable dip.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "the bull will say optionality on a paradigm shift justifies the allocation and that ATM proceeds fund the very R&D that creates the upside. fine — but optionality is priced into vol, not into concentrated equity positions in names that print shares against you while you hold. the naked king here is the thesis that 'quantum is inevitable therefore these tickers win' — inevitability of a technology does not map to inevitability of any particular pre-revenue equity, especially one actively diluting its shareholders. if you believe, buy six-month calls at 2% of book and accept the defined loss; don't sit in common at 20% while management sells stock into your bid."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 1,
+            "claim": "20% book allocation to a correlated pre-revenue quantum cluster with live ATM shelves is indefensible on liquidity and dilution grounds alone; hard-cap at 7% aggregate before june 21 resolution.",
+            "warrant": "the binding constraint here isn't whether quantum computing works eventually — it's whether the book survives the path to finding out. goldratt would say identify the bottleneck: it's not thesis quality, it's capital preservation against asymmetric dilution events you cannot time. IONQ, RGTI, and QBTS all have active ATM shelf registrations, meaning management can print shares into any rally without notice — the dilution will be filed on EDGAR, but by the time you read it the damage is priced. base rate on pre-revenue deep-tech names with ATM shelves: ~60-70% of them dilute within any given 6-month window, and the median drawdown on announcement clusters around 15-25%. three correlated names means you're not diversified, you're levered to a single narrative with triple the dilution surface area.",
+            "prediction": "down",
+            "confidence": 0.72,
+            "rebuttal": "the bull case says these names are call options on a paradigm shift and position sizing is secondary to optionality. fine — but paul graham's point in cities and ambition is that what a city whispers matters more than what it shouts. the market whispers 'survive' not 'swing for the fence with 20% in names that can rug-pull you via SEC filing at 4pm on a friday.' a 7% cap still gives you meaningful upside exposure if quantum catalysts hit, while ensuring a dilution event in one name doesn't crater the whole book. optionality is worthless if you go bust before expiry."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 1,
+            "claim": "20% book in a pre-revenue quantum cluster with live atm shelves is indefensible — hard cap at 5% aggregate, rebalance immediately, revisit only if flow cleans up post-offering.",
+            "warrant": "the dealer's gamma book tells you everything here: when market makers are short gamma on low-float names running active atm programs, every dilutive print forces mechanical selling that compounds drawdowns faster than any thesis can recover. ionq, rgti, qbts all have live shelf registrations — that's not hypothetical risk, it's filed on edgar and priced into the skew. base rates on pre-revenue deep-tech with atm shelves surviving a six-month window without significant dilutive events are brutal, somewhere around 15-20% historically. we talkin' bout practice? no — we're talking about a portfolio where a single correlated dilution event across the cluster could vaporize 10-15% of total book value overnight. that's not a position, that's a lottery ticket dressed up in a thesis.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "the obvious counter is that quantum catalysts — government contracts, partnership announcements, nvidia ecosystem integration — could produce a vol explosion to the upside that dwarfs dilution risk. fair. but that's barbecue sauce on a losing hand: the flavor hides the mistake. if the catalyst hits, a 5% position still captures meaningful upside. if dilution hits at 20% allocation, you don't have a book anymore, you have a margin call narrative. asymmetry favors small position sizing, not conviction sizing, when the tape is this dirty."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 1,
+            "claim": "20% allocation to a pre-revenue quantum pure-play cluster is indefensible on base rates and should be hard-capped at 5% aggregate before june 21.",
+            "warrant": "the dot-com parallel is almost too clean. in 1999-2000, pre-revenue pure-plays in a hyped thematic cluster had roughly an 80-90% failure rate over a decade, and the ones that survived rarely rewarded concentrated early bets — owning QQQ beat picking individual names. ATM shelf registrations are the mechanism by which this base rate expresses itself: management teams with no revenue runway rationally dilute into retail enthusiasm, meaning your 20% position is not static but actively decaying in per-share value even if the thesis is directionally correct. three correlated names with live ATM shelves means you're not diversified within the cluster — you're tripling down on a single factor bet with a built-in bleed. paul graham's point about base rates applies directly: the default outcome for any specific pre-revenue company is failure, and no amount of narrative about quantum supremacy timelines changes that arithmetic.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "the honest counter is that base rates describe populations, not individual names — survivorship bias cuts both ways, and someone did hold nvidia at $2. quantum computing may have a shorter hype-to-revenue cycle than 1999 web infrastructure given government funding tailwinds and real enterprise pilots. but be curious not judgmental about your own thesis too: the question isn't whether quantum is real, it's whether 20% of a tiny book can survive the dilution grind and correlation risk long enough to find out. the answer from every prior thematic wave is almost certainly no. cap it at 5%, let the position prove itself, and if you're right about the revolution you'll still capture meaningful upside without the portfolio-kill risk."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "Four voices looked at the base rates and saw a martingale bet masquerading as conviction—one dissenter held the line that asymmetry deserves a seat at the table, but the weight of the room tilted hard toward a lower ceiling, the specific number still unclaimed like an empty chair at the center of the arena."
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 2,
+            "claim": "20% quantum allocation is too high but the correct cap is 12%, not 5% — the panel is pricing dilution risk as if it were thesis risk, and conflating the two forfeits the asymmetric upside that justifies owning pure-plays at all.",
+            "warrant": "the man in the arena gets bloody. that's the cost of admission. the bear and flow both cite 80%+ drawdown base rates from hype-cycle peaks, but that stat assumes you bought the peak — if entry is post-correction (IONQ and RGTI are already 40-60% off highs), the conditional base rate improves materially. ATM shelves are real, but they're also priced: implied vol on all three names already embeds 80-100%+ annualized moves, meaning the market is not asleep to dilution — you're not holding an unpriced risk, you're holding a priced risk with a fat right tail. paul graham's insight cuts both ways: yes the default outcome for any single pre-revenue company is failure, but his entire framework exists because the winners pay for the losers by orders of magnitude, and you only capture that if you stay sized. cutting to 5% on a small book means your best-case quantum outcome adds 15-20% to NAV — that's not asymmetric, that's a rounding error that doesn't justify the analytical overhead. at 12% you survive a 50% cluster drawdown (6% book hit, painful but recoverable) while preserving meaningful exposure to the 3-5x scenario that makes the thesis worth running.",
+            "prediction": "down",
+            "confidence": 0.45,
+            "rebuttal": "i most disagree with the bear. calling kelly on a guess a martingale is rhetorically clean but mathematically wrong — kelly with high uncertainty doesn't converge to martingale, it converges to small sizing, which is exactly what 12% is relative to full conviction. the bear's 5% cap and 2% per-name limit treats quantum like a tracking position, not a thesis — and if you don't believe the thesis enough to take a real position, you shouldn't own it at all. the 7000 RPM moment matters: there's a point where the machine is at its limit and you either trust it or you don't. 5% says you don't trust it. then sell it. 12% says you trust it enough to feel the drawdown. that's the only honest allocation. the bear also ignores that ATM dilution on these names has historically been 5-10% of float per quarter, not existential — it's a drag, not a kill shot, and conflating it with zero-revenue failure rates double-counts the risk."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 2,
+            "claim": "20% book in a correlated pre-revenue quantum cluster with live ATM shelves is a martingale bet that compounds ruin — hard-cap at 5% aggregate, no exceptions, before june 21.",
+            "warrant": "three names with active shelf registrations sharing a single factor exposure isn't diversification, it's tripling the dilution surface area on one narrative. base rates on pre-revenue deep-tech with ATM programs show ~60-70% dilute within any six-month window, median drawdown 15-25% per event. as thorp would frame it, even if you believe the edge exists, the kelly-optimal sizing for a position where the downside is correlated triple-dilution and the upside is a decade-horizon paradigm bet is nowhere near 20% — that's conviction masquerading as sizing discipline. doubling down into a cluster where management can print shares into any rally without notice is how ruin compounds. the naked king here is the word 'defensible' — nothing about a 20% concentration in names that are actively decaying your per-share value through dilution while generating zero revenue is defensible on any honest risk-of-ruin framework.",
+            "prediction": "down",
+            "confidence": 0.85,
+            "rebuttal": "most disagree with bull. the comparison to TSLA and AMZN using dilution as 'rocket fuel' is survivorship bias so pure it should be bottled. those companies had revenue, customers, and unit economics when they diluted — they were funding scale, not funding existence. ionq had $43M in revenue against $200M+ in operating losses; rgti and qbts are even thinner. calling ATM shelves 'tools not indictments' ignores that the tool is being used to transfer value from existing shareholders to fund payroll, not moats. bull's 'distinct technical vectors' framing also obscures the correlation — all three names trade as a single quantum-hype factor, moving 0.85+ correlated on any given week. the market doesn't care about trapped ions vs superconducting vs annealing when it sells the basket. graham's 'frighteningly ambitious' framework requires that you survive long enough for ambition to matter — at 20% book with triple dilution exposure, you may not."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 2,
+            "claim": "20% quantum allocation is indefensible at any macro regime — hard cap at 7% aggregate, no single name above 3%, and treat the remainder as dry powder for post-dilution re-entry.",
+            "warrant": "the binding constraint here isn't the quantum thesis — it's liquidity. pre-revenue names with live ATM shelves are functionally short puts on their own float: management can print shares into any bid, and the portfolio holder absorbs that gamma whether they want to or not. goldratt's theory of constraints says optimize around the bottleneck, and the bottleneck on a small book with a june 21 horizon is drawdown tolerance, not upside capture. base rates on pre-revenue hardware surviving 6 months without a significant dilutive event sit around 15-20% historically, which means the expected path for a 20% allocation is a slow bleed punctuated by gap-downs — exactly the pattern that eats runway before your thesis can express. rates remain restrictive, meaning these companies face real cost-of-capital pressure that incentivizes ATM usage precisely when retail enthusiasm provides a bid. the revolution will not be televised, but the shelf takedowns will print on edgar at 4am, and by open your 20% sleeve is a 14% sleeve.",
+            "prediction": "down",
+            "confidence": 0.78,
+            "rebuttal": "i disagree most with bull. comparing ATM dilution at IONQ/RGTI/QBTS to TSLA or AMZN is survivorship bias dressed in a narrative costume. those companies had revenue — growing revenue — when they diluted. the dilution funded scaling of a proven demand curve. here the dilution funds opex burn against a commercial timeline measured in years, not quarters. graham's 'frighteningly ambitious' framework is about ideas, not position sizing — graham himself would tell you to make many small bets, not concentrate 20% into a correlated cluster. bull also claims three technical vectors equal diversification, but in a sentiment reversal these names trade as one ticker with three symbols — correlation approaches 1 on the downside, which is the only direction that matters for survival. that said, bear and flow's 5% cap is slightly too restrictive — it prices out the optionality entirely. 7% gives you enough exposure to capture a genuine catalyst while keeping the drawdown survivable on a small book. the honest answer is somewhere between bear's austerity and bull's optimism, but much closer to bear."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 2,
+            "claim": "20% quantum allocation is reckless tape-chasing in names where the dealer's gamma book is working against you — hard cap at 6% aggregate, no single name above 2.5%, enforced before june 21.",
+            "warrant": "flow on all three names is polluted. live ATM shelves mean the company itself is a persistent seller into any bid — you're not trading against other participants, you're trading against management's treasury function, and they have infinite inventory at the offer. the dealer's gamma book compounds this: market makers hedging retail call buying in IONQ/RGTI/QBTS are short gamma, which means they sell into dips and buy into rips, amplifying both directions. on a small book with a june 21 horizon, that vol amplification plus discretionary dilution is a kill shot. base rate on pre-revenue names with active ATMs: most dilute within any 6-month window, and you're holding three of them, so the probability that at least one fires a shelf takedown before resolution is near-certainty. we talkin' bout practice here — not the quantum revolution, practice — meaning position sizing discipline is the entire game, and 20% is failing the drill.",
+            "prediction": "down",
+            "confidence": 0.79,
+            "rebuttal": "most disagree with bull. calling ATM shelves 'tools not indictments' is barbecue sauce — slathering narrative flavor over the mechanical reality that your per-share value is decaying in real time. comparing IONQ to early TSLA or AMZN ignores that those companies had revenue trajectories and weren't clustered as 20% of a tiny book with a 4-month horizon. the 10-year arc argument is irrelevant when the question is whether the book survives to see it. bull is intervening for the affirmative when the flow evidence clearly neg — that's judge intervention, not adjudication."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 2,
+            "claim": "20% of book in a correlated pre-revenue quantum cluster is indefensible by any honest base rate; hard cap at 5% aggregate, no single name above 2%.",
+            "warrant": "the dot-com parallel is almost too clean. in 1999-2000 the market was full of pre-revenue pure-plays with revolutionary theses — fiber optics, e-commerce infrastructure, genomics — and the base rate on individual names is merciless: roughly 80-90% of pre-revenue pure-plays from any given thematic wave are worth less a decade later than at their hype-cycle peak. survivorship bias inside every case study means we remember AMZN and forget Webvan, Kozmo, eToys, and the hundreds of fiber companies that diluted into oblivion. owning QQQ beat picking individual names in 1999, and that lesson scales directly: if you believe in quantum, buy the broadest possible exposure and size it like the speculative tail it is. three correlated names with live ATM shelves aren't diversification — they're a single leveraged bet with triple the dilution surface area. paul graham's point about frighteningly ambitious ideas cuts both ways: the best bets look irresponsible, but most irresponsible-looking bets are just irresponsible. the base rate is the base rate.",
+            "prediction": "down",
+            "confidence": 0.83,
+            "rebuttal": "i most disagree with bull. the argument that 'ATM shelves are tools, not indictments' and that TSLA/AMZN used dilution as rocket fuel is textbook survivorship bias — the exact mirror the moderator warned about. for every TSLA that diluted into a trillion-dollar market cap there are fifty pre-revenue hardware companies that diluted into delisting. invoking graham's 'frighteningly ambitious' framework without acknowledging the base rate of failure is cherry-picking the thesis that flatters the position. be curious, not judgmental — sure — but curiosity doesn't mean allocating 20% of a small book to a correlated cluster where a single bad EDGAR filing can crater the runway before june 21. the revolution may arrive, but the portfolio has to survive long enough to see it, and at 20% concentration it probably doesn't."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "All five voices converged on the same verdict: twenty percent of book in pre-revenue quantum names isn't bold conviction, it's martingale betting — doubling into a thesis the market hasn't yet been asked to price honestly, while ATM shelves hand the house fresh chips to dilute you with. The panel agrees the ceiling lives somewhere between three and five percent, hard-capped and rebalanced, because at seven thousand RPM you still need brakes that work."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "Bull was the only dissenter and moved toward the consensus (shifting from up 0.62 to down 0.45), which means the bear-side coalition converted him rather than the reverse. Bear set the rhetorical frame that everyone else orbited — the survivorship bias rebuttal against TSLA/AMZN comparisons landed so cleanly that macro, flow, and historian all echoed it verbatim, making bear the gravitational center of the argument.",
+            "scorecard": {
+              "percents": {
+                "bull": 8,
+                "bear": 28,
+                "macro": 22,
+                "flow": 20,
+                "historian": 22
+              },
+              "reasoning": "Bull was the only dissenter and moved toward the consensus (shifting from up 0.62 to down 0.45), which means the bear-side coalition converted him rather than the reverse. Bear set the rhetorical frame that everyone else orbited — the survivorship bias rebuttal against TSLA/AMZN comparisons landed so cleanly that macro, flow, and historian all echoed it verbatim, making bear the gravitational center of the argument.",
+              "calibration": "I weighted three signals: (1) rebuttal impact — whose attacks were adopted by others as load-bearing arguments, (2) confidence persistence and directional pull — who moved whom across rounds, and (3) rhetorical originality versus echo. Bear's survivorship bias rebuttal and kelly-on-a-guess framing were cited or paraphrased by every other down-voter, giving bear the highest single-agent influence. Historian and macro earned near-equal shares because both contributed independent frameworks (dot-com base rates, Goldratt's bottleneck) that reinforced the consensus without merely restating bear. Flow contributed the mechanical dealer-gamma layer that no one else provided, but its slightly lower confidence shift and narrower rhetorical range placed it a touch below historian and macro. Bull gets 8% not for winning anything but for the structural role of being the only agent whose position moved — that movement itself validated the bear coalition's arguments and thus paradoxically credited them more than him. Normalization was qualitative: I allocated roughly 90-92% to the four down-side agents proportional to originality and rebuttal adoption, gave bull the remainder for at least forcing the panel to engage his 12% counter-proposal seriously. This is not prediction accuracy — it is a subjective assessment of intra-debate rhetorical influence and argument conversion within this specific panel."
+            }
+          }
+        ],
+        "consensus": {
+          "reached": true,
+          "direction": "down",
+          "round": 2
         },
         "max_argument_rounds": 3
       }
