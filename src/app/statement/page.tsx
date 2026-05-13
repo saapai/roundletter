@@ -117,6 +117,11 @@ export default async function Statement() {
             <span className={s.roomName}>archives</span>
             <span className={s.roomMeta}>eggs included</span>
           </a>
+          <a href="https://aureliex.com/letters/tension-field" className={s.room}>
+            <span className={s.roomEy}>05</span>
+            <span className={s.roomName}>tension field</span>
+            <span className={s.roomMeta}>58 experiments · may 13</span>
+          </a>
         </nav>
 
         {/* ── entrenched coils research paper ── */}
