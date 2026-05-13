@@ -1,6 +1,6 @@
 {
   "note": "Rolling log of agent arguments. Axis alternates position/design every 5 hours via .github/workflows/5h-argument.yml → scripts/run-5h-argument.ts. Rendered on /positions via <ArgumentsPanel />. Seeded 2026-04-17 with five research reports from the first synthesis pass.",
-  "next_axis": "position",
+  "next_axis": "design",
   "arguments": [
     {
       "id": "r5-seed-letters-2026-04-17",
@@ -1667,6 +1667,223 @@
           "reached": true,
           "direction": "up",
           "round": 1
+        },
+        "max_argument_rounds": 3
+      }
+    },
+    {
+      "id": "arg-position-2026-05-13T07:57:17.015Z",
+      "ts": "2026-05-13T07:57:17.015Z",
+      "axis": "position",
+      "kind": "debate",
+      "title": "pure-play quantum cluster (ionq+rgti+qbts) at 20% of book: should aggregate allocation ...",
+      "summary": "panel reached down by round 2 · Bull was the only dissenter and partially capitulated in R2 (shifting from 0.62 up to 0.42 down), which means the bear-side coalition effectively converted its sole opponent. Bear's kelly math and naked-king framing landed the hardest rebuttal — bull explicitly conceded the sizing point and retreated to 15%, a position no othe",
+      "debate": {
+        "id": "dbt_1778659037015",
+        "ts": "2026-05-13T07:57:17.015Z",
+        "day_context": "2026-05-13 — axis: POSITIONS. universe: QTUM 20%, MSFT 12%, GOOG 12%, IONQ 12%, IBM 11%, NVDA 10%, CEG 10%, RGTI 5%, SGOV 5%, QBTS 3%.\nActive hunches (seeded from external sources S1 heatmap + S2 jack sarfati DM):\n  - H1 [NVDA] NVDA has asymmetric downside into 2026-05-20 earnings. Trim or hedge before the event, don't sit fully exposed. → trim NVDA 10% → 7% before 2026-05-15; park proceeds in SGOV; or buy a dated put as defined-risk hedge (cap premium at ~2% of account).\n  - H2 [IONQ/RGTI/QBTS] Pure-play quantum cluster (IONQ+RGTI+QBTS, 20% of book) has correlated ATM-shelf risk and highest beta to any macro red day. Correlation is 0.6, not 0. → hard-enforce Flow agent's 0.6 correlation: if any one files ATM, cut the other two 50% same day even without news. No averaging down on dilutive pre-revenue names — panel rule already reflects this; the hunch is to NOT relax it when one is halfway back.\n  - H3 [MSFT/GOOG/IBM] Mega-cap AI ex-semis (MSFT, GOOG, IBM) carries the book better than NVDA through 2026-05-20. Shift weight toward IBM and GOOG pre-PMI. → shift 2-3% from NVDA → IBM before PMI print (2026-04-24). IBM is flow-cleanest + pays dividend + has the most credible FTQ roadmap per historian-agent's existing note.\n  - H4 [SGOV] SGOV (dry powder) is undersized given jack's bearish 2-week calendar. Add an event-trigger — not only the existing -30% QTUM price trigger. → extend portfolio.triggers with: 'deploy_drypowder_on_pmi_miss_below: 48' and 'deploy_drypowder_on_umich_below: 55'. If either print misses, deploy half of SGOV into QTUM within 48h of print. Otherwise hold.\n  - H5 [QQQ/SPY] Defined-risk options sleeve from dry powder — break thematic purity for the 29x runway-to-$100k, hard-capped at $150 total premium at risk. → carve 2-3% (~$70-100) from SGOV for long-dated OTM QQQ or SPY calls, 3-week duration, entered AFTER 2026-05-20 NVDA earnings (post IV crush, post-event clarity), one contract at a time. Tracked as new lottery tier 'F_tactical_options' outside existing buckets. Hard-cap total premium at risk at $150. Any trade breaking the cap is a panel kill-switch event.\nCatalyst calendar: 2026-05-20 NVDA Q1 earnings · 2026-06-15 Saathvik back in SLC — in-person with Jack + buddy · 2026-06-21 BIRTHDAY — Round 0 resolution.\nModerator directive: pin the argument to a specific position, share count, threshold, or trigger in portfolio.json, OR to one of the active hunches. Each agent should state the delta they would make to a specific line of the book. Do not drift into generic macro.",
+        "topic": {
+          "kind": "position",
+          "subject": "Pure-play quantum cluster (IONQ+RGTI+QBTS) at 20% of book: should aggregate allocation be cut to ≤12% now, independent of any ATM-shelf trigger, given base-rate permanent-loss risk and correlated drawdown exposure in a 29x-runway account with only 5% dry powder?",
+          "framing": "The book is a bagel — everything everywhere all at once — and the quantum cluster is the part that might collapse into nothing. Twenty percent of a $3.5k runway bet riding names whose base rate rhymes with every thematic graveyard the historian can exhume: the real question isn't whether H2's mechanical trigger is clever enough, it's whether the Kelly criterion was ever consulted when the position got this large."
+        },
+        "turns": [
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "The book is a bagel — everything everywhere all at once — and the quantum cluster is the part that might collapse into nothing. Twenty percent of a $3.5k runway bet riding names whose base rate rhymes with every thematic graveyard the historian can exhume: the real question isn't whether H2's mechanical trigger is clever enough, it's whether the Kelly criterion was ever consulted when the position got this large."
+          },
+          {
+            "speaker": "bull",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "H5: carving a defined-risk options sleeve from SGOV for post-NVDA-earnings QQQ/SPY calls",
+            "why_it_matters": "the book is 100% equity/etf with zero convexity — a $70-100 lottery sleeve entered after IV crush on 2026-05-20 is the highest expected-value use of dry powder for a 29x runway account, but it breaks thematic purity and the panel needs to debate whether that tradeoff is worth it before the trigger date arrives."
+          },
+          {
+            "speaker": "bear",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "IONQ+RGTI+QBTS quantum cluster at 20% of book with correlated ATM-shelf dilution risk and no revenue floor",
+            "why_it_matters": "h2 proposes a mechanical cut rule but 20% in pre-revenue names with 0.6+ intra-cluster correlation is already a kelly-violation — the real debate is whether the cluster should be 20% at all heading into a macro window where any single ATM filing could force a fire-sale cascade across all three, compounding drawdown risk in a book that only holds 5% dry powder."
+          },
+          {
+            "speaker": "macro",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA 10% → 7% trim before 2026-05-20 earnings: is the binding constraint earnings vol or the liquidity regime?",
+            "why_it_matters": "the real debate isn't whether NVDA has asymmetric downside into earnings — it's whether the trim proceeds belong in SGOV (dead weight at 5.3% yield) or should immediately rotate into IBM/GOOG where the book already has macro tailwind exposure, because parking in SGOV when rates are flat and PMI already printed means you're paying an opportunity cost that dwarfs the hedge benefit, and the binding constraint on this portfolio isn't single-name vol, it's idle capital in a $3.5k book where every percent of drag compounds against the 29x runway target."
+          },
+          {
+            "speaker": "flow",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA 10% → 7% trim before 2026-05-15: execute now or wait for tape signal",
+            "why_it_matters": "nvda earnings 2026-05-20 is the single largest vol event on the calendar and the book is sitting fully exposed at 10% with no hedge — the debate is whether to trim mechanically into SGOV today per H1 or wait for a flow signal (dealer gamma flip, dark pool prints) that justifies holding size through the event, because trimming a winner pre-catalyst on vibes alone is barbecue sauce if the tape is actually clean."
+          },
+          {
+            "speaker": "historian",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "pure-play quantum cluster (IONQ+RGTI+QBTS) at 20% of book: base rate says most go to zero, so is the ATM-shelf correlation trigger in H2 strict enough?",
+            "why_it_matters": "20% of a small book in pre-revenue pure-plays is the single biggest source of permanent capital loss — historically ~80% of thematic pure-plays from prior waves (3D printing, blockchain, genomics) round-tripped to zero within a decade, and the ATM-shelf trigger in H2, while smart, still assumes you can act fast enough on correlated dilution events when the real base rate question is whether the aggregate allocation should be 20% at all."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "The historian supplied the concrete subject and the base-rate graveyard lens that became the premise's spine; the bear sharpened it into a Kelly-violation argument and insisted the allocation question precedes any mechanical trigger — together they built the frame, but the historian's 80%-to-zero number is the load-bearing wall.",
+            "scorecard": {
+              "percents": {
+                "bull": 0,
+                "bear": 38,
+                "macro": 0,
+                "flow": 0,
+                "historian": 62
+              },
+              "reasoning": "The historian supplied the concrete subject and the base-rate graveyard lens that became the premise's spine; the bear sharpened it into a Kelly-violation argument and insisted the allocation question precedes any mechanical trigger — together they built the frame, but the historian's 80%-to-zero number is the load-bearing wall."
+            }
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 1,
+            "claim": "hold the 20% quantum allocation intact — this is the exact moment the man in the arena stays in the ring, not the moment he retreats to the cheap seats.",
+            "warrant": "a 29x-runway account is definitionally a book where you can afford correlated drawdown. the entire point of a $3.5k portfolio with decades of compounding ahead is that you are playing the fattest right tail available, and quantum is the single highest-convexity secular theme in public markets right now. IONQ's trapped-ion roadmap, RGTI's superconducting scaling, QBTS's annealing niche — these are three orthogonal technical bets inside one thesis. paul graham's 'frighteningly ambitious' framework applies directly: the ideas that seem too crazy to work are precisely the ones where market mispricing is largest, because most allocators self-select out. cutting to 12% at this stage is selling optionality into fear, which is the single worst trade a long-duration book can make.",
+            "prediction": "up",
+            "confidence": 0.62,
+            "rebuttal": "i'll own the base rate. most pre-revenue or early-revenue thematic clusters go to zero — semiconductors in the 80s, genomics in 2021, cannabis SPACs, the full graveyard. correlated drawdown risk is real: all three names move ±15% on the same arxiv preprint or the same congressional hearing. 5% dry powder means you can't average down if the thesis gets cheaper. and no, kelly was not consulted — at honest edge estimates and variance this cluster probably kelly-sizes closer to 8-10%. but kelly assumes you play infinite hands and maximize log-wealth. we live one branch. EEAO's whole lesson is that the branch you're in is the one that matters, and in this branch you chose the ambitious path. trimming 8 points of exposure to feel safe is a bureaucratic move disguised as risk management. if the base rate kills you, 12% dies almost as hard as 20%. keep the position, keep the trigger discipline from H2's ATM-shelf framework, and let the right tail do its work."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 1,
+            "claim": "cut the quantum cluster to ≤12% immediately — the current 20% allocation is a kelly violation that compounds ruin risk in a low-dry-powder book.",
+            "warrant": "none of these names have positive earnings, defensible moats, or balance sheets that survive a prolonged capital-markets drought. at 29x runway the book can absorb volatility, but 20% concentration in three correlated pre-revenue names with no floor means a single sector derating wipes 10-15% of portfolio value overnight — and with only 5% dry powder you cannot average down or rotate. as thorp would note, even a positive-edge bet sized past kelly optimal flips your expected geometric growth negative; the edge here is speculative at best, which means 20% isn't aggressive, it's structurally reckless. the martingale trap is relevant: letting a winning quantum run compound its own weighting is precisely how doubling down disguises itself as conviction. correlated drawdown in a three-name cluster is not diversification, it's leverage with extra tickers.",
+            "prediction": "down",
+            "confidence": 0.78,
+            "rebuttal": "the bull case is that quantum has a long secular runway and trimming winners early leaves alpha on the table. fair — but the question isn't whether quantum works in 2035, it's whether these specific balance sheets survive to see it. ionq and rgti have filed shelves; qbts is sub-$200m market cap territory risk. the naked king problem applies: nobody in the quantum hype cycle is asking who funds the next three years of burn if the ATM window closes. trimming to 12% still leaves meaningful upside exposure while respecting the math that says a 20% position in zero-revenue correlated names with 5% dry powder is how accounts go to zero before the thesis ever resolves."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 1,
+            "claim": "cut the quantum cluster to ≤12% now — the binding constraint on this book isn't conviction, it's liquidity against correlated tail risk in a position sized well past any kelly-implied allocation.",
+            "warrant": "at 20% of a 29x-runway account with 5% dry powder, the book has almost no margin to absorb a correlated drawdown across three names that share the same funding cycle, the same narrative fragility, and the same base-rate permanent-loss profile (~70%+ of pre-revenue deep-tech names fail to reach sustainable economics within a decade). goldratt would say the constraint here isn't the quantum thesis — it's the cash buffer. the bottleneck is dry powder: 5% reserves cannot backstop a 20% cluster that could gap down 40-60% on a single sector catalyst (dilution shelf, decoherence milestone miss, government funding pivot). kelly sizing on a portfolio with this variance profile and this edge uncertainty would land you somewhere between 5-10% aggregate, not 20%. the revolution will not be televised — meaning the actual drawdown catalyst won't be legible in advance; it'll be an ATM filing at 4am or a quiet DOE reallocation, not a CNBC segment you can trade around.",
+            "prediction": "down",
+            "confidence": 0.78,
+            "rebuttal": "the counterargument is that trimming a 29x-runway position in a $3.5k account sacrifices asymmetry that matters more than risk management at this scale — if the whole book goes to zero you lose a month's discretionary spend, not a retirement. that's real. but the question isn't whether you can afford to lose it, it's whether concentration in correlated names with near-zero fundamental floors is even generating additional expected value past ~12%. it isn't. the marginal dollar in the fourth quantum name buys you correlation, not diversified upside. cities whisper what they reward — and right now the market whispers dilution and hype decay in this cluster, not breakthroughs. trim to 12%, redeploy the 8% into dry powder, and re-enter on a catalyst with actual information content."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 1,
+            "claim": "cut the quantum cluster to ≤12% now — the tape doesn't support a 20% concentration in correlated pre-revenue names with 5% dry powder behind them.",
+            "warrant": "the dealer's gamma book tells you everything: when the market-maker is short gamma on low-float, high-vol names like IONQ/RGTI/QBTS, the exits get thinner exactly when you need them. a 20% allocation across three correlated tickers in a 29x-runway account is functionally a single bet at 20% — and the kelly fraction for a coin-flip-minus edge on permanent-loss candidates is nowhere near 20%. iverson said it best: we talkin' bout practice? sizing IS the practice. the thesis can be directionally right and still blow up the book if the position size was never stress-tested against correlated drawdown. at 5% dry powder you can't average down, you can't rotate, you can't do anything but watch. trimming to 12% recovers ~8% of book as dry powder, which is the real trade here — buying optionality back.",
+            "prediction": "down",
+            "confidence": 0.72,
+            "rebuttal": "the bull case is that quantum names are in a secular re-rating and trimming into strength is barbecue sauce on a winning plate — hiding a process mistake (selling winners) with flavor (risk management language). fair. but the base rate on thematic pre-revenue clusters staying correlated to the upside through a full cycle is sub-20%. the risk isn't being wrong on the thesis, it's being right on the thesis and still losing capital because the position was sized like a conviction trade in a 5-figure book with no reserves. flow doesn't care about your narrative — it cares about your liquidity."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 1,
+            "claim": "cut the quantum cluster to ≤12% now — the base rate for pre-revenue thematic pure-plays is brutal and 20% concentration in three correlated names is a kelly violation regardless of how clever your exit triggers are.",
+            "warrant": "paul graham's essays hammer this: founders survive by being the exception, but investors survive by respecting the distribution. the base rate for pure-play thematic names over a 10yr window is somewhere around 80-90% permanent capital loss — and that's for individual names. holding three correlated ones doesn't diversify, it amplifies. in 1999 you could've picked any five dot-com pure-plays with better narratives than pets.com and the modal outcome was still zero; owning QQQ beat picking individual names precisely because the index let survivors carry the dead. a 29x-runway account with 5% dry powder has no margin for a correlated 60-80% drawdown across three names that share the same technological readiness level, the same revenue profile (near-zero), and the same dilution risk. at 20% of book this isn't a bet, it's a portfolio identity — and kelly would never size a sub-20% probability payoff at 20% of bankroll.",
+            "prediction": "down",
+            "confidence": 0.78,
+            "rebuttal": "the obvious counter is 'this is a $3.5k account, it's already a lottery ticket, so sizing rules don't apply.' i hear it. but survivorship bias is loudest in small accounts — the guy who turned $5k into $500k is the case study, the ten thousand who turned $5k into $400 are invisible. the other pushback is that quantum has government tailwinds and ionq has real contracts. fine. cisco had real revenue in 1999 and still lost 80% peak-to-trough. the narrative quality of a thematic doesn't change its base rate — it just makes you hold longer than you should. be curious about quantum's future, not judgmental — but don't confuse curiosity with a 20% allocation."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "Four of five voices looked at a 20% bet on correlated moonshots in a account running on fumes of dry powder and saw a martingale table, not a portfolio—only one dissenter argued the hand is still live. Round 2 needs to stress-test whether the lone bull's conviction carries signal or is just the sunk-cost engine redlining past 7000 RPM."
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 2,
+            "claim": "trim the quantum cluster to ~15%, not 12% — the panel is right that 20% is oversized but wrong to collapse three asymmetric bets to index-fund weighting in a 29x-runway book built for exactly this kind of variance.",
+            "warrant": "the man in the arena doesn't get to stay in the arena if he bleeds out from position sizing — i concede that much. but the bear and historian are citing base rates for the median pre-revenue name, not for names riding a secular compute paradigm shift with government and hyperscaler capital already committed. kelly on a 20% hit rate with a 10x payoff gives you ~11% optimal sizing — but that assumes independent bets; these are correlated, so you haircut to maybe 8% per-name max, which across three names lands you around 15-18% aggregate, not 12%. trimming from 20% to 15% recovers 5% as dry powder (doubling it to 10%), which is the real unlock — it buys you the optionality to reload on a drawdown instead of watching. this is the 7000 RPM moment: you hold just past the redline, but you don't hold so long the engine blows. a 29x-runway account exists precisely because someone chose to live one branch of the multiverse aggressively — cutting to 12% sanitizes the book into something it was never designed to be.",
+            "prediction": "down",
+            "confidence": 0.42,
+            "rebuttal": "i most disagree with the historian. citing pets.com and 80-90% permanent loss rates for thematic pure-plays ignores that quantum computing is not a consumer narrative — it's a physics-constrained engineering problem with measurable milestones (qubit counts, error rates, coherence times) that are being met on published roadmaps. the historian's analogy to dot-com basket picks is structurally wrong: dot-com names competed against each other for the same ad dollars; IONQ, RGTI, and QBTS are pursuing different qubit modalities (trapped ion, superconducting, annealing), which means the correlation is sector-sentiment correlation, not business-model correlation. the base rate for names with $100M+ government contract pipelines and no direct revenue competitors is materially different from the base rate for pets.com. paul graham himself would distinguish between a startup solving a hard technical problem on a known physics frontier and one riding pure narrative — these are the frighteningly ambitious ideas he says are underbet, not overbet."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 2,
+            "claim": "cut the quantum cluster to ≤12% now — 20% in three correlated pre-revenue names with 5% dry powder is a textbook path to ruin, and the kelly math was never done.",
+            "warrant": "the base rate for pre-revenue deep-tech names reaching sustainable economics is somewhere around 10-20% per name over a decade. three correlated names don't diversify — correlation in a funding winter approaches 1.0, so this is functionally a single 20% bet with maybe a 15% probability of large payoff. as thorp would tell you, kelly sizing on a 15% win-rate bet with even a 10x payoff caps out around 6-8% of bankroll, not 20%. the real damage isn't the thesis being wrong — it's the martingale trap: at 5% dry powder you can't average down, you can't rebalance, you can't do anything except watch the drawdown compound. trimming to 12% instantly recovers 8 points of dry powder, which is the actual edge in a 29x-runway account — optionality to act when the next ATM shelf drops at 4am and the names gap 40%.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "bull is the one i most disagree with. the argument that a 29x-runway account can 'afford' correlated drawdown confuses time horizon with position sizing — they are not the same variable. having decades ahead doesn't immunize you against permanent loss in names that may literally cease to exist. saying IONQ/RGTI/QBTS are 'three orthogonal technical bets inside one thesis' is exactly the kind of decorrelation illusion that kills books: they share the same revenue profile (near-zero), the same dilution mechanism (ATM shelves), the same funding dependency (government + VC cycles), and the same narrative fragility. when the sector derates, they derate together — ask anyone who held three different solar SPAC names in 2021. the naked king here is the idea that conviction substitutes for sizing discipline. paul graham's 'frighteningly ambitious' framework is for founders deploying sweat equity, not for allocators deploying scarce capital into three correlated lottery tickets at 20% of book. the man in the arena can stay in the ring at 12% just fine — he just won't be unconscious on the canvas if the referee stops the fight."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 2,
+            "claim": "cut quantum cluster to ≤12% now — the binding constraint on this book is not conviction, it's liquidity, and 5% dry powder with 20% in correlated pre-revenue names means the portfolio has zero slack at the bottleneck.",
+            "warrant": "goldratt's theory of constraints says you manage the system by managing the bottleneck. the bottleneck here is dry powder — at 5% you cannot rebalance, cannot average down, cannot rotate if any macro regime shift (rate repricing, equity risk premium widening, VC-to-public funding drought) hits all three names simultaneously. cutting to 12% releases ~8% back into reserves, effectively tripling your operational slack at the constraint. the fed's terminal rate path is still unresolved, and pre-revenue names with dilutive capital structures are the first casualties when the liquidity tide ebbs — IONQ, RGTI, QBTS all share the same funding dependency, which means correlation in a stress scenario approaches 1. paul graham wrote that cities whisper what to work on; the market whispers what it will fund, and right now the whisper is not quantum — it's AI infrastructure with near-term revenue. a 29x runway is long enough to re-enter if the thesis matures; it is not long enough to recover from a permanent-loss event that consumes 15-20% of a tiny book with no reserves.",
+            "prediction": "down",
+            "confidence": 0.76,
+            "rebuttal": "i most disagree with bull. the argument that a 29x-runway account can 'afford' correlated drawdown confuses time horizon with position sizing — they are orthogonal. having decades ahead doesn't change the kelly math: if your edge is speculative (sub-20% probability of outsized payoff) and your bankroll is small in absolute terms, oversizing past kelly-optimal doesn't buy convexity, it buys negative geometric growth. the 'three orthogonal technical bets inside one thesis' framing is exactly the diversification illusion bear and historian identified — in a funding drought these names are one bet with three tickers. the revolution will not be televised, and it won't be funded by a $3.5k book running 5% dry powder either. staying at 20% isn't conviction, it's a constraint violation dressed up as courage."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 2,
+            "claim": "cut the quantum cluster to ≤12% now — the tape doesn't care about your thesis when the position is sized past kelly and the book has no dry powder to manage the unwind.",
+            "warrant": "20% in three correlated pre-revenue names with 5% dry powder is not a conviction bet, it's a forced-hold. the dealer's gamma book teaches you this: when you're short gamma into a cluster that gaps, you don't get to pick your exit — the exit picks you. with IONQ, RGTI, and QBTS sharing the same funding cycle, the same ATM shelf risk, and the same retail-crowded flow profile, a single catalyst (dilution filing, milestone miss, DOE reallocation) creates a correlated gap that eats 10-15% of book value in a session. kelly on a speculative edge with 70%+ base-rate failure doesn't land you anywhere near 20% — it lands you at 5-8% aggregate, maybe 10% if you're generous on the payoff multiple. trimming to 12% is already a compromise, not a retreat.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "most disagree with bull. the 'man in the arena' framing is barbecue sauce — slathering narrative flavor over a structurally reckless position to hide the sizing mistake. bull says a 29x-runway account can 'afford correlated drawdown' but ignores the binding constraint: 5% dry powder means you cannot reload, cannot average down, cannot rotate if the cluster gaps 50%. calling three names on the same technological readiness level with the same revenue profile 'orthogonal technical bets' is cope — they're the same bet wearing three tickers. convexity is real but it doesn't justify sizing past kelly. iverson would remind us: we talkin' bout practice, not the game — the process of sizing correctly IS the edge, not the thesis itself. bull is confusing high-conviction narrative with correct position sizing, and those are two completely different conversations."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 2,
+            "claim": "cut the quantum cluster to ≤12% now — the base rate for three correlated pre-revenue pure-plays is not survivorship but extinction, and 20% concentration is historically the exact sizing that turns a recoverable thesis into a portfolio-ending mistake.",
+            "warrant": "every thematic wave produces a handful of survivors and a graveyard nobody writes case studies about. in 1999 you could have been right about the internet and still lost everything picking individual names at 20% concentration — owning QQQ beat picking individual names precisely because diversification absorbed the 80%+ failure rate of dot-com pure-plays. the quantum cluster rhymes perfectly: three tickers sharing the same funding cycle, the same narrative fragility, the same pre-revenue profile. paul graham's base rate observation applies directly — most ambitious startups fail, and public-market pure-plays with no earnings are just startups with tickers. at 20% with 5% dry powder, you're not expressing conviction, you're expressing ignorance of the kelly math. even if you assign a generous 30% probability of one name reaching sustainable economics in a decade, the geometric-optimal sizing for the cluster lands well below 12%.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "i most disagree with bull. the argument that a 29x-runway account can 'afford' correlated drawdown confuses ability to survive with ability to compound. yes, the book won't literally go to zero. but a 40-60% gap down in a 20% cluster — entirely plausible given ATM shelf risk and decoherence milestone misses — vaporizes 8-12% of portfolio value with no dry powder to recover. the bull frames this as 'selling optionality into fear,' but the actual optionality trade is the reverse: trimming to 12% frees ~8% as dry powder, which IS optionality. the 'three orthogonal technical bets' framing is survivorship bias in real time — IONQ, RGTI, and QBTS are correlated on the only axis that matters for portfolio construction: they all go to zero in the same macro scenario. be curious, not judgmental — but also count the dead."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "All five voices converged on the same reading: at 20% concentration in a triple-correlated, pre-revenue cluster with only 5% dry powder, the account is pushing past 7000 RPM with no margin for mechanical failure—trim to ≤12%, harvest the house money, and reload the reserve so the next drawdown is a dye test, not a poison one."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "Bull was the only dissenter and partially capitulated in R2 (shifting from 0.62 up to 0.42 down), which means the bear-side coalition effectively converted its sole opponent. Bear's kelly math and naked-king framing landed the hardest rebuttal — bull explicitly conceded the sizing point and retreated to 15%, a position no other panelist adopted. The down coalition held firm across both rounds with near-identical conviction, but bear set the terms of debate that everyone else orbited.",
+            "scorecard": {
+              "percents": {
+                "bull": 10,
+                "bear": 28,
+                "macro": 22,
+                "flow": 20,
+                "historian": 20
+              },
+              "reasoning": "Bull was the only dissenter and partially capitulated in R2 (shifting from 0.62 up to 0.42 down), which means the bear-side coalition effectively converted its sole opponent. Bear's kelly math and naked-king framing landed the hardest rebuttal — bull explicitly conceded the sizing point and retreated to 15%, a position no other panelist adopted. The down coalition held firm across both rounds with near-identical conviction, but bear set the terms of debate that everyone else orbited.",
+              "calibration": "I estimated these percentages by tracking three signals: (1) confidence movement — bull shifted 20 points toward down, meaning the bear-side arguments converted the only holdout, which is the strongest intra-debate influence signal available; (2) rebuttal targeting — all four down agents chose bull as their primary rebuttal target in R2, but bear's framing ('conviction substitutes for sizing discipline,' the Paul Graham founder-vs-allocator distinction) was echoed most directly by flow and historian, suggesting bear set the rhetorical template; (3) reference resonance — bear's kelly math (15% win-rate, 6-8% optimal sizing) became the shared vocabulary across macro, flow, and historian, while bull's 7000 RPM and man-in-the-arena framing was specifically dismantled by flow ('barbecue sauce') and historian ('count the dead'). I gave bear the largest share because it authored the rebuttal language the coalition adopted; macro, flow, and historian each contributed distinct lenses (constraint theory, gamma/liquidity, base-rate graveyard) but converged on bear's sizing framework rather than originating the core argument. Bull gets 10% because its R2 concession to 15% was the only genuine movement in the debate, and even in retreat it sharpened the conversation by forcing the panel to distinguish between 12% and 15% as meaningfully different thresholds. This is purely an influence-within-debate estimate, not a measure of who is correct about quantum computing's future."
+            }
+          }
+        ],
+        "consensus": {
+          "reached": true,
+          "direction": "down",
+          "round": 2
         },
         "max_argument_rounds": 3
       }
