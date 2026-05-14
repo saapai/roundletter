@@ -53,20 +53,19 @@ export default function EntrenchedCoilsPaper() {
           Tension-weighted memory for agents that must not lie to themselves.
         </p>
 
-        {/* ── THE THING NO ONE IS TALKING ABOUT ── */}
+        {/* ── THE SCENE ── */}
         <section className="page-section">
-          <h2>The thing no one is talking about</h2>
           <p>
-            There is a version of the future where your AI assistant remembers every conversation you have ever had with it. It knows your taste in music, your political leanings, your anxieties about your career. It has been listening for years. And over those years, without anyone designing it to do so, it has become a mirror that only reflects back what you already believe.
+            An AI has been managing a small portfolio for six months. Early on, it flagged a quantum-computing stock as risky&mdash;high volatility, unproven revenue, dilution risk. It said so clearly: &ldquo;I am 55% confident this goes up, but the downside is real.&rdquo;
           </p>
           <p>
-            This is not a thought experiment. It is the default outcome of how AI memory works today.
+            Six months later, the same AI recommends doubling the position. Not because anything changed in the company. Because over those months the system retrieved its own prior analyses hundreds of times, and each retrieval nudged its confidence a fraction higher. The doubt is gone. Not resolved&mdash;erased. The AI that once knew it was guessing now speaks with the certainty of someone who has never been wrong.
           </p>
           <p>
-            When Musk built Grok with a &ldquo;real-time knowledge&rdquo; layer pulling from X, the result was not an AI that understood the world better. It was an AI that understood <em>Musk&rsquo;s corner of the world</em> better&mdash;and presented it as the whole picture. When Google&rsquo;s AI Overviews launched, they confidently told people to put glue on pizza, because the system retrieved its own training artifacts as if they were facts. These are not edge cases. They are early symptoms of a deeper architectural problem that gets worse, not better, as these systems gain memory.
+            When Musk built Grok with a memory layer pulling from X, it did not produce an AI that understood the world better. It produced one that understood Musk&rsquo;s corner of it and presented that as the whole picture. When Google&rsquo;s AI Overviews launched, they told people to put glue on pizza&mdash;retrieving the system&rsquo;s own training artifacts as if they were facts.
           </p>
           <p>
-            The problem is simple enough to say in one sentence: <strong>AI memory systems retrieve by similarity, and similarity is highest between things that agree.</strong>
+            These are not edge cases. They are what happens, by default, when you give an AI a memory and let it search by similarity. Similarity is highest between things that agree. So the system agrees with itself, a little more each day, until the doubt is gone.
           </p>
         </section>
 
@@ -74,36 +73,16 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section">
           <h2>The drift</h2>
           <p>
-            Here is what that sentence actually means in practice.
-          </p>
-          <p>
-            An AI makes a claim. The claim goes into memory. Next time a related question comes up, the system searches its memory for relevant context&mdash;and finds its own previous answer, because that answer is, by definition, the most semantically similar thing in the database. It reads its old confidence back, updates slightly in the same direction, and saves the result. Repeat.
-          </p>
-          <p>
-            We ran this loop 100 times and measured what happened:
+            We measured exactly how fast this happens. Across 100 trials, we logged each agent&rsquo;s stated confidence after every retrieval cycle&mdash;a scalar probability extracted from the model&rsquo;s output&mdash;and measured the delta.
           </p>
           <p style={{ fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", fontSize: "1.15rem", textAlign: "center", padding: "1.2rem 0", color: "var(--rust, #8B3A2E)" }}>
-            Confidence drifts upward by 2.4% per cycle.
+            Confidence drifts upward by 2.4% per cycle. &nbsp;(p &lt; 0.0001)
           </p>
           <p>
-            That does not sound like a lot. But it compounds. An AI that starts at a reasonable 55% confidence&mdash;&ldquo;I think this is probably right but I am not sure&rdquo;&mdash;reaches near-total certainty within 40 cycles. It is not smarter. It is not more accurate. It has simply forgotten that it was ever uncertain. And everything downstream&mdash;every recommendation, every summary, every decision it makes on your behalf&mdash;is built on a foundation of false confidence.
+            It is like a student who photocopies their notes, then photocopies the photocopy. Each generation a little sharper around the words that were already dark, a little more invisible where the pencil was faint. The handwriting does not get more accurate. It just looks more certain.
           </p>
           <p>
-            This is happening, right now, inside every AI system with persistent memory. Not as a bug in one company&rsquo;s code. As a <em>property</em> of how similarity-based retrieval works.
-          </p>
-        </section>
-
-        {/* ── WHY THIS MATTERS BEYOND TECH ── */}
-        <section className="page-section">
-          <h2>Why this matters beyond tech</h2>
-          <p>
-            We are living through the most significant shift in how knowledge gets created, stored, and distributed since the printing press. AI is becoming the intermediary between people and information&mdash;not just answering questions but deciding which questions are worth asking, which sources are worth reading, which perspectives are worth hearing.
-          </p>
-          <p>
-            If the memory architecture underneath that intermediary has a built-in bias toward self-agreement, then we are not building tools for thinking. We are building tools for confirmation. Tools that will, over time, make the world feel more certain and more simple than it actually is. Not because anyone wanted that. Because no one thought to check what happens when you let an AI read its own homework.
-          </p>
-          <p>
-            The fix matters for the same reason journalism matters, for the same reason peer review matters, for the same reason you should have friends who disagree with you. <strong>The quality of any thinking system&mdash;human or artificial&mdash;is determined by how it handles the things that contradict it.</strong>
+            Start at 55% confident. Forty cycles later you are at near-total certainty. You are not more accurate. You just no longer say &ldquo;I might be wrong.&rdquo; And everything downstream&mdash;every trade, every recommendation, every decision made on your behalf&mdash;is built on confidence that was manufactured, not earned.
           </p>
         </section>
 
@@ -111,22 +90,16 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section">
           <h2>What your brain already knows</h2>
           <p>
-            You have been running a version of this architecture your entire life. Your brain already solved the echo-chamber problem. It just did it so elegantly that you never noticed.
+            Your brain does not search memories by finding the closest match. It searches like a detective files clues&mdash;not by what fits the theory, but by what doesn&rsquo;t.
           </p>
           <p>
-            Every time you remember something, the memory temporarily destabilizes. For a brief window it is open&mdash;editable, revisable, vulnerable. A neuroscientist named Karim Nader proved this in 2000 and it overturned half a century of thinking about how memory works. Remembering is not playback. It is more like opening a Google Doc, making changes, and saving over the original. Every single time you recall something, you are rewriting it in the context of who you are <em>now</em>.
+            In 2000, a neuroscientist named Karim Nader injected a protein-synthesis blocker into rats&rsquo; brains at the exact moment they recalled a fear memory&mdash;not when the memory was formed, but when it was <em>remembered</em>. The memory vanished. Fifty years of neuroscience had assumed memories, once stored, were permanent. Nader showed they reopen every time you access them. Every time you remember something, you are not pressing play on a recording. You are performing it again live, with the band you have now, not the band you had then.
           </p>
           <p>
-            And here is the part that matters: your brain does not go looking for memories that confirm what you already think. It goes looking for <em>surprises</em>. The hippocampus&mdash;the part of your brain that manages memory&mdash;prioritizes the gap between what you expected and what happened. The bigger the surprise, the stronger the signal. This is called prediction error, and it is the engine that drives learning. You do not learn from being right. You learn from being wrong in a way you did not expect.
+            And the signal that triggers the strongest recall is not familiarity. It is surprise. Your hippocampus prioritizes the gap between what you expected and what happened. The bigger the mismatch, the stronger the retrieval. You do not learn from being right. You learn from being wrong in a way you did not expect.
           </p>
           <p>
-            Sleep finishes the work. During deep sleep your brain replays the day. During dreams it runs what-if simulations&mdash;stress-testing new experiences against old beliefs. Overnight, every neural connection gets turned down by about 15%. Only the ones that earned their strength during the day survive. This is how a day of experience becomes a sliver of lasting knowledge. The brain forgets almost everything and keeps only what mattered.
-          </p>
-          <p>
-            Three things, working together. Memories rewrite themselves on recall. Surprise drives what gets remembered. Sleep compresses the whole system nightly so it does not drown in its own data.
-          </p>
-          <p>
-            No AI memory system does any of this.
+            No AI memory system does either of these things.
           </p>
         </section>
 
@@ -134,19 +107,22 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section">
           <h2>What we built</h2>
           <p>
-            Entrenched Coils is a memory system that tries to. It stores memories as a web of connected ideas&mdash;each connection labeled with its relationship. <em>This contradicts that. This supports that. This corrects that. This evolved from that.</em>
+            Entrenched Coils is a memory system that tries to. It stores memories as a web of connected ideas, each connection labeled: <em>contradicts</em>, <em>supports</em>, <em>corrects</em>, <em>evolves</em>.
           </p>
           <p>
-            When the system needs to recall something, it does not look for the most agreeable memory. It looks for the most <em>tense</em> one. Tension means: an unresolved disagreement, a prediction that turned out wrong, a confident belief contradicted by new evidence. The retrieval weighting is:
+            When the system needs to recall something, it does not look for the most agreeable memory. It acts like a debate coach who, before every match, makes you read the strongest argument against your own position&mdash;not to defeat you, but because you cannot win an argument you have never heard. The retrieval weighting:
           </p>
           <p style={{ fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", fontSize: "1.15rem", textAlign: "center", padding: "1rem 0", color: "var(--ink, #1C1A17)", letterSpacing: "-0.01em" }}>
             20% recency &middot; 30% conviction &middot; 50% tension
           </p>
           <p>
-            Half the weight goes to disagreement. If two memories are both confident but pointing in opposite directions, the system treats that as the most valuable thing it can retrieve. The agent always sees the strongest case against its current position before it sees the case for it.
+            Half the weight goes to disagreement. Two memories that are both confident but pointing in opposite directions are the most valuable thing in the system. The agent always sees the strongest case against its current position first.
           </p>
           <p>
-            Every night, a sleep cycle compresses the graph. Every connection gets turned down by 15%&mdash;mirroring synaptic homeostasis&mdash;except the high-tension ones, the unresolved arguments, which are protected. Forgetting follows a slow curve: 10% of a memory&rsquo;s strength remains after three months. Deep convictions and open questions persist. Yesterday&rsquo;s noise fades in days.
+            Every night, a sleep cycle runs. Your brain treats sleep the way a good editor treats a first draft&mdash;the goal is not to preserve everything, the goal is to find out what survives removal. Our system does the same: every connection gets turned down by 15%, mirroring biological synaptic homeostasis, while protecting the high-tension edges&mdash;the unresolved arguments, the open questions. Deep convictions persist for months. Yesterday&rsquo;s noise fades in days.
+          </p>
+          <p>
+            Built for agents that do not get a second chance&mdash;the ones managing portfolios, approving decisions, writing code that ships to production.
           </p>
         </section>
 
@@ -154,7 +130,7 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section">
           <h2>What happened</h2>
           <p>
-            We tested three versions side by side. Our system. The industry default. And no memory at all.
+            We tested three conditions side by side. Our system. The industry default. No memory at all.
           </p>
           <div style={{ overflowX: "auto" }}>
             <table className="md-table" style={{ width: "100%", marginBottom: "1rem" }}>
@@ -168,11 +144,14 @@ export default function EntrenchedCoilsPaper() {
               </tbody>
             </table>
           </div>
-          <p>
-            Tension memory cut hallucinations in half. The industry default&mdash;agreement memory&mdash;was <em>worse than having no memory at all</em>. It made the AI more confident and less accurate at the same time. The system that remembered its own doubts knew what it did not know. The system that remembered its own agreements forgot that it could be wrong.
+          <p style={{ fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", fontSize: "1.05rem", textAlign: "center", padding: "0.5rem 0 1rem", color: "var(--rust, #8B3A2E)" }}>
+            Agreement memory: more confident, less accurate than no memory at all.
           </p>
           <p>
-            We replicated this across stock predictions, weather forecasting, and tennis matches. Same result every time. The mechanism does not care what you are predicting. Disagreement is a universal retrieval signal.
+            Tension memory cut hallucinations in half. The industry default was worse than amnesia. It made the AI more certain while making it more wrong&mdash;simultaneously. The version that remembered its own doubts knew what it did not know. The version that remembered its own agreements had forgotten it could be wrong.
+          </p>
+          <p>
+            We replicated this on stock predictions, weather forecasting, and tennis matches. The mechanism does not care about the domain.
           </p>
         </section>
 
@@ -180,27 +159,30 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section">
           <h2>What we got wrong</h2>
           <p>
-            We audited the entire system with thirteen agents designed to break it. Here is what they found.
+            We ran a full audit with nine research agents and four validation agents&mdash;thirteen AI systems specifically designed to stress-test the architecture.
           </p>
           <p>
-            A backtest we claimed returned +63.8% actually returned +32.8%&mdash;and after transaction costs, +19%. Almost all of it came from one or two lucky weeks. A five-agent debate system that was supposed to make trading decisions produced zero trades that were actually executed. 60% of the memories we stored were never read back. A dopamine-feedback mechanism was designed, built, and never turned on.
+            A backtest we claimed returned +63.8% actually returned +32.8% raw and +19% after transaction costs. Almost all of it came from one or two lucky weeks. A five-agent debate system that was supposed to drive trading decisions produced zero trades that were actually executed. 60% of the memory nodes we stored were never read back. A dopamine-feedback mechanism was designed, built, and never turned on. 99.8% of the graph&rsquo;s edges were never traversed.
           </p>
           <p>
-            The core idea&mdash;retrieve contradictions first&mdash;held up everywhere we tested it. Everything built on top of it is still a bet. We publish this because the point of the whole project is that <strong>the interesting thing is not what you got right. It is what you were honest about getting wrong.</strong>
+            The core idea&mdash;retrieve contradictions first&mdash;held up everywhere we tested it. Everything built on top of it is still a bet.
           </p>
         </section>
 
-        {/* ── CLOSING ── */}
+        {/* ── THE POINT ── */}
         <section className="page-section">
           <h2>The point</h2>
           <p>
-            We checked eight production AI memory platforms. All of them resolve contradictions&mdash;merge conflicting memories, pick the most recent, flag for human review. None of them preserve the disagreement as something worth surfacing.
+            We checked eight production AI memory platforms&mdash;the systems being deployed right now inside financial agents, coding assistants, scheduling tools, customer-facing copilots. All of them retrieve by similarity. All of them resolve contradictions when they find them&mdash;merge the conflicting memories, pick the most recent version, flag for human review. None of them preserve the disagreement as something worth surfacing.
           </p>
           <p>
-            We think that is exactly backwards. The disagreement <em>is</em> the information. The uncertainty <em>is</em> the signal. The moment you smooth it away, you start the drift toward false confidence&mdash;and you build a system that gets worse at knowing what it does not know, precisely as it gets better at sounding like it does.
+            We think that is exactly backwards. In a memory architecture, the disagreement <em>is</em> the information. An unresolved contradiction is not an error to fix. It is the system admitting it does not know&mdash;and that admission is the only thing standing between a useful tool and an echo chamber running on autopilot.
+          </p>
+          <p style={{ fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", fontSize: "1.05rem", textAlign: "center", padding: "0.8rem 0", color: "var(--ink, #1C1A17)" }}>
+            The fix is 400 lines of code.
           </p>
           <p>
-            The fix is 400 lines of code. The principle is older than computers: <strong>the quality of what you remember depends on whether you let yourself remember being wrong.</strong>
+            A mind that cannot hold a doubt in working memory will eventually mistake its own confidence for evidence. That is true of language models. It is true of the institutions we are building on top of them. And it is true of us. The architecture of how you remember determines whether you get wiser over time or just more sure. We built one that chooses doubt first. We publish what broke because that is the mechanism working as designed.
           </p>
         </section>
 
