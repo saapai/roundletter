@@ -26,9 +26,19 @@
     /* NAV */
     .nav{position:fixed;top:0;left:0;right:0;z-index:150;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,40px);mix-blend-mode:difference}
     .nav-logo{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-decoration:none;color:#fff}
-    .nav-links{display:flex;gap:20px}
-    .nav-links a{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:#fff;opacity:0.5;transition:opacity 0.2s}
-    .nav-links a:hover{opacity:1}
+    .nav-pill{display:flex;align-items:center;gap:0;border:1px solid rgba(255,255,255,0.15);border-radius:100px;overflow:hidden;transition:all 0.5s cubic-bezier(0.16,1,0.3,1)}
+    .nav-pill-toggle{display:flex;align-items:center;justify-content:center;width:36px;height:36px;cursor:pointer;flex-shrink:0;transition:all 0.3s}
+    .nav-pill-toggle svg{opacity:0.5;transition:opacity 0.2s}
+    .nav-pill-toggle:hover svg{opacity:1}
+    .nav-pill-links{display:flex;align-items:center;gap:0;overflow:hidden;max-width:300px;transition:max-width 0.5s cubic-bezier(0.16,1,0.3,1),opacity 0.3s,padding 0.5s cubic-bezier(0.16,1,0.3,1)}
+    .nav-pill.collapsed .nav-pill-links{max-width:0;opacity:0;padding:0}
+    .nav-pill-links a{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:#fff;opacity:0.5;transition:opacity 0.2s;padding:10px 12px;white-space:nowrap}
+    .nav-pill-links a:hover{opacity:1}
+    .nav-pill-cta{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:#fff;padding:8px 16px;margin:3px;border-radius:100px;background:rgba(255,255,255,0.1);white-space:nowrap;transition:background 0.2s,opacity 0.3s,max-width 0.5s cubic-bezier(0.16,1,0.3,1),padding 0.5s,margin 0.5s;overflow:hidden;max-width:120px}
+    .nav-pill-cta:hover{background:rgba(255,255,255,0.18)}
+    .nav-pill.collapsed .nav-pill-cta{max-width:0;padding:0;margin:0;opacity:0}
+    .nav-pill-sp{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.06em;color:#fff;padding:0 12px 0 4px;overflow:hidden;max-width:0;opacity:0;transition:max-width 0.5s cubic-bezier(0.16,1,0.3,1),opacity 0.3s 0.1s,padding 0.5s;white-space:nowrap}
+    .nav-pill.collapsed .nav-pill-sp{max-width:40px;opacity:1;padding:0 12px 0 4px}
 
     /* HERO */
     .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 clamp(20px,4vw,40px) clamp(40px,8vh,80px);pointer-events:none;position:relative;z-index:2}
@@ -164,7 +174,9 @@
     .sr.v{opacity:1;transform:none}
 
     @media(max-width:640px){
-      .nav-links a.hm{display:none}
+      .nav-pill-links a.hm{display:none}
+      .nav-pill-links a{padding:10px 8px}
+      .nav-pill-cta{padding:8px 12px;font-size:9px}
       .work-panel{flex:0 0 88vw}
       #graphCanvas{height:360px!important}
       .shy-section,.stare-zone{padding:48px 20px}
@@ -226,11 +238,17 @@
 
   <nav class="nav" id="nav">
     <a href="#" class="nav-logo">SP</a>
-    <div class="nav-links">
-      <a href="#graph" class="hm">Graph</a>
-      <a href="#work">Work</a>
-      <a href="https://github.com/saapai" target="_blank" rel="noopener">GH</a>
-      <a href="https://www.duttapad.com/Saathvik" target="_blank" rel="noopener">Pad</a>
+    <div class="nav-pill" id="navPill">
+      <div class="nav-pill-toggle" id="navToggle">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="3" cy="3" r="1.5" fill="#fff"/><circle cx="7" cy="3" r="1.5" fill="#fff"/><circle cx="11" cy="3" r="1.5" fill="#fff"/><circle cx="3" cy="7" r="1.5" fill="#fff"/><circle cx="7" cy="7" r="1.5" fill="#fff"/><circle cx="11" cy="7" r="1.5" fill="#fff"/></svg>
+      </div>
+      <div class="nav-pill-links">
+        <a href="#graph" class="hm">Graph</a>
+        <a href="#work">Work</a>
+        <a href="https://github.com/saapai" target="_blank" rel="noopener">GH</a>
+      </div>
+      <a href="mailto:saathvikpai817@gmail.com" class="nav-pill-cta">Say Hi</a>
+      <span class="nav-pill-sp">SP</span>
     </div>
   </nav>
 
@@ -927,6 +945,8 @@ const prog=document.getElementById('prog');
 window.addEventListener('scroll',()=>{prog.style.transform=`scaleX(${scrollY/(document.documentElement.scrollHeight-innerHeight)})`;},{passive:true});
 let ly=0;const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{const y=scrollY;nav.classList.toggle('hidden',y>ly&&y>60);ly=y;},{passive:true});
+// Nav pill toggle
+document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('navPill').classList.toggle('collapsed');});
 
 // ══════ VISITOR MEMORY ══════
 const mem=(()=>{const K='sp_memory',raw=localStorage.getItem(K),s=raw?JSON.parse(raw):{visits:0,first:Date.now(),last:null};s.visits++;s.last=Date.now();localStorage.setItem(K,JSON.stringify(s));
