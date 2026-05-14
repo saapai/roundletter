@@ -120,7 +120,17 @@ export default async function Statement() {
           <a href="https://aureliex.com/letters/tension-field" className={s.room}>
             <span className={s.roomEy}>05</span>
             <span className={s.roomName}>tension field</span>
-            <span className={s.roomMeta}>58 experiments · may 13</span>
+            <span className={s.roomMeta}>65 experiments · may 13</span>
+          </a>
+          <a href="https://aureliex.com/letters/gradient" className={s.room}>
+            <span className={s.roomEy}>06</span>
+            <span className={s.roomName}>the gradient</span>
+            <span className={s.roomMeta}>the formula · may 14</span>
+          </a>
+          <a href="https://aureliex.com/letters" className={s.room}>
+            <span className={s.roomEy}>··</span>
+            <span className={s.roomName}>all letters</span>
+            <span className={s.roomMeta}>7 papers</span>
           </a>
         </nav>
 
