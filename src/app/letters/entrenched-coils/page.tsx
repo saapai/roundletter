@@ -164,10 +164,10 @@ export default function EntrenchedCoilsPaper() {
             Half the weight goes to disagreement. Two memories that are both confident but pointing in opposite directions are the most valuable thing in the system. The agent always sees the strongest case against its current position first.
           </p>
           <p>
-            Every night, a sleep cycle runs. Your brain treats sleep the way a good editor treats a first draft&mdash;the goal is not to preserve everything, the goal is to find out what survives removal. Our system does the same: every connection gets turned down by 15%, mirroring biological synaptic homeostasis, while protecting the high-tension edges. Deep convictions persist for months. Yesterday&rsquo;s noise fades in days.
+            Every night, a sleep cycle runs. Your brain treats sleep the way a good editor treats a first draft&mdash;the goal is not to preserve everything, the goal is to find out what survives removal. Our system does the same: every connection gets turned down by 15% overnight, while protecting the important disagreements. Deep convictions persist for months. Yesterday&rsquo;s noise fades in days.
           </p>
-          <p style={{ fontStyle: "italic", color: "var(--graphite, #6B6560)", fontSize: "0.92rem", marginTop: "1.5rem" }}>
-            Built for agents that do not get a second chance&mdash;the ones managing portfolios, approving decisions, writing code that ships to production.
+          <p style={{ fontSize: "0.92rem", color: "var(--graphite, #6B6560)", marginTop: "1.5rem" }}>
+            The current graph: 687 nodes, 1,768 edges, 41% compressed by sleep.
           </p>
         </section>
 
@@ -215,7 +215,7 @@ export default function EntrenchedCoilsPaper() {
           </p>
 
           <p>
-            The version that remembered its own doubts knew what it did not know. The version that remembered its own agreements had forgotten it could be wrong. Replicated on stock predictions, weather forecasting, and tennis matches. The mechanism does not care about the domain.
+            The version that remembered its own doubts knew what it did not know. The version that remembered its own agreements had forgotten it could be wrong. We replicated this on stock predictions, weather forecasting, and tennis matches&mdash;three domains with nothing in common except the retrieval layer underneath.
           </p>
         </section>
 
@@ -263,7 +263,7 @@ export default function EntrenchedCoilsPaper() {
             borderTop: "1px solid var(--rule, rgba(28,26,23,0.08))",
             lineHeight: 1.85,
           }}>
-            A memory system that cannot hold a doubt will eventually mistake its own confidence for evidence. That is what we found in the retrieval layer. That is what the brain solved with reconsolidation and prediction error and sleep. And that is what every AI memory system shipping today has skipped. The fix was not to make the system smarter. It was to make it less comfortable.
+            A memory system that cannot hold a doubt will eventually mistake its own confidence for evidence. The brain solved this with reconsolidation and prediction error and sleep. Every AI memory system shipping today has skipped all three. The fix was not to make the system smarter. It was to make it less comfortable. We publish what broke because that is the mechanism working as designed.
           </p>
         </section>
 
