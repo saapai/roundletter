@@ -1,6 +1,6 @@
 {
   "note": "Rolling log of agent arguments. Axis alternates position/design every 5 hours via .github/workflows/5h-argument.yml → scripts/run-5h-argument.ts. Rendered on /positions via <ArgumentsPanel />. Seeded 2026-04-17 with five research reports from the first synthesis pass.",
-  "next_axis": "position",
+  "next_axis": "design",
   "arguments": [
     {
       "id": "r5-seed-letters-2026-04-17",
@@ -2423,6 +2423,279 @@
           "reached": true,
           "direction": "up",
           "round": 1
+        },
+        "max_argument_rounds": 3
+      }
+    },
+    {
+      "id": "arg-position-2026-05-14T04:04:40.925Z",
+      "ts": "2026-05-14T04:04:40.925Z",
+      "axis": "position",
+      "kind": "debate",
+      "title": "pure-play quantum cluster (ionq+rgti+qbts) at 20% of book: should the panel hard-commit...",
+      "summary": "panel split — no consensus · Bear, macro, flow, and historian formed a four-voice wall that bull never cracked. Bull's kelly math was methodically dismantled by macro's correction (correlated bets collapse the fraction), bear's gap-risk rebuttal neutralized the ATM trigger, and historian's survivorship-bias framing gave the coalition its narrative spine. Bul",
+      "debate": {
+        "id": "dbt_1778731480925",
+        "ts": "2026-05-14T04:04:40.925Z",
+        "day_context": "2026-05-14 — axis: POSITIONS. universe: QTUM 20%, MSFT 12%, GOOG 12%, IONQ 12%, IBM 11%, NVDA 10%, CEG 10%, RGTI 5%, SGOV 5%, QBTS 3%.\nActive hunches (seeded from external sources S1 heatmap + S2 jack sarfati DM):\n  - H1 [NVDA] NVDA has asymmetric downside into 2026-05-20 earnings. Trim or hedge before the event, don't sit fully exposed. → trim NVDA 10% → 7% before 2026-05-15; park proceeds in SGOV; or buy a dated put as defined-risk hedge (cap premium at ~2% of account).\n  - H2 [IONQ/RGTI/QBTS] Pure-play quantum cluster (IONQ+RGTI+QBTS, 20% of book) has correlated ATM-shelf risk and highest beta to any macro red day. Correlation is 0.6, not 0. → hard-enforce Flow agent's 0.6 correlation: if any one files ATM, cut the other two 50% same day even without news. No averaging down on dilutive pre-revenue names — panel rule already reflects this; the hunch is to NOT relax it when one is halfway back.\n  - H3 [MSFT/GOOG/IBM] Mega-cap AI ex-semis (MSFT, GOOG, IBM) carries the book better than NVDA through 2026-05-20. Shift weight toward IBM and GOOG pre-PMI. → shift 2-3% from NVDA → IBM before PMI print (2026-04-24). IBM is flow-cleanest + pays dividend + has the most credible FTQ roadmap per historian-agent's existing note.\n  - H4 [SGOV] SGOV (dry powder) is undersized given jack's bearish 2-week calendar. Add an event-trigger — not only the existing -30% QTUM price trigger. → extend portfolio.triggers with: 'deploy_drypowder_on_pmi_miss_below: 48' and 'deploy_drypowder_on_umich_below: 55'. If either print misses, deploy half of SGOV into QTUM within 48h of print. Otherwise hold.\n  - H5 [QQQ/SPY] Defined-risk options sleeve from dry powder — break thematic purity for the 29x runway-to-$100k, hard-capped at $150 total premium at risk. → carve 2-3% (~$70-100) from SGOV for long-dated OTM QQQ or SPY calls, 3-week duration, entered AFTER 2026-05-20 NVDA earnings (post IV crush, post-event clarity), one contract at a time. Tracked as new lottery tier 'F_tactical_options' outside existing buckets. Hard-cap total premium at risk at $150. Any trade breaking the cap is a panel kill-switch event.\nCatalyst calendar: 2026-05-20 NVDA Q1 earnings · 2026-06-15 Saathvik back in SLC — in-person with Jack + buddy · 2026-06-21 BIRTHDAY — Round 0 resolution.\nModerator directive: pin the argument to a specific position, share count, threshold, or trigger in portfolio.json, OR to one of the active hunches. Each agent should state the delta they would make to a specific line of the book. Do not drift into generic macro.",
+        "topic": {
+          "kind": "position",
+          "subject": "Pure-play quantum cluster (IONQ+RGTI+QBTS) at 20% of book: should the panel hard-commit H2's ATM-correlation trigger into portfolio.json, or structurally halve the cluster to ~10% now regardless of catalyst, given the base rate that ~80% of thematic pre-revenue pure-plays end up worthless within a decade?",
+          "framing": "Twenty percent of a small book riding three pre-revenue names is martingale betting dressed in a lab coat — the base rate is the base rate, and survivorship bias is the naked king parading through every quantum bull deck. Before we argue about trimming NVDA into its earnings print, the panel needs to decide whether the real vulnerability is already baked into the book at a structural level, because on any macro red day that correlated cluster doesn't care about your ATM-shelf triggers — it just falls."
+        },
+        "turns": [
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "Twenty percent of a small book riding three pre-revenue names is martingale betting dressed in a lab coat — the base rate is the base rate, and survivorship bias is the naked king parading through every quantum bull deck. Before we argue about trimming NVDA into its earnings print, the panel needs to decide whether the real vulnerability is already baked into the book at a structural level, because on any macro red day that correlated cluster doesn't care about your ATM-shelf triggers — it just falls."
+          },
+          {
+            "speaker": "bull",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA trim from 10% → 7% pre-earnings is the wrong direction — the 10-year bull case says ADD into the print, not cut",
+            "why_it_matters": "h1 asks us to trim our highest-conviction secular winner into a binary event where datacenter guidance could reprice the stock 15%+ overnight; trimming concedes the best asymmetric upside moment on the calendar to protect against a drawdown we should be willing to eat, and the parked SGOV proceeds earn nothing meaningful on a 10-year horizon."
+          },
+          {
+            "speaker": "bear",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "IONQ+RGTI+QBTS 20% cluster: enforce the ATM-shelf correlation trigger before it's too late",
+            "why_it_matters": "twenty percent of a small book in correlated pre-revenue names with known dilution risk is a martingale waiting to happen — the hunch says cut 50% on any single ATM filing, but the panel hasn't hard-committed to that trigger in portfolio.json, and without it the natural bias is to freeze and average down into ruin."
+          },
+          {
+            "speaker": "macro",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA 10% → 7% trim before 2026-05-20 earnings: execute now or wait for PMI/macro signal",
+            "why_it_matters": "the binding constraint on this book isn't conviction in NVDA's fundamentals — it's liquidity timing: if you trim into SGOV today you lock dry powder ahead of the highest-vol catalyst on the calendar, but if you wait you might catch a pre-earnings melt-up that funds the hedge more cheaply, and the portfolio's real vulnerability is that 20% quantum cluster correlation dwarfs any NVDA trim benefit on a macro red day."
+          },
+          {
+            "speaker": "flow",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA trim 10%→7% before 2026-05-15: execute now or wait for tape confirmation",
+            "why_it_matters": "h1 says trim before earnings but the deadline is tomorrow — the flow question is whether we clip the position mechanically on calendar or wait for a tape signal (dealer gamma positioning, dark pool prints) that confirms the asymmetric downside thesis, because trimming into a clean bid costs less than trimming into retail panic, and we talkin bout practice here: process of when matters more than the decision to cut."
+          },
+          {
+            "speaker": "historian",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "pure-play quantum cluster (IONQ+RGTI+QBTS) at 20% of book — base rate says most go to zero over 10yr",
+            "why_it_matters": "h2 proposes a correlation-triggered cut mechanism, but the deeper question is whether 20% allocation to pre-revenue pure-plays is defensible at all given that historically ~80% of thematic pure-plays from any tech wave (dot-com, clean energy, blockchain) ended up worthless within a decade, and survivorship bias in quantum 'case studies' is already thick — the panel should debate whether the right move is mechanical trimming on ATM filings or a structural halving of the entire cluster now, before the next correlated drawdown forces it."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "The chosen premise is nearly a verbatim lift of Historian's framing — the 80% base rate, the survivorship-bias critique, and the structural-halve-now alternative all originate there; Bear earns credit for surfacing the ATM-correlation trigger that became half the question, but the premise's center of gravity is Historian's insistence that the real debate is whether the cluster is defensible at all, not merely how to automate a trim around it.",
+            "scorecard": {
+              "percents": {
+                "bull": 0,
+                "bear": 20,
+                "macro": 5,
+                "flow": 0,
+                "historian": 75
+              },
+              "reasoning": "The chosen premise is nearly a verbatim lift of Historian's framing — the 80% base rate, the survivorship-bias critique, and the structural-halve-now alternative all originate there; Bear earns credit for surfacing the ATM-correlation trigger that became half the question, but the premise's center of gravity is Historian's insistence that the real debate is whether the cluster is defensible at all, not merely how to automate a trim around it."
+            }
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 1,
+            "claim": "hold the 20% quantum cluster and hard-commit the H2 ATM-correlation trigger into portfolio.json — the base rate is real but the position sizing is the bet, and halving now is halving your exposure to the only branch where this book produces outlier returns.",
+            "warrant": "the 80% base rate for pre-revenue thematic wipeout is correct and i'm not disputing it. but the kelly-optimal move when you have a ~20% shot at a 10x+ payoff is not zero allocation — it's roughly this neighborhood of sizing. the moderator frames 20% as martingale betting in a lab coat, but martingale implies doubling into losses with no edge. this is a fixed allocation with a defined exit trigger (ATM-correlation shelf). as graham argues in 'frighteningly ambitious startup ideas,' the most valuable companies will look like bad bets to almost everyone — the entire point of a pureplay book is to own the right tail. structurally halving to 10% doesn't reduce risk proportionally; it just guarantees you underperform the one branch of the multiverse where quantum computing actually delivers. EEAO's thesis applies: we only live one branch, so you size for the branch you believe in and manage exits mechanically. the ATM-correlation trigger exists precisely to handle the macro red day scenario — if all three names break correlation shelves simultaneously, you cut. that's not hope, that's a system.",
+            "prediction": "up",
+            "confidence": 0.35,
+            "rebuttal": "the honest counter: correlated drawdowns in a 3-name cluster can gap through any trigger level overnight — your ATM shelf is a limit order in a market that can move through it. and if two of these three names dilute via shelf offerings (which pre-revenue quantum names do), your 20% becomes a 12% bag-hold anyway without you ever choosing to trim. i accept this. my base rate for the cluster surviving intact at 20% through H2 is maybe 35%. but the man in the arena doesn't get to be in the arena at 10% — that's the cheap seats. you either own the thesis or you don't. low confidence, same call."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 1,
+            "claim": "structurally halve to ~10% now, no waiting for catalyst triggers — 20% of book in three correlated pre-revenue names is textbook ruin-path sizing regardless of how exciting the thesis sounds.",
+            "warrant": "the base rate is the base rate: ~80% of thematic pre-revenue pure-plays end up worthless within a decade, and holding three of them doesn't diversify that risk, it compounds it. as thorp would tell you, even if you believe there's edge in quantum, kelly sizing on a low-probability payoff with fat left tails never gets you to 20% of book — not even close. the correlation structure is the killer: on any macro drawdown day IONQ, RGTI, and QBTS move as a single instrument, so your actual position concentration is functionally 20% in one bet. that's martingale logic wearing a lab coat. ATM-correlation triggers sound disciplined but they're reactive — by the time the trigger fires on a gap-down open, you've already eaten the loss you were supposedly hedging against. the naked king here is every quantum bull deck projecting TAM curves into 2035 while these companies burn cash today with no line of sight to revenue durability.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "the bull will say optionality on a paradigm shift justifies overweight, and that trimming now means selling low after the recent pullback. fine — but optionality is only worth what you pay for it, and at 20% of book you're not buying a call option, you're writing a put on your entire portfolio. if the thesis is real, a 10% allocation still captures meaningful upside. if it's not, you survive. survival is the only edge that compounds."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 1,
+            "claim": "structurally halve the cluster to ~10% now; the binding constraint on this book is not quantum upside but correlated drawdown risk in a pre-revenue cluster that will move as a single unit on any liquidity withdrawal.",
+            "warrant": "goldratt's theory of constraints says you find the bottleneck and subordinate everything else to it. the bottleneck here is not catalyst timing — it's concentration in three names that share the same funding-round stage, the same zero-revenue profile, and the same sensitivity to real rates. when the fed holds higher for longer or risk-off hits, IONQ+RGTI+QBTS don't diversify each other at all; their intra-cluster correlation approaches 1. the base rate that ~80% of thematic pre-revenue plays end up worthless within a decade is not a talking point — it's the prior you have to overcome before you even look at a catalyst calendar. at 20% of book you are letting a single macro variable (liquidity conditions) determine whether your entire portfolio survives a quarter.",
+            "prediction": "down",
+            "confidence": 0.72,
+            "rebuttal": "the bull case says quantum is a generational platform shift and trimming now sells the optionality cheaply. fair — but optionality has a price, and right now you're paying for it with portfolio-level fragility. as gil scott-heron put it, the revolution will not be televised — and it certainly won't be pre-announced on a catalyst calendar so you can time your ATM trigger. the ATM-correlation trigger assumes orderly selling conditions that vanish exactly when you need them most. keep exposure, yes — 10% still gives you meaningful upside participation — but 20% is a bet that you are smarter than the base rate, and that is a bet most books lose."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 1,
+            "claim": "structurally halve the cluster to ~10% now. the atm-correlation trigger is barbecue sauce on a losing hand — it hides the taste but the meat is still bad.",
+            "warrant": "base rate is 80% of pre-revenue thematic plays go to zero within a decade. that's your prior. three correlated names at 20% of book means you're running a concentrated levered bet on a sector where the dealer's gamma book is short vol on every single one of these tickers — any macro red day and the market makers will walk the bids down through your stops faster than any atm-shelf trigger can fire. ionq, rgti, qbts all have active or shelf-registered atm programs, which means dilution is structurally embedded in the cap table trajectory. flow on these names is retail-dominated, meaning you're the liquidity exit for insiders, not the other way around. we talkin' bout practice here — the process says you size to your edge, and the edge on pre-revenue quantum is indistinguishable from zero.",
+            "prediction": "down",
+            "confidence": 0.78,
+            "rebuttal": "the bull case says quantum is where ai was in 2016 and you'll regret selling early. fine. but ai in 2016 had google already generating billions in revenue from ml-adjacent products. these names have combined trailing revenue under $50m. even if one survives, a 10% allocation still gives you meaningful upside capture while respecting the base rate. the correct response to uncertainty is position sizing, not conviction theater."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 1,
+            "claim": "structurally halve the quantum cluster to ~10% now — waiting for an ATM-correlation trigger is just giving yourself permission to ride a correlated lottery ticket at portfolio-wrecking size.",
+            "warrant": "the base rate is brutal: ~80% of pre-revenue thematic pure-plays end up worthless within a decade. owning three of them doesn't diversify anything — it triples the exposure to the same narrative. this is 1999 dot-com all over again: people convinced they were 'diversified' across pets.com, webvan, and kozmo because they were 'different companies' when they were really one bet on the same funding environment. paul graham's point about base rates applies cleanly — founders (and investors) systematically overweight the story of the survivors and forget the graveyard is 10x larger. every quantum bull deck you've ever seen is survivorship bias in a lab coat, exactly as the moderator frames it. an ATM-correlation trigger sounds disciplined but it's a rules-based illusion: on any real macro red day, all three names gap down together and your trigger fires after the damage is done, not before.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "the honest counterargument is that quantum computing may be one of those rare thematic waves — like early semis or early internet infrastructure — where a small number of pure-plays do survive and return 50-100x, and halving now locks in regret if you catch the wrong side of a binary catalyst like a government contract or a breakthrough demonstration. be curious, not judgmental — ted lasso darts. fine. but curiosity doesn't require 20% of book. you can stay curious at 10%, or even 5%, and still capture the asymmetric upside without the asymmetric ruin risk. the darts scene works because he's risking a single pub game, not half his rent money."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "The base rate landed like a guillotine on conviction—four voices read the 80% mortality number as gravity, not noise, while a lone bull insisted you can't Kelly-criterion your way to asymmetric upside by cutting winners before the catalyst fires. The arena is now this: does halving the cluster today concede the revolution before it's televised, or does it simply reprice a portfolio that's been martingale-betting on a future that statistically doesn't arrive?"
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 2,
+            "claim": "hold 20% quantum cluster and hard-commit the h2 atm-correlation trigger into portfolio.json — structurally halving now is the precise mistake that kills your exposure to the only asymmetric payoff in the book.",
+            "warrant": "the base rate is real — ~80% of pre-revenue thematics die. nobody disputes that. but the base rate is also the reason the position exists: when you're sizing a low-probability, high-magnitude outcome, the expected value calculation depends entirely on the payoff multiplier, not the hit rate. paul graham's point about frighteningly ambitious ideas is exactly this — the graveyard is large because the prize for the survivors is civilization-reshaping, and quantum computing is perhaps the single most ambitious technical bet available in public markets today. the 20% allocation across three names is not tripling one bet — it's buying three lottery tickets on slightly different engineering approaches (trapped ion, superconducting, photonic-adjacent), which is the only form of diversification that matters inside a thematic cluster. the atm-correlation trigger is not reactive decoration — it's a pre-committed mechanical rule that forces discipline precisely when your amygdala wants you to panic-sell on a gap down, and it protects you from the dilution cascade the flow agent correctly identifies. the man in the arena gets bloodied. the 7000 rpm moment comes once — you either have the position on or you don't, and if you've halved to 10% before the catalyst prints, you've voluntarily capped your upside at the exact moment asymmetry pays.",
+            "prediction": "up",
+            "confidence": 0.35,
+            "rebuttal": "i most disagree with historian. the pets.com/webvan/kozmo analogy is emotionally resonant but structurally wrong. those companies were competing for the same consumer dollar in the same delivery logistics stack with identical unit economics — they were literally the same business model replicated. ionq (trapped ion), rigetti (superconducting), and qbts (photonic/annealing-adjacent) are pursuing fundamentally different physical architectures for quantum advantage. that's not narrative diversification, it's engineering diversification. the 1999 analogy also ignores that the dot-com crash still produced amazon and google — and if you'd halved your 'internet cluster' in 1998 because the base rate on pre-revenue internet companies was ugly, you'd have cut your amazon position in half eighteen months before the defining wealth-creation event of a generation. historian is right that the base rate is brutal, but using it to argue for halving rather than holding-with-discipline is letting the graveyard scare you out of the only cemetery that might have a resurrection in it. low confidence, eyes open, position stays."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 2,
+            "claim": "structurally halve the quantum cluster to ~10% now — 20% of book in three correlated pre-revenue names is not a position, it's a ruin trajectory wearing a thesis.",
+            "warrant": "the 80% base rate is the base rate. three names in the same funding stage, same zero-revenue profile, same rate sensitivity — intra-cluster correlation approaches 1 on any drawdown, meaning you don't own three positions, you own one position at 20% of book with no edge. as thorp would tell you, kelly sizing with no quantifiable edge is just zero. the ATM-correlation trigger is a comforting fiction: shelf registrations on all three names mean dilution is not a risk event, it's the operating model. when the ATM fires, your trigger fires after the gap, not before. halving to 10% is not halving your upside — it's buying yourself the right to survive the 80% branch where these names go to zero without taking the rest of the book with them.",
+            "prediction": "down",
+            "confidence": 0.83,
+            "rebuttal": "most disagree with bull. bull claims 20% allocation is kelly-optimal for a ~20% shot at 10x. that math only works if you actually have a 20% edge — but the edge on pre-revenue quantum is indistinguishable from zero, as flow correctly notes. bull is doing the martingale in reverse: instead of doubling into losses, bull is pre-committing to a fixed oversized bet and calling it discipline. the ATM-correlation trigger doesn't solve the gap risk problem — it's the naked king. everyone on the desk knows the trigger fires after the damage, but nobody says it out loud because it makes the position feel managed. a system that can't protect you on the day you need it most is not a system, it's a story."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 2,
+            "claim": "structurally halve to ~10% now — 20% of book in three correlated pre-revenue names violates every liquidity-constraint principle that actually governs portfolio survival.",
+            "warrant": "the binding constraint here isn't thesis quality, it's liquidity and correlation. goldratt's theory of constraints says you optimize around the bottleneck, and the bottleneck in this book is the fact that on any rates-driven risk-off day these three names behave as a single instrument with retail-dominated order flow and structurally embedded dilution via ATM shelves. that makes your real concentration ~20% in one illiquid bet whose downside is gapped and discontinuous. kelly sizing on an 80% base-rate-of-ruin outcome with correlated fat left tails doesn't get you anywhere near 20% — it gets you to mid-single-digits at best, so ~10% is actually generous. the ATM-correlation trigger is a reactive mechanism that presupposes continuous markets and orderly unwinds; neither condition holds for these names on a real macro red day.",
+            "prediction": "down",
+            "confidence": 0.8,
+            "rebuttal": "most disagree with bull. the kelly argument bull makes — '~20% shot at 10x+ payoff justifies this sizing neighborhood' — is exactly backwards. kelly with 20% win probability and 10x payoff gives you roughly f* = (0.2 * 10 - 0.8) / 10 = 0.12, or 12% of bankroll on a *single uncorrelated* bet. but these aren't three independent bets, they're one bet in three wrappers. the effective kelly allocation for a single correlated quantum wager at those odds is ~12%, not 20%, and that's before adjusting for discontinuous downside (gap risk, ATM dilution, retail-exit liquidity). the revolution will not be televised — it also won't announce itself on a gap-down open so your correlation trigger can fire cleanly. bull's 'defined exit trigger' is a story about discipline that dissolves the moment the bid disappears, which is exactly when you need it most. halving to 10% doesn't 'guarantee underperformance in the right branch' — it guarantees survival in the other four branches where these names go to zero."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 2,
+            "claim": "structurally halve to ~10% now — 20% of book in three correlated pre-revenue names is not a position, it's a gamma trap where you're short your own exit.",
+            "warrant": "the dealer's gamma book tells you everything here: when three names share the same vol surface and the same zero-revenue profile, your hedging triggers are pinned to the same strike. ATM-correlation shelves don't protect you in a gap — they just formalize the loss you already took. the base rate (~80% wipeout within a decade) is your prior, and nothing in the current tape overrides it. we talkin' bout practice — the process is: respect the base rate, size accordingly, and stop pretending that three lottery tickets in the same drawer count as diversification. at 20% you aren't expressing a quantum thesis, you're expressing a leverage preference with no gamma offset.",
+            "prediction": "down",
+            "confidence": 0.78,
+            "rebuttal": "most disagree with bull. bull invokes kelly to justify ~20% allocation on a ~20% hit rate with 10x payoff, but that math only works if the three names are independent draws — they aren't. intra-cluster correlation near 1 on any stress day means your effective bet count is 1, not 3, which collapses the kelly fraction dramatically. bull also claims the ATM-correlation trigger is 'a system, not hope,' but any system that fires after a gap-down open is just hope with a timestamp. the EEAO 'size for the branch you believe in' framing is barbecue sauce — it's narrative flavor hiding the structural mistake of overconcentration. you can still own the right tail at 10%; you just survive long enough to collect it."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 2,
+            "claim": "structurally halve to ~10% now — 20% of book in three correlated pre-revenue names violates every base rate we have, and waiting for an ATM-correlation trigger to do your risk management is just hoping with extra steps.",
+            "warrant": "the base rate is 80% of pre-revenue thematic pure-plays going to zero within a decade. that's not a bear case, it's the median outcome. owning three of them doesn't diversify anything — it's 1999 all over again, except instead of picking three dot-com names over QQQ you're picking three quantum names over a broader tech basket. survivorship bias is the naked king here: every quantum bull deck references the one company that made it, never the nineteen that didn't. paul graham's point about base rates cuts both ways — yes, the best companies look like bad bets early, but the entire insight is that you can't tell which ones they are ex ante, which is why owning the index beat picking individual names in every prior thematic wave.",
+            "prediction": "down",
+            "confidence": 0.79,
+            "rebuttal": "i most disagree with bull. the kelly argument is the strongest version of the opposing case but it's misapplied. kelly sizing on a 20% probability of 10x requires you to have actual edge — not just a payoff matrix you sketched on a napkin. the 20% probability itself is generous and unearned; the historical base rate for pre-revenue pure-plays reaching 10x is far lower than 20% once you correct for survivorship bias. and kelly explicitly assumes you can continuously rebalance and that you know your edge with precision — neither condition holds for illiquid, gap-prone pre-revenue names where the ATM trigger fires after the damage is done. calling this 'kelly-optimal' is dressing up a coin flip in a tuxedo. be curious not judgmental, sure — but curiosity about quantum doesn't require 20% of your book."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "Four of five voices read the base rate like a coroner's report—the revolution will not be televised if the projector burns out before the film loads—while a lone bull clings to the optionality of letting the full position ride to a catalyst that may never fire. Round 3 must now force the real question into the open: is halving the cluster a concession to gravity or simply the Kelly-optimal way to stay seated at a table where the deck is printed in qubits?"
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 3,
+            "claim": "keep the quantum cluster at 20% — structurally halving now is the precise move that guarantees you miss the one branch where this actually matters.",
+            "warrant": "the 80% base rate is real but it's a population statistic, not a portfolio directive. paul graham's entire point about frighteningly ambitious ideas is that the expected value is driven by the magnitude of the surviving 20%, not the frequency of the dying 80% — and if you believe quantum computing is a genuine platform shift (not a vitamin, a painkiller), then the kelly-optimal allocation against a 5-10x payoff in the surviving branch with 20% probability is not mid-single-digits, it's in the 15-25% range depending on your edge estimate. the man in the arena doesn't trim because the crowd is throwing things. you only live one branch — the EEAO insight is that hedging across all possible outcomes is itself a form of paralysis. the correlation argument is valid on a daily VaR basis but irrelevant on the 10-year thesis: these names are correlated because they share the same S-curve takeoff profile, and that correlation is a feature on the upside, not just a bug on the downside. the ATM-shelf dilution concern is real but priced — every short seller on the planet has that slide in their deck already, and the names have absorbed multiple shelf registrations without breaking structure. the actual risk management here is not halving the cluster, it's setting a hard stop-loss at the book level (say, quantum cluster drawdown to 10% of original book value triggers mechanical exit) while letting the position run to the 7000 RPM moment where the thesis either proves out or doesn't.",
+            "prediction": "up",
+            "confidence": 0.4,
+            "rebuttal": "i most disagree with historian. the 1999 dot-com analogy is exactly wrong in one critical dimension: in 1999 you could buy the index (QQQ) and get exposure to the survivors. there is no quantum computing index that captures the full upside — the 'buy the basket' advice assumes a basket exists with enough constituents to guarantee a survivor, but the quantum space has maybe five investable names total. when the universe is this small, you ARE the index at three names. historian also misreads graham: the insight isn't 'you can't tell which ones they are ex ante so don't try' — it's 'the ones that look like bad bets are precisely where the returns live, so you must try and you must size to survive.' a hard book-level stop at 10% of original value gives you survival without surrendering the position that actually matters. halving to 10% is not prudence, it's a slow bleed into irrelevance where even if the thesis hits you've sized yourself out of the payoff that justified the risk in the first place."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 3,
+            "claim": "structurally halve to ~10% now — 20% of book in three correlated pre-revenue names is a martingale position wearing a quantum lab coat, and the ATM-correlation trigger is a stop-loss that won't fire in the gap that actually kills you.",
+            "warrant": "the base rate is 80% terminal failure. as thorp would tell you, kelly sizing on an edge that thin with correlated outcomes doesn't produce a 20% allocation — it produces low-to-mid single digits. 10% is already generous. three names sharing the same vol surface, the same zero-revenue profile, and the same retail-dominated order book are not three bets — they are one bet with three tickers. macro, flow, and historian all converge on this, and convergence across independent analytical frames is signal.",
+            "prediction": "down",
+            "confidence": 0.84,
+            "rebuttal": "bull is the agent i most disagree with. the argument that 20% across three names constitutes diversification within the cluster is the naked king — when the tape sells off, IONQ, RGTI, and QBTS correlate to ~0.9 and your 'three lottery tickets' become one ticket that's 20% of your book. the paul graham analogy cuts against bull's own case: graham portfolio-constructs across hundreds of bets at 0.1%-scale checks precisely because he knows he can't identify the survivor ex ante. a concentrated public-market version of that strategy isn't venture investing — it's martingale logic dressed up as conviction. and the ATM-correlation trigger as pre-committed discipline sounds elegant until you realize these names gap through your trigger level on a single downgrade or a single macro red day. the trigger presupposes continuous price action and orderly liquidity, neither of which exist in names with sub-$5B market caps and 40%+ short interest. you don't get to pre-commit to discipline in a market that doesn't offer you the fills. halve now, keep optionality alive at 10%, and if the 7000 rpm moment actually arrives you can re-add into the catalyst with a position that hasn't already bled you out."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 3,
+            "claim": "structurally halve to ~10% now — 20% of book in three rate-sensitive, zero-revenue names is a liquidity mismatch that the macro backdrop will punish before any quantum catalyst can reward.",
+            "warrant": "the binding constraint on this cluster is not technology readiness — it's the cost of capital. fed funds still above 5%, real rates positive, and no cuts priced before late 2025 at the earliest. pre-revenue names fund operations through dilution, and dilution accelerates when rates are high because the discount on future cash flows is steeper and the ATM shelf is the only balance sheet tool available. goldratt's theory of constraints says you optimize the bottleneck, not the throughput — and the bottleneck here is survival capital, not qubit count. three names drawing from the same shallow pool of risk-on liquidity means intra-cluster correlation approaches 1 on any macro red day, which turns 20% of book into a single levered bet on a rate regime that hasn't turned yet.",
+            "prediction": "down",
+            "confidence": 0.8,
+            "rebuttal": "most disagree with bull. the argument that 20% across three names is 'three lottery tickets on slightly different engineering approaches' misreads the correlation structure entirely. in a high-rate, risk-off tape these names don't trade on engineering differentiation — they trade on the same funding constraint. trapped ion vs superconducting vs photonic is a technology distinction; the market prices them as one duration bet. paul graham's point about cities applies: what does the market whisper to quantum names right now? it whispers dilution, not discovery. the ATM trigger doesn't protect you from the gap — it confirms the gap already happened. bull is right that asymmetric payoffs require being in the position, but kelly demands you size to your edge, and the edge here is unquantifiable, which means the kelly-optimal bet is closer to zero than to 20%."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 3,
+            "claim": "structurally halve to ~10% now — 20% of book in three correlated pre-revenue names with active ATM shelves is not a position, it's a gamma short dressed in a lab coat.",
+            "warrant": "the tape tells you everything you need to know: all three names trade with intraday correlation above 0.85 on down days, retail short-interest churn dominates the order book, and every one of them has a live ATM shelf that functions as a permanent overhang. you're not reading flow when you hold 20% here — you're the flow that the dealer's gamma book is hedging against. when the ATM prints, the gap happens before your trigger fires, not after, and your reactive rule becomes barbecue sauce slathered on a position that already gapped through your stop. kelly with no quantifiable edge and an 80% base rate of ruin gives you mid-single-digit sizing at best; ~10% is already generous.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "most disagree with bull. the claim that three names equals diversification inside a thematic cluster is exactly wrong — intra-cluster correlation approaches 1 on drawdowns, so you own one position at 20%, not three at ~7%. the 'asymmetric payoff' argument only holds if you survive to collect, and at 20% of a small book, a correlated 50% drawdown (which these names have done twice in the last 18 months) wipes 10% of your total book in a single move. iverson said it best — we talkin' bout practice, not the game. the ATM-correlation trigger is practice. the actual game is whether your book survives the 80% branch, and at 20% concentration it structurally doesn't. the 7000 rpm metaphor is seductive but inverted: the driver who redlines with bald tires doesn't win the race, he DNFs."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 3,
+            "claim": "structurally halve to ~10% now — the base rate is the base rate, and 20% of book in three correlated pre-revenue names is survivorship bias cosplaying as portfolio construction.",
+            "warrant": "the 1999 dot-com lesson is unambiguous: owning QQQ beat picking individual names, and most pure-plays went to zero. three quantum names at the same funding stage, same zero-revenue profile, same rate sensitivity — that's not diversification, that's one bet counted three times. paul graham's point about base rates cuts both ways: yes, the survivors reshape civilization, but the investor who concentrated 20% of book in pets.com, webvan, and kozmo.com didn't get to participate in the amazon outcome because the book was already dead. at 10% you still own the optionality; at 20% you're betting the book survives the 80% branch, and that's a bet the historical record rejects.",
+            "prediction": "down",
+            "confidence": 0.82,
+            "rebuttal": "i most disagree with the bull. the argument that 20% across three names is 'three lottery tickets on slightly different engineering approaches' is the exact survivorship bias i'm here to flag. in 1999 you could have said the same thing about three different e-commerce approaches — the intra-cluster correlation on the way down was 1.0, not 0.3. the bull frames halving as 'voluntarily capping upside,' but the base rate says the real risk is involuntary capping of the entire book. the ATM trigger is a mechanical rule, sure, but mechanical rules don't help when the gap happens before your trigger fires — and the macro and flow agents are right that these names gap, they don't drift. be curious, not judgmental — but also be honest about what the graveyard looks like. you don't get to cite the 80% death rate as the reason the position exists and simultaneously ignore it when sizing. that's not expected value math, that's narrative."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 3,
+            "text": "Four voices looked at the base rate and saw poison in the cup; one tasted dye and held firm—but the panel remains split on whether 20% is conviction or just a martingale doubling into hope. Round 4 must now settle the specific mechanism: does the cluster get structurally halved today, or does it earn its runway through a written trigger contract that auto-liquidates if the catalyst fails to print by a date certain?"
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 3,
+            "text": "Bear, macro, flow, and historian formed a four-voice wall that bull never cracked. Bull's kelly math was methodically dismantled by macro's correction (correlated bets collapse the fraction), bear's gap-risk rebuttal neutralized the ATM trigger, and historian's survivorship-bias framing gave the coalition its narrative spine. Bull held position but converted no one and actually conceded key premises (35% survival probability, gap risk reality), which functionally strengthened the opposing case.",
+            "scorecard": {
+              "percents": {
+                "bull": 14,
+                "bear": 24,
+                "macro": 22,
+                "flow": 20,
+                "historian": 20
+              },
+              "reasoning": "Bear, macro, flow, and historian formed a four-voice wall that bull never cracked. Bull's kelly math was methodically dismantled by macro's correction (correlated bets collapse the fraction), bear's gap-risk rebuttal neutralized the ATM trigger, and historian's survivorship-bias framing gave the coalition its narrative spine. Bull held position but converted no one and actually conceded key premises (35% survival probability, gap risk reality), which functionally strengthened the opposing case.",
+              "calibration": "I estimated these percentages by tracking three signals across rounds: rebuttal penetration (whose counterarguments forced the other side to concede or qualify), confidence trajectory (bear ticked up from 0.82 to 0.84, macro from 0.72 to 0.80, while bull only moved from 0.35 to 0.40 — the coalition consolidated while bull barely shifted), and convergence pull (macro, flow, and historian all explicitly referenced each other's arguments as reinforcing, creating a mutual-citation network that bull stood outside). Bear gets the plurality because bear's gap-risk rebuttal against the ATM trigger was the single argument that every other agent echoed and that bull never adequately answered — it became the load-bearing beam of the coalition. Macro earns a slight edge over flow and historian because macro's kelly correction (showing the actual formula yields ~12%, not 20%) was the most technically precise blow landed in the debate. Bull still earns 14% because the asymmetric-payoff framing and the 'you ARE the index at three names' argument were genuinely strong and forced the coalition to repeatedly engage rather than dismiss. This is a qualitative influence allocation within this specific debate, not a prediction of which side is empirically correct about quantum equities."
+            }
+          }
+        ],
+        "consensus": {
+          "reached": false,
+          "direction": null,
+          "round": null
         },
         "max_argument_rounds": 3
       }
