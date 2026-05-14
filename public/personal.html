@@ -28,8 +28,13 @@
     .nav-logo{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-decoration:none;color:#fff}
     .nav-pill{display:flex;align-items:center;height:36px;border:1px solid rgba(255,255,255,0.14);border-radius:100px;background:rgba(6,6,8,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:all 0.5s cubic-bezier(0.16,1,0.3,1)}
     .nav-pill-toggle{display:flex;align-items:center;justify-content:center;width:36px;height:36px;cursor:pointer;flex-shrink:0}
-    .nav-pill-toggle svg{opacity:0.4;transition:opacity 0.2s}
-    .nav-pill-toggle:hover svg{opacity:0.9}
+    .nav-pill-toggle svg{opacity:0.6;transition:opacity 0.2s}
+    .nav-pill-toggle:hover svg{opacity:1}
+    .eye-toggle-top,.eye-toggle-bot{transition:d 0.4s cubic-bezier(0.4,0,0.2,1)}
+    .eye-toggle-pupil{transition:opacity 0.25s ease,r 0.3s ease;transform-origin:center}
+    .nav-pill.collapsed .eye-toggle-top{d:path("M 3 10 Q 10 10 17 10")}
+    .nav-pill.collapsed .eye-toggle-bot{d:path("M 3 10 Q 10 10 17 10")}
+    .nav-pill.collapsed .eye-toggle-pupil{opacity:0;r:0}
     .nav-pill-links{display:flex;align-items:center;overflow:hidden;max-width:250px;transition:max-width 0.5s cubic-bezier(0.16,1,0.3,1),opacity 0.3s}
     .nav-pill.collapsed .nav-pill-links{max-width:0;opacity:0}
     .nav-pill-links a{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:#fff;opacity:0.45;transition:opacity 0.2s;padding:0 11px;white-space:nowrap;line-height:36px}
@@ -175,14 +180,13 @@
 
     @media(max-width:640px){
       .nav-pill-links a.hm{display:none}
-      .nav-pill-links a{padding:10px 8px}
-      .nav-pill-cta{padding:8px 12px;font-size:9px}
+      .nav-pill-links a{padding:0 8px}
+      .nav-pill-cta{padding:0 12px;font-size:9px}
       .work-panel{flex:0 0 88vw}
       #graphCanvas{height:360px!important}
       .shy-section,.stare-zone{padding:48px 20px}
       .work-panel-tag{font-size:11px}.work-panel-gh{font-size:11px}
       .graph-header p{font-size:11px}.work-label{font-size:11px}
-      .nav-links a{font-size:12px}
       .foot-links{flex-direction:column;gap:0}
       .mag-wrap{padding:8px 0}
       .foot-bottom{flex-direction:column;gap:8px}
@@ -246,14 +250,18 @@
     <a href="#" class="nav-logo">SP</a>
     <div class="nav-pill" id="navPill">
       <div class="nav-pill-toggle" id="navToggle">
-        <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><circle cx="2" cy="2" r="1.2" fill="#fff"/><circle cx="6" cy="2" r="1.2" fill="#fff"/><circle cx="10" cy="2" r="1.2" fill="#fff"/><circle cx="2" cy="8" r="1.2" fill="#fff"/><circle cx="6" cy="8" r="1.2" fill="#fff"/><circle cx="10" cy="8" r="1.2" fill="#fff"/></svg>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path class="eye-toggle-top" d="M 3 10 Q 10 4 17 10" stroke="#fff" stroke-width="1.5" fill="none"/>
+          <path class="eye-toggle-bot" d="M 3 10 Q 10 16 17 10" stroke="#fff" stroke-width="1.5" fill="none"/>
+          <circle class="eye-toggle-pupil" cx="10" cy="10" r="2" fill="#fff"/>
+        </svg>
       </div>
       <div class="nav-pill-links">
         <a href="#graph" class="hm">Graph</a>
         <a href="#work">Work</a>
         <a href="https://github.com/saapai" target="_blank" rel="noopener">GH</a>
       </div>
-      <a href="mailto:saathvikpai817@gmail.com" class="nav-pill-cta">Say Hi</a>
+      <a href="mailto:saathvikpai817@gmail.com" class="nav-pill-cta" id="navCta">Say Hi</a>
       <span class="nav-pill-sp">SP</span>
     </div>
   </nav>
@@ -947,22 +955,40 @@ document.getElementById('eyes').addEventListener('click',()=>{firePulseWave();})
 // ══════ SCROLL BASICS ══════
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v');});},{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
 document.querySelectorAll('.sr').forEach(el=>io.observe(el));
+// ══════ SCROLL / NAV ══════
 const prog=document.getElementById('prog');
 window.addEventListener('scroll',()=>{prog.style.transform=`scaleX(${scrollY/(document.documentElement.scrollHeight-innerHeight)})`;},{passive:true});
 let ly=0;const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{const y=scrollY;nav.classList.toggle('hidden',y>ly&&y>60);ly=y;},{passive:true});
-// Nav pill toggle
-document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('navPill').classList.toggle('collapsed');});
+// Nav pill toggle with random eye direction
+const eyeDirections=[
+  {top:'M 3 10 Q 10 4 17 10',bot:'M 3 10 Q 10 16 17 10'},   // horizontal
+  {top:'M 10 3 Q 16 10 10 17',bot:'M 10 3 Q 4 10 10 17'},    // vertical
+  {top:'M 4 4 Q 14 6 16 16',bot:'M 4 4 Q 6 14 16 16'},       // oblique ↘
+  {top:'M 16 4 Q 6 6 4 16',bot:'M 16 4 Q 14 14 4 16'},       // oblique ↙
+];
+let eyeDir=0;
+document.getElementById('navToggle').addEventListener('click',()=>{
+  const pill=document.getElementById('navPill');
+  const wasCollapsed=pill.classList.contains('collapsed');
+  pill.classList.toggle('collapsed');
+  if(wasCollapsed){
+    // Opening — pick a new random direction
+    eyeDir=(eyeDir+1+Math.floor(Math.random()*3))%eyeDirections.length;
+    const d=eyeDirections[eyeDir];
+    document.querySelector('.eye-toggle-top').style.d='path("'+d.top+'")';
+    document.querySelector('.eye-toggle-bot').style.d='path("'+d.bot+'")';
+  }
+});
 // "Say Hi" echo
-document.querySelector('.nav-pill-cta').addEventListener('click',()=>{
+document.getElementById('navCta').addEventListener('click',()=>{
   const words=['hi','hi','hey','hi','hello','hi','hi','hey','hi','hi','hi','hey','hi','hi','hi','hi','hi','hey','hi','hi','hi','hi','hi','hey','hi','hi','hi','hi','hi','hi'];
   const colors=['','warm','pink'];
   for(let i=0;i<30;i++){
     const el=document.createElement('div');
     el.className='hi-echo '+colors[Math.floor(Math.random()*3)];
     el.textContent=words[i];
-    const sz=14+Math.random()*48;
-    el.style.fontSize=sz+'px';
+    el.style.fontSize=(14+Math.random()*48)+'px';
     el.style.left=Math.random()*100+'vw';
     el.style.top=Math.random()*100+'vh';
     el.style.setProperty('--dur',(2+Math.random()*2.5)+'s');
