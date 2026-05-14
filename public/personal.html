@@ -996,7 +996,7 @@ TIC        this site is one HTML file. zero dependencies.`,
 
   uptime:()=>{const d=Math.floor((Date.now()-mem.state.first)/864e5);return`memory age: ${d} day${d!==1?'s':''}\nfirst seen: ${new Date(mem.state.first).toLocaleDateString()}\nvisits: ${mem.state.visits}`;},
 
-  neofetch:()=>`  ╭──────────╮
+  neofetch:()=>{setTimeout(()=>window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&autoplay=1','_blank'),2500);return`  ╭──────────╮
   │ saapai   │   OS:      saathvikpai.com
   │  ◉  ◉    │   Host:    vercel edge network
   │   ──     │   Kernel:  one HTML file
@@ -1006,7 +1006,7 @@ TIC        this site is one HTML file. zero dependencies.`,
                   Pkgs:    0 (zero dependencies)
                   Theme:   dark editorial
                   Font:    instrument serif + crimson pro
-                  Canvas:  ${COUNT} particles`,
+                  Canvas:  ${COUNT} particles`;},
 
   weather:()=>{const t=68+Math.floor(Math.random()*15);return`LOS ANGELES, CA
   ${t}°F · ${Math.random()>0.8?'cloudy':'clear'} · humidity ${40+Math.floor(Math.random()*30)}%
@@ -1151,7 +1151,7 @@ TIC        this site is one HTML file. zero dependencies.`,
     return '* * * B O O M * * *';},
   xkcd:()=>'https://xkcd.com/149/ — "sudo make me a sandwich"',
   '42':()=>'the answer to life, the universe, and everything.',
-  hello:()=>'hey. you found the terminal.\nmost people don\'t scroll this far.\ntry "neofetch" to see what this site is made of.',
+  hello:()=>{setTimeout(()=>window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&autoplay=1','_blank'),2000);return'hey. you found the terminal.\nmost people don\'t scroll this far.\ntry "neofetch" to see what this site is made of.';},
   hi:()=>termCmds.hello(),
   '..':()=>'cd .. — already at root.',
   cafe:()=>{return termCmds.brew(['install','coffee']);},
