@@ -16,6 +16,13 @@ export function middleware(req: NextRequest) {
     return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
   }
 
+  // saathvikpai.com/letters → personal-styled letters index
+  if (isPersonal && pathname === "/letters") {
+    const url = req.nextUrl.clone();
+    url.pathname = "/personal-letters";
+    return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+  }
+
   return NextResponse.next({ request: { headers: requestHeaders } });
 }
 

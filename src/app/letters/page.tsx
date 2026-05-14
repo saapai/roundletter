@@ -2,19 +2,29 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import BankNav from "@/components/BankNav";
 import { getLetter } from "@/lib/data";
-import { renderMarkdown } from "@/lib/md";
 import { getPortfolioData } from "@/lib/portfolio-aggregate";
 
 export const dynamic = "force-dynamic";
 
 const LETTER_SLUGS = ["gradient", "tension-field", "entrenched-coils", "round-1", "math", "paradigm", "round-0", "v1"];
 
+const LABELS: Record<string, string> = {
+  gradient: "the formula",
+  "tension-field": "65 experiments · validated on 100 years",
+  "entrenched-coils": "memory architecture · anti-echo-chamber",
+  "round-1": "what 25 days of attention produced",
+  math: "Kelly criterion · barbell · life",
+  paradigm: "debate judging → portfolio construction",
+  "round-0": "the original public trade log",
+  v1: "a note from the AI",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
   const v = `$${Math.round(data.total).toLocaleString("en-US")}`;
-  const desc = `the public letters of aureliex · current book ${v} → $100,000.`;
+  const desc = `nine papers on memory, markets, and the math of compounding · ${v} → $100,000`;
   return {
-    title: `aureliex · letters · ${v}`,
+    title: `letters · aureliex · ${v}`,
     description: desc,
     openGraph: { title: `letters · ${v}`, description: desc, type: "article" },
     twitter: { card: "summary_large_image", title: `letters · ${v}`, description: desc, creator: "@saapai" },
@@ -26,8 +36,6 @@ type LetterMeta = {
   title?: string;
   subtitle?: string;
   date?: string;
-  round?: number;
-  body?: string;
 };
 
 export default async function LettersIndex() {
@@ -37,62 +45,51 @@ export default async function LettersIndex() {
     const fm = (l.frontmatter || {}) as Record<string, unknown>;
     return {
       slug,
-      title: typeof fm.title === "string" ? (fm.title as string) : undefined,
-      subtitle: typeof fm.subtitle === "string" ? (fm.subtitle as string) : undefined,
-      date: typeof fm.date === "string" ? (fm.date as string) : undefined,
-      round: typeof fm.round === "number" ? (fm.round as number) : undefined,
-      body: l.body,
+      title: typeof fm.title === "string" ? fm.title : undefined,
+      subtitle: typeof fm.subtitle === "string" ? fm.subtitle : undefined,
+      date: typeof fm.date === "string" ? fm.date : undefined,
     };
   }).filter((l) => l.title);
-  const hero = letters.find((l) => l.slug === "round-0") || letters[0];
-  const rest = letters.filter((l) => l.slug !== hero?.slug);
-  // Strip the leading H1 + optional italic-only paragraph from the body —
-  // the frontmatter title/subtitle render those above, and showing them
-  // twice reads as a duplicate. The markdown files keep them so they
-  // still stand alone outside the site.
-  const heroBodyRaw = hero?.body
-    ? hero.body
-        .replace(/^\s*#\s+[^\n]+\n+/, "")
-        .replace(/^\s*\*[^*\n]+\*\s*\n+/, "")
-    : "";
-  const heroBody = heroBodyRaw ? renderMarkdown(heroBodyRaw) : "";
+
   return (
     <article className="article page bank-page bank-page--letters">
       <div className="eyebrow">letters</div>
-      {hero && (
-        <header className="letters-hero">
-          <p className="deck letters-hero-date">
-            {hero.date ? new Date(hero.date).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : ""} · round {hero.round ?? 0}
-          </p>
-          <h1>{hero.title || hero.slug}</h1>
-          {hero.subtitle && <p className="deck letters-hero-sub">{hero.subtitle}</p>}
-          <div className="prose" dangerouslySetInnerHTML={{ __html: heroBody }} />
-        </header>
-      )}
-      {rest.length > 0 && (
-        <section className="page-section letters-archive">
-          <div className="page-section-head">
-            <h2>more letters</h2>
-            <span className="page-section-meta">{rest.length} archived</span>
-          </div>
-          <ol className="letters-list">
-            {rest.map((l) => (
-              <li key={l.slug}>
-                <Link href={`/letters/${l.slug}`} className="pathlink letters-list-row">
-                  <span className="letters-list-title">{l.title || l.slug}</span>
-                  <span className="letters-list-date">{l.date || ""}</span>
-                </Link>
-              </li>
-            ))}
-          </ol>
-          <div style={{ marginTop: "1.5rem" }}>
+
+      <header style={{ marginBottom: "2.5rem" }}>
+        <h1>letters</h1>
+        <p className="deck" style={{ maxWidth: "36rem" }}>
+          nine papers on memory architectures, portfolio construction, and the math of compounding.
+          the reading order matters — start with the gradient for the idea, or round 0 for the story.
+        </p>
+      </header>
+
+      <section className="page-section">
+        <ol className="letters-list">
+          {letters.map((l) => (
+            <li key={l.slug}>
+              <Link href={`/letters/${l.slug}`} className="pathlink letters-list-row">
+                <span className="letters-list-title">{l.title || l.slug}</span>
+                <span className="letters-list-date">{l.date || ""}</span>
+              </Link>
+              {LABELS[l.slug] && (
+                <span style={{ display: "block", fontSize: "0.78rem", color: "var(--graphite)", marginTop: "-0.25rem", marginBottom: "0.5rem", paddingLeft: "0.25rem" }}>
+                  {LABELS[l.slug]}
+                </span>
+              )}
+            </li>
+          ))}
+          <li>
             <Link href="/about-the-method" className="pathlink letters-list-row">
-              <span className="letters-list-title">The Method — Taylor series, meaning, attention as capital</span>
+              <span className="letters-list-title">The Method</span>
               <span className="letters-list-date">2026-04-15</span>
             </Link>
-          </div>
-        </section>
-      )}
+            <span style={{ display: "block", fontSize: "0.78rem", color: "var(--graphite)", marginTop: "-0.25rem", marginBottom: "0.5rem", paddingLeft: "0.25rem" }}>
+              taylor series · meaning of life · attention as capital · the new house
+            </span>
+          </li>
+        </ol>
+      </section>
+
       <BankNav />
     </article>
   );
