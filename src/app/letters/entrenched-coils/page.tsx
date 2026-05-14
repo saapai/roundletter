@@ -48,25 +48,26 @@ export default function EntrenchedCoilsPaper() {
 
       <article className="article page" style={{ paddingTop: "3.5rem" }}>
         <div className="eyebrow">Paper <span style={{ color: "var(--rust, #8B3A2E)", opacity: 0.7 }}>&middot;</span> May 2026</div>
-        <h1 style={{ textAlign: "center" }}>Entrenched Coils</h1>
+        <h1 style={{ textAlign: "center" }}>Every AI With Memory<br />Is Lying to Itself</h1>
         <p className="deck">
-          If your agent only retrieves what it already believes,<br />
-          it isn&rsquo;t thinking. It&rsquo;s rehearsing.
+          We tested the memory systems inside today&rsquo;s AI agents.<br />
+          The industry default was worse than amnesia.
         </p>
 
-        {/* ── THE SCENE ── */}
+        <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "var(--graphite, #6B6560)", textAlign: "center", marginTop: "1rem" }}>
+          entrenched coils &middot; saathvik pai &middot; ucla
+        </p>
+
+        {/* ── THE HOOK ── */}
         <section className="page-section" style={{ marginTop: "4rem" }}>
           <p className="lede">
-            An AI has been managing a small portfolio for six months. Early on, it flagged a quantum-computing stock as risky&mdash;high volatility, unproven revenue, dilution risk. It said so clearly: &ldquo;I am 55% confident this goes up, but the downside is real.&rdquo;
+            We gave an AI five agents, a live portfolio, and persistent memory. After 100 trials, the agents that retrieved memories by agreement&mdash;the way every shipped product works today&mdash;hallucinated twice as often as the ones that retrieved by disagreement. And they were more confident while doing it.
           </p>
           <p>
-            Six months later, the same AI recommends doubling the position. Not because anything changed in the company. Because over those months the system retrieved its own prior analyses hundreds of times, and each retrieval nudged its confidence a fraction higher. The doubt is gone. Not resolved&mdash;erased.
+            That finding is the reason this paper exists. But the problem is bigger than one experiment.
           </p>
           <p>
-            When Musk built Grok with a memory layer pulling from X, the result was not an AI that understood the world better. It was one that understood Musk&rsquo;s corner of it and presented that as the whole picture. When Google&rsquo;s AI Overviews launched, they told people to put glue on pizza&mdash;retrieving the system&rsquo;s own artifacts as if they were facts.
-          </p>
-          <p>
-            These are what happens, by default, when you give an AI a memory and let it search by similarity. Similarity is highest between things that agree. So the system agrees with itself, a little more each day, until the doubt is gone.
+            When Musk built Grok with a memory layer pulling from X, it did not produce an AI that understood the world better. It produced one that understood Musk&rsquo;s corner of it and presented that as the whole picture. When Google&rsquo;s AI Overviews launched, they told people to put glue on pizza&mdash;retrieving the system&rsquo;s own training artifacts as if they were facts. These are not edge cases. They are what happens when you give an AI a memory and let it search by similarity. Similarity is highest between things that agree. So the system agrees with itself, a little more each day, until the doubt is gone. Not resolved&mdash;erased.
           </p>
         </section>
 
