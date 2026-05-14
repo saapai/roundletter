@@ -87,12 +87,9 @@ export default function EntrenchedCoilsPaper() {
             We measured the speed of this loop across 100 trials, logging each agent&rsquo;s stated confidence after every retrieval cycle.
           </p>
 
-          <p className="pull-quote" style={{ maxWidth: "24ch" }}>
-            Confidence drifts upward<br />
-            by 2.4% per cycle.<br />
-            <span style={{ fontSize: "0.55em", letterSpacing: "0.08em", fontStyle: "normal", fontFamily: "var(--font-mono, monospace)", color: "var(--graphite, #6B6560)" }}>p &lt; 0.0001</span>
+          <p style={{ fontStyle: "italic", color: "var(--rust, #8B3A2E)", margin: "1.5rem 0" }}>
+            Confidence drifts upward by 2.4% per cycle (p &lt; 0.0001).
           </p>
-
           <p>
             That compounds. An agent that starts at a reasonable 55% confidence reaches near-total certainty within 40 cycles. It is no more accurate than when it started. It has just stopped saying &ldquo;I might be wrong.&rdquo; And everything built on top of that confidence, every recommendation and every decision, inherits the same blind certainty.
           </p>
@@ -109,10 +106,6 @@ export default function EntrenchedCoilsPaper() {
           </p>
           <p>
             The signal that triggers the strongest recall turns out to be surprise, not familiarity. Your hippocampus prioritizes the gap between what you expected and what happened. The bigger the mismatch, the stronger the update.
-          </p>
-
-          <p className="pull-quote" style={{ maxWidth: "28ch" }}>
-            Your brain does not strengthen memories that confirm what it already knew. It strengthens the ones that surprised it.
           </p>
 
           <p>
@@ -221,10 +214,6 @@ export default function EntrenchedCoilsPaper() {
               </tbody>
             </table>
           </div>
-
-          <p className="pull-quote" style={{ maxWidth: "30ch", color: "var(--rust, #8B3A2E)" }}>
-            Agreement memory: more confident<br />and less accurate than no memory at all.
-          </p>
 
           <p>
             We replicated this on stock predictions, weather forecasting, and tennis matches, three domains with nothing in common except the retrieval layer underneath. In all three, tension memory cut hallucinations roughly in half. The agent that surfaced its own doubts was better calibrated. The one that only retrieved agreement was worse than having no memory at all.
