@@ -869,12 +869,17 @@ document.getElementById('eyes').addEventListener('click',()=>{firePulseWave();})
   gc.addEventListener('mousedown',e=>{if(hovered){dragging=hovered;const r=gc.getBoundingClientRect();offX=hovered.ax-(e.clientX-r.left);offY=hovered.ay-(e.clientY-r.top);gc.style.cursor='grabbing';}});
   gc.addEventListener('mouseup',()=>{dragging=null;});
   gc.addEventListener('mouseleave',()=>{hovered=null;dragging=null;detail.classList.remove('show');});
-  // Touch support for mobile
+  // Touch support for mobile — generous hit targets
   let touchPinned=null;
+  function nearestNode(mx,my){
+    let best=null,bestD=Infinity;
+    for(const n of abs){const d=Math.hypot(n.ax-mx,n.ay-my);if(d<n.r+30&&d<bestD){best=n;bestD=d;}}
+    return best;
+  }
   gc.addEventListener('touchstart',e=>{
     const r=gc.getBoundingClientRect(),t=e.touches[0];
     const mx=t.clientX-r.left,my=t.clientY-r.top;
-    const hit=abs.find(n=>Math.hypot(n.ax-mx,n.ay-my)<n.r+6)||null;
+    const hit=nearestNode(mx,my);
     if(hit){
       e.preventDefault();
       dragging=hit;offX=hit.ax-mx;offY=hit.ay-my;
