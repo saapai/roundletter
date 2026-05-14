@@ -110,7 +110,7 @@
     .veil{height:40vh;background:linear-gradient(to bottom,transparent,var(--bg));position:relative;z-index:1}
 
     /* EYES */
-    .eyes-wrap{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:160;display:flex;gap:8px;mix-blend-mode:difference;cursor:pointer}
+    .eyes-wrap{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:160;display:flex;gap:8px;mix-blend-mode:difference;cursor:pointer;transition:top 0.4s cubic-bezier(0.16,1,0.3,1)}
     .eye{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.25);position:relative;display:flex;align-items:center;justify-content:center}
     .pupil{width:6px;height:6px;border-radius:50%;background:#fff;position:absolute;transition:transform 0.08s}
     .eye.blink{height:3px;border-radius:2px;overflow:hidden}
@@ -1029,6 +1029,10 @@ document.getElementById('navToggle').addEventListener('click',()=>{
   const pill=document.getElementById('navPill');
   const wasCollapsed=pill.classList.contains('collapsed');
   pill.classList.toggle('collapsed');
+  // On mobile, push eyes down when expanded, back up when collapsed
+  if(innerWidth<=640){
+    document.getElementById('eyes').style.top=wasCollapsed?'50px':'12px';
+  }
   if(wasCollapsed){
     // Opening — pick a new random direction
     eyeDir=(eyeDir+1+Math.floor(Math.random()*3))%eyeDirections.length;
