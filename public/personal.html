@@ -222,9 +222,18 @@
     .sr.v{opacity:1;transform:none}
 
     @media(max-width:640px){
-      .nav-pill-links a.hm{display:none}
-      .nav-pill-links a{padding:0 8px}
-      .nav-pill-cta{padding:0 12px;font-size:9px}
+      /* Nav: start collapsed on mobile, hide SP logo, move eyes below nav */
+      .nav{height:44px;padding:0 14px}
+      .nav-logo{display:none}
+      .nav-pill{height:32px}
+      .nav-pill-toggle{width:32px;height:32px}
+      .nav-pill-toggle svg{width:16px;height:16px}
+      .nav-pill-links a{font-size:9px;padding:0 8px;line-height:32px}
+      .nav-pill-cta{height:24px;line-height:24px;padding:0 12px;font-size:9px}
+      .nav-pill-sp{line-height:32px;font-size:10px}
+      .eyes-wrap{top:12px;gap:6px}
+      .eye{width:14px;height:14px}
+      .pupil{width:4px;height:4px}
       .work-panel{flex:0 0 88vw}
       #graphCanvas{height:360px!important}
       .shy-section,.stare-zone{padding:48px 20px}
@@ -1006,6 +1015,8 @@ const prog=document.getElementById('prog');
 window.addEventListener('scroll',()=>{prog.style.transform=`scaleX(${scrollY/(document.documentElement.scrollHeight-innerHeight)})`;},{passive:true});
 let ly=0;const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{const y=scrollY;nav.classList.toggle('hidden',y>ly&&y>60);ly=y;},{passive:true});
+// Start collapsed on mobile
+if(innerWidth<=640)document.getElementById('navPill').classList.add('collapsed');
 // Nav pill toggle with random eye direction
 const eyeDirections=[
   {top:'M 3 10 Q 10 4 17 10',bot:'M 3 10 Q 10 16 17 10'},   // horizontal
