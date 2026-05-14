@@ -263,7 +263,14 @@ export default function EntrenchedCoilsPaper() {
           <p>
             That is what we built. A memory system that retrieves contradictions first, compresses nightly, forgets what doesn&rsquo;t matter, and treats doubt as a feature of working correctly. The source code is public. The results, including the failures, are on this page.
           </p>
-          <p style={{ marginTop: "1.5rem", lineHeight: 1.85 }}>
+          <p style={{
+            marginTop: "1.5rem",
+            fontFamily: "var(--font-display, Georgia), serif",
+            fontStyle: "italic",
+            fontSize: "0.92rem",
+            color: "var(--graphite, #6B6560)",
+            lineHeight: 1.7,
+          }}>
             A memory system that cannot hold a doubt will eventually mistake its own confidence for evidence.
           </p>
         </section>
