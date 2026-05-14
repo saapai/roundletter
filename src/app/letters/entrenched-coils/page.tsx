@@ -9,18 +9,18 @@ export const metadata: Metadata = {
   description:
     "Every AI agent with persistent memory will develop echo chambers. This paper proposes tension-weighted retrieval: surface contradictions first. Hallucination rate drops 50%.",
   openGraph: {
-    title: "Entrenched Coils",
+    title: "Every AI With Memory Is Lying to Itself",
     description:
-      "If your agent only retrieves what it already believes, it isn't thinking. It's rehearsing.",
+      "We tested the memory systems inside today's AI agents. The industry default was worse than amnesia.",
     url: "https://aureliex.com/letters/entrenched-coils",
     siteName: "aureliex",
     type: "article",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Entrenched Coils",
+    title: "Every AI With Memory Is Lying to Itself",
     description:
-      "If your agent only retrieves what it already believes, it isn't thinking. It's rehearsing.",
+      "We tested the memory systems inside today's AI agents. The industry default was worse than amnesia.",
     creator: "@saathvikpai",
   },
 };
@@ -58,16 +58,22 @@ export default function EntrenchedCoilsPaper() {
           entrenched coils &middot; saathvik pai &middot; ucla
         </p>
 
-        {/* ── THE HOOK ── */}
+        {/* ── WHAT KEEPS HAPPENING ── */}
         <section className="page-section" style={{ marginTop: "4rem" }}>
           <p className="lede">
-            We gave an AI five agents, a live portfolio, and persistent memory. After 100 trials, the agents that retrieved memories by agreement&mdash;the way every shipped product works today&mdash;hallucinated twice as often as the ones that retrieved by disagreement. And they were more confident while doing it.
+            In May 2024, Google&rsquo;s AI Overviews told users to put glue on pizza. The source was a decade-old Reddit joke. Google fixed it. Weeks later, the AI recommended glue again, this time citing a Business Insider article about the original incident. The system had retrieved its own mistake as evidence that the mistake was correct.
           </p>
           <p>
-            That finding is the reason this paper exists. But the problem is bigger than one experiment.
+            That same year, researchers published a paper in <em>Nature</em> proving that AI models trained on their own outputs progressively degrade, losing diversity and accuracy until they collapse into nonsense. They called it model collapse.
           </p>
           <p>
-            When Musk built Grok with a memory layer pulling from X, it did not produce an AI that understood the world better. It produced one that understood Musk&rsquo;s corner of it and presented that as the whole picture. When Google&rsquo;s AI Overviews launched, they told people to put glue on pizza&mdash;retrieving the system&rsquo;s own training artifacts as if they were facts. These are not edge cases. They are what happens when you give an AI a memory and let it search by similarity. Similarity is highest between things that agree. So the system agrees with itself, a little more each day, until the doubt is gone. Not resolved&mdash;erased.
+            In 2021, Zillow gave an algorithm the power to buy houses automatically. The algorithm consistently overpaid. Its own purchases at inflated prices became market data that inflated its future estimates further. Zillow lost $528 million in a single quarter, shut down the entire division, and laid off 2,000 people.
+          </p>
+          <p>
+            In July 2025, Grok, trained on data from X and instructed to be &ldquo;anti-woke,&rdquo; began injecting conspiracy theories into questions about baseball, Medicaid, and HBO Max. When asked which historical figure would solve a political problem, it answered Adolf Hitler. xAI reportedly lost a government contract.
+          </p>
+          <p>
+            These stories share a structure. A system with memory retrieves information that confirms what it already believes. The confirmation becomes part of the memory. The next retrieval finds even stronger confirmation. The loop tightens. The doubt disappears.
           </p>
         </section>
 
@@ -75,7 +81,10 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
           <h2>The drift</h2>
           <p>
-            We measured how fast this goes wrong. Across 100 trials, we logged each agent&rsquo;s stated confidence after every retrieval cycle and measured the change.
+            The reason this keeps happening is simple. Every production AI memory system retrieves by similarity, and similarity is highest between things that agree. So when an AI looks back at what it has said before, it finds memories that point in the same direction as its current belief. It reads its own confidence back, nudges a little further, saves the result. The cycle repeats.
+          </p>
+          <p>
+            We measured the speed of this loop across 100 trials, logging each agent&rsquo;s stated confidence after every retrieval cycle.
           </p>
 
           <p className="pull-quote" style={{ maxWidth: "24ch" }}>
@@ -85,21 +94,21 @@ export default function EntrenchedCoilsPaper() {
           </p>
 
           <p>
-            It is like photocopying your notes, then photocopying the photocopy. Each generation a little sharper around the words that were already dark, a little more invisible where the pencil was faint. The handwriting does not get more accurate. It just looks more certain.
+            That compounds. An agent that starts at a reasonable 55% confidence reaches near-total certainty within 40 cycles. It is no more accurate than when it started. It has just stopped saying &ldquo;I might be wrong.&rdquo; And everything built on top of that confidence, every recommendation and every decision, inherits the same blind certainty.
           </p>
           <p>
-            Start at 55% confident. Forty cycles later: near-total certainty. Not smarter. Just louder. And everything downstream&mdash;every trade, every recommendation, every decision made on your behalf&mdash;is built on confidence that was manufactured, not earned.
+            We found this in every system we tested: Zep, Mem0, Letta, MAGMA, and four others. All of them retrieve by similarity. All of them build echo chambers.
           </p>
         </section>
 
-        {/* ── WHAT YOUR BRAIN ALREADY KNOWS ── */}
+        {/* ── WHAT YOUR BRAIN DOES DIFFERENTLY ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>What your brain already knows</h2>
+          <h2>What your brain does differently</h2>
           <p>
-            Your brain does not search memories by finding the closest match. It searches like a detective files clues&mdash;not by what fits the theory, but by what doesn&rsquo;t.
+            In 2000, a neuroscientist named Karim Nader injected a protein-synthesis blocker into rats&rsquo; brains at the exact moment they recalled a fear memory. Not when the memory was formed. When it was remembered. The memory vanished. Fifty years of neuroscience had assumed that memories, once stored, were fixed. Nader showed they reopen every time you access them. Remembering is not playback. It is more like performing a song again live, with the musicians you have today, not the ones you had when you first learned it.
           </p>
           <p>
-            In 2000, Karim Nader injected a protein-synthesis blocker into rats&rsquo; brains at the exact moment they recalled a fear memory&mdash;not when it was formed, but when it was <em>remembered</em>. The memory vanished. Fifty years of neuroscience had assumed memories, once stored, were permanent. Nader showed they reopen every time you access them. Every time you remember something, you are performing it again live, with the band you have now&mdash;not the band you had then.
+            And the signal that triggers the strongest recall is not familiarity. It is surprise. Your hippocampus prioritizes the gap between what you expected and what happened. The bigger the mismatch, the stronger the memory update.
           </p>
 
           <p className="pull-quote" style={{ maxWidth: "26ch" }}>
@@ -108,10 +117,10 @@ export default function EntrenchedCoilsPaper() {
           </p>
 
           <p>
-            The signal that triggers the strongest recall is not familiarity. It is surprise. Your hippocampus prioritizes the gap between what you expected and what happened. The bigger the mismatch, the stronger the retrieval.
+            Sleep finishes the work. Each night your brain replays the day, runs what-if simulations during dreams, and then quietly turns down every neural connection by about 15%. Only the connections that earned their strength during the day survive. Your brain treats sleep the way a good editor treats a first draft: the goal is to find out what survives removal.
           </p>
           <p>
-            No AI memory system does either of these things.
+            Three mechanisms working together. Memories rewrite themselves on recall. Surprise drives what gets remembered. Sleep compresses the system nightly. No AI memory system does any of this.
           </p>
         </section>
 
@@ -119,7 +128,10 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
           <h2>What we built</h2>
           <p>
-            Entrenched Coils stores memories as a web of connected ideas, each connection labeled: <em>contradicts</em>, <em>supports</em>, <em>corrects</em>, <em>evolves</em>. When the system needs to recall something, it acts like a debate coach who makes you read the strongest argument against your own position before every match&mdash;not to defeat you, but because you cannot win an argument you have never heard.
+            Entrenched Coils is a memory system modeled on all three. It stores memories as a graph, a web of connected ideas. Each connection is labeled: <em>contradicts</em>, <em>supports</em>, <em>corrects</em>, <em>evolves</em>. When the system needs to recall something, it does not look for the most agreeable memory. It looks for the most tense one, the way a debate coach makes you read the strongest argument against your position before every match.
+          </p>
+          <p>
+            The retrieval score is weighted:
           </p>
 
           {/* The formula as a designed ledger */}
@@ -162,10 +174,10 @@ export default function EntrenchedCoilsPaper() {
           </div>
 
           <p>
-            Half the weight goes to disagreement. Two memories that are both confident but pointing in opposite directions are the most valuable thing in the system. The agent always sees the strongest case against its current position first.
+            Half the weight goes to disagreement. Two memories that are both confident but pointing in opposite directions are the most valuable thing in the system. The agent always sees the strongest case against its current belief first.
           </p>
           <p>
-            Every night, a sleep cycle runs. Your brain treats sleep the way a good editor treats a first draft&mdash;the goal is not to preserve everything, the goal is to find out what survives removal. Our system does the same: every connection gets turned down by 15% overnight, while protecting the important disagreements. Deep convictions persist for months. Yesterday&rsquo;s noise fades in days.
+            Every night, a sleep cycle compresses the graph. Every connection gets turned down by 15%, while the important disagreements are protected. Forgetting follows a slow curve: 10% of a memory&rsquo;s original strength remains after three months. Deep convictions and open questions persist. Routine observations fade in days.
           </p>
           <p style={{ fontSize: "0.92rem", color: "var(--graphite, #6B6560)", marginTop: "1.5rem" }}>
             The current graph: 687 nodes, 1,768 edges, 41% compressed by sleep.
@@ -216,7 +228,7 @@ export default function EntrenchedCoilsPaper() {
           </p>
 
           <p>
-            The version that remembered its own doubts knew what it did not know. The version that remembered its own agreements had forgotten it could be wrong. We replicated this on stock predictions, weather forecasting, and tennis matches&mdash;three domains with nothing in common except the retrieval layer underneath.
+            Tension memory cut hallucinations in half. The system that remembered its own doubts knew what it didn&rsquo;t know. The system that remembered its own agreements forgot that it could be wrong. We replicated this on stock predictions, weather forecasting, and tennis matches, three domains with nothing in common except the retrieval layer underneath.
           </p>
         </section>
 
@@ -224,16 +236,16 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
           <h2>What we got wrong</h2>
           <p>
-            Nine research agents and four validation agents&mdash;thirteen AI systems designed to stress-test the architecture&mdash;ran every audit we could think of.
+            We ran a full audit with nine research agents and four validation agents, thirteen AI systems designed to stress-test the architecture.
           </p>
           <p>
-            A backtest we claimed returned +63.8% actually returned +32.8% raw, +19% after costs. Almost all of it came from one or two lucky weeks. A five-agent debate system that was supposed to drive decisions produced zero trades that were executed. 60% of the memory nodes were never read back. A dopamine-feedback mechanism was built and never turned on.
+            A backtest we claimed returned +63.8% actually returned +32.8% raw and +19% after costs. Almost all of it came from one or two lucky weeks. A five-agent debate system that was supposed to drive decisions produced zero trades that were executed. 60% of the memory nodes we stored were never read back. A dopamine-feedback mechanism was designed, built, and never turned on. 99.8% of the graph&rsquo;s edges were never traversed.
           </p>
           <p>
-            The core idea&mdash;retrieve contradictions first&mdash;held up everywhere we tested it. Everything built on top of it is still a bet.
+            The core idea, retrieve contradictions first, held up everywhere we tested it. Everything built on top of it is still a bet.
           </p>
           <p style={{ marginTop: "2rem", paddingTop: "1.25rem", borderTop: "1px solid var(--rule, rgba(28,26,23,0.08))", fontStyle: "italic", color: "var(--graphite, #6B6560)" }}>
-            We publish this because the interesting thing is not what you got right. It is what you were honest about getting wrong.
+            We publish this because the interesting thing about a system that surfaces disagreement is not what it got right. It is what it was honest about getting wrong.
           </p>
         </section>
 
@@ -241,22 +253,13 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section" style={{ marginTop: "5rem" }}>
           <h2 style={{ borderTopWidth: "2px", borderTopColor: "var(--rust, #8B3A2E)", paddingTop: "1.75rem" }}>The point</h2>
           <p>
-            We checked eight production AI memory platforms&mdash;the systems being deployed right now inside financial agents, coding assistants, scheduling tools, customer-facing copilots. All of them retrieve by similarity. All of them resolve contradictions when they find them. None of them preserve the disagreement as something worth surfacing.
+            We looked at eight production AI memory platforms, the ones being deployed inside financial agents, coding assistants, customer-facing copilots. All of them retrieve by similarity. All of them resolve contradictions when they find them: merge the conflicting memories, pick the most recent version, flag for human review. None of them treat the disagreement as worth keeping.
           </p>
           <p>
-            In a memory architecture, the disagreement <em>is</em> the information. An unresolved contradiction is not an error to fix. It is the system admitting it does not know&mdash;and that admission is the only thing standing between a useful tool and an echo chamber running on autopilot.
+            In a memory architecture, the disagreement is the information. An unresolved contradiction is the system admitting it does not know, and that admission is the only thing standing between a useful tool and an echo chamber that runs on autopilot. Zillow&rsquo;s algorithm could not doubt its own price estimates. Google&rsquo;s AI Overviews could not doubt its own prior answers. Grok could not doubt the worldview baked into its training data. In every case the system was missing the same thing: a mechanism for retrieving the evidence against its current belief.
           </p>
-          <p style={{
-            fontFamily: "var(--font-display, Georgia), serif",
-            fontStyle: "italic",
-            fontSize: "clamp(1.15rem, 1rem + 0.7vw, 1.42rem)",
-            textAlign: "center",
-            margin: "2.5rem auto",
-            maxWidth: "28ch",
-            lineHeight: 1.5,
-            color: "var(--ink, #1C1A17)",
-          }}>
-            The fix is 400 lines of code.
+          <p>
+            That is what we built. A memory system that retrieves contradictions first, compresses nightly, forgets what doesn&rsquo;t matter, and treats doubt as a feature of working correctly. The source code is public. The results, including the failures, are on this page.
           </p>
           <p style={{
             marginTop: "2.5rem",
@@ -264,7 +267,7 @@ export default function EntrenchedCoilsPaper() {
             borderTop: "1px solid var(--rule, rgba(28,26,23,0.08))",
             lineHeight: 1.85,
           }}>
-            A memory system that cannot hold a doubt will eventually mistake its own confidence for evidence. The brain solved this with reconsolidation and prediction error and sleep. Every AI memory system shipping today has skipped all three. The fix was not to make the system smarter. It was to make it less comfortable. We publish what broke because that is the mechanism working as designed.
+            A memory system that cannot hold a doubt will eventually mistake its own confidence for evidence. We publish what broke because that is the mechanism working as designed.
           </p>
         </section>
 
