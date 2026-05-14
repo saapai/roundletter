@@ -218,6 +218,12 @@
     .firework{position:absolute;pointer-events:none;z-index:10;font-size:20px;animation:fw 0.8s ease-out forwards}
     @keyframes fw{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--fx),var(--fy)) scale(0.3)}}
 
+    /* HI ECHO */
+    .hi-echo{position:fixed;pointer-events:none;z-index:999;font-family:var(--serif);font-style:italic;color:#fff;opacity:0;animation:hiFloat var(--dur,3s) ease-out forwards}
+    .hi-echo.warm{color:var(--warm)}
+    .hi-echo.pink{color:rgba(244,182,194,0.8)}
+    @keyframes hiFloat{0%{opacity:0;transform:scale(0.3) translateY(20px)}8%{opacity:var(--peak,0.6);transform:scale(1) translateY(0)}70%{opacity:var(--peak,0.6);transform:scale(1) translateY(calc(var(--dy,-40px)))}100%{opacity:0;transform:scale(0.8) translateY(calc(var(--dy,-40px) * 2))}}
+
     /* HINT ROW */
     .hints{font-family:var(--mono);font-size:9px;color:rgba(200,184,138,0.28);letter-spacing:0.12em;text-align:center;padding:24px 16px;position:relative;z-index:1;background:var(--bg);border-top:1px solid rgba(200,184,138,0.06)}
   </style>
@@ -947,6 +953,26 @@ let ly=0;const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>{const y=scrollY;nav.classList.toggle('hidden',y>ly&&y>60);ly=y;},{passive:true});
 // Nav pill toggle
 document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('navPill').classList.toggle('collapsed');});
+// "Say Hi" echo
+document.querySelector('.nav-pill-cta').addEventListener('click',()=>{
+  const words=['hi','hi','hey','hi','hello','hi','hi','hey','hi','hi','hi','hey','hi','hi','hi','hi','hi','hey','hi','hi','hi','hi','hi','hey','hi','hi','hi','hi','hi','hi'];
+  const colors=['','warm','pink'];
+  for(let i=0;i<30;i++){
+    const el=document.createElement('div');
+    el.className='hi-echo '+colors[Math.floor(Math.random()*3)];
+    el.textContent=words[i];
+    const sz=14+Math.random()*48;
+    el.style.fontSize=sz+'px';
+    el.style.left=Math.random()*100+'vw';
+    el.style.top=Math.random()*100+'vh';
+    el.style.setProperty('--dur',(2+Math.random()*2.5)+'s');
+    el.style.setProperty('--peak',(0.25+Math.random()*0.45).toFixed(2));
+    el.style.setProperty('--dy',(-20-Math.random()*60)+'px');
+    el.style.animationDelay=(Math.random()*1.2)+'s';
+    document.body.appendChild(el);
+    el.addEventListener('animationend',()=>el.remove());
+  }
+});
 
 // ══════ VISITOR MEMORY ══════
 const mem=(()=>{const K='sp_memory',raw=localStorage.getItem(K),s=raw?JSON.parse(raw):{visits:0,first:Date.now(),last:null};s.visits++;s.last=Date.now();localStorage.setItem(K,JSON.stringify(s));
