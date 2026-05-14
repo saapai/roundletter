@@ -7,7 +7,7 @@ import { getPortfolioData } from "@/lib/portfolio-aggregate";
 
 export const dynamic = "force-dynamic";
 
-const LETTER_SLUGS = ["gradient", "tension-field", "entrenched-coils", "math", "paradigm", "round-0", "v1"];
+const LETTER_SLUGS = ["gradient", "tension-field", "entrenched-coils", "round-1", "math", "paradigm", "round-0", "v1"];
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
@@ -85,6 +85,12 @@ export default async function LettersIndex() {
               </li>
             ))}
           </ol>
+          <div style={{ marginTop: "1.5rem" }}>
+            <Link href="/about-the-method" className="pathlink letters-list-row">
+              <span className="letters-list-title">The Method — Taylor series, meaning, attention as capital</span>
+              <span className="letters-list-date">2026-04-15</span>
+            </Link>
+          </div>
         </section>
       )}
       <BankNav />
