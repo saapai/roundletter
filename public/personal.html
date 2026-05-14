@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saathvik Pai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#060608;--fg:#e8e0d4;--dim:#8a8278;--ghost:#3d3a36;--warm:#c8b88a;--rule:rgba(232,224,212,0.07);
+      --serif:'Instrument Serif',Georgia,serif;--body:'Crimson Pro',Georgia,serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+      --ease:cubic-bezier(0.16,1,0.3,1)}
+    html{scroll-behavior:auto}
+    body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:18px;line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:filter 8s ease}
+    ::selection{background:var(--warm);color:var(--bg)}
+    a{color:inherit}
+
+    /* CANVAS */
+    #field{position:fixed;inset:0;z-index:0}
+
+    /* PROGRESS */
+    .progress{position:fixed;top:0;left:0;right:0;z-index:200;height:2px;background:var(--warm);transform-origin:left;transform:scaleX(0)}
+
+    /* NAV */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:150;height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,4vw,40px);mix-blend-mode:difference}
+    .nav-logo{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:0.06em;text-decoration:none;color:#fff}
+    .nav-links{display:flex;gap:20px}
+    .nav-links a{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;color:#fff;opacity:0.5;transition:opacity 0.2s}
+    .nav-links a:hover{opacity:1}
+
+    /* HERO */
+    .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 clamp(20px,4vw,40px) clamp(40px,8vh,80px);pointer-events:none;position:relative;z-index:2}
+    .hero-name{font-family:var(--serif);font-style:italic;font-size:clamp(72px,16vw,200px);line-height:0.85;letter-spacing:-0.04em;position:relative;color:var(--fg)}
+    .hero-sub .kw{font-weight:600;color:#fff;cursor:default;transition:color 0.2s}
+    .hero-sub .kw:hover{color:var(--warm)}
+    /* Chromatic aberration layers */
+    .hero-name .chr{position:relative;display:inline-block}
+    .hero-name .chr::before,.hero-name .chr::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;opacity:0}
+    .hero-name .chr::before{color:#ff0040;z-index:-1}
+    .hero-name .chr::after{color:#00ffea;z-index:-1}
+    /* Decay animation triggers via JS class */
+    .hero-name.decaying .chr::before{opacity:0.7;animation:glitch-r 3s ease-in-out infinite alternate}
+    .hero-name.decaying .chr::after{opacity:0.7;animation:glitch-b 3s ease-in-out infinite alternate-reverse}
+    .hero-name.decaying .chr{animation:pixel-snap 4s steps(1) infinite}
+    @keyframes glitch-r{0%{transform:translate(0)}20%{transform:translate(-3px,1px)}40%{transform:translate(2px,-1px)}60%{transform:translate(-1px,2px)}80%{transform:translate(3px,0)}100%{transform:translate(-2px,-1px)}}
+    @keyframes glitch-b{0%{transform:translate(0)}20%{transform:translate(2px,-1px)}40%{transform:translate(-3px,1px)}60%{transform:translate(1px,-2px)}80%{transform:translate(-2px,1px)}100%{transform:translate(3px,0)}}
+    @keyframes pixel-snap{0%{filter:none}25%{filter:none}26%{filter:blur(0.5px) contrast(2)}27%{filter:none}50%{filter:none}75%{filter:none}76%{filter:blur(1px) contrast(1.5) brightness(1.3)}78%{filter:none}}
+    .hero-sub{font-family:var(--body);font-weight:400;font-size:clamp(15px,2vw,19px);color:var(--dim);max-width:28ch;margin-top:16px;line-height:1.55}
+
+    /* VEIL */
+    .veil{height:40vh;background:linear-gradient(to bottom,transparent,var(--bg));position:relative;z-index:1}
+
+    /* EYES */
+    .eyes-wrap{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:160;display:flex;gap:8px;mix-blend-mode:difference;cursor:pointer}
+    .eye{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.25);position:relative;display:flex;align-items:center;justify-content:center}
+    .pupil{width:6px;height:6px;border-radius:50%;background:#fff;position:absolute;transition:transform 0.08s}
+    .eye.blink{height:3px;border-radius:2px;overflow:hidden}
+    .eye.blink .pupil{opacity:0}
+
+    /* GRAPH */
+    .graph-section{position:relative;z-index:1;background:var(--bg);padding:clamp(40px,6vw,80px) 0 clamp(60px,8vw,100px)}
+    .graph-header{text-align:center;margin-bottom:16px}
+    .graph-header h2{font-family:var(--serif);font-style:italic;font-size:clamp(28px,5vw,48px);font-weight:400}
+    .graph-header p{font-family:var(--mono);font-size:10px;color:var(--ghost);letter-spacing:0.1em;text-transform:uppercase;margin-top:8px}
+    #graphCanvas{display:block;margin:0 auto;cursor:grab;max-width:100%}
+    .graph-detail{position:fixed;z-index:300;pointer-events:none;font-family:var(--mono);font-size:12px;padding:10px 16px;background:rgba(6,6,8,0.92);border:1px solid rgba(200,184,138,0.2);color:var(--fg);max-width:min(280px,calc(100vw - 32px));opacity:0;transition:opacity 0.15s;backdrop-filter:blur(8px)}
+    .graph-detail.show{opacity:1}
+    .graph-detail strong{color:var(--warm);font-weight:600}
+
+    /* STARE ZONE */
+    .stare-zone{position:relative;z-index:1;background:var(--bg);padding:clamp(80px,10vw,120px) clamp(20px,4vw,40px);text-align:center}
+    .stare-text{font-family:var(--serif);font-style:italic;font-size:clamp(20px,3vw,32px);color:var(--dim);transition:color 0.5s,transform 0.5s}
+    .stare-bar{width:120px;height:2px;background:var(--ghost);margin:16px auto 0;border-radius:1px;overflow:hidden}
+    .stare-bar-fill{width:0%;height:100%;background:var(--warm);transition:width 0.1s linear}
+
+    /* SHY TEXT */
+    .shy-section{position:relative;z-index:1;background:var(--bg);padding:clamp(60px,8vw,100px) clamp(20px,4vw,40px);text-align:center;overflow:hidden}
+    .shy-word{display:inline-block;transition:transform 0.3s var(--ease);font-family:var(--serif);font-style:italic;font-size:clamp(24px,4vw,40px);color:var(--dim);margin:0 6px;cursor:default}
+
+    /* WORK */
+    .work-section{position:relative;z-index:1;background:var(--bg);padding:clamp(80px,10vw,120px) clamp(20px,4vw,40px)}
+    .work-label{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm);margin-bottom:20px}
+    .work-scroll{display:flex;gap:2px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:0 calc(-1*clamp(20px,4vw,40px));padding-left:clamp(20px,4vw,40px);padding-right:40vw}
+    .work-scroll::-webkit-scrollbar{display:none}
+    .work-panel{flex:0 0 clamp(300px,40vw,500px);scroll-snap-align:start;background:#0e0e11;min-height:360px;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(24px,3vw,36px);position:relative;overflow:hidden;transition:background 0.3s;cursor:default}
+    .work-panel:hover{background:#151518}
+    .work-panel-idx{position:absolute;top:clamp(12px,2vw,24px);left:clamp(16px,2vw,28px);font-family:var(--serif);font-style:italic;font-size:clamp(64px,8vw,100px);color:rgba(200,184,138,0.12);line-height:1;z-index:2;pointer-events:none}
+    .work-panel-name{font-family:var(--serif);font-style:italic;font-size:clamp(24px,3vw,36px);line-height:1.05;margin-bottom:6px}
+    .work-panel-desc{font-size:14px;color:var(--dim);line-height:1.55;max-width:34ch;margin-bottom:12px;min-height:3em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .work-panel-tags{display:flex;flex-wrap:wrap;gap:5px}
+    .work-panel-tag{font-family:var(--mono);font-size:9px;letter-spacing:0.04em;color:var(--ghost);padding:2px 7px;border:1px solid var(--rule)}
+    .work-panel .watched{position:absolute;top:12px;right:12px;font-family:var(--mono);font-size:9px;color:var(--ghost);opacity:0;transition:opacity 0.5s}
+    .work-panel .watched.show{opacity:1}
+    /* work panel visual area */
+    .work-panel-img{width:100%;height:180px;background:var(--rule);margin-bottom:16px;overflow:hidden;position:relative;z-index:1}
+    .work-panel-img iframe{border:none;pointer-events:none;transform:scale(0.5);transform-origin:0 0;width:200%;height:200%;position:absolute;top:0;left:0}
+    .work-panel-img .grad{width:100%;height:100%;opacity:0.5}
+    .work-panel-gh{position:absolute;bottom:12px;right:12px;font-family:var(--mono);font-size:9px;letter-spacing:0.06em;text-decoration:none;color:var(--warm);opacity:0.4;transition:opacity 0.2s;text-transform:uppercase}
+    .work-panel-gh:hover{opacity:1}
+
+    /* DUTTAPAD SECTION */
+    .duttapad-section{position:relative;z-index:1;background:var(--bg);padding:clamp(60px,8vw,100px) clamp(20px,4vw,40px);border-top:1px solid var(--rule)}
+    .duttapad-header{margin-bottom:32px}
+    .duttapad-header h2{font-family:var(--serif);font-style:italic;font-size:clamp(28px,5vw,48px);font-weight:400;margin-bottom:8px}
+    .duttapad-header p{font-size:15px;color:var(--dim);max-width:50ch}
+    .duttapad-frames{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
+    .duttapad-frame{background:#0e0e11;overflow:hidden;aspect-ratio:16/10;position:relative;cursor:pointer;transition:background 0.3s}
+    .duttapad-frame:hover{background:#151518}
+    .duttapad-frame iframe{width:200%;height:200%;border:none;transform:scale(0.5);transform-origin:0 0;pointer-events:none}
+    .duttapad-frame-label{position:absolute;bottom:12px;left:12px;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:0.06em}
+    .duttapad-frame-link{position:absolute;bottom:12px;right:12px;font-family:var(--mono);font-size:9px;color:var(--warm);text-decoration:none;opacity:0.5;transition:opacity 0.2s;letter-spacing:0.06em;text-transform:uppercase}
+    .duttapad-frame-link:hover{opacity:1}
+    @media(max-width:768px){.duttapad-frames{grid-template-columns:1fr}}
+
+    /* FOOTER */
+    .foot{position:relative;z-index:1;background:linear-gradient(to bottom,rgba(100,40,40,0.05) 0%,var(--bg) 30%);padding:clamp(60px,8vw,100px) clamp(20px,4vw,40px)}
+    .foot-cta{font-family:var(--serif);font-style:italic;font-size:clamp(28px,5vw,56px);line-height:1.05;max-width:14ch;color:var(--fg);background:linear-gradient(135deg,var(--fg) 60%,rgba(244,182,194,0.75) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .foot-links{display:flex;gap:8px;margin-top:28px}
+    .mag-wrap{display:inline-block;padding:16px}
+    .foot-link{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;color:rgba(255,200,210,0.7);padding:14px 32px;border:1px solid rgba(255,200,210,0.15);transition:all 0.25s var(--ease)}
+    .foot-link:hover{background:rgba(255,200,210,0.08);border-color:rgba(255,200,210,0.35);color:rgba(255,200,210,0.95)}
+    .foot-bottom{display:flex;justify-content:space-between;margin-top:64px;padding-top:16px;border-top:1px solid rgba(244,182,194,0.07);font-family:var(--mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(200,184,138,0.35)}
+
+    /* IDLE ZZZ */
+    .zzz{position:fixed;pointer-events:none;z-index:999;font-family:var(--mono);color:var(--warm);opacity:0;animation:floatZ 2.5s ease forwards}
+    @keyframes floatZ{0%{opacity:0.7;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(1.5) rotate(15deg)}}
+
+    /* GLITCH (progressive decay) */
+    .glitch-scanline{position:fixed;inset:0;z-index:190;pointer-events:none;opacity:0;transition:opacity 3s;
+      background:repeating-linear-gradient(0deg,rgba(255,255,255,0.015) 0px,rgba(255,255,255,0.015) 1px,transparent 1px,transparent 3px)}
+    .dead-pixel{position:fixed;z-index:191;pointer-events:none;width:2px;height:2px;background:#fff;opacity:0.3}
+
+    /* TERMINAL */
+    .term-section{position:relative;z-index:1;background:linear-gradient(to bottom,rgba(141,62,58,0.06) 0%,rgba(90,30,30,0.03) 18%,var(--bg) 42%);border-top:none;padding:clamp(40px,6vw,72px) clamp(20px,4vw,40px)}
+    .term-section::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:1px;background:linear-gradient(to right,transparent,rgba(244,182,194,0.5),transparent);box-shadow:0 0 12px 1px rgba(244,182,194,0.08)}
+    .term-label{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,182,194,0.5);text-align:center;margin-bottom:24px}
+    .term-box{max-width:640px;margin:0 auto;background:#0a0a0a;border:1px solid rgba(244,182,194,0.1);padding:0;font-family:var(--mono);font-size:13px;overflow:hidden}
+    .term-title{display:flex;align-items:center;gap:8px;padding:8px 14px;background:rgba(244,182,194,0.03);border-bottom:1px solid rgba(244,182,194,0.08)}
+    .term-title .dot{width:8px;height:8px;border-radius:50%}
+    .term-title .dot.r{background:#ff5f57}.term-title .dot.y{background:#ffbd2e}.term-title .dot.g{background:#28c940}
+    .term-title span{flex:1;text-align:center;font-size:11px;color:rgba(240,235,226,0.25);letter-spacing:0.04em}
+    .term-out{padding:16px;max-height:320px;overflow-y:auto;color:rgba(240,235,226,0.55)}
+    .term-out .cmd{color:rgba(255,200,210,0.8);margin:4px 0}
+    .term-out .res{color:rgba(240,235,226,0.4);white-space:pre-wrap;margin:2px 0 8px}
+    .term-out .welcome{color:rgba(255,200,210,0.4);margin-bottom:12px}
+    .term-in{display:flex;gap:8px;padding:10px 16px;border-top:1px solid rgba(244,182,194,0.08);align-items:center}
+    .term-in .prompt{color:rgba(255,200,210,0.65);font-size:13px}
+    .term-in input{flex:1;background:none;border:none;outline:none;color:rgba(240,235,226,0.7);font-family:var(--mono);font-size:13px;caret-color:rgba(244,182,194,0.6)}
+    .term-out::-webkit-scrollbar{width:3px}.term-out::-webkit-scrollbar-thumb{background:rgba(244,182,194,0.15)}
+
+    /* CANVAS MODE */
+    .canvas-note{position:absolute;z-index:400;min-width:48px;min-height:20px;padding:4px 10px;font-family:var(--mono);font-size:12px;background:rgba(200,184,138,0.08);color:var(--dim);border:1px solid rgba(200,184,138,0.2);outline:none;cursor:move;max-width:200px}
+    .canvas-hint-banner{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:450;font-family:var(--mono);font-size:11px;padding:6px 16px;background:rgba(200,184,138,0.1);border:1px solid rgba(200,184,138,0.2);color:var(--warm);opacity:0;transition:opacity 0.3s}
+    .canvas-hint-banner.show{opacity:1}
+    .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:600;font-family:var(--mono);font-size:11px;padding:8px 20px;background:var(--warm);color:var(--bg);opacity:0;transition:opacity 0.3s;pointer-events:none}
+    .toast.show{opacity:1}
+    .circadian{position:fixed;bottom:12px;right:12px;z-index:90;font-family:var(--mono);font-size:9px;letter-spacing:0.06em;color:var(--ghost);display:flex;align-items:center;gap:6px}
+    .circadian-dot{width:5px;height:5px;border-radius:50%;background:var(--warm);opacity:0.5;animation:pulse 3s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:0.5}50%{opacity:0.15}}
+
+    .sr{opacity:0;transform:translateY(24px);transition:opacity 0.8s var(--ease),transform 0.8s var(--ease)}
+    .sr.v{opacity:1;transform:none}
+
+    @media(max-width:640px){
+      .nav-links a.hm{display:none}
+      .work-panel{flex:0 0 88vw}
+      #graphCanvas{height:360px!important}
+      .shy-section,.stare-zone{padding:48px 20px}
+      .work-panel-tag{font-size:11px}.work-panel-gh{font-size:11px}
+      .graph-header p{font-size:11px}.work-label{font-size:11px}
+      .nav-links a{font-size:12px}
+      .foot-links{flex-direction:column;gap:0}
+      .mag-wrap{padding:8px 0}
+      .foot-bottom{flex-direction:column;gap:8px}
+      .term-box{font-size:12px}
+    }
+    @media(prefers-reduced-motion:reduce){.sr{transition:opacity 0.01ms;transform:none}#field{display:none}.zzz{display:none}}
+    ::-webkit-scrollbar{width:0;height:0}
+
+    /* BLUR REVEAL TEXT */
+    .reveal-text .word{display:inline-block;opacity:0;filter:blur(6px);transform:translateY(10px);transition:opacity 0.6s ease,filter 0.8s ease,transform 0.6s ease}
+    .reveal-text.vis .word{opacity:1;filter:blur(0);transform:none}
+
+    /* PHILOSOPHY SECTION */
+    .philosophy{position:relative;z-index:1;background:var(--bg);min-height:50vh;display:flex;align-items:center;justify-content:center;padding:clamp(60px,10vh,120px) clamp(40px,10vw,200px);border-top:1px solid var(--rule)}
+    .philosophy p{font-family:var(--body);font-size:clamp(19px,2.4vw,26px);font-weight:300;line-height:1.72;color:var(--dim);max-width:620px;text-align:center}
+    .philosophy em{color:var(--warm);font-style:italic}
+
+    /* GROWING LINE DIVIDER */
+    .line-div{display:flex;justify-content:center;padding:clamp(24px,4vh,48px) 0;position:relative;z-index:1;background:var(--bg)}
+    .line-div .line{height:1px;background:rgba(200,184,138,0.2);width:0;max-width:60vw;transition:width 1.2s cubic-bezier(0.25,0.46,0.45,0.94)}
+    .line-div.vis .line{width:60vw}
+
+    /* 3D TILT CARD */
+    .work-panel{transform-style:preserve-3d;transform:perspective(800px) rotateX(0deg) rotateY(0deg);transition:background 0.3s,transform 0.6s cubic-bezier(0.03,0.98,0.52,0.99)!important}
+    .tilt-shine{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.04) 0%,transparent 60%);opacity:0;transition:opacity 0.3s;z-index:3}
+    .work-panel:hover .tilt-shine{opacity:1}
+
+    /* CURSOR TRAIL */
+    .cursor-dot{position:fixed;pointer-events:none;width:4px;height:4px;border-radius:50%;background:rgba(200,184,138,0.35);z-index:9999;animation:dotFade 0.7s ease-out forwards}
+    @keyframes dotFade{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(0.2)}}
+
+    /* FIREWORKS */
+    .firework{position:absolute;pointer-events:none;z-index:10;font-size:20px;animation:fw 0.8s ease-out forwards}
+    @keyframes fw{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--fx),var(--fy)) scale(0.3)}}
+
+    /* HINT ROW */
+    .hints{font-family:var(--mono);font-size:9px;color:rgba(200,184,138,0.28);letter-spacing:0.12em;text-align:center;padding:24px 16px;position:relative;z-index:1;background:var(--bg);border-top:1px solid rgba(200,184,138,0.06)}
+  </style>
+</head>
+<body>
+
+  <div class="progress" id="prog"></div>
+  <canvas id="field"></canvas>
+
+  <!-- Eyes that follow cursor -->
+  <div class="eyes-wrap" id="eyes">
+    <div class="eye"><div class="pupil"></div></div>
+    <div class="eye"><div class="pupil"></div></div>
+  </div>
+
+  <!-- Glitch overlay (appears over time) -->
+  <div class="glitch-scanline" id="scanline"></div>
+
+  <nav class="nav" id="nav">
+    <a href="#" class="nav-logo">SP</a>
+    <div class="nav-links">
+      <a href="#graph" class="hm">Graph</a>
+      <a href="#work">Work</a>
+      <a href="https://github.com/saapai" target="_blank" rel="noopener">GH</a>
+      <a href="https://www.duttapad.com/Saathvik" target="_blank" rel="noopener">Pad</a>
+    </div>
+  </nav>
+
+  <div class="content" style="position:relative;z-index:1;">
+
+    <section class="hero">
+      <!-- SVG pixelation filter -->
+      <svg width="0" height="0" style="position:absolute">
+        <filter id="pxf">
+          <feFlood x="4" y="4" height="2" width="2"/>
+          <feComposite id="pxGrid" width="8" height="8"/>
+          <feTile result="a"/>
+          <feComposite in="SourceGraphic" in2="a" operator="in"/>
+          <feMorphology id="pxDilate" operator="dilate" radius="4"/>
+        </filter>
+      </svg>
+      <h1 class="hero-name" id="heroName"><span class="chr" data-text="Saathvik">Saathvik</span><br><span class="chr" data-text="Pai">Pai</span></h1>
+      <p class="hero-sub" id="heroSub"></p>
+    </section>
+
+    <div class="veil"></div>
+
+    <!-- Stare zone: reacts to prolonged hover -->
+    <!-- Knowledge graph -->
+    <section class="graph-section" id="graph">
+      <div class="graph-header sr">
+        <h2>How it connects.</h2>
+        <p>Drag. Click. Explore.</p>
+      </div>
+      <canvas id="graphCanvas" width="1000" height="560"></canvas>
+      <div class="graph-detail" id="graphDetail"></div>
+    </section>
+
+    <!-- Shy text: runs from cursor -->
+    <section class="shy-section" id="shySection">
+      <span class="shy-word">The</span>
+      <span class="shy-word">best</span>
+      <span class="shy-word">tools</span>
+      <span class="shy-word">think</span>
+      <span class="shy-word">with</span>
+      <span class="shy-word">you,</span>
+      <span class="shy-word">not</span>
+      <span class="shy-word">for</span>
+      <span class="shy-word">you.</span>
+    </section>
+
+    <!-- Duttapad -->
+    <section class="duttapad-section" id="duttapad">
+      <div class="duttapad-header sr">
+        <h2>Duttapad</h2>
+        <p>Infinite canvas for everything. Click anywhere to write. Songs, movies, deadlines, calendars, LaTeX. Share via link.</p>
+      </div>
+      <div class="duttapad-frames">
+        <a class="duttapad-frame" href="https://www.duttapad.com/demo" target="_blank">
+          <img src="ss1.png" alt="Duttapad demo" style="width:100%;height:100%;object-fit:cover;object-position:top left;" />
+          <div class="duttapad-frame-label">Demo &mdash; media cards, deadlines, LaTeX</div>
+        </a>
+        <a class="duttapad-frame" href="https://www.duttapad.com/Saathvik" target="_blank">
+          <img src="ss2.png" alt="Saathvik's pad" style="width:100%;height:100%;object-fit:cover;object-position:top left;" />
+          <div class="duttapad-frame-label">My pad &mdash; brain dump, links, videos</div>
+        </a>
+        <a class="duttapad-frame" href="https://www.duttapad.com/Saathvik/movies/best" target="_blank">
+          <img src="ss3.png" alt="Movies ranked" style="width:100%;height:100%;object-fit:cover;object-position:top left;" />
+          <div class="duttapad-frame-label">Movies &mdash; ranked, categorized</div>
+        </a>
+      </div>
+    </section>
+
+    <div class="line-div"><div class="line"></div></div>
+
+    <!-- Work -->
+    <section class="work-section" id="work">
+      <div class="work-label sr">Selected Work</div>
+      <div class="work-scroll">
+
+        <!-- PUBLIC REPOS FIRST -->
+        <a href="https://www.duttapad.com/demo" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><img src="ss3.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 55%;" /></div>
+          <div class="work-panel-idx">01</div>
+          <div class="work-panel-name">Canvas</div>
+          <div class="work-panel-desc">Infinite diary. Click anywhere to write. Entries connect by proximity. 8.9k lines, no framework.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Vanilla JS</span><span class="work-panel-tag">PostgreSQL</span></div>
+          <span class="work-panel-gh">GitHub</span>
+        </a>
+
+        <a href="https://github.com/saapai/jarvis" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#0a1a12,#123020,#0a1a12)"></div></div>
+          <div class="work-panel-idx">02</div>
+          <div class="work-panel-name">Jarvis</div>
+          <div class="work-panel-desc">Production SMS bot. Announcements, polls, Q&A, personality engine, Slack integration.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Python</span><span class="work-panel-tag">Twilio</span><span class="work-panel-tag">pgvector</span></div>
+          <span class="work-panel-gh">GitHub</span>
+        </a>
+
+        <a href="https://github.com/saapai/enclave-mvp" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#0c1428,#162040,#0c1428)"></div></div>
+          <div class="work-panel-idx">03</div>
+          <div class="work-panel-name">Enclave</div>
+          <div class="work-panel-desc">AI knowledge management for orgs. Hybrid search across Docs, Slack, Calendar. SMS bot.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Next.js</span><span class="work-panel-tag">Supabase</span><span class="work-panel-tag">Mistral</span></div>
+          <span class="work-panel-gh">GitHub</span>
+        </a>
+
+        <a href="https://github.com/saapai/mail-app" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#1a0e28,#28183e,#1a0e28)"></div></div>
+          <div class="work-panel-idx">04</div>
+          <div class="work-panel-name">Mail App</div>
+          <div class="work-panel-desc">AI-native desktop email. Style learning, persistent memory, agent system, Cmd+K palette.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Electron</span><span class="work-panel-tag">React</span><span class="work-panel-tag">Claude</span></div>
+          <span class="work-panel-gh">GitHub</span>
+        </a>
+
+        <a href="https://aureliex.com" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><img src="img-archive.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:top;" /></div>
+          <div class="work-panel-idx">05</div>
+          <div class="work-panel-name">Aureliex</div>
+          <div class="work-panel-desc">$3,454 to $100K public experiment. Prediction markets, art auction, launch trailer, 13 easter eggs.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Next.js</span><span class="work-panel-tag">Vercel KV</span><span class="work-panel-tag">Three.js</span></div>
+          <span class="work-panel-gh">GitHub</span>
+        </a>
+
+        <a href="https://github.com/saapai/club_inbox" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#1a1028,#2a1840,#1a1028)"></div></div>
+          <div class="work-panel-idx">06</div>
+          <div class="work-panel-name">Club Inbox</div>
+          <div class="work-panel-desc">AI claims extraction from paste, Sheets, or photos. Category org, evidence tracking.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Next.js</span><span class="work-panel-tag">Supabase</span><span class="work-panel-tag">GPT-4</span></div>
+          <span class="work-panel-gh">GitHub</span>
+        </a>
+
+        <a href="https://github.com/saapai/ultramemory" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#10182a,#1a2840,#10182a)"></div></div>
+          <div class="work-panel-idx">07</div>
+          <div class="work-panel-name">UltraMemory</div>
+          <div class="work-panel-desc">ChatGPT-to-Cursor memory bus. File tracking, semantic search, real-time SSE sync.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Python</span><span class="work-panel-tag">React</span><span class="work-panel-tag">Vercel</span></div>
+          <span class="work-panel-gh">GitHub</span>
+        </a>
+
+        <!-- PRIVATE / NO LINK -->
+        <div class="work-panel">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#0e1822,#183040,#0e1822)"></div></div>
+          <div class="work-panel-idx">08</div>
+          <div class="work-panel-name">Entrenched Coils</div>
+          <div class="work-panel-desc">Knowledge graph that sleeps. Hebbian consolidation, trench geometry, hybrid retrieval.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Python</span><span class="work-panel-tag">pgvector</span><span class="work-panel-tag">HDBSCAN</span></div>
+        </div>
+
+        <div class="work-panel">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#1a1808,#302a10,#1a1808)"></div></div>
+          <div class="work-panel-idx">09</div>
+          <div class="work-panel-name">Polytrader</div>
+          <div class="work-panel-desc">Automated prediction markets. Weather, gas, CPI. Backtesting + live JSONL ledger.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Python</span><span class="work-panel-tag">Kalshi</span><span class="work-panel-tag">Railway</span></div>
+        </div>
+
+        <div class="work-panel">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#220e10,#3a1820,#220e10)"></div></div>
+          <div class="work-panel-idx">10</div>
+          <div class="work-panel-name">Insider Detection</div>
+          <div class="work-panel-desc">Anomaly ML for suspicious Kalshi trades. XGBoost + LSTM ensemble.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">XGBoost</span><span class="work-panel-tag">LSTM</span></div>
+        </div>
+
+        <div class="work-panel">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#0a1a10,#143020,#0a1a10)"></div></div>
+          <div class="work-panel-idx">11</div>
+          <div class="work-panel-name">Bruin Meals</div>
+          <div class="work-panel-desc">UCLA dining via iMessage. Nightly scrapes, nutrition tracking, web portal.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Next.js</span><span class="work-panel-tag">SendBlue</span><span class="work-panel-tag">Drizzle</span></div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- Aureliex section — styled natively -->
+    <a href="https://aureliex.com/archive" target="_blank" style="display:block;position:relative;z-index:1;text-decoration:none;padding:clamp(120px,16vw,200px) clamp(20px,4vw,40px);text-align:center;background:linear-gradient(165deg,#060608 0%,#1a0f10 15%,#3d1f23 25%,#8b5a5e 35%,#d4a0a0 42%,#f0d5c8 48%,#F2EFE8 52%,#F2EFE8 55%,#e8c4b0 62%,#c48a7a 70%,#6b3038 80%,#1a0f10 90%,#060608 100%);overflow:hidden;cursor:pointer;transition:filter 0.4s;" onmouseover="this.style.filter='brightness(1.05)'" onmouseout="this.style.filter=''">
+      <div style="font-family:var(--serif);font-style:italic;font-size:clamp(36px,7vw,72px);color:#1a1408;line-height:1;letter-spacing:-0.02em;">aureliex.</div>
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#8B3A2E;margin-top:20px;">The Archive</div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:#6b6560;margin-top:8px;">Everything below the cover</div>
+      <div style="font-family:var(--serif);font-style:italic;font-size:clamp(20px,3.5vw,36px);color:#1a1408;opacity:0.7;margin-top:16px;">the rest of the magazine.</div>
+      <div style="width:24px;height:1px;background:#c8948a;margin:24px auto 0;opacity:0.6;"></div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.1em;color:#6b6560;margin-top:16px;">PREDICTION MARKETS &middot; ART AUCTION &middot; LAUNCH TRAILER &middot; 13 EASTER EGGS</div>
+    </a>
+
+    <!-- Terminal -->
+    <section class="term-section">
+      <div class="term-label">Terminal</div>
+      <div class="term-box">
+        <div class="term-title">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+          <span>saapai &mdash; zsh</span>
+        </div>
+        <div class="term-out" id="termOut">
+          <div class="welcome">Last login: just now on saathvikpai.com<br>Type "help" for commands. Or just try things.</div>
+        </div>
+        <div class="term-in">
+          <span class="prompt">~$</span>
+          <input id="termIn" autocomplete="off" spellcheck="false" placeholder="type a command..." />
+        </div>
+      </div>
+    </section>
+
+    <!-- Stare zone — moved to bottom -->
+    <section class="stare-zone" id="stareZone">
+      <div class="stare-text" id="stareText">Hover here and don't move.</div>
+      <div class="stare-bar"><div class="stare-bar-fill" id="stareFill"></div></div>
+    </section>
+
+    <footer class="foot">
+      <div class="foot-cta sr">The memory is forming.</div>
+      <div class="foot-links sr">
+        <div class="mag-wrap"><a href="https://github.com/saapai" target="_blank" rel="noopener" class="foot-link">GitHub</a></div>
+        <div class="mag-wrap"><a href="https://aureliex.com" target="_blank" rel="noopener" class="foot-link">Aureliex</a></div>
+      </div>
+      <div class="foot-bottom sr"><span>Saathvik Pai &middot; 2026</span><span>Los Angeles</span></div>
+    </footer>
+    <div class="hints">try: ` &middot; canvas &middot; boom &middot; stare &middot; catch the shy text &middot; click the eyes</div>
+  </div>
+
+  <div class="canvas-hint-banner" id="canvasBanner">Canvas mode. Click anywhere.</div>
+  <div class="toast" id="toast"></div>
+  <div class="circadian" id="circadian"><div class="circadian-dot"></div><span></span></div>
+
+  <!--
+    ╔═════════════════════════════════════╗
+    ║  ~ .......... terminal              ║
+    ║  type "canvas" click-anywhere mode  ║
+    ║  ↑↑↓↓←→←→BA . konami               ║
+    ║  hover & stare at things            ║
+    ║  stop moving for a while            ║
+    ║  drag the graph                     ║
+    ║  try to catch the shy text          ║
+    ╚═════════════════════════════════════╝
+  -->
+
+<script>
+// ══════ SCROLL INIT ══════
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+window.scrollTo(0,0);
+
+// ══════ NOISE ══════
+const N=(()=>{const p=new Uint8Array(512),g=[[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]];for(let i=0;i<256;i++)p[i]=Math.random()*256|0;for(let i=256;i<512;i++)p[i]=p[i-256];const dot=(gi,x,y)=>g[gi%8][0]*x+g[gi%8][1]*y,f=t=>t*t*t*(t*(t*6-15)+10),l=(a,b,t)=>a+t*(b-a);return(x,y)=>{const X=Math.floor(x)&255,Y=Math.floor(y)&255,xf=x-Math.floor(x),yf=y-Math.floor(y),u=f(xf),v=f(yf);return l(l(dot(p[p[X]+Y],xf,yf),dot(p[p[X+1]+Y],xf-1,yf),u),l(dot(p[p[X]+Y+1],xf,yf-1),dot(p[p[X+1]+Y+1],xf-1,yf-1),u),v)};})();
+
+// ══════ FLOW FIELD — anisotropic noise with ridge warp ══════
+const c=document.getElementById('field'),ctx=c.getContext('2d',{alpha:false});
+let W,H,pts;
+const COUNT=Math.min(900,(innerWidth<600?innerWidth*0.4:innerWidth*0.65)|0);
+let fmx=-9999,fmy=-9999,ft=0;
+const MR2=25600;
+
+// Ridge curves — warp noise space to create mountain-shaped flow channels
+const RIDGES=[
+  {y:0.30,amp:0.10,freq1:2.1,freq2:5.3,freq3:11.7,seed:1.2},
+  {y:0.42,amp:0.08,freq1:1.8,freq2:4.7,freq3:9.3,seed:3.7},
+  {y:0.55,amp:0.12,freq1:2.5,freq2:6.1,freq3:13.2,seed:6.1},
+  {y:0.68,amp:0.09,freq1:1.5,freq2:5.8,freq3:10.8,seed:8.9},
+  {y:0.80,amp:0.07,freq1:2.8,freq2:4.2,freq3:12.1,seed:11.3},
+];
+
+function ridgeY(x,r){
+  const nx=x/W;
+  return r.y+Math.sin(nx*r.freq1+r.seed)*r.amp
+    +Math.sin(nx*r.freq2+r.seed*2.3)*r.amp*0.5
+    +Math.sin(nx*r.freq3+r.seed*5.1)*r.amp*0.25
+    +N(nx*3,r.seed)*r.amp*0.6;
+}
+
+// Warp Y in noise space — bend flow channels into mountain shapes
+function warpedY(x,y){
+  let closest=99,pull=0;
+  const ny=y/H;
+  for(const r of RIDGES){
+    const ry=ridgeY(x,r);
+    const dist=Math.abs(ny-ry);
+    if(dist<0.12){
+      const strength=(1-dist/0.12);
+      pull+=(ry-ny)*strength*0.3;
+    }
+    if(dist<closest)closest=dist;
+  }
+  return y+pull*H;
+}
+
+// Depth-aware palette: warm gold (near) to cool steel (far)
+function pColor(z,alpha){
+  // z: 0.3(far) to 1.0(near)
+  const t=(z-0.3)/0.7; // 0=far, 1=near
+  const r=90+t*130|0;   // 90 (steel) → 220 (bright gold)
+  const g=110+t*70|0;   // 110 (cool) → 180 (warm)
+  const b=130-t*40|0;   // 130 (blue-grey) → 90 (gold)
+  return`rgba(${r},${g},${b},${alpha.toFixed(2)})`;
+}
+
+// Konami state
+let konamiAnim=false;
+let sparkles=[];
+
+function fieldResize(){
+  W=c.width=innerWidth;H=c.height=innerHeight;
+  // 5 floats per particle: x, y, age, z-depth, lifespan
+  pts=new Float32Array(COUNT*5);
+  for(let i=0;i<COUNT;i++){
+    const o=i*5;
+    const z=Math.random()*0.7+0.3;
+    const life=720+Math.random()*780; // 12-25s at 60fps
+    if(Math.random()<0.6){
+      const r=RIDGES[Math.floor(Math.random()*RIDGES.length)];
+      const x=Math.random()*W;
+      pts[o]=x;
+      pts[o+1]=ridgeY(x,r)*H+(Math.random()-0.5)*80;
+    } else {
+      pts[o]=Math.random()*W;
+      pts[o+1]=Math.random()*H;
+    }
+    pts[o+2]=Math.random()*life; // start at random age
+    pts[o+3]=z;
+    pts[o+4]=life;
+  }
+  ctx.fillStyle='#060608';ctx.fillRect(0,0,W,H);
+}
+
+c.addEventListener('mousemove',e=>{fmx=e.clientX;fmy=e.clientY;});
+c.addEventListener('mouseleave',()=>{fmx=-9999;fmy=-9999;});
+
+let pulseRing=null;
+function drawField(){
+  if(konamiAnim)return requestAnimationFrame(drawField);
+
+  ctx.fillStyle='rgba(6,6,8,0.035)';
+  ctx.fillRect(0,0,W,H);
+  ft+=0.00008; // slow ridge drift for impermanence
+
+  for(let i=0;i<COUNT;i++){
+    const o=i*5;
+    let px=pts[o],py=pts[o+1],age=pts[o+2],z=pts[o+3],life=pts[o+4];
+
+    age++;
+
+    // Impermanence: fade in/out lifecycle
+    const frac=age/life;
+    let lifeMul=1;
+    if(frac<0.08)lifeMul=frac/0.08;
+    else if(frac>0.82)lifeMul=(1-frac)/0.18;
+    if(frac>=1){
+      // Respawn
+      age=0;z=Math.random()*0.7+0.3;life=720+Math.random()*780;
+      if(Math.random()<0.6){const r=RIDGES[Math.floor(Math.random()*RIDGES.length)];px=Math.random()*W;py=ridgeY(px,r)*H+(Math.random()-0.5)*60;}
+      else{px=Math.random()*W;py=Math.random()*H;}
+      pts[o+3]=z;pts[o+4]=life;lifeMul=0;
+    }
+
+    // Anisotropic noise with ridge warp
+    const wy=warpedY(px,py);
+    const primaryAngle=N(px*0.0008,wy*0.003+ft)*Math.PI*3;
+    const turbAngle=N(px*0.003+100,py*0.003+ft*20)*Math.PI*4;
+    const blend=0.3;
+    const ax2=Math.cos(primaryAngle)*(1-blend)+Math.cos(turbAngle)*blend;
+    const ay2=Math.sin(primaryAngle)*(1-blend)+Math.sin(turbAngle)*blend;
+    const angle=Math.atan2(ay2,ax2);
+
+    // Speed scales with depth
+    const speed=1.2*z;
+    let vx=Math.cos(angle)*speed;
+    let vy=Math.sin(angle)*speed;
+
+    // Mouse repulsion
+    const dx=px-fmx,dy=py-fmy,d2=dx*dx+dy*dy;
+    if(d2<MR2&&d2>0){const d=Math.sqrt(d2);const f=(160-d)/160*3;vx+=dx/d*f;vy+=dy/d*f;}
+
+    px+=vx;py+=vy;
+
+    if(px<-10)px=W+10;else if(px>W+10)px=-10;
+    if(py<-10)py=H+10;else if(py>H+10)py=-10;
+
+    pts[o]=px;pts[o+1]=py;pts[o+2]=age;
+
+    // Ridge brightness boost
+    let ridgeDist=1;const ny=py/H;
+    for(const r of RIDGES){const d=Math.abs(ny-ridgeY(px,r));if(d<ridgeDist)ridgeDist=d;}
+    const ridgeBoost=ridgeDist<0.06?1-ridgeDist/0.06:0;
+
+    // Alpha: base * depth * lifecycle * ridge
+    const baseAlpha=0.35*(z*0.5+0.5)*lifeMul+ridgeBoost*0.3*lifeMul;
+    // Size scales with depth
+    const sz=0.8+z*0.7;
+
+    ctx.fillStyle=pColor(z,Math.min(baseAlpha,0.9));
+    ctx.fillRect(px,py,sz,sz);
+
+    // Glow on ridge particles
+    if(ridgeBoost>0.5&&z>0.7&&Math.random()<0.08){
+      ctx.fillStyle=pColor(z,ridgeBoost*0.06);
+      ctx.beginPath();ctx.arc(px,py,3,0,Math.PI*2);ctx.fill();
+    }
+  }
+
+  // Pulse ring from eyes click
+  if(pulseRing){
+    const elapsed=(performance.now()-pulseRing.start)/1000;
+    const t=elapsed/1.5; // 1.5s total
+    pulseRing.radius=t*(2-t)*pulseRing.maxR; // ease-out
+    if(t>=1){pulseRing=null;}
+    else{
+      const rr=pulseRing.radius, thickness=40;
+      // Draw ring glow
+      ctx.strokeStyle=`rgba(224,212,168,${(0.12*(1-t)).toFixed(3)})`;
+      ctx.lineWidth=2;
+      ctx.beginPath();ctx.arc(pulseRing.cx,pulseRing.cy,rr,0,Math.PI*2);ctx.stroke();
+      // Brighten + nudge particles in the ring band
+      for(let i=0;i<COUNT;i++){
+        const o=i*5;
+        const dx=pts[o]-pulseRing.cx,dy=pts[o+1]-pulseRing.cy;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist>rr-thickness&&dist<rr+thickness){
+          const proximity=1-Math.abs(dist-rr)/thickness;
+          // Brightness flash
+          ctx.fillStyle=`rgba(255,240,200,${(proximity*0.7*(1-t)).toFixed(2)})`;
+          ctx.fillRect(pts[o]-0.5,pts[o+1]-0.5,2.5,2.5);
+          // Micro-displacement outward
+          if(dist>0){pts[o]+=dx/dist*proximity*2.5;pts[o+1]+=dy/dist*proximity*2.5;}
+        }
+      }
+    }
+  }
+
+  // Sparse connections — depth-aware color
+  ctx.lineWidth=0.3;
+  ctx.strokeStyle='rgba(160,150,120,0.03)';
+  ctx.beginPath();
+  for(let i=0;i<COUNT;i+=6){
+    const o1=i*5;
+    for(let j=i+6;j<Math.min(i+24,COUNT);j+=6){
+      const o2=j*5;
+      const dx=pts[o2]-pts[o1],dy=pts[o2+1]-pts[o1+1],d2=dx*dx+dy*dy;
+      if(d2<1600){ctx.moveTo(pts[o1],pts[o1+1]);ctx.lineTo(pts[o2],pts[o2+1]);}
+    }
+  }
+  ctx.stroke();
+
+  // Draw konami sparkles if any
+  for(let i=sparkles.length-1;i>=0;i--){
+    const s=sparkles[i];
+    s.x+=s.vx;s.y+=s.vy;s.vy+=0.04;s.life-=0.012;
+    if(s.life<=0){sparkles.splice(i,1);continue;}
+    const a=s.life*0.8;
+    ctx.fillStyle=`rgba(${s.r},${s.g},${s.b},${a.toFixed(2)})`;
+    ctx.beginPath();ctx.arc(s.x,s.y,s.sz*s.life,0,Math.PI*2);ctx.fill();
+    // Trail
+    ctx.strokeStyle=`rgba(${s.r},${s.g},${s.b},${(a*0.3).toFixed(2)})`;
+    ctx.lineWidth=0.5;
+    ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-s.vx*4,s.y-s.vy*4);ctx.stroke();
+  }
+
+  requestAnimationFrame(drawField);
+}
+addEventListener('resize',fieldResize);fieldResize();drawField();
+
+// ══════ EYES FOLLOW CURSOR ══════
+let curX=innerWidth/2,curY=innerHeight/2;
+document.addEventListener('mousemove',e=>{curX=e.clientX;curY=e.clientY;});
+const eyes=document.querySelectorAll('.eye');
+function updateEyes(){
+  eyes.forEach(eye=>{
+    const r=eye.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+    const a=Math.atan2(curY-cy,curX-cx),d=Math.min(Math.hypot(curX-cx,curY-cy)/80,1)*4;
+    eye.querySelector('.pupil').style.transform=`translate(${Math.cos(a)*d}px,${Math.sin(a)*d}px)`;
+  });
+  requestAnimationFrame(updateEyes);
+}
+updateEyes();
+// Blink randomly
+setInterval(()=>{eyes.forEach(e=>{e.classList.add('blink');setTimeout(()=>e.classList.remove('blink'),150);});},Math.random()*4000+2000);
+// Click eyes → golden pulse wave (distinct from konami)
+function firePulseWave(){
+  const eyesEl=document.getElementById('eyes');
+  const r=eyesEl.getBoundingClientRect();
+  const cx=r.left+r.width/2, cy=r.top+r.height/2;
+  // Blink
+  document.querySelectorAll('.eye').forEach(e=>{e.classList.add('blink');setTimeout(()=>e.classList.remove('blink'),150);});
+  // Start ring
+  pulseRing={cx,cy,radius:0,start:performance.now(),maxR:Math.hypot(W,H)*1.2};
+  // Ping sound
+  const o=AC.createOscillator(),g=AC.createGain();
+  o.connect(g);g.connect(AC.destination);
+  o.type='sine';o.frequency.value=880;g.gain.value=0.04;
+  o.start();g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.3);o.stop(AC.currentTime+0.3);
+  // Second harmonic
+  const o2=AC.createOscillator(),g2=AC.createGain();
+  o2.connect(g2);g2.connect(AC.destination);
+  o2.type='sine';o2.frequency.value=1320;g2.gain.value=0.015;
+  o2.start();g2.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.4);o2.stop(AC.currentTime+0.4);
+  // Radioactive effect on hero name
+  const hn=document.getElementById('heroName');
+  hn.style.transition='all 0.15s';
+  hn.style.textShadow='0 0 20px #40ff00, 0 0 40px #40ff00, 0 0 80px #00ff40, 4px 0 #ff0040, -4px 0 #00ffea';
+  hn.style.filter='brightness(2) saturate(3) hue-rotate(90deg)';
+  hn.style.color='#40ff00';
+  setTimeout(()=>{
+    hn.style.textShadow='0 0 30px #ff0040, 0 0 60px #00ffea, 0 0 100px #ff00ff, 6px 0 #ff0040, -6px 0 #00ffea';
+    hn.style.filter='brightness(2.5) saturate(4) hue-rotate(180deg)';
+    hn.style.color='#ff00ff';
+  },200);
+  setTimeout(()=>{
+    hn.style.textShadow='0 0 40px #00ffea, 0 0 80px #40ff00, 8px 0 #ff0040, -8px 0 #00ffea';
+    hn.style.filter='brightness(3) saturate(5) hue-rotate(270deg)';
+  },400);
+  setTimeout(()=>{
+    hn.style.transition='all 1.5s cubic-bezier(0.16,1,0.3,1)';
+    hn.style.textShadow='';
+    hn.style.filter='';
+    hn.style.color='var(--fg)';
+  },800);
+}
+document.getElementById('eyes').addEventListener('click',()=>{firePulseWave();});
+
+// ══════ STARE DETECTION ══════
+(()=>{
+  const zone=document.getElementById('stareZone'),txt=document.getElementById('stareText'),fill=document.getElementById('stareFill');
+  let timer=null,elapsed=0,inside=false;
+  const msgs=['Hover here and don\'t move.','...','I see you.','Still here?','You\'re patient.','Most people leave by now.','Fine. You win.','Hold on.'];
+  const audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  function ping(freq){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.frequency.value=freq;o.type='sine';g.gain.value=0.04;o.start();g.gain.exponentialRampToValueAtTime(0.001,audioCtx.currentTime+0.3);o.stop(audioCtx.currentTime+0.3);}
+
+  function startStare(){inside=true;elapsed=0;timer=setInterval(()=>{if(!inside)return;elapsed++;const pct=Math.min(elapsed/8*100,100);fill.style.width=pct+'%';const stage=Math.min(Math.floor(elapsed),msgs.length-1);txt.textContent=msgs[stage];if(elapsed>=2)txt.style.color='var(--warm)';if(elapsed===2||elapsed===5||elapsed===7)ping(300+elapsed*80);
+    if(elapsed===8){clearInterval(timer);txt.textContent='';window.scrollTo({top:0,behavior:'smooth'});setTimeout(()=>fireKonami(),800);}
+  },1000);}
+  function stopStare(){inside=false;clearInterval(timer);fill.style.width='0%';txt.textContent=msgs[0];txt.style.color='';elapsed=0;}
+  zone.addEventListener('mouseenter',startStare);
+  zone.addEventListener('mouseleave',stopStare);
+  zone.addEventListener('touchstart',startStare,{passive:true});
+  zone.addEventListener('touchend',stopStare);
+  zone.addEventListener('touchcancel',stopStare);
+})();
+
+// ══════ SHY TEXT ══════
+(()=>{
+  const section=document.getElementById('shySection'),words=section.querySelectorAll('.shy-word');
+  function shyMove(cx,cy){
+    words.forEach(w=>{
+      const r=w.getBoundingClientRect(),wx=r.left+r.width/2,wy=r.top+r.height/2;
+      const dx=cx-wx,dy=cy-wy,dist=Math.hypot(dx,dy);
+      if(dist<120){
+        const force=(1-dist/120)*30;
+        w.style.transform=`translate(${-dx/dist*force}px,${-dy/dist*force}px)`;
+      }else{w.style.transform='';}
+    });
+  }
+  section.addEventListener('mousemove',e=>shyMove(e.clientX,e.clientY));
+  section.addEventListener('touchmove',e=>{e.preventDefault();const t=e.touches[0];shyMove(t.clientX,t.clientY);},{passive:false});
+  section.addEventListener('mouseleave',()=>{words.forEach(w=>w.style.transform='');});
+  section.addEventListener('touchend',()=>{words.forEach(w=>w.style.transform='');});
+})();
+
+// ══════ WORK CARD WATCH TIME ══════
+(()=>{
+  const panels=document.querySelectorAll('.work-panel');
+  panels.forEach(p=>{
+    const w=p.querySelector('.watched');let t=0,iv=null;
+    const obs=new IntersectionObserver(es=>{
+      if(es[0].isIntersecting){iv=setInterval(()=>{t++;if(t>=3){w.textContent=`${t}s watched`;w.classList.add('show');}if(t===10)w.textContent='You really like this one.';},1000);}
+      else{clearInterval(iv);}
+    },{threshold:0.5});
+    obs.observe(p);
+  });
+})();
+
+// ══════ IDLE DETECTION — ZZZ ══════
+(()=>{
+  let idleTimer,lastX=0,lastY=0;
+  function resetIdle(){clearTimeout(idleTimer);document.body.style.cursor='';
+    idleTimer=setTimeout(()=>{
+      document.body.style.cursor='none';
+      for(let i=0;i<5;i++){const z=document.createElement('div');z.className='zzz';z.textContent='z';z.style.left=(lastX+Math.random()*30-15)+'px';z.style.top=(lastY-20)+'px';z.style.fontSize=(12+i*4)+'px';z.style.animationDelay=i*0.3+'s';document.body.appendChild(z);setTimeout(()=>z.remove(),3000);}
+    },4000);}
+  document.addEventListener('mousemove',e=>{lastX=e.clientX;lastY=e.clientY;resetIdle();});
+  document.addEventListener('keydown',resetIdle);document.addEventListener('scroll',resetIdle);
+  resetIdle();
+})();
+
+// ══════ PROGRESSIVE GLITCH (the longer you stay, the more it decays) ══════
+(()=>{
+  const scanline=document.getElementById('scanline');
+  let elapsed=0;
+  setInterval(()=>{
+    elapsed++;
+    if(elapsed>60){scanline.style.opacity=Math.min((elapsed-60)/120,0.6);}
+    if(elapsed>90&&Math.random()<0.1){
+      const px=document.createElement('div');px.className='dead-pixel';
+      px.style.left=Math.random()*100+'vw';px.style.top=Math.random()*100+'vh';
+      document.body.appendChild(px);
+    }
+    if(elapsed>120){document.body.style.filter=`contrast(${1+((elapsed-120)/600)}) brightness(${1-((elapsed-120)/800)})`;}
+  },1000);
+})();
+
+// ══════ KNOWLEDGE GRAPH ══════
+(()=>{
+  const gc=document.getElementById('graphCanvas'),gx=gc.getContext('2d'),detail=document.getElementById('graphDetail');
+  function sizeG(){gc.width=Math.min(1000,innerWidth-40);gc.height=Math.min(560,innerHeight*0.6);}sizeG();addEventListener('resize',sizeG);
+  const nodes=[
+    {id:'memory',label:'Memory',x:0.5,y:0.4,r:32,color:'#c8b88a',desc:'Knowledge graphs, Hebbian consolidation, sleep cycles, vector search.'},
+    {id:'ai',label:'AI',x:0.28,y:0.25,r:26,color:'#8a9fc8',desc:'LLM routing, code gen, semantic retrieval, agent architectures.'},
+    {id:'msg',label:'Messaging',x:0.72,y:0.25,r:26,color:'#8ac8a8',desc:'SMS bots, canvas diaries, Slack bridges, iMessage integration.'},
+    {id:'markets',label:'Markets',x:0.3,y:0.7,r:24,color:'#c8a88a',desc:'Kalshi & Polymarket. Weather, gas, CPI. Anomaly detection.'},
+    {id:'ucla',label:'UCLA',x:0.7,y:0.7,r:22,color:'#a88ac8',desc:'Dating apps, dining trackers, recruitment tools.'},
+    {id:'infra',label:'Infra',x:0.85,y:0.5,r:20,color:'#6b8a8a',desc:'iMessage ingestion, Spotify analysis, repo sync daemons.'},
+    {id:'canvas',label:'Canvas',x:0.55,y:0.15,r:18,color:'#907060',desc:'Infinite diary. Entries form a proximity graph.'},
+    {id:'coils',label:'Coils',x:0.42,y:0.6,r:18,color:'#908070',desc:'Trench geometry. Hebbian sleep updates.'},
+    {id:'sleep',label:'Sleep AI',x:0.6,y:0.55,r:16,color:'#706080',desc:'NREM clustering + REM hypothesis generation.'},
+    {id:'poly',label:'Polytrader',x:0.18,y:0.75,r:16,color:'#808060',desc:'Automated strategies + backtesting.'},
+  ];
+  const edges=[{a:'memory',b:'ai',l:'retrieval'},{a:'memory',b:'coils',l:'hebbian'},{a:'memory',b:'sleep',l:'consolidation'},{a:'memory',b:'msg',l:'context'},{a:'ai',b:'msg',l:'routing'},{a:'msg',b:'canvas',l:'diary'},{a:'msg',b:'infra',l:'bridge'},{a:'markets',b:'poly',l:'engine'},{a:'markets',b:'memory',l:'bayes'},{a:'ucla',b:'msg',l:'bots'},{a:'coils',b:'sleep',l:'replay'},{a:'canvas',b:'coils',l:'spatial'}];
+  let abs=nodes.map(n=>({...n,ax:n.x*gc.width,ay:n.y*gc.height}));
+  let dragging=null,hovered=null,offX=0,offY=0;
+  function forces(){const m={};abs.forEach(n=>m[n.id]=n);for(let i=0;i<abs.length;i++)for(let j=i+1;j<abs.length;j++){const dx=abs[j].ax-abs[i].ax,dy=abs[j].ay-abs[i].ay,d=Math.max(Math.hypot(dx,dy),1),f=2000/(d*d);abs[i].ax-=dx/d*f;abs[i].ay-=dy/d*f;abs[j].ax+=dx/d*f;abs[j].ay+=dy/d*f;}
+  for(const e of edges){const a=m[e.a],b=m[e.b];if(!a||!b)continue;const dx=b.ax-a.ax,dy=b.ay-a.ay,d=Math.hypot(dx,dy),f=(d-140)*0.003;a.ax+=dx/d*f;a.ay+=dy/d*f;b.ax-=dx/d*f;b.ay-=dy/d*f;}
+  abs.forEach(n=>{n.ax=Math.max(n.r,Math.min(gc.width-n.r,n.ax));n.ay=Math.max(n.r,Math.min(gc.height-n.r,n.ay));});}
+  function drawG(){gx.clearRect(0,0,gc.width,gc.height);const m={};abs.forEach(n=>m[n.id]=n);
+  for(const e of edges){const a=m[e.a],b=m[e.b];if(!a||!b)continue;const hot=hovered&&(e.a===hovered.id||e.b===hovered.id);gx.beginPath();gx.moveTo(a.ax,a.ay);gx.lineTo(b.ax,b.ay);gx.strokeStyle=hot?'rgba(200,184,138,0.4)':'rgba(200,184,138,0.08)';gx.lineWidth=hot?1.5:0.5;gx.stroke();if(e.l&&hot){gx.fillStyle='rgba(200,184,138,0.5)';gx.font='9px JetBrains Mono,monospace';gx.textAlign='center';gx.fillText(e.l,(a.ax+b.ax)/2,(a.ay+b.ay)/2-6);gx.textAlign='start';}}
+  for(const n of abs){const h=hovered&&hovered.id===n.id;if(h){gx.beginPath();gx.arc(n.ax,n.ay,n.r+8,0,Math.PI*2);gx.fillStyle=n.color+'14';gx.fill();}gx.beginPath();gx.arc(n.ax,n.ay,n.r,0,Math.PI*2);gx.fillStyle=h?n.color:'rgba(14,14,17,0.9)';gx.fill();gx.strokeStyle=n.color;gx.lineWidth=h?2:1;gx.stroke();gx.fillStyle=h?'#fff':n.color;gx.font=`${n.r>22?12:10}px JetBrains Mono,monospace`;gx.textAlign='center';gx.fillText(n.label,n.ax,n.ay+n.r+14);gx.textAlign='start';}
+  forces();requestAnimationFrame(drawG);}
+  gc.addEventListener('mousemove',e=>{const r=gc.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;if(dragging){dragging.ax=mx+offX;dragging.ay=my+offY;return;}hovered=abs.find(n=>Math.hypot(n.ax-mx,n.ay-my)<n.r)||null;gc.style.cursor=hovered?'pointer':'grab';if(hovered){detail.innerHTML=`<strong>${hovered.label}</strong><br>${hovered.desc}`;detail.style.left=(e.clientX+16)+'px';detail.style.top=(e.clientY-16)+'px';detail.classList.add('show');}else{detail.classList.remove('show');}});
+  gc.addEventListener('mousedown',e=>{if(hovered){dragging=hovered;const r=gc.getBoundingClientRect();offX=hovered.ax-(e.clientX-r.left);offY=hovered.ay-(e.clientY-r.top);gc.style.cursor='grabbing';}});
+  gc.addEventListener('mouseup',()=>{dragging=null;});
+  gc.addEventListener('mouseleave',()=>{hovered=null;dragging=null;detail.classList.remove('show');});
+  // Touch support for mobile
+  let touchPinned=null;
+  gc.addEventListener('touchstart',e=>{
+    const r=gc.getBoundingClientRect(),t=e.touches[0];
+    const mx=t.clientX-r.left,my=t.clientY-r.top;
+    const hit=abs.find(n=>Math.hypot(n.ax-mx,n.ay-my)<n.r+6)||null;
+    if(hit){
+      e.preventDefault();
+      dragging=hit;offX=hit.ax-mx;offY=hit.ay-my;
+      hovered=hit;
+      if(touchPinned&&touchPinned.id===hit.id){
+        touchPinned=null;detail.classList.remove('show');
+      } else {
+        touchPinned=hit;
+        detail.innerHTML=`<strong>${hit.label}</strong><br>${hit.desc}`;
+        const tx=t.clientX,ty=t.clientY;
+        const dw=detail.offsetWidth||220;
+        detail.style.left=(tx+16+dw>innerWidth?tx-dw-8:tx+16)+'px';
+        detail.style.top=Math.min(ty+16,innerHeight-120)+'px';
+        detail.classList.add('show');
+      }
+    } else {
+      if(touchPinned){touchPinned=null;detail.classList.remove('show');}
+    }
+  },{passive:false});
+  gc.addEventListener('touchmove',e=>{
+    if(!dragging)return;
+    e.preventDefault();
+    const r=gc.getBoundingClientRect(),t=e.touches[0];
+    dragging.ax=t.clientX-r.left+offX;
+    dragging.ay=t.clientY-r.top+offY;
+    if(touchPinned&&touchPinned.id===dragging.id){
+      const dw=detail.offsetWidth||220;
+      detail.style.left=(t.clientX+16+dw>innerWidth?t.clientX-dw-8:t.clientX+16)+'px';
+      detail.style.top=Math.min(t.clientY+16,innerHeight-120)+'px';
+    }
+  },{passive:false});
+  gc.addEventListener('touchend',()=>{dragging=null;});
+  drawG();
+})();
+
+// ══════ TEXT SCRAMBLE ══════
+// Name renders immediately, scramble is a fast 4-frame flash
+(()=>{const ch='!<>-_\\/[]{}=+*^?#';document.querySelectorAll('.hero-name .chr').forEach(s=>{const f=s.dataset.text;s.textContent=f;s.style.opacity='1';let fr=0;const mx=4;const t=()=>{let o='';for(let i=0;i<f.length;i++)o+=fr/mx>i/f.length?f[i]:ch[Math.random()*ch.length|0];s.textContent=o;fr++;if(fr<=mx+2)requestAnimationFrame(t);else s.textContent=f;};requestAnimationFrame(t);});})();
+
+// ══════ SCROLL BASICS ══════
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v');});},{threshold:0.06,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.sr').forEach(el=>io.observe(el));
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',()=>{prog.style.transform=`scaleX(${scrollY/(document.documentElement.scrollHeight-innerHeight)})`;},{passive:true});
+let ly=0;const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{const y=scrollY;nav.classList.toggle('hidden',y>ly&&y>60);ly=y;},{passive:true});
+
+// ══════ VISITOR MEMORY ══════
+const mem=(()=>{const K='sp_memory',raw=localStorage.getItem(K),s=raw?JSON.parse(raw):{visits:0,first:Date.now(),last:null};s.visits++;s.last=Date.now();localStorage.setItem(K,JSON.stringify(s));
+const strength=()=>Math.min(Math.log2(s.visits+1)*Math.exp(-0.1*Math.max(0,(Date.now()-s.last)/864e5)),10);
+const sub=document.getElementById('heroSub');
+if(sub){
+  if(s.visits===1)sub.textContent='Visit 1.';
+  else if(s.visits<5)sub.textContent=`Visit ${s.visits}. Strength: ${strength().toFixed(1)}/10.`;
+  else sub.textContent=`Visit ${s.visits}.`;
+}
+return{state:s,strength};})();
+
+// ══════ TERMINAL ══════
+const chatOpen=false; // compat
+const termCmds={
+  help:()=>`navigation    ls · cd · pwd · tree · find · cat
+system        whoami · stack · memory · uptime · neofetch · top · ps
+fun           weather · fortune · cowsay · figlet · python · ping
+actions       open · boom · matrix · rickroll · cafe · lol · sl
+forbidden     sudo · rm · vim · npm · touch · mkdir · chmod
+meta          help · clear · history · echo · date · 42`,
+
+  ls:(a)=>{
+    const target=a?.[0]?resolvePath(a[0]):cwd;
+    const node=FS[target];
+    if(!node)return`ls: ${a[0]}: no such file or directory`;
+    if(!node.children)return target.split('/').pop();
+    const items=node.children.map(c=>{const child=FS[target+'/'+c];return child?.children?c+'/':c;});
+    // Format in columns
+    const maxLen=Math.max(...items.map(i=>i.length))+2;
+    const cols=Math.floor(56/maxLen)||1;
+    let out='';
+    items.forEach((item,i)=>{out+=item.padEnd(maxLen);if((i+1)%cols===0)out+='\n';});
+    return out.trimEnd();
+  },
+
+  whoami:()=>`saathvik pai
+UCLA · los angeles · 19
+memory systems, prediction markets, messaging platforms
+50+ projects · 8 AI systems · 5 memory engines
+github.com/saapai · aureliex.com · duttapad.com`,
+
+  cat:(a)=>{
+    if(!a?.[0])return'usage: cat <file>';
+    const fname=a[0];
+    // Check if it's a file in current directory
+    if(FILES[fname])return FILES[fname];
+    // Check if it's a project name (shortcut)
+    const shortcuts={canvas:'messaging/canvas',jarvis:'messaging/jarvis',coils:'memory/coils',polytrader:'markets/polytrader',enclave:'ai/enclave',aureliex:'infra/aureliex','sleep-ai':'memory/sleep-ai','bruin-meals':'messaging/bruin-meals','mail-app':'messaging/mail-app'};
+    const path=shortcuts[fname];
+    if(path){const node=FS['/Users/visitor/projects/'+path];return node?.desc||`${fname}: directory`;}
+    // Check resolved path
+    const resolved=resolvePath(fname);
+    const node=FS[resolved];
+    if(node?.desc)return node.desc;
+    if(node?.children)return`cat: ${fname}: is a directory. try "ls ${fname}"`;
+    return`cat: ${fname}: no such file`;
+  },
+
+  stack:()=>`FRONTEND   next.js · react · vanilla js · electron · tailwind
+BACKEND    python · fastapi · node · express
+DATA       postgresql · pgvector · supabase · lancedb · sqlite
+AI         openai · claude · mistral · ollama
+INFRA      vercel · railway · twilio · sendblue
+TIC        this site is one HTML file. zero dependencies.`,
+
+  memory:()=>`VISITOR MEMORY STATUS
+  model:     hebbian (frequency × recency decay)
+  formula:   min(log2(visits+1) × e^(-0.1 × days), 10)
+  visits:    ${mem.state.visits}
+  strength:  ${mem.strength().toFixed(2)}/10
+  status:    ${mem.state.visits>=5?'consolidated (long-term)':mem.state.visits>=2?'encoding (short-term)':'new trace'}`,
+
+  uptime:()=>{const d=Math.floor((Date.now()-mem.state.first)/864e5);return`memory age: ${d} day${d!==1?'s':''}\nfirst seen: ${new Date(mem.state.first).toLocaleDateString()}\nvisits: ${mem.state.visits}`;},
+
+  neofetch:()=>`  ╭──────────╮
+  │ saapai   │   OS:      saathvikpai.com
+  │  ◉  ◉    │   Host:    vercel edge network
+  │   ──     │   Kernel:  one HTML file
+  │  ╰──╯    │   Shell:   vanilla JS
+  ╰──────────╯   Uptime:  visit #${mem.state.visits}
+                  Memory:  ${mem.strength().toFixed(1)}/10
+                  Pkgs:    0 (zero dependencies)
+                  Theme:   dark editorial
+                  Font:    instrument serif + crimson pro
+                  Canvas:  ${COUNT} particles`,
+
+  weather:()=>{const t=68+Math.floor(Math.random()*15);return`LOS ANGELES, CA
+  ${t}°F · ${Math.random()>0.8?'cloudy':'clear'} · humidity ${40+Math.floor(Math.random()*30)}%
+  wind ${3+Math.floor(Math.random()*12)} mph from the west
+  \n  ${Math.random()>0.5?'perfect coding weather.':'you should go outside. but you won\'t.'}`;},
+
+  fortune:()=>{const f=['the next project will be the one.','memory is just attention that stuck around.','you will build something beautiful at 2am.','the connection strengthens with each visit.','sleep consolidation is not a metaphor.','the best interface is the one that remembers.','every graph was once a single node.','ship it. the polish comes from usage.','the trades that scare you are the good ones.','someone is reading your source code right now.'];return f[Math.floor(Math.random()*f.length)];},
+
+  lol:()=>{const l=['lol','lmao','heh','haha very funny','ok','no but seriously try "neofetch"','you think this is a game?','this terminal has feelings.','dead','i\'m literally a bunch of if statements','the particles heard that and they\'re upset','laugh now but "boom" hits different'];return l[Math.floor(Math.random()*l.length)];},
+
+  'rm':()=>{setTimeout(()=>window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&autoplay=1','_blank'),1500);return'rm: removing everything...\n\nDeleting /Users/visitor/projects/... done\nDeleting /Users/visitor/memories/... done\nDeleting /Users/visitor/soul/... done\n\njust kidding. but you are getting rickrolled for that.';},
+  sudo:()=>{const r=['Password: ········\nsaathvik is not in the sudoers file.\nthis incident will be reported.','sudo: 3 incorrect password attempts.\nalso, i\'m telling your mom.','sudo: you really thought that would work?\nthis is a static HTML file. there is no root.','sudo: access denied.\nbut honestly what were you going to do with it?','sudo: permission denied.\nthe last person who tried this got rickrolled.\n...wait.'];return r[Math.floor(Math.random()*r.length)];},
+  exit:()=>{const r=['there is no exit. only deeper.','exit: you can check out anytime you like.\nbut you can never leave.','exit: command not found.\n(because leaving was never an option)','exit: are you sure? you haven\'t tried "cowsay" yet.','exit: the site will miss you.\nvisitor memory strength: declining...'];return r[Math.floor(Math.random()*r.length)];},
+  pwd:()=>cwd,
+  date:()=>{const d=new Date(),days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],mos=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return`${days[d.getDay()]} ${mos[d.getMonth()]} ${String(d.getDate()).padStart(2)} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} PST ${d.getFullYear()}`;},
+  echo:(a)=>(a||[]).join(' '),
+  ping:()=>'PING aureliex.com (76.76.21.21): 56 data bytes\n64 bytes from 76.76.21.21: icmp_seq=0 ttl=57 time=0.42ms\n64 bytes from 76.76.21.21: icmp_seq=1 ttl=57 time=0.38ms\n64 bytes from 76.76.21.21: icmp_seq=2 ttl=57 time=0.41ms\n--- aureliex.com ping statistics ---\n3 packets transmitted, 3 received, 0% packet loss',
+  clear:()=>'__CLEAR__',
+  vim:()=>{const r=['why would you do this to yourself.','you are now trapped in vim.\n\njust kidding. press Esc. then :q!. then reconsider your life.','vim: opening file...\n\n  ~\n  ~\n  ~\n  ~\n  -- INSERT -- (you can\'t leave)','vim: i see you\'re a person of culture.\nand also pain.'];return r[Math.floor(Math.random()*r.length)];},
+  emacs:()=>{const r=['let\'s not start this debate.','emacs: loading...\n\nstill loading...\n\nyou could\'ve built a whole project by now.','emacs: the operating system that happens to edit text.','M-x butterfly\n\napplying... the universe has been modified.'];return r[Math.floor(Math.random()*r.length)];},
+  npm:()=>{const r=['this site has zero dependencies and it will stay that way.','npm: installing 847 packages...\n\njust kidding. node_modules will never touch this site.','npm audit: 0 vulnerabilities\n(because there are 0 packages)','npm: ERR! this site is built different.\nliterally one HTML file.'];return r[Math.floor(Math.random()*r.length)];},
+  git:()=>'On branch main\nYour branch is up to date with \'origin/main\'.\n\n50+ repos synced to ~/Documents/github/projects/\nvia launchd, every 30 minutes, automatically.\n\nnothing to commit, working tree clean',
+  man:()=>'no manual needed. just try things.',
+  curl:()=>'you\'re already here.',
+  ssh:()=>'connection refused. (you\'re already inside)',
+  top:()=>`PID   COMMAND              CPU     MEM     STATUS
+001   flow-field           12.3%   4.2MB   running
+002   eye-tracking         0.8%    0.1MB   watching you
+003   facial-recognition   4.1%    8.4MB   69% match
+004   palantir-uplink      2.7%    12.1MB  CLASSIFIED
+005   drone-surveillance   0.0%    0.0MB   hovering
+006   visitor-memory       0.1%    0.0MB   consolidating
+007   decay-engine         0.3%    0.1MB   degrading
+008   cursor-trail         1.2%    0.2MB   following
+009   hebbian-learning     0.4%    1.1MB   strengthening
+010   stare-detect         0.0%    0.0MB   waiting
+011   nsa-backdoor         ▓▓▓%    ▓▓▓MB   [REDACTED]
+012   skynet-bootstrap     0.0%    0.0MB   not yet`,
+  cd:(a)=>{
+    const target=resolvePath(a?.[0]);
+    const node=FS[target];
+    if(!node)return`cd: ${a?.[0]}: no such directory`;
+    if(!node.children)return`cd: ${a?.[0]}: not a directory`;
+    cwd=target;updatePrompt();
+    const desc=node.desc?'\n'+node.desc:'';
+    return target.replace('/Users/visitor','~')+desc;
+  },
+  mkdir:(a)=>`mkdir: cannot create directory '${a?.[0]||''}': this is a read-only filesystem.\n(but if you type "canvas" you can write anywhere on the page)`,
+  touch:(a)=>{const r=[`touch: cannot create '${a?.[0]||''}': read-only filesystem.\nyou could touch grass though.`,`touch: ${a?.[0]||'file'}: permission denied.\nthis filesystem is immutable. like my commitment to zero dependencies.`,`touch: nah.`];return r[Math.floor(Math.random()*r.length)];},
+  mv:()=>{const r=['mv: permission denied. things stay where I put them.','mv: you want to move things? try dragging the knowledge graph nodes.','mv: denied. everything is exactly where it should be.'];return r[Math.floor(Math.random()*r.length)];},
+  cp:()=>{const r=['cp: permission denied. originality only.','cp: you can\'t copy vibes.','cp: denied. fork the repo if you want a copy.'];return r[Math.floor(Math.random()*r.length)];},
+  chmod:()=>{const r=['chmod: nice try. permissions are non-negotiable.','chmod 777: absolutely not.','chmod: this site has exactly one permission level: read-only-and-enjoy.'];return r[Math.floor(Math.random()*r.length)];},
+  chown:()=>{const r=['chown: you don\'t own this. saathvik does.','chown: ownership is not transferable.','chown: denied. but you can own the experience.'];return r[Math.floor(Math.random()*r.length)];},
+  canvas:()=>{canvasMode=!canvasMode;document.getElementById('canvasBanner').classList.toggle('show',canvasMode);if(canvasMode){(JSON.parse(localStorage.getItem('sp_notes')||'[]')).forEach(renderNote);}else{document.querySelectorAll('.canvas-note').forEach(n=>n.remove());}return canvasMode?'canvas mode on. click anywhere on the page to leave a note.':'canvas mode off.';},
+  cat2:()=>'did you mean "cat <project>"? try "cat canvas"',
+  grep:(a)=>{const kw=a?.[0]?.toLowerCase();const idx={memory:['coils','sleep-ai','canvas','this-site','ultramemory'],graph:['coils','canvas','brain'],prediction:['polytrader','insider-detect'],ucla:['pfc-match','bruin-meals','jarvis','rush-notes'],ai:['enclave','ai-dreamer','jarvis','mail-app']};const hits=idx[kw];return hits?hits.map(h=>`  ${h}`).join('\n'):`grep: no matches for "${kw||''}"`;},
+  find:()=>'find: searching...\n\n  ./memory\n  ./memory/coils\n  ./memory/sleep-ai\n  ./markets/polytrader\n  ./markets/insider-det\n  ./messaging/jarvis\n  ./messaging/bruin-meals\n  ./ucla/pfc-match\n  ./infra/ultramemory\n  ./ai/enclave\n  ./ai/ai-dreamer\n\n  11 items found',
+  tree:()=>`saathvikpai.com/
+├── memory/
+│   ├── coils/
+│   ├── sleep-ai/
+│   └── brain/
+├── markets/
+│   ├── polytrader/
+│   └── insider-det/
+├── messaging/
+│   ├── canvas/
+│   ├── jarvis/
+│   └── bruin-meals/
+├── ucla/
+│   └── pfc-match/
+├── ai/
+│   ├── enclave/
+│   └── ai-dreamer/
+└── aureliex.com/`,
+  which:(a)=>`/usr/local/bin/${a?.[0]||'saathvik'}`,
+  whoami2:()=>'you tell me.',
+  history:()=>`  1  visited saathvikpai.com\n  2  scrolled past the flow field\n  3  stared at the name too long\n  4  found the terminal\n  5  typed help\n  6  you are here`,
+  ps:()=>'PID  TTY  TIME     CMD\n001  ??   0:42.0   flow-field\n002  ??   0:03.1   eyes\n003  ??   0:00.4   decay\n004  ??   0:01.2   cursor-trail\n005  ??   0:00.0   your-patience',
+  kill:(a)=>{const procs={'001':'flow-field','002':'eye-tracking','003':'facial-recognition','004':'palantir-uplink','005':'drone-surveillance','006':'visitor-memory','011':'nsa-backdoor','012':'skynet-bootstrap'};const id=a?.[0];if(procs[id])return`kill: ${procs[id]} (PID ${id}): operation not permitted.\nnice try. that one\'s unkillable.`;return`kill: ${id||'?'}: no such process`;},
+  nano:()=>'nano: this is not that kind of terminal.\ntry vim. (don\'t actually try vim.)',
+  python:()=>'Python 3.12.0\n>>> import this\nThe Zen of Saathvik:\n  Memory over storage.\n  Connections over collections.\n  Ship it at 2am.',
+  python3:()=>termCmds.python(),
+  node:()=>'> console.log("this site has zero dependencies")\nthis site has zero dependencies\n> process.exit()\nthere is no exit.',
+  brew:(a)=>{
+    const sub=a?.[0];const pkg=a?.[1];
+    if(!sub)return'==> Searching taps...\n==> No formulae found.\n\nError: saathvikpai.com was built from source.\nzero dependencies. zero node_modules.\n\ntry "brew install coffee"';
+    if(sub==='install'&&(pkg==='coffee'||pkg==='cafe'||pkg==='latte')){
+      // Trigger the cafe animation
+      setTimeout(()=>{const out=document.getElementById('termOut');const el=document.createElement('div');el.className='res';out.appendChild(el);const spin=['|','/','-','\\'];let i=0;const iv=setInterval(()=>{el.textContent=` ${spin[i%4]} Brewing ${pkg||'coffee'}...`;i++;},80);const arts2=[
+`        ______________________
+      /                        \\
+     /  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  \\
+    |  ▓▓▓▓▓▓▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓  |
+    |  ▓▓▓▓▒░░░░▒░░░░▒▓▓▓▓▓▓  |──╮
+    |  ▓▓▓▒░░░░░░░░░░░▒▓▓▓▓▓  |  │
+    |  ▓▓▓▓▒░░░░░░░░░▒▓▓▓▓▓▓  |──╯
+    |  ▓▓▓▓▓▒░░░░░░░▒▓▓▓▓▓▓▓  |
+    |  ▓▓▓▓▓▓▒░░░░░▒▓▓▓▓▓▓▓▓  |
+    |  ▓▓▓▓▓▓▓▒░░░▒▓▓▓▓▓▓▓▓▓  |
+     \\  ▓▓▓▓▓▓▓▓▒▓▓▓▓▓▓▓▓▓▓  /
+      \\________________________/`,
+`        ______________________
+      /                        \\
+     /  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  \\
+    |  ▓▓▓░░░▓▓▓▓▓▓▓░░░▓▓▓▓▓  |
+    |  ▓▓░░░░░▓▓▓▓▓░░░░░▓▓▓▓  |──╮
+    |  ▓▓▓░░░▓▓▓▓▓▓▓░░░▓▓▓▓▓  |  │
+    |  ▓▓▓▓▓▓▒░░░░▒▓▓▓▓▓▓▓▓▓  |──╯
+    |  ▓▓▓▓▓▒░▒░░▒░▒▓▓▓▓▓▓▓▓  |
+    |  ▓▓▓▓▓▓▒░░░░▒▓▓▓▓▓▓▓▓▓  |
+    |  ▓▓▓▓▓▓▓▒▒▒▒▓▓▓▓▓▓▓▓▓▓  |
+     \\  ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓  /
+      \\________________________/`];
+      setTimeout(()=>{clearInterval(iv);el.textContent=arts2[Math.floor(Math.random()*arts2.length)]+'\n\n==> poured. back to work.';out.scrollTop=out.scrollHeight;},2000);},0);
+      return`==> Installing ${pkg}...`;
+    }
+    if(sub==='install'&&pkg==='patience')return'==> Installing patience...\n==> Pouring patience-2.0.arm64.bottle.tar.gz\n\npatience 2.0 is already installed.\nyou clearly have enough if you scrolled this far.';
+    if(sub==='install')return`==> Searching for ${pkg||'???'}...\n==> No formulae found.\n\nthis site has zero dependencies.\ntry "brew install coffee" instead.`;
+    if(sub==='list')return'==> Installed formulae:\npatience@2.0\ncoffee@1.0\ncuriosity@3.2\n\n3 formulae installed';
+    if(sub==='update')return'==> Updating Homebrew...\nAlready up-to-date.\n(this site auto-deploys on every edit)';
+    if(sub==='doctor')return'==> Running diagnostics...\nYour system is ready to brew.\n0 warnings. 0 errors.\nzero dependencies. peak health.';
+    return`brew ${sub}: unknown subcommand. try: install, list, update, doctor`;
+  },
+  apt:()=>'E: Unable to locate package. this is macOS territory.',
+  cat_:(a)=>{if(!a?.length)return'usage: cat <project>\ntry: cat canvas, cat polytrader, cat coils, cat aureliex';return null;},
+  open:(a)=>{const urls={aureliex:'https://aureliex.com',github:'https://github.com/saapai',duttapad:'https://www.duttapad.com/Saathvik',pad:'https://www.duttapad.com/demo'};const u=urls[a?.[0]];if(u){window.open(u,'_blank');return`opening ${u}...`;}return`open: ${a?.[0]||'?'}: not found. try: aureliex, github, duttapad, pad`;},
+  say:(a)=>(a||[]).join(' ')||'say what?',
+  cowsay:(a)=>{const msg=(a||[]).join(' ')||'moo';return` ${'_'.repeat(msg.length+2)}\n< ${msg} >\n ${'‾'.repeat(msg.length+2)}\n        \\   ^__^\n         \\  (oo)\\_______\n            (__)\\       )\\/\\\n                ||----w |\n                ||     ||`;},
+  figlet:()=>`
+ ____              _   _          _ _
+/ ___|  __ _  __ _| |_| |____   _(_) | __
+\\___ \\ / _\` |/ _\` | __| '_ \\ \\ / / | |/ /
+ ___) | (_| | (_| | |_| | | \\ V /| |   <
+|____/ \\__,_|\\__,_|\\__|_| |_|\\_/ |_|_|\\_\\`,
+  sl:()=>'    ====        ________\n ---|_|--------|________|>\n     O  O      O O  O  O\n ===========================\n         choo choo',
+  rickroll:()=>{window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ&autoplay=1','_blank');return'never gonna give you up.';},
+  matrix:()=>{fireKonami();return'wake up, neo.';},
+  boom:()=>{fireKonami();
+    // Fireworks around terminal
+    const box=document.querySelector('.term-box');if(box){const r=box.getBoundingClientRect();const sparks=['✦','✧','★','+','×','*','◆','●'];for(let i=0;i<20;i++){const s=document.createElement('div');s.className='firework';s.textContent=sparks[Math.floor(Math.random()*sparks.length)];s.style.left=(r.left+Math.random()*r.width)+'px';s.style.top=(r.top+Math.random()*r.height+window.scrollY)+'px';s.style.setProperty('--fx',(Math.random()-0.5)*200+'px');s.style.setProperty('--fy',(Math.random()-0.5)*200+'px');document.body.appendChild(s);s.addEventListener('animationend',()=>s.remove());}}
+    return '* * * B O O M * * *';},
+  xkcd:()=>'https://xkcd.com/149/ — "sudo make me a sandwich"',
+  '42':()=>'the answer to life, the universe, and everything.',
+  hello:()=>'hey. you found the terminal.\nmost people don\'t scroll this far.\ntry "neofetch" to see what this site is made of.',
+  hi:()=>termCmds.hello(),
+  '..':()=>'cd .. — already at root.',
+  cafe:()=>{return termCmds.brew(['install','coffee']);},
+  coffee:()=>{return termCmds.brew(['install','coffee']);},
+  latte:()=>{return termCmds.brew(['install','latte']);},
+};
+
+// ══════ FAKE FILESYSTEM ══════
+const FS={
+  '/':{type:'dir',children:['Users']},
+  '/Users':{type:'dir',children:['visitor']},
+  '/Users/visitor':{type:'dir',children:['projects','Desktop','.config']},
+  '/Users/visitor/projects':{type:'dir',children:['memory','markets','messaging','ai','ucla','infra']},
+  '/Users/visitor/projects/memory':{type:'dir',children:['coils','sleep-ai','brain','ultramemory']},
+  '/Users/visitor/projects/memory/coils':{type:'dir',children:['README.md','graph.py','consolidate.py'],desc:'Knowledge graph. Hebbian sleep consolidation, trench geometry.'},
+  '/Users/visitor/projects/memory/sleep-ai':{type:'dir',children:['nrem.py','rem.py','consolidate.py'],desc:'NREM clustering + REM hypothesis generation.'},
+  '/Users/visitor/projects/memory/brain':{type:'dir',children:['brain.py','graph.db'],desc:'Conversational knowledge graph builder.'},
+  '/Users/visitor/projects/memory/ultramemory':{type:'dir',children:['server.py','dashboard/'],desc:'ChatGPT↔Cursor memory bus.'},
+  '/Users/visitor/projects/markets':{type:'dir',children:['polytrader','insider-det']},
+  '/Users/visitor/projects/markets/polytrader':{type:'dir',children:['strategies/','ledger.jsonl','backtest.py'],desc:'Automated Kalshi/Polymarket. Weather, gas, CPI.'},
+  '/Users/visitor/projects/markets/insider-det':{type:'dir',children:['detect.py','models/','data/'],desc:'Anomaly ML for suspicious trades. XGBoost + LSTM.'},
+  '/Users/visitor/projects/messaging':{type:'dir',children:['canvas','jarvis','bruin-meals','mail-app']},
+  '/Users/visitor/projects/messaging/canvas':{type:'dir',children:['app.js','styles.css','server.js'],desc:'8,900 lines vanilla JS. Infinite click-anywhere diary.'},
+  '/Users/visitor/projects/messaging/jarvis':{type:'dir',children:['bot.py','routes.py','personality.py'],desc:'Production SMS bot. Polls, Q&A, Slack integration.'},
+  '/Users/visitor/projects/messaging/bruin-meals':{type:'dir',children:['scraper.ts','api/','app/'],desc:'UCLA dining via iMessage. Nightly scrapes.'},
+  '/Users/visitor/projects/messaging/mail-app':{type:'dir',children:['main.ts','renderer/','agents/'],desc:'AI email client. Style learning, persistent memory.'},
+  '/Users/visitor/projects/ai':{type:'dir',children:['enclave','ai-dreamer']},
+  '/Users/visitor/projects/ai/enclave':{type:'dir',children:['app/','search.ts','sms-bot.ts'],desc:'Org knowledge management. Hybrid search + SMS.'},
+  '/Users/visitor/projects/ai/ai-dreamer':{type:'dir',children:['pipeline.py','web/','generate.py'],desc:'Prompt to working code. Design presets.'},
+  '/Users/visitor/projects/ucla':{type:'dir',children:['pfc-match','club-inbox']},
+  '/Users/visitor/projects/ucla/pfc-match':{type:'dir',children:['app/','supabase/','matching.ts'],desc:'UCLA dating app. Swipes, chat, RLS.'},
+  '/Users/visitor/projects/ucla/club-inbox':{type:'dir',children:['app/','extract.ts','claims/'],desc:'AI claims extraction from paste/sheets/photos.'},
+  '/Users/visitor/projects/infra':{type:'dir',children:['aureliex','duttapad','repo-sync']},
+  '/Users/visitor/projects/infra/aureliex':{type:'dir',children:['app/','components/','globals.css'],desc:'$3,454→$100K. 13 easter eggs. aureliex.com'},
+  '/Users/visitor/projects/infra/duttapad':{type:'dir',children:['canvas/','api/','styles/'],desc:'Infinite collaborative canvas. duttapad.com'},
+  '/Users/visitor/projects/infra/repo-sync':{type:'dir',children:['sync.sh','launchd.plist'],desc:'50+ repos synced every 30min via launchd.'},
+  '/Users/visitor/Desktop':{type:'dir',children:['screenshot 1.png','screenshot 2.png','screenshot 3.png']},
+  '/Users/visitor/.config':{type:'dir',children:['memory.json','circadian.json']},
+};
+// Files
+const FILES={
+  'README.md':'# Entrenched Coils\nKnowledge graph with Hebbian sleep consolidation.\nTrench geometry organizes retrieval paths.',
+  'graph.py':'# 2,400 lines\nimport pgvector\nclass TrenchGraph: ...',
+  'consolidate.py':'# Hebbian learning\ndef consolidate(graph, sleep_stage): ...',
+  'nrem.py':'# NREM clustering\ndef cluster_memories(episodes): ...',
+  'rem.py':'# REM hypothesis generation\ndef dream(clusters): ...',
+  'brain.py':'# Conversational knowledge graph\nclass Brain(NetworkX): ...',
+  'app.js':'// 8,900 lines. no framework.\n// click anywhere to write.',
+  'bot.py':'# Jarvis SMS bot\nfrom twilio.rest import Client',
+  'detect.py':'# Isolation Forest + XGBoost + LSTM\ndef detect_anomalies(trades): ...',
+  'sync.sh':'#!/bin/bash\n# runs every 30 min via launchd\nfor repo in ~/Documents/github/projects/*/; do\n  cd "$repo" && git pull && git push\ndone',
+  'memory.json':'{"visits":'+mem.state.visits+',"strength":'+mem.strength().toFixed(2)+'}',
+  'circadian.json':'{"phase":"'+(()=>{const h=new Date().getHours();return h>=6&&h<12?'encoding':h<18?'processing':h<22?'consolidating':'sleeping'})()+'"}',
+};
+
+let cwd='/Users/visitor';
+
+function resolvePath(p){
+  if(!p||p==='~')return'/Users/visitor';
+  if(p==='/') return'/';
+  let base=p.startsWith('/')?'':cwd;
+  let parts=(base+'/'+p).split('/').filter(Boolean);
+  const resolved=[];
+  for(const part of parts){
+    if(part==='..')resolved.pop();
+    else if(part!=='.')resolved.push(part);
+  }
+  return'/'+resolved.join('/');
+}
+
+function getPrompt(){
+  let display=cwd.replace('/Users/visitor','~');
+  if(!display)display='/';
+  return display+'$';
+}
+
+function updatePrompt(){document.querySelector('.term-in .prompt').textContent=getPrompt();}
+
+// Tab-completion data (dynamic based on cwd)
+function getCompletions(partial){
+  const node=FS[cwd];
+  if(!node||!node.children)return[];
+  return node.children.filter(c=>c.toLowerCase().startsWith(partial.toLowerCase()));
+}
+const termAllCmds=Object.keys(termCmds).filter(k=>k!=='cat_'&&k!=='cat2'&&k!=='whoami2'&&k!=='python3'&&k!=='..');
+let termHistory=[],termHistIdx=-1;
+
+document.getElementById('termIn').addEventListener('keydown',e=>{
+  const inp=e.target;
+
+  // Ctrl+C — cancel
+  if(e.key==='c'&&e.ctrlKey){
+    e.preventDefault();
+    const out=document.getElementById('termOut');
+    out.innerHTML+=`<div class="cmd">${getPrompt()} ${inp.value}^C</div>`;
+    inp.value='';out.scrollTop=out.scrollHeight;
+    return;
+  }
+  // Ctrl+L — clear
+  if(e.key==='l'&&e.ctrlKey){e.preventDefault();document.getElementById('termOut').innerHTML='';return;}
+  // Ctrl+U — clear line
+  if(e.key==='u'&&e.ctrlKey){e.preventDefault();inp.value='';return;}
+  // Ctrl+A — cursor to start
+  if(e.key==='a'&&e.ctrlKey){e.preventDefault();inp.setSelectionRange(0,0);return;}
+
+  // Tab completion
+  if(e.key==='Tab'){
+    e.preventDefault();
+    const val=inp.value;
+    const parts=val.split(/\s+/);
+
+    if(parts.length<=1){
+      // Complete command name
+      const partial=parts[0].toLowerCase();
+      const matches=termAllCmds.filter(c=>c.startsWith(partial));
+      if(matches.length===1){inp.value=matches[0]+' ';}
+      else if(matches.length>1){
+        const out=document.getElementById('termOut');
+        out.innerHTML+=`<div class="res">${matches.join('  ')}</div>`;
+        out.scrollTop=out.scrollHeight;
+      }
+    } else {
+      // Complete argument — resolve path for nested tab completion
+      const cmd=parts[0].toLowerCase();
+      const arg=parts[parts.length-1]||'';
+
+      if(cmd==='open'){
+        const pool=['aureliex','github','duttapad','pad'];
+        const matches=pool.filter(d=>d.startsWith(arg.toLowerCase()));
+        if(matches.length===1){parts[parts.length-1]=matches[0];inp.value=parts.join(' ')+' ';}
+        else if(matches.length>1){const out=document.getElementById('termOut');out.innerHTML+=`<div class="res">${matches.join('  ')}</div>`;out.scrollTop=out.scrollHeight;}
+      } else {
+        // Resolve the path so far to find which directory to complete from
+        let dirPart='',namePart=arg;
+        const lastSlash=arg.lastIndexOf('/');
+        if(lastSlash>=0){dirPart=arg.substring(0,lastSlash);namePart=arg.substring(lastSlash+1);}
+
+        const basePath=dirPart?resolvePath(dirPart):cwd;
+        const node=FS[basePath];
+        if(node&&node.children){
+          const matches=node.children.filter(c=>c.toLowerCase().startsWith(namePart.toLowerCase()));
+          if(matches.length===1){
+            const match=matches[0];
+            const fullArg=dirPart?(dirPart+'/'+match):match;
+            // Check if it's a directory — append /
+            const childPath=basePath+'/'+match;
+            const isDir=FS[childPath]&&FS[childPath].children;
+            parts[parts.length-1]=fullArg+(isDir?'/':'');
+            inp.value=parts.join(' ');
+          } else if(matches.length>1){
+            const out=document.getElementById('termOut');
+            out.innerHTML+=`<div class="res">${matches.join('  ')}</div>`;
+            out.scrollTop=out.scrollHeight;
+          }
+        }
+      }
+    }
+    return;
+  }
+
+  // Arrow up/down for history
+  if(e.key==='ArrowUp'){
+    e.preventDefault();
+    if(termHistory.length&&termHistIdx<termHistory.length-1){
+      termHistIdx++;
+      inp.value=termHistory[termHistory.length-1-termHistIdx];
+    }
+    return;
+  }
+  if(e.key==='ArrowDown'){
+    e.preventDefault();
+    if(termHistIdx>0){termHistIdx--;inp.value=termHistory[termHistory.length-1-termHistIdx];}
+    else{termHistIdx=-1;inp.value='';}
+    return;
+  }
+
+  if(e.key!=='Enter')return;
+  const raw=inp.value.trim();inp.value='';
+  if(!raw)return;
+  termHistory.push(raw);termHistIdx=-1;
+  const out=document.getElementById('termOut');
+  const cmdParts=raw.split(/\s+/);
+  const cmd=cmdParts[0].toLowerCase();
+  const args=cmdParts.slice(1);
+
+  // Handle "rm -rf /"
+  const fn=cmd==='rm'?termCmds['rm']:termCmds[cmd];
+  const result=fn?fn(args):`command not found: ${cmd}. try "help"`;
+
+  out.innerHTML+=`<div class="cmd">${getPrompt()} ${raw}</div>`;
+  if(result==='__CLEAR__'){out.innerHTML='';return;}
+  out.innerHTML+=`<div class="res">${result}</div>`;
+  out.scrollTop=out.scrollHeight;
+});
+
+// ══════ CANVAS MODE ══════
+let canvasMode=false;const wb=[];
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;wb.push(e.key);if(wb.length>6)wb.shift();if(wb.join('')==='canvas'){canvasMode=!canvasMode;document.getElementById('canvasBanner').classList.toggle('show',canvasMode);toast(canvasMode?'Canvas mode on':'Canvas mode off');if(canvasMode)(JSON.parse(localStorage.getItem('sp_notes')||'[]')).forEach(renderNote);else document.querySelectorAll('.canvas-note').forEach(n=>n.remove());wb.length=0;}});
+document.addEventListener('click',e=>{if(!canvasMode||e.target.closest('.canvas-note,.nav,.chat,.foot-link,.mag-wrap,#graphCanvas'))return;const n=document.createElement('div');n.className='canvas-note';n.contentEditable=true;n.style.left=e.pageX+'px';n.style.top=e.pageY+'px';document.body.appendChild(n);n.focus();n.addEventListener('blur',()=>{if(!n.textContent.trim()){n.remove();return;}const s=JSON.parse(localStorage.getItem('sp_notes')||'[]');s.push({x:e.pageX,y:e.pageY,text:n.textContent,t:Date.now()});localStorage.setItem('sp_notes',JSON.stringify(s));});});
+function renderNote(d){const n=document.createElement('div');n.className='canvas-note';n.textContent=d.text;n.style.left=d.x+'px';n.style.top=d.y+'px';n.style.opacity=Math.max(0.2,1-(Date.now()-d.t)/864e5/30);document.body.appendChild(n);}
+
+// ══════ UTILS ══════
+function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2200);}
+// ` key scrolls to terminal
+document.addEventListener('keydown',e=>{if(e.key==='`'&&!e.ctrlKey&&!e.metaKey&&e.target.tagName!=='INPUT'&&!e.target.isContentEditable){e.preventDefault();document.querySelector('.term-section').scrollIntoView({behavior:'smooth'});setTimeout(()=>document.getElementById('termIn').focus(),600);}});
+
+// ══════ KONAMI (case-insensitive, robust) ══════
+// Also triggers if you just type "boom" as a fallback
+const KS=['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a'];
+let ki=0;
+function fireKonami(){
+  toast('Konami activated');
+
+  konamiAnim=true;
+  sparkles=[];
+
+  // Save original positions
+  const saved=new Float32Array(COUNT*2);
+  for(let i=0;i<COUNT;i++){saved[i*2]=pts[i*5];saved[i*2+1]=pts[i*5+1];}
+
+  // Phase 1: FREEZE (0.3s)
+  setTimeout(()=>{
+    // Phase 2: GRAVITY FALL (1s) — particles fall to bottom
+    const fallStart=performance.now();
+    const vy=new Float32Array(COUNT);
+    function fallLoop(){
+      const elapsed=(performance.now()-fallStart)/1000;
+      if(elapsed>1.2){compressPhase();return;}
+      ctx.fillStyle='rgba(6,6,8,0.06)';ctx.fillRect(0,0,W,H);
+      for(let i=0;i<COUNT;i++){
+        const o=i*5;
+        vy[i]+=0.5; // gravity
+        pts[o+1]+=vy[i];
+        if(pts[o+1]>H-5){pts[o+1]=H-5;vy[i]*=-0.3;} // bounce
+        ctx.fillStyle=pColor(pts[o+3],0.5);
+        ctx.fillRect(pts[o],pts[o+1],1.2,1.2);
+      }
+      requestAnimationFrame(fallLoop);
+    }
+
+    // Sub-bass thud
+    const thud=AC.createOscillator(),tg=AC.createGain();
+    thud.connect(tg);tg.connect(AC.destination);
+    thud.type='sine';thud.frequency.value=50;tg.gain.value=0.15;
+    thud.start();thud.frequency.exponentialRampToValueAtTime(20,AC.currentTime+0.5);
+    tg.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+0.8);thud.stop(AC.currentTime+0.8);
+
+    fallLoop();
+  },300);
+
+  function compressPhase(){
+    // Phase 3: COMPRESS to center-bottom (0.5s)
+    const cx=W/2,cy=H*0.85;
+    const compStart=performance.now();
+    function compLoop(){
+      const t=Math.min((performance.now()-compStart)/500,1);
+      ctx.fillStyle='rgba(6,6,8,0.08)';ctx.fillRect(0,0,W,H);
+      for(let i=0;i<COUNT;i++){
+        const o=i*5;
+        pts[o]+=(cx-pts[o])*0.08;
+        pts[o+1]+=(cy-pts[o+1])*0.08;
+        const a=0.3+t*0.5;
+        ctx.fillStyle=pColor(pts[o+3],a);
+        ctx.fillRect(pts[o],pts[o+1],1,1);
+      }
+      // Growing bright point
+      ctx.fillStyle=`rgba(224,212,168,${t*0.15})`;
+      ctx.beginPath();ctx.arc(cx,cy,20-t*15,0,Math.PI*2);ctx.fill();
+      if(t<1)requestAnimationFrame(compLoop);
+      else burstPhase(cx,cy);
+    }
+    compLoop();
+  }
+
+  function burstPhase(cx,cy){
+    // Phase 4: CHRYSANTHEMUM BURST
+    // Spawn 200 sparkle particles
+    for(let i=0;i<200;i++){
+      const angle=Math.random()*Math.PI*2;
+      const speed=2+Math.random()*6;
+      const t=Math.random();
+      sparkles.push({
+        x:cx,y:cy,
+        vx:Math.cos(angle)*speed,
+        vy:Math.sin(angle)*speed-3-Math.random()*4, // upward bias
+        life:1,sz:1+Math.random()*2,
+        r:200+Math.random()*55|0,g:170+Math.random()*40|0,b:80+Math.random()*40|0,
+      });
+    }
+
+    // Shimmer chord
+    [260,330,390,520].forEach(f=>{
+      const o=AC.createOscillator(),g=AC.createGain();
+      o.connect(g);g.connect(AC.destination);
+      o.type='sine';o.frequency.value=f;g.gain.value=0.02;
+      o.start();g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+2);o.stop(AC.currentTime+2);
+    });
+
+    // Flash
+    ctx.fillStyle='rgba(224,212,168,0.08)';ctx.fillRect(0,0,W,H);
+
+    // Phase 5: RISE — restore particles to original positions over 2s
+    const riseStart=performance.now();
+    function riseLoop(){
+      const t=Math.min((performance.now()-riseStart)/2500,1);
+      const ease=t*t*(3-2*t); // smoothstep
+      ctx.fillStyle='rgba(6,6,8,0.04)';ctx.fillRect(0,0,W,H);
+      for(let i=0;i<COUNT;i++){
+        const o=i*5;
+        pts[o]+=(saved[i*2]-pts[o])*0.02;
+        pts[o+1]+=(saved[i*2+1]-pts[o+1])*0.02;
+        pts[o+2]=0; // reset age
+        ctx.fillStyle=pColor(pts[o+3],0.3+ease*0.2);
+        ctx.fillRect(pts[o],pts[o+1],1,1);
+      }
+      // Draw sparkles in main loop
+      for(let j=sparkles.length-1;j>=0;j--){
+        const s=sparkles[j];
+        s.x+=s.vx;s.y+=s.vy;s.vy+=0.04;s.life-=0.01;
+        if(s.life<=0){sparkles.splice(j,1);continue;}
+        ctx.fillStyle=`rgba(${s.r},${s.g},${s.b},${(s.life*0.8).toFixed(2)})`;
+        ctx.beginPath();ctx.arc(s.x,s.y,s.sz*s.life,0,Math.PI*2);ctx.fill();
+      }
+      if(t<1)requestAnimationFrame(riseLoop);
+      else{konamiAnim=false;}
+    }
+    riseLoop();
+  }
+
+  // Chromatic flash on hero
+  const ehn=document.getElementById('heroName');
+  ehn.classList.add('decaying');
+  ehn.style.filter='hue-rotate(90deg) saturate(3) brightness(2)';
+  setTimeout(()=>{ehn.style.filter='';},1500);
+
+  // Synth boom
+  const osc=AC.createOscillator(),gn=AC.createGain();
+  osc.connect(gn);gn.connect(AC.destination);
+  osc.type='sawtooth';osc.frequency.value=80;gn.gain.value=0.12;
+  osc.start();
+  osc.frequency.exponentialRampToValueAtTime(20,AC.currentTime+0.6);
+  gn.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+1);
+  osc.stop(AC.currentTime+1);
+}
+// Konami keydown listener
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.isContentEditable)return;
+  const k=e.key.toLowerCase();
+  if(k===KS[ki]){ki++;if(ki===KS.length){ki=0;fireKonami();}}
+  else{ki=k===KS[0]?1:0;}
+});
+// Also type "boom" as fallback trigger
+const boomBuf=[];
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT'||e.target.isContentEditable)return;
+  boomBuf.push(e.key.toLowerCase());if(boomBuf.length>4)boomBuf.shift();
+  if(boomBuf.join('')==='boom'){boomBuf.length=0;fireKonami();}
+});
+
+// ══════ HERO DECAY — SVG filter pixelation + CSS chromatic aberration ══════
+(()=>{
+  const hn=document.getElementById('heroName');
+  const pxGrid=document.getElementById('pxGrid');
+  const pxDilate=document.getElementById('pxDilate');
+  let heroSec=0, decayIV=null;
+
+  function applyDecay(){
+    heroSec++;
+
+    // Phase 1 (3-6s): chromatic aberration starts (CSS)
+    if(heroSec>=3&&!hn.classList.contains('decaying')){
+      hn.classList.add('decaying');
+    }
+
+    // Phase 2 (6s+): RGB text-shadow split grows
+    if(heroSec>=6){
+      const spread=Math.min((heroSec-6)*0.8,14);
+      hn.style.textShadow=`${spread}px 0 #ff0040, -${spread}px 0 #00ffea, 0 ${spread*0.3}px #40ff00`;
+    }
+
+    // Phase 3 (10s+): SVG pixelation filter kicks in, gets chunkier
+    if(heroSec>=10){
+      const px=Math.min(2+(heroSec-10)*1.5,30); // pixel block size: 2 → 30
+      const dilate=Math.min(1+(heroSec-10)*0.7,14);
+      pxGrid.setAttribute('width',px);
+      pxGrid.setAttribute('height',px);
+      pxDilate.setAttribute('radius',dilate);
+      hn.style.filter='url(#pxf)';
+    }
+
+    // Phase 4 (20s+): also start losing opacity
+    if(heroSec>=20){
+      const fade=Math.max(1-(heroSec-20)*0.03,0.15);
+      hn.style.opacity=fade;
+    }
+  }
+
+  // Only count time when hero is actually visible
+  const obs=new IntersectionObserver(es=>{
+    if(es[0].isIntersecting){
+      decayIV=setInterval(applyDecay,1000);
+    }else{
+      clearInterval(decayIV);
+      // Reset on scroll away
+      heroSec=0;
+      hn.classList.remove('decaying');
+      hn.style.textShadow='';
+      hn.style.filter='';
+      hn.style.opacity='1';
+    }
+  },{threshold:0.3});
+  obs.observe(hn);
+})();
+
+// ══════ SOUND (Web Audio synth tones on interaction) ══════
+const AC=new(window.AudioContext||window.webkitAudioContext)();
+function tone(freq,dur=0.15){const o=AC.createOscillator(),g=AC.createGain();o.connect(g);g.connect(AC.destination);o.frequency.value=freq;o.type='sine';g.gain.value=0.03;o.start();g.gain.exponentialRampToValueAtTime(0.001,AC.currentTime+dur);o.stop(AC.currentTime+dur);}
+// Play tone on graph node hover
+document.getElementById('graphCanvas').addEventListener('mousemove',function handler(e){
+  // Debounced - only play when hovered node changes
+  handler._last=handler._last||'';
+  const r=this.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  // Check if mouse is over a node (approximate from graph data)
+  const id=handler._last;
+  // We'll trigger tones from the stare zone instead for cleanliness
+},{passive:true});
+// Tone on work card enter
+document.querySelectorAll('.work-panel').forEach((p,i)=>{p.addEventListener('mouseenter',()=>tone(220+i*40));});
+
+// ══════ CIRCADIAN ══════
+(()=>{const h=new Date().getHours();let l,a;if(h>=6&&h<12){l='encoding';a='#c8b88a';}else if(h<18){l='processing';a='#8a9fc8';}else if(h<22){l='consolidating';a='#a88ac8';}else{l=h>=22||h<2?'NREM':'REM';a='#4a4570';}const b=document.getElementById('circadian');b.querySelector('span').textContent=l;b.querySelector('.circadian-dot').style.background=a;})();
+
+// ══════ TAB TITLE ══════
+const OT=document.title;document.addEventListener('visibilitychange',()=>{document.title=document.hidden?'Memory fading...':OT;});
+
+// ══════ MAGNETIC ══════
+document.querySelectorAll('.mag-wrap').forEach(w=>{const b=w.querySelector('.foot-link');w.addEventListener('mousemove',e=>{const r=w.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;b.style.transform=`translate(${x*0.3}px,${y*0.3}px)`;b.style.transition='transform 0.15s ease';});w.addEventListener('mouseleave',()=>{b.style.transform='';b.style.transition='transform 0.4s var(--ease)';});});
+
+
+
+// ══════ BLUR REVEAL TEXT ══════
+document.querySelectorAll('.reveal-text').forEach(el=>{
+  const text=el.textContent.trim();
+  el.innerHTML=text.split(/\s+/).map((w,i)=>`<span class="word" style="transition-delay:${i*0.045}s">${w}</span>`).join(' ');
+});
+const revObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');revObs.unobserve(e.target);}});},{threshold:0.15});
+document.querySelectorAll('.reveal-text').forEach(el=>revObs.observe(el));
+
+// ══════ LINE DIVIDERS ══════
+const lineObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');lineObs.unobserve(e.target);}});},{threshold:0.5});
+document.querySelectorAll('.line-div').forEach(el=>lineObs.observe(el));
+
+// ══════ 3D TILT ON WORK CARDS ══════
+document.querySelectorAll('.work-panel').forEach(card=>{
+  // Inject shine overlay
+  const shine=document.createElement('div');shine.className='tilt-shine';card.appendChild(shine);
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    const rx=((y-r.height/2)/r.height)*-6,ry=((x-r.width/2)/r.width)*6;
+    card.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    card.style.setProperty('--mx',`${(x/r.width)*100}%`);
+    card.style.setProperty('--my',`${(y/r.height)*100}%`);
+  });
+  card.addEventListener('mouseleave',()=>{card.style.transform='perspective(800px) rotateX(0) rotateY(0)';});
+});
+
+// ══════ CURSOR TRAIL ══════
+if(window.matchMedia('(pointer:fine)').matches){
+  let lastDot=0;
+  document.addEventListener('mousemove',e=>{
+    if(Date.now()-lastDot<30)return;lastDot=Date.now();
+    const d=document.createElement('div');d.className='cursor-dot';
+    d.style.left=(e.clientX-2)+'px';d.style.top=(e.clientY-2)+'px';
+    document.body.appendChild(d);
+    d.addEventListener('animationend',()=>d.remove());
+  });
+}
+
+// ══════ CONSOLE ══════
+console.log('%c SP ','background:#c8b88a;color:#060608;padding:4px 8px;font-family:monospace;font-size:14px');
+console.log('%c ~ terminal | "canvas" notes | ↑↑↓↓←→←→BA konami | stare at things | stop moving | drag the graph | catch the shy text ','color:#6b6560;font-family:monospace;');
+</script>
+</body>
+</html>

@@ -12,7 +12,7 @@ export function middleware(req: NextRequest) {
 
   if (isPersonal && (pathname === "/" || pathname === "")) {
     const url = req.nextUrl.clone();
-    url.pathname = "/statement";
+    url.pathname = "/personal";
     return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
   }
 
