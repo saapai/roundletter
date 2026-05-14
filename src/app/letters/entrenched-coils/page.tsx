@@ -31,6 +31,7 @@ export default function EntrenchedCoilsPaper() {
       <div style={{ position: "fixed", top: "1.2rem", left: "1.5rem", zIndex: 100 }}>
         <Link
           href="/"
+          className="wordmark"
           style={{
             fontFamily: "var(--font-display, Georgia), serif",
             fontStyle: "italic",
@@ -39,10 +40,7 @@ export default function EntrenchedCoilsPaper() {
             textDecoration: "none",
             letterSpacing: "-0.01em",
             opacity: 0.5,
-            transition: "opacity 0.2s",
           }}
-          onMouseEnter={(e) => { (e.target as HTMLElement).style.opacity = "1"; }}
-          onMouseLeave={(e) => { (e.target as HTMLElement).style.opacity = "0.5"; }}
         >
           aureliex.
         </Link>
