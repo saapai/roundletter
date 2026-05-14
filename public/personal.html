@@ -276,6 +276,15 @@
     .hi-echo.pink{color:rgba(244,182,194,0.8)}
     @keyframes hiFloat{0%{opacity:0;transform:scale(0.3) translateY(20px)}8%{opacity:var(--peak,0.6);transform:scale(1) translateY(0)}70%{opacity:var(--peak,0.6);transform:scale(1) translateY(calc(var(--dy,-40px)))}100%{opacity:0;transform:scale(0.8) translateY(calc(var(--dy,-40px) * 2))}}
 
+    /* COILS CARD ART */
+    .coils-art{width:100%;height:100%;position:relative;overflow:hidden;background:#080a10}
+    .coils-art::before{content:'';position:absolute;inset:-50%;width:200%;height:200%;background:conic-gradient(from 0deg at 50% 50%,#8B3A2E 0deg,#c8b88a 60deg,#0e1822 120deg,#8a9fc8 180deg,#8B3A2E 240deg,#c8b88a 300deg,#0e1822 360deg);animation:coilSpin 12s linear infinite;opacity:0.3}
+    .coils-art::after{content:'';position:absolute;inset:20%;border-radius:50%;background:radial-gradient(ellipse at center,transparent 30%,#080a10 70%);z-index:1}
+    @keyframes coilSpin{to{transform:rotate(360deg)}}
+    .coils-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;font-family:var(--mono);font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(200,184,138,0.5);text-align:center;line-height:1.6}
+    .work-panel.coils-panel{border:1px solid rgba(139,58,46,0.15)}
+    .work-panel.coils-panel:hover{border-color:rgba(139,58,46,0.35);background:#0f0f14}
+
     /* HINT ROW */
     .hints{font-family:var(--mono);font-size:9px;color:rgba(200,184,138,0.28);letter-spacing:0.12em;text-align:center;padding:24px 16px;position:relative;z-index:1;background:var(--bg);border-top:1px solid rgba(200,184,138,0.06)}
   </style>
@@ -386,11 +395,21 @@
       <div class="work-label sr">Selected Work</div>
       <div class="work-scroll">
 
-        <!-- PUBLIC REPOS FIRST -->
+        <!-- ENTRENCHED COILS — FEATURED -->
+        <a href="https://aureliex.com/letters/entrenched-coils" target="_blank" class="work-panel coils-panel" style="text-decoration:none;color:inherit">
+          <div class="watched" data-w="0"></div>
+          <div class="work-panel-img"><div class="coils-art"><div class="coils-label">tension-weighted<br>memory</div></div></div>
+          <div class="work-panel-idx">01</div>
+          <div class="work-panel-name">Entrenched Coils</div>
+          <div class="work-panel-desc">Memory architecture where disagreement is the retrieval signal. Anti-echo-chamber by design. 687 nodes, 1,768 edges, audited.</div>
+          <div class="work-panel-tags"><span class="work-panel-tag">Python</span><span class="work-panel-tag">pgvector</span><span class="work-panel-tag">HDBSCAN</span><span class="work-panel-tag">SAE</span></div>
+          <span class="work-panel-gh">Read the letter</span>
+        </a>
+
         <a href="https://www.duttapad.com/demo" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
           <div class="watched" data-w="0"></div>
           <div class="work-panel-img"><img src="ss3.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center 55%;" /></div>
-          <div class="work-panel-idx">01</div>
+          <div class="work-panel-idx">02</div>
           <div class="work-panel-name">Canvas</div>
           <div class="work-panel-desc">Infinite diary. Click anywhere to write. Entries connect by proximity. 8.9k lines, no framework.</div>
           <div class="work-panel-tags"><span class="work-panel-tag">Vanilla JS</span><span class="work-panel-tag">PostgreSQL</span></div>
@@ -400,7 +419,7 @@
         <a href="https://github.com/saapai/jarvis" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
           <div class="watched" data-w="0"></div>
           <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#0a1a12,#123020,#0a1a12)"></div></div>
-          <div class="work-panel-idx">02</div>
+          <div class="work-panel-idx">03</div>
           <div class="work-panel-name">Jarvis</div>
           <div class="work-panel-desc">Production SMS bot. Announcements, polls, Q&A, personality engine, Slack integration.</div>
           <div class="work-panel-tags"><span class="work-panel-tag">Python</span><span class="work-panel-tag">Twilio</span><span class="work-panel-tag">pgvector</span></div>
@@ -410,7 +429,7 @@
         <a href="https://github.com/saapai/enclave-mvp" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
           <div class="watched" data-w="0"></div>
           <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#0c1428,#162040,#0c1428)"></div></div>
-          <div class="work-panel-idx">03</div>
+          <div class="work-panel-idx">04</div>
           <div class="work-panel-name">Enclave</div>
           <div class="work-panel-desc">AI knowledge management for orgs. Hybrid search across Docs, Slack, Calendar. SMS bot.</div>
           <div class="work-panel-tags"><span class="work-panel-tag">Next.js</span><span class="work-panel-tag">Supabase</span><span class="work-panel-tag">Mistral</span></div>
@@ -420,7 +439,7 @@
         <a href="https://aureliex.com" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
           <div class="watched" data-w="0"></div>
           <div class="work-panel-img"><img src="img-archive.png" alt="" style="width:100%;height:100%;object-fit:cover;object-position:top;" /></div>
-          <div class="work-panel-idx">04</div>
+          <div class="work-panel-idx">05</div>
           <div class="work-panel-name">Aureliex</div>
           <div class="work-panel-desc">$3,454 to $100K public experiment. Prediction markets, art auction, launch trailer, 13 easter eggs.</div>
           <div class="work-panel-tags"><span class="work-panel-tag">Next.js</span><span class="work-panel-tag">Vercel KV</span><span class="work-panel-tag">Three.js</span></div>
@@ -430,7 +449,7 @@
         <a href="https://github.com/saapai/club_inbox" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
           <div class="watched" data-w="0"></div>
           <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#1a1028,#2a1840,#1a1028)"></div></div>
-          <div class="work-panel-idx">05</div>
+          <div class="work-panel-idx">06</div>
           <div class="work-panel-name">Club Inbox</div>
           <div class="work-panel-desc">AI claims extraction from paste, Sheets, or photos. Category org, evidence tracking.</div>
           <div class="work-panel-tags"><span class="work-panel-tag">Next.js</span><span class="work-panel-tag">Supabase</span><span class="work-panel-tag">GPT-4</span></div>
@@ -440,7 +459,7 @@
         <a href="https://github.com/saapai/ultramemory" target="_blank" class="work-panel" style="text-decoration:none;color:inherit">
           <div class="watched" data-w="0"></div>
           <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#10182a,#1a2840,#10182a)"></div></div>
-          <div class="work-panel-idx">06</div>
+          <div class="work-panel-idx">07</div>
           <div class="work-panel-name">UltraMemory</div>
           <div class="work-panel-desc">ChatGPT-to-Cursor memory bus. File tracking, semantic search, real-time SSE sync.</div>
           <div class="work-panel-tags"><span class="work-panel-tag">Python</span><span class="work-panel-tag">React</span><span class="work-panel-tag">Vercel</span></div>
@@ -448,15 +467,6 @@
         </a>
 
         <!-- PRIVATE / NO LINK -->
-        <div class="work-panel">
-          <div class="watched" data-w="0"></div>
-          <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#0e1822,#183040,#0e1822)"></div></div>
-          <div class="work-panel-idx">07</div>
-          <div class="work-panel-name">Entrenched Coils</div>
-          <div class="work-panel-desc">Knowledge graph that sleeps. Hebbian consolidation, trench geometry, hybrid retrieval.</div>
-          <div class="work-panel-tags"><span class="work-panel-tag">Python</span><span class="work-panel-tag">pgvector</span><span class="work-panel-tag">HDBSCAN</span></div>
-        </div>
-
         <div class="work-panel">
           <div class="watched" data-w="0"></div>
           <div class="work-panel-img"><div class="grad" style="background:linear-gradient(135deg,#1a1808,#302a10,#1a1808)"></div></div>
