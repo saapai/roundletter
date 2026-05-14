@@ -19,22 +19,20 @@ export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
   const live = fmtMoney(data.total);
   return {
-    title: `aureliex · ${live} now → $100,000 by june 21`,
-    description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
+    title: `aureliex · ${live}`,
+    description: `real money, live positions, published in full. ${live} and counting.`,
     openGraph: {
-      title: `aureliex · ${live} now → $100,000 by june 21`,
-      description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
+      title: `aureliex · ${live}`,
+      description: `real money, live positions, published in full. ${live} and counting.`,
       url: "https://aureliex.com",
       siteName: "aureliex",
-      images: [{ url: "/hero/cityscape.png", width: 1376, height: 768 }],
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
-      title: `aureliex · ${live} now → $100,000 by june 21`,
-      description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
+      title: `aureliex · ${live}`,
+      description: `real money, live positions, published in full. ${live} and counting.`,
       creator: "@saapai",
-      images: ["/hero/cityscape.png"],
     },
   };
 }
