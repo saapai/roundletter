@@ -175,7 +175,7 @@ export default function EntrenchedCoilsPaper() {
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
           <h2>What happened</h2>
           <p>
-            Three conditions, side by side. Our system. The industry default. No memory at all.
+            We tested three conditions side by side: our tension-weighted system, the industry default (retrieve by agreement), and no memory at all.
           </p>
           <div style={{ overflowX: "auto" }}>
             <table className="md-table" style={{ width: "100%", marginBottom: "0.5rem" }}>
