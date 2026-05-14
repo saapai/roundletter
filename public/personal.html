@@ -72,10 +72,8 @@
     .nav-pill-toggle{display:flex;align-items:center;justify-content:center;width:36px;height:36px;cursor:pointer;flex-shrink:0}
     .nav-pill-toggle svg{opacity:0.6;transition:opacity 0.2s}
     .nav-pill-toggle:hover svg{opacity:1}
-    .eye-toggle-top,.eye-toggle-bot{transition:d 0.4s cubic-bezier(0.4,0,0.2,1)}
+    .eye-toggle-top,.eye-toggle-bot{transition:d 0.4s cubic-bezier(0.4,0,0.2,1);will-change:d}
     .eye-toggle-pupil{transition:opacity 0.25s ease,r 0.3s ease;transform-origin:center}
-    .nav-pill.collapsed .eye-toggle-top{d:path("M 3 10 Q 10 10 17 10")}
-    .nav-pill.collapsed .eye-toggle-bot{d:path("M 3 10 Q 10 10 17 10")}
     .nav-pill.collapsed .eye-toggle-pupil{opacity:0;r:0}
     .nav-pill-links{display:flex;align-items:center;overflow:hidden;max-width:250px;transition:max-width 0.5s cubic-bezier(0.16,1,0.3,1),opacity 0.3s}
     .nav-pill.collapsed .nav-pill-links{max-width:0;opacity:0}
@@ -1024,12 +1022,15 @@ const eyeDirections=[
   {top:'M 4 4 Q 14 6 16 16',bot:'M 4 4 Q 6 14 16 16'},       // oblique ↘
   {top:'M 16 4 Q 6 6 4 16',bot:'M 16 4 Q 14 14 4 16'},       // oblique ↙
 ];
+const CLOSED='M 3 10 Q 10 10 17 10';
 let eyeDir=0;
+const eTop=document.querySelector('.eye-toggle-top'),eBot=document.querySelector('.eye-toggle-bot');
+// Set initial closed state on mobile
+if(innerWidth<=640){eTop.setAttribute('d',CLOSED);eBot.setAttribute('d',CLOSED);}
 document.getElementById('navToggle').addEventListener('click',()=>{
   const pill=document.getElementById('navPill');
   const wasCollapsed=pill.classList.contains('collapsed');
   pill.classList.toggle('collapsed');
-  // On mobile, push eyes down when expanded, back up when collapsed
   if(innerWidth<=640){
     document.getElementById('eyes').style.top=wasCollapsed?'50px':'12px';
   }
@@ -1037,8 +1038,12 @@ document.getElementById('navToggle').addEventListener('click',()=>{
     // Opening — pick a new random direction
     eyeDir=(eyeDir+1+Math.floor(Math.random()*3))%eyeDirections.length;
     const d=eyeDirections[eyeDir];
-    document.querySelector('.eye-toggle-top').style.d='path("'+d.top+'")';
-    document.querySelector('.eye-toggle-bot').style.d='path("'+d.bot+'")';
+    eTop.setAttribute('d',d.top);
+    eBot.setAttribute('d',d.bot);
+  } else {
+    // Closing — shut the eye
+    eTop.setAttribute('d',CLOSED);
+    eBot.setAttribute('d',CLOSED);
   }
 });
 // "Say Hi" echo
