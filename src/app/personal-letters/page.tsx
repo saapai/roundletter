@@ -55,8 +55,28 @@ export default function PersonalLetters() {
       </header>
 
       <ol style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        <li style={{ borderTop: "1px solid #e0e0e0", borderBottom: "1px solid #e0e0e0" }}>
+          <Link
+            href="/about-the-method"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              padding: "1rem 0",
+              textDecoration: "none",
+              color: "inherit",
+              gap: "1rem",
+            }}
+          >
+            <span style={{ display: "flex", flexDirection: "column", gap: "0.15rem", flex: 1 }}>
+              <span style={{ fontSize: "1rem", fontWeight: 500 }}>The Method</span>
+              <span style={{ fontSize: "0.78rem", color: "#999" }}>taylor series · meaning · attention as capital · the new house</span>
+            </span>
+            <span style={{ fontSize: "0.78rem", color: "#aaa", whiteSpace: "nowrap" }}>2026-04-15</span>
+          </Link>
+        </li>
         {letters.map((l, i) => (
-          <li key={l.slug} style={{ borderTop: i === 0 ? "1px solid #e0e0e0" : "none", borderBottom: "1px solid #e0e0e0" }}>
+          <li key={l.slug} style={{ borderBottom: "1px solid #e0e0e0" }}>
             <Link
               href={`/letters/${l.slug}`}
               style={{
@@ -77,25 +97,6 @@ export default function PersonalLetters() {
             </Link>
           </li>
         ))}
-        <li style={{ borderBottom: "1px solid #e0e0e0" }}>
-          <Link
-            href="/about-the-method"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "baseline",
-              padding: "1rem 0",
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            <span style={{ display: "flex", flexDirection: "column", gap: "0.15rem" }}>
-              <span style={{ fontSize: "1rem", fontWeight: 500 }}>The Method</span>
-              <span style={{ fontSize: "0.78rem", color: "#999" }}>taylor series · meaning · attention as capital</span>
-            </span>
-            <span style={{ fontSize: "0.78rem", color: "#aaa" }}>2026-04-15</span>
-          </Link>
-        </li>
       </ol>
 
       <footer style={{ marginTop: "3rem", paddingTop: "1.5rem", borderTop: "1px solid #e0e0e0", fontSize: "0.78rem", color: "#aaa" }}>

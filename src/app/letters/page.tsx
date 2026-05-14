@@ -65,6 +65,15 @@ export default async function LettersIndex() {
 
       <section className="page-section">
         <ol className="letters-list">
+          <li>
+            <Link href="/about-the-method" className="pathlink letters-list-row">
+              <span className="letters-list-title">The Method</span>
+              <span className="letters-list-date">2026-04-15</span>
+            </Link>
+            <span style={{ display: "block", fontSize: "0.78rem", color: "var(--graphite)", marginTop: "-0.25rem", marginBottom: "0.5rem", paddingLeft: "0.25rem" }}>
+              taylor series · meaning of life · attention as capital · the new house
+            </span>
+          </li>
           {letters.map((l) => (
             <li key={l.slug}>
               <Link href={`/letters/${l.slug}`} className="pathlink letters-list-row">
@@ -78,15 +87,6 @@ export default async function LettersIndex() {
               )}
             </li>
           ))}
-          <li>
-            <Link href="/about-the-method" className="pathlink letters-list-row">
-              <span className="letters-list-title">The Method</span>
-              <span className="letters-list-date">2026-04-15</span>
-            </Link>
-            <span style={{ display: "block", fontSize: "0.78rem", color: "var(--graphite)", marginTop: "-0.25rem", marginBottom: "0.5rem", paddingLeft: "0.25rem" }}>
-              taylor series · meaning of life · attention as capital · the new house
-            </span>
-          </li>
         </ol>
       </section>
 
