@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ViewTracker from "@/components/ViewTracker";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Entrenched Coils — a paper on tension-weighted memory",
   description:
