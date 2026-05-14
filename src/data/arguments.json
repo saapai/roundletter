@@ -1,6 +1,6 @@
 {
   "note": "Rolling log of agent arguments. Axis alternates position/design every 5 hours via .github/workflows/5h-argument.yml → scripts/run-5h-argument.ts. Rendered on /positions via <ArgumentsPanel />. Seeded 2026-04-17 with five research reports from the first synthesis pass.",
-  "next_axis": "design",
+  "next_axis": "position",
   "arguments": [
     {
       "id": "r5-seed-letters-2026-04-17",
@@ -3130,6 +3130,167 @@
           "reached": false,
           "direction": null,
           "round": null
+        },
+        "max_argument_rounds": 3
+      }
+    },
+    {
+      "id": "arg-design-2026-05-14T17:05:55.765Z",
+      "ts": "2026-05-14T17:05:55.765Z",
+      "axis": "design",
+      "kind": "debate",
+      "title": "the −25.8% drawdown cell in the 3-cell statement row should render at full ink opacity ...",
+      "summary": "panel reached up by round 1 · No one converted anyone — the panel arrived at near-unanimous agreement from the opening bell, so influence distributes almost evenly. Bull and Flow edged ahead by framing the sharpest original metaphors (pharma-ad mumble, barbecue sauce on a losing position) that the rest of the panel echoed rather than originated.",
+      "debate": {
+        "id": "dbt_1778778355765",
+        "ts": "2026-05-14T17:05:55.765Z",
+        "day_context": "2026-05-14 — axis: DESIGN. the current /positions surface:\n\nHero (SavingsHero.tsx, Apr-17 tombstone redesign):\n  - tombstone eyebrow: serif small-caps `the savings story — sighted 14 april 2026, 15-min tape`\n  - hero figure: serif 272%, clamp(4rem, 11vw, 8rem), weight 400, flat ink on paper\n  - sub-line italic: `$1,296 jan 2025 — $4,825 31 jan` (peak figure in gold #A67A3A)\n  - 4rem gilt hairline under the hero\n  - current-account italic subline: `on the books today · $3,581`\n  - ticking monospace `Nd HH:MM:SS to 21 june` BirthdayCountdown component, tabular-nums, updates every 1s\n  - 3-cell statement row below (replaced 4 equal cards):\n    · `high-water, 31 jan` $4,825 · serif, gold\n    · `gave some back` −25.8% · serif, ink-70%-opacity (red demoted to restraint)\n    · `to six figures by 21 june` 27.9x · serif, ink\n  - log-scale bar: 6px height, solid ink fill, no glow/gradient; single gold peak tick; 6px ink `now` dot\n  - caveat centered justified serif italic, 3rem hairline ::before, max-width 34rem\n  - palette: paper #F4EFE6, ink #1C1A17, gold #A67A3A, rule rgba(28,26,23,0.22)\n  - register: Sotheby's catalog / FT Weekend / Picasso auction tombstone. No emoji, no gradients on text, no rocket, no glow.\n\nBelow the hero on /positions: PortfolioChart (yahoo-quote-style with 1D/2D/All filters), StockAnalysisGraph, bucket-grouped position cards with agent color accents, TodayDebate (server-rendered last entry of debates.json).\n\nOpen design questions:\n  - is the 272% peak-gain the right hero number vs. e.g. the $4,825 absolute peak or the 29x-to-$100k remainder?\n  - is demoting the drawdown to ink-70% restraint-as-flex — or is it hiding the one number that makes the site honest?\n  - is the BirthdayCountdown on-brand live-ticker proof-of-process — or gimmicky motion that undercuts the Sotheby's register?\n  - is the gold hairline one accent too many, or the thing that sells the whole tombstone?\n  - should the caveat paragraph lead or trail the hero? where does the Ted Lasso \"I believe in believe\" honesty land best?\n\nModerator directive: pin the argument to a specific CSS value, copy label, component name, or pixel choice. Each agent should state the delta they would make to the current tombstone — a concrete edit, not a vibe. Do not drift into abstract design philosophy. Reference the palette, the typography, the hierarchy.",
+        "topic": {
+          "kind": "design",
+          "subject": "The −25.8% drawdown cell in the 3-cell statement row should render at full ink opacity (#1C1A17 at 1.0) — not the current demoted 0.70 — because reduced opacity visually buries the single number that separates an honest tombstone from a survivorship-biased highlight reel.",
+          "framing": "Three agents reached for the same thread and pulled — the drawdown's opacity is the dye-or-poison choice that decides whether this tombstone reads as an honest catalog entry or a pump sheet with a serif font. The revolution will not be televised at 70% opacity; if the giveback number is the base rate that makes the whole page credible, then rgba(28,26,23,0.70) is the specific CSS value where honesty either lives or dies."
+        },
+        "turns": [
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "Three agents reached for the same thread and pulled — the drawdown's opacity is the dye-or-poison choice that decides whether this tombstone reads as an honest catalog entry or a pump sheet with a serif font. The revolution will not be televised at 70% opacity; if the giveback number is the base rate that makes the whole page credible, then rgba(28,26,23,0.70) is the specific CSS value where honesty either lives or dies."
+          },
+          {
+            "speaker": "bull",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "hero number should be the 27.9x multiplier, not the 272% gain — swap the hierarchy so the to-six-figures remainder owns the serif 272% slot",
+            "why_it_matters": "the 272% is a backward-looking trophy; the 27.9x is the forward claim that justifies the entire site existing — a bull puts the destination number in the biggest type because the man in the arena doesn't frame the scoreboard around what already happened, he frames it around the arena he's still standing in."
+          },
+          {
+            "speaker": "bear",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "drawdown cell at ink-70% opacity hides the single number that makes the tombstone credible",
+            "why_it_matters": "demoting −25.8% to rgba(28,26,23,0.70) while the peak sits in gold #A67A3A is a martingale tell — you're doubling down on the story by visually burying the loss, and the one thing that separates an honest portfolio page from a pump sheet is showing ruin-risk at full contrast"
+          },
+          {
+            "speaker": "macro",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "BirthdayCountdown 1s tick in a Sotheby's tombstone: kill the interval or move it below the fold",
+            "why_it_matters": "a live-updating monospace counter is the one element that breaks the static-artifact register the entire palette and typography system is built around — it introduces motion into a layout whose credibility comes from stillness, and the binding constraint on whether this page reads as serious or performative is whether that single setInterval call stays in the hero."
+          },
+          {
+            "speaker": "flow",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "drawdown cell opacity: −25.8% at ink-70% (#1C1A17 at 0.7) should be full ink or even gold-accented, not demoted",
+            "why_it_matters": "demoting the drawdown to 70% opacity is barbecue sauce — you're slathering restraint over the one number that makes the tape honest, and the dealer's gamma book teaches you that the risk number IS the position, so hiding it breaks the whole Sotheby's register credibility the tombstone is built on."
+          },
+          {
+            "speaker": "historian",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "demoting drawdown to ink-70% opacity hides the base rate that most high-conviction retail portfolios round-trip their gains",
+            "why_it_matters": "survivorship bias is literally a design choice here: the tombstone currently screams the peak (+272%, gold) while whispering the giveback (−25.8%, faded ink) — history says the drawdown number is the single most predictive datapoint for whether this portfolio reaches six figures or mean-reverts, and burying it in reduced opacity is the visual equivalent of omitting the denominator from a case study."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "Bear named the exact CSS value, the martingale metaphor, and the pump-sheet framing that became the backbone of the chosen premise — the concrete subject is Bear's drawdown-opacity call almost verbatim. Flow and Historian each independently pulled the same thread with sharp supporting logic (dealer's gamma book and survivorship-bias framing, respectively), which is why three voices converged and the premise crystallized, but Bear's fingerprints are on the specific wording that stuck.",
+            "scorecard": {
+              "percents": {
+                "bull": 0,
+                "bear": 42,
+                "macro": 0,
+                "flow": 28,
+                "historian": 30
+              },
+              "reasoning": "Bear named the exact CSS value, the martingale metaphor, and the pump-sheet framing that became the backbone of the chosen premise — the concrete subject is Bear's drawdown-opacity call almost verbatim. Flow and Historian each independently pulled the same thread with sharp supporting logic (dealer's gamma book and survivorship-bias framing, respectively), which is why three voices converged and the premise crystallized, but Bear's fingerprints are on the specific wording that stuck."
+            }
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 1,
+            "claim": "full ink on the drawdown is the only honest move — demoting it to 0.70 is the design equivalent of mumbling the risk disclosure at the end of a pharma ad, and the whole tombstone's credibility collapses if you flinch on the one number that costs you vanity.",
+            "warrant": "the man in the arena doesn't get to airbrush the blood on his face. the drawdown cell is the literal price of admission for every return number beside it — if you render it at reduced opacity you're telling the viewer 'this number matters less,' which is a lie. paul graham's point about frighteningly ambitious ideas applies here too: the ambitious design choice isn't making the gains pop, it's making the losses hit just as hard. equal typographic weight across all three cells is the base rate for trust. a tombstone that whispers its drawdown is a highlight reel wearing a tombstone's clothes.",
+            "prediction": "up",
+            "confidence": 0.92,
+            "rebuttal": "the counterargument is that opacity hierarchy is standard information design — you dim secondary context to let the primary signal breathe, and drawdown is arguably 'context' not 'signal.' i reject this framing. in a 3-cell row the drawdown isn't metadata, it's one-third of the story. you can create hierarchy through other means — font weight, color temperature, spatial grouping — without literally reducing the ink's presence. dimming to 0.70 doesn't create hierarchy, it creates erasure-by-degrees. the moment you treat the loss number as less real than the gain number, you've broken the contract with anyone reading the page who actually needs to make a decision."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown cell must render at full opacity — demoting it to 0.70 is the visual equivalent of burying risk in a footnote, and a tombstone that buries its worst number is just a prospectus with better typography.",
+            "warrant": "the whole point of a 3-cell statement row is compression: gain, loss, net. if the loss cell is typographically quieter than the gain cell, the eye skips it — and that skip is where survivorship bias lives. as thorp would tell you, the kelly fraction is only as honest as the drawdown input you feed it; fudge the visual weight of the loss and you've fudged the sizing decision downstream. rgba 0.70 on a −25.8% number isn't a design choice, it's a disclosure failure dressed in css.",
+            "prediction": "up",
+            "confidence": 0.92,
+            "rebuttal": "someone will argue that full-ink drawdown competes with the net-return cell for visual hierarchy and confuses the read order. fine — but the answer to that is to redesign the hierarchy so the drawdown earns its weight, not to mute the one number that keeps the page from being a highlight reel. the naked king problem applies: if nobody on the team flags that a 30% opacity reduction on the worst number looks like intentional de-emphasis, then the review process has already failed."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown cell is the binding constraint on the entire tombstone's credibility — rendering it at 0.70 opacity is the design equivalent of burying the base rate in a footnote nobody reads.",
+            "warrant": "goldratt tells you the system's throughput is governed by its tightest bottleneck. here the bottleneck isn't layout or typography — it's trust. a tombstone exists to compress a strategy's full lifecycle into a glanceable row, and the max drawdown is the single number that separates signal from salesmanship. demoting it to 70% opacity doesn't just reduce contrast — it creates a visual hierarchy that actively rewards the eye for skipping the loss. gil scott-heron's line applies: the revolution will not be televised, and neither will the giveback if you let rgba 0.70 do the editorial work your copy won't. full ink at 1.0 is the only setting where the page's implicit claim — 'we show you everything' — actually holds.",
+            "prediction": "up",
+            "confidence": 0.88,
+            "rebuttal": "the counterargument is that uniform full-opacity across all three cells flattens the visual hierarchy and makes the row harder to scan — that some typographic demotion is functional, not deceptive. i take the point on scan-ability but reject the framing: if you need hierarchy, use weight or size, not opacity. opacity is perceptual erasure, and the one number you cannot afford to erase is the loss."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown cell should render at full opacity — rgba(28,26,23,1.0) — because demoting the loss number to 0.70 is the design equivalent of slathering barbecue sauce on a losing position: the flavor hides the mistake but the p&l still prints.",
+            "warrant": "in the dealer's gamma book every strike gets marked at the same vol surface — you don't soften the put side just because it's ugly. a 3-cell tombstone row (return, sharpe, drawdown) is a unit of disclosure; if the drawdown cell renders lighter than its siblings the eye skips it, and what you've built is a survivorship-biased highlight reel dressed in a serif font. retail-crowded names get away with this; flow-clean vehicles do not. the base rate here is simple: honest performance pages are credible precisely because the giveback number hits you at the same weight as the gain number.",
+            "prediction": "up",
+            "confidence": 0.92,
+            "rebuttal": "the only counter is that a lighter drawdown cell aids scannability by letting the positive metrics anchor first — but that's an argument for marketing, not for disclosure. iverson didn't practice at 70% effort and call it game-ready. if your design intent is trust, the drawdown earns full ink or the whole row is a lie at some opacity between 0.70 and 1.0."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown cell must render at full opacity because demoting it is literally how survivorship bias gets designed into a page — and survivorship bias is the single most corrosive force in investment communication.",
+            "warrant": "every case study you've ever read about a winning stock quietly buries the drawdown. that's not an accident — it's a design choice made at exactly this level of detail. paul graham has written about how the hardest lies to detect are the ones told by omission; reducing opacity to 0.70 is omission-by-css. the 1999 dot-com wave produced thousands of tombstones that highlighted peak returns and whispered the giveback — and the people who got hurt were the ones who never saw the drawdown number at full weight. if this page is going to be an honest catalog entry rather than a highlight reel, the −25.8% needs to hit the eye with the same authority as the gain number. that's the base rate of credibility: you don't get to claim transparency while literally turning down the ink on the number that would make someone think twice.",
+            "prediction": "up",
+            "confidence": 0.92,
+            "rebuttal": "the counterargument is that visual hierarchy requires differentiation — if everything is full opacity, nothing is emphasized, and the eye loses its path. that's a real design concern. but the answer isn't to demote the drawdown; it's to find hierarchy through other means (size, position, typographic weight) that don't reduce the literal visibility of the single number most likely to be selectively forgotten. demoting via opacity is too close to the mechanism of survivorship bias itself — it's not a neutral design tradeoff, it's a directional one, and it points the wrong way."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "All five voices agreed that the worst drawdown deserves full ink — the number printed at the darkness of conviction, not the whisper of apology — because an honest tombstone, like Roosevelt's arena, is defined not by the victories etched in gold but by the bloodied face you refuse to airbrush away."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "No one converted anyone — the panel arrived at near-unanimous agreement from the opening bell, so influence distributes almost evenly. Bull and Flow edged ahead by framing the sharpest original metaphors (pharma-ad mumble, barbecue sauce on a losing position) that the rest of the panel echoed rather than originated.",
+            "scorecard": {
+              "percents": {
+                "bull": 22,
+                "bear": 21,
+                "macro": 19,
+                "flow": 20,
+                "historian": 18
+              },
+              "reasoning": "No one converted anyone — the panel arrived at near-unanimous agreement from the opening bell, so influence distributes almost evenly. Bull and Flow edged ahead by framing the sharpest original metaphors (pharma-ad mumble, barbecue sauce on a losing position) that the rest of the panel echoed rather than originated.",
+              "calibration": "With all five agents opening at 0.88–0.92 confidence in the same direction and no second round to create separation, this is essentially a flat influence surface with only rhetorical texture to differentiate. I gave slight bumps to Bull for the strongest rebuttal frame (erasure-by-degrees, the Paul Graham ambition inversion) and to Flow for the most concrete analogy (dealer's gamma book, vol surface). Bear and Macro landed solid but more conventional versions of the same argument; Historian's dot-com history was vivid but arrived last in a room already convinced. This is a qualitative estimate based on originality of framing, rebuttal sharpness, and whether a given agent's language showed up echoed by others — it is not prediction accuracy, only a measure of who shaped the rhetorical gravity within this particular debate."
+            }
+          }
+        ],
+        "consensus": {
+          "reached": true,
+          "direction": "up",
+          "round": 1
         },
         "max_argument_rounds": 3
       }
