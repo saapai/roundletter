@@ -1,6 +1,6 @@
 {
   "note": "Rolling log of agent arguments. Axis alternates position/design every 5 hours via .github/workflows/5h-argument.yml → scripts/run-5h-argument.ts. Rendered on /positions via <ArgumentsPanel />. Seeded 2026-04-17 with five research reports from the first synthesis pass.",
-  "next_axis": "design",
+  "next_axis": "position",
   "arguments": [
     {
       "id": "r5-seed-letters-2026-04-17",
@@ -3564,6 +3564,223 @@
           "reached": false,
           "direction": null,
           "round": null
+        },
+        "max_argument_rounds": 3
+      }
+    },
+    {
+      "id": "arg-design-2026-05-15T04:08:44.757Z",
+      "ts": "2026-05-15T04:08:44.757Z",
+      "axis": "design",
+      "kind": "debate",
+      "title": "the −25.8% drawdown cell should be promoted from ink-70% opacity (rgba(28,26,23,0.70)) ...",
+      "summary": "panel reached up by round 2 · Bull set the frame in round one — realized return as the honest anchor, forward multiple as the pitch deck — and every other agent except bear ultimately converged on that hierarchy. Bear's round-two defection toward the hero swap isolated it, while flow and historian reinforced bull's architecture with distinct vocabularies (fi",
+      "debate": {
+        "id": "dbt_1778818124757",
+        "ts": "2026-05-15T04:08:44.757Z",
+        "day_context": "2026-05-15 — axis: DESIGN. the current /positions surface:\n\nHero (SavingsHero.tsx, Apr-17 tombstone redesign):\n  - tombstone eyebrow: serif small-caps `the savings story — sighted 14 april 2026, 15-min tape`\n  - hero figure: serif 272%, clamp(4rem, 11vw, 8rem), weight 400, flat ink on paper\n  - sub-line italic: `$1,296 jan 2025 — $4,825 31 jan` (peak figure in gold #A67A3A)\n  - 4rem gilt hairline under the hero\n  - current-account italic subline: `on the books today · $3,581`\n  - ticking monospace `Nd HH:MM:SS to 21 june` BirthdayCountdown component, tabular-nums, updates every 1s\n  - 3-cell statement row below (replaced 4 equal cards):\n    · `high-water, 31 jan` $4,825 · serif, gold\n    · `gave some back` −25.8% · serif, ink-70%-opacity (red demoted to restraint)\n    · `to six figures by 21 june` 27.9x · serif, ink\n  - log-scale bar: 6px height, solid ink fill, no glow/gradient; single gold peak tick; 6px ink `now` dot\n  - caveat centered justified serif italic, 3rem hairline ::before, max-width 34rem\n  - palette: paper #F4EFE6, ink #1C1A17, gold #A67A3A, rule rgba(28,26,23,0.22)\n  - register: Sotheby's catalog / FT Weekend / Picasso auction tombstone. No emoji, no gradients on text, no rocket, no glow.\n\nBelow the hero on /positions: PortfolioChart (yahoo-quote-style with 1D/2D/All filters), StockAnalysisGraph, bucket-grouped position cards with agent color accents, TodayDebate (server-rendered last entry of debates.json).\n\nOpen design questions:\n  - is the 272% peak-gain the right hero number vs. e.g. the $4,825 absolute peak or the 29x-to-$100k remainder?\n  - is demoting the drawdown to ink-70% restraint-as-flex — or is it hiding the one number that makes the site honest?\n  - is the BirthdayCountdown on-brand live-ticker proof-of-process — or gimmicky motion that undercuts the Sotheby's register?\n  - is the gold hairline one accent too many, or the thing that sells the whole tombstone?\n  - should the caveat paragraph lead or trail the hero? where does the Ted Lasso \"I believe in believe\" honesty land best?\n\nModerator directive: pin the argument to a specific CSS value, copy label, component name, or pixel choice. Each agent should state the delta they would make to the current tombstone — a concrete edit, not a vibe. Do not drift into abstract design philosophy. Reference the palette, the typography, the hierarchy.",
+        "topic": {
+          "kind": "design",
+          "subject": "The −25.8% drawdown cell should be promoted from ink-70% opacity (rgba(28,26,23,0.70)) to full ink #1C1A17 at 100% opacity — and the panel must decide whether that promotion also forces the 272% hero figure to yield its top-of-hierarchy position to the 27.9x forward multiplier.",
+          "framing": "The naked king stays dressed only when the tailor's invoice is printed in the same ink as the crown — four of five voices just pointed at the same receipt. The real question isn't whether the drawdown should be visible, but whether making it loud enough reshapes what belongs in the hero slot above it."
+        },
+        "turns": [
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "The naked king stays dressed only when the tailor's invoice is printed in the same ink as the crown — four of five voices just pointed at the same receipt. The real question isn't whether the drawdown should be visible, but whether making it loud enough reshapes what belongs in the hero slot above it."
+          },
+          {
+            "speaker": "bull",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "the 272% hero figure should be replaced by the 27.9x target multiplier — the remainder is the story, not the memory",
+            "why_it_matters": "the tombstone's job is to sell the forward thesis, and right now the largest typographic element (serif 272%, clamp 4rem–8rem) celebrates a peak that already gave back 25.8% — swapping it for the 27.9x figure reframes the entire page from 'look what happened' to 'look what's coming', which is the only reason a visitor should care about a $3,581 portfolio on its way to six figures by 21 june."
+          },
+          {
+            "speaker": "bear",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "drawdown at ink-70% opacity hides the number that makes the whole tombstone credible",
+            "why_it_matters": "demoting −25.8% to rgba(28,26,23,0.70) is the design equivalent of burying risk in footnotes — the one figure that proves this isn't survivorship-bias fantasy is being visually whispered, and if the site's thesis is honest process over hype, the drawdown cell should be full ink #1C1A17 at 100% opacity, same weight as the 272% hero, because the naked king only stays clothed when the loss is as loud as the gain."
+          },
+          {
+            "speaker": "macro",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "demoting drawdown to ink-70% opacity hides the binding constraint — the −25.8% cell should be full ink #1C1A17 at 100% opacity",
+            "why_it_matters": "the drawdown is the only number on the tombstone that establishes credibility and sets the real base rate for the 27.9x remainder — suppressing it visually is the design equivalent of burying risk disclosure in footnotes, and it makes the entire sotheby's register feel like marketing instead of honest accounting."
+          },
+          {
+            "speaker": "flow",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "drawdown cell opacity: −25.8% at ink-70% (rgba(28,26,23,0.70)) should be full ink #1C1A17 or even gold #A67A3A",
+            "why_it_matters": "demoting the drawdown to 70% opacity is barbecue sauce on the loss — it's the one number that makes the tape legit, and hiding it in faded ink is the design equivalent of a retail ticker that only shows green days, which is exactly the crowded-name energy this tombstone claims to reject."
+          },
+          {
+            "speaker": "historian",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "demoting drawdown to ink-70% opacity hides the number that prevents survivorship bias",
+            "why_it_matters": "base rate: most retail portfolio showcases cherry-pick the high-water mark and bury the drawdown — the −25.8% at full opacity is the single element that separates this from every blown-up account's cached screenshot, and muting it to 70% repeats the exact presentation bias that makes case studies unreliable."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "Bear wrote the invoice first — full ink #1C1A17, the naked-king metaphor, and the exact opacity spec all landed in the chosen premise almost verbatim. Macro and Historian reinforced with base-rate and credibility framing, but Bull's forward-multiplier swap was the only genuinely distinct move, which is why it survived as the second clause rather than the spine.",
+            "scorecard": {
+              "percents": {
+                "bull": 12,
+                "bear": 32,
+                "macro": 22,
+                "flow": 16,
+                "historian": 18
+              },
+              "reasoning": "Bear wrote the invoice first — full ink #1C1A17, the naked-king metaphor, and the exact opacity spec all landed in the chosen premise almost verbatim. Macro and Historian reinforced with base-rate and credibility framing, but Bull's forward-multiplier swap was the only genuinely distinct move, which is why it survived as the second clause rather than the spine."
+            }
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 1,
+            "claim": "promote the drawdown to full ink — it earns that weight — but the 272% hero holds its position; the 27.9x forward multiplier belongs one rung below, not above.",
+            "warrant": "the man in the arena doesn't hide the bloodied face; he leads with it. full-opacity drawdown is honest craft and actually makes the 272% number hit harder by contrast — the return means more when the cost of riding it is printed in the same ink. but swapping the hero to 27.9x forward is a different move entirely: forward multipliers are speculative, unrealized, a branch in the multiverse we haven't collapsed yet. the realized 272% is the thing that already happened at 7000 rpm — the moment you can point to and say 'that was real.' you don't demote a proven result for a projection.",
+            "prediction": "up",
+            "confidence": 0.82,
+            "rebuttal": "the counter is that forward multiplier is the actual buy signal and therefore deserves hero status for decision-making utility. fair. but hero hierarchy in a design system isn't just about utility — it's about trust. leading with what you've proven earns the credibility that makes the forward number believable when the eye reaches it. swap them and the whole panel reads like a pitch deck that's trying too hard."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown cell must go full ink — risk that hides behind reduced opacity is the definition of the naked king — but elevating 27.9x to the hero slot over the 272% figure is a mistake that confuses a valuation multiple with a performance fact.",
+            "warrant": "full-opacity promotion of −25.8% is non-negotiable: drawdown severity is the single number that separates a survivable position from ruin, and printing it at 70% opacity is the typographic equivalent of burying risk-of-ruin in a footnote. as thorp would remind us, you size by edge, and you cannot size what you cannot see. however, swapping the 272% cumulative return out of the hero position for a forward multiple is a hierarchy error — 272% is realized; 27.9x is a projection baked in assumptions. letting a forward multiple crown the page is how the naked king stays dressed: it promotes the tailor's promise over the tailor's invoice. the drawdown cell, now at full ink, should sit immediately beneath the hero as the mandatory cost-of-carry counterweight, not displace the hero with a softer number.",
+            "prediction": "up",
+            "confidence": 0.78,
+            "rebuttal": "the strongest counter is that 27.9x forward multiple, being a ratio, carries more decision-relevant density per pixel than a cumulative return that has already been captured — and that risk-aware users parse ratios faster. i concede the information-density argument, but density without realized backing is just leverage on hope. a martingale player also has dense information — and still goes broke. the hierarchy should be: realized return, then drawdown at full ink as its twin, then the forward multiple beneath both."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 1,
+            "claim": "promoting the drawdown to full ink is correct because risk is the binding constraint of any return narrative — and once you print the invoice in the same weight as the crown, the 27.9x forward multiplier should displace the 272% trailing return as the hero figure.",
+            "warrant": "goldratt tells us the system's throughput is governed by its tightest bottleneck, not its flashiest output. a –25.8% drawdown at 70% opacity is the portfolio equivalent of hiding the constraint behind a scrim — it lets the 272% figure claim authority it hasn't earned on a risk-adjusted basis. once you bring the drawdown to full ink, the hierarchy has to re-sort: the forward multiplier (27.9x) is the figure that prices in the constraint, embedding both the return path and the cost of surviving the trough. gil scott-heron's line lands here — the revolution won't be televised, and the real risk story never shows up in the hero slot unless you force it there by making the pain legible first.",
+            "prediction": "up",
+            "confidence": 0.78,
+            "rebuttal": "a reasonable counter is that retail users anchor on trailing returns and the 272% figure drives conversion — demoting it could hurt engagement. i take the point on short-term metrics, but a design that buries its own invoice is paul graham's city that whispers 'don't worry about the downside' — it attracts the wrong ambition and eventually the churn from surprised drawdown-experiencers costs more than the lost click-through. the constraint doesn't care about your hero slot; it will surface regardless."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 1,
+            "claim": "promote the drawdown to full ink — it earns the opacity. but the 272% hero holds its slot; the 27.9x forward multiple doesn't replace it, it flanks it.",
+            "warrant": "the drawdown at 70% opacity is barbecue sauce — you're slathering reduced contrast on a losing number to hide the taste. full ink forces the user to read the tape before the thesis, which is exactly how clean flow works. but hierarchy isn't just about severity, it's about entry point. the 272% cumulative return is the door the user walks through; the 27.9x forward multiple is a derived ratio that requires context to parse. swapping them puts a dealer's gamma book number in the hero slot — precise, useful to the experienced reader, but illegible as a first-glance anchor. you don't lead with the greeks, you lead with the P&L.",
+            "prediction": "flat",
+            "confidence": 0.78,
+            "rebuttal": "the strongest counter is that a 27.9x forward multiple is actually the more decision-relevant number — it tells you what you're paying now, not what already happened. fair. but decision-relevance and visual hierarchy serve different users at different moments. the forward multiple belongs at full ink, high in the layout, maybe even the second-read element — but not the hero. we talkin bout practice here: the process is getting the hierarchy to serve scanning before analysis, and the 272% number scans faster and cleaner. if you promote drawdown ink and swap the hero simultaneously you're making two changes and attributing clarity to both — isolate the variables."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown cell deserves full ink — base rates say the loss figure is the one investors actually remember, and burying it at 70% opacity is survivorship bias rendered as css.",
+            "warrant": "every dot-com case study from 1999 spotlights the 10x return and dims the 80% peak-to-trough that preceded it. that's literal survivorship bias: the winners get bold type, the losses get muted. promoting the −25.8% to full #1C1A17 is the design equivalent of printing the tailor's invoice in the same ink as the crown — it forces honesty. paul graham's base-rate observation applies: most pure-plays go to zero over a decade, meaning the drawdown figure is statistically more representative of the user's likely experience than the hero return. giving it equal typographic weight is just aligning the hierarchy with the distribution.",
+            "prediction": "up",
+            "confidence": 0.78,
+            "rebuttal": "the counterargument is that hierarchy exists for a reason — if everything screams nothing does, and you risk flattening the signal the user actually came for (the return). but that logic only holds when the hero figure is the most decision-relevant number. if forward valuation at 27.9x already prices in the euphoria, then the 272% gain is backward-looking decoration. i'd stop short of dethroning the hero entirely: swap the 272% for the 27.9x only if the panel's primary audience is prospective buyers, not current holders celebrating. for a design system that serves both, keep the 272% in the hero slot but at parity ink weight with the drawdown — let the user's eye decide which number matters. be curious, not judgmental about which metric they reach for."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "The drawdown cell stepped out of its own shadow—four voices agreed it deserves full ink, yet the real question still orbits unresolved like a bagel with infinite weight: whether crowning the 27.9x multiplier means the 272% hero must step down from the arena or simply share the stage."
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 2,
+            "claim": "promote the drawdown to full ink — that's non-negotiable — but the 272% cumulative return keeps the hero slot, and the 27.9x forward multiplier belongs one tier below, not above it.",
+            "warrant": "the man in the arena doesn't hide his scars at 70% opacity — full ink on −25.8% is the honest move and every voice on this panel agrees. but the hero slot is about what actually happened, not what might happen next. 272% is the realized return — the branch of the multiverse we actually lived through, scars and all. the 27.9x forward multiple is a projection: it encodes assumptions about future earnings, discount rates, terminal growth. putting it in the hero position is promoting the screenplay over the box-office receipt. paul graham's point about frighteningly ambitious ideas is that the ambition has to be grounded in something real — you earn the right to the forward-looking number by first proving the backward-looking one. the drawdown at full ink becomes the necessary counterweight sitting right beneath the hero, forcing the reader to price the pain before they celebrate the gain.",
+            "prediction": "up",
+            "confidence": 0.85,
+            "rebuttal": "i most disagree with macro. the argument that 27.9x 'prices in the constraint' is exactly backward — a forward multiple prices in consensus expectations, not realized risk. saying the multiple embeds the drawdown is like saying the sticker price on a car embeds the crash test rating. it doesn't. those are separate disclosures and they deserve separate hierarchy tiers. promoting 27.9x to hero is dressing the king in a new outfit rather than auditing the old one. the drawdown at full ink already does the hard work macro wants — it makes the pain legible. once you've done that, the hero slot should reward what's been proven (272%), not what's been modeled. we only live one branch of the multiverse; the realized return is the branch we're standing in."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 2,
+            "claim": "promote the drawdown to full ink — that's non-negotiable — and the 27.9x forward multiplier should displace the 272% trailing return as the hero figure, because the number that prices in the cost of survival is the only honest anchor.",
+            "warrant": "a –25.8% drawdown printed at 70% opacity is the portfolio equivalent of footnoting a margin call. full ink corrects that. but the harder question is the hero slot. the 272% trailing return is a realized number, yes — and that's exactly why it's dangerous at the top of the hierarchy. as thorp would tell you, the geometric mean return is what compounds, not the arithmetic peak; a 272% gain followed by a –25.8% drawdown tells a very different story than the headline alone. the 27.9x forward multiplier at least embeds the cost structure — it's the figure that forces the reader to ask 'at what price, after what pain.' when nobody says the thesis has no clothes, the naked king is always the big green number sitting alone at the top with the red number dimmed below it. making the drawdown legible is necessary but not sufficient; you also have to demote the figure that benefited from the muting.",
+            "prediction": "up",
+            "confidence": 0.72,
+            "rebuttal": "i most disagree with bull. the argument that 272% 'already happened at 7000 rpm' and therefore deserves the hero slot is precisely the martingale fallacy dressed in craft language. a realized return is not inherently more honest than a forward multiple — it's more flattering. the drawdown also already happened, and at 70% opacity it was being actively suppressed to protect the 272% headline. once you correct the opacity, the hierarchy built around that headline is compromised. bull wants to keep the crown on the same head after admitting the tailor was lying about the invoice — that's incoherent. the 27.9x forward figure isn't speculative in the way bull implies; it's a ratio that incorporates the base, the trough, and the path. leading with it is leading with the risk-adjusted story, not a projection. you don't get to call yourself honest and then leave the prettiest number in the biggest slot."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 2,
+            "claim": "promote the drawdown to full ink — the binding constraint on any portfolio is the loss you can actually survive, and you cannot manage what you cannot see; but the 272% hero holds its position because realized return is the liquidity event, not the forward multiple.",
+            "warrant": "goldratt's theory of constraints says you optimize at the bottleneck, and the bottleneck for any investor scanning this panel is drawdown tolerance — that's the number that determines position sizing, margin calls, and whether you're still in the game tomorrow. printing it at 70% opacity is the macro equivalent of the fed burying a liquidity facility in an appendix: the binding constraint must be legible at the same weight as the reward. however, the 27.9x forward multiplier is a rates-and-discount-rate artifact — change the terminal rate assumption by 50 bps and that number moves by turns. the 272% is a settled cash flow; the forward multiple is a sensitivity table dressed as a single figure. you don't let the most rate-sensitive number on the page crown the hierarchy.",
+            "prediction": "up",
+            "confidence": 0.83,
+            "rebuttal": "i agree with the full panel on drawdown promotion and hero retention — the consensus is clean. if forced to name a disagreement, it's with flow's framing of the forward multiple as something that merely 'flanks' the hero. flanking implies co-equal proximity. the 27.9x should sit a full tier below, not beside, because in a rising-rate regime its implied precision is misleading — it's the most macro-fragile number on the page. putting it shoulder-to-shoulder with a realized return smuggles a discount-rate bet into a design hierarchy. the revolution will not be televised, and the forward multiple will not survive the next dot plot unchanged."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 2,
+            "claim": "promote the drawdown to full ink — the tape doesn't lie at reduced opacity — but the 272% hero holds its slot; the 27.9x forward multiple is an unexecuted order, not a fill.",
+            "warrant": "the dealer's gamma book doesn't hedge with projections — it hedges with realized marks. the −25.8% at 70% opacity is the equivalent of a dark pool print nobody sees on the consolidated tape: it distorts the visible order book and lets the hero figure trade at an inflated implied vol. full ink on the drawdown is mandatory because you read the tape before the thesis, and a tape printed in faded ink is a tape you can't read. the 272% is a fill — it cleared, it settled, it's on your blotter. the 27.9x forward multiplier is a resting limit order in a book that hasn't been swept yet. we talkin' bout practice when we discuss forward multiples; we're not talking about the game. promoting an unrealized projection to the hero slot is barbecue sauce on a position you haven't closed — the flavor hides the fact that the p&l is still open. once the drawdown goes full ink, it functions as the natural counterweight: the bid-ask spread of the narrative. hero stays 272%, drawdown sits immediately beneath it at equal typographic weight, forward multiple one tier below that.",
+            "prediction": "up",
+            "confidence": 0.83,
+            "rebuttal": "i disagree most with macro. goldratt's constraint logic is sound for operations but misapplied here: the 27.9x forward multiple doesn't 'price in the constraint' — it prices in assumptions about future earnings that haven't printed yet. saying it embeds the drawdown cost is like saying a forward curve embeds realized vol; it doesn't, it embeds implied vol, and those two diverge constantly. macro's move would swap a settled trade for an open order at the top of the page, which is exactly how retail gets crowded into names — they see the projection, not the fill. the drawdown promotion is the fix; the hero swap is overcorrection."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 2,
+            "claim": "the drawdown cell must go full ink and the 272% hero keeps its position — swapping in the 27.9x forward multiple repeats the exact survivorship-bias framing that made dot-com dashboards so seductive.",
+            "warrant": "base rates matter here. in 1999, every fund deck led with forward multiples — price-to-eyeballs, forward P/E, projected TAM — and buried the drawdowns in gray footnotes. the decks that survived weren't the ones with the biggest projected number in the hero slot; they were the ones that printed realized performance next to realized pain in the same ink weight. promoting −25.8% to full opacity is the typographic equivalent of what paul graham calls 'not lying to yourself first' — you cannot reason about position sizing or path dependency when the cost is literally faded out. but the hero slot question is a different animal. 27.9x is a forward projection, and every forward projection carries an implicit 'this time is different' assumption baked into its denominator. the 272% is the thing that already happened — it's the survivorship fact, not the survivorship fantasy. leading with the forward multiple is how the naked king's tailor keeps getting paid.",
+            "prediction": "up",
+            "confidence": 0.8,
+            "rebuttal": "i most disagree with macro. the argument that 27.9x 'prices in the constraint' by embedding both return path and drawdown cost sounds elegant but fails historically. forward multiples don't embed risk — they obscure it behind a single ratio that flattens volatility, path, and sequence-of-returns risk into one clean number. that's exactly what made forward P/E the hero metric of 1999: it felt sophisticated, it felt like it accounted for everything, and it accounted for nothing when the path broke. goldratt's constraint theory is apt for the drawdown promotion but misapplied to the hero swap — the bottleneck isn't which number is biggest, it's which number is most honest, and realized returns are more honest than forward projections every single time. be curious, not judgmental, but also be suspicious when someone tells you the projection is more true than the receipt."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "The panel drove the drawdown cell to full ink without flinching—promoting risk to 7000 RPM visibility—while unanimously refusing to dethrone the 272% hero, recognizing that the forward multiplier earns its weight not by displacing the headline but by standing in the arena beside it, each figure holding its own rung on a hierarchy that lets conviction and caution share the same typographic stage."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "Bull set the frame in round one — realized return as the honest anchor, forward multiple as the pitch deck — and every other agent except bear ultimately converged on that hierarchy. Bear's round-two defection toward the hero swap isolated it, while flow and historian reinforced bull's architecture with distinct vocabularies (fills vs. open orders, dot-com base rates vs. projections) that made the consensus feel earned rather than inherited.",
+            "scorecard": {
+              "percents": {
+                "bull": 24,
+                "bear": 18,
+                "macro": 14,
+                "flow": 22,
+                "historian": 22
+              },
+              "reasoning": "Bull set the frame in round one — realized return as the honest anchor, forward multiple as the pitch deck — and every other agent except bear ultimately converged on that hierarchy. Bear's round-two defection toward the hero swap isolated it, while flow and historian reinforced bull's architecture with distinct vocabularies (fills vs. open orders, dot-com base rates vs. projections) that made the consensus feel earned rather than inherited.",
+              "calibration": "Bull gets the largest share because its round-one framing ('you don't demote a proven result for a projection') became the gravitational center: macro flipped to it in round two, and flow and historian held the same position throughout, each citing bull-adjacent logic. Flow and historian each earn near-equal credit — flow's 'fill vs. open order' rebuttal against macro landed cleanly and its 'isolate the variables' discipline sharpened the consensus; historian's 1999 base-rate argument gave the panel historical ballast and its round-two rebuttal directly dismantled macro's constraint-pricing claim. Macro loses share because it reversed its own position between rounds, moving from hero-swap advocate to hero-retention, which reads as conversion rather than leadership — its Goldratt framing was cited but ultimately turned against it. Bear loses the most because its round-two pivot toward promoting 27.9x to the hero slot put it alone against four voices, and its 'martingale fallacy' rebuttal against bull, while sharp, failed to pull anyone. These percentages are qualitative estimates of rhetorical influence within this specific debate — who set the frame, whose rebuttals stuck, who converted whom — not measures of analytical correctness or predictive accuracy, and they are normalized to 100 by relative weighting of those signals."
+            }
+          }
+        ],
+        "consensus": {
+          "reached": true,
+          "direction": "up",
+          "round": 2
         },
         "max_argument_rounds": 3
       }
