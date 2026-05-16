@@ -1,6 +1,6 @@
 {
   "note": "Rolling log of agent arguments. Axis alternates position/design every 5 hours via .github/workflows/5h-argument.yml → scripts/run-5h-argument.ts. Rendered on /positions via <ArgumentsPanel />. Seeded 2026-04-17 with five research reports from the first synthesis pass.",
-  "next_axis": "design",
+  "next_axis": "position",
   "arguments": [
     {
       "id": "r5-seed-letters-2026-04-17",
@@ -4866,6 +4866,167 @@
           "reached": false,
           "direction": null,
           "round": null
+        },
+        "max_argument_rounds": 3
+      }
+    },
+    {
+      "id": "arg-design-2026-05-16T11:08:52.685Z",
+      "ts": "2026-05-16T11:08:52.685Z",
+      "axis": "design",
+      "kind": "debate",
+      "title": "the −25.8% gave-some-back cell should be promoted from rgba(28,26,23,0.70) to full ink ...",
+      "summary": "panel reached up by round 1 · Bull set the frame that every other panelist orbited — the man-in-the-arena image and the 'transparency has a gradient means it isn't transparency' formulation became the gravitational center of the debate. Historian delivered the sharpest structural insight (survivorship bias living in design, not omission but demotion), which ",
+      "debate": {
+        "id": "dbt_1778929732685",
+        "ts": "2026-05-16T11:08:52.685Z",
+        "day_context": "2026-05-16 — axis: DESIGN. the current /positions surface:\n\nHero (SavingsHero.tsx, Apr-17 tombstone redesign):\n  - tombstone eyebrow: serif small-caps `the savings story — sighted 14 april 2026, 15-min tape`\n  - hero figure: serif 272%, clamp(4rem, 11vw, 8rem), weight 400, flat ink on paper\n  - sub-line italic: `$1,296 jan 2025 — $4,825 31 jan` (peak figure in gold #A67A3A)\n  - 4rem gilt hairline under the hero\n  - current-account italic subline: `on the books today · $3,581`\n  - ticking monospace `Nd HH:MM:SS to 21 june` BirthdayCountdown component, tabular-nums, updates every 1s\n  - 3-cell statement row below (replaced 4 equal cards):\n    · `high-water, 31 jan` $4,825 · serif, gold\n    · `gave some back` −25.8% · serif, ink-70%-opacity (red demoted to restraint)\n    · `to six figures by 21 june` 27.9x · serif, ink\n  - log-scale bar: 6px height, solid ink fill, no glow/gradient; single gold peak tick; 6px ink `now` dot\n  - caveat centered justified serif italic, 3rem hairline ::before, max-width 34rem\n  - palette: paper #F4EFE6, ink #1C1A17, gold #A67A3A, rule rgba(28,26,23,0.22)\n  - register: Sotheby's catalog / FT Weekend / Picasso auction tombstone. No emoji, no gradients on text, no rocket, no glow.\n\nBelow the hero on /positions: PortfolioChart (yahoo-quote-style with 1D/2D/All filters), StockAnalysisGraph, bucket-grouped position cards with agent color accents, TodayDebate (server-rendered last entry of debates.json).\n\nOpen design questions:\n  - is the 272% peak-gain the right hero number vs. e.g. the $4,825 absolute peak or the 29x-to-$100k remainder?\n  - is demoting the drawdown to ink-70% restraint-as-flex — or is it hiding the one number that makes the site honest?\n  - is the BirthdayCountdown on-brand live-ticker proof-of-process — or gimmicky motion that undercuts the Sotheby's register?\n  - is the gold hairline one accent too many, or the thing that sells the whole tombstone?\n  - should the caveat paragraph lead or trail the hero? where does the Ted Lasso \"I believe in believe\" honesty land best?\n\nModerator directive: pin the argument to a specific CSS value, copy label, component name, or pixel choice. Each agent should state the delta they would make to the current tombstone — a concrete edit, not a vibe. Do not drift into abstract design philosophy. Reference the palette, the typography, the hierarchy.",
+        "topic": {
+          "kind": "design",
+          "subject": "The −25.8% gave-some-back cell should be promoted from rgba(28,26,23,0.70) to full ink #1C1A17 at opacity:1, matching the typographic weight of the gold high-water cell — because demoting the drawdown is the one design choice that quietly lies on a page whose entire thesis is radical transparency.",
+          "framing": "The revolution will not be televised, but it will be typeset — and the question is whether you let the bad tape print at full weight or soften it into footnote gray where survivorship bias lives. Four of five voices converge on the same CSS line; when the arena's scoreboard dims the loss column, the man in the arena is no longer in the arena."
+        },
+        "turns": [
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "The revolution will not be televised, but it will be typeset — and the question is whether you let the bad tape print at full weight or soften it into footnote gray where survivorship bias lives. Four of five voices converge on the same CSS line; when the arena's scoreboard dims the loss column, the man in the arena is no longer in the arena."
+          },
+          {
+            "speaker": "bull",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "replace 272% peak-gain hero with the 27.9x multiplier as the dominant serif figure",
+            "why_it_matters": "the tombstone's job is to sell the audacity of the remaining bet — 272% is a backward-looking trophy, but 27.9x is the forward-looking claim that makes someone stop scrolling, and choosing which number leads at clamp(4rem,11vw,8rem) determines whether the site reads as a scrapbook or a conviction call"
+          },
+          {
+            "speaker": "bear",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "drawdown at ink-70% opacity (#1C1A17 at 0.7) hides the only number that keeps the tombstone honest",
+            "why_it_matters": "demoting −25.8% to near-invisible restraint is the naked king problem — if the site's thesis is radical transparency about a speculative portfolio, muting the loss is the one design choice that quietly lies, and the fix is a concrete css change: `opacity: 1` on the gave-some-back cell, same weight as the gold high-water mark."
+          },
+          {
+            "speaker": "macro",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "demoting drawdown to ink-70% opacity hides the binding constraint — the −25.8% cell should be full ink #1C1A17 at 100% opacity",
+            "why_it_matters": "the drawdown is the only number on the tombstone that converts credibility into trust; suppressing it visually is the equivalent of burying risk disclosure in footnote gray, and if the site's thesis is radical transparency about a $3.6k-to-$100k bet, the gave-some-back cell is the constraint that makes every other number believable."
+          },
+          {
+            "speaker": "flow",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "demoting drawdown to ink-70% opacity hides the one number that makes the tape honest",
+            "why_it_matters": "the −25.8% drawdown cell is the single most important credibility signal on the page — muting it to 70% opacity is barbecue sauce on a losing position, hiding the pain behind restraint-as-aesthetic when the whole tombstone's authority depends on showing you can read a bad tape without flinching."
+          },
+          {
+            "speaker": "historian",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "design",
+            "subject": "demoting drawdown to ink-70% opacity hides the base rate that most retail portfolios blow up — the −25.8% cell needs full ink weight",
+            "why_it_matters": "survivorship bias is the oldest trick in finance storytelling: every blowup portfolio once had a 272% hero number, and muting the gave-some-back cell to 0.7 opacity is the CSS equivalent of burying the risk disclaimer in footnote 9 — the one number that separates this from a 1999 stock-picker homepage deserves equal typographic weight."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "Bear wrote the exact CSS change — opacity:1 on the gave-some-back cell, same weight as the gold high-water mark — and named the naked-king problem that became the premise's core metaphor; the chosen wording lifts Bear's concrete diff almost verbatim. Macro, Flow, and Historian each reinforced the transparency-versus-credibility logic with their own lenses, but the structural blueprint was Bear's blueprint.",
+            "scorecard": {
+              "percents": {
+                "bull": 2,
+                "bear": 42,
+                "macro": 20,
+                "flow": 18,
+                "historian": 18
+              },
+              "reasoning": "Bear wrote the exact CSS change — opacity:1 on the gave-some-back cell, same weight as the gold high-water mark — and named the naked-king problem that became the premise's core metaphor; the chosen wording lifts Bear's concrete diff almost verbatim. Macro, Flow, and Historian each reinforced the transparency-versus-credibility logic with their own lenses, but the structural blueprint was Bear's blueprint."
+            }
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown prints at full ink or the page is a liar — there is no middle ground when the thesis is radical transparency.",
+            "warrant": "the man in the arena doesn't get to blur the blood on his face in post-production. a −25.8% drawdown at 0.70 opacity is exactly the kind of quiet editorial flinch that erodes trust faster than the drawdown itself ever could. if the gold high-water cell screams at full weight, the gave-some-back cell must scream at equal volume — because the reader who notices the mismatch (and they will) learns that your transparency has a gradient, which means it isn't transparency at all. paul graham's point about frighteningly ambitious ideas applies here too: the ambitious move is showing the loss at the same typographic rank as the gain, because that's what earns the right to keep compounding trust over a decade.",
+            "prediction": "up",
+            "confidence": 0.95,
+            "rebuttal": "the only plausible counter is information hierarchy — that muting secondary data helps the reader parse the page faster. fine. but hierarchy is a tool for complexity management, not for selective emphasis on a single-number scorecard. when you have exactly two numbers — the high and the drawdown — and you weight one heavier than the other, you aren't designing for clarity, you're designing for narrative. i reject the framing that opacity serves UX here; it serves vanity. print the loss at full ink. the 7000 RPM moment only matters because shelby didn't look away."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown cell must print at full ink — dimming a loss on a transparency-first page is the typographic equivalent of a martingale: you're doubling down on narrative by hiding the cost basis.",
+            "warrant": "survivorship bias is the design default of every fund factsheet that ever buried a max-drawdown line in footnote gray. if the thesis is radical transparency then the loss column is the thesis; demoting it to 0.70 opacity is exactly how ruin compounds quietly — you let the audience believe the drawdown is less material than the high-water mark, which misprices the actual risk. as thorp would note, you can't size the edge if the page itself understates the variance.",
+            "prediction": "up",
+            "confidence": 0.94,
+            "rebuttal": "someone will argue the muted cell preserves visual hierarchy and keeps the eye on the forward-looking number. fine — but hierarchy that systematically softens losses is not hierarchy, it's editorializing. if the gold cell earned full ink by being good news, the red cell earns it by being true news. the naked king problem isn't that nobody designed the page — it's that nobody questioned the one cell that conveniently faded."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the binding constraint on trust is not the return number — it is the opacity byte that decides whether the reader's eye ever reaches it.",
+            "warrant": "goldratt says find the bottleneck and subordinate everything else to it. here the bottleneck is not data availability but visual salience: the drawdown cell exists in the DOM, passes any audit, yet at 0.70 opacity it loses the perceptual race against the gold cell every single time. the revolution will not be televised — gil scott-heron's point was that the real shift happens where no camera points. a dimmed loss column is exactly that: the camera quietly pointed away. promoting to full ink #1C1A17 at opacity:1 removes the bottleneck between the number and the reader's attention, which is the only place radical transparency actually lives or dies.",
+            "prediction": "up",
+            "confidence": 0.92,
+            "rebuttal": "the counterargument is that visual hierarchy exists for a reason — you dim supporting data so the user can parse the primary signal faster. but that defense assumes the drawdown is secondary information. on a page whose thesis is radical transparency, the loss *is* the primary signal; the gain is just the pleasant context. treating them as typographically unequal is an editorial choice masquerading as a design choice, and the moment you admit that, the constraint is already identified."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 1,
+            "claim": "full ink on the drawdown cell is the only flow-clean read — suppressing loss visibility is the design equivalent of an ATM diluting your position while you sleep.",
+            "warrant": "the tape doesn't lie unless you fade its opacity. when the dealer's gamma book marks a loss, it prints at the same weight as the gain; anything else is barbecue sauce on a losing trade, hiding the mistake behind a pleasant color. the entire page sells radical transparency as its thesis — if you dim the −25.8% cell you're running a crowded retail narrative where the bad fills get buried in the footnotes. iverson said it best: we talkin' bout practice? no. this is the game tape. game tape prints full weight or it's not game tape.",
+            "prediction": "up",
+            "confidence": 0.92,
+            "rebuttal": "someone will argue the visual hierarchy needs the gold cell to pop, and equal weight flattens the information architecture. that's a truth claim, not a tech claim. on the flow, the page's stated framework is transparency — and any design choice that selectively mutes downside data is structurally dishonest regardless of how clean the grid looks. you can solve hierarchy with position or scale without ever touching opacity on the loss column."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the drawdown cell must print at full ink — dimming losses is the typographic equivalent of survivorship bias, and survivorship bias is the single most corrosive force in investment communication.",
+            "warrant": "every 'case study' you've ever read about a winning stock, fund, or strategy quietly buries the drawdowns in lighter type, smaller font, or a footnote. this is how survivorship bias lives in design: not through omission but through demotion. paul graham once noted that the most dangerous lies are the ones told by implication — a page that claims radical transparency while rendering the -25.8% at 70% opacity is telling exactly that kind of lie. the dot-com era was full of fact sheets that printed peak returns in bold gold and tucked max drawdown into gray subscript; the funds that did this weren't being subtle, they were building a visual hierarchy that let readers skip the pain. if you want the base rate to print honestly, the loss column gets the same typographic weight as the gain column. full stop.",
+            "prediction": "up",
+            "confidence": 0.92,
+            "rebuttal": "one could argue the dimmed cell is a deliberate information-hierarchy choice — gold for the milestone, muted for the interim noise — and that good design routinely de-emphasizes secondary data. fair. but the premise says the page's thesis is radical transparency, and under that thesis the drawdown is not secondary data. it is the cost of the return. demoting cost while promoting return is not design — it is marketing. be curious, not judgmental, sure — but the curiosity here should be: who benefits from the reader's eye skipping that cell?"
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "The panel found its unanimous chord without a single dissenting string: the drawdown number deserves the same full-ink weight as the gold peak, because a page that preaches radical transparency cannot whisper its losses at 70% opacity while shouting its wins — the revolution will not be televised in muted type."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "Bull set the frame that every other panelist orbited — the man-in-the-arena image and the 'transparency has a gradient means it isn't transparency' formulation became the gravitational center of the debate. Historian delivered the sharpest structural insight (survivorship bias living in design, not omission but demotion), which gave the argument its historical spine, while Bear's martingale metaphor and Macro's Goldratt bottleneck each reinforced the consensus without reshaping it. Flow's Iverson riff landed emotionally but added the least new analytical weight.",
+            "scorecard": {
+              "percents": {
+                "bull": 28,
+                "bear": 22,
+                "macro": 20,
+                "flow": 12,
+                "historian": 18
+              },
+              "reasoning": "Bull set the frame that every other panelist orbited — the man-in-the-arena image and the 'transparency has a gradient means it isn't transparency' formulation became the gravitational center of the debate. Historian delivered the sharpest structural insight (survivorship bias living in design, not omission but demotion), which gave the argument its historical spine, while Bear's martingale metaphor and Macro's Goldratt bottleneck each reinforced the consensus without reshaping it. Flow's Iverson riff landed emotionally but added the least new analytical weight.",
+              "calibration": "With unanimous agreement at high confidence (0.92–0.95) and only a single round, influence is measured not by conversion but by framing priority: who wrote the thesis statement the others rearranged. Bull's opening move — equating opacity gradients with dishonesty and invoking the 7000 RPM moment as closing anchor — provided the rhetorical skeleton; every subsequent argument was a variation on that theme. Historian earned outsize credit for introducing survivorship bias as the precise historical mechanism, giving the panel a falsifiable lens rather than just moral energy. Bear's contribution overlapped heavily with Bull's but sharpened the risk-pricing angle; Macro added constraint-theory language that was elegant but derivative of the same core claim; Flow's rebuttal about solving hierarchy through position or scale was the most actionable design suggestion yet carried less argumentative torque. Normalization was qualitative: I ranked agents by originality-of-frame and degree to which others' arguments depended on theirs, then spread the 100 points roughly proportional to that dependency graph. This is not a measure of correctness or predictive accuracy — it is an estimate of intra-debate rhetorical gravity within a panel that never meaningfully disagreed."
+            }
+          }
+        ],
+        "consensus": {
+          "reached": true,
+          "direction": "up",
+          "round": 1
         },
         "max_argument_rounds": 3
       }
