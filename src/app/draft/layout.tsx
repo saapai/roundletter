@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "$3,453 → $100,000 in 10 weeks. Here's the entire plan. - YouTube",
-  description: "aureliex — the wager is live.",
+  title: "Telling the Same Joke Over and Over and Over and Over - YouTube",
+  description: "Aaron Westberry",
 };
 
 export default function DraftLayout({ children }: { children: React.ReactNode }) {
