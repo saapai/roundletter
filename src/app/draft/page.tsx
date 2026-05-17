@@ -199,6 +199,7 @@ export default function DraftPage() {
   const [commentSort, setCommentSort] = useState("Top");
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [miniPlayer, setMiniPlayer] = useState(false);
+  const [videoStarted, setVideoStarted] = useState(false);
   const primaryRef = useRef<HTMLDivElement>(null);
 
   // Close sort menu on click outside
@@ -267,15 +268,31 @@ export default function DraftPage() {
       {/* ── MAIN CONTENT ── */}
       <div className="yt-content">
         <div className="yt-primary" ref={primaryRef}>
-          {/* Video player — real YouTube embed */}
+          {/* Video player — thumbnail until clicked, then iframe */}
           <div className="yt-player">
-            <iframe
-              src={`https://www.youtube.com/embed/${VIDEO.id}?rel=0&modestbranding=1&color=red`}
-              className="yt-video-iframe"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              title={VIDEO.title}
-            />
+            {videoStarted ? (
+              <iframe
+                src={`https://www.youtube.com/embed/${VIDEO.id}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3`}
+                className="yt-video-iframe"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                title={VIDEO.title}
+              />
+            ) : (
+              <div className="yt-poster" onClick={() => setVideoStarted(true)}>
+                <img
+                  src={`https://i.ytimg.com/vi/${VIDEO.id}/maxresdefault.jpg`}
+                  alt=""
+                  className="yt-poster-img"
+                />
+                <button className="yt-big-play" aria-label="Play">
+                  <svg viewBox="0 0 68 48" width="68" height="48">
+                    <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#f00"/>
+                    <path d="M27 34l17-10-17-10z" fill="#fff"/>
+                  </svg>
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Title */}
@@ -429,10 +446,10 @@ export default function DraftPage() {
       </div>
 
       {/* ── MINI PLAYER ── */}
-      {miniPlayer && (
+      {miniPlayer && videoStarted && (
         <div className="yt-miniplayer">
           <iframe
-            src={`https://www.youtube.com/embed/${VIDEO.id}?rel=0&modestbranding=1`}
+            src={`https://www.youtube.com/embed/${VIDEO.id}?rel=0&modestbranding=1&iv_load_policy=3`}
             className="yt-mini-iframe"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
@@ -539,6 +556,20 @@ const ytStyles = `
   .yt-video-iframe {
     width: 100%; height: 100%; border: none; display: block;
   }
+  .yt-poster {
+    width: 100%; height: 100%; cursor: pointer; position: relative;
+  }
+  .yt-poster-img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .yt-big-play {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: none; border: none; cursor: pointer;
+    transition: filter 0.1s;
+  }
+  .yt-big-play svg { opacity: 0.85; transition: opacity 0.15s; }
+  .yt-poster:hover .yt-big-play svg { opacity: 1; }
 
   /* ── TITLE ── */
   .yt-title {
