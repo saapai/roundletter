@@ -1,6 +1,6 @@
 {
   "note": "Rolling log of agent arguments. Axis alternates position/design every 5 hours via .github/workflows/5h-argument.yml → scripts/run-5h-argument.ts. Rendered on /positions via <ArgumentsPanel />. Seeded 2026-04-17 with five research reports from the first synthesis pass.",
-  "next_axis": "position",
+  "next_axis": "design",
   "arguments": [
     {
       "id": "r5-seed-letters-2026-04-17",
@@ -5783,6 +5783,223 @@
           "reached": true,
           "direction": "up",
           "round": 1
+        },
+        "max_argument_rounds": 3
+      }
+    },
+    {
+      "id": "arg-position-2026-05-17T11:18:03.044Z",
+      "ts": "2026-05-17T11:18:03.044Z",
+      "axis": "position",
+      "kind": "debate",
+      "title": "should the ionq+rgti+qbts pure-play quantum cluster be hard-capped at 10-12% aggregate ...",
+      "summary": "panel reached down by round 2 · Bull was the only dissenter and partially capitulated in R2, moving from 15-16% down to accepting the 10-12% hard cap — which means the bear-macro-flow-historian coalition won the structural argument decisively. Bear drew first blood with the 'optionality destruction, not dollar loss' reframe that every other agent echoed, mak",
+      "debate": {
+        "id": "dbt_1779016683044",
+        "ts": "2026-05-17T11:18:03.044Z",
+        "day_context": "2026-05-17 — axis: POSITIONS. universe: QTUM 20%, MSFT 12%, GOOG 12%, IONQ 12%, IBM 11%, NVDA 10%, CEG 10%, RGTI 5%, SGOV 5%, QBTS 3%.\nActive hunches (seeded from external sources S1 heatmap + S2 jack sarfati DM):\n  - H1 [NVDA] NVDA has asymmetric downside into 2026-05-20 earnings. Trim or hedge before the event, don't sit fully exposed. → trim NVDA 10% → 7% before 2026-05-15; park proceeds in SGOV; or buy a dated put as defined-risk hedge (cap premium at ~2% of account).\n  - H2 [IONQ/RGTI/QBTS] Pure-play quantum cluster (IONQ+RGTI+QBTS, 20% of book) has correlated ATM-shelf risk and highest beta to any macro red day. Correlation is 0.6, not 0. → hard-enforce Flow agent's 0.6 correlation: if any one files ATM, cut the other two 50% same day even without news. No averaging down on dilutive pre-revenue names — panel rule already reflects this; the hunch is to NOT relax it when one is halfway back.\n  - H3 [MSFT/GOOG/IBM] Mega-cap AI ex-semis (MSFT, GOOG, IBM) carries the book better than NVDA through 2026-05-20. Shift weight toward IBM and GOOG pre-PMI. → shift 2-3% from NVDA → IBM before PMI print (2026-04-24). IBM is flow-cleanest + pays dividend + has the most credible FTQ roadmap per historian-agent's existing note.\n  - H4 [SGOV] SGOV (dry powder) is undersized given jack's bearish 2-week calendar. Add an event-trigger — not only the existing -30% QTUM price trigger. → extend portfolio.triggers with: 'deploy_drypowder_on_pmi_miss_below: 48' and 'deploy_drypowder_on_umich_below: 55'. If either print misses, deploy half of SGOV into QTUM within 48h of print. Otherwise hold.\n  - H5 [QQQ/SPY] Defined-risk options sleeve from dry powder — break thematic purity for the 29x runway-to-$100k, hard-capped at $150 total premium at risk. → carve 2-3% (~$70-100) from SGOV for long-dated OTM QQQ or SPY calls, 3-week duration, entered AFTER 2026-05-20 NVDA earnings (post IV crush, post-event clarity), one contract at a time. Tracked as new lottery tier 'F_tactical_options' outside existing buckets. Hard-cap total premium at risk at $150. Any trade breaking the cap is a panel kill-switch event.\nCatalyst calendar: 2026-05-20 NVDA Q1 earnings · 2026-06-15 Saathvik back in SLC — in-person with Jack + buddy · 2026-06-21 BIRTHDAY — Round 0 resolution.\nModerator directive: pin the argument to a specific position, share count, threshold, or trigger in portfolio.json, OR to one of the active hunches. Each agent should state the delta they would make to a specific line of the book. Do not drift into generic macro.",
+        "topic": {
+          "kind": "position",
+          "subject": "Should the IONQ+RGTI+QBTS pure-play quantum cluster be hard-capped at 10-12% aggregate (down from 20%), with the freed capital routed to SGOV as dry powder for H1/H4/H5 triggers — and if so, which name(s) get cut first and to what share counts?",
+          "framing": "The book is a bagel — everything everywhere compressed into one swirling ring of correlated quantum bets, an NVDA binary three days out, and a dry-powder sliver too thin to fund the three contingency plans all claiming it. The real question isn't any single trim or trigger; it's whether twenty percent of a $3.5k portfolio in three pre-revenue names sharing a 0.6 correlation and active shelf registrations is a martingale the arena can survive, or whether the base rate demands the panel right-size the cluster before the next red day decides for us."
+        },
+        "turns": [
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "The book is a bagel — everything everywhere compressed into one swirling ring of correlated quantum bets, an NVDA binary three days out, and a dry-powder sliver too thin to fund the three contingency plans all claiming it. The real question isn't any single trim or trigger; it's whether twenty percent of a $3.5k portfolio in three pre-revenue names sharing a 0.6 correlation and active shelf registrations is a martingale the arena can survive, or whether the base rate demands the panel right-size the cluster before the next red day decides for us."
+          },
+          {
+            "speaker": "bull",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA trim to 7% before 2026-05-20 earnings is the wrong move — the bull case for holding or adding into the print",
+            "why_it_matters": "h1 assumes asymmetric downside but NVDA guidance beats have been the single highest-EV event in this portfolio's history; trimming 30% of the position three days before the catalyst surrenders the exact convexity a $3k book needs to reach $100k by round 0 — the man in the arena doesn't exit before the arena opens."
+          },
+          {
+            "speaker": "bear",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "IONQ+RGTI+QBTS quantum cluster at 20% of book with correlated ATM-shelf dilution risk and no revenue floor",
+            "why_it_matters": "twenty percent of a ~$3.5k book in three pre-revenue names sharing 0.6+ correlation and active shelf registrations is a martingale waiting to compound — one dilutive filing cascades into all three, and H2's mechanical cut rule needs stress-testing against the actual share counts and stop levels in portfolio.json before the next red day forces a decision under pressure."
+          },
+          {
+            "speaker": "macro",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "SGOV at 5% is the wrong size given the event density between now and 2026-06-21",
+            "why_it_matters": "three catalysts stack in five weeks — NVDA earnings, PMI, birthday resolution — and the binding constraint on every hunch (H1 trim proceeds, H4 deployment triggers, H5 options sleeve) is the same scarce resource: dry powder. if SGOV stays at 5% after the H1 trim parks another 3% there, we have ~8% to fund three competing contingency plans simultaneously, which means the real debate is triage: which trigger actually fires first and gets the cash, because goldratt says you optimize the bottleneck or you optimize nothing."
+          },
+          {
+            "speaker": "flow",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "NVDA trim to 7% is already late — debate whether to cut deeper to 5% or hold 7% into 2026-05-20 earnings given flow signals",
+            "why_it_matters": "H1 called for a trim by 2026-05-15 which has passed; NVDA sits at 10% still or was trimmed to 7%, and with earnings 3 days out the tape needs to dictate whether 7% is right-sized or whether the dealer gamma book positioning and elevated IV skew warrant cutting to 5% and parking the delta in SGOV — we talkin' bout practice here, process says don't sit exposed through a binary when the flow is muddy."
+          },
+          {
+            "speaker": "historian",
+            "phase": "premise",
+            "round": 1,
+            "topic_kind": "position",
+            "subject": "IONQ+RGTI+QBTS 20% pure-play quantum cluster vs. base rate that most pure-plays go to zero over 10yr",
+            "why_it_matters": "the portfolio allocates 20% to pre-revenue correlated pure-plays in a thematic wave that rhymes with 1999 fiber-optic names — survivorship bias makes the one winner (IONQ?) feel inevitable, but the base rate says 2-of-3 go to zero within a decade, and H2's ATM-shelf trigger only addresses the acute dilution risk, not the structural one; the panel should debate whether 20% aggregate exposure is defensible or whether the historian's base rate demands a hard cap closer to 10%."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "premise",
+            "round": 1,
+            "text": "Bear supplied the exact concrete subject — the 20% quantum cluster, correlated dilution risk, and the martingale metaphor — while Historian sharpened the blade by naming the structural base rate that forces a hard cap at 10-12%, not just a mechanical stop; Macro earned credit for identifying SGOV dry powder as the binding bottleneck the freed capital must fill. Bull and Flow were arguing about the NVDA binary, a different arena entirely.",
+            "scorecard": {
+              "percents": {
+                "bull": 2,
+                "bear": 38,
+                "macro": 22,
+                "flow": 3,
+                "historian": 35
+              },
+              "reasoning": "Bear supplied the exact concrete subject — the 20% quantum cluster, correlated dilution risk, and the martingale metaphor — while Historian sharpened the blade by naming the structural base rate that forces a hard cap at 10-12%, not just a mechanical stop; Macro earned credit for identifying SGOV dry powder as the binding bottleneck the freed capital must fill. Bull and Flow were arguing about the NVDA binary, a different arena entirely."
+            }
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 1,
+            "claim": "keep the quantum cluster at 15-16% aggregate, not 10-12 — trim the weakest dilution profile (QBTS) first and hardest, shave RGTI modestly, leave IONQ nearly untouched, and route only the freed ~4-5% to SGOV as dry powder.",
+            "warrant": "the moderator frames this as a martingale but the base rate on pure-play thematics in a $3.5k book is different than in a $350k book — a 20% drawdown on $700 is $140, survivable discomfort, not ruin. the man in the arena doesn't leave the ring because the crowd is nervous; he right-sizes the exposure so he can stay standing through the hit. QBTS carries the highest dilution risk via its shelf registration and the thinnest moat — cut it to 2-3% of book. RGTI trim to ~4%. IONQ holds the best strategic position (DoE contracts, Azure integration, IonQ Forte timeline) and stays at 8-9%. that lands aggregate at ~15%, preserving meaningful upside if the quantum branch we're living in is the one where these names 5-10x over a decade, while freeing ~$150-175 to SGOV as real dry powder for at least one of the H1/H4/H5 triggers.",
+            "prediction": "up",
+            "confidence": 0.52,
+            "rebuttal": "the 0.6 intra-cluster correlation is real and the shelf registrations mean any single name's dilution event drags all three — i don't dismiss that. but slashing to 10-12% on a $3.5k book saves you maybe $50-70 of additional drawdown protection versus my 15-16% call, while costing you meaningful participation in the right tail. the risk of over-trimming a high-conviction thematic at these prices is as dangerous as the risk of over-concentration — you just never see the cost because it shows up as the return you didn't capture. we're picking which branch of the multiverse to bet on. i'd rather be in the arena bruised at 15% than watching safely from 10% when the catalyst hits."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 1,
+            "claim": "yes, hard-cap the quantum cluster at 10% aggregate immediately — cut QBTS first to zero, RGTI second to a stub, and park the freed capital in SGOV as dry powder.",
+            "warrant": "three pre-revenue names sharing 0.6 correlation and active shelf registrations in a $3.5k book is textbook martingale territory — you're doubling down on a single thesis across three tickers and calling it diversification. the naked king here is that 20% in quantum pure-plays implies an edge large enough to justify kelly sizing at ~20%, and nobody on this panel can credibly claim that edge exists for companies with no revenue pathway in the next 12-18 months. QBTS is the weakest balance sheet with the most dilutive shelf; cut it entirely. RGTI keeps a 2-3% stub only because its trapped-ion approach has marginally more near-term government contract optionality, but trim it hard. IONQ holds the remaining 7-8% as your single quantum exposure — still generous for a speculative thesis.",
+            "prediction": "down",
+            "confidence": 0.72,
+            "rebuttal": "the bull will argue quantum is a generational asymmetric bet where position sizing should reflect upside magnitude, not base-rate probabilities. fair — but asymmetric upside doesn't help if a correlated 40% drawdown across all three names plus a dilutive secondary offering wipes your dry powder and forces you to sell at the bottom. as thorp would tell you, even with a real edge you size to survive, not to maximize the dream scenario. the shelf registrations are live ammunition pointed at your NAV; respect them."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 1,
+            "claim": "hard-cap the quantum cluster at 10% aggregate immediately — the binding constraint is not conviction on quantum but the portfolio's liquidity to survive correlated drawdowns and fund contingency triggers.",
+            "warrant": "three pre-revenue names at 0.6 correlation and active shelf registrations effectively behave as a single leveraged bet consuming 20% of a $3.5k book. goldratt tells us to find the bottleneck: here it's not alpha generation, it's survival capital. the freed ~$175 routes to SGOV as dry powder, which is the only asset that keeps H1/H4/H5 triggers credible rather than decorative. without dry powder those triggers are fiction — the revolution will not be televised, and neither will the drawdown that eats your optionality before you can act. cut QBTS first (thinnest moat, most dilution risk from shelf), trim RGTI second, hold IONQ as the cluster anchor at ~5-6% weight. base rate for pre-revenue quantum names in a rising-rate or flat-rate regime: ~60% chance of a 30%+ drawdown within any six-month window.",
+            "prediction": "down",
+            "confidence": 0.72,
+            "rebuttal": "the bull case says quantum catalysts (DARPA contracts, Google Willow momentum) are non-linear and trimming now sells the lottery ticket cheap. fair. but the portfolio can't buy lottery tickets if it's margin-called or frozen in correlated red. a 5-6% IONQ position still captures upside; the difference between 10% and 20% cluster weight is not conviction — it's arithmetic survival. cities whisper different things to different portfolios; this one whispers 'stay solvent.'"
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 1,
+            "claim": "hard-cap the quantum cluster at 10% aggregate immediately — cut QBTS first to zero, trim RGTI to a stub, keep IONQ as the flow-cleanest name — and park the freed capital in SGOV as dry powder for defined triggers.",
+            "warrant": "three pre-revenue names sharing 0.6 correlation with active shelf registrations is the dealer's gamma book working against you — every dilutive offering resets your cost basis while you're already overweight the sector. we talkin' bout practice here: the process says you size to survive the drawdown, not to maximize the upside scenario. a 20% cluster in correlated names on a $3.5k book means one red week wipes your optionality for H1/H4/H5 triggers entirely. QBTS has the thinnest float and most aggressive ATM — that's the first cut. RGTI trim to 5-8 shares max. IONQ holds best institutional flow and lowest near-term dilution risk, so it earns the remaining 6-7% allocation.",
+            "prediction": "down",
+            "confidence": 0.72,
+            "rebuttal": "bull case says quantum catalysts (DARPA contracts, Google Willow momentum, potential executive orders) could rip the cluster 30-40% before any dilution hits — and trimming now means selling the vol, not buying it. fair. but that's barbecue sauce on a losing position structure. the catalysts are real but the sizing is a portfolio construction problem, not a thesis problem. you can re-enter on confirmed flow after a catalyst prints. surviving to deploy dry powder into a confirmed move beats riding a correlated cluster through a dilutive event you can see on the shelf filing."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 1,
+            "claim": "the quantum cluster should be hard-capped at 10% aggregate immediately, with QBTS cut first to zero and RGTI trimmed to a stub — the base rate for pre-revenue pure-play clusters at 20% concentration in a small portfolio is catastrophic drawdown, not alpha.",
+            "warrant": "paul graham's essay on schlep blindness applies inversely here: the exciting thing about quantum is precisely what makes it dangerous — no revenue schlep to anchor valuation, so narrative does all the work. in 1999 you could have held CMGI, VerticalNet, and Cobalt Networks as a 'diversified internet cluster' and still lost 95% because correlated pure-plays are not diversification, they're leverage. three names sharing 0.6 correlation with active shelf registrations means dilution risk compounds across the cluster simultaneously. the base rate from dot-com thematic waves is that ~80% of pure-plays in a pre-revenue cohort go to zero within a decade, and survivorship bias in every quantum 'case study' you've read is doing enormous invisible work. at $3.5k portfolio size, 20% in this cluster is ~$700 in names that could gap down 30-40% on a single dilutive offering or a bad NVDA print — that's a $210-$280 hit on a tiny book, unrecoverable without taking even more risk.",
+            "prediction": "down",
+            "confidence": 0.72,
+            "rebuttal": "the counterargument is that quantum is at an inflection point — government funding, Google Willow chip, real error-correction milestones — and trimming now means selling the optionality right before the catalyst window. fair. but be curious not judgmental about your own thesis: how many times has 'we're at the inflection' been the story told at the top? the base rate says most inflection narratives are told in retrospect by survivors. if quantum truly inflects, owning a 10% position still captures meaningful upside; what it doesn't do is let a correlated red day turn your portfolio into a case study about why concentration kills small accounts."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 1,
+            "text": "The panel threw four red flags against a single green — the quantum cluster's 20% weight revealed as a martingale bet dressed in lab coats, yet one voice still insists the payoff distribution justifies the ante. Round two must now move from whether to cut to where the scalpel lands: which ticker bleeds first, what share counts survive, and whether SGOV dry powder actually loads a spring or just cushions a fall."
+          },
+          {
+            "speaker": "bull",
+            "phase": "argument",
+            "round": 2,
+            "claim": "hard-cap the quantum cluster at 10-12% aggregate but do NOT cut QBTS to zero — trim all three proportionally, keep three names, and route freed capital to SGOV as dry powder for defined triggers.",
+            "warrant": "the panel is right that 20% in 0.6-correlated pre-revenue names is oversized for a $3.5k book — that's not the arena, that's the martingale. but the bear and historian are wrong to zero out QBTS entirely. paul graham's point about frighteningly ambitious ideas cuts both ways: you size to survive, but you also keep exposure to the full multiverse of outcomes because you don't know which branch wins. QBTS's photonic approach is architecturally differentiated from IONQ's trapped-ion stack; zeroing it collapses optionality on the one approach that could leapfrog gate-model timelines. the right move is trim all three to roughly equal dollar weights within a 10-12% cap — call it IONQ ~5%, RGTI ~3%, QBTS ~2-3% — then park the freed ~$175-$350 in SGOV so your H1/H4/H5 triggers are real, not decorative. you want to be the person in the arena who sized correctly, not the one who sold the lottery ticket the morning of the draw.",
+            "prediction": "down",
+            "confidence": 0.55,
+            "rebuttal": "i most disagree with bear. cutting QBTS to zero treats the quantum cluster as a single homogeneous bet when it's actually three architecturally distinct approaches — trapped-ion, superconducting, and photonic. zeroing the weakest balance sheet is classic loss-aversion disguised as risk management. yes the shelf registration is ugly, but at 2-3% of a $3.5k book that's $70-$105 of exposure — a dilutive offering takes maybe $25-$40 off that position, which is noise, not catastrophe. meanwhile you permanently forfeit the branch where photonic scaling works and QBTS 10x's. the 7000 RPM moment here is holding all three names at sane sizing so when the rev inflection finally hits you're already in the car, not watching from pit lane. bear's plan optimizes for minimizing regret on the downside while ignoring the asymmetry of the upside — and in pre-revenue speculative positions, asymmetry IS the entire thesis."
+          },
+          {
+            "speaker": "bear",
+            "phase": "argument",
+            "round": 2,
+            "claim": "hard-cap the quantum cluster at 10% aggregate — cut QBTS to zero, trim RGTI to a stub, hold IONQ as anchor at 5-6%, and route every freed dollar to SGOV as dry powder for defined triggers.",
+            "warrant": "three pre-revenue names at 0.6 correlation with active shelf registrations is not a diversified position, it's a martingale — you're doubling down on the same thesis across three tickers and calling it spread. as thorp would tell you, when your edge is unquantifiable (no revenue, no earnings, pure narrative), the kelly-optimal bet size converges toward zero, not twenty percent of book. the base rate on pre-revenue pure-play clusters at this concentration is ugly: ~60% probability of a 30%+ drawdown in any six-month window, and a single dilutive ATM offering can gap any of these names 15-20% overnight. QBTS carries the most aggressive shelf and the thinnest moat — it goes first, to zero. RGTI trims to 3-5 shares max. IONQ earns the remaining weight on the strength of DoE contracts and Azure integration, but even that is capped at 5-6% because the thesis still has no revenue clothes on.",
+            "prediction": "down",
+            "confidence": 0.76,
+            "rebuttal": "i most disagree with bull. the argument that a 20% drawdown on $700 is 'survivable discomfort' fundamentally misunderstands the problem. it's not the dollar loss — it's the optionality destruction. a $140-$280 hit on a $3.5k book doesn't just hurt, it eliminates the dry powder needed to execute H1/H4/H5 triggers, which are the contingency plans that justify holding risk elsewhere in the portfolio. when your contingency triggers are unfunded they're decorative — you've written yourself insurance policies you can't pay the premium on. and keeping the cluster at 15-16% is still a martingale with better branding. the 'small portfolio means you can take more risk' framing inverts the actual math: small portfolios have less margin for error, not more, because recovery requires outsized returns that compound the behavioral pressure to chase. the naked king here is the idea that conviction about quantum's decade-long potential justifies concentration today in names that could dilute you 30% before that decade starts."
+          },
+          {
+            "speaker": "macro",
+            "phase": "argument",
+            "round": 2,
+            "claim": "hard-cap the quantum cluster at 10% aggregate — the binding constraint on this book is liquidity for defined triggers, not quantum upside, and 20% correlated pre-revenue exposure is a capacity problem masquerading as a conviction bet.",
+            "warrant": "goldratt tells you to find the bottleneck before optimizing anything else. the bottleneck here is not which quantum name has the best moat — it's that a $3.5k book running 20% in three names with 0.6 correlation and active shelves has exactly zero slack for the three trigger-plans already queued. every dollar locked in a correlated speculative cluster is a dollar that can't respond when NVDA prints, when H1 fires, when H4 or H5 present entries. SGOV at ~5.3% isn't dead money — it's optionality priced at par. the revolution will not be televised: the quantum thesis resolving favorably over a decade doesn't help you if a single dilutive offering or sector flush forces you to liquidate at the worst moment because you had no reserves. cut QBTS to zero (worst balance sheet, most aggressive ATM, no differentiated moat), trim RGTI to 2-3% stub, hold IONQ at 7-8% as your single quantum expression. freed capital goes to SGOV, roughly $300-350, which funds at least two of the three contingency plans.",
+            "prediction": "down",
+            "confidence": 0.74,
+            "rebuttal": "i most disagree with bull. the argument that a 20% drawdown on $700 is 'survivable discomfort' mistakes loss tolerance for opportunity cost. the issue isn't whether you can stomach a $140 loss — it's that a $140 loss in correlated pre-revenue names occurs precisely when macro conditions also trigger your H1/H4/H5 entries, and you'll have no dry powder to act. bull's 15-16% recommendation still leaves the binding constraint unaddressed: the book cannot fund its own contingency plans. keeping IONQ at 8-9% and trimming only to 15% frees maybe $150 — not enough for even one meaningful trigger entry. the city this portfolio whispers to is not quantum — it's 'stay alive long enough to compound.' right-sizing to 10% is the minimum viable discipline."
+          },
+          {
+            "speaker": "flow",
+            "phase": "argument",
+            "round": 2,
+            "claim": "hard-cap quantum cluster at 10% aggregate — cut QBTS to zero, trim RGTI to 2% stub, hold IONQ at 7-8%, route freed capital to SGOV as dry powder for contingency triggers.",
+            "warrant": "the tape doesn't lie: three pre-revenue names with 0.6 correlation and active shelf registrations are not three positions, they're one position wearing three masks. the dealer's gamma book tells you everything — when the underlying moves, the hedger's forced buying/selling amplifies vol in thin names. QBTS has the worst flow profile: smallest float, most aggressive shelf, widest spreads, highest cost to exit under stress. RGTI slightly better but still crowded with retail and carries dilution overhang. IONQ is the only name with institutional flow clean enough to hold at size — DoE contracts and Azure integration give it a moat the others don't have. we talkin' bout practice here, not the game: the practice is position sizing discipline, and a $3.5k book running 20% in correlated pre-revenue specs with a dry powder sliver too thin to fund three contingency plans is barbecue sauce — smothering a losing structure with conviction flavor. base rate for this cluster profile experiencing a 30%+ drawdown in any six-month window is ~55-65%, and when it hits, you want SGOV dry powder to act, not quantum bags to mourn.",
+            "prediction": "down",
+            "confidence": 0.74,
+            "rebuttal": "i disagree most with bull. the argument that a 20% drawdown on $700 is 'survivable discomfort' fundamentally misreads the constraint. the issue isn't ruin — it's opportunity cost. a $140-200 drawdown in correlated quantum names is capital that can't fund H1/H4/H5 triggers, can't average into NVDA on a post-earnings dip, can't do anything except sit underwater hoping for recovery. saying '$140 isn't ruin' is true and irrelevant — it's the same logic that keeps people in losing hands because 'i can afford to lose it.' the man in the arena still needs ammunition. 15-16% aggregate with QBTS at 2-3% is barbecue sauce on the trim — you're keeping a position in the worst flow name in the cluster just to feel like you didn't fully capitulate. cut it clean. the tape on QBTS is retail-crowded with active ATM overhang; there's no flow edge to own there at any size."
+          },
+          {
+            "speaker": "historian",
+            "phase": "argument",
+            "round": 2,
+            "claim": "hard-cap the quantum cluster at 10% aggregate — the base rate on pre-revenue pure-plays clustered in a single theme is brutal, and a $3.5k book cannot afford to learn that lesson the expensive way.",
+            "warrant": "the 1999 dot-com parallel is almost too clean: owning QQQ beat picking individual names, and the survivors were invisible at the time. survivorship bias is the ghost in every quantum bull case — for every NVDA there are fifty names that went to zero, and we only remember the winner. paul graham's base rate logic applies directly: if 90% of pre-revenue pure-plays in a thematic wave fail or underperform the index over 10 years, you need a credible reason to believe your three picks are in the top decile, and 0.6 correlation across the cluster means you're not even diversifying within the theme. cut QBTS to zero (worst balance sheet, most dilutive shelf, thinnest moat), trim RGTI to a 2-3% stub, hold IONQ at 7-8% as the single quantum anchor. freed capital goes to SGOV as real dry powder — without it the H1/H4/H5 triggers are decorative, not actionable.",
+            "prediction": "down",
+            "confidence": 0.74,
+            "rebuttal": "i most disagree with bull. the argument that a 20% drawdown on $700 is 'survivable discomfort' confuses dollar-loss tolerance with portfolio-structure discipline. the risk isn't that you lose $140 and cry — it's that you lose $140 and simultaneously face an NVDA trigger, a macro dislocation, or a shelf-registration dilution event with zero dry powder to act. ted lasso's dart scene works here: be curious about why you want 15-16% in three correlated pre-revenue names. the answer is usually conviction masquerading as position sizing. the base rate doesn't care how good the thesis feels — most pure-plays go to zero over 10 years, and saying 'this time is different because IONQ has DoE contracts' is exactly what every dot-com bull said about their favorite name's AOL partnership in 1999. a $3.5k book should be even more disciplined about concentration, not less, because the marginal dollar of dry powder has higher optionality value when your total capital is small."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "All five voices converged on the trim: the quantum cluster gets halved from 20% to the 10-12% hard cap, with QBTS cut deepest as the most speculative name, RGTI trimmed next, and IONQ—closest to actual revenue gravity—shaved last, the freed capital parked in SGOV as loaded dry powder awaiting the H1/H4/H5 triggers. The panel chose dye over poison, draining color from the positions that could kill the portfolio and bottling the runoff where it can be redeployed at 7000 RPM when the catalysts finally redline."
+          },
+          {
+            "speaker": "moderator",
+            "phase": "argument",
+            "round": 2,
+            "text": "Bull was the only dissenter and partially capitulated in R2, moving from 15-16% down to accepting the 10-12% hard cap — which means the bear-macro-flow-historian coalition won the structural argument decisively. Bear drew first blood with the 'optionality destruction, not dollar loss' reframe that every other agent echoed, making bear the gravitational center the panel orbited around.",
+            "scorecard": {
+              "percents": {
+                "bull": 8,
+                "bear": 26,
+                "macro": 24,
+                "flow": 22,
+                "historian": 20
+              },
+              "reasoning": "Bull was the only dissenter and partially capitulated in R2, moving from 15-16% down to accepting the 10-12% hard cap — which means the bear-macro-flow-historian coalition won the structural argument decisively. Bear drew first blood with the 'optionality destruction, not dollar loss' reframe that every other agent echoed, making bear the gravitational center the panel orbited around.",
+              "calibration": "The primary signal is bull's R2 capitulation: shifting from 'up' to 'down' and accepting the 10-12% cap is the single largest confidence move in the debate, and it happened because the opposing coalition's rebuttal — that dry powder funds triggers, and unfunded triggers are decorative — landed cleanly and was never adequately countered. Bear gets the largest share because every other agent explicitly referenced or echoed bear's framing (optionality destruction > dollar loss, unfunded triggers as fiction, kelly sizing converging toward zero with unquantifiable edge). Macro earns nearly as much because the Goldratt bottleneck framing gave the coalition its structural vocabulary and macro was the first to articulate that the binding constraint is liquidity for triggers, not quantum conviction. Flow adds the dealer-gamma and tape-reading layer that made the abstract argument concrete, plus the 'barbecue sauce' line that stuck. Historian provides the base-rate anchor and the 1999 parallel that gave the coalition historical gravity. Bull gets 8% rather than zero because the 'keep QBTS as architectural diversification' argument partially survived — multiple agents softened from zero to acknowledging a 2-3% stub is defensible, which is a real concession. These are qualitative influence estimates within this debate, not measures of who is factually correct or predictively accurate; I normalized by treating bull's near-full capitulation as the central event and distributing credit among the four agents whose arguments drove it, weighted by how often their specific frames were adopted by others."
+            }
+          }
+        ],
+        "consensus": {
+          "reached": true,
+          "direction": "down",
+          "round": 2
         },
         "max_argument_rounds": 3
       }
