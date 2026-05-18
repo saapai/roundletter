@@ -87,7 +87,13 @@ export default function DraftHomePage() {
 
       {/* ═══════ WAVE 2: The number ═══════ */}
       <section className="R-hero">
-        <div className="R-number">{fmt(total)}</div>
+        <div className="R-number">
+          <span className="R-currency">$</span>
+          {Math.round(total).toLocaleString()}
+        </div>
+        <div className="R-delta">
+          +{((total / 3453 - 1) * 100).toFixed(0)}% since april 12
+        </div>
         <div className="R-target">
           <span className="R-arrow">→</span> $100,000
           <span className="R-sep">·</span>
@@ -270,7 +276,7 @@ const CSS = `
   /* ── GOLDEN FLASH (bridge from video) ── */
   .R-flash {
     position: relative;
-    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
     text-align: center;
   }
   .R-flash-text {
@@ -285,6 +291,10 @@ const CSS = `
     position: relative;
     z-index: 2;
     animation: r-flash-in 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .R--warm .R-flash-text {
+    color: #A67C2E;
+    text-shadow: 0 1px 8px rgba(166,124,46,0.15);
   }
   .R-flash-glow {
     position: absolute;
@@ -304,7 +314,7 @@ const CSS = `
   @keyframes r-flash-in {
     0%   { opacity: 0; transform: scale(1.4); filter: blur(8px); color: #f5e6a3; }
     15%  { opacity: 1; filter: blur(0); }
-    40%  { transform: scale(1); color: #dbb645; }
+    40%  { transform: scale(1); }
     100% { opacity: 1; transform: scale(1); }
   }
   @keyframes r-glow {
@@ -316,7 +326,7 @@ const CSS = `
   /* ── THE NUMBER ── */
   .R-hero {
     text-align: center;
-    margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
     opacity: 0;
     animation: r-up 1.8s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
   }
@@ -329,6 +339,21 @@ const CSS = `
     margin-bottom: 0.5rem;
   }
   .R--warm .R-number { color: #1C1A17; }
+  .R-currency {
+    font-size: 0.55em;
+    font-weight: 400;
+    vertical-align: 0.15em;
+    margin-right: 0.04em;
+    opacity: 0.5;
+  }
+  .R-delta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: #4ade80;
+    margin-top: 0.35rem;
+  }
+  .R--warm .R-delta { color: #3a8a55; }
 
   .R-target {
     display: flex;
@@ -369,20 +394,20 @@ const CSS = `
     margin-top: 1rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.625rem;
-    opacity: 0.25;
+    opacity: 0.5;
   }
   .R-trace-bar {
     flex: 1;
-    height: 2px;
+    height: 4px;
     border-radius: 1px;
     overflow: hidden;
   }
-  .R--warm .R-trace-bar { background: rgba(28,26,23,0.08); }
+  .R--warm .R-trace-bar { background: rgba(28,26,23,0.12); }
   .R:not(.R--warm) .R-trace-bar { background: rgba(232,228,220,0.08); }
   .R-trace-fill {
     height: 100%;
     border-radius: 1px;
-    background: #dbb645;
+    background: #C9A020;
     transition: width 1s ease;
   }
   .R-trace-s, .R-trace-e { white-space: nowrap; }
@@ -391,14 +416,14 @@ const CSS = `
   .R-invite {
     text-align: center;
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+    font-size: clamp(1.25rem, 2.8vw, 1.55rem);
     font-style: italic;
     line-height: 1.65;
-    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
     opacity: 0;
     animation: r-up 1.5s ease 3s forwards;
   }
-  .R--warm .R-invite { color: #6B6560; }
+  .R--warm .R-invite { color: #4A4540; }
   .R:not(.R--warm) .R-invite { color: rgba(232,228,220,0.55); }
 
   /* ── THE PAINTING ── */
