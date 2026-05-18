@@ -151,29 +151,35 @@ export default function DraftHomePage() {
           <span className="R-party-date">june 20 · salt lake city</span>
           <h2 className="R-party-line">the party is the liquidity event.</h2>
         </div>
-        <div className="R-ticket">
-          <div className="R-ticket-stars" />
-          <div className="R-ticket-content">
-            <div className="R-ticket-eyebrow">aureliex presents</div>
-            <div className="R-ticket-title">THE<br/>LIQUIDITY<br/>EVENT</div>
-            <div className="R-ticket-details">
-              <span className="R-ticket-detail">june 20</span>
-              <span className="R-ticket-detail-sep">/</span>
-              <span className="R-ticket-detail">salt lake city</span>
+        <a href="/invest" className="R-ticket">
+          <div className="R-ticket-inner">
+            <span className="R-ticket-presents">aureliex presents</span>
+            <h3 className="R-ticket-title">the liquidity event.</h3>
+            <span className="R-ticket-sub">the dividend party · 2026</span>
+            <div className="R-ticket-rule" />
+            <div className="R-ticket-info">
+              <span>june 20 · salt lake city</span>
+              <span>10% of portfolio → flights &amp; costs</span>
+              <span>proportional to who invested the most, earliest</span>
             </div>
-            <div className="R-ticket-dividend">
-              <span className="R-ticket-dividend-pct">10%</span>
-              <span className="R-ticket-dividend-text">of the portfolio<br/>distributed as dividends</span>
-            </div>
-            <p className="R-ticket-fine">
-              covers flights &amp; costs · proportional to<br/>
-              who invested the most, earliest
-            </p>
-            <div className="R-ticket-phone">+1 (385) 368-7238</div>
-            <a href="/invest" className="R-ticket-cta">rsvp →</a>
-            <div className="R-ticket-tag">— a dividend party · 2026</div>
+            <span className="R-ticket-phone">+1 (385) 368-7238</span>
+            <span className="R-ticket-rsvp">rsvp →</span>
           </div>
-        </div>
+          {/* Tear perforation on right */}
+          <div className="R-ticket-tear">
+            <div className="R-ticket-hole R-ticket-hole-t" />
+            <div className="R-ticket-perf" />
+            <div className="R-ticket-hole R-ticket-hole-b" />
+          </div>
+          <div className="R-ticket-stub">
+            <div className="R-ticket-barcode">
+              {Array.from({ length: 16 }).map((_, i) => (
+                <div key={i} className="R-ticket-bar" style={{ height: `${8 + ((i * 7 + 3) % 14)}px` }} />
+              ))}
+            </div>
+            <span className="R-ticket-admit">ADMIT ONE</span>
+          </div>
+        </a>
       </section>
 
       <div className="R-backed R-reveal">
@@ -523,123 +529,125 @@ const CSS = `
     margin: 0;
   }
   /* ── CMIYGL POSTER TICKET ── */
+  /* ── TICKET — archive gradient stub ── */
   .R-ticket {
-    position: relative;
-    aspect-ratio: 5 / 7;
-    max-width: 380px;
-    margin-top: 20px;
-    display: grid;
-    place-items: center;
-    padding: 2rem 1.75rem;
-    background:
-      radial-gradient(ellipse 80% 40% at 50% 60%, rgba(255, 180, 90, 0.55), transparent 75%),
-      linear-gradient(180deg, #8b4a70 0%, #d97a57 40%, #e8b547 72%, #6b5020 100%);
-    color: #3a2214;
-    border-radius: 4px;
-    font-family: Impact, "Haettenschweiler", "Arial Black", sans-serif;
-    box-shadow:
-      0 1px 0 rgba(0,0,0,0.08),
-      0 18px 40px -18px rgba(0,0,0,0.35);
-    overflow: hidden;
-  }
-  .R-ticket-stars {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><path d='M12 2 L14.2 8.8 L21 9 L15.5 13.3 L17.5 20 L12 15.8 L6.5 20 L8.5 13.3 L3 9 L9.8 8.8 Z'/></svg>"),
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><path d='M12 2 L14.2 8.8 L21 9 L15.5 13.3 L17.5 20 L12 15.8 L6.5 20 L8.5 13.3 L3 9 L9.8 8.8 Z'/></svg>"),
-      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><path d='M12 2 L14.2 8.8 L21 9 L15.5 13.3 L17.5 20 L12 15.8 L6.5 20 L8.5 13.3 L3 9 L9.8 8.8 Z'/></svg>");
-    background-size: 88px 88px, 68px 68px, 52px 52px;
-    background-position: 18% 14%, 84% 22%, 12% 78%;
-    background-repeat: no-repeat;
-    opacity: 0.15;
-    z-index: 1;
-  }
-  .R-ticket-content {
-    position: relative;
-    z-index: 2;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 0;
+    margin-top: 24px;
+    max-width: 580px;
     width: 100%;
+    border-radius: 8px;
+    overflow: visible;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
   }
-  .R-ticket-eyebrow {
-    font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    font-size: 9.5px;
-    letter-spacing: 0.22em;
+  .R-ticket:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px -12px rgba(0,0,0,0.25);
+  }
+  .R-ticket-inner {
+    flex: 1;
+    background:
+      radial-gradient(ellipse 90% 50% at 30% 40%, rgba(255,240,220,0.3) 0%, transparent 60%),
+      linear-gradient(135deg, #1D1815 0%, #2A2018 20%, #6B5032 45%, #A88F65 65%, #C9B287 80%, #E4D4A8 95%);
+    border-radius: 8px 0 0 8px;
+    padding: 32px 28px;
+    display: flex; flex-direction: column;
+    align-items: center; text-align: center;
+    gap: 0;
+  }
+  .R-ticket-presents {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: color-mix(in srgb, #3a2214 70%, transparent);
-    margin-bottom: 1rem;
+    color: rgba(244,239,230,0.4);
+    margin-bottom: 16px;
   }
   .R-ticket-title {
-    font-size: clamp(2.4rem, 8vw, 3.6rem);
-    line-height: 0.88;
-    letter-spacing: 0.005em;
-    text-transform: uppercase;
-    font-weight: 900;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
-    margin-bottom: 1.25rem;
-  }
-  .R-ticket-details {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.1rem;
-    font-weight: 600;
-    font-style: italic;
-    margin-bottom: 1.25rem;
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    font-weight: 500; font-style: italic;
+    color: #F4EFE6;
+    line-height: 1.15;
+    margin-bottom: 8px;
   }
-  .R-ticket-detail-sep { opacity: 0.4; }
-  .R-ticket-dividend {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
+  .R-ticket-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(244,239,230,0.3);
+    margin-bottom: 20px;
   }
-  .R-ticket-dividend-pct {
-    font-size: clamp(2.2rem, 6vw, 3rem);
-    line-height: 1;
-    font-weight: 900;
-    color: #2a1808;
+  .R-ticket-rule {
+    width: 40px; height: 1px;
+    background: rgba(244,239,230,0.15);
+    margin-bottom: 20px;
   }
-  .R-ticket-dividend-text {
+  .R-ticket-info {
+    display: flex; flex-direction: column; gap: 6px;
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 0.85rem;
-    font-style: italic;
-    text-align: left;
-    line-height: 1.4;
-    color: color-mix(in srgb, #3a2214 80%, transparent);
-  }
-  .R-ticket-fine {
-    font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    font-size: 8px;
-    letter-spacing: 0.1em;
-    line-height: 1.8;
-    color: color-mix(in srgb, #3a2214 55%, transparent);
-    margin: 0 0 1.25rem;
+    color: rgba(244,239,230,0.5);
+    line-height: 1.5;
+    margin-bottom: 20px;
   }
   .R-ticket-phone {
-    font-size: clamp(1.3rem, 4.5vw, 1.9rem);
-    letter-spacing: 0.01em;
-    color: color-mix(in srgb, #3a2214 88%, transparent);
-    margin-bottom: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.08em;
+    color: rgba(244,239,230,0.35);
+    margin-bottom: 16px;
   }
-  .R-ticket-cta {
-    display: inline-block;
+  .R-ticket-rsvp {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: #3a2214;
-    border: 1.5px solid #3a2214;
-    padding: 0.45rem 2rem;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-    margin-bottom: 0.75rem;
+    font-size: 1rem; font-style: italic;
+    color: rgba(244,239,230,0.5);
+    border: 1px solid rgba(244,239,230,0.15);
+    padding: 8px 24px; border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .R-ticket:hover .R-ticket-rsvp {
+    color: #F4EFE6;
+    border-color: rgba(244,239,230,0.4);
+  }
+
+  /* Tear */
+  .R-ticket-tear {
+    width: 1px; position: relative;
+    flex-shrink: 0;
+  }
+  .R-ticket-perf {
+    position: absolute; top: 16px; bottom: 16px; left: 0;
+    border-left: 1px dashed rgba(244,239,230,0.12);
+  }
+  .R-ticket-hole {
+    position: absolute; left: -6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--paper, #F4EFE6);
+  }
+  .R-ticket-hole-t { top: -6px; }
+  .R-ticket-hole-b { bottom: -6px; }
+
+  /* Stub */
+  .R-ticket-stub {
+    width: 64px;
+    background: linear-gradient(135deg, #1D1815 0%, #2A2018 50%, #3D2F1F 100%);
+    border-radius: 0 8px 8px 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; padding: 16px 8px;
+  }
+  .R-ticket-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
+  .R-ticket-bar {
+    width: 1.5px; background: rgba(244,239,230,0.4); border-radius: 1px;
+  }
+  .R-ticket-admit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.45rem; letter-spacing: 0.15em;
+    color: rgba(244,239,230,0.3);
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+    text-transform: uppercase;
   }
   .R-ticket-cta:hover {
     background: #3a2214;
