@@ -406,7 +406,7 @@ export default function DraftPage() {
                 )}
               </div>
 
-              {/* Channel row */}
+              {/* Channel row — matches YouTube dark mode 2025 */}
               <div className="D-chrome-channel">
                 <div className="D-chrome-avatar" style={{ border: avatarBorder, transition: "border 5s ease" }}>
                   a
@@ -429,37 +429,30 @@ export default function DraftPage() {
                 )}
               </div>
 
-              {/* Actions row */}
+              {/* Actions row — YouTube pill buttons */}
               <div className="D-chrome-actions">
-                <div className="D-chrome-action">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M7 22V11l-5-5 1-4h5l2 2h4l2-2h5l1 4-5 5v11" />
-                  </svg>
-                  <span className={likeIsValue ? "D-chrome-action-value" : ""}>{likeCount}</span>
+                <div className="D-chrome-like-pill">
+                  <button className="D-chrome-like-btn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                      <path d="M18.77 11h-4.23l1.52-4.94C16.38 5.03 15.54 4 14.38 4c-.58 0-1.14.24-1.52.65L7 11H1v11h16.21a2.99 2.99 0 002.86-2.13l1.9-6.36c.13-.42.05-.88-.2-1.24A1.54 1.54 0 0018.77 11z" opacity="0" />
+                      <path d="M7 11l5-7c1.12 0 2.09.82 2.23 1.93L13 11h6.77c.45 0 .86.22 1.12.58.25.36.33.82.2 1.24l-1.9 6.36A2.99 2.99 0 0116.21 22H1V11h6zm-1 1H2v9h4v-9z" fill="none" stroke="currentColor" strokeWidth="1" />
+                    </svg>
+                    <span className={likeIsValue ? "D-chrome-action-value" : ""}>{likeCount}</span>
+                  </button>
+                  <div className="D-chrome-pill-divider" />
+                  <button className="D-chrome-dislike-btn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1">
+                      <path d="M17 13l-5 7c-1.12 0-2.09-.82-2.23-1.93L11 13H4.23c-.45 0-.86-.22-1.12-.58a1.54 1.54 0 01-.2-1.24l1.9-6.36A2.99 2.99 0 017.79 2H23v11h-6zm1-1h4V3h-4v9z" />
+                    </svg>
+                    {dislikeText && <span>{dislikeText}</span>}
+                  </button>
                 </div>
-                <div className="D-chrome-action-divider" />
-                <div className="D-chrome-action">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ transform: "rotate(180deg)" }}>
-                    <path d="M7 22V11l-5-5 1-4h5l2 2h4l2-2h5l1 4-5 5v11" />
+                <button className="D-chrome-action-pill">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M15 5.63L20.66 12 15 18.37V14h-1c-3.96 0-7.14 1-9.75 3.09 1.84-4.07 5.11-6.4 9.89-7.1l.86-.13V5.63M14 3v6C6.22 10.13 3.11 15.33 2 21c2.78-3.97 6.44-6 12-6v6l8-9-8-9z" />
                   </svg>
-                  {dislikeText && <span>{dislikeText}</span>}
-                </div>
-                <div className="D-chrome-action">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
-                    <polyline points="16 6 12 2 8 6" />
-                    <line x1="12" y1="2" x2="12" y2="15" />
-                  </svg>
-                  <span>Share</span>
-                </div>
-                <div className="D-chrome-action">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
-                    <polyline points="7 10 12 15 17 10" />
-                    <line x1="12" y1="15" x2="12" y2="3" />
-                  </svg>
-                  <span>Download</span>
-                </div>
+                  Share
+                </button>
               </div>
             </div>
           )}
@@ -721,11 +714,11 @@ const CSS = `
   }
   .D-chrome-title {
     font-family: Roboto, sans-serif;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     color: #f1f1f1;
-    line-height: 1.4;
-    margin-bottom: 8px;
+    line-height: 1.3;
+    margin-bottom: 12px;
   }
 
   /* Character swap animation */
@@ -745,16 +738,16 @@ const CSS = `
   .D-chrome-channel {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    gap: 12px;
+    margin-bottom: 12px;
   }
   .D-chrome-avatar {
-    width: 32px; height: 32px;
+    width: 40px; height: 40px;
     border-radius: 50%;
-    background: #333;
+    background: #272727;
     display: flex; align-items: center; justify-content: center;
     font-family: Roboto, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     color: #aaa;
     flex-shrink: 0;
@@ -762,7 +755,6 @@ const CSS = `
   }
   .D-chrome-channel-info {
     display: flex; flex-direction: column; gap: 0;
-    margin-right: auto;
   }
   .D-chrome-channel-name {
     font-family: Roboto, sans-serif;
@@ -787,25 +779,34 @@ const CSS = `
     transition: background 5s ease, color 5s ease, opacity 1s ease;
   }
 
-  /* Actions row */
+  /* Actions row — YouTube 2025 pill buttons */
   .D-chrome-actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 8px;
+    flex-wrap: wrap;
   }
-  .D-chrome-action {
+  .D-chrome-like-pill {
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-family: Roboto, sans-serif;
-    font-size: 14px;
-    color: #f1f1f1;
-    cursor: default;
+    background: #272727;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .D-chrome-like-btn, .D-chrome-dislike-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: none; border: none; color: #f1f1f1;
+    font-family: Roboto, sans-serif; font-size: 14px;
+    padding: 8px 16px; cursor: default;
     font-variant-numeric: tabular-nums;
   }
-  .D-chrome-action svg {
-    opacity: 0.9;
+  .D-chrome-like-btn { padding-right: 12px; }
+  .D-chrome-dislike-btn { padding-left: 12px; }
+  .D-chrome-pill-divider {
+    width: 1px; height: 24px;
+    background: #494949;
   }
+  .D-chrome-like-btn svg, .D-chrome-dislike-btn svg { flex-shrink: 0; }
   .D-chrome-action-value {
     font-family: 'JetBrains Mono', monospace !important;
     color: #dbb645 !important;
@@ -817,10 +818,12 @@ const CSS = `
     40% { transform: scale(1.08); }
     100% { transform: scale(1); }
   }
-  .D-chrome-action-divider {
-    width: 1px;
-    height: 20px;
-    background: #555;
+  .D-chrome-action-pill {
+    display: flex; align-items: center; gap: 6px;
+    background: #272727; border: none; color: #f1f1f1;
+    border-radius: 18px; padding: 8px 16px;
+    font-family: Roboto, sans-serif; font-size: 14px;
+    cursor: default;
   }
 
   /* ── PHASE 4: AURE CONTENT ── */
