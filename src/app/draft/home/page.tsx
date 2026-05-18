@@ -37,7 +37,7 @@ function useLive(): number {
   return v;
 }
 
-function fmt(n: number) { return "$" + Math.round(n).toLocaleString(); }
+function fmt(n: number) { return "$" + Math.round(n).toLocaleString("en-US"); }
 function daysLeft() { return Math.max(0, Math.ceil((new Date("2026-06-20").getTime() - Date.now()) / 86_400_000)); }
 
 /* ══════════════════════════════════════
@@ -50,16 +50,19 @@ function daysLeft() { return Math.max(0, Math.ceil((new Date("2026-06-20").getTi
 
 export default function DraftHomePage() {
   const total = useLive();
-  const d = daysLeft();
-  const pct = ((total / 100_000) * 100).toFixed(1);
   const rootRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
 
   /* Phase: dark flash → warm paper */
   const [phase, setPhase] = useState<"dark" | "warm">("dark");
   useEffect(() => {
+    setMounted(true);
     const t = setTimeout(() => setPhase("warm"), 2800);
     return () => clearTimeout(t);
   }, []);
+
+  const d = mounted ? daysLeft() : 33;
+  const displayTotal = mounted ? Math.round(total).toLocaleString("en-US") : "---";
 
   /* scroll-reveal */
   useEffect(() => {
@@ -89,10 +92,10 @@ export default function DraftHomePage() {
       <section className="R-hero">
         <div className="R-number">
           <span className="R-currency">$</span>
-          {Math.round(total).toLocaleString()}
+          {displayTotal}
         </div>
         <div className="R-delta">
-          +{((total / 3453 - 1) * 100).toFixed(0)}% since april 12
+          +{mounted ? ((total / 3453 - 1) * 100).toFixed(0) : "18"}% since april 12
         </div>
         <div className="R-target">
           <span className="R-arrow">→</span> $100,000
@@ -258,8 +261,6 @@ export default function DraftHomePage() {
 }
 
 const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap');
-
   /* ── ROOT — starts dark, transitions to cream ── */
   .R {
     min-height: 100vh;
@@ -871,16 +872,16 @@ const CSS = `
   .R-closer-q .R-rainbow:nth-child(4n)   { color: #8A7960; }
   .R-closer-q .R-rainbow:last-child      { color: #C9A020; }
 
-  /* "aureliex." — CMIYGL poster palette (warm, saturated, reads on dark) */
-  .R-sig .R-rainbow:nth-child(1) { color: #D45B4B; }  /* a — warm coral red */
-  .R-sig .R-rainbow:nth-child(2) { color: #3B7DD8; }  /* u — cobalt blue */
-  .R-sig .R-rainbow:nth-child(3) { color: #D4944A; }  /* r — marigold */
-  .R-sig .R-rainbow:nth-child(4) { color: #D45B7A; }  /* e — dusty rose */
-  .R-sig .R-rainbow:nth-child(5) { color: #4BA89A; }  /* l — warm jade */
-  .R-sig .R-rainbow:nth-child(6) { color: #E8C44A; }  /* i — sunflower */
-  .R-sig .R-rainbow:nth-child(7) { color: #D46B4B; }  /* e — burnt sienna */
-  .R-sig .R-rainbow:nth-child(8) { color: #7B8ED4; }  /* x — periwinkle */
-  .R-sig .R-rainbow:nth-child(9) { color: #C45040; }  /* . — vermillion */
+  /* "aureliex." — design-system palette (rust, shadow-blue, sunset) */
+  .R-sig .R-rainbow:nth-child(1) { color: #8B3A2E; }  /* a — rust */
+  .R-sig .R-rainbow:nth-child(2) { color: #2E3A5C; }  /* u — sunset indigo */
+  .R-sig .R-rainbow:nth-child(3) { color: #D97A57; }  /* r — sunset coral */
+  .R-sig .R-rainbow:nth-child(4) { color: #E8B547; }  /* e — sunset gold */
+  .R-sig .R-rainbow:nth-child(5) { color: #3E4852; }  /* l — shadow blue */
+  .R-sig .R-rainbow:nth-child(6) { color: #F2C9A4; }  /* i — sunset peach */
+  .R-sig .R-rainbow:nth-child(7) { color: #6B6560; }  /* e — graphite */
+  .R-sig .R-rainbow:nth-child(8) { color: #D97A57; }  /* x — sunset coral */
+  .R-sig .R-rainbow:nth-child(9) { color: #8B3A2E; }  /* . — rust */
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
