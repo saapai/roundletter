@@ -284,7 +284,7 @@ const CSS = `
   /* ── GOLDEN FLASH ── */
   .R-flash {
     position: relative;
-    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
     text-align: center;
   }
   .R-flash-text {
@@ -334,7 +334,7 @@ const CSS = `
   /* ── THE NUMBER ── */
   .R-hero {
     text-align: center;
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    margin-bottom: clamp(3rem, 6vw, 5rem);
     opacity: 0;
     animation: r-up 1.8s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
   }
@@ -363,7 +363,7 @@ const CSS = `
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #7dba6a;
-    margin-top: 0.6rem;
+    margin-top: 0.75rem;
   }
   .R--warm .R-delta { color: #5a7a48; }
 
@@ -376,7 +376,7 @@ const CSS = `
     font-size: 0.58rem;
     letter-spacing: 0.08em;
     opacity: 0.22;
-    margin-top: 0.5rem;
+    margin-top: 0.65rem;
   }
   .R-arrow { color: #C9A020; opacity: 0.5; }
   .R-sep { opacity: 0.3; }
@@ -404,7 +404,7 @@ const CSS = `
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 0.6rem;
+    margin-top: 0.75rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
     opacity: 0.25;
@@ -429,10 +429,10 @@ const CSS = `
   .R-invite {
     text-align: center;
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.25rem, 2.8vw, 1.55rem);
+    font-size: clamp(1.3rem, 2.8vw, 1.6rem);
     font-style: italic;
-    line-height: 1.65;
-    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.7;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
     opacity: 0;
     animation: r-up 1.5s ease 3s forwards;
     color: rgba(232,228,220,0.55);
@@ -441,7 +441,7 @@ const CSS = `
 
   /* ── THE PAINTING ── */
   .R-painting {
-    margin-bottom: clamp(2rem, 5vw, 3rem);
+    margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
   }
   .R-painting-frame {
     position: relative;
@@ -472,8 +472,8 @@ const CSS = `
   .R-painting-caption {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
-    margin-top: 1rem;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
     padding: 0 0.25rem;
   }
   .R-painting-title {
@@ -483,10 +483,10 @@ const CSS = `
     font-weight: 500;
     color: rgba(232,228,220,0.7);
   }
-  .R--warm .R-painting-title { color: #1C1A17; }
+  .R--warm .R-painting-title { color: #2A2520; }
   .R-painting-terms {
     display: flex; gap: 32px;
-    margin: 12px 0 8px;
+    margin: 14px 0 10px;
   }
   .R-painting-term {
     display: flex; flex-direction: column; gap: 2px;
@@ -512,11 +512,11 @@ const CSS = `
     letter-spacing: 0.02em;
     line-height: 1.6;
     opacity: 0.35;
-    margin-top: 4px;
+    margin-top: 6px;
   }
   .R-painting-bid {
     display: inline-block;
-    margin-top: 0.75rem;
+    margin-top: 1rem;
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 1rem;
     font-weight: 500;
@@ -547,7 +547,7 @@ const CSS = `
   .R-rule {
     border: none;
     border-top: 1px solid rgba(232,228,220,0.06);
-    margin: clamp(1rem, 3vw, 2rem) 0;
+    margin: clamp(1.5rem, 3vw, 2.5rem) 0;
   }
   .R--warm .R-rule {
     border-color: rgba(28,26,23,0.1);
@@ -670,7 +670,7 @@ const CSS = `
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 3rem;
+    padding-bottom: clamp(4rem, 8vw, 6rem);
   }
 
   /* ── TICKET ── */
@@ -805,7 +805,7 @@ const CSS = `
   /* ── ROOMS (four revolutions) — dark cards ── */
   .R-rooms {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1px;
+    gap: 2px;
     width: 100%;
     max-width: 44rem;
     background: rgba(232,228,220,0.03);
@@ -813,8 +813,8 @@ const CSS = `
     margin-bottom: 0;
   }
   .R-room {
-    display: flex; flex-direction: column; gap: 6px;
-    padding: 32px 28px;
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 36px 32px;
     background: #0e0d0b;
     text-decoration: none;
     color: #e8e4dc;
@@ -836,7 +836,7 @@ const CSS = `
     font-size: 0.55rem; opacity: 0.25;
     letter-spacing: 0.06em;
     color: rgba(232,228,220,0.4);
-    margin-top: 2px;
+    margin-top: 4px;
   }
 
   /* ── CLOSER ── */
@@ -853,7 +853,7 @@ const CSS = `
     margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
     letter-spacing: 0.01em;
     line-height: 1.2;
-    opacity: 0.55;
+    opacity: 0.5;
   }
   .R-sig {
     font-family: 'Cormorant Garamond', Georgia, serif;
@@ -862,12 +862,12 @@ const CSS = `
     font-weight: 400;
     letter-spacing: 0.15em;
     margin: 0 0 clamp(2rem, 4vw, 3rem);
-    opacity: 0.3;
+    opacity: 0.38;
   }
   .R-closer-phone {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem; letter-spacing: 0.18em;
-    opacity: 0.1; display: block; margin-top: 0;
+    opacity: 0.12; display: block; margin-top: clamp(0.5rem, 1vw, 0.75rem);
   }
 
   /* Per-character rainbow coloring */
@@ -917,14 +917,14 @@ const CSS = `
 
     /* cream zone — flash, number, invite */
     .R-flash { margin-bottom: 1.2rem; }
-    .R-flash-text { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+    .R-flash-text { font-size: clamp(2.2rem, 10vw, 3.4rem); }
     .R-flash-glow { width: 140%; height: 350%; }
     .R-hero { margin-bottom: 2rem; }
-    .R-number { font-size: clamp(3rem, 14vw, 4.2rem); }
+    .R-number { font-size: clamp(2.8rem, 13vw, 4.2rem); }
     .R-currency { font-size: 0.4em; }
-    .R-delta { font-size: 0.6rem; letter-spacing: 0.1em; }
-    .R-target { font-size: 0.5rem; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
-    .R-trace { font-size: 0.5rem; gap: 0.5rem; }
+    .R-delta { font-size: 0.65rem; letter-spacing: 0.1em; }
+    .R-target { font-size: 0.55rem; gap: 0.4rem; flex-wrap: wrap; justify-content: center; }
+    .R-trace { font-size: 0.55rem; gap: 0.5rem; }
     .R-invite {
       font-size: clamp(1.1rem, 4.5vw, 1.35rem);
       line-height: 1.55;
@@ -935,8 +935,8 @@ const CSS = `
     .R-painting-title { font-size: 1rem; }
     .R-painting-terms { gap: 24px; }
     .R-painting-value { font-size: 1.3rem; }
-    .R-painting-label { font-size: 0.55rem; }
-    .R-painting-meta { font-size: 0.55rem; }
+    .R-painting-label { font-size: 0.6rem; }
+    .R-painting-meta { font-size: 0.6rem; }
     .R-painting-bid {
       padding: 0.65rem 1.8rem;
       font-size: 0.95rem;
@@ -957,12 +957,12 @@ const CSS = `
       min-height: clamp(28rem, 70vh, 40rem);
     }
     .R-party-hero-inner { padding: clamp(3.5rem, 10vh, 6rem) 1.25rem; }
-    .R-party-presents { font-size: 0.55rem; letter-spacing: 0.28em; margin-bottom: 20px; }
+    .R-party-presents { font-size: 0.6rem; letter-spacing: 0.28em; margin-bottom: 20px; }
     .R-party-title { font-size: clamp(2.6rem, 9vw, 3.8rem); margin: 0 0 18px; }
-    .R-party-sub { font-size: 0.55rem; letter-spacing: 0.18em; margin-bottom: 28px; }
+    .R-party-sub { font-size: 0.6rem; letter-spacing: 0.18em; margin-bottom: 28px; }
     .R-party-rule { width: min(260px, 60%); margin-bottom: 28px; }
     .R-party-tagline { font-size: clamp(1.2rem, 3.8vw, 1.8rem); margin: 0 0 16px; }
-    .R-party-details { font-size: 0.55rem; }
+    .R-party-details { font-size: 0.6rem; }
 
     /* dark zone — full bleed with inner padding */
     .R-dark-zone {
@@ -980,7 +980,7 @@ const CSS = `
     .R-ticket { max-width: 100%; }
     .R-ticket-main { padding: 18px 16px; }
     .R-ticket-event { font-size: 1.05rem; }
-    .R-ticket-meta { font-size: 0.48rem; gap: 12px; }
+    .R-ticket-meta { font-size: 0.52rem; gap: 12px; }
 
     /* backed by */
     .R-backed { padding: 0 1.25rem clamp(3rem, 6vw, 5rem); }
@@ -998,17 +998,17 @@ const CSS = `
       margin-right: 0;
       box-sizing: border-box;
     }
-    .R-room { padding: 22px 20px; min-height: 44px; }
+    .R-room { padding: 26px 20px; min-height: 56px; }
     .R-room-n { font-size: 0.95rem; }
     .R-room-name { font-size: 0.95rem; word-break: break-word; }
-    .R-room-sub { font-size: 0.5rem; word-break: break-word; }
+    .R-room-sub { font-size: 0.52rem; word-break: break-word; }
 
     /* closer */
     .R-closer {
       padding: clamp(3rem, 8vw, 5rem) 1.25rem clamp(2.5rem, 5vw, 4rem);
     }
     .R-closer-q {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       line-height: 1.15;
       margin: 0 0 1.5rem;
     }
