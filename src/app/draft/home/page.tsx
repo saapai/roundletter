@@ -875,16 +875,16 @@ const CSS = `
   .R-closer-q .R-rainbow:nth-child(4n)   { color: #8A7960; }
   .R-closer-q .R-rainbow:last-child      { color: #C9A020; }
 
-  /* "aureliex." — oil-paint palette (reads on dark) */
-  .R-sig .R-rainbow:nth-child(1) { color: #C04A42; }
-  .R-sig .R-rainbow:nth-child(2) { color: #4A7AAE; }
-  .R-sig .R-rainbow:nth-child(3) { color: #9B6AAE; }
-  .R-sig .R-rainbow:nth-child(4) { color: #D49A40; }
-  .R-sig .R-rainbow:nth-child(5) { color: #5A9AAE; }
-  .R-sig .R-rainbow:nth-child(6) { color: #DA8A6A; }
-  .R-sig .R-rainbow:nth-child(7) { color: #B04A3E; }
-  .R-sig .R-rainbow:nth-child(8) { color: #D4B460; }
-  .R-sig .R-rainbow:nth-child(9) { color: #8A3030; }
+  /* "aureliex." — CMIYGL poster palette (warm, saturated, reads on dark) */
+  .R-sig .R-rainbow:nth-child(1) { color: #D45B4B; }  /* a — warm coral red */
+  .R-sig .R-rainbow:nth-child(2) { color: #3B7DD8; }  /* u — cobalt blue */
+  .R-sig .R-rainbow:nth-child(3) { color: #D4944A; }  /* r — marigold */
+  .R-sig .R-rainbow:nth-child(4) { color: #D45B7A; }  /* e — dusty rose */
+  .R-sig .R-rainbow:nth-child(5) { color: #4BA89A; }  /* l — warm jade */
+  .R-sig .R-rainbow:nth-child(6) { color: #E8C44A; }  /* i — sunflower */
+  .R-sig .R-rainbow:nth-child(7) { color: #D46B4B; }  /* e — burnt sienna */
+  .R-sig .R-rainbow:nth-child(8) { color: #7B8ED4; }  /* x — periwinkle */
+  .R-sig .R-rainbow:nth-child(9) { color: #C45040; }  /* . — vermillion */
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
