@@ -234,8 +234,7 @@ export default function DraftPage() {
       if (newPhase >= 3 && !triggeredRef.current.has(300)) {
         triggeredRef.current.add(300);
 
-        // Pause
-        try { player.pauseVideo(); } catch { /* */ }
+        // No pause — video keeps playing through the transformation
 
         // Character swap
         const oldTitle = "nothing, except everything";
@@ -268,25 +267,18 @@ export default function DraftPage() {
         // Subscribers → days left
         setSubscriberText(`${d} days left`);
 
-        // Show gold play button after char swap finishes
+        // Gold color shift + chrome dissolve after char swap finishes
         const swapDuration = maxLen * 40 + 600;
-        setTimeout(() => setShowGoldPlay(true), swapDuration);
-
-        // Auto-resume 3s after gold button appears
-        resumeTimeoutRef.current = setTimeout(() => {
-          setShowGoldPlay(false);
-          try { player.playVideo(); } catch { /* */ }
-          // Gold color shift arrives with Lasso's energy
+        setTimeout(() => {
           setProgressBarColor("#f0d890");
           setSubscribeBg("rgba(240,216,144,0.15)");
           setSubscribeColor("#f0d890");
           setAvatarBorder("2px solid rgba(240,216,144,0.5)");
-          // Phase 4 dissolve
           triggeredRef.current.add(400);
           setChromeVisible(false);
           setBgColor("#050505");
           setShowAureContent(true);
-        }, swapDuration + 3000);
+        }, swapDuration + 1500);
       }
 
       // Phase 5: PIP
@@ -349,7 +341,7 @@ export default function DraftPage() {
             </div>
 
             {/* Progress bar (fake) */}
-            {!isMobile && phase < 4 && (
+            {!isMobile && phase >= 1 && phase < 4 && (
               <div className="D-progress-bar">
                 <div
                   className="D-progress-fill"
@@ -535,7 +527,7 @@ export default function DraftPage() {
 
               {/* "drinks on me" — echoes the video's last line */}
               {videoEnded && (
-                <p className="D-drinks">drinks are on me.</p>
+                <a href="/invest" className="D-drinks">drinks are on me.</a>
               )}
 
               <p className="D-final-sig">aureliex.com</p>
@@ -687,22 +679,20 @@ const CSS = `
 
   /* ── FAKE YOUTUBE CHROME ── */
   .D-chrome {
-    width: 85vw;
-    max-width: 860px;
-    padding: 0 0 24px;
+    width: 80vw;
+    max-width: 800px;
+    padding: 12px 0 16px;
   }
   .D-chrome-sep {
-    height: 1px;
-    background: #272727;
-    margin: 0 0 12px;
+    display: none;
   }
   .D-chrome-title {
     font-family: Roboto, sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
     color: #f1f1f1;
     line-height: 1.4;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
   /* Character swap animation */
@@ -720,24 +710,24 @@ const CSS = `
   .D-chrome-channel {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    gap: 10px;
+    margin-bottom: 10px;
   }
   .D-chrome-avatar {
-    width: 36px; height: 36px;
+    width: 32px; height: 32px;
     border-radius: 50%;
-    background: #555;
+    background: #333;
     display: flex; align-items: center; justify-content: center;
     font-family: Roboto, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
-    color: #e8e4dc;
+    color: #aaa;
     flex-shrink: 0;
     transition: border 5s ease;
   }
   .D-chrome-channel-info {
-    display: flex; flex-direction: column; gap: 1px;
-    flex: 1;
+    display: flex; flex-direction: column; gap: 0;
+    margin-right: auto;
   }
   .D-chrome-channel-name {
     font-family: Roboto, sans-serif;
