@@ -27,7 +27,7 @@ const PENDING_CASH = 46.57;
 const PREDICTION_OFFSET = 250;
 const TARGET = 100_000;
 const DEADLINE = new Date("2026-06-21");
-const VIDEO_ID = "13_cLPPn0YU";
+const VIDEO_ID = "0UArh-KjQYU";
 
 /* ── live price hook ── */
 function useLive(): number {
