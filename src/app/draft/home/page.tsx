@@ -158,8 +158,8 @@ export default function DraftHomePage() {
         <section className="R-party-hero R-reveal">
           <div className="R-party-hero-inner">
             <span className="R-party-presents">aureliex presents</span>
-            <h2 className="R-party-title">the liquidity event.</h2>
-            <span className="R-party-sub">the dividend party · 2026</span>
+            <h2 className="R-party-title">the party.</h2>
+            <span className="R-party-sub">the liquidity event · june 20 · 2026</span>
             <div className="R-party-rule" />
             <p className="R-party-tagline">june 20 · salt lake city</p>
             <span className="R-party-details">
@@ -627,18 +627,17 @@ const CSS = `
   }
   .R-party-presents {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.32em;
+    font-size: 0.62rem; letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.55);
-    text-shadow: 0 1px 4px rgba(6,6,8,0.4);
+    color: #8B5A40;
     margin-bottom: 20px;
   }
   .R-party-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(2.8rem, 9vw, 4.4rem);
     font-weight: 400; font-style: italic;
-    color: #E5DDD2;
-    text-shadow: 0 2px 16px rgba(6,6,8,0.5);
+    color: #1C1A17;
+    text-shadow: 0 2px 12px rgba(229,221,210,0.15);
     line-height: 1.1;
     letter-spacing: -0.01em;
     margin: 0 0 12px;
@@ -647,8 +646,7 @@ const CSS = `
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem; letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.5);
-    text-shadow: 0 1px 4px rgba(6,6,8,0.4);
+    color: rgba(28,26,23,0.45);
     margin-bottom: 28px;
   }
   .R-party-rule {
@@ -660,8 +658,8 @@ const CSS = `
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(1.35rem, 3.8vw, 2.1rem);
     font-style: italic;
-    color: #E5DDD2;
-    text-shadow: 0 1px 12px rgba(6,6,8,0.5);
+    color: rgba(229,221,210,0.85);
+    text-shadow: 0 1px 8px rgba(6,6,8,0.35);
     max-width: 22ch;
     letter-spacing: 0.01em;
     line-height: 1.3;
@@ -669,11 +667,10 @@ const CSS = `
   }
   .R-party-details {
     font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(0.55rem, 1.4vw, 0.65rem);
-    letter-spacing: 0.15em;
+    font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.5);
-    text-shadow: 0 1px 4px rgba(6,6,8,0.35);
+    color: rgba(229,221,210,0.48);
     margin-top: 4px;
   }
 
