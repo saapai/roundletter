@@ -276,7 +276,7 @@ const CSS = `
   /* ── GOLDEN FLASH (bridge from video) ── */
   .R-flash {
     position: relative;
-    margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
     text-align: center;
   }
   .R-flash-text {
@@ -326,7 +326,7 @@ const CSS = `
   /* ── THE NUMBER ── */
   .R-hero {
     text-align: center;
-    margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
     opacity: 0;
     animation: r-up 1.8s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
   }
@@ -420,7 +420,7 @@ const CSS = `
     font-size: clamp(1.25rem, 2.8vw, 1.55rem);
     font-style: italic;
     line-height: 1.65;
-    margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
     opacity: 0;
     animation: r-up 1.5s ease 3s forwards;
   }
@@ -554,11 +554,11 @@ const CSS = `
     line-height: 1.25;
     margin: 0;
   }
-  /* ── TICKET — archive diagonal light-shaft ── */
+  /* ── TICKET — archive poster meets party ticket ── */
   .R-ticket {
     display: flex;
     margin-top: 28px;
-    max-width: 620px;
+    max-width: 660px;
     width: 100%;
     border-radius: 6px;
     overflow: visible;
@@ -566,11 +566,15 @@ const CSS = `
     color: inherit;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
     cursor: pointer;
-    box-shadow: 0 4px 24px -8px rgba(0,0,0,0.18);
+    box-shadow:
+      0 8px 32px -8px rgba(0,0,0,0.25),
+      0 2px 8px rgba(0,0,0,0.08);
   }
   .R-ticket:hover {
     transform: translateY(-3px);
-    box-shadow: 0 16px 48px -16px rgba(0,0,0,0.35);
+    box-shadow:
+      0 20px 56px -16px rgba(0,0,0,0.4),
+      0 4px 12px rgba(0,0,0,0.12);
   }
   .R-ticket-inner {
     flex: 1;
@@ -584,7 +588,7 @@ const CSS = `
       radial-gradient(ellipse 40% 30% at 55% 48%, rgba(200,168,72,0.08) 0%, transparent 100%),
       /* diagonal light shaft — pink-gold */
       linear-gradient(
-        155deg,
+        160deg,
         #0a0610  0%,
         #14091a  8%,
         #2a1028  17%,
@@ -603,17 +607,17 @@ const CSS = `
         #0a0610  100%
       );
     border-radius: 6px 0 0 6px;
-    padding: 40px 32px;
+    padding: clamp(48px, 8vw, 72px) clamp(28px, 5vw, 48px);
     display: flex; flex-direction: column;
     align-items: center; text-align: center;
     gap: 0;
   }
-  /* grain overlay */
+  /* grain overlay — matches archive */
   .R-ticket-inner::after {
     content: '';
     position: absolute; inset: 0;
     border-radius: 6px 0 0 6px;
-    opacity: 0.04;
+    opacity: 0.045;
     mix-blend-mode: soft-light;
     background-image:
       radial-gradient(rgba(229,221,210,0.5) 1px, transparent 1px),
@@ -624,59 +628,62 @@ const CSS = `
   }
   .R-ticket-presents {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem; letter-spacing: 0.3em;
+    font-size: 0.6rem; letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.5);
-    margin-bottom: 18px;
+    color: rgba(229,221,210,0.48);
+    margin-bottom: 20px;
   }
   .R-ticket-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2rem, 5.5vw, 2.8rem);
+    font-size: clamp(2.4rem, 7vw, 3.6rem);
     font-weight: 400; font-style: italic;
-    color: #E5DDD2;
-    text-shadow: 0 2px 16px rgba(6,6,8,0.45);
-    line-height: 1.15;
+    color: #1C1A17;
+    text-shadow: 0 2px 12px rgba(229,221,210,0.3);
+    line-height: 1.1;
     letter-spacing: -0.01em;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   .R-ticket-sub {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem; letter-spacing: 0.22em;
+    font-size: 0.55rem; letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.35);
-    margin-bottom: 24px;
+    color: rgba(229,221,210,0.42);
+    margin-bottom: 28px;
   }
   .R-ticket-rule {
-    width: 36px; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(224,148,120,0.3), transparent);
-    margin-bottom: 24px;
+    width: min(280px, 50%); height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(194,97,78,0.35), transparent);
+    margin-bottom: 28px;
   }
   .R-ticket-info {
-    display: flex; flex-direction: column; gap: 7px;
+    display: flex; flex-direction: column; gap: 6px;
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.9rem;
-    color: rgba(229,221,210,0.6);
+    font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+    font-style: italic;
+    color: rgba(229,221,210,0.85);
+    text-shadow: 0 1px 8px rgba(6,6,8,0.35);
     line-height: 1.5;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   .R-ticket-phone {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem; letter-spacing: 0.1em;
-    color: rgba(229,221,210,0.3);
-    margin-bottom: 18px;
+    font-size: 0.65rem; letter-spacing: 0.12em;
+    color: rgba(229,221,210,0.35);
+    margin-bottom: 20px;
   }
   .R-ticket-rsvp {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1rem; font-style: italic;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase;
     color: rgba(229,221,210,0.55);
-    border: 1px solid rgba(229,221,210,0.18);
-    padding: 10px 28px; border-radius: 2px;
+    border: 1px solid rgba(229,221,210,0.2);
+    padding: 12px 32px; border-radius: 2px;
     transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .R-ticket:hover .R-ticket-rsvp {
     color: #E5DDD2;
-    border-color: rgba(229,221,210,0.45);
-    background: rgba(229,221,210,0.06);
+    border-color: rgba(229,221,210,0.5);
+    background: rgba(229,221,210,0.08);
   }
 
   /* Tear */
@@ -685,50 +692,39 @@ const CSS = `
     flex-shrink: 0;
   }
   .R-ticket-perf {
-    position: absolute; top: 16px; bottom: 16px; left: 0;
+    position: absolute; top: 20px; bottom: 20px; left: 0;
     border-left: 1px dashed rgba(229,221,210,0.1);
   }
   .R-ticket-hole {
-    position: absolute; left: -7px;
-    width: 14px; height: 14px; border-radius: 50%;
+    position: absolute; left: -8px;
+    width: 16px; height: 16px; border-radius: 50%;
     background: var(--paper, #F4EFE6);
   }
-  .R-ticket-hole-t { top: -7px; }
-  .R-ticket-hole-b { bottom: -7px; }
+  .R-ticket-hole-t { top: -8px; }
+  .R-ticket-hole-b { bottom: -8px; }
 
   /* Stub */
   .R-ticket-stub {
-    width: 72px;
+    width: 76px;
     background:
       radial-gradient(ellipse 80% 60% at 50% 50%, rgba(52,18,40,0.2) 0%, transparent 100%),
-      linear-gradient(155deg, #0a0610 0%, #14091a 30%, #2a1028 60%, #1a0c18 85%, #0a0610 100%);
+      linear-gradient(160deg, #0a0610 0%, #14091a 30%, #2a1028 60%, #1a0c18 85%, #0a0610 100%);
     border-radius: 0 6px 6px 0;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 14px; padding: 18px 10px;
+    gap: 16px; padding: 20px 10px;
   }
   .R-ticket-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
   .R-ticket-bar {
-    width: 1.5px; background: rgba(229,221,210,0.35); border-radius: 1px;
+    width: 1.5px; background: rgba(229,221,210,0.3); border-radius: 1px;
   }
   .R-ticket-admit {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.45rem; letter-spacing: 0.18em;
-    color: rgba(229,221,210,0.25);
+    color: rgba(229,221,210,0.2);
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     text-transform: uppercase;
-  }
-  .R-ticket-cta:hover {
-    background: #3a2214;
-    color: #ffe2b4;
-  }
-  .R-ticket-tag {
-    font-family: ui-monospace, "SF Mono", Menlo, monospace;
-    font-size: 8.5px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, #3a2214 50%, transparent);
   }
 
   /* ── BACKED BY ── */
