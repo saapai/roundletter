@@ -245,14 +245,15 @@ export default function DraftPage() {
           chars.push({
             ch: i < newTitle.length ? newTitle[i] : "",
             fading: true,
-            delay: i * 40,
+            delay: i * 55,
           });
         }
         setTitleChars(chars);
+        const swapDuration = maxLen * 55 + 600;
         setTimeout(() => {
           setTitleChars(null);
           setTitleText(newTitle);
-        }, maxLen * 40 + 600);
+        }, swapDuration);
 
         // Like → portfolio value
         setLikeCount(fmt(total));
@@ -268,7 +269,6 @@ export default function DraftPage() {
         setSubscriberText(`${d} days left`);
 
         // Gold color shift + chrome dissolve after char swap finishes
-        const swapDuration = maxLen * 40 + 600;
         setTimeout(() => {
           setProgressBarColor("#f0d890");
           setSubscribeBg("rgba(240,216,144,0.15)");
@@ -379,10 +379,8 @@ export default function DraftPage() {
           {/* ── FAKE YOUTUBE CHROME (desktop only) ── */}
           {!isMobile && (
             <div
-              className="D-chrome"
+              className={`D-chrome ${!chromeVisible ? "D-chrome--dissolving" : ""}`}
               style={{
-                opacity: chromeVisible ? 1 : 0,
-                transition: "opacity 2s ease",
                 pointerEvents: chromeVisible ? "auto" : "none",
               }}
             >
@@ -585,7 +583,14 @@ const CSS = `
     overflow: hidden;
     background: #000;
     margin-top: 12px;
-    transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      width 2s cubic-bezier(0.22, 1, 0.36, 1),
+      max-width 2s cubic-bezier(0.22, 1, 0.36, 1),
+      margin-top 2s cubic-bezier(0.22, 1, 0.36, 1),
+      border-radius 2s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 2s cubic-bezier(0.22, 1, 0.36, 1),
+      top 2s cubic-bezier(0.22, 1, 0.36, 1),
+      right 2s cubic-bezier(0.22, 1, 0.36, 1);
     z-index: 10;
   }
   .D-video--pip {
@@ -683,6 +688,34 @@ const CSS = `
     max-width: 800px;
     padding: 12px 0 16px;
   }
+
+  /* ── STAGGERED CHROME DISSOLUTION ── */
+  .D-chrome--dissolving .D-chrome-actions {
+    opacity: 0;
+    transition: opacity 0.6s ease 0s;
+  }
+  .D-chrome--dissolving .D-chrome-subscribe {
+    opacity: 0;
+    transition: opacity 0.6s ease 0.3s;
+  }
+  .D-chrome--dissolving .D-chrome-channel-name {
+    opacity: 0;
+    transition: opacity 0.6s ease 0.8s;
+  }
+  .D-chrome--dissolving .D-chrome-subs {
+    opacity: 0;
+    transition: opacity 0.6s ease 0.8s;
+  }
+  .D-chrome--dissolving .D-chrome-title {
+    opacity: 0;
+    filter: blur(4px);
+    transition: opacity 0.8s ease 1.2s, filter 0.8s ease 1.2s;
+  }
+  .D-chrome--dissolving .D-chrome-avatar {
+    opacity: 0;
+    transition: opacity 0.8s ease 1.5s;
+  }
+
   .D-chrome-sep {
     display: none;
   }
@@ -698,12 +731,14 @@ const CSS = `
   /* Character swap animation */
   .D-char-swap {
     display: inline-block;
-    animation: char-fade-in 0.4s ease forwards;
+    animation: char-fade-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     opacity: 0;
   }
   @keyframes char-fade-in {
-    0% { opacity: 0; transform: translateY(4px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% { opacity: 0; transform: translateY(8px) scaleY(0.3); filter: blur(3px); }
+    30% { opacity: 0.7; transform: translateY(-2px) scaleY(1.1); filter: blur(1px); }
+    60% { opacity: 0.9; transform: translateY(1px) scaleY(0.95); filter: blur(0); }
+    100% { opacity: 1; transform: translateY(0) scaleY(1); filter: blur(0); }
   }
 
   /* Channel row */
@@ -766,14 +801,21 @@ const CSS = `
     font-size: 14px;
     color: #f1f1f1;
     cursor: default;
+    font-variant-numeric: tabular-nums;
   }
   .D-chrome-action svg {
     opacity: 0.9;
   }
   .D-chrome-action-value {
     font-family: 'JetBrains Mono', monospace !important;
-    color: #f0d890 !important;
+    color: #dbb645 !important;
     font-weight: 500;
+    animation: value-pulse 0.8s ease;
+  }
+  @keyframes value-pulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.08); }
+    100% { transform: scale(1); }
   }
   .D-chrome-action-divider {
     width: 1px;
@@ -834,21 +876,21 @@ const CSS = `
     animation: final-child-in 1.2s ease forwards;
   }
   .D-final > *:nth-child(1) { animation-delay: 0s; }
-  .D-final > *:nth-child(2) { animation-delay: 0.8s; }
-  .D-final > *:nth-child(3) { animation-delay: 2s; }
-  .D-final > *:nth-child(4) { animation-delay: 4s; }
-  .D-final > *:nth-child(5) { animation-delay: 6s; }
-  .D-final > *:nth-child(6) { animation-delay: 6s; }
-  .D-final > *:nth-child(7) { animation-delay: 8s; }
+  .D-final > *:nth-child(2) { animation-delay: 0.5s; }
+  .D-final > *:nth-child(3) { animation-delay: 1.2s; }
+  .D-final > *:nth-child(4) { animation-delay: 2.5s; }
+  .D-final > *:nth-child(5) { animation-delay: 4s; }
+  .D-final > *:nth-child(6) { animation-delay: 4s; }
+  .D-final > *:nth-child(7) { animation-delay: 5.5s; }
   @keyframes final-child-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(12px); filter: blur(2px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
   .D-final-value {
     font-family: 'EB Garamond', Georgia, serif;
     font-size: clamp(48px, 10vw, 80px);
     font-weight: 500;
-    color: #f0d890;
+    color: #dbb645;
     letter-spacing: -0.02em;
     margin: 0;
     line-height: 1;
@@ -861,10 +903,11 @@ const CSS = `
   }
   .D-final-question {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 22px;
+    font-size: 24px;
     font-style: italic;
-    color: rgba(232,228,220,0.5);
-    margin: 24px 0 0;
+    color: rgba(232,228,220,0.7);
+    margin: 32px 0 0;
+    letter-spacing: 0.01em;
   }
   .D-final-nav {
     display: flex;
@@ -886,21 +929,43 @@ const CSS = `
     animation: funnel-pulse 2s ease 1;
   }
   @keyframes funnel-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.3); }
-    50% { box-shadow: 0 0 20px 4px rgba(201,168,76,0.15); }
+    0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+    30% { box-shadow: 0 0 24px 6px rgba(201,168,76,0.2); }
+    60% { box-shadow: 0 0 12px 2px rgba(201,168,76,0.1); }
     100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
   }
   .D-drinks {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 18px;
-    font-style: italic;
-    color: #C9A84C;
-    margin-top: 24px;
-    animation: drinks-fade 1.5s ease forwards;
+    font-size: 20px; font-style: italic;
+    color: #dbb645; margin-top: 32px;
+    text-decoration: none; position: relative;
+    animation: drinks-entrance 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  @keyframes drinks-fade {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+  .D-drinks::after {
+    content: ''; position: absolute;
+    bottom: -4px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, #dbb645, transparent);
+    animation: drinks-line 1.5s ease 1s forwards;
+  }
+  .D-drinks::before {
+    content: ''; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 200px; height: 60px;
+    background: radial-gradient(ellipse, rgba(219,182,69,0.08) 0%, transparent 70%);
+    animation: drinks-glow 3s ease forwards;
+    pointer-events: none; z-index: -1;
+  }
+  @keyframes drinks-entrance {
+    0% { opacity: 0; transform: translateY(16px); letter-spacing: 0.3em; filter: blur(4px); }
+    60% { opacity: 0.9; letter-spacing: 0.05em; filter: blur(0); }
+    100% { opacity: 1; transform: translateY(0); letter-spacing: 0.02em; }
+  }
+  @keyframes drinks-line { from { width: 0; } to { width: 100%; } }
+  @keyframes drinks-glow {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+    40% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
   }
   .D-final-sig {
     font-family: 'JetBrains Mono', monospace;
@@ -917,16 +982,18 @@ const CSS = `
   }
   .D-funnel {
     flex: 1; display: flex; flex-direction: column;
-    gap: 12px; padding: 16px;
-    border: 1px solid rgba(240,216,144,0.08);
-    border-radius: 6px;
+    gap: 12px; padding: 20px;
+    border: 1px solid rgba(240,216,144,0.12);
+    border-radius: 8px;
     text-decoration: none; color: #e8e4dc;
-    transition: border-color 0.3s, background 0.3s;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
     cursor: pointer;
+    background: rgba(240,216,144,0.02);
   }
   .D-funnel:hover {
     border-color: rgba(240,216,144,0.2);
     background: rgba(240,216,144,0.03);
+    box-shadow: 0 2px 16px rgba(240,216,144,0.06);
   }
   .D-funnel-img {
     width: 100%; aspect-ratio: 4/3;
@@ -974,9 +1041,11 @@ const CSS = `
   }
   .D-rev-label {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 13px; font-style: italic;
-    color: rgba(232,228,220,0.18);
+    font-size: 14px; font-style: italic;
+    color: rgba(232,228,220,0.3);
     transition: color 0.3s;
+    border-bottom: 1px solid rgba(232,228,220,0.06);
+    padding-bottom: 2px;
   }
   .D-rev:hover .D-rev-label {
     color: rgba(240,216,144,0.5);
@@ -992,6 +1061,9 @@ const CSS = `
       width: 160px;
       top: 12px;
       right: 12px;
+    }
+    .D-final {
+      padding: 24px 16px;
     }
     .D-final-value {
       font-size: clamp(36px, 12vw, 56px);
