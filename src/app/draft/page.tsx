@@ -14,6 +14,55 @@ function daysUntil(target: string) {
   return Math.max(0, Math.ceil(diff / 86_400_000));
 }
 
+function fmtDollar(n: number) {
+  return n.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+/* ── Portfolio data (from portfolio.json) ── */
+const HOLDINGS = [
+  { ticker: "QTUM", shares: 5.584, entry_value: 679.74 },
+  { ticker: "MSFT", shares: 1.036, entry_value: 407.87 },
+  { ticker: "GOOG", shares: 1.235, entry_value: 407.17 },
+  { ticker: "IONQ", shares: 9.489, entry_value: 416.85 },
+  { ticker: "IBM",  shares: 1.553, entry_value: 373.33 },
+  { ticker: "NVDA", shares: 1.773, entry_value: 344.49 },
+  { ticker: "CEG",  shares: 1.119, entry_value: 267.84 },
+  { ticker: "RGTI", shares: 18.429, entry_value: 209.79 },
+  { ticker: "SGOV", shares: 1.589, entry_value: 159.06 },
+  { ticker: "QBTS", shares: 28.923, entry_value: 187.69 },
+];
+const PENDING_CASH = 46.57;
+const PREDICTION_OFFSET = 250;
+const ENTRY_VALUE = 3453.83;
+
+function useLivePortfolio() {
+  const [total, setTotal] = useState<number | null>(null);
+
+  useEffect(() => {
+    let alive = true;
+    const pull = async () => {
+      try {
+        const r = await fetch("/api/prices", { cache: "no-store" });
+        if (!r.ok || !alive) return;
+        const j = await r.json();
+        if (!j?.hasData || !alive) return;
+        let sum = PENDING_CASH + PREDICTION_OFFSET;
+        for (const h of HOLDINGS) {
+          const s = j.data[h.ticker];
+          if (s?.closes?.length > 0) sum += h.shares * s.closes[s.closes.length - 1];
+          else sum += h.entry_value;
+        }
+        setTotal(sum);
+      } catch {}
+    };
+    pull();
+    const id = setInterval(pull, 30_000);
+    return () => { alive = false; clearInterval(id); };
+  }, []);
+
+  return total;
+}
+
 /* ── Component ── */
 export default function DraftPage() {
   const [noiseReady, setNoiseReady] = useState(false);
@@ -21,12 +70,15 @@ export default function DraftPage() {
   const [activeSection, setActiveSection] = useState(0);
   const [bidAmount, setBidAmount] = useState(25);
   const [showBidConfirm, setShowBidConfirm] = useState(false);
-  const [videoStarted, setVideoStarted] = useState(false);
   const noiseRef = useRef<HTMLCanvasElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
   const countdown = daysUntil("2026-06-21");
+  const liveTotal = useLivePortfolio();
+  const displayTotal = liveTotal ? fmtDollar(liveTotal) : "...";
+  const dividendPool = liveTotal ? fmtDollar(liveTotal * 0.1) : "...";
+  const auctionBacking = liveTotal ? fmtDollar(liveTotal * 0.1) : "...";
 
   // TV static noise
   useEffect(() => {
@@ -94,7 +146,7 @@ export default function DraftPage() {
 
       {/* ── progress dots ── */}
       <nav className="draft-nav" aria-label="sections">
-        {["signal", "channel", "wager", "auction", "party", "stake", "doors"].map((label, i) => (
+        {["signal", "wager", "auction", "party", "stake", "doors"].map((label, i) => (
           <button
             key={label}
             className={`draft-dot ${activeSection === i ? "active" : ""}`}
@@ -106,16 +158,22 @@ export default function DraftPage() {
         ))}
       </nav>
 
-      {/* ═══════ 1. NOISE → SIGNAL ═══════ */}
+      {/* ═══════ 1. THE HOOK ═══════ */}
       <section className="s s-signal" ref={setRef(0)}>
         <canvas ref={noiseRef} className="noise-canvas" />
-        <div className={`signal-text ${signalVisible ? "on" : ""}`}>
-          <p className="signal-line">you&rsquo;ve seen this before.</p>
-          <p className="signal-line signal-delay-1">the interface. the layout. the font.</p>
-          <p className="signal-line signal-delay-2">familiarity is a shortcut to trust.</p>
-          <p className="signal-line signal-delay-3 signal-accent">
-            so what happens when you wrap a portfolio<br />inside something people already know?
-          </p>
+        <div className={`signal-content ${signalVisible ? "on" : ""}`}>
+          <div className="signal-video">
+            <iframe
+              src="https://www.youtube.com/embed/hif5eI5pBxo?rel=0&modestbranding=1&iv_load_policy=3&color=white"
+              className="signal-iframe"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              title="Wesley Wang"
+            />
+          </div>
+          <div className="signal-text">
+            <p className="signal-line">the document sees itself.</p>
+          </div>
         </div>
         <button className="signal-scroll" onClick={() => scrollTo(1)}>
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -124,54 +182,8 @@ export default function DraftPage() {
         </button>
       </section>
 
-      {/* ═══════ 2. THE CHANNEL ═══════ */}
-      <section className="s s-channel" ref={setRef(1)}>
-        <div className="channel-chrome">
-          <div className="channel-topbar">
-            <svg viewBox="0 0 90 20" width="72" height="16" className="channel-logo">
-              <rect x="0" y="0" width="22" height="16" rx="3" fill="#ff0000" />
-              <polygon points="8,3 8,13 16,8" fill="#fff" />
-              <text x="26" y="12" fill="#fff" fontFamily="Arial,sans-serif" fontWeight="bold" fontSize="11">YouTube</text>
-            </svg>
-          </div>
-          <div className="channel-player">
-            {videoStarted ? (
-              <iframe
-                src="https://www.youtube.com/embed/DPIoje1nfCQ?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3"
-                className="channel-iframe"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                title="Telling the Same Joke Over and Over"
-              />
-            ) : (
-              <div className="channel-poster" onClick={() => setVideoStarted(true)}>
-                <img src="https://i.ytimg.com/vi/DPIoje1nfCQ/maxresdefault.jpg" alt="" className="channel-poster-img" />
-                <button className="channel-play" aria-label="Play">
-                  <svg viewBox="0 0 68 48" width="68" height="48">
-                    <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#f00"/>
-                    <path d="M27 34l17-10-17-10z" fill="#fff"/>
-                  </svg>
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="channel-meta">
-            <h2 className="channel-title">Telling the Same Joke Over and Over and Over and Over</h2>
-            <div className="channel-info">
-              <span className="channel-ch">Aaron Westberry</span>
-              <span className="channel-views">2.8M views · Apr 28, 2025</span>
-            </div>
-          </div>
-        </div>
-        <p className="channel-aside">
-          repetition creates familiarity.<br />
-          familiarity creates trust.<br />
-          <em>trust is the product.</em>
-        </p>
-      </section>
-
-      {/* ═══════ 3. THE WAGER ═══════ */}
-      <section className="s s-wager" ref={setRef(2)}>
+      {/* ═══════ 2. THE WAGER ═══════ */}
+      <section className="s s-wager" ref={setRef(1)}>
         <div className="wager-eyebrow">the wager · live</div>
         <h1 className="wager-amount">$3,453 → $100,000</h1>
         <p className="wager-deadline">by my 20th birthday · June 21, 2026</p>
@@ -189,8 +201,8 @@ export default function DraftPage() {
             <span className="wager-stat-label">AI agents per trade</span>
           </div>
           <div className="wager-stat">
-            <span className="wager-stat-val">$4,519</span>
-            <span className="wager-stat-label">current value</span>
+            <span className="wager-stat-val">{displayTotal}</span>
+            <span className="wager-stat-label">current value · live</span>
           </div>
         </div>
         <blockquote className="wager-quote">
@@ -202,8 +214,8 @@ export default function DraftPage() {
         </a>
       </section>
 
-      {/* ═══════ 4. THE AUCTION ═══════ */}
-      <section className="s s-auction" ref={setRef(3)}>
+      {/* ═══════ 3. THE AUCTION ═══════ */}
+      <section className="s s-auction" ref={setRef(2)}>
         <div className="auction-eyebrow">lot 001 · live auction</div>
         <div className="auction-layout">
           <div className="auction-image">
@@ -228,8 +240,8 @@ export default function DraftPage() {
               worth 10% of the aureliex portfolio value on June 21, 2026.
             </p>
             <p className="auction-math">
-              If portfolio = $10,000 → backing = $1,000<br />
-              If portfolio = $100,000 → backing = $10,000
+              Current portfolio: {displayTotal}<br />
+              Current backing: {auctionBacking}
             </p>
             <p className="auction-thesis">
               <em>The auction price is your bet on where the portfolio lands.</em>
@@ -259,8 +271,8 @@ export default function DraftPage() {
         </div>
       </section>
 
-      {/* ═══════ 5. THE PARTY ═══════ */}
-      <section className="s s-party" ref={setRef(4)}>
+      {/* ═══════ 4. THE PARTY ═══════ */}
+      <section className="s s-party" ref={setRef(3)}>
         <div className="party-pass">
           <div className="party-left">
             <div className="party-airline">AURELIEX</div>
@@ -296,7 +308,7 @@ export default function DraftPage() {
             </div>
             <div className="party-rule" />
             <div className="party-terms">
-              <p><strong>10% of portfolio value</strong> is the dividend pool.</p>
+              <p><strong>10% of portfolio value</strong> is the dividend pool. Currently: {dividendPool}</p>
               <p>Withdrawable at the party, or reinvestable into Q3.</p>
               <p>Flight compensation covered by the pool.</p>
             </div>
@@ -320,8 +332,8 @@ export default function DraftPage() {
         </p>
       </section>
 
-      {/* ═══════ 6. THE STAKE ═══════ */}
-      <section className="s s-stake" ref={setRef(5)}>
+      {/* ═══════ 5. THE STAKE ═══════ */}
+      <section className="s s-stake" ref={setRef(4)}>
         <div className="stake-eyebrow">investment · cap table</div>
         <h2 className="stake-title">How the stake works</h2>
         <div className="stake-grid">
@@ -372,8 +384,8 @@ export default function DraftPage() {
         </p>
       </section>
 
-      {/* ═══════ 7. THE DOORS ═══════ */}
-      <section className="s s-doors" ref={setRef(6)}>
+      {/* ═══════ 6. THE DOORS ═══════ */}
+      <section className="s s-doors" ref={setRef(5)}>
         <div className="doors-eyebrow">departures · all times live</div>
         <h2 className="doors-title">aureliex</h2>
         <div className="doors-board">
@@ -470,28 +482,31 @@ const css = `
     object-fit: cover; opacity: 0.15;
     image-rendering: pixelated;
   }
-  .signal-text {
+  .signal-content {
     position: relative; z-index: 1;
-    text-align: center; max-width: 520px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 24px;
+    width: 100%; max-width: 720px;
+    opacity: 0; transform: translateY(12px);
+    transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
   }
-  .signal-line {
-    font-size: clamp(18px, 2.5vw, 24px);
-    font-weight: 400; line-height: 1.7;
-    opacity: 0; transform: translateY(8px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-    font-style: italic;
-    color: rgba(255,255,255,0.7);
-  }
-  .signal-text.on .signal-line {
+  .signal-content.on {
     opacity: 1; transform: translateY(0);
   }
-  .signal-delay-1 { transition-delay: 1.2s; }
-  .signal-delay-2 { transition-delay: 2.4s; }
-  .signal-delay-3 { transition-delay: 4s; }
-  .signal-accent {
-    font-style: normal; font-weight: 500;
-    color: rgba(255,255,255,0.95);
-    margin-top: 16px;
+  .signal-video {
+    width: 100%; aspect-ratio: 16/9;
+    border-radius: 4px; overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+  }
+  .signal-iframe {
+    width: 100%; height: 100%; border: none;
+  }
+  .signal-text { text-align: center; }
+  .signal-line {
+    font-size: clamp(15px, 2vw, 18px);
+    font-weight: 400; line-height: 1.7;
+    font-style: italic;
+    color: rgba(255,255,255,0.4);
   }
   .signal-scroll {
     position: absolute; bottom: 32px;
@@ -507,64 +522,7 @@ const css = `
     100% { transform: translateY(0); opacity: 1; }
   }
 
-  /* ═══ 2. CHANNEL ═══ */
-  .s-channel {
-    background: #0f0f0f; color: #f1f1f1;
-    font-family: 'Roboto', Arial, sans-serif;
-    gap: 24px;
-  }
-  .channel-chrome {
-    width: 100%; max-width: 800px;
-    background: #0f0f0f; border-radius: 12px;
-    overflow: hidden;
-  }
-  .channel-topbar {
-    padding: 12px 16px;
-    display: flex; align-items: center;
-  }
-  .channel-player {
-    width: 100%; aspect-ratio: 16/9;
-    background: #000; position: relative;
-  }
-  .channel-iframe {
-    width: 100%; height: 100%; border: none;
-  }
-  .channel-poster {
-    width: 100%; height: 100%; cursor: pointer;
-    position: relative;
-  }
-  .channel-poster-img {
-    width: 100%; height: 100%; object-fit: cover;
-  }
-  .channel-play {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    background: none; border: none; cursor: pointer;
-  }
-  .channel-play svg { opacity: 0.85; }
-  .channel-poster:hover .channel-play svg { opacity: 1; }
-  .channel-meta { padding: 16px; }
-  .channel-title {
-    font-size: 18px; font-weight: 600;
-    margin: 0 0 8px; line-height: 1.3;
-  }
-  .channel-info {
-    display: flex; gap: 8px; font-size: 13px; color: #aaa;
-  }
-  .channel-ch { font-weight: 500; color: #f1f1f1; }
-  .channel-aside {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 16px; line-height: 1.8;
-    color: rgba(255,255,255,0.35);
-    text-align: center;
-    font-style: italic;
-  }
-  .channel-aside em {
-    color: rgba(255,255,255,0.6);
-    font-style: normal;
-  }
-
-  /* ═══ 3. WAGER ═══ */
+  /* ═══ 2. WAGER ═══ */
   .s-wager {
     background: var(--paper); color: var(--ink);
     font-family: 'EB Garamond', Georgia, serif;
