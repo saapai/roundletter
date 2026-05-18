@@ -447,14 +447,21 @@ const CSS = `
     position: relative;
     border-radius: 2px;
     overflow: hidden;
+    padding: clamp(10px, 2vw, 18px);
+    background: linear-gradient(145deg, #E8E0D0, #D8CFC0);
     box-shadow:
       0 8px 40px rgba(0,0,0,0.4),
-      0 2px 8px rgba(0,0,0,0.2);
+      0 2px 8px rgba(0,0,0,0.2),
+      inset 0 1px 0 rgba(255,255,255,0.3),
+      inset 0 -1px 0 rgba(0,0,0,0.08);
   }
   .R--warm .R-painting-frame {
+    background: linear-gradient(145deg, #DDD5C8, #CFC6B8);
     box-shadow:
-      0 8px 40px rgba(28,26,23,0.1),
-      0 2px 8px rgba(28,26,23,0.06);
+      0 8px 40px rgba(28,26,23,0.12),
+      0 2px 8px rgba(28,26,23,0.06),
+      inset 0 1px 0 rgba(255,255,255,0.4),
+      inset 0 -1px 0 rgba(0,0,0,0.05);
   }
   .R-painting-img {
     display: block;
