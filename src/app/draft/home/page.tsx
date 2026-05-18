@@ -841,26 +841,24 @@ const CSS = `
     display: inline-block;
   }
 
-  /* "call me if you get lost" — pink-gold ticket palette */
-  .R-closer-q .R-rainbow:nth-child(8n+1) { color: #b06068; }
-  .R-closer-q .R-rainbow:nth-child(8n+2) { color: #d4928c; }
-  .R-closer-q .R-rainbow:nth-child(8n+3) { color: #c8a060; }
-  .R-closer-q .R-rainbow:nth-child(8n+4) { color: #a06058; }
-  .R-closer-q .R-rainbow:nth-child(8n+5) { color: #7a3048; }
-  .R-closer-q .R-rainbow:nth-child(8n+6) { color: #d09878; }
-  .R-closer-q .R-rainbow:nth-child(8n+7) { color: #e4b8a0; }
-  .R-closer-q .R-rainbow:nth-child(8n+8) { color: #8a4050; }
+  /* "call me if you get lost" — pencil on parchment (warm stone tonal drift) */
+  .R-closer-q .R-rainbow:nth-child(4n+1) { color: #B5A393; }
+  .R-closer-q .R-rainbow:nth-child(4n+2) { color: #A89888; }
+  .R-closer-q .R-rainbow:nth-child(4n+3) { color: #B0A090; }
+  .R-closer-q .R-rainbow:nth-child(4n)   { color: #AE9E8E; }
+  /* period gets amber warmth */
+  .R-closer-q .R-rainbow:last-child      { color: #C8A878; }
 
-  /* "aureliex." — rose-gold palette (ticket harmony) */
-  .R-sig .R-rainbow:nth-child(1) { color: #b06068; }  /* a — rose */
-  .R-sig .R-rainbow:nth-child(2) { color: #4a1a34; }  /* u — deep plum */
-  .R-sig .R-rainbow:nth-child(3) { color: #d4928c; }  /* r — blush */
-  .R-sig .R-rainbow:nth-child(4) { color: #c8a060; }  /* e — gold */
-  .R-sig .R-rainbow:nth-child(5) { color: #7a3048; }  /* l — wine */
-  .R-sig .R-rainbow:nth-child(6) { color: #e4b8a0; }  /* i — peach */
-  .R-sig .R-rainbow:nth-child(7) { color: #a06058; }  /* e — terracotta */
-  .R-sig .R-rainbow:nth-child(8) { color: #d09878; }  /* x — warm copper */
-  .R-sig .R-rainbow:nth-child(9) { color: #c8a060; }  /* . — gold */
+  /* "aureliex." — painting palette (cityscape with splatter), adapted for cream */
+  .R-sig .R-rainbow:nth-child(1) { color: #C4403E; }  /* a — crimson red */
+  .R-sig .R-rainbow:nth-child(2) { color: #3B5E8A; }  /* u — deep navy */
+  .R-sig .R-rainbow:nth-child(3) { color: #C47A2A; }  /* r — burnt orange */
+  .R-sig .R-rainbow:nth-child(4) { color: #7B4E8A; }  /* e — muted violet */
+  .R-sig .R-rainbow:nth-child(5) { color: #2E7D6E; }  /* l — deep teal */
+  .R-sig .R-rainbow:nth-child(6) { color: #B8432E; }  /* i — sienna red */
+  .R-sig .R-rainbow:nth-child(7) { color: #4A6FA5; }  /* e — ultramarine */
+  .R-sig .R-rainbow:nth-child(8) { color: #D4882C; }  /* x — amber gold */
+  .R-sig .R-rainbow:nth-child(9) { color: #8B1A1A; }  /* . — deep crimson (mic drop) */
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
