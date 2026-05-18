@@ -168,12 +168,11 @@ export default function DraftHomePage() {
               <span className="R-ticket-city">JUN 20</span>
             </div>
           </div>
-          <div className="R-ticket-perks">
-            <span>10% of portfolio → the room</span>
-            <span>flights covered</span>
-            <span>sealed predictions open at 6pm</span>
-            <span>early money carries more weight</span>
-          </div>
+          <p className="R-ticket-desc">
+            10% of the portfolio covers flights and costs.<br />
+            distributed proportionally by who invested the most, earliest.<br />
+            dividends with a twist.
+          </p>
           <a href="/invest" className="R-ticket-cta">rsvp →</a>
         </div>
       </section>
@@ -537,14 +536,14 @@ const CSS = `
     letter-spacing: -0.02em;
   }
   .R-ticket-arrow { color: rgba(244,239,230,0.25); }
-  .R-ticket-perks {
-    display: flex; flex-direction: column; gap: 8px;
+  .R-ticket-desc {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.95rem; opacity: 0.6;
+    font-size: 0.95rem; opacity: 0.5;
+    line-height: 1.7;
     padding: 16px 0;
     border-top: 1px solid rgba(244,239,230,0.08);
     border-bottom: 1px solid rgba(244,239,230,0.08);
-    margin-bottom: 20px;
+    margin: 0 0 20px;
   }
   .R-ticket-cta {
     display: inline-block;
