@@ -45,18 +45,10 @@ export default function DraftHomeClient() {
   const rootRef = useRef<HTMLDivElement>(null);
   const d = daysLeft();
 
-  /* Phase: dark flash → warm paper (via DOM, immune to React re-renders) */
+  /* Phase: dark flash → warm paper */
   const [phase, setPhase] = useState<"dark" | "warm">("dark");
   useEffect(() => {
-    const t = setTimeout(() => {
-      setPhase("warm");
-      // Also set directly on DOM to survive any React reconciliation
-      if (rootRef.current) {
-        rootRef.current.style.background = "#F4EFE6";
-        rootRef.current.style.color = "#1C1A17";
-        rootRef.current.classList.add("R--warm");
-      }
-    }, 2800);
+    const t = setTimeout(() => setPhase("warm"), 2800);
     return () => clearTimeout(t);
   }, []);
 
@@ -79,7 +71,7 @@ export default function DraftHomeClient() {
       className={`R ${phase === "warm" ? "R--warm" : ""}`}
       ref={rootRef}
       style={{
-        background: phase === "warm" ? "#F4EFE6" : "#0a0908",
+        backgroundColor: phase === "warm" ? "#F4EFE6" : "#0a0908",
         color: phase === "warm" ? "#1C1A17" : "#e8e4dc",
         transition: "background-color 2.5s cubic-bezier(0.22, 1, 0.36, 1), color 2.5s cubic-bezier(0.22, 1, 0.36, 1)",
       }}
@@ -268,7 +260,7 @@ const CSS = `
   /* ── ROOT — starts dark, transitions to cream ── */
   .R {
     min-height: 100vh;
-    background: #0a0908;
+    background-color: #0a0908;
     color: #e8e4dc;
     display: flex;
     flex-direction: column;
@@ -280,7 +272,7 @@ const CSS = `
                 color 2.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .R--warm {
-    background: #F4EFE6;
+    background-color: #F4EFE6 !important;
     color: #1C1A17;
   }
 
