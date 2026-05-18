@@ -1,593 +1,604 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 
 /* ── portfolio ── */
 const HOLDINGS = [
-  { ticker: "QTUM", shares: 5.584, entry_value: 679.74 },
-  { ticker: "MSFT", shares: 1.036, entry_value: 407.87 },
-  { ticker: "GOOG", shares: 1.235, entry_value: 407.17 },
-  { ticker: "IONQ", shares: 9.489, entry_value: 416.85 },
-  { ticker: "IBM",  shares: 1.553, entry_value: 373.33 },
-  { ticker: "NVDA", shares: 1.773, entry_value: 344.49 },
-  { ticker: "CEG",  shares: 1.148, entry_value: 339.05 },
-  { ticker: "RGTI", shares: 9.938, entry_value: 169.50 },
-  { ticker: "SGOV", shares: 2.625, entry_value: 263.94 },
-  { ticker: "QBTS", shares: 5.951, entry_value: 101.65 },
+  { ticker: "QTUM", shares: 5.584, ev: 679.74 },
+  { ticker: "MSFT", shares: 1.036, ev: 407.87 },
+  { ticker: "GOOG", shares: 1.235, ev: 407.17 },
+  { ticker: "IONQ", shares: 9.489, ev: 416.85 },
+  { ticker: "IBM",  shares: 1.553, ev: 373.33 },
+  { ticker: "NVDA", shares: 1.773, ev: 344.49 },
+  { ticker: "CEG",  shares: 1.148, ev: 339.05 },
+  { ticker: "RGTI", shares: 9.938, ev: 169.50 },
+  { ticker: "SGOV", shares: 2.625, ev: 263.94 },
+  { ticker: "QBTS", shares: 5.951, ev: 101.65 },
 ];
-const PENDING_CASH = 46.57;
-const PREDICTION_OFFSET = 250;
 
-function useLiveTotal() {
-  const [total, setTotal] = useState<number | null>(null);
+function useLive() {
+  const [v, setV] = useState<number | null>(null);
   useEffect(() => {
-    let alive = true;
-    const pull = async () => {
+    let on = true;
+    const go = async () => {
       try {
         const r = await fetch("/api/prices", { cache: "no-store" });
-        if (!r.ok || !alive) return;
+        if (!r.ok || !on) return;
         const j = await r.json();
-        if (!j?.hasData || !alive) return;
-        let sum = PENDING_CASH + PREDICTION_OFFSET;
+        if (!j?.hasData || !on) return;
+        let s = 46.57 + 250; // pending_cash + prediction offset
         for (const h of HOLDINGS) {
-          const s = j.data[h.ticker];
-          if (s?.closes?.length > 0) sum += h.shares * s.closes[s.closes.length - 1];
-          else sum += h.entry_value;
+          const d = j.data[h.ticker];
+          s += d?.closes?.length > 0 ? h.shares * d.closes[d.closes.length - 1] : h.ev;
         }
-        setTotal(sum);
+        setV(s);
       } catch {}
     };
-    pull();
-    const id = setInterval(pull, 30_000);
-    return () => { alive = false; clearInterval(id); };
+    go();
+    const id = setInterval(go, 30_000);
+    return () => { on = false; clearInterval(id); };
   }, []);
-  return total;
+  return v;
 }
 
-function daysUntil(d: string) {
-  return Math.max(0, Math.ceil((new Date(d).getTime() - Date.now()) / 86_400_000));
-}
-function fmtDollar(n: number) {
-  return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 });
+function days() {
+  return Math.max(0, Math.ceil((new Date("2026-06-21").getTime() - Date.now()) / 86_400_000));
 }
 
-/* ══════════════════════════════════════════════════════════
-   PARTICLE CANVAS — the living organism
-   ══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   PARTICLE SYSTEM — crystallizes into the number
+   ═══════════════════════════════════════════════ */
 
-interface Particle {
+interface P {
   x: number; y: number;
-  baseX: number; baseY: number;
-  vx: number; vy: number;
-  size: number;
-  hue: number;
+  homeX: number; homeY: number;
+  tx: number; ty: number;
+  sz: number; ph: number;
   alpha: number;
-  phase: number; // individual breathing offset
+  hasTarget: boolean;
 }
 
-function useParticleCanvas(scrollProgress: number) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particles = useRef<Particle[]>([]);
+function sampleText(text: string, w: number, h: number): Array<[number, number]> {
+  const c = document.createElement("canvas");
+  const sz = Math.min(w * 0.8, 1200);
+  const fontSize = Math.min(sz / (text.length * 0.55), 200);
+  c.width = w; c.height = h;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = "#fff";
+  ctx.font = `300 ${fontSize}px "Helvetica Neue", "Arial", sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.letterSpacing = `${-fontSize * 0.04}px`;
+  ctx.fillText(text, w / 2, h / 2);
+  const img = ctx.getImageData(0, 0, w, h);
+  const pts: Array<[number, number]> = [];
+  const step = Math.max(3, Math.floor(Math.min(w, h) / 200));
+  for (let y = 0; y < h; y += step) {
+    for (let x = 0; x < w; x += step) {
+      if (img.data[(y * w + x) * 4 + 3] > 128) {
+        pts.push([x, y]);
+      }
+    }
+  }
+  return pts;
+}
+
+function useCanvas(scroll: number, liveValue: number | null) {
+  const ref = useRef<HTMLCanvasElement>(null);
+  const ps = useRef<P[]>([]);
   const mouse = useRef({ x: -9999, y: -9999 });
-  const dims = useRef({ w: 0, h: 0 });
-  const raf = useRef<number>(0);
-  const time = useRef(0);
+  const dim = useRef({ w: 0, h: 0 });
+  const t = useRef(0);
+  const lastText = useRef("");
+  const textPts = useRef<Array<[number, number]>>([]);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    const cv = ref.current;
+    if (!cv) return;
+    const ctx = cv.getContext("2d")!;
+    const dpr = window.devicePixelRatio || 1;
 
     const resize = () => {
-      const dpr = window.devicePixelRatio || 1;
-      dims.current.w = window.innerWidth;
-      dims.current.h = window.innerHeight;
-      canvas.width = dims.current.w * dpr;
-      canvas.height = dims.current.h * dpr;
+      dim.current.w = window.innerWidth;
+      dim.current.h = window.innerHeight;
+      cv.width = dim.current.w * dpr;
+      cv.height = dim.current.h * dpr;
       ctx.scale(dpr, dpr);
-      canvas.style.width = dims.current.w + "px";
-      canvas.style.height = dims.current.h + "px";
+      cv.style.width = dim.current.w + "px";
+      cv.style.height = dim.current.h + "px";
     };
 
-    const initParticles = () => {
-      const count = Math.min(900, Math.floor((dims.current.w * dims.current.h) / 2000));
-      const arr: Particle[] = [];
-      for (let i = 0; i < count; i++) {
-        const x = Math.random() * dims.current.w;
-        const y = Math.random() * dims.current.h;
+    const init = () => {
+      const n = Math.min(1000, Math.floor((dim.current.w * dim.current.h) / 1800));
+      const arr: P[] = [];
+      for (let i = 0; i < n; i++) {
+        const x = Math.random() * dim.current.w;
+        const y = Math.random() * dim.current.h;
         arr.push({
-          x, y, baseX: x, baseY: y,
-          vx: 0, vy: 0,
-          size: 1 + Math.random() * 2,
-          hue: 30 + Math.random() * 20, // warm amber range
-          alpha: 0.1 + Math.random() * 0.3,
-          phase: Math.random() * Math.PI * 2,
+          x, y, homeX: x, homeY: y, tx: x, ty: y,
+          sz: 0.8 + Math.random() * 1.8,
+          ph: Math.random() * Math.PI * 2,
+          alpha: 0.06 + Math.random() * 0.12,
+          hasTarget: false,
         });
       }
-      particles.current = arr;
+      ps.current = arr;
     };
 
-    const onMouse = (e: MouseEvent) => {
-      mouse.current.x = e.clientX;
-      mouse.current.y = e.clientY;
-    };
-    const onMouseLeave = () => {
-      mouse.current.x = -9999;
-      mouse.current.y = -9999;
-    };
+    const onM = (e: MouseEvent) => { mouse.current = { x: e.clientX, y: e.clientY }; };
+    const onL = () => { mouse.current = { x: -9999, y: -9999 }; };
 
-    resize();
-    initParticles();
-    window.addEventListener("resize", () => { resize(); initParticles(); });
-    window.addEventListener("mousemove", onMouse);
-    window.addEventListener("mouseleave", onMouseLeave);
+    resize(); init();
+    window.addEventListener("resize", () => { resize(); init(); });
+    window.addEventListener("mousemove", onM);
+    window.addEventListener("mouseleave", onL);
 
+    let raf: number;
     const draw = () => {
-      time.current += 0.008;
-      const t = time.current;
-      const { w, h } = dims.current;
+      t.current += 0.006;
+      const T = t.current;
+      const { w, h } = dim.current;
+      const sp = scroll;
       const mx = mouse.current.x;
       const my = mouse.current.y;
-      const sp = scrollProgress; // 0 → 1
-
       ctx.clearRect(0, 0, w, h);
 
-      // Determine particle behavior based on scroll
-      // 0.0–0.2: scattered, dim, breathing (the hook)
-      // 0.2–0.4: gathering toward center (the number)
-      // 0.4–0.6: expanding ring (the auction)
-      // 0.6–0.8: tight cluster bottom-right (the party)
-      // 0.8–1.0: constellation scatter (the doors)
+      // Update text targets when in crystallize phase
+      const text = liveValue ? "$" + Math.round(liveValue).toLocaleString() : "";
+      const inCrystallize = sp > 0.12 && sp < 0.42;
 
-      for (const p of particles.current) {
-        // Target position based on scroll phase
-        let tx = p.baseX;
-        let ty = p.baseY;
-        let targetAlpha = 0.15 + Math.sin(t + p.phase) * 0.1;
-        let targetSize = p.size;
+      if (inCrystallize && text && text !== lastText.current) {
+        textPts.current = sampleText(text, w, h);
+        lastText.current = text;
+      }
 
-        if (sp < 0.15) {
-          // Scattered, alive, breathing
-          tx = p.baseX + Math.sin(t * 0.3 + p.phase) * 30;
-          ty = p.baseY + Math.cos(t * 0.2 + p.phase * 1.3) * 20;
-          targetAlpha = 0.08 + Math.sin(t * 0.5 + p.phase) * 0.06;
-        } else if (sp < 0.35) {
-          // Gather toward center — breathing mass
-          const centerX = w * 0.5;
-          const centerY = h * 0.5;
-          const angle = Math.atan2(p.baseY - centerY, p.baseX - centerX);
-          const dist = 80 + Math.sin(t + p.phase * 2) * 40;
-          tx = centerX + Math.cos(angle + t * 0.1) * dist;
-          ty = centerY + Math.sin(angle + t * 0.1) * dist;
-          targetAlpha = 0.3 + Math.sin(t * 2 + p.phase) * 0.15;
-          targetSize = p.size * 1.3;
-        } else if (sp < 0.55) {
-          // Expanding ring
-          const centerX = w * 0.5;
-          const centerY = h * 0.5;
-          const angle = p.phase + t * 0.15;
-          const radius = 120 + Math.sin(p.phase * 3) * 80 + Math.sin(t + p.phase) * 20;
-          tx = centerX + Math.cos(angle) * radius;
-          ty = centerY + Math.sin(angle) * radius;
-          targetAlpha = 0.25 + Math.sin(t * 1.5 + p.phase) * 0.15;
-        } else if (sp < 0.75) {
-          // Drift to right side, condensed
-          tx = w * 0.7 + Math.sin(t * 0.4 + p.phase) * 100;
-          ty = h * 0.5 + Math.cos(t * 0.3 + p.phase * 1.7) * 150;
-          targetAlpha = 0.2 + Math.sin(t + p.phase) * 0.1;
+      // Assign text targets to particles
+      const pts = textPts.current;
+      const particles = ps.current;
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        if (inCrystallize && i < pts.length && pts.length > 0) {
+          // This particle forms part of the number
+          p.tx = pts[i][0];
+          p.ty = pts[i][1];
+          p.hasTarget = true;
+        } else if (sp < 0.12) {
+          // Scene 1: scattered, dim, drifting — behind the video
+          p.tx = p.homeX + Math.sin(T * 0.3 + p.ph) * 40;
+          p.ty = p.homeY + Math.cos(T * 0.2 + p.ph * 1.3) * 30;
+          p.hasTarget = false;
+        } else if (sp >= 0.42 && sp < 0.65) {
+          // Scene 3: art — particles drift to edges, frame the center
+          const edge = Math.random() > 0.5;
+          if (!p.hasTarget) {
+            const side = p.ph % 4;
+            if (side < 1) { p.tx = Math.random() * w * 0.15; p.ty = Math.random() * h; }
+            else if (side < 2) { p.tx = w - Math.random() * w * 0.15; p.ty = Math.random() * h; }
+            else if (side < 3) { p.tx = Math.random() * w; p.ty = Math.random() * h * 0.12; }
+            else { p.tx = Math.random() * w; p.ty = h - Math.random() * h * 0.12; }
+            p.hasTarget = true;
+          }
+          p.tx += Math.sin(T * 0.4 + p.ph) * 3;
+          p.ty += Math.cos(T * 0.3 + p.ph) * 3;
+        } else if (sp >= 0.65 && sp < 0.85) {
+          // Scene 4: party — particles converge to a slow orbit
+          const cx = w * 0.5;
+          const cy = h * 0.5;
+          const a = p.ph + T * 0.08;
+          const r = 200 + Math.sin(p.ph * 3) * 100;
+          p.tx = cx + Math.cos(a) * r;
+          p.ty = cy + Math.sin(a) * r;
+          p.hasTarget = false;
         } else {
-          // Final constellation — settle into fixed positions
-          const gridX = (p.phase / (Math.PI * 2)) * w;
-          const gridY = p.baseY;
-          tx = gridX + Math.sin(t * 0.2 + p.phase) * 5;
-          ty = gridY + Math.cos(t * 0.15 + p.phase) * 5;
-          targetAlpha = 0.12 + Math.sin(t * 0.3 + p.phase) * 0.05;
-          targetSize = p.size * 0.8;
+          // Scene 5: settle into grid
+          p.tx = p.homeX + Math.sin(T * 0.15 + p.ph) * 4;
+          p.ty = p.homeY + Math.cos(T * 0.1 + p.ph) * 4;
+          p.hasTarget = false;
         }
 
         // Mouse repulsion
         const dx = p.x - mx;
         const dy = p.y - my;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 150) {
-          const force = (150 - dist) / 150;
-          const angle = Math.atan2(dy, dx);
-          tx += Math.cos(angle) * force * 80;
-          ty += Math.sin(angle) * force * 80;
-          targetAlpha = Math.min(1, targetAlpha + force * 0.4);
-          targetSize = p.size * (1 + force * 0.8);
+        let repelX = 0, repelY = 0;
+        if (dist < 120) {
+          const f = (120 - dist) / 120;
+          repelX = (dx / dist) * f * 60;
+          repelY = (dy / dist) * f * 60;
         }
 
-        // Smooth interpolation
-        p.x += (tx - p.x) * 0.03;
-        p.y += (ty - p.y) * 0.03;
-        p.alpha += (targetAlpha - p.alpha) * 0.05;
+        // Interpolate
+        const speed = p.hasTarget && inCrystallize ? 0.06 : 0.025;
+        p.x += (p.tx + repelX - p.x) * speed;
+        p.y += (p.ty + repelY - p.y) * speed;
 
-        // Color shifts with scroll: cool white → warm amber → rust
-        const hue = sp < 0.3 ? 220 : sp < 0.6 ? 30 + sp * 30 : 15;
-        const sat = sp < 0.3 ? 10 : sp < 0.6 ? 50 : 70;
-        const light = 60 + Math.sin(t + p.phase) * 10;
+        // Alpha
+        let targetA = 0.08;
+        if (inCrystallize && i < pts.length) targetA = 0.6 + Math.sin(T * 2 + p.ph) * 0.2;
+        else if (sp < 0.12) targetA = 0.04 + Math.sin(T * 0.5 + p.ph) * 0.03;
+        else if (sp > 0.42) targetA = 0.1 + Math.sin(T * 0.5 + p.ph) * 0.05;
+        if (dist < 120) targetA = Math.min(1, targetA + (120 - dist) / 120 * 0.5);
+        p.alpha += (targetA - p.alpha) * 0.04;
+
+        // Color: cool → warm as scroll progresses
+        const hue = sp < 0.2 ? 220 : sp < 0.5 ? 40 : 25;
+        const sat = sp < 0.2 ? 5 : sp < 0.5 ? 30 : 50;
+        const lum = inCrystallize && i < pts.length ? 75 : 55;
+        const sz = dist < 100 ? p.sz * (1 + (100 - dist) / 100 * 0.6) : p.sz;
 
         ctx.beginPath();
-        ctx.arc(p.x, p.y, targetSize, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${hue}, ${sat}%, ${light}%, ${p.alpha})`;
+        ctx.arc(p.x, p.y, sz, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${hue},${sat}%,${lum}%,${p.alpha})`;
         ctx.fill();
 
-        // Glow for larger particles near mouse
-        if (dist < 120 && targetSize > 2) {
+        // Glow on crystallized particles
+        if (inCrystallize && i < pts.length && p.alpha > 0.3) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, targetSize * 3, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(${hue}, ${sat}%, ${light}%, ${p.alpha * 0.1})`;
+          ctx.arc(p.x, p.y, sz * 4, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${hue},${sat}%,${lum}%,${p.alpha * 0.06})`;
           ctx.fill();
         }
       }
 
-      // Draw faint connection lines between nearby particles (only some)
-      if (sp > 0.2 && sp < 0.7) {
-        ctx.strokeStyle = `hsla(30, 40%, 60%, 0.03)`;
-        ctx.lineWidth = 0.5;
-        const ps = particles.current;
-        for (let i = 0; i < ps.length; i += 3) {
-          for (let j = i + 1; j < ps.length; j += 5) {
-            const dx = ps[i].x - ps[j].x;
-            const dy = ps[i].y - ps[j].y;
-            const d = dx * dx + dy * dy;
-            if (d < 3000) {
-              ctx.beginPath();
-              ctx.moveTo(ps[i].x, ps[i].y);
-              ctx.lineTo(ps[j].x, ps[j].y);
-              ctx.stroke();
-            }
-          }
-        }
-      }
-
-      raf.current = requestAnimationFrame(draw);
+      raf = requestAnimationFrame(draw);
     };
 
-    raf.current = requestAnimationFrame(draw);
-
+    raf = requestAnimationFrame(draw);
     return () => {
-      cancelAnimationFrame(raf.current);
-      window.removeEventListener("mousemove", onMouse);
-      window.removeEventListener("mouseleave", onMouseLeave);
+      cancelAnimationFrame(raf);
+      window.removeEventListener("mousemove", onM);
+      window.removeEventListener("mouseleave", onL);
     };
-  }, [scrollProgress]);
+  }, [scroll, liveValue]);
 
-  return canvasRef;
+  return ref;
 }
 
-/* ══════════════════════════════════════════════════════════
-   PAGE
-   ══════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════
+   PAGE — sticky-swap film strip
+   ═══════════════════════════════ */
 
 export default function DraftPage() {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [sp, setSp] = useState(0);
+  const total = useLive();
+  const d = days();
   const scrollRef = useRef<HTMLDivElement>(null);
-  const total = useLiveTotal();
-  const countdown = daysUntil("2026-06-21");
-
-  const canvasRef = useParticleCanvas(scrollProgress);
+  const canvasRef = useCanvas(sp, total);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
     const onScroll = () => {
       const max = el.scrollHeight - el.clientHeight;
-      setScrollProgress(max > 0 ? el.scrollTop / max : 0);
+      setSp(max > 0 ? el.scrollTop / max : 0);
     };
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Determine which scene is active
+  const scene = sp < 0.12 ? 0 : sp < 0.42 ? 1 : sp < 0.65 ? 2 : sp < 0.85 ? 3 : 4;
+
   return (
-    <div className="d-root">
+    <div className="D">
       <style>{css}</style>
-      <canvas ref={canvasRef} className="d-canvas" />
-      <div className="d-scroll" ref={scrollRef}>
 
-        {/* 1 — THE HOOK */}
-        <section className="d-s">
-          <div className="d-video-wrap">
-            <iframe
-              src="https://www.youtube.com/embed/hif5eI5pBxo?rel=0&modestbranding=1&iv_load_policy=3&color=white"
-              className="d-video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              title="nothing, except everything."
-            />
-          </div>
-        </section>
+      {/* particle canvas — always visible, behind everything */}
+      <canvas ref={canvasRef} className="D-cv" />
 
-        {/* 2 — THE NUMBER */}
-        <section className="d-s">
-          <div className="d-number-block">
-            <span className="d-eyebrow">live</span>
-            <h1 className="d-amount">{total ? fmtDollar(total) : "..."}</h1>
-            <div className="d-arrow">→</div>
-            <h1 className="d-goal">$100,000</h1>
-            <p className="d-deadline">
-              <span className="d-days">{countdown}</span> days left
-            </p>
-          </div>
-        </section>
+      {/* scroll rail — 500vh tall, drives everything */}
+      <div className="D-rail" ref={scrollRef}>
+        <div className="D-spacer" />
+      </div>
 
-        {/* 3 — THE ART */}
-        <section className="d-s">
-          <div className="d-art-wrap">
-            <img src="/art/tarantula-full.jpg" alt="The Tarantula" className="d-art-img" />
-            <div className="d-art-overlay">
-              <span className="d-art-lot">LOT 001</span>
-              <h2 className="d-art-title">The Tarantula</h2>
-              <p className="d-art-back">
-                backed by 10% of the portfolio<br />
-                <span className="d-art-val">
-                  {total ? `currently ${fmtDollar(total * 0.1)}` : "..."}
-                </span>
-              </p>
-              <p className="d-art-bid">opening bid: $25</p>
+      {/* sticky viewport — content swaps based on scene */}
+      <div className="D-frame">
+
+        {/* SCENE 0 — the video */}
+        <div className={`D-scene ${scene === 0 ? "on" : ""}`}>
+          <div className="D-vid-layout">
+            <div className="D-vid-wrap">
+              <iframe
+                src="https://www.youtube.com/embed/hif5eI5pBxo?rel=0&modestbranding=1&iv_load_policy=3&color=white"
+                className="D-vid"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                title="nothing, except everything."
+              />
+            </div>
+            <div className="D-vid-attr">
+              <p>&ldquo;nothing, except everything.&rdquo;</p>
+              <span>wesley wang</span>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* 4 — THE PARTY */}
-        <section className="d-s">
-          <div className="d-party-block">
-            <span className="d-eyebrow">june 21, 2026</span>
-            <h2 className="d-party-line">the party is the liquidity event.</h2>
-            <p className="d-party-sub">
-              10% of the portfolio is the dividend pool.<br />
-              withdrawable or reinvestable. flight compensation included.<br />
-              stake is proportional to earliness × size.
+        {/* SCENE 1 — the number (particles form it, DOM is fallback/mobile) */}
+        <div className={`D-scene ${scene === 1 ? "on" : ""}`}>
+          <div className="D-num-block">
+            <span className="D-num-eye">live</span>
+            {/* DOM fallback for mobile / before crystallization */}
+            <h1 className="D-num" aria-live="polite">
+              {total ? "$" + Math.round(total).toLocaleString() : "..."}
+            </h1>
+            <div className="D-num-goal">→ $100,000</div>
+            <p className="D-num-days">
+              <span className="D-num-d">{d}</span> days
             </p>
-            <div className="d-party-nums">
-              <div className="d-party-num">
-                <span className="d-party-figure">$100</span>
-                <span className="d-party-label">invested externally</span>
-              </div>
-              <div className="d-party-num">
-                <span className="d-party-figure">$66</span>
-                <span className="d-party-label">gifted as easter eggs</span>
-              </div>
-              <div className="d-party-num">
-                <span className="d-party-figure">{total ? fmtDollar(total * 0.1) : "..."}</span>
-                <span className="d-party-label">dividend pool · live</span>
-              </div>
+          </div>
+        </div>
+
+        {/* SCENE 2 — the art */}
+        <div className={`D-scene ${scene === 2 ? "on" : ""}`}>
+          <div className="D-art">
+            <img src="/art/tarantula-full.jpg" alt="The Tarantula" className="D-art-img" />
+            <div className="D-art-info">
+              <span className="D-art-lot">LOT 001</span>
+              <h2>The Tarantula</h2>
+              <p>backed by 10% · {total ? "$" + Math.round(total * 0.1).toLocaleString() : "..."}</p>
+              <span className="D-art-bid">opening bid $25</span>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* 5 — THE DOORS */}
-        <section className="d-s d-s-doors">
-          <h2 className="d-doors-title">aureliex</h2>
-          <nav className="d-doors">
-            {[
-              ["/", "the cover"],
-              ["/argument", "the argument"],
-              ["/about-the-method", "the method"],
-              ["/art", "twelve plates"],
-              ["/letters/round-0", "round 0"],
-              ["/green-credit", "green credit"],
-              ["/archive", "the archive"],
-            ].map(([href, label]) => (
-              <a key={href} href={`https://aureliex.com${href}`} className="d-door" target="_blank" rel="noopener noreferrer">
-                {label}
-              </a>
-            ))}
-          </nav>
-          <p className="d-coda">attention is what matters the most.</p>
-        </section>
+        {/* SCENE 3 — the party */}
+        <div className={`D-scene ${scene === 3 ? "on" : ""}`}>
+          <div className="D-party">
+            <p className="D-party-date">june 21, 2026</p>
+            <h2 className="D-party-line">the party is the<br />liquidity event.</h2>
+            <div className="D-party-row">
+              <div className="D-party-n"><span>$100</span>invested</div>
+              <div className="D-party-n"><span>$66</span>easter eggs</div>
+              <div className="D-party-n">
+                <span>{total ? "$" + Math.round(total * 0.1).toLocaleString() : "..."}</span>
+                dividend pool
+              </div>
+            </div>
+            <p className="D-party-stake">stake proportional to earliness × size</p>
+          </div>
+        </div>
+
+        {/* SCENE 4 — the close */}
+        <div className={`D-scene ${scene === 4 ? "on" : ""}`}>
+          <div className="D-close">
+            <a href="https://aureliex.com" target="_blank" rel="noopener noreferrer" className="D-close-word">
+              aureliex
+            </a>
+            <p className="D-close-line">attention is what matters the most.</p>
+          </div>
+        </div>
 
       </div>
     </div>
   );
 }
 
-/* ── styles ── */
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
-  .d-root {
+  .D {
     position: fixed; inset: 0;
-    background: #050505;
-    color: #e8e4dc;
-    -webkit-font-smoothing: antialiased;
+    background: #050505; color: #e8e4dc;
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .d-canvas {
+  /* particle canvas */
+  .D-cv {
     position: fixed; inset: 0; z-index: 0;
     pointer-events: none;
   }
 
-  .d-scroll {
-    position: relative; z-index: 1;
-    height: 100vh; overflow-y: auto;
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+  /* invisible scroll rail */
+  .D-rail {
+    position: fixed; inset: 0; z-index: 3;
+    overflow-y: auto;
     scrollbar-width: none;
   }
-  .d-scroll::-webkit-scrollbar { display: none; }
+  .D-rail::-webkit-scrollbar { display: none; }
+  .D-spacer { height: 500vh; }
 
-  .d-s {
-    min-height: 100svh;
-    scroll-snap-align: start;
+  /* sticky viewport */
+  .D-frame {
+    position: fixed; inset: 0; z-index: 2;
+    pointer-events: none;
+  }
+
+  /* scenes — hard cut */
+  .D-scene {
+    position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    padding: 40px;
-    position: relative;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+  }
+  .D-scene.on {
+    opacity: 1;
+    pointer-events: auto;
   }
 
-  /* ── 1. VIDEO ── */
-  .d-video-wrap {
-    width: 90%; max-width: 800px;
-    aspect-ratio: 16/9;
+  /* ── SCENE 0: VIDEO ── */
+  .D-vid-layout {
+    display: flex; align-items: center; gap: 40px;
+    padding: 0 8%;
+    width: 100%;
+  }
+  .D-vid-wrap {
+    flex: 0 0 65%; aspect-ratio: 16/9;
     border-radius: 2px; overflow: hidden;
-    box-shadow: 0 0 80px rgba(139,58,46,0.08);
+    box-shadow: 0 0 100px rgba(0,0,0,0.5);
   }
-  .d-video {
-    width: 100%; height: 100%; border: none;
+  .D-vid { width: 100%; height: 100%; border: none; }
+  .D-vid-attr {
+    flex: 1;
+    font-family: 'EB Garamond', Georgia, serif;
+  }
+  .D-vid-attr p {
+    font-size: 18px; font-style: italic;
+    color: rgba(232,228,220,0.3);
+    margin: 0 0 8px; line-height: 1.5;
+  }
+  .D-vid-attr span {
+    font-size: 13px; color: rgba(232,228,220,0.15);
+    font-style: normal;
   }
 
-  /* ── 2. NUMBER ── */
-  .d-number-block {
+  /* ── SCENE 1: NUMBER ── */
+  .D-num-block {
     text-align: center;
     display: flex; flex-direction: column;
-    align-items: center; gap: 8px;
+    align-items: center;
   }
-  .d-eyebrow {
+  .D-num-eye {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; text-transform: uppercase;
-    letter-spacing: 0.3em; color: #555;
+    font-size: 10px; letter-spacing: 0.35em;
+    text-transform: uppercase; color: #333;
+    margin-bottom: 16px;
   }
-  .d-amount {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(48px, 10vw, 96px);
-    font-weight: 300; letter-spacing: -0.03em;
-    line-height: 1; margin: 0;
-    color: #e8e4dc;
-  }
-  .d-arrow {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 32px; color: #333;
-    margin: 4px 0;
-  }
-  .d-goal {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(32px, 6vw, 56px);
-    font-weight: 300; letter-spacing: -0.02em;
-    line-height: 1; margin: 0;
-    color: #444;
-  }
-  .d-deadline {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 16px; color: #555;
-    font-style: italic; margin-top: 16px;
-  }
-  .d-days {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 24px; font-weight: 400;
-    color: #8B3A2E; font-style: normal;
-  }
-
-  /* ── 3. ART ── */
-  .d-art-wrap {
-    position: relative;
-    max-width: 500px; width: 90%;
-    border-radius: 2px; overflow: hidden;
-    cursor: pointer;
-  }
-  .d-art-img {
-    width: 100%; display: block;
-    filter: brightness(0.85) contrast(1.05);
-    transition: filter 0.6s ease;
-  }
-  .d-art-wrap:hover .d-art-img {
-    filter: brightness(0.6) contrast(1.1);
-  }
-  .d-art-overlay {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    justify-content: flex-end;
-    padding: 32px;
-    opacity: 0; transition: opacity 0.5s ease;
-    background: linear-gradient(transparent 30%, rgba(0,0,0,0.7) 100%);
-  }
-  .d-art-wrap:hover .d-art-overlay { opacity: 1; }
-  .d-art-lot {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.2em;
-    color: #999; margin-bottom: 8px;
-  }
-  .d-art-title {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 28px; font-weight: 300;
-    margin: 0 0 12px;
-  }
-  .d-art-back {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 14px; color: #aaa;
-    line-height: 1.6; margin: 0 0 8px;
-  }
-  .d-art-val {
-    color: #C9A84C;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-  }
-  .d-art-bid {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: #777;
-    letter-spacing: 0.05em; margin: 0;
-  }
-
-  /* ── 4. PARTY ── */
-  .d-party-block {
-    text-align: center; max-width: 560px;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 16px;
-  }
-  .d-party-line {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(24px, 4vw, 36px);
-    font-weight: 300; font-style: italic;
-    margin: 0; line-height: 1.3;
-    color: #e8e4dc;
-  }
-  .d-party-sub {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 15px; color: #666;
-    line-height: 1.8; margin: 0;
-  }
-  .d-party-nums {
-    display: flex; gap: 32px; margin-top: 12px;
-    flex-wrap: wrap; justify-content: center;
-  }
-  .d-party-num {
-    display: flex; flex-direction: column;
-    align-items: center; gap: 4px;
-  }
-  .d-party-figure {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 28px; font-weight: 400;
-    color: #e8e4dc;
-  }
-  .d-party-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; text-transform: uppercase;
-    letter-spacing: 0.15em; color: #555;
-  }
-
-  /* ── 5. DOORS ── */
-  .d-s-doors { flex-direction: column; gap: 24px; }
-  .d-doors-title {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 24px; font-weight: 300;
-    letter-spacing: 0.1em; color: #555;
+  .D-num {
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+    font-size: clamp(64px, 18vw, 260px);
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
     margin: 0;
+    color: rgba(232,228,220,0.06);
+    /* faint DOM fallback — particles do the real rendering */
   }
-  .d-doors {
-    display: flex; flex-wrap: wrap;
-    gap: 0; justify-content: center;
+  .D-num-goal {
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+    font-size: clamp(20px, 4vw, 40px);
+    font-weight: 300;
+    color: #222;
+    margin-top: 12px;
+    letter-spacing: -0.02em;
   }
-  .d-door {
+  .D-num-days {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 15px; color: #555;
-    text-decoration: none;
-    padding: 8px 16px;
-    transition: color 0.3s;
+    font-size: 15px; color: #333;
+    font-style: italic; margin-top: 20px;
+  }
+  .D-num-d {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 22px; font-weight: 400;
+    color: #8B3A2E; font-style: normal;
+    margin-right: 4px;
+  }
+
+  /* ── SCENE 2: ART ── */
+  .D-art {
+    position: relative;
+    width: min(480px, 80vw);
+    cursor: crosshair;
+  }
+  .D-art-img {
+    width: 100%; display: block;
+    border-radius: 2px;
+    filter: brightness(0.8) contrast(1.05);
+    transition: filter 0.6s;
+  }
+  .D-art:hover .D-art-img {
+    filter: brightness(0.5) contrast(1.1);
+  }
+  .D-art-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 32px;
+    opacity: 0; transition: opacity 0.4s;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    font-family: 'EB Garamond', Georgia, serif;
+  }
+  .D-art:hover .D-art-info { opacity: 1; }
+  .D-art-lot {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em; color: #888;
+    display: block; margin-bottom: 8px;
+  }
+  .D-art-info h2 {
+    font-size: 28px; font-weight: 400; margin: 0 0 8px;
+    font-family: "Helvetica Neue", sans-serif;
+    letter-spacing: -0.02em;
+  }
+  .D-art-info p {
+    font-size: 14px; color: #aaa; margin: 0 0 6px;
     font-style: italic;
   }
-  .d-door:hover { color: #e8e4dc; }
-  .d-coda {
+  .D-art-bid {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #C9A84C;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SCENE 3: PARTY ── */
+  .D-party {
+    text-align: center;
+    max-width: 500px;
+  }
+  .D-party-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: #333; text-transform: uppercase;
+    margin: 0 0 20px;
+  }
+  .D-party-line {
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+    font-size: clamp(24px, 5vw, 40px);
+    font-weight: 300;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    margin: 0 0 32px;
+  }
+  .D-party-row {
+    display: flex; gap: 32px; justify-content: center;
+    margin-bottom: 24px;
+  }
+  .D-party-n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: #555;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    display: flex; flex-direction: column; gap: 6px;
+    align-items: center;
+  }
+  .D-party-n span {
+    font-family: "Helvetica Neue", sans-serif;
+    font-size: 24px; font-weight: 300;
+    color: #e8e4dc; letter-spacing: -0.02em;
+  }
+  .D-party-stake {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 14px; color: #333;
-    font-style: italic; margin-top: 32px;
+    font-size: 14px; color: #444;
+    font-style: italic; margin: 0;
+  }
+
+  /* ── SCENE 4: CLOSE ── */
+  .D-close {
+    text-align: center;
+  }
+  .D-close-word {
+    font-family: "Helvetica Neue", "Arial", sans-serif;
+    font-size: 18px; font-weight: 400;
+    letter-spacing: 0.15em; color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: block; margin-bottom: 20px;
+  }
+  .D-close-word:hover { color: #e8e4dc; }
+  .D-close-line {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 15px; font-style: italic;
+    color: #222; margin: 0;
   }
 
   /* ── RESPONSIVE ── */
-  @media (max-width: 640px) {
-    .d-s { padding: 24px 16px; }
-    .d-party-nums { gap: 20px; }
-    .d-video-wrap { width: 100%; }
+  @media (max-width: 768px) {
+    .D-vid-layout {
+      flex-direction: column; gap: 20px;
+      padding: 0 16px;
+    }
+    .D-vid-wrap { flex: none; width: 100%; }
+    .D-vid-attr { text-align: center; }
+    .D-num { color: rgba(232,228,220,0.8); font-size: clamp(48px, 14vw, 120px); }
+    .D-party-row { gap: 20px; flex-wrap: wrap; }
   }
 `;
