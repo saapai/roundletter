@@ -13,7 +13,7 @@ function mulberry32(seed: number) {
 }
 
 /* ── Content cards — real aureliex material ── */
-type CardSkin = "youtube" | "imessage" | "polaroid" | "terminal" | "apple-note" | "notification" | "tweet" | "vinyl";
+type CardSkin = "youtube" | "imessage" | "polaroid" | "terminal" | "apple-note" | "notification" | "tweet" | "vinyl" | "auction" | "boarding-pass" | "receipt";
 
 interface ContentCard {
   id: string;
@@ -333,6 +333,84 @@ Progress: ▓░░░░░░░░░ 4.5%`,
     width: 380,
     height: 340,
   },
+
+  // Auction skin
+  {
+    id: "auction-tarantula",
+    skin: "auction",
+    title: "LOT 001 — The Tarantula",
+    body: "Graphite on Bristol board, 18×24 in. Signed. One of twelve plates from the aureliex collection.\n\nThis work is backed by 10% of the aureliex portfolio value on June 21, 2026. The winning bidder may cash out the backing at any time on or after that date, or hold the piece.\n\nIf portfolio = $10,000 → backing = $1,000\nIf portfolio = $100,000 → backing = $10,000\n\nThe auction price is your bet on where the portfolio lands.",
+    meta: "Opening bid: $25.00",
+    image: "/art/tarantula-full.jpg",
+    width: 400,
+    height: 480,
+  },
+
+  // Boarding pass — party dividend
+  {
+    id: "pass-party",
+    skin: "boarding-pass",
+    title: "AURELIEX — JUNE 21 EVENT",
+    body: "DIVIDEND PASS",
+    meta: "10% of portfolio value is withdrawable or reinvestable as party stake on June 21, 2026. This pass represents flight compensation + liquidity event. Present at door.",
+    width: 420,
+    height: 220,
+  },
+
+  // Receipt — dividend terms
+  {
+    id: "receipt-dividend",
+    skin: "receipt",
+    title: "AURELIEX DIVIDEND RECEIPT",
+    body: `DATE: June 21, 2026
+EVENT: 20th Birthday / Liquidity Event
+─────────────────────────────
+PORTFOLIO VALUE (est.)    $???
+DIVIDEND POOL (10%)       $???
+─────────────────────────────
+ART AUCTION BACKING       10%
+  LOT 001: The Tarantula
+  Opening bid:            $25
+  Guaranteed floor:       10% NAV
+─────────────────────────────
+PARTY STAKE POOL          10%
+  Withdrawable at event
+  Or reinvestable into Q3
+─────────────────────────────
+FLIGHT COMPENSATION       ✓
+  Covered by dividend
+─────────────────────────────
+
+"The party is the liquidity event."
+
+         ████████████
+         ████████████
+         SCAN TO RSVP`,
+    width: 340,
+    height: 500,
+  },
+
+  // Notification for auction
+  {
+    id: "notif-auction",
+    skin: "notification",
+    title: "aureliex",
+    body: "Auction for 'The Tarantula' is now live. Opening bid: $25. Backed by 10% of portfolio.",
+    meta: "just now",
+    width: 360,
+    height: 100,
+  },
+
+  // iMessage about the party
+  {
+    id: "imsg-party",
+    skin: "imessage",
+    title: "Group: june 21",
+    body: `so the party is also a liquidity event?\n\nyes 10% of whatever the portfolio is worth\n\nyou can cash out or reinvest\n\nwait so if you hit 100k we each get…\n\ncome and find out\n\nalso there's an art auction\n\nwhat\n\nthe tarantula drawing. starts at $25. backed by 10% of the portfolio\n\nso if you buy it for $25 and the portfolio hits $100k you can cash out $10,000?\n\nyes\n\nthat's insane\n\nthat's the point`,
+    meta: "Today 11:22 AM",
+    width: 330,
+    height: 440,
+  },
 ];
 
 /* ── Intro text sequence ── */
@@ -612,6 +690,12 @@ function CardRenderer({ card }: { card: ContentCard }) {
       return <TweetCard card={card} />;
     case "vinyl":
       return <VinylCard card={card} />;
+    case "auction":
+      return <AuctionCard card={card} />;
+    case "boarding-pass":
+      return <BoardingPassCard card={card} />;
+    case "receipt":
+      return <ReceiptCard card={card} />;
     default:
       return null;
   }
@@ -763,6 +847,88 @@ function VinylCard({ card }: { card: ContentCard }) {
         <p className="vinyl-body">{card.body}</p>
         <span className="vinyl-meta">{card.meta}</span>
       </div>
+    </div>
+  );
+}
+
+function AuctionCard({ card }: { card: ContentCard }) {
+  return (
+    <div className="skin-auction">
+      <div className="auc-header">
+        <span className="auc-house">AURELIEX</span>
+        <span className="auc-live">● LIVE</span>
+      </div>
+      {card.image && (
+        <div className="auc-image">
+          <img src={card.image} alt={card.title} />
+        </div>
+      )}
+      <div className="auc-body">
+        <h3 className="auc-lot">{card.title}</h3>
+        <p className="auc-desc">{card.body}</p>
+        <div className="auc-bid-row">
+          <span className="auc-bid-label">Opening bid</span>
+          <span className="auc-bid-amount">$25.00</span>
+        </div>
+        <div className="auc-bid-row">
+          <span className="auc-bid-label">Backing</span>
+          <span className="auc-bid-backing">10% of NAV</span>
+        </div>
+        <button className="auc-place-bid">Place Bid</button>
+      </div>
+    </div>
+  );
+}
+
+function BoardingPassCard({ card }: { card: ContentCard }) {
+  return (
+    <div className="skin-boarding">
+      <div className="bp-left">
+        <div className="bp-airline">{card.title}</div>
+        <div className="bp-main">
+          <div className="bp-col">
+            <span className="bp-label">FROM</span>
+            <span className="bp-value">NOW</span>
+          </div>
+          <div className="bp-arrow">→</div>
+          <div className="bp-col">
+            <span className="bp-label">TO</span>
+            <span className="bp-value">JUN 21</span>
+          </div>
+        </div>
+        <div className="bp-detail-row">
+          <div className="bp-col">
+            <span className="bp-label">PASSENGER</span>
+            <span className="bp-value-sm">HOLDER</span>
+          </div>
+          <div className="bp-col">
+            <span className="bp-label">CLASS</span>
+            <span className="bp-value-sm">{card.body}</span>
+          </div>
+          <div className="bp-col">
+            <span className="bp-label">GATE</span>
+            <span className="bp-value-sm">10%</span>
+          </div>
+        </div>
+      </div>
+      <div className="bp-tear" />
+      <div className="bp-right">
+        <div className="bp-barcode">
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div key={i} className="bp-bar" style={{ height: `${14 + Math.random() * 20}px` }} />
+          ))}
+        </div>
+        <span className="bp-seat">STAKE</span>
+      </div>
+    </div>
+  );
+}
+
+function ReceiptCard({ card }: { card: ContentCard }) {
+  return (
+    <div className="skin-receipt">
+      <div className="rcpt-header">{card.title}</div>
+      <pre className="rcpt-body">{card.body}</pre>
     </div>
   );
 }
@@ -1062,6 +1228,131 @@ const styles = `
     font-style: italic; line-height: 1.4;
   }
   .vinyl-meta { font-size: 11px; color: #555; }
+
+  /* ── AUCTION SKIN ── */
+  .skin-auction {
+    background: #0c0c0c; border-radius: 4px; overflow: hidden;
+    border: 1px solid #2a2a2a;
+    font-family: 'Inter', -apple-system, sans-serif;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+  }
+  .auc-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 16px; border-bottom: 1px solid #1a1a1a;
+  }
+  .auc-house {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
+    color: #888; text-transform: uppercase;
+  }
+  .auc-live {
+    font-size: 11px; font-weight: 600; color: #e74c3c;
+    animation: livePulse 2s ease infinite;
+  }
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .auc-image {
+    width: 100%; aspect-ratio: 4/3; overflow: hidden;
+    background: #1a1a1a;
+  }
+  .auc-image img { width: 100%; height: 100%; object-fit: cover; }
+  .auc-body { padding: 16px; }
+  .auc-lot {
+    font-size: 16px; font-weight: 700; margin: 0 0 10px;
+    color: #fff; letter-spacing: 0.02em;
+  }
+  .auc-desc {
+    font-size: 12px; line-height: 1.55; color: #999;
+    margin: 0 0 16px; white-space: pre-wrap;
+  }
+  .auc-bid-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 6px 0; border-top: 1px solid #1a1a1a;
+  }
+  .auc-bid-label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; }
+  .auc-bid-amount { font-size: 20px; font-weight: 700; color: #fff; }
+  .auc-bid-backing { font-size: 14px; font-weight: 600; color: #c9a84c; }
+  .auc-place-bid {
+    width: 100%; margin-top: 14px; padding: 12px;
+    background: #fff; color: #000; border: none; border-radius: 4px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    transition: background 0.15s;
+  }
+  .auc-place-bid:hover { background: #e0e0e0; }
+
+  /* ── BOARDING PASS SKIN ── */
+  .skin-boarding {
+    display: flex; overflow: hidden;
+    background: #faf8f4; color: #1a1a1a; border-radius: 12px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    min-height: 180px;
+  }
+  .bp-left { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .bp-airline {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
+    color: #c4302b; text-transform: uppercase;
+  }
+  .bp-main { display: flex; align-items: center; gap: 16px; }
+  .bp-arrow { font-size: 24px; color: #ccc; }
+  .bp-col { display: flex; flex-direction: column; gap: 2px; }
+  .bp-label { font-size: 9px; font-weight: 600; color: #999; letter-spacing: 0.1em; text-transform: uppercase; }
+  .bp-value { font-size: 22px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.5px; }
+  .bp-detail-row { display: flex; gap: 20px; }
+  .bp-value-sm { font-size: 13px; font-weight: 700; color: #1a1a1a; }
+  .bp-tear {
+    width: 1px; background: repeating-linear-gradient(
+      to bottom, #ddd 0px, #ddd 4px, transparent 4px, transparent 8px
+    );
+    margin: 10px 0; position: relative;
+  }
+  .bp-tear::before, .bp-tear::after {
+    content: ''; position: absolute; left: -6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #0a0a0a;
+  }
+  .bp-tear::before { top: -6px; }
+  .bp-tear::after { bottom: -6px; }
+  .bp-right {
+    width: 80px; padding: 16px 12px;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 10px;
+    background: #f5f2ec;
+  }
+  .bp-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
+  .bp-bar { width: 2px; background: #1a1a1a; border-radius: 1px; }
+  .bp-seat {
+    font-size: 10px; font-weight: 800; letter-spacing: 0.15em;
+    color: #1a1a1a; transform: rotate(90deg);
+    white-space: nowrap;
+  }
+
+  /* ── RECEIPT SKIN ── */
+  .skin-receipt {
+    background: #faf8f2; color: #2a2a2a; border-radius: 2px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    padding: 0;
+    position: relative;
+  }
+  .skin-receipt::after {
+    content: ''; position: absolute; bottom: -6px; left: 0; right: 0;
+    height: 12px;
+    background: linear-gradient(135deg, #faf8f2 33.33%, transparent 33.33%) 0 0,
+                linear-gradient(225deg, #faf8f2 33.33%, transparent 33.33%) 0 0;
+    background-size: 12px 12px;
+  }
+  .rcpt-header {
+    text-align: center; padding: 16px 16px 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    border-bottom: 1px dashed #ccc;
+  }
+  .rcpt-body {
+    padding: 12px 16px 20px; font-size: 11px; line-height: 1.6;
+    margin: 0; white-space: pre-wrap; color: #333;
+  }
 
   /* ── MINIMAP ── */
   .minimap {
