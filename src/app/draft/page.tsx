@@ -81,6 +81,10 @@ export default function DraftPage() {
   const phaseRef = useRef(0);
   const triggeredRef = useRef<Set<number>>(new Set());
   const isMobileRef = useRef(false);
+  const likeBaseRef = useRef(47102);
+  const lastLikeIncRef = useRef(Date.now());
+  const nextIncDelayRef = useRef(3000 + Math.random() * 5000);
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /* state — only what needs to trigger re-render */
   const [phase, setPhase] = useState(0);
@@ -101,7 +105,7 @@ export default function DraftPage() {
   const [videoPIP, setVideoPIP] = useState(false);
   const [videoEnded, setVideoEnded] = useState(false);
   const [showGoldPlay, setShowGoldPlay] = useState(false);
-  const [showSoundOverlay, setShowSoundOverlay] = useState(true);
+  const [showSoundOverlay, setShowSoundOverlay] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [likeIsValue, setLikeIsValue] = useState(false);
   const [showFinalContent, setShowFinalContent] = useState(false);
@@ -131,7 +135,7 @@ export default function DraftPage() {
         videoId: VIDEO_ID,
         playerVars: {
           autoplay: 1,
-          mute: 1,
+          mute: 0,
           rel: 0,
           modestbranding: 1,
           iv_load_policy: 3,
@@ -169,9 +173,7 @@ export default function DraftPage() {
 
   /* ── Phase polling (250ms) ── */
   useEffect(() => {
-    let likeBase = 47102;
-    let lastLikeInc = Date.now();
-    let nextIncDelay = 3000 + Math.random() * 5000;
+    // likeBase, lastLikeInc, nextIncDelay moved to refs to survive re-renders
 
     pollRef.current = setInterval(() => {
       const player = playerRef.current;
@@ -210,24 +212,22 @@ export default function DraftPage() {
         // Start incrementing likes
       }
       if (newPhase >= 1 && newPhase < 3) {
-        if (now - lastLikeInc > nextIncDelay) {
-          likeBase++;
-          setLikeCount(likeBase.toLocaleString());
-          lastLikeInc = now;
-          nextIncDelay = 3000 + Math.random() * 5000;
+        if (now - lastLikeIncRef.current > nextIncDelayRef.current) {
+          likeBaseRef.current++;
+          setLikeCount(likeBaseRef.current.toLocaleString());
+          lastLikeIncRef.current = now;
+          nextIncDelayRef.current = 3000 + Math.random() * 5000;
         } else if (!triggeredRef.current.has(100)) {
-          setLikeCount(likeBase.toLocaleString());
+          setLikeCount(likeBaseRef.current.toLocaleString());
           triggeredRef.current.add(100);
         }
       }
 
-      // Phase 2: color bleed
+      // Phase 2: subtle hint only (gold shift delayed to Phase 3 resume)
       if (newPhase >= 2 && !triggeredRef.current.has(200)) {
         triggeredRef.current.add(200);
-        setProgressBarColor("#f0d890");
-        setSubscribeBg("rgba(240,216,144,0.15)");
-        setSubscribeColor("#f0d890");
-        setAvatarBorder("2px solid rgba(240,216,144,0.5)");
+        // Just a subtle avatar border hint — gold comes with Lasso
+        setAvatarBorder("1px solid rgba(240,216,144,0.2)");
       }
 
       // Phase 3: the hinge
@@ -268,19 +268,25 @@ export default function DraftPage() {
         // Subscribers → days left
         setSubscriberText(`${d} days left`);
 
-        // Show gold play button
-        setShowGoldPlay(true);
+        // Show gold play button after char swap finishes
+        const swapDuration = maxLen * 40 + 600;
+        setTimeout(() => setShowGoldPlay(true), swapDuration);
 
-        // Auto-resume after 5s
-        setTimeout(() => {
+        // Auto-resume 3s after gold button appears
+        resumeTimeoutRef.current = setTimeout(() => {
           setShowGoldPlay(false);
           try { player.playVideo(); } catch { /* */ }
+          // Gold color shift arrives with Lasso's energy
+          setProgressBarColor("#f0d890");
+          setSubscribeBg("rgba(240,216,144,0.15)");
+          setSubscribeColor("#f0d890");
+          setAvatarBorder("2px solid rgba(240,216,144,0.5)");
           // Phase 4 dissolve
           triggeredRef.current.add(400);
           setChromeVisible(false);
           setBgColor("#050505");
           setShowAureContent(true);
-        }, 5000);
+        }, swapDuration + 3000);
       }
 
       // Phase 5: PIP
@@ -311,8 +317,13 @@ export default function DraftPage() {
   }, []);
 
   const handleGoldPlay = useCallback(() => {
+    if (resumeTimeoutRef.current) clearTimeout(resumeTimeoutRef.current);
     setShowGoldPlay(false);
     try { playerRef.current?.playVideo(); } catch { /* */ }
+    setProgressBarColor("#f0d890");
+    setSubscribeBg("rgba(240,216,144,0.15)");
+    setSubscribeColor("#f0d890");
+    setAvatarBorder("2px solid rgba(240,216,144,0.5)");
     triggeredRef.current.add(400);
     setChromeVisible(false);
     setBgColor("#050505");
@@ -562,24 +573,26 @@ const CSS = `
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    padding: 24px 16px;
+    padding: 40px 16px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     overflow-y: auto;
+    justify-content: flex-start;
   }
 
   /* ── VIDEO ── */
   .D-video {
     position: relative;
-    width: 85vw;
-    max-width: 860px;
+    width: 80vw;
+    max-width: 800px;
+    max-height: 55vh;
     aspect-ratio: 16 / 9;
     border-radius: 12px;
     overflow: hidden;
     background: #000;
-    margin-top: 16px;
+    margin-top: 12px;
     transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 10;
   }
@@ -823,12 +836,23 @@ const CSS = `
     justify-content: center;
     gap: 16px;
     z-index: 50;
-    animation: final-fade 2s ease forwards;
-    opacity: 0;
+    overflow-y: auto;
+    padding: 40px 16px;
   }
-  @keyframes final-fade {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+  .D-final > * {
+    opacity: 0;
+    animation: final-child-in 1.2s ease forwards;
+  }
+  .D-final > *:nth-child(1) { animation-delay: 0s; }
+  .D-final > *:nth-child(2) { animation-delay: 0.8s; }
+  .D-final > *:nth-child(3) { animation-delay: 2s; }
+  .D-final > *:nth-child(4) { animation-delay: 4s; }
+  .D-final > *:nth-child(5) { animation-delay: 6s; }
+  .D-final > *:nth-child(6) { animation-delay: 6s; }
+  .D-final > *:nth-child(7) { animation-delay: 8s; }
+  @keyframes final-child-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .D-final-value {
     font-family: 'EB Garamond', Georgia, serif;
