@@ -546,40 +546,40 @@ const CSS = `
     border-color: rgba(28,26,23,0.1);
   }
 
-  /* ── PARTY HERO — diagonal shaft of light (matches archive) ── */
+  /* ── PARTY HERO — diagonal shaft of light ── */
   .R-party-hero {
     position: relative;
-    width: 100vw !important;
+    width: calc(100% + 2 * clamp(1.25rem, 4vw, 2rem)) !important;
     max-width: none !important;
-    margin-left: calc(-50vw + 50%);
-    min-height: clamp(28rem, 60vh, 40rem);
+    margin-left: calc(-1 * clamp(1.25rem, 4vw, 2rem));
+    margin-right: calc(-1 * clamp(1.25rem, 4vw, 2rem));
+    min-height: clamp(36rem, 80vh, 52rem);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 0;
+    border-radius: 6px 6px 0 0;
     background:
-      radial-gradient(ellipse 80% 60% at 85% 90%, rgba(139,74,62,0.18) 0%, transparent 100%),
-      radial-gradient(ellipse 60% 50% at 10% 8%, rgba(40,22,38,0.18) 0%, transparent 100%),
+      radial-gradient(ellipse 80% 60% at 85% 90%, rgba(168,120,60,0.16) 0%, transparent 100%),
+      radial-gradient(ellipse 60% 50% at 10% 8%, rgba(60,36,20,0.20) 0%, transparent 100%),
       radial-gradient(ellipse 50% 40% at 50% 45%, rgba(229,221,210,0.10) 0%, transparent 100%),
       linear-gradient(
-        160deg,
+        155deg,
         #F4EFE6  0%,
-        #E8DDD0  3%,
-        #d8c4b0  8%,
-        #c4a08a  14%,
-        #9b6a64  22%,
-        #6b3a3e  30%,
-        #9b6a64  38%,
-        #c49a90  44%,
-        #dbbcae  49%,
-        #E5DDD2  53%,
-        #E5DDD2  57%,
-        #dbbcae  62%,
-        #c49a90  67%,
-        #9b6a64  73%,
-        #6b3038  80%,
-        #2a1418  88%,
-        #0e090b  95%,
+        #EDE5D5  4%,
+        #DDD0BA  10%,
+        #C4A882  18%,
+        #A88060  28%,
+        #8B6248  36%,
+        #A88060  42%,
+        #C9A882  48%,
+        #DDD0BA  53%,
+        #E8DFD0  57%,
+        #DDD0BA  63%,
+        #C4A882  70%,
+        #8B6248  78%,
+        #4A2A1A  86%,
+        #1C0E08  93%,
         #0a0908  100%
       );
   }
@@ -602,15 +602,15 @@ const CSS = `
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: clamp(3rem, 8vh, 5rem) clamp(1.5rem, 5vw, 3rem);
+    padding: clamp(5rem, 14vh, 9rem) clamp(1.5rem, 5vw, 3rem);
     gap: 0;
   }
   .R-party-presents {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem; letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #8B3A2E;
-    margin-bottom: 20px;
+    color: #8B6040;
+    margin-bottom: 28px;
   }
   .R-party-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
@@ -619,19 +619,19 @@ const CSS = `
     color: #1C1A17;
     line-height: 1.05;
     letter-spacing: -0.02em;
-    margin: 0 0 16px;
+    margin: 0 0 24px;
   }
   .R-party-sub {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem; letter-spacing: 0.2em;
     text-transform: uppercase;
     color: #3A2520;
-    margin-bottom: 32px;
+    margin-bottom: 48px;
   }
   .R-party-rule {
     width: min(320px, 55%); height: 2px;
-    background: linear-gradient(90deg, transparent, #8B3A2E, transparent);
-    margin-bottom: 32px;
+    background: linear-gradient(90deg, transparent, #A87A50, transparent);
+    margin-bottom: 48px;
   }
   .R-party-tagline {
     font-family: 'Cormorant Garamond', Georgia, serif;
@@ -641,7 +641,7 @@ const CSS = `
     max-width: 22ch;
     letter-spacing: 0.01em;
     line-height: 1.3;
-    margin: 0 0 16px;
+    margin: 0 0 24px;
   }
   .R-party-details {
     font-family: 'JetBrains Mono', monospace;
@@ -654,9 +654,10 @@ const CSS = `
 
   /* ── DARK ZONE — everything after the party gradient ── */
   .R-dark-zone {
-    width: 100vw !important;
+    width: calc(100% + 2 * clamp(1.25rem, 4vw, 2rem)) !important;
     max-width: none !important;
-    margin-left: calc(-50vw + 50%);
+    margin-left: calc(-1 * clamp(1.25rem, 4vw, 2rem));
+    margin-right: calc(-1 * clamp(1.25rem, 4vw, 2rem));
     background: #0a0908;
     color: #e8e4dc;
     display: flex;
@@ -837,19 +838,20 @@ const CSS = `
   }
   .R-closer-q {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
     font-style: italic;
     font-weight: 400;
-    margin: 0 0 2rem;
-    letter-spacing: 0.02em;
+    margin: 0 0 1.5rem;
+    letter-spacing: 0.01em;
   }
   .R-sig {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2.4rem, 6vw, 3.5rem);
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
     font-style: italic;
     font-weight: 500;
-    letter-spacing: -0.02em;
+    letter-spacing: 0.08em;
     margin: 0 0 1.5rem;
+    opacity: 0.5;
   }
   .R-closer-phone {
     font-family: 'JetBrains Mono', monospace;
@@ -869,16 +871,16 @@ const CSS = `
   .R-closer-q .R-rainbow:nth-child(4n)   { color: #8A7960; }
   .R-closer-q .R-rainbow:last-child      { color: #C9A020; }
 
-  /* "aureliex." — design-system palette (rust, shadow-blue, sunset) */
-  .R-sig .R-rainbow:nth-child(1) { color: #8B3A2E; }  /* a — rust */
-  .R-sig .R-rainbow:nth-child(2) { color: #2E3A5C; }  /* u — sunset indigo */
-  .R-sig .R-rainbow:nth-child(3) { color: #D97A57; }  /* r — sunset coral */
-  .R-sig .R-rainbow:nth-child(4) { color: #E8B547; }  /* e — sunset gold */
-  .R-sig .R-rainbow:nth-child(5) { color: #3E4852; }  /* l — shadow blue */
-  .R-sig .R-rainbow:nth-child(6) { color: #F2C9A4; }  /* i — sunset peach */
-  .R-sig .R-rainbow:nth-child(7) { color: #6B6560; }  /* e — graphite */
-  .R-sig .R-rainbow:nth-child(8) { color: #D97A57; }  /* x — sunset coral */
-  .R-sig .R-rainbow:nth-child(9) { color: #8B3A2E; }  /* . — rust */
+  /* "aureliex." — warm ember gradient: gold → amber → rust */
+  .R-sig .R-rainbow:nth-child(1) { color: #C9952A; }  /* a — gold */
+  .R-sig .R-rainbow:nth-child(2) { color: #D4A040; }  /* u — warm gold */
+  .R-sig .R-rainbow:nth-child(3) { color: #C4884A; }  /* r — amber */
+  .R-sig .R-rainbow:nth-child(4) { color: #B8784A; }  /* e — copper */
+  .R-sig .R-rainbow:nth-child(5) { color: #A86840; }  /* l — burnt amber */
+  .R-sig .R-rainbow:nth-child(6) { color: #C9952A; }  /* i — gold */
+  .R-sig .R-rainbow:nth-child(7) { color: #B8784A; }  /* e — copper */
+  .R-sig .R-rainbow:nth-child(8) { color: #9B5A38; }  /* x — terracotta */
+  .R-sig .R-rainbow:nth-child(9) { color: #8B4A2E; }  /* . — deep rust */
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
@@ -902,6 +904,17 @@ const CSS = `
     .R { padding: 1.5rem 1.25rem 2rem; }
     .R-flash-text { font-size: clamp(2.2rem, 10vw, 3.2rem); }
     .R-number { font-size: clamp(2.5rem, 12vw, 3.5rem); }
+    .R-party-hero {
+      width: calc(100% + 2 * 1.25rem) !important;
+      margin-left: -1.25rem;
+      margin-right: -1.25rem;
+      border-radius: 0;
+    }
+    .R-dark-zone {
+      width: calc(100% + 2 * 1.25rem) !important;
+      margin-left: -1.25rem;
+      margin-right: -1.25rem;
+    }
     .R-rooms { grid-template-columns: 1fr; }
     .R-backed-names { flex-direction: column; align-items: center; gap: 12px; }
   }
