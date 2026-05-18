@@ -827,18 +827,18 @@ const CSS = `
   }
   .R-closer-q {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
     font-style: italic;
-    font-weight: 500;
-    margin: 0 0 1.5rem;
+    font-weight: 400;
+    margin: 0 0 2rem;
     letter-spacing: 0.02em;
   }
   .R-sig {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(2.4rem, 6vw, 3.5rem);
     font-style: italic;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-weight: 500;
+    letter-spacing: -0.02em;
     margin: 0 0 1.5rem;
   }
   .R-closer-phone {
@@ -860,16 +860,16 @@ const CSS = `
   /* period gets amber warmth */
   .R-closer-q .R-rainbow:last-child      { color: #C8A878; }
 
-  /* "aureliex." — painting palette (cityscape with splatter), adapted for cream */
-  .R-sig .R-rainbow:nth-child(1) { color: #C4403E; }  /* a — crimson red */
-  .R-sig .R-rainbow:nth-child(2) { color: #3B5E8A; }  /* u — deep navy */
-  .R-sig .R-rainbow:nth-child(3) { color: #C47A2A; }  /* r — burnt orange */
-  .R-sig .R-rainbow:nth-child(4) { color: #7B4E8A; }  /* e — muted violet */
-  .R-sig .R-rainbow:nth-child(5) { color: #2E7D6E; }  /* l — deep teal */
-  .R-sig .R-rainbow:nth-child(6) { color: #B8432E; }  /* i — sienna red */
-  .R-sig .R-rainbow:nth-child(7) { color: #4A6FA5; }  /* e — ultramarine */
-  .R-sig .R-rainbow:nth-child(8) { color: #D4882C; }  /* x — amber gold */
-  .R-sig .R-rainbow:nth-child(9) { color: #8B1A1A; }  /* . — deep crimson (mic drop) */
+  /* "aureliex." — oil-paint palette (muted, earthy, aged) */
+  .R-sig .R-rainbow:nth-child(1) { color: #9B3B35; }  /* a — aged red */
+  .R-sig .R-rainbow:nth-child(2) { color: #2D4A6B; }  /* u — dark slate blue */
+  .R-sig .R-rainbow:nth-child(3) { color: #7B4E8A; }  /* r — dusty violet */
+  .R-sig .R-rainbow:nth-child(4) { color: #B47830; }  /* e — raw sienna */
+  .R-sig .R-rainbow:nth-child(5) { color: #3A6A7A; }  /* l — weathered teal */
+  .R-sig .R-rainbow:nth-child(6) { color: #C4785A; }  /* i — terracotta */
+  .R-sig .R-rainbow:nth-child(7) { color: #8B3A2E; }  /* e — rust */
+  .R-sig .R-rainbow:nth-child(8) { color: #C8A050; }  /* x — antique gold */
+  .R-sig .R-rainbow:nth-child(9) { color: #6B2020; }  /* . — deep oxblood */
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
