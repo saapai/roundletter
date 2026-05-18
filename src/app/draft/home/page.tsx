@@ -611,50 +611,46 @@ const CSS = `
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem; letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #5C3425;
-    text-shadow: 0 0 12px rgba(229,221,210,0.3);
+    color: #8B3A2E;
     margin-bottom: 20px;
   }
   .R-party-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2.8rem, 9vw, 4.4rem);
+    font-size: clamp(3.5rem, 10vw, 5.5rem);
     font-weight: 400; font-style: italic;
     color: #1C1A17;
-    text-shadow: 0 2px 12px rgba(229,221,210,0.15);
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    margin: 0 0 12px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
   }
   .R-party-sub {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem; letter-spacing: 0.25em;
+    font-size: 0.6rem; letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(28,26,23,0.58);
-    margin-bottom: 28px;
+    color: #3A2520;
+    margin-bottom: 32px;
   }
   .R-party-rule {
-    width: min(320px, 55%); height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(194,97,78,0.35), transparent);
-    margin-bottom: 28px;
+    width: min(320px, 55%); height: 2px;
+    background: linear-gradient(90deg, transparent, #8B3A2E, transparent);
+    margin-bottom: 32px;
   }
   .R-party-tagline {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.35rem, 3.8vw, 2.1rem);
+    font-size: clamp(1.5rem, 4vw, 2.4rem);
     font-style: italic;
-    color: #3D2218;
-    text-shadow: 0 0 8px rgba(229,221,210,0.2);
+    color: #1C1A17;
     max-width: 22ch;
     letter-spacing: 0.01em;
     line-height: 1.3;
-    margin: 0 0 12px;
+    margin: 0 0 16px;
   }
   .R-party-details {
     font-family: 'JetBrains Mono', monospace;
     font-size: clamp(0.58rem, 1.5vw, 0.68rem);
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #4A2A1C;
-    text-shadow: 0 0 10px rgba(229,221,210,0.25);
+    color: #3A2520;
     margin-top: 4px;
   }
 
