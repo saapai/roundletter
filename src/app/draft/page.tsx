@@ -464,8 +464,8 @@ const css = `
     letter-spacing: -0.04em;
     line-height: 0.9;
     margin: 0;
-    color: rgba(232,228,220,0.06);
-    /* faint DOM fallback — particles do the real rendering */
+    color: transparent;
+    /* particles render the number — DOM is invisible on desktop */
   }
   .D-num-goal {
     font-family: "Helvetica Neue", "Arial", sans-serif;
@@ -599,6 +599,7 @@ const css = `
     .D-vid-wrap { flex: none; width: 100%; }
     .D-vid-attr { text-align: center; }
     .D-num { color: rgba(232,228,220,0.8); font-size: clamp(48px, 14vw, 120px); }
+    /* mobile: show DOM text since particles don't crystallize */
     .D-party-row { gap: 20px; flex-wrap: wrap; }
   }
 `;
