@@ -333,7 +333,7 @@ export default function DraftPage() {
         {/* SCENE 2 — the art */}
         <div className={`D-scene ${scene === 2 ? "on" : ""}`}>
           <div className="D-art">
-            <img src="/art/tarantula-full.jpg" alt="The Tarantula" className="D-art-img" />
+            <img src="/art/auction-piece.jpg" alt="The Tarantula" className="D-art-img" />
             <div className="D-art-info">
               <span className="D-art-lot">LOT 001</span>
               <h2>The Tarantula</h2>
