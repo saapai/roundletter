@@ -54,10 +54,10 @@ export default function DraftHomePage() {
   const pct = ((total / 100_000) * 100).toFixed(1);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  /* Phase: initial flash → settled */
-  const [phase, setPhase] = useState<"intro" | "settled">("intro");
+  /* Phase: dark flash → warm paper */
+  const [phase, setPhase] = useState<"dark" | "warm">("dark");
   useEffect(() => {
-    const t = setTimeout(() => setPhase("settled"), 2800);
+    const t = setTimeout(() => setPhase("warm"), 2800);
     return () => clearTimeout(t);
   }, []);
 
@@ -76,7 +76,7 @@ export default function DraftHomePage() {
   }, []);
 
   return (
-    <div className={`R ${phase === "settled" ? "R--settled" : ""}`} ref={rootRef}>
+    <div className={`R ${phase === "warm" ? "R--warm" : ""}`} ref={rootRef}>
       <style>{CSS}</style>
 
       {/* ═══════ WAVE 1: Golden flash (bridge from video) ═══════ */}
@@ -160,7 +160,7 @@ export default function DraftHomePage() {
           <div className="R-party-rule" />
           <p className="R-party-tagline">june 20 · salt lake city</p>
           <span className="R-party-details">
-            10% of portfolio → flights &amp; costs
+            10% of portfolio → flights &amp; reimbursements
           </span>
           <span className="R-party-details">
             proportional to who invested the most, earliest
@@ -168,86 +168,91 @@ export default function DraftHomePage() {
         </div>
       </section>
 
-      {/* THE TICKET */}
-      <div className="R-ticket-wrap">
-        <a href="/invest" className="R-ticket">
-          <div className="R-ticket-main">
-            <span className="R-ticket-event">the liquidity event</span>
-            <div className="R-ticket-meta">
-              <span>june 20, 2026</span>
-              <span>salt lake city</span>
-            </div>
-            <span className="R-ticket-cta">rsvp →</span>
-          </div>
-          <div className="R-ticket-tear">
-            <div className="R-ticket-hole R-ticket-hole-t" />
-            <div className="R-ticket-perf" />
-            <div className="R-ticket-hole R-ticket-hole-b" />
-          </div>
-          <div className="R-ticket-stub">
-            <div className="R-ticket-barcode">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="R-ticket-bar" style={{ height: `${6 + ((i * 7 + 3) % 12)}px` }} />
-              ))}
-            </div>
-            <span className="R-ticket-admit">ADMIT ONE</span>
-          </div>
-        </a>
-      </div>
+      {/* ═══════ DARK ZONE — everything after the party gradient ═══════ */}
+      <div className="R-dark-zone">
 
-      {/* BACKED BY */}
-      <div className="R-backed R-reveal">
-        <span className="R-backed-label">backed by</span>
-        <div className="R-backed-names">
-          <span>Franco Cachay</span>
-          <span>Elijah Bautista</span>
-          <span>Yashas Shashidara</span>
-          <span>an anonymous donor</span>
+        {/* THE TICKET */}
+        <div className="R-ticket-wrap">
+          <a href="/invest" className="R-ticket">
+            <div className="R-ticket-main">
+              <span className="R-ticket-event">the liquidity event</span>
+              <div className="R-ticket-meta">
+                <span>june 20, 2026</span>
+                <span>salt lake city</span>
+              </div>
+              <span className="R-ticket-cta">rsvp →</span>
+            </div>
+            <div className="R-ticket-tear">
+              <div className="R-ticket-hole R-ticket-hole-t" />
+              <div className="R-ticket-perf" />
+              <div className="R-ticket-hole R-ticket-hole-b" />
+            </div>
+            <div className="R-ticket-stub">
+              <div className="R-ticket-barcode">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <div key={i} className="R-ticket-bar" style={{ height: `${6 + ((i * 7 + 3) % 12)}px` }} />
+                ))}
+              </div>
+              <span className="R-ticket-admit">ADMIT ONE</span>
+            </div>
+          </a>
         </div>
-      </div>
 
-      {/* ═══════ FOUR REVOLUTIONS ═══════ */}
-      <nav className="R-rooms R-reveal">
-        <a href="/green-credit" className="R-room">
-          <span className="R-room-n">I</span>
-          <span className="R-room-name">the financial revolution</span>
-          <span className="R-room-sub">green credit · bet on the bet</span>
-        </a>
-        <a href="/archives" className="R-room">
-          <span className="R-room-n">II</span>
-          <span className="R-room-name">the art revolution</span>
-          <span className="R-room-sub">12 pieces · salon wall · auction</span>
-        </a>
-        <a href="/letters/round-1" className="R-room">
-          <span className="R-room-n">III</span>
-          <span className="R-room-name">the socialist revolution</span>
-          <span className="R-room-sub">round 1 · what the attention built</span>
-        </a>
-        <a href="/letters/entrenched-coils" className="R-room">
-          <span className="R-room-n">IV</span>
-          <span className="R-room-name">the ai revolution</span>
-          <span className="R-room-sub">entrenched coils · tension-weighted memory</span>
-        </a>
-      </nav>
+        {/* BACKED BY */}
+        <div className="R-backed R-reveal">
+          <span className="R-backed-label">backed by</span>
+          <div className="R-backed-names">
+            <span>Franco Cachay</span>
+            <span>Elijah Bautista</span>
+            <span>Yashas Shashidara</span>
+            <span>an anonymous donor</span>
+          </div>
+        </div>
 
-      {/* ═══════ CLOSER — CMIYGL poster energy ═══════ */}
-      <footer className="R-closer R-reveal">
-        <p className="R-closer-q">
-          {"call me if you get lost.".split("").map((ch, i) => (
-            <span key={i} className="R-rainbow" style={{ ["--i" as string]: i }}>
-              {ch === " " ? "\u00A0" : ch}
-            </span>
-          ))}
-        </p>
-        <p className="R-sig">
-          {"aureliex.".split("").map((ch, i) => (
-            <span key={i} className="R-rainbow" style={{ ["--i" as string]: i }}>
-              {ch}
-            </span>
-          ))}
-        </p>
-        <span className="R-closer-phone">+1 (385) 368-7238</span>
-      </footer>
+        {/* ═══════ FOUR REVOLUTIONS ═══════ */}
+        <nav className="R-rooms R-reveal">
+          <a href="/green-credit" className="R-room">
+            <span className="R-room-n">I</span>
+            <span className="R-room-name">the financial revolution</span>
+            <span className="R-room-sub">green credit · bet on the bet</span>
+          </a>
+          <a href="/archives" className="R-room">
+            <span className="R-room-n">II</span>
+            <span className="R-room-name">the art revolution</span>
+            <span className="R-room-sub">12 pieces · salon wall · auction</span>
+          </a>
+          <a href="/letters/round-1" className="R-room">
+            <span className="R-room-n">III</span>
+            <span className="R-room-name">the socialist revolution</span>
+            <span className="R-room-sub">round 1 · what the attention built</span>
+          </a>
+          <a href="/letters/entrenched-coils" className="R-room">
+            <span className="R-room-n">IV</span>
+            <span className="R-room-name">the ai revolution</span>
+            <span className="R-room-sub">entrenched coils · tension-weighted memory</span>
+          </a>
+        </nav>
+
+        {/* ═══════ CLOSER ═══════ */}
+        <footer className="R-closer R-reveal">
+          <p className="R-closer-q">
+            {"call me if you get lost.".split("").map((ch, i) => (
+              <span key={i} className="R-rainbow" style={{ ["--i" as string]: i }}>
+                {ch === " " ? "\u00A0" : ch}
+              </span>
+            ))}
+          </p>
+          <p className="R-sig">
+            {"aureliex.".split("").map((ch, i) => (
+              <span key={i} className="R-rainbow" style={{ ["--i" as string]: i }}>
+                {ch}
+              </span>
+            ))}
+          </p>
+          <span className="R-closer-phone">+1 (385) 368-7238</span>
+        </footer>
+
+      </div>{/* end dark zone */}
     </div>
   );
 }
@@ -255,7 +260,7 @@ export default function DraftHomePage() {
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap');
 
-  /* ── ROOT — dark throughout ── */
+  /* ── ROOT — starts dark, transitions to cream ── */
   .R {
     min-height: 100vh;
     background: #0a0908;
@@ -263,9 +268,15 @@ const CSS = `
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 2rem) 3rem;
+    padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 2rem) 0;
     overflow-y: auto;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 2.5s cubic-bezier(0.22, 1, 0.36, 1),
+                color 2.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .R--warm {
+    background: #F4EFE6;
+    color: #1C1A17;
   }
 
   .R > * {
@@ -292,9 +303,9 @@ const CSS = `
     z-index: 2;
     animation: r-flash-in 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .R--settled .R-flash-text {
-    color: #C9A020;
-    text-shadow: 0 1px 20px rgba(201,160,32,0.15);
+  .R--warm .R-flash-text {
+    color: #8B6B20;
+    text-shadow: 0 1px 12px rgba(139,107,32,0.12);
   }
   .R-flash-glow {
     position: absolute;
@@ -326,33 +337,38 @@ const CSS = `
   /* ── THE NUMBER ── */
   .R-hero {
     text-align: center;
-    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
     opacity: 0;
     animation: r-up 1.8s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
   }
   .R-number {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(3.5rem, 12vw, 6rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-bottom: 0.25rem;
-    color: #e8e4dc;
-  }
-  .R-currency {
-    font-size: 0.5em;
     font-weight: 400;
-    vertical-align: 0.18em;
-    margin-right: 0.04em;
-    opacity: 0.4;
+    letter-spacing: -0.015em;
+    line-height: 1;
+    margin-bottom: 0;
+    color: #e8e4dc;
+    transition: color 2.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .R--warm .R-number { color: #1C1A17; }
+  .R-currency {
+    font-size: 0.38em;
+    font-weight: 400;
+    vertical-align: 0.35em;
+    margin-right: 0.06em;
+    opacity: 0.6;
+    letter-spacing: 0.02em;
   }
   .R-delta {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.08em;
-    color: #4ade80;
-    margin-top: 0.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7dba6a;
+    margin-top: 0.6rem;
   }
+  .R--warm .R-delta { color: #5a7a48; }
 
   .R-target {
     display: flex;
@@ -360,10 +376,10 @@ const CSS = `
     justify-content: center;
     gap: 0.5rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.06em;
-    opacity: 0.3;
-    margin-top: 0.15rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    opacity: 0.22;
+    margin-top: 0.5rem;
   }
   .R-arrow { color: #C9A020; opacity: 0.5; }
   .R-sep { opacity: 0.3; }
@@ -371,15 +387,15 @@ const CSS = `
   .R-live-dot {
     width: 5px; height: 5px;
     border-radius: 50%;
-    background: #4ade80;
+    background: #7dba6a;
     animation: r-pulse 2s ease-in-out infinite;
   }
   .R-live {
     font-size: 0.55rem;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #4ade80;
-    opacity: 0.5;
+    color: #7dba6a;
+    opacity: 0.7;
   }
   @keyframes r-pulse {
     0%, 100% { opacity: 1; }
@@ -391,18 +407,19 @@ const CSS = `
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 0.75rem;
+    margin-top: 0.6rem;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.58rem;
-    opacity: 0.4;
+    opacity: 0.25;
   }
   .R-trace-bar {
     flex: 1;
-    height: 5px;
+    height: 4px;
     border-radius: 2px;
     overflow: hidden;
-    background: rgba(232,228,220,0.08);
+    background: rgba(232,228,220,0.06);
   }
+  .R--warm .R-trace-bar { background: rgba(28,26,23,0.1); }
   .R-trace-fill {
     height: 100%;
     border-radius: 1px;
@@ -423,6 +440,7 @@ const CSS = `
     animation: r-up 1.5s ease 3s forwards;
     color: rgba(232,228,220,0.55);
   }
+  .R--warm .R-invite { color: #3A3530; }
 
   /* ── THE PAINTING ── */
   .R-painting {
@@ -435,6 +453,11 @@ const CSS = `
     box-shadow:
       0 8px 40px rgba(0,0,0,0.4),
       0 2px 8px rgba(0,0,0,0.2);
+  }
+  .R--warm .R-painting-frame {
+    box-shadow:
+      0 8px 40px rgba(28,26,23,0.1),
+      0 2px 8px rgba(28,26,23,0.06);
   }
   .R-painting-img {
     display: block;
@@ -456,6 +479,7 @@ const CSS = `
     font-weight: 500;
     color: rgba(232,228,220,0.7);
   }
+  .R--warm .R-painting-title { color: #1C1A17; }
   .R-painting-terms {
     display: flex; gap: 32px;
     margin: 12px 0 8px;
@@ -473,9 +497,11 @@ const CSS = `
     font-size: 1.5rem; font-weight: 500;
     color: rgba(232,228,220,0.8);
   }
+  .R--warm .R-painting-value { color: #1C1A17; }
   .R-painting-value--live {
     color: #C9952A;
   }
+  .R--warm .R-painting-value--live { color: #8B3A2E; }
   .R-painting-meta {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem;
@@ -498,10 +524,19 @@ const CSS = `
     color: #e8e4dc;
     border: 1px solid rgba(232,228,220,0.15);
   }
+  .R--warm .R-painting-bid {
+    color: #1C1A17;
+    border: 1px solid rgba(28,26,23,0.2);
+  }
   .R-painting-bid:hover {
     background: rgba(201,160,32,0.12);
     border-color: rgba(201,160,32,0.3);
     color: #C9A020;
+  }
+  .R--warm .R-painting-bid:hover {
+    background: #1C1A17;
+    color: #F4EFE6;
+    border-color: #1C1A17;
   }
 
   /* ── RULE ── */
@@ -509,6 +544,9 @@ const CSS = `
     border: none;
     border-top: 1px solid rgba(232,228,220,0.06);
     margin: clamp(1rem, 3vw, 2rem) 0;
+  }
+  .R--warm .R-rule {
+    border-color: rgba(28,26,23,0.1);
   }
 
   /* ── PARTY HERO — the shaft of light ── */
@@ -572,7 +610,8 @@ const CSS = `
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem; letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #8B5A40;
+    color: #5C3425;
+    text-shadow: 0 0 12px rgba(229,221,210,0.3);
     margin-bottom: 20px;
   }
   .R-party-title {
@@ -589,7 +628,7 @@ const CSS = `
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem; letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(28,26,23,0.45);
+    color: rgba(28,26,23,0.58);
     margin-bottom: 28px;
   }
   .R-party-rule {
@@ -601,8 +640,8 @@ const CSS = `
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(1.35rem, 3.8vw, 2.1rem);
     font-style: italic;
-    color: rgba(229,221,210,0.85);
-    text-shadow: 0 1px 8px rgba(6,6,8,0.35);
+    color: #3D2218;
+    text-shadow: 0 0 8px rgba(229,221,210,0.2);
     max-width: 22ch;
     letter-spacing: 0.01em;
     line-height: 1.3;
@@ -613,8 +652,22 @@ const CSS = `
     font-size: clamp(0.58rem, 1.5vw, 0.68rem);
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.48);
+    color: #4A2A1C;
+    text-shadow: 0 0 10px rgba(229,221,210,0.25);
     margin-top: 4px;
+  }
+
+  /* ── DARK ZONE — everything after the party gradient ── */
+  .R-dark-zone {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(-50vw + 50%);
+    background: #0a0908;
+    color: #e8e4dc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 3rem;
   }
 
   /* ── TICKET ── */
@@ -819,16 +872,16 @@ const CSS = `
   .R-closer-q .R-rainbow:nth-child(4n)   { color: #8A7960; }
   .R-closer-q .R-rainbow:last-child      { color: #C9A020; }
 
-  /* "aureliex." — oil-paint palette (brighter on dark) */
-  .R-sig .R-rainbow:nth-child(1) { color: #C04A42; }  /* a — warm red */
-  .R-sig .R-rainbow:nth-child(2) { color: #4A7AAE; }  /* u — steel blue */
-  .R-sig .R-rainbow:nth-child(3) { color: #9B6AAE; }  /* r — violet */
-  .R-sig .R-rainbow:nth-child(4) { color: #D49A40; }  /* e — gold */
-  .R-sig .R-rainbow:nth-child(5) { color: #5A9AAE; }  /* l — teal */
-  .R-sig .R-rainbow:nth-child(6) { color: #DA8A6A; }  /* i — terracotta */
-  .R-sig .R-rainbow:nth-child(7) { color: #B04A3E; }  /* e — rust */
-  .R-sig .R-rainbow:nth-child(8) { color: #D4B460; }  /* x — antique gold */
-  .R-sig .R-rainbow:nth-child(9) { color: #8A3030; }  /* . — oxblood */
+  /* "aureliex." — oil-paint palette (reads on dark) */
+  .R-sig .R-rainbow:nth-child(1) { color: #C04A42; }
+  .R-sig .R-rainbow:nth-child(2) { color: #4A7AAE; }
+  .R-sig .R-rainbow:nth-child(3) { color: #9B6AAE; }
+  .R-sig .R-rainbow:nth-child(4) { color: #D49A40; }
+  .R-sig .R-rainbow:nth-child(5) { color: #5A9AAE; }
+  .R-sig .R-rainbow:nth-child(6) { color: #DA8A6A; }
+  .R-sig .R-rainbow:nth-child(7) { color: #B04A3E; }
+  .R-sig .R-rainbow:nth-child(8) { color: #D4B460; }
+  .R-sig .R-rainbow:nth-child(9) { color: #8A3030; }
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
