@@ -151,29 +151,52 @@ export default function DraftHomePage() {
           <span className="R-party-date">june 20 · salt lake city</span>
           <h2 className="R-party-line">the party is the liquidity event.</h2>
         </div>
-        <div className="R-party-ticket">
-          <div className="R-ticket-left">
-            <div className="R-ticket-from">
-              <span className="R-ticket-label">FROM</span>
-              <span className="R-ticket-city">NOW</span>
+        <div className="R-ticket">
+          <div className="R-ticket-gold-stripe" />
+          <div className="R-ticket-main">
+            <div className="R-ticket-top">
+              <span className="R-ticket-airline">AURELIEX</span>
+              <span className="R-ticket-class">DIVIDEND PASS</span>
             </div>
-            <div className="R-ticket-arrow">
-              <svg viewBox="0 0 60 12" width="48" height="10">
-                <line x1="0" y1="6" x2="48" y2="6" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 2" />
-                <polygon points="48,3 54,6 48,9" fill="currentColor" />
-              </svg>
+            <div className="R-ticket-route">
+              <div className="R-ticket-col">
+                <span className="R-ticket-label">FROM</span>
+                <span className="R-ticket-city">NOW</span>
+              </div>
+              <div className="R-ticket-flight-line">
+                <svg viewBox="0 0 80 12" width="64" height="10">
+                  <line x1="0" y1="6" x2="68" y2="6" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 2" />
+                  <polygon points="68,3 74,6 68,9" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="R-ticket-col">
+                <span className="R-ticket-label">TO</span>
+                <span className="R-ticket-city">JUN 20</span>
+              </div>
+              <div className="R-ticket-col R-ticket-col--right">
+                <span className="R-ticket-label">GATE</span>
+                <span className="R-ticket-city">10%</span>
+              </div>
             </div>
-            <div className="R-ticket-to">
-              <span className="R-ticket-label">TO</span>
-              <span className="R-ticket-city">JUN 20</span>
-            </div>
+            <p className="R-ticket-desc">
+              10% of the portfolio covers flights and costs.<br />
+              distributed proportionally by who invested the most, earliest.<br />
+              <em>dividends with a twist.</em>
+            </p>
           </div>
-          <p className="R-ticket-desc">
-            10% of the portfolio covers flights and costs.<br />
-            distributed proportionally by who invested the most, earliest.<br />
-            dividends with a twist.
-          </p>
-          <a href="/invest" className="R-ticket-cta">rsvp →</a>
+          <div className="R-ticket-tear">
+            <div className="R-ticket-hole R-ticket-hole--top" />
+            <div className="R-ticket-perforation" />
+            <div className="R-ticket-hole R-ticket-hole--bottom" />
+          </div>
+          <div className="R-ticket-stub">
+            <div className="R-ticket-barcode">
+              {Array.from({ length: 18 }).map((_, i) => (
+                <div key={i} className="R-ticket-bar" style={{ height: `${10 + ((i * 7 + 3) % 14)}px` }} />
+              ))}
+            </div>
+            <a href="/invest" className="R-ticket-cta">rsvp</a>
+          </div>
         </div>
       </section>
 
@@ -215,7 +238,7 @@ export default function DraftHomePage() {
 
       {/* ═══════ CLOSER ═══════ */}
       <footer className="R-closer R-reveal">
-        <p className="R-closer-q"><em>do you think he makes it?</em></p>
+        <p className="R-closer-q"><em>call me if you get lost.</em></p>
         <p className="R-sig">aureliex<span className="R-dot">.</span></p>
       </footer>
     </div>
@@ -510,50 +533,106 @@ const CSS = `
     line-height: 1.25;
     margin: 0;
   }
-  .R-party-ticket {
+  .R-ticket {
+    display: flex;
+    margin-top: 20px;
+    max-width: 560px;
     background: var(--ink, #1C1A17);
     color: #F4EFE6;
     border-radius: 12px;
-    padding: 32px;
-    margin-top: 20px;
-    max-width: 480px;
+    overflow: hidden;
+    position: relative;
   }
-  .R-ticket-left {
+  .R-ticket-gold-stripe {
+    position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, #dbb645, #C9A84C, #8B6914);
+  }
+  .R-ticket-main {
+    flex: 1; padding: 28px 28px 28px 32px;
+  }
+  .R-ticket-top {
+    display: flex; justify-content: space-between;
+    align-items: baseline; margin-bottom: 20px;
+  }
+  .R-ticket-airline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.25em;
+    color: #C9A84C; text-transform: uppercase;
+  }
+  .R-ticket-class {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem; letter-spacing: 0.2em;
+    opacity: 0.3; text-transform: uppercase;
+  }
+  .R-ticket-route {
     display: flex; align-items: center; gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
-  .R-ticket-from, .R-ticket-to {
+  .R-ticket-col {
     display: flex; flex-direction: column; gap: 2px;
   }
+  .R-ticket-col--right { margin-left: auto; }
   .R-ticket-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem; letter-spacing: 0.15em;
-    opacity: 0.4; text-transform: uppercase;
+    font-size: 0.5rem; letter-spacing: 0.15em;
+    opacity: 0.35; text-transform: uppercase;
   }
   .R-ticket-city {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.5rem; font-weight: 500;
+    font-size: 1.4rem; font-weight: 500;
     letter-spacing: -0.02em;
   }
-  .R-ticket-arrow { color: rgba(244,239,230,0.25); }
+  .R-ticket-flight-line { color: rgba(244,239,230,0.2); }
   .R-ticket-desc {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.95rem; opacity: 0.5;
-    line-height: 1.7;
-    padding: 16px 0;
-    border-top: 1px solid rgba(244,239,230,0.08);
-    border-bottom: 1px solid rgba(244,239,230,0.08);
-    margin: 0 0 20px;
+    font-size: 0.85rem; opacity: 0.45;
+    line-height: 1.7; margin: 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(244,239,230,0.06);
+  }
+  .R-ticket-desc em { opacity: 0.7; }
+
+  /* Tear perforation */
+  .R-ticket-tear {
+    width: 1px; position: relative;
+    flex-shrink: 0; margin: 12px 0;
+  }
+  .R-ticket-perforation {
+    position: absolute; top: 16px; bottom: 16px; left: 0;
+    border-left: 1px dashed rgba(244,239,230,0.12);
+  }
+  .R-ticket-hole {
+    position: absolute; left: -6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--paper, #F4EFE6);
+  }
+  .R-ticket-hole--top { top: -6px; }
+  .R-ticket-hole--bottom { bottom: -6px; }
+
+  /* Stub */
+  .R-ticket-stub {
+    width: 72px; padding: 20px 12px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+  }
+  .R-ticket-barcode {
+    display: flex; gap: 1.5px; align-items: flex-end;
+  }
+  .R-ticket-bar {
+    width: 1.5px; background: rgba(244,239,230,0.5);
+    border-radius: 1px;
   }
   .R-ticket-cta {
-    display: inline-block;
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1rem; font-style: italic;
-    color: rgba(244,239,230,0.5);
-    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.15em;
+    color: rgba(244,239,230,0.4);
+    text-decoration: none; text-transform: uppercase;
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
     transition: color 0.3s;
   }
-  .R-ticket-cta:hover { color: #F4EFE6; }
+  .R-ticket-cta:hover { color: #C9A84C; }
 
   /* ── BACKED BY ── */
   .R-backed {
