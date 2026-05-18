@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Telling the Same Joke Over and Over and Over and Over - YouTube",
-  description: "Aaron Westberry",
+  title: "nothing, except everything — YouTube",
+  description: "aureliex",
 };
 
 export default function DraftLayout({ children }: { children: React.ReactNode }) {

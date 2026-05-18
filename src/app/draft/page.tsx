@@ -2,6 +2,14 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 
+/* ── YT global type ── */
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady?: () => void;
+    YT?: any;
+  }
+}
+
 /* ── portfolio holdings ── */
 const HOLDINGS = [
   { t: "QTUM", s: 5.584, fb: 679.74 },
@@ -22,8 +30,9 @@ const DEADLINE = new Date("2026-06-21");
 const VIDEO_ID = "13_cLPPn0YU";
 
 /* ── live price hook ── */
-function useLive(): number | null {
-  const [v, setV] = useState<number | null>(null);
+function useLive(): number {
+  const fallback = PENDING_CASH + PREDICTION_OFFSET + HOLDINGS.reduce((s, h) => s + h.fb, 0);
+  const [v, setV] = useState<number>(fallback);
   useEffect(() => {
     let alive = true;
     const poll = async () => {
@@ -51,225 +60,9 @@ function daysLeft(): number {
   return Math.max(0, Math.ceil((DEADLINE.getTime() - Date.now()) / 86_400_000));
 }
 
-/* ── lerp / clamp helpers ── */
-function lerp(a: number, b: number, t: number): number { return a + (b - a) * t; }
-function clamp01(x: number): number { return Math.max(0, Math.min(1, x)); }
-function remap(x: number, inLo: number, inHi: number, outLo: number, outHi: number): number {
-  return lerp(outLo, outHi, clamp01((x - inLo) / (inHi - inLo)));
-}
-
-/* ══════════════════════════════════════════════════════
-   PHYSARUM SIMULATION
-   ══════════════════════════════════════════════════════ */
-
-interface PhysarumState {
-  width: number;
-  height: number;
-  agentCount: number;
-  ax: Float32Array; // x positions
-  ay: Float32Array; // y positions
-  aa: Float32Array; // angles
-  trail: Float32Array; // trail map (width * height)
-  trailB: Float32Array; // diffusion buffer
-}
-
-function createPhysarum(w: number, h: number, count: number): PhysarumState {
-  const ax = new Float32Array(count);
-  const ay = new Float32Array(count);
-  const aa = new Float32Array(count);
-  const cx = w / 2, cy = h / 2;
-  for (let i = 0; i < count; i++) {
-    const r = Math.random() * Math.min(w, h) * 0.4;
-    const a = Math.random() * Math.PI * 2;
-    ax[i] = cx + Math.cos(a) * r;
-    ay[i] = cy + Math.sin(a) * r;
-    aa[i] = Math.random() * Math.PI * 2;
-  }
-  return {
-    width: w, height: h, agentCount: count,
-    ax, ay, aa,
-    trail: new Float32Array(w * h),
-    trailB: new Float32Array(w * h),
-  };
-}
-
-function resizePhysarum(ps: PhysarumState, newCount: number): void {
-  if (newCount <= ps.agentCount) {
-    ps.agentCount = newCount;
-    return;
-  }
-  const cx = ps.width / 2, cy = ps.height / 2;
-  if (newCount > ps.ax.length) {
-    const nax = new Float32Array(newCount);
-    const nay = new Float32Array(newCount);
-    const naa = new Float32Array(newCount);
-    nax.set(ps.ax); nay.set(ps.ay); naa.set(ps.aa);
-    for (let i = ps.ax.length; i < newCount; i++) {
-      const r = Math.random() * Math.min(ps.width, ps.height) * 0.4;
-      const a = Math.random() * Math.PI * 2;
-      nax[i] = cx + Math.cos(a) * r;
-      nay[i] = cy + Math.sin(a) * r;
-      naa[i] = Math.random() * Math.PI * 2;
-    }
-    ps.ax = nax; ps.ay = nay; ps.aa = naa;
-  } else {
-    for (let i = ps.agentCount; i < newCount; i++) {
-      const r = Math.random() * Math.min(ps.width, ps.height) * 0.4;
-      const a = Math.random() * Math.PI * 2;
-      ps.ax[i] = cx + Math.cos(a) * r;
-      ps.ay[i] = cy + Math.sin(a) * r;
-      ps.aa[i] = Math.random() * Math.PI * 2;
-    }
-  }
-  ps.agentCount = newCount;
-}
-
-function stepPhysarum(
-  ps: PhysarumState,
-  videoRect: { x: number; y: number; w: number; h: number } | null,
-  textMask: Uint8Array | null,
-  mouseX: number, mouseY: number, mouseActive: boolean,
-  depositBurst: boolean,
-): void {
-  const { width: W, height: H, trail, agentCount } = ps;
-  const sensorDist = 9;
-  const sensorAngle = 0.3;
-  const stepSize = 1.2;
-  const depositAmt = depositBurst ? 1.5 : 0.5;
-
-  // Step agents
-  for (let i = 0; i < agentCount; i++) {
-    let x = ps.ax[i], y = ps.ay[i], a = ps.aa[i];
-
-    // Sense at three forward points
-    const sl = senseAt(trail, W, H, x, y, a - sensorAngle, sensorDist);
-    const sc = senseAt(trail, W, H, x, y, a, sensorDist);
-    const sr = senseAt(trail, W, H, x, y, a + sensorAngle, sensorDist);
-
-    if (sc >= sl && sc >= sr) {
-      // keep going
-    } else if (sl > sr) {
-      a -= sensorAngle * 0.5;
-    } else if (sr > sl) {
-      a += sensorAngle * 0.5;
-    } else {
-      a += (Math.random() - 0.5) * sensorAngle;
-    }
-
-    // Random jitter
-    a += (Math.random() - 0.5) * 0.1;
-
-    let nx = x + Math.cos(a) * stepSize;
-    let ny = y + Math.sin(a) * stepSize;
-
-    // Wrap at edges
-    if (nx < 0) nx += W;
-    if (nx >= W) nx -= W;
-    if (ny < 0) ny += H;
-    if (ny >= H) ny -= H;
-
-    // Video mask: bounce agents away from video rect
-    if (videoRect) {
-      const vx = videoRect.x, vy = videoRect.y, vw = videoRect.w, vh = videoRect.h;
-      const margin = 4;
-      if (nx >= vx - margin && nx <= vx + vw + margin && ny >= vy - margin && ny <= vy + vh + margin) {
-        a = Math.random() * Math.PI * 2;
-        nx = x;
-        ny = y;
-      }
-    }
-
-    ps.ax[i] = nx;
-    ps.ay[i] = ny;
-    ps.aa[i] = a;
-
-    // Deposit
-    const ix = Math.floor(nx) | 0;
-    const iy = Math.floor(ny) | 0;
-    if (ix >= 0 && ix < W && iy >= 0 && iy < H) {
-      const idx = iy * W + ix;
-      let dep = depositAmt;
-      // Text mask: deposit more near text
-      if (textMask && textMask[idx] > 0) {
-        dep *= 2.5;
-      }
-      trail[idx] = Math.min(1, trail[idx] + dep);
-    }
-  }
-
-  // Mouse injection — dramatic radius + deposit for visible interaction
-  if (mouseActive && mouseX >= 0 && mouseX < W && mouseY >= 0 && mouseY < H) {
-    const r = 28;
-    const mix = Math.floor(mouseX);
-    const miy = Math.floor(mouseY);
-    for (let dy = -r; dy <= r; dy++) {
-      for (let dx = -r; dx <= r; dx++) {
-        const d2 = dx * dx + dy * dy;
-        if (d2 > r * r) continue;
-        const px = mix + dx, py = miy + dy;
-        if (px >= 0 && px < W && py >= 0 && py < H) {
-          const falloff = 1 - Math.sqrt(d2) / r;
-          trail[py * W + px] = Math.min(1, trail[py * W + px] + 1.2 * falloff);
-        }
-      }
-    }
-  }
-
-  // Diffuse + decay
-  const { trailB } = ps;
-  const decay = 0.97;
-  for (let y = 1; y < H - 1; y++) {
-    for (let x = 1; x < W - 1; x++) {
-      const idx = y * W + x;
-      let sum = trail[idx] * 4
-        + trail[idx - 1] + trail[idx + 1]
-        + trail[idx - W] + trail[idx + W];
-      sum /= 8;
-      // Text mask: slower decay near text
-      const d = (textMask && textMask[idx] > 0) ? 0.99 : decay;
-      trailB[idx] = sum * d;
-    }
-  }
-  // Swap
-  ps.trail = trailB;
-  ps.trailB = trail;
-}
-
-function senseAt(trail: Float32Array, W: number, H: number, x: number, y: number, angle: number, dist: number): number {
-  const sx = Math.floor(x + Math.cos(angle) * dist);
-  const sy = Math.floor(y + Math.sin(angle) * dist);
-  if (sx < 0 || sx >= W || sy < 0 || sy >= H) return 0;
-  return trail[sy * W + sx];
-}
-
-function renderTrail(ctx: CanvasRenderingContext2D, trail: Float32Array, W: number, H: number): void {
-  const img = ctx.createImageData(W, H);
-  const d = img.data;
-  // Color ramp: #0a0a0a → #1a1408 → #8b6914 → #f0d890
-  for (let i = 0; i < W * H; i++) {
-    const v = trail[i];
-    const o = i * 4;
-    if (v < 0.01) {
-      d[o] = 10; d[o + 1] = 10; d[o + 2] = 10;
-    } else if (v < 0.15) {
-      const t = v / 0.15;
-      d[o]     = lerp(10, 26, t) | 0;
-      d[o + 1] = lerp(10, 20, t) | 0;
-      d[o + 2] = lerp(10, 8, t) | 0;
-    } else if (v < 0.5) {
-      const t = (v - 0.15) / 0.35;
-      d[o]     = lerp(26, 139, t) | 0;
-      d[o + 1] = lerp(20, 105, t) | 0;
-      d[o + 2] = lerp(8, 20, t) | 0;
-    } else {
-      const t = (v - 0.5) / 0.5;
-      d[o]     = lerp(139, 240, t) | 0;
-      d[o + 1] = lerp(105, 216, t) | 0;
-      d[o + 2] = lerp(20, 144, t) | 0;
-    }
-    d[o + 3] = 255;
-  }
-  ctx.putImageData(img, 0, 0);
+/* ── format helpers ── */
+function fmt(n: number): string {
+  return "$" + Math.round(n).toLocaleString();
 }
 
 /* ══════════════════════════════════════════════════════
@@ -281,347 +74,416 @@ export default function DraftPage() {
   const d = daysLeft();
 
   /* refs */
-  const railRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const textCanvasRef = useRef<HTMLCanvasElement>(null);
-  const videoWrapRef = useRef<HTMLDivElement>(null);
-  const psRef = useRef<PhysarumState | null>(null);
-  const spRef = useRef(0);
-  const mouseRef = useRef({ x: -1, y: -1, active: false });
-  const burstRef = useRef(0); // burst timer (frames)
-  const rafRef = useRef(0);
+  const playerRef = useRef<any>(null);
+  const playerReadyRef = useRef(false);
+  const durationRef = useRef(0);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const phaseRef = useRef(0);
+  const triggeredRef = useRef<Set<number>>(new Set());
+  const isMobileRef = useRef(false);
 
-  /* vote state */
-  const [voted, setVoted] = useState<string | null>(null);
-  const [votes, setVotes] = useState({ yes: 47, no: 12 });
-  const [sp, setSp] = useState(0);
+  /* state — only what needs to trigger re-render */
+  const [phase, setPhase] = useState(0);
+  const [progress, setProgress] = useState(0); // 0..1 playback progress
+  const [likeCount, setLikeCount] = useState("47K");
+  const [progressBarColor, setProgressBarColor] = useState("#ff0000");
+  const [subscribeBg, setSubscribeBg] = useState("#fff");
+  const [subscribeColor, setSubscribeColor] = useState("#0f0f0f");
+  const [avatarBorder, setAvatarBorder] = useState("1px solid transparent");
+  const [titleText, setTitleText] = useState("nothing, except everything");
+  const [titleChars, setTitleChars] = useState<{ ch: string; fading: boolean; delay: number }[] | null>(null);
+  const [dislikeText, setDislikeText] = useState<string | null>(null);
+  const [subscriberText, setSubscriberText] = useState("342 subscribers");
+  const [subscribeVisible, setSubscribeVisible] = useState(true);
+  const [chromeVisible, setChromeVisible] = useState(true);
+  const [bgColor, setBgColor] = useState("#0f0f0f");
+  const [showAureContent, setShowAureContent] = useState(false);
+  const [videoPIP, setVideoPIP] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [showGoldPlay, setShowGoldPlay] = useState(false);
+  const [showSoundOverlay, setShowSoundOverlay] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const [likeIsValue, setLikeIsValue] = useState(false);
+  const [showFinalContent, setShowFinalContent] = useState(false);
 
-  // Load vote from localStorage
+  /* ── YouTube IFrame API setup ── */
   useEffect(() => {
-    const v = localStorage.getItem("draft-vote");
-    if (v) setVoted(v);
-    const vc = localStorage.getItem("draft-votes");
-    if (vc) {
-      try { setVotes(JSON.parse(vc)); } catch { /* ignore */ }
+    isMobileRef.current = window.innerWidth < 768;
+    setIsMobile(window.innerWidth < 768);
+
+    const onResize = () => {
+      const m = window.innerWidth < 768;
+      isMobileRef.current = m;
+      setIsMobile(m);
+    };
+    window.addEventListener("resize", onResize);
+
+    // Load YT API
+    if (!document.getElementById("yt-api-script")) {
+      const tag = document.createElement("script");
+      tag.id = "yt-api-script";
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.head.appendChild(tag);
     }
-  }, []);
 
-  const castVote = useCallback((choice: string) => {
-    if (voted) return;
-    setVoted(choice);
-    localStorage.setItem("draft-vote", choice);
-    const nv = { ...votes, [choice]: votes[choice as keyof typeof votes] + 1 };
-    setVotes(nv);
-    localStorage.setItem("draft-votes", JSON.stringify(nv));
-    burstRef.current = 120; // 2 seconds at 60fps
-  }, [voted, votes]);
-
-  /* scroll tracking */
-  useEffect(() => {
-    const el = railRef.current;
-    if (!el) return;
-    const onScroll = () => {
-      const max = el.scrollHeight - el.clientHeight;
-      const s = max > 0 ? el.scrollTop / max : 0;
-      spRef.current = s;
-      setSp(s);
+    window.onYouTubeIframeAPIReady = () => {
+      playerRef.current = new window.YT!.Player("yt-player", {
+        videoId: VIDEO_ID,
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          rel: 0,
+          modestbranding: 1,
+          iv_load_policy: 3,
+          controls: 0,
+          showinfo: 0,
+          fs: 0,
+          playsinline: 1,
+        },
+        events: {
+          onReady: (e: any) => {
+            playerReadyRef.current = true;
+            durationRef.current = e.target.getDuration();
+            e.target.playVideo();
+          },
+          onStateChange: (e: any) => {
+            if (e.data === window.YT!.PlayerState.ENDED) {
+              setVideoEnded(true);
+              document.title = "aureliex";
+            }
+          },
+        },
+      });
     };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, []);
 
-  /* mouse tracking (for physarum injection) */
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      const c = canvasRef.current;
-      if (!c) return;
-      const rect = c.getBoundingClientRect();
-      const scaleX = c.width / rect.width;
-      const scaleY = c.height / rect.height;
-      mouseRef.current = {
-        x: (e.clientX - rect.left) * scaleX,
-        y: (e.clientY - rect.top) * scaleY,
-        active: true,
-      };
-    };
-    const onLeave = () => { mouseRef.current.active = false; };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("mouseleave", onLeave);
-    return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseleave", onLeave); };
-  }, []);
-
-  /* text mask for physarum */
-  const buildTextMask = useCallback((W: number, H: number, numStr: string): Uint8Array => {
-    const mask = new Uint8Array(W * H);
-    const tc = textCanvasRef.current;
-    if (!tc) return mask;
-    tc.width = W;
-    tc.height = H;
-    const ctx = tc.getContext("2d");
-    if (!ctx) return mask;
-    ctx.clearRect(0, 0, W, H);
-    ctx.fillStyle = "#fff";
-    ctx.font = `500 ${Math.floor(W * 0.14)}px "EB Garamond", Georgia, serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(numStr, W / 2, H / 2);
-    const id = ctx.getImageData(0, 0, W, H);
-    for (let i = 0; i < W * H; i++) {
-      if (id.data[i * 4 + 3] > 128) mask[i] = 1;
+    // If YT already loaded
+    if (window.YT && window.YT.Player) {
+      window.onYouTubeIframeAPIReady();
     }
-    return mask;
-  }, []);
-
-  /* main animation loop */
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return;
-
-    // Size canvas to CSS pixel grid (half-res for perf)
-    const resize = () => {
-      const w = Math.floor(window.innerWidth * 0.5);
-      const h = Math.floor(window.innerHeight * 0.5);
-      canvas.width = w;
-      canvas.height = h;
-      if (!psRef.current) {
-        psRef.current = createPhysarum(w, h, 500);
-      } else {
-        // Rebuild trail maps on resize
-        const ps = psRef.current;
-        ps.width = w;
-        ps.height = h;
-        ps.trail = new Float32Array(w * h);
-        ps.trailB = new Float32Array(w * h);
-      }
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    let lastTextMask: Uint8Array | null = null;
-    let lastTextStr = "";
-
-    const loop = () => {
-      const ps = psRef.current;
-      if (!ps) { rafRef.current = requestAnimationFrame(loop); return; }
-      const s = spRef.current;
-
-      // Determine agent count based on scroll
-      const targetCount = Math.floor(lerp(500, 5000, clamp01(remap(s, 0.05, 0.3, 0, 1))));
-      if (targetCount !== ps.agentCount) {
-        resizePhysarum(ps, targetCount);
-      }
-
-      // Video rect in canvas coords
-      let videoRect: { x: number; y: number; w: number; h: number } | null = null;
-      const vw = videoWrapRef.current;
-      if (vw && s < 0.85) {
-        const vr = vw.getBoundingClientRect();
-        const cRect = canvas.getBoundingClientRect();
-        const sx = canvas.width / cRect.width;
-        const sy = canvas.height / cRect.height;
-        videoRect = {
-          x: (vr.left - cRect.left) * sx,
-          y: (vr.top - cRect.top) * sy,
-          w: vr.width * sx,
-          h: vr.height * sy,
-        };
-      }
-
-      // Text mask when number is visible (15-50%)
-      const numStr = total ? "$" + Math.round(total).toLocaleString() : "";
-      if (s >= 0.15 && s <= 0.50 && numStr) {
-        if (numStr !== lastTextStr) {
-          lastTextMask = buildTextMask(ps.width, ps.height, numStr);
-          lastTextStr = numStr;
-        }
-      } else {
-        lastTextMask = null;
-        lastTextStr = "";
-      }
-
-      // Burst
-      const isBurst = burstRef.current > 0;
-      if (isBurst) burstRef.current--;
-
-      const m = mouseRef.current;
-      stepPhysarum(ps, videoRect, lastTextMask, m.x, m.y, m.active, isBurst);
-      renderTrail(ctx, ps.trail, ps.width, ps.height);
-
-      rafRef.current = requestAnimationFrame(loop);
-    };
-
-    rafRef.current = requestAnimationFrame(loop);
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("resize", resize);
+      window.removeEventListener("resize", onResize);
+      if (pollRef.current) clearInterval(pollRef.current);
     };
-  }, [total, buildTextMask]);
+  }, []);
 
-  /* ── derived scroll values ── */
-  // Video transforms
-  const videoOpacity = sp < 0.10 ? 1
-    : sp < 0.30 ? remap(sp, 0.10, 0.30, 1, 0.4)
-    : sp < 0.50 ? remap(sp, 0.30, 0.50, 0.4, 0.3)
-    : sp < 0.70 ? remap(sp, 0.50, 0.70, 0.3, 0.15)
-    : sp < 0.85 ? remap(sp, 0.70, 0.85, 0.15, 0)
-    : 0;
+  /* ── Phase polling (250ms) ── */
+  useEffect(() => {
+    let likeBase = 47102;
+    let lastLikeInc = Date.now();
+    let nextIncDelay = 3000 + Math.random() * 5000;
 
-  const videoScale = sp < 0.30 ? 1
-    : sp < 0.50 ? remap(sp, 0.30, 0.50, 1, 0.55)
-    : remap(sp, 0.50, 0.70, 0.55, 0.35);
+    pollRef.current = setInterval(() => {
+      const player = playerRef.current;
+      if (!player || !playerReadyRef.current) return;
 
-  // Video position: center → left → top-right PIP
-  const videoTranslateX = sp < 0.30 ? 0
-    : sp < 0.50 ? remap(sp, 0.30, 0.50, 0, -25) // percent
-    : remap(sp, 0.50, 0.70, -25, 40);
-  const videoTranslateY = sp < 0.50 ? 0
-    : remap(sp, 0.50, 0.70, 0, -35);
+      let ct: number;
+      try {
+        ct = player.getCurrentTime();
+      } catch {
+        return;
+      }
+      const dur = durationRef.current || 1;
+      setProgress(ct / dur);
 
-  // Physarum canvas opacity
-  const physarumOpacity = sp < 0.70 ? 1
-    : sp < 0.85 ? remap(sp, 0.70, 0.85, 1, 0.3)
-    : remap(sp, 0.85, 1, 0.3, 0.05);
+      const now = Date.now();
+      let newPhase = 0;
 
-  // Phase visibility
-  const nothingTextOpacity = remap(sp, 0.08, 0.12, 0, 0.35) * (sp < 0.15 ? 1 : remap(sp, 0.15, 0.20, 1, 0));
-  const numberOpacity = remap(sp, 0.15, 0.20, 0, 1) * (sp < 0.30 ? 1 : remap(sp, 0.30, 0.38, 1, 0));
-  const substanceOpacity = remap(sp, 0.30, 0.36, 0, 1) * (sp < 0.50 ? 1 : remap(sp, 0.50, 0.56, 1, 0));
-  const methodOpacity = remap(sp, 0.50, 0.56, 0, 1) * (sp < 0.70 ? 1 : remap(sp, 0.70, 0.76, 1, 0));
-  const questionOpacity = remap(sp, 0.70, 0.76, 0, 1) * (sp < 0.85 ? 1 : remap(sp, 0.85, 0.90, 1, 0));
-  const resolveOpacity = remap(sp, 0.85, 0.92, 0, 1);
+      if (ct < 90) {
+        newPhase = 0;
+      } else if (ct < 120) {
+        newPhase = 1;
+      } else if (ct < 150) {
+        newPhase = 2;
+      } else if (ct < 205) {
+        newPhase = 3; // 2:30 - 3:25
+      } else if (ct < 277) {
+        newPhase = 5; // 3:25 - 4:37
+      } else {
+        newPhase = 6; // 4:37+
+      }
 
-  const tickers = HOLDINGS.map(h => h.t).join("  ");
-  const progressPct = total ? Math.min(100, (total / TARGET) * 100) : 0;
+      // Phase 1: like count resolving
+      if (newPhase >= 1 && !triggeredRef.current.has(100)) {
+        // Start incrementing likes
+      }
+      if (newPhase >= 1 && newPhase < 3) {
+        if (now - lastLikeInc > nextIncDelay) {
+          likeBase++;
+          setLikeCount(likeBase.toLocaleString());
+          lastLikeInc = now;
+          nextIncDelay = 3000 + Math.random() * 5000;
+        } else if (!triggeredRef.current.has(100)) {
+          setLikeCount(likeBase.toLocaleString());
+          triggeredRef.current.add(100);
+        }
+      }
 
+      // Phase 2: color bleed
+      if (newPhase >= 2 && !triggeredRef.current.has(200)) {
+        triggeredRef.current.add(200);
+        setProgressBarColor("#f0d890");
+        setSubscribeBg("rgba(240,216,144,0.15)");
+        setSubscribeColor("#f0d890");
+        setAvatarBorder("2px solid rgba(240,216,144,0.5)");
+      }
+
+      // Phase 3: the hinge
+      if (newPhase >= 3 && !triggeredRef.current.has(300)) {
+        triggeredRef.current.add(300);
+
+        // Pause
+        try { player.pauseVideo(); } catch { /* */ }
+
+        // Character swap
+        const oldTitle = "nothing, except everything";
+        const newTitle = fmt(total) + " → $100,000";
+        const maxLen = Math.max(oldTitle.length, newTitle.length);
+        const chars: { ch: string; fading: boolean; delay: number }[] = [];
+        for (let i = 0; i < maxLen; i++) {
+          chars.push({
+            ch: i < newTitle.length ? newTitle[i] : "",
+            fading: true,
+            delay: i * 40,
+          });
+        }
+        setTitleChars(chars);
+        setTimeout(() => {
+          setTitleChars(null);
+          setTitleText(newTitle);
+        }, maxLen * 40 + 600);
+
+        // Like → portfolio value
+        setLikeCount(fmt(total));
+        setLikeIsValue(true);
+
+        // Dislike → 0.000%
+        setDislikeText("0.000%");
+
+        // Subscribe fades
+        setSubscribeVisible(false);
+
+        // Subscribers → days left
+        setSubscriberText(`${d} days left`);
+
+        // Show gold play button
+        setShowGoldPlay(true);
+
+        // Auto-resume after 5s
+        setTimeout(() => {
+          setShowGoldPlay(false);
+          try { player.playVideo(); } catch { /* */ }
+          // Phase 4 dissolve
+          triggeredRef.current.add(400);
+          setChromeVisible(false);
+          setBgColor("#050505");
+          setShowAureContent(true);
+        }, 5000);
+      }
+
+      // Phase 5: PIP
+      if (newPhase >= 5 && !triggeredRef.current.has(500)) {
+        triggeredRef.current.add(500);
+        setVideoPIP(true);
+        setShowFinalContent(true);
+      }
+
+      if (newPhase !== phaseRef.current) {
+        phaseRef.current = newPhase;
+        setPhase(newPhase);
+      }
+    }, 250);
+
+    return () => {
+      if (pollRef.current) clearInterval(pollRef.current);
+    };
+  }, [total, d]);
+
+  /* ── handlers ── */
+  const handleUnmute = useCallback(() => {
+    try {
+      playerRef.current?.unMute();
+      playerRef.current?.setVolume(100);
+    } catch { /* */ }
+    setShowSoundOverlay(false);
+  }, []);
+
+  const handleGoldPlay = useCallback(() => {
+    setShowGoldPlay(false);
+    try { playerRef.current?.playVideo(); } catch { /* */ }
+    triggeredRef.current.add(400);
+    setChromeVisible(false);
+    setBgColor("#050505");
+    setShowAureContent(true);
+  }, []);
+
+  /* ── render ── */
   return (
     <div className="D">
       <style>{CSS}</style>
 
-      {/* cursor glow — follows mouse, makes physarum interaction visible */}
+      {/* ── VIDEO CONTAINER ── */}
       <div
-        className="D-cursor-glow"
-        style={{
-          left: mouseRef.current.x >= 0 ? `${mouseRef.current.x / (canvasRef.current?.width || 1) * 100}%` : "-9999px",
-          top: mouseRef.current.y >= 0 ? `${mouseRef.current.y / (canvasRef.current?.height || 1) * 100}%` : "-9999px",
-          opacity: mouseRef.current.active ? 1 : 0,
-        }}
-      />
-
-      {/* physarum canvas — fixed behind everything */}
-      <canvas
-        ref={canvasRef}
-        className="D-phys"
-        style={{ opacity: physarumOpacity }}
-      />
-
-      {/* hidden canvas for text mask */}
-      <canvas ref={textCanvasRef} style={{ display: "none" }} />
-
-      {/* scroll rail */}
-      <div className="D-rail" ref={railRef}>
-        <div style={{ height: "500vh" }} />
-      </div>
-
-      {/* ── STICKY VIDEO ── */}
-      <div
-        ref={videoWrapRef}
-        className="D-video"
-        style={{
-          opacity: videoOpacity,
-          transform: `translate(${videoTranslateX}%, ${videoTranslateY}%) scale(${videoScale})`,
-        }}
+        className={`D-video-wrap ${videoPIP ? "D-video-wrap--pip" : ""} ${videoEnded ? "D-video-wrap--ended" : ""}`}
+        style={{ background: bgColor }}
       >
-        {/* Letterbox bars — 2.39:1 widescreen */}
-        <div className="D-video-letterbox D-video-letterbox--top" />
-        <div className="D-video-letterbox D-video-letterbox--bot" />
-        {/* Vignette overlay */}
-        <div className="D-video-vignette" />
-        {/* Film grain */}
-        <svg className="D-video-grain" aria-hidden="true">
-          <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" /></filter>
-          <rect width="100%" height="100%" filter="url(#grain)" opacity="0.04" />
-        </svg>
-        <iframe
-          src={`https://www.youtube.com/embed/${VIDEO_ID}?rel=0&modestbranding=1&iv_load_policy=3&color=white&autoplay=1&mute=1`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          title="draft"
-        />
-      </div>
+        <div className="D-page" style={{ background: bgColor, transition: "background 3s ease" }}>
 
-      {/* ── PHASE 1: THE NOTHING (0-15%) ── */}
-      <div className="D-layer" style={{ opacity: nothingTextOpacity, pointerEvents: "none" }}>
-        <p className="ph1-text">nothing, except everything.</p>
-      </div>
-
-      {/* ── PHASE 2: THE NUMBER CRACKS THROUGH (15-30%) ── */}
-      <div className="D-layer" style={{ opacity: numberOpacity, pointerEvents: "none" }}>
-        <div className="ph2">
-          <h1 className="ph2-number">
-            {total ? "$" + Math.round(total).toLocaleString() : "..."}
-          </h1>
-          <div className="ph2-target">
-            <span className="ph2-arrow">&rarr;</span>
-            <span className="ph2-goal">$100,000</span>
-          </div>
-          <p className="ph2-days">{d} days left</p>
-        </div>
-      </div>
-
-      {/* ── PHASE 3: THE METHOD (30-50%) — earn the ask ── */}
-      <div className="D-layer" style={{ opacity: substanceOpacity, pointerEvents: "none" }}>
-        <div className="ph4">
-          <p className="ph4-line">five AI agents argue every trade.</p>
-          <p className="ph4-line">the monte carlo says 0.000%.</p>
-          <p className="ph4-line ph4-real">every dollar is real.</p>
-          <div className="ph4-tickers">{tickers}</div>
-          <div className="ph4-progress">
-            <div className="ph4-bar">
-              <div className="ph4-fill" style={{ width: `${progressPct}%` }} />
+          {/* Video player */}
+          <div className={`D-video ${videoPIP ? "D-video--pip" : ""}`}>
+            <div className="D-video-inner">
+              <div id="yt-player" />
             </div>
-            <span className="ph4-label">
-              {total ? "$" + Math.round(total).toLocaleString() : "..."} / $100,000
-            </span>
+
+            {/* Progress bar (fake) */}
+            {!isMobile && phase < 4 && (
+              <div className="D-progress-bar">
+                <div
+                  className="D-progress-fill"
+                  style={{
+                    width: `${progress * 100}%`,
+                    background: progressBarColor,
+                    transition: "background 5s ease",
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Sound overlay */}
+            {showSoundOverlay && (
+              <button className="D-sound-btn" onClick={handleUnmute}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                  <line x1="23" y1="9" x2="17" y2="15" />
+                  <line x1="17" y1="9" x2="23" y2="15" />
+                </svg>
+                <span>Click for sound</span>
+              </button>
+            )}
+
+            {/* Gold play button (Phase 3) */}
+            {showGoldPlay && (
+              <button className="D-gold-play" onClick={handleGoldPlay}>
+                <svg width="24" height="28" viewBox="0 0 24 28" fill="none">
+                  <path d="M4 2L22 14L4 26V2Z" fill="rgba(240,216,144,0.6)" />
+                </svg>
+              </button>
+            )}
           </div>
-        </div>
-      </div>
 
-      {/* ── PHASE 4: THE SUBSTANCE (50-70%) — now you've earned it ── */}
-      <div className="D-layer D-layer--right" style={{ opacity: methodOpacity, pointerEvents: methodOpacity > 0.3 ? "auto" : "none" }}>
-        <div className="ph3">
-          <span className="ph3-eyebrow">// lot 001</span>
-          <h2 className="ph3-title">The Tarantula &middot; opening bid $25</h2>
-          <p className="ph3-backed">backed by 10%{total ? ` · $${Math.round(total * 0.1).toLocaleString()} live` : ""}</p>
-          <div className="ph3-details">
-            <p>june 21, 2026</p>
-            <p className="ph3-party">the party is the liquidity event.</p>
-            <p>10% dividend pool &middot; flight comp &middot; stake = earliness &times; size</p>
-            <p>$100 invested externally &middot; $66 gifted as easter eggs</p>
-          </div>
-        </div>
-      </div>
+          {/* ── FAKE YOUTUBE CHROME (desktop only) ── */}
+          {!isMobile && (
+            <div
+              className="D-chrome"
+              style={{
+                opacity: chromeVisible ? 1 : 0,
+                transition: "opacity 2s ease",
+                pointerEvents: chromeVisible ? "auto" : "none",
+              }}
+            >
+              {/* Separator */}
+              <div className="D-chrome-sep" />
 
-      {/* ── PHASE 5: THE QUESTION (70-85%) — unanswered ── */}
-      <div className="D-layer" style={{ opacity: questionOpacity, pointerEvents: "none" }}>
-        <div className="ph5">
-          <p className="ph5-q">do you think he makes it?</p>
-        </div>
-      </div>
+              {/* Title */}
+              <div className="D-chrome-title">
+                {titleChars ? (
+                  titleChars.map((c, i) => (
+                    <span
+                      key={i}
+                      className="D-char-swap"
+                      style={{
+                        animationDelay: `${c.delay}ms`,
+                      }}
+                    >
+                      {c.ch}
+                    </span>
+                  ))
+                ) : (
+                  titleText
+                )}
+              </div>
 
-      {/* ── PHASE 6: THE RESOLVE (85-100%) ── */}
-      <div className="D-layer" style={{ opacity: resolveOpacity, pointerEvents: resolveOpacity > 0.3 ? "auto" : "none" }}>
-        <div className="ph6">
-          <a href="https://aureliex.com" className="ph6-word" target="_blank" rel="noopener noreferrer">
-            aureliex
-          </a>
-          <nav className="ph6-nav">
-            <a href="https://aureliex.com/positions">/positions</a>
-            <a href="https://aureliex.com/argument">/argument</a>
-            <a href="https://aureliex.com/archive">/archive</a>
-          </nav>
+              {/* Channel row */}
+              <div className="D-chrome-channel">
+                <div className="D-chrome-avatar" style={{ border: avatarBorder, transition: "border 5s ease" }}>
+                  a
+                </div>
+                <div className="D-chrome-channel-info">
+                  <span className="D-chrome-channel-name">aureliex</span>
+                  <span className="D-chrome-subs">{subscriberText}</span>
+                </div>
+                {subscribeVisible && (
+                  <button
+                    className="D-chrome-subscribe"
+                    style={{
+                      background: subscribeBg,
+                      color: subscribeColor,
+                      transition: "background 5s ease, color 5s ease, opacity 1s ease",
+                    }}
+                  >
+                    Subscribe
+                  </button>
+                )}
+              </div>
+
+              {/* Actions row */}
+              <div className="D-chrome-actions">
+                <div className="D-chrome-action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M7 22V11l-5-5 1-4h5l2 2h4l2-2h5l1 4-5 5v11" />
+                  </svg>
+                  <span className={likeIsValue ? "D-chrome-action-value" : ""}>{likeCount}</span>
+                </div>
+                <div className="D-chrome-action-divider" />
+                <div className="D-chrome-action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ transform: "rotate(180deg)" }}>
+                    <path d="M7 22V11l-5-5 1-4h5l2 2h4l2-2h5l1 4-5 5v11" />
+                  </svg>
+                  {dislikeText && <span>{dislikeText}</span>}
+                </div>
+                <div className="D-chrome-action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8" />
+                    <polyline points="16 6 12 2 8 6" />
+                    <line x1="12" y1="2" x2="12" y2="15" />
+                  </svg>
+                  <span>Share</span>
+                </div>
+                <div className="D-chrome-action">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  <span>Download</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── PHASE 4 AURE CONTENT ── */}
+          {showAureContent && !showFinalContent && (
+            <div className="D-aure-content">
+              <p className="D-aure-line1">five AI agents argue every trade.</p>
+              <p className="D-aure-line2">the monte carlo says 0.000%.</p>
+              <p className="D-aure-line3">every dollar is real.</p>
+            </div>
+          )}
+
+          {/* ── PHASE 5 FINAL CONTENT ── */}
+          {showFinalContent && (
+            <div className="D-final">
+              <h1 className="D-final-value">{fmt(total)}</h1>
+              <p className="D-final-target">→ $100,000 · {d} days</p>
+              <p className="D-final-question">do you think he makes it?</p>
+              <nav className="D-final-nav">
+                <a href="/positions">/positions</a>
+                <a href="/argument">/argument</a>
+                <a href="/archive">/archive</a>
+              </nav>
+              <p className="D-final-sig">aureliex.com</p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -633,322 +495,361 @@ export default function DraftPage() {
    ══════════════════════════════════════════════════════ */
 
 const CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&family=Roboto:wght@400;500;600&display=swap');
 
-  /* ── base ── */
   .D {
     position: fixed; inset: 0;
-    background: #000;
-    color: #e8e4dc;
+    background: #0f0f0f;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ── cursor glow ── */
-  .D-cursor-glow {
-    position: fixed; z-index: 2;
-    width: 300px; height: 300px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(240,216,144,0.06) 0%, transparent 50%);
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-
-  /* ── physarum canvas ── */
-  .D-phys {
+  .D-video-wrap {
     position: fixed; inset: 0;
-    width: 100%; height: 100%;
-    z-index: 1;
-    image-rendering: auto;
-    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background 3s ease;
   }
 
-  /* ── scroll rail ── */
-  .D-rail {
-    position: fixed; inset: 0; z-index: 100;
+  .D-page {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
     overflow-y: auto;
-    scrollbar-width: none;
   }
-  .D-rail::-webkit-scrollbar { display: none; }
 
-  /* ── sticky video ── */
+  /* ── VIDEO ── */
   .D-video {
-    position: fixed;
-    top: 50%; left: 50%;
-    width: 85vw; max-width: 900px;
+    position: relative;
+    width: 85vw;
+    max-width: 860px;
     aspect-ratio: 16 / 9;
-    margin-left: calc(-1 * min(85vw, 900px) / 2);
-    margin-top: calc(-1 * min(85vw, 900px) * 9 / 16 / 2);
-    z-index: 5;
-    border-radius: 3px;
+    border-radius: 12px;
     overflow: hidden;
-    transform-origin: center center;
-    transition: opacity 0.15s ease;
-    box-shadow: 0 0 120px rgba(0,0,0,0.6);
+    background: #000;
+    margin-top: 16px;
+    transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
   }
-  .D-video iframe {
-    width: 100%; height: 100%; border: none;
-    display: block; position: relative; z-index: 1;
+  .D-video--pip {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 300px;
+    max-width: 300px;
+    margin-top: 0;
+    border-radius: 8px;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
   }
-  .D-video-letterbox {
-    position: absolute; left: 0; right: 0; z-index: 2;
-    background: #000; height: 13%; pointer-events: none;
-  }
-  .D-video-letterbox--top { top: 0; }
-  .D-video-letterbox--bot { bottom: 0; }
-  .D-video-vignette {
-    position: absolute; inset: 0; z-index: 3;
-    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+  .D-video-wrap--ended .D-video--pip {
+    opacity: 0;
+    transition: opacity 2s ease;
     pointer-events: none;
   }
-  .D-video-grain {
-    position: absolute; inset: 0; z-index: 4;
-    width: 100%; height: 100%; pointer-events: none;
-    mix-blend-mode: overlay;
+  .D-video-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
   }
-
-  /* ── content layers ── */
-  .D-layer {
-    position: fixed; inset: 0;
-    z-index: 10;
-    display: flex; align-items: center; justify-content: center;
-    transition: opacity 0.1s linear;
-  }
-  .D-layer--right {
-    justify-content: flex-end;
-    padding-right: 8%;
-  }
-
-  /* ── PHASE 1: THE NOTHING ── */
-  .ph1-text {
+  .D-video-inner iframe,
+  .D-video-inner > div {
+    width: 100% !important;
+    height: 100% !important;
     position: absolute;
-    top: 18%; left: 50%;
-    transform: translateX(-50%);
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 15px;
-    font-style: italic;
-    color: rgba(240, 216, 144, 0.35);
-    margin: 0;
-    white-space: nowrap;
+    top: 0; left: 0;
+    border: none;
   }
 
-  /* ── PHASE 2: THE NUMBER ── */
-  .ph2 {
-    text-align: center;
-    z-index: 2;
+  /* ── PROGRESS BAR ── */
+  .D-progress-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    z-index: 20;
   }
-  .ph2-number {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: clamp(64px, 14vw, 140px);
-    font-weight: 500;
-    color: #f0d890;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin: 0;
-    animation: ph2-breathe 5s ease-in-out infinite;
+  .D-progress-fill {
+    height: 100%;
+    border-radius: 0 2px 2px 0;
+    transition: background 5s ease;
   }
-  @keyframes ph2-breathe {
-    0%, 100% { transform: scale(0.995); }
-    50% { transform: scale(1.005); }
-  }
-  .ph2-target {
-    display: flex; align-items: center;
-    justify-content: center; gap: 10px;
-    margin-top: 16px;
-  }
-  .ph2-arrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
-    color: rgba(240, 216, 144, 0.2);
-  }
-  .ph2-goal {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 16px;
-    color: rgba(240, 216, 144, 0.2);
-  }
-  .ph2-days {
-    font-family: 'JetBrains Mono', monospace;
+
+  /* ── SOUND BUTTON ── */
+  .D-sound-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    z-index: 30;
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-family: Roboto, sans-serif;
     font-size: 12px;
-    color: rgba(240, 216, 144, 0.15);
-    letter-spacing: 0.15em;
-    margin-top: 12px;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s;
+  }
+  .D-sound-btn:hover {
+    background: rgba(0,0,0,0.85);
   }
 
-  /* ── PHASE 3: THE SUBSTANCE ── */
-  .ph3 {
-    max-width: 420px;
+  /* ── GOLD PLAY BUTTON ── */
+  .D-gold-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 1px solid rgba(240,216,144,0.3);
+    background: rgba(240,216,144,0.08);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s, border-color 0.3s;
+    animation: gold-pulse 2s ease-in-out infinite;
   }
-  .ph3-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: rgba(201, 168, 76, 0.5);
-    letter-spacing: 0.15em;
-    display: block;
+  .D-gold-play:hover {
+    background: rgba(240,216,144,0.15);
+    border-color: rgba(240,216,144,0.5);
+  }
+  @keyframes gold-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(240,216,144,0.15); }
+    50% { box-shadow: 0 0 20px 8px rgba(240,216,144,0.08); }
+  }
+
+  /* ── FAKE YOUTUBE CHROME ── */
+  .D-chrome {
+    width: 85vw;
+    max-width: 860px;
+    padding: 0 0 24px;
+  }
+  .D-chrome-sep {
+    height: 1px;
+    background: #272727;
+    margin: 0 0 12px;
+  }
+  .D-chrome-title {
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #f1f1f1;
+    line-height: 1.4;
     margin-bottom: 12px;
   }
-  .ph3-title {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: clamp(22px, 3vw, 30px);
+
+  /* Character swap animation */
+  .D-char-swap {
+    display: inline-block;
+    animation: char-fade-in 0.4s ease forwards;
+    opacity: 0;
+  }
+  @keyframes char-fade-in {
+    0% { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Channel row */
+  .D-chrome-channel {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .D-chrome-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #555;
+    display: flex; align-items: center; justify-content: center;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
     font-weight: 500;
     color: #e8e4dc;
-    margin: 0 0 8px;
-    line-height: 1.3;
+    flex-shrink: 0;
+    transition: border 5s ease;
   }
-  .ph3-backed {
-    font-family: 'JetBrains Mono', monospace;
+  .D-chrome-channel-info {
+    display: flex; flex-direction: column; gap: 1px;
+    flex: 1;
+  }
+  .D-chrome-channel-name {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #f1f1f1;
+  }
+  .D-chrome-subs {
+    font-family: Roboto, sans-serif;
     font-size: 12px;
-    color: rgba(240, 216, 144, 0.35);
-    margin: 0 0 24px;
+    color: #aaa;
+    transition: color 1s ease;
   }
-  .ph3-details {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 15px;
-    line-height: 1.9;
-    color: rgba(232, 228, 220, 0.35);
-  }
-  .ph3-details p { margin: 0; }
-  .ph3-party {
-    font-style: italic;
-    color: rgba(240, 216, 144, 0.3) !important;
-  }
-
-  /* ── PHASE 4: THE METHOD ── */
-  .ph4 {
-    text-align: center;
-    max-width: 480px;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 12px;
-  }
-  .ph4-line {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: clamp(16px, 3vw, 22px);
-    color: rgba(232, 228, 220, 0.4);
-    margin: 0;
-    line-height: 1.6;
-  }
-  .ph4-real {
-    color: rgba(240, 216, 144, 0.5);
-    font-style: italic;
-  }
-  .ph4-tickers {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
-    color: rgba(232, 228, 220, 0.12);
-    margin-top: 16px;
-    word-spacing: 8px;
-  }
-  .ph4-progress {
-    margin-top: 12px;
-    width: 100%;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 6px;
-  }
-  .ph4-bar {
-    width: 200px; height: 2px;
-    background: rgba(232, 228, 220, 0.08);
-    border-radius: 1px;
-    overflow: hidden;
-  }
-  .ph4-fill {
-    height: 100%;
-    background: rgba(240, 216, 144, 0.3);
-    border-radius: 1px;
-    transition: width 1s ease;
-  }
-  .ph4-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: rgba(232, 228, 220, 0.15);
-    letter-spacing: 0.1em;
-  }
-
-  /* ── PHASE 5: THE QUESTION ── */
-  .ph5 {
-    text-align: center;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 24px;
-  }
-  .ph5-q {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: clamp(20px, 5vw, 32px);
-    font-style: italic;
-    color: #e8e4dc;
-    margin: 0;
-  }
-  .ph5-btns {
-    display: flex; gap: 80px;
-  }
-  .ph5-btn {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 20px;
-    color: rgba(232, 228, 220, 0.35);
-    background: none; border: none;
+  .D-chrome-subscribe {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
     cursor: pointer;
-    padding: 12px 24px;
-    transition: color 0.3s;
-    letter-spacing: 0.05em;
+    transition: background 5s ease, color 5s ease, opacity 1s ease;
   }
-  .ph5-btn:hover:not(:disabled) {
-    color: #f0d890;
+
+  /* Actions row */
+  .D-chrome-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
-  .ph5-btn:disabled {
+  .D-chrome-action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    color: #f1f1f1;
     cursor: default;
   }
-  .ph5-btn--active {
-    color: #f0d890 !important;
+  .D-chrome-action svg {
+    opacity: 0.9;
   }
-  .ph5-thanks {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: rgba(240, 216, 144, 0.2);
-    margin: 0;
-    letter-spacing: 0.2em;
+  .D-chrome-action-value {
+    font-family: 'JetBrains Mono', monospace !important;
+    color: #f0d890 !important;
+    font-weight: 500;
+  }
+  .D-chrome-action-divider {
+    width: 1px;
+    height: 20px;
+    background: #555;
   }
 
-  /* ── PHASE 6: THE RESOLVE ── */
-  .ph6 {
-    text-align: center;
-    display: flex; flex-direction: column;
-    align-items: center; gap: 24px;
+  /* ── PHASE 4: AURE CONTENT ── */
+  .D-aure-content {
+    width: 85vw;
+    max-width: 860px;
+    padding: 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: aure-fade 2s ease forwards;
+    opacity: 0;
   }
-  .ph6-word {
+  @keyframes aure-fade {
+    0% { opacity: 0; transform: translateY(12px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .D-aure-line1 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    color: rgba(232,228,220,0.4);
+    margin: 0;
+  }
+  .D-aure-line2 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: rgba(232,228,220,0.2);
+    margin: 0;
+  }
+  .D-aure-line3 {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 16px;
+    font-style: italic;
+    color: rgba(240,216,144,0.3);
+    margin: 0;
+  }
+
+  /* ── PHASE 5: FINAL CONTENT ── */
+  .D-final {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 50;
+    animation: final-fade 2s ease forwards;
+    opacity: 0;
+  }
+  @keyframes final-fade {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  .D-final-value {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: clamp(48px, 10vw, 80px);
+    font-weight: 500;
+    color: #f0d890;
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1;
+  }
+  .D-final-target {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: rgba(232,228,220,0.3);
+    margin: 0;
+  }
+  .D-final-question {
     font-family: 'EB Garamond', Georgia, serif;
     font-size: 22px;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    color: rgba(232, 228, 220, 0.3);
-    text-decoration: none;
-    transition: color 0.3s;
+    font-style: italic;
+    color: rgba(232,228,220,0.5);
+    margin: 24px 0 0;
   }
-  .ph6-word:hover { color: #e8e4dc; }
-  .ph6-nav {
-    display: flex; gap: 4px; flex-wrap: wrap;
-    justify-content: center;
+  .D-final-nav {
+    display: flex;
+    gap: 4px;
+    margin-top: 24px;
   }
-  .ph6-nav a {
+  .D-final-nav a {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
-    color: rgba(232, 228, 220, 0.15);
+    color: rgba(232,228,220,0.15);
     text-decoration: none;
     padding: 6px 10px;
     transition: color 0.2s;
   }
-  .ph6-nav a:hover { color: #e8e4dc; }
+  .D-final-nav a:hover { color: #e8e4dc; }
+  .D-final-sig {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(232,228,220,0.06);
+    margin-top: 32px;
+    letter-spacing: 0.15em;
+  }
 
-  /* ── responsive ── */
+  /* ── MOBILE ── */
   @media (max-width: 768px) {
     .D-video {
-      width: 92vw;
-      margin-left: calc(-1 * min(92vw, 900px) / 2);
-      margin-top: calc(-1 * min(92vw, 900px) * 9 / 16 / 2);
+      width: 95vw;
+      margin-top: 40px;
     }
-    .D-layer--right {
-      justify-content: center;
-      padding-right: 0;
-      padding: 0 16px;
+    .D-video--pip {
+      width: 160px;
+      top: 12px;
+      right: 12px;
     }
-    .ph3 { max-width: 100%; }
-    .ph5-btns { gap: 48px; }
+    .D-final-value {
+      font-size: clamp(36px, 12vw, 56px);
+    }
+    .D-final-question {
+      font-size: 18px;
+      padding: 0 24px;
+      text-align: center;
+    }
+    .D-aure-content {
+      width: 90vw;
+      padding: 24px 0;
+    }
   }
 `;
