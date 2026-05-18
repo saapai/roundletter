@@ -1,1415 +1,970 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
-/* ── Seeded random for deterministic-per-session but different-per-load ── */
-function mulberry32(seed: number) {
-  return () => {
-    let t = (seed += 0x6d2b79f5);
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
+/* ── helpers ── */
+function fmtCount(n: number) {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(0)}K`;
+  return n.toLocaleString();
 }
 
-/* ── Content cards — real aureliex material ── */
-type CardSkin = "youtube" | "imessage" | "polaroid" | "terminal" | "apple-note" | "notification" | "tweet" | "vinyl" | "auction" | "boarding-pass" | "receipt";
-
-interface ContentCard {
-  id: string;
-  skin: CardSkin;
-  title: string;
-  body: string;
-  meta?: string;
-  link?: string;
-  image?: string;
-  width?: number;
-  height?: number;
+function daysUntil(target: string) {
+  const diff = new Date(target).getTime() - Date.now();
+  return Math.max(0, Math.ceil(diff / 86_400_000));
 }
-
-const CARDS: ContentCard[] = [
-  // YouTube skins
-  {
-    id: "yt-eeao",
-    skin: "youtube",
-    title: "Telling the Same Joke Over and Over and Over and Over",
-    body: "Aaron Westberry",
-    meta: "2.8M views · Apr 28, 2025",
-    link: "https://www.youtube.com/watch?v=DPIoje1nfCQ",
-    width: 380,
-    height: 290,
-  },
-  {
-    id: "yt-wesley",
-    skin: "youtube",
-    title: "The Long Take That Changed My Life",
-    body: "Wesley Wang",
-    meta: "1.4M views · 3 months ago",
-    width: 380,
-    height: 290,
-  },
-  {
-    id: "yt-chungking",
-    skin: "youtube",
-    title: "Chungking Express — How Wong Kar-wai Made Loneliness Beautiful",
-    body: "Every Frame a Painting",
-    meta: "8.2M views · 7 years ago",
-    width: 380,
-    height: 290,
-  },
-
-  // iMessage skins
-  {
-    id: "imsg-wager",
-    skin: "imessage",
-    title: "Friday",
-    body: `hey the portfolio is at $4,519 today\n\nmonte carlo still says 0.000000%\n\nbut we're up 31% this week so\n\nidk maybe the math is wrong`,
-    meta: "Today 9:41 AM",
-    width: 320,
-    height: 340,
-  },
-  {
-    id: "imsg-birthday",
-    skin: "imessage",
-    title: "Mom",
-    body: `What do you want for your birthday?\n\nnothing i already bet everything on it\n\nSaathvik.\n\nit's fine it's all public\n\nThat doesn't make it fine`,
-    meta: "Yesterday",
-    width: 300,
-    height: 310,
-  },
-
-  // Polaroid skins (art pieces)
-  {
-    id: "pol-tarantula",
-    skin: "polaroid",
-    title: "The Tarantula",
-    body: "Graphite on Bristol · 2025",
-    image: "/art/tarantula-full.jpg",
-    meta: "Opening bid: $200",
-    width: 260,
-    height: 340,
-  },
-  {
-    id: "pol-eagle",
-    skin: "polaroid",
-    title: "Eagle Study",
-    body: "Charcoal on newsprint · 2025",
-    image: "/art/eagle-full.jpg",
-    meta: "Opening bid: $150",
-    width: 260,
-    height: 340,
-  },
-
-  // Terminal skins
-  {
-    id: "term-debate",
-    skin: "terminal",
-    title: "agent-debate v64",
-    body: `$ run-debate --ticker IONQ --round 47
-
-BULL:  Target $82. Quantum computing TAM expanding.
-BEAR:  Revenue negative. Pure speculation.
-MACRO: Fed pause benefits growth names. Bullish.
-FLOW:  Dark pool activity spiking. Someone knows.
-HIST:  Last time we saw this pattern: PLTR pre-breakout.
-
-MODERATOR: Split 3-2. Conviction: 0.64. Size: Half-Kelly.
-MODERATOR: The bear's objection is noted but priced in.`,
-    meta: "~/aureliex",
-    width: 440,
-    height: 340,
-  },
-  {
-    id: "term-monte",
-    skin: "terminal",
-    title: "monte-carlo.ts",
-    body: `$ node monte-carlo --sims 100000 --goal 100000
-
-Starting balance: $3,453
-Target: $100,000 by June 21, 2026
-
-Simulations complete.
-P(success) = 0.000000%
-Median outcome: $4,519
-95th percentile: $12,847
-Best sim: $67,302
-
-"The odds are the honesty."`,
-    meta: "~/aureliex/scripts",
-    width: 400,
-    height: 320,
-  },
-
-  // Apple Note skins
-  {
-    id: "note-thesis",
-    skin: "apple-note",
-    title: "the thesis",
-    body: `Attention is what matters the most.
-
-Not money. Not credentials. Not followers.
-
-The bet: turn $3,453 into $100,000 by my 20th birthday. Live. Public. Every trade logged.
-
-The portfolio is the proof.
-The transparency is the product.
-The attention is the point.
-
-If I lose, I lose publicly. That's the cost.
-If I win, I win publicly. That's the reward.
-
-Either way, you watched.`,
-    meta: "April 12, 2026",
-    width: 320,
-    height: 380,
-  },
-  {
-    id: "note-premortem",
-    skin: "apple-note",
-    title: "pre-mortem",
-    body: `Ways this fails:
-
-1. Market crash (macro, uncontrollable)
-2. Single position blowup (fixable w/ stops)
-3. Overconfidence after early wins (the real risk)
-4. Agents agree too much (echo chamber)
-5. I override the agents (ego)
-6. Attention corrupts the thesis (meta-risk)
-
-P(success) < 1%.
-Publishing this before trade #1.`,
-    meta: "April 10, 2026",
-    width: 310,
-    height: 360,
-  },
-
-  // Notification skins
-  {
-    id: "notif-kalshi",
-    skin: "notification",
-    title: "Kalshi",
-    body: "Your position in 'NVDA > $150 by June' filled at $0.72",
-    meta: "now",
-    width: 340,
-    height: 100,
-  },
-  {
-    id: "notif-robinhood",
-    skin: "notification",
-    title: "Robinhood",
-    body: "IONQ is up 12.4% today",
-    meta: "2m ago",
-    width: 340,
-    height: 100,
-  },
-  {
-    id: "notif-stripe",
-    skin: "notification",
-    title: "Stripe",
-    body: "You received a $200.00 payment for 'The Tarantula' print",
-    meta: "1h ago",
-    width: 340,
-    height: 100,
-  },
-
-  // Tweet skins
-  {
-    id: "tweet-wager",
-    skin: "tweet",
-    title: "@saapai",
-    body: `$3,453 → $100,000 by my 20th birthday.
-
-Live portfolio. 5 AI agents argue every trade. Monte Carlo says 0.000000%.
-
-The odds are the honesty.
-
-aureliex.com`,
-    meta: "Apr 12, 2026 · 847 likes",
-    width: 360,
-    height: 260,
-  },
-  {
-    id: "tweet-update",
-    skin: "tweet",
-    title: "@saapai",
-    body: `Week 5 update:
-
-Portfolio: $4,519 (+30.9%)
-Trades: 23
-Agent agreement rate: 64%
-Kill switches triggered: 0
-Days to birthday: 35
-
-The bear agent is getting louder. That's probably healthy.`,
-    meta: "May 17, 2026 · 412 likes",
-    width: 360,
-    height: 280,
-  },
-
-  // Vinyl skin
-  {
-    id: "vinyl-lasso",
-    skin: "vinyl",
-    title: "Ted Lasso — Believe",
-    body: "The show about an optimist coaching a sport he doesn't understand. Sound familiar?",
-    meta: "Season 1, Episode 1",
-    width: 280,
-    height: 280,
-  },
-  {
-    id: "vinyl-chungking",
-    skin: "vinyl",
-    title: "Chungking Express",
-    body: "If memories could be canned, would they also have expiry dates?",
-    meta: "Wong Kar-wai, 1994",
-    width: 280,
-    height: 280,
-  },
-
-  // More letters
-  {
-    id: "note-tension",
-    skin: "apple-note",
-    title: "entrenched coils",
-    body: `What if memory isn't retrieval—it's tension?
-
-Standard RAG: store → retrieve → generate.
-Entrenched coils: store → contradict → wrestle → generate.
-
-The anti-echo-chamber isn't a feature.
-It's the architecture.
-
-Five agents. Weighted disagreement.
-The memory that survives is the one
-that earned its place against opposition.`,
-    meta: "The Research Paper",
-    width: 330,
-    height: 370,
-  },
-  {
-    id: "note-kelly",
-    skin: "apple-note",
-    title: "kelly criterion & life",
-    body: `The formula: f* = (bp - q) / b
-
-Where:
-  b = odds received
-  p = probability of winning
-  q = probability of losing (1 - p)
-
-Kelly says: bet proportionally to your edge.
-Too much = ruin. Too little = waste.
-
-This applies to money. And attention.
-And relationships. And career moves.
-
-Most people overbet on safe things
-and underbet on asymmetric ones.`,
-    meta: "Letters · Math",
-    width: 320,
-    height: 370,
-  },
-
-  // Portfolio snapshot
-  {
-    id: "term-portfolio",
-    skin: "terminal",
-    title: "portfolio-snapshot",
-    body: `$ cat portfolio.json | jq '.holdings'
-
-QBTS   25.1%  ████████████▌
-NVDA   21.3%  ██████████▋
-MU     17.2%  ████████▋
-IONQ   12.4%  ██████▎
-GOOG    8.8%  ████▍
-CEG     6.2%  ███▏
-SGOV    5.1%  ██▌
-CASH    3.9%  ██
-
-Total: $4,519.00
-Goal:  $100,000.00
-Progress: ▓░░░░░░░░░ 4.5%`,
-    meta: "~/aureliex",
-    width: 380,
-    height: 340,
-  },
-
-  // Auction skin
-  {
-    id: "auction-tarantula",
-    skin: "auction",
-    title: "LOT 001 — The Tarantula",
-    body: "Graphite on Bristol board, 18×24 in. Signed. One of twelve plates from the aureliex collection.\n\nThis work is backed by 10% of the aureliex portfolio value on June 21, 2026. The winning bidder may cash out the backing at any time on or after that date, or hold the piece.\n\nIf portfolio = $10,000 → backing = $1,000\nIf portfolio = $100,000 → backing = $10,000\n\nThe auction price is your bet on where the portfolio lands.",
-    meta: "Opening bid: $25.00",
-    image: "/art/tarantula-full.jpg",
-    width: 400,
-    height: 480,
-  },
-
-  // Boarding pass — party dividend
-  {
-    id: "pass-party",
-    skin: "boarding-pass",
-    title: "AURELIEX — JUNE 21 EVENT",
-    body: "DIVIDEND PASS",
-    meta: "10% of portfolio value is withdrawable or reinvestable as party stake on June 21, 2026. This pass represents flight compensation + liquidity event. Present at door.",
-    width: 420,
-    height: 220,
-  },
-
-  // Receipt — dividend terms
-  {
-    id: "receipt-dividend",
-    skin: "receipt",
-    title: "AURELIEX DIVIDEND RECEIPT",
-    body: `DATE: June 21, 2026
-EVENT: 20th Birthday / Liquidity Event
-─────────────────────────────
-PORTFOLIO VALUE (est.)    $???
-DIVIDEND POOL (10%)       $???
-─────────────────────────────
-ART AUCTION BACKING       10%
-  LOT 001: The Tarantula
-  Opening bid:            $25
-  Guaranteed floor:       10% NAV
-─────────────────────────────
-PARTY STAKE POOL          10%
-  Withdrawable at event
-  Or reinvestable into Q3
-─────────────────────────────
-FLIGHT COMPENSATION       ✓
-  Covered by dividend
-─────────────────────────────
-
-"The party is the liquidity event."
-
-         ████████████
-         ████████████
-         SCAN TO RSVP`,
-    width: 340,
-    height: 500,
-  },
-
-  // Notification for auction
-  {
-    id: "notif-auction",
-    skin: "notification",
-    title: "aureliex",
-    body: "Auction for 'The Tarantula' is now live. Opening bid: $25. Backed by 10% of portfolio.",
-    meta: "just now",
-    width: 360,
-    height: 100,
-  },
-
-  // iMessage about the party
-  {
-    id: "imsg-party",
-    skin: "imessage",
-    title: "Group: june 21",
-    body: `so the party is also a liquidity event?\n\nyes 10% of whatever the portfolio is worth\n\nyou can cash out or reinvest\n\nwait so if you hit 100k we each get…\n\ncome and find out\n\nalso there's an art auction\n\nwhat\n\nthe tarantula drawing. starts at $25. backed by 10% of the portfolio\n\nso if you buy it for $25 and the portfolio hits $100k you can cash out $10,000?\n\nyes\n\nthat's insane\n\nthat's the point`,
-    meta: "Today 11:22 AM",
-    width: 330,
-    height: 440,
-  },
-];
-
-/* ── Intro text sequence ── */
-const INTRO_LINES = [
-  { text: "you've seen this before.", delay: 0, duration: 1800 },
-  { text: "the interface. the layout. the font.", delay: 2000, duration: 1800 },
-  { text: "familiarity is a shortcut to trust.", delay: 4200, duration: 2000 },
-  { text: "so what happens when you build a portfolio inside a youtube video?", delay: 6500, duration: 2400 },
-  { text: "or a thesis inside an imessage thread?", delay: 9200, duration: 2000 },
-  { text: "or a research paper inside an apple note?", delay: 11500, duration: 2000 },
-  { text: "attention is what matters the most.", delay: 14000, duration: 2200 },
-  { text: "this is aureliex.", delay: 16800, duration: 2000 },
-];
-
-const TOTAL_INTRO_MS = 20000;
 
 /* ── Component ── */
 export default function DraftPage() {
-  const [phase, setPhase] = useState<"intro" | "explode" | "canvas">("intro");
-  const [visibleLines, setVisibleLines] = useState<number[]>([]);
-  const [fadingLines, setFadingLines] = useState<number[]>([]);
+  const [noiseReady, setNoiseReady] = useState(false);
+  const [signalVisible, setSignalVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState(0);
+  const [bidAmount, setBidAmount] = useState(25);
+  const [showBidConfirm, setShowBidConfirm] = useState(false);
+  const [videoStarted, setVideoStarted] = useState(false);
+  const noiseRef = useRef<HTMLCanvasElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
-  // Canvas pan state
-  const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStart = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [canvasOpacity, setCanvasOpacity] = useState(0);
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [selectedCard, setSelectedCard] = useState<string | null>(null);
-  const [showMinimap, setShowMinimap] = useState(true);
+  const countdown = daysUntil("2026-06-21");
 
-  // Generate random positions for cards (stable per session via seed)
-  const seed = useMemo(() => Math.floor(Math.random() * 1000000), []);
-  const cardPositions = useMemo(() => {
-    const rng = mulberry32(seed);
-    const SPREAD = 3200;
-    const positions: { x: number; y: number; rot: number }[] = [];
-
-    // Place cards in a loose spiral with jitter
-    const count = CARDS.length;
-    for (let i = 0; i < count; i++) {
-      const angle = (i / count) * Math.PI * 6 + rng() * 0.8;
-      const radius = 200 + i * 65 + rng() * 180;
-      const x = Math.cos(angle) * radius + (rng() - 0.5) * 300;
-      const y = Math.sin(angle) * radius + (rng() - 0.5) * 300;
-      const rot = (rng() - 0.5) * 8;
-      positions.push({ x, y, rot });
-    }
-    return positions;
-  }, [seed]);
-
-  // Center of mass for initial pan
-  const centerOfMass = useMemo(() => {
-    const cx = cardPositions.reduce((s, p) => s + p.x, 0) / cardPositions.length;
-    const cy = cardPositions.reduce((s, p) => s + p.y, 0) / cardPositions.length;
-    return { x: cx, y: cy };
-  }, [cardPositions]);
-
-  // Intro sequence
+  // TV static noise
   useEffect(() => {
-    if (phase !== "intro") return;
-    const timers: ReturnType<typeof setTimeout>[] = [];
+    const canvas = noiseRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    INTRO_LINES.forEach((line, i) => {
-      timers.push(setTimeout(() => setVisibleLines((v) => [...v, i]), line.delay));
-      timers.push(
-        setTimeout(
-          () => setFadingLines((v) => [...v, i]),
-          line.delay + line.duration - 400
-        )
-      );
-    });
+    canvas.width = 200;
+    canvas.height = 120;
+    let raf: number;
+    let frame = 0;
 
-    timers.push(
-      setTimeout(() => {
-        setPhase("explode");
-        // Brief white flash then canvas
-        setTimeout(() => {
-          setPhase("canvas");
-          setPan({ x: -centerOfMass.x, y: -centerOfMass.y });
-          setTimeout(() => setCanvasOpacity(1), 50);
-        }, 600);
-      }, TOTAL_INTRO_MS)
-    );
+    const draw = () => {
+      const img = ctx.createImageData(canvas.width, canvas.height);
+      for (let i = 0; i < img.data.length; i += 4) {
+        const v = Math.random() * 255;
+        img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+        img.data[i + 3] = 40;
+      }
+      ctx.putImageData(img, 0, 0);
+      frame++;
+      raf = requestAnimationFrame(draw);
+    };
 
-    return () => timers.forEach(clearTimeout);
-  }, [phase, centerOfMass]);
+    setNoiseReady(true);
+    draw();
 
-  // Skip intro on click
-  const skipIntro = useCallback(() => {
-    if (phase === "intro") {
-      setPhase("canvas");
-      setPan({ x: -centerOfMass.x, y: -centerOfMass.y });
-      setTimeout(() => setCanvasOpacity(1), 50);
-    }
-  }, [phase, centerOfMass]);
-
-  // Pan handlers
-  const handlePointerDown = useCallback(
-    (e: React.PointerEvent) => {
-      if (selectedCard) return;
-      setIsDragging(true);
-      dragStart.current = { x: e.clientX, y: e.clientY, panX: pan.x, panY: pan.y };
-      (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-    },
-    [pan, selectedCard]
-  );
-
-  const handlePointerMove = useCallback(
-    (e: React.PointerEvent) => {
-      if (!isDragging) return;
-      const dx = e.clientX - dragStart.current.x;
-      const dy = e.clientY - dragStart.current.y;
-      setPan({ x: dragStart.current.panX + dx, y: dragStart.current.panY + dy });
-    },
-    [isDragging]
-  );
-
-  const handlePointerUp = useCallback(() => {
-    setIsDragging(false);
+    const timer = setTimeout(() => setSignalVisible(true), 800);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(timer);
+    };
   }, []);
 
-  // Keyboard navigation
+  // Intersection observer for active section
   useEffect(() => {
-    if (phase !== "canvas") return;
-    const handler = (e: KeyboardEvent) => {
-      const step = e.shiftKey ? 200 : 80;
-      if (e.key === "ArrowLeft") setPan((p) => ({ ...p, x: p.x + step }));
-      if (e.key === "ArrowRight") setPan((p) => ({ ...p, x: p.x - step }));
-      if (e.key === "ArrowUp") setPan((p) => ({ ...p, y: p.y + step }));
-      if (e.key === "ArrowDown") setPan((p) => ({ ...p, y: p.y - step }));
-      if (e.key === "Escape") setSelectedCard(null);
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [phase]);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = sectionRefs.current.indexOf(entry.target as HTMLElement);
+            if (idx >= 0) setActiveSection(idx);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
 
-  // Scroll to pan
-  useEffect(() => {
-    if (phase !== "canvas") return;
-    const handler = (e: WheelEvent) => {
-      e.preventDefault();
-      setPan((p) => ({ x: p.x - e.deltaX * 0.8, y: p.y - e.deltaY * 0.8 }));
-    };
-    const el = containerRef.current;
-    if (el) el.addEventListener("wheel", handler, { passive: false });
-    return () => el?.removeEventListener("wheel", handler);
-  }, [phase]);
+    sectionRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollTo = (idx: number) => {
+    sectionRefs.current[idx]?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const setRef = (idx: number) => (el: HTMLElement | null) => {
+    sectionRefs.current[idx] = el;
+  };
 
   return (
-    <div className="draft-root">
-      <style>{styles}</style>
+    <div className="draft" ref={scrollRef}>
+      <style>{css}</style>
 
-      {/* ── INTRO ── */}
-      {phase === "intro" && (
-        <div className="intro-screen" onClick={skipIntro}>
-          {INTRO_LINES.map((line, i) => (
-            <p
-              key={i}
-              className={`intro-line ${visibleLines.includes(i) ? "visible" : ""} ${fadingLines.includes(i) ? "fading" : ""}`}
-            >
-              {line.text}
-            </p>
-          ))}
-          <span className="skip-hint">click to skip</span>
-        </div>
-      )}
-
-      {/* ── FLASH ── */}
-      {phase === "explode" && <div className="flash-screen" />}
-
-      {/* ── CANVAS ── */}
-      {(phase === "canvas" || phase === "explode") && (
-        <div
-          className="canvas-viewport"
-          ref={containerRef}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-          style={{ opacity: canvasOpacity, cursor: isDragging ? "grabbing" : "grab" }}
-        >
-          <div
-            className="canvas-world"
-            style={{
-              transform: `translate(calc(50vw + ${pan.x}px), calc(50vh + ${pan.y}px))`,
-            }}
+      {/* ── progress dots ── */}
+      <nav className="draft-nav" aria-label="sections">
+        {["signal", "channel", "wager", "auction", "party", "stake", "doors"].map((label, i) => (
+          <button
+            key={label}
+            className={`draft-dot ${activeSection === i ? "active" : ""}`}
+            onClick={() => scrollTo(i)}
+            aria-label={label}
           >
-            {CARDS.map((card, i) => {
-              const pos = cardPositions[i];
-              const isSelected = selectedCard === card.id;
-              return (
-                <div
-                  key={card.id}
-                  className={`card-wrapper card-enter ${isSelected ? "card-selected" : ""}`}
-                  style={{
-                    left: pos.x,
-                    top: pos.y,
-                    transform: isSelected ? "rotate(0deg) scale(1.1)" : `rotate(${pos.rot}deg)`,
-                    zIndex: isSelected ? 100 : hoveredCard === card.id ? 50 : 1,
-                    animationDelay: `${i * 60 + 100}ms`,
-                    width: card.width ?? 320,
-                  }}
-                  onMouseEnter={() => setHoveredCard(card.id)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedCard(isSelected ? null : card.id);
-                  }}
-                >
-                  <CardRenderer card={card} />
-                </div>
-              );
-            })}
-          </div>
+            <span className="draft-dot-pip" />
+          </button>
+        ))}
+      </nav>
 
-          {/* Minimap */}
-          {showMinimap && (
-            <div className="minimap">
-              <div className="minimap-inner">
-                {cardPositions.map((pos, i) => (
-                  <div
-                    key={i}
-                    className={`minimap-dot minimap-dot-${CARDS[i].skin}`}
-                    style={{
-                      left: `${((pos.x + 2000) / 4000) * 100}%`,
-                      top: `${((pos.y + 2000) / 4000) * 100}%`,
-                    }}
-                  />
-                ))}
-                <div
-                  className="minimap-viewport"
-                  style={{
-                    left: `${((-pan.x - window.innerWidth / 2 + 2000) / 4000) * 100}%`,
-                    top: `${((-pan.y - window.innerHeight / 2 + 2000) / 4000) * 100}%`,
-                    width: `${(window.innerWidth / 4000) * 100}%`,
-                    height: `${(window.innerHeight / 4000) * 100}%`,
-                  }}
+      {/* ═══════ 1. NOISE → SIGNAL ═══════ */}
+      <section className="s s-signal" ref={setRef(0)}>
+        <canvas ref={noiseRef} className="noise-canvas" />
+        <div className={`signal-text ${signalVisible ? "on" : ""}`}>
+          <p className="signal-line">you&rsquo;ve seen this before.</p>
+          <p className="signal-line signal-delay-1">the interface. the layout. the font.</p>
+          <p className="signal-line signal-delay-2">familiarity is a shortcut to trust.</p>
+          <p className="signal-line signal-delay-3 signal-accent">
+            so what happens when you wrap a portfolio<br />inside something people already know?
+          </p>
+        </div>
+        <button className="signal-scroll" onClick={() => scrollTo(1)}>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+          </svg>
+        </button>
+      </section>
+
+      {/* ═══════ 2. THE CHANNEL ═══════ */}
+      <section className="s s-channel" ref={setRef(1)}>
+        <div className="channel-chrome">
+          <div className="channel-topbar">
+            <svg viewBox="0 0 90 20" width="72" height="16" className="channel-logo">
+              <rect x="0" y="0" width="22" height="16" rx="3" fill="#ff0000" />
+              <polygon points="8,3 8,13 16,8" fill="#fff" />
+              <text x="26" y="12" fill="#fff" fontFamily="Arial,sans-serif" fontWeight="bold" fontSize="11">YouTube</text>
+            </svg>
+          </div>
+          <div className="channel-player">
+            {videoStarted ? (
+              <iframe
+                src="https://www.youtube.com/embed/DPIoje1nfCQ?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3"
+                className="channel-iframe"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                title="Telling the Same Joke Over and Over"
+              />
+            ) : (
+              <div className="channel-poster" onClick={() => setVideoStarted(true)}>
+                <img src="https://i.ytimg.com/vi/DPIoje1nfCQ/maxresdefault.jpg" alt="" className="channel-poster-img" />
+                <button className="channel-play" aria-label="Play">
+                  <svg viewBox="0 0 68 48" width="68" height="48">
+                    <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#f00"/>
+                    <path d="M27 34l17-10-17-10z" fill="#fff"/>
+                  </svg>
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="channel-meta">
+            <h2 className="channel-title">Telling the Same Joke Over and Over and Over and Over</h2>
+            <div className="channel-info">
+              <span className="channel-ch">Aaron Westberry</span>
+              <span className="channel-views">2.8M views · Apr 28, 2025</span>
+            </div>
+          </div>
+        </div>
+        <p className="channel-aside">
+          repetition creates familiarity.<br />
+          familiarity creates trust.<br />
+          <em>trust is the product.</em>
+        </p>
+      </section>
+
+      {/* ═══════ 3. THE WAGER ═══════ */}
+      <section className="s s-wager" ref={setRef(2)}>
+        <div className="wager-eyebrow">the wager · live</div>
+        <h1 className="wager-amount">$3,453 → $100,000</h1>
+        <p className="wager-deadline">by my 20th birthday · June 21, 2026</p>
+        <div className="wager-countdown">
+          <div className="wager-count-num">{countdown}</div>
+          <div className="wager-count-label">days left</div>
+        </div>
+        <div className="wager-stats">
+          <div className="wager-stat">
+            <span className="wager-stat-val">0.000000%</span>
+            <span className="wager-stat-label">Monte Carlo P(success)</span>
+          </div>
+          <div className="wager-stat">
+            <span className="wager-stat-val">5</span>
+            <span className="wager-stat-label">AI agents per trade</span>
+          </div>
+          <div className="wager-stat">
+            <span className="wager-stat-val">$4,519</span>
+            <span className="wager-stat-label">current value</span>
+          </div>
+        </div>
+        <blockquote className="wager-quote">
+          The odds are the honesty. The bet is the product.<br />
+          <em>Either way, you watched.</em>
+        </blockquote>
+        <a href="https://aureliex.com" className="wager-link" target="_blank" rel="noopener noreferrer">
+          aureliex.com — live portfolio →
+        </a>
+      </section>
+
+      {/* ═══════ 4. THE AUCTION ═══════ */}
+      <section className="s s-auction" ref={setRef(3)}>
+        <div className="auction-eyebrow">lot 001 · live auction</div>
+        <div className="auction-layout">
+          <div className="auction-image">
+            <img src="/art/tarantula-full.jpg" alt="The Tarantula — graphite on bristol" />
+            <div className="auction-badge">● LIVE</div>
+          </div>
+          <div className="auction-details">
+            <h2 className="auction-title">The Tarantula</h2>
+            <p className="auction-medium">Graphite on Bristol board · 18×24 in · Signed</p>
+            <div className="auction-rule" />
+            <div className="auction-row">
+              <span>Opening bid</span>
+              <span className="auction-price">$25</span>
+            </div>
+            <div className="auction-row">
+              <span>Backed by</span>
+              <span className="auction-backing">10% of portfolio NAV</span>
+            </div>
+            <div className="auction-rule" />
+            <p className="auction-explain">
+              The winning bidder receives the original artwork <em>plus</em> a guaranteed cashout
+              worth 10% of the aureliex portfolio value on June 21, 2026.
+            </p>
+            <p className="auction-math">
+              If portfolio = $10,000 → backing = $1,000<br />
+              If portfolio = $100,000 → backing = $10,000
+            </p>
+            <p className="auction-thesis">
+              <em>The auction price is your bet on where the portfolio lands.</em>
+            </p>
+            <div className="auction-bid-area">
+              <div className="auction-bid-input">
+                <span className="auction-dollar">$</span>
+                <input
+                  type="number"
+                  min={25}
+                  value={bidAmount}
+                  onChange={(e) => setBidAmount(Math.max(25, parseInt(e.target.value) || 25))}
+                  className="auction-input"
                 />
               </div>
+              <button className="auction-btn" onClick={() => setShowBidConfirm(true)}>
+                Place Bid
+              </button>
             </div>
-          )}
-
-          {/* Navigation hint */}
-          <div className="nav-hint">
-            <span>drag or scroll to explore</span>
-            <span>·</span>
-            <span>arrow keys to navigate</span>
-            <span>·</span>
-            <span>click a card to focus</span>
+            {showBidConfirm && (
+              <div className="auction-confirm">
+                Auction opens June 1. You&rsquo;ll be notified.
+                <button onClick={() => setShowBidConfirm(false)}>✕</button>
+              </div>
+            )}
           </div>
-
-          {/* Title watermark */}
-          <div className="watermark">aureliex</div>
         </div>
-      )}
-    </div>
-  );
-}
+      </section>
 
-/* ── Card Renderers ── */
-function CardRenderer({ card }: { card: ContentCard }) {
-  switch (card.skin) {
-    case "youtube":
-      return <YouTubeCard card={card} />;
-    case "imessage":
-      return <IMessageCard card={card} />;
-    case "polaroid":
-      return <PolaroidCard card={card} />;
-    case "terminal":
-      return <TerminalCard card={card} />;
-    case "apple-note":
-      return <AppleNoteCard card={card} />;
-    case "notification":
-      return <NotificationCard card={card} />;
-    case "tweet":
-      return <TweetCard card={card} />;
-    case "vinyl":
-      return <VinylCard card={card} />;
-    case "auction":
-      return <AuctionCard card={card} />;
-    case "boarding-pass":
-      return <BoardingPassCard card={card} />;
-    case "receipt":
-      return <ReceiptCard card={card} />;
-    default:
-      return null;
-  }
-}
-
-function YouTubeCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-youtube">
-      <div className="yt-thumb-area">
-        {card.id === "yt-eeao" ? (
-          <img src="https://i.ytimg.com/vi/DPIoje1nfCQ/hqdefault.jpg" alt="" className="yt-thumb-img" />
-        ) : (
-          <div className="yt-thumb-placeholder" />
-        )}
-        <div className="yt-play-btn">
-          <svg viewBox="0 0 68 48" width="48" height="34">
-            <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="#f00" />
-            <path d="M27 34l17-10-17-10z" fill="#fff" />
-          </svg>
-        </div>
-      </div>
-      <div className="yt-info">
-        <div className="yt-avatar-dot" />
-        <div className="yt-text">
-          <p className="yt-vid-title">{card.title}</p>
-          <p className="yt-vid-channel">{card.body}</p>
-          <p className="yt-vid-meta">{card.meta}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function IMessageCard({ card }: { card: ContentCard }) {
-  const lines = card.body.split("\n").filter(Boolean);
-  return (
-    <div className="skin-imessage">
-      <div className="im-header">
-        <div className="im-avatar">{card.title[0]}</div>
-        <span className="im-name">{card.title}</span>
-        <span className="im-time">{card.meta}</span>
-      </div>
-      <div className="im-thread">
-        {lines.map((line, i) => {
-          // Alternate sent/received — odd lines are "sent" (blue, right)
-          const isSent = i % 2 !== 0;
-          return (
-            <div key={i} className={`im-bubble ${isSent ? "im-sent" : "im-received"}`}>
-              {line}
+      {/* ═══════ 5. THE PARTY ═══════ */}
+      <section className="s s-party" ref={setRef(4)}>
+        <div className="party-pass">
+          <div className="party-left">
+            <div className="party-airline">AURELIEX</div>
+            <div className="party-route">
+              <div className="party-col">
+                <span className="party-label">FROM</span>
+                <span className="party-city">NOW</span>
+              </div>
+              <div className="party-arrow">
+                <svg viewBox="0 0 100 20" width="80" height="16">
+                  <line x1="0" y1="10" x2="85" y2="10" stroke="currentColor" strokeWidth="1" strokeDasharray="4 3" />
+                  <polygon points="85,5 95,10 85,15" fill="currentColor" />
+                </svg>
+              </div>
+              <div className="party-col">
+                <span className="party-label">TO</span>
+                <span className="party-city">JUN 21</span>
+              </div>
             </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function PolaroidCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-polaroid">
-      <div className="pol-image">
-        {card.image ? (
-          <img src={card.image} alt={card.title} />
-        ) : (
-          <div className="pol-placeholder" />
-        )}
-      </div>
-      <div className="pol-caption">
-        <p className="pol-title">{card.title}</p>
-        <p className="pol-body">{card.body}</p>
-        {card.meta && <p className="pol-meta">{card.meta}</p>}
-      </div>
-    </div>
-  );
-}
-
-function TerminalCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-terminal">
-      <div className="term-titlebar">
-        <div className="term-dots">
-          <span className="term-dot red" />
-          <span className="term-dot yellow" />
-          <span className="term-dot green" />
-        </div>
-        <span className="term-path">{card.meta}</span>
-      </div>
-      <pre className="term-body">{card.body}</pre>
-    </div>
-  );
-}
-
-function AppleNoteCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-apple-note">
-      <div className="an-header">
-        <span className="an-date">{card.meta}</span>
-      </div>
-      <h3 className="an-title">{card.title}</h3>
-      <p className="an-body">{card.body}</p>
-    </div>
-  );
-}
-
-function NotificationCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-notification">
-      <div className="notif-icon">{card.title[0]}</div>
-      <div className="notif-content">
-        <div className="notif-top">
-          <span className="notif-app">{card.title}</span>
-          <span className="notif-time">{card.meta}</span>
-        </div>
-        <p className="notif-body">{card.body}</p>
-      </div>
-    </div>
-  );
-}
-
-function TweetCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-tweet">
-      <div className="tw-header">
-        <div className="tw-avatar">{card.title[1]?.toUpperCase()}</div>
-        <div className="tw-names">
-          <span className="tw-display">Saathvik Pai</span>
-          <span className="tw-handle">{card.title}</span>
-        </div>
-        <svg className="tw-x-logo" viewBox="0 0 24 24" width="18" height="18" fill="#71767b">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-        </svg>
-      </div>
-      <p className="tw-body">{card.body}</p>
-      <span className="tw-meta">{card.meta}</span>
-    </div>
-  );
-}
-
-function VinylCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-vinyl">
-      <div className="vinyl-disc">
-        <div className="vinyl-label">
-          <div className="vinyl-hole" />
-        </div>
-      </div>
-      <div className="vinyl-sleeve">
-        <p className="vinyl-title">{card.title}</p>
-        <p className="vinyl-body">{card.body}</p>
-        <span className="vinyl-meta">{card.meta}</span>
-      </div>
-    </div>
-  );
-}
-
-function AuctionCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-auction">
-      <div className="auc-header">
-        <span className="auc-house">AURELIEX</span>
-        <span className="auc-live">● LIVE</span>
-      </div>
-      {card.image && (
-        <div className="auc-image">
-          <img src={card.image} alt={card.title} />
-        </div>
-      )}
-      <div className="auc-body">
-        <h3 className="auc-lot">{card.title}</h3>
-        <p className="auc-desc">{card.body}</p>
-        <div className="auc-bid-row">
-          <span className="auc-bid-label">Opening bid</span>
-          <span className="auc-bid-amount">$25.00</span>
-        </div>
-        <div className="auc-bid-row">
-          <span className="auc-bid-label">Backing</span>
-          <span className="auc-bid-backing">10% of NAV</span>
-        </div>
-        <button className="auc-place-bid">Place Bid</button>
-      </div>
-    </div>
-  );
-}
-
-function BoardingPassCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-boarding">
-      <div className="bp-left">
-        <div className="bp-airline">{card.title}</div>
-        <div className="bp-main">
-          <div className="bp-col">
-            <span className="bp-label">FROM</span>
-            <span className="bp-value">NOW</span>
+            <div className="party-grid">
+              <div className="party-col">
+                <span className="party-label">EVENT</span>
+                <span className="party-val">20th Birthday</span>
+              </div>
+              <div className="party-col">
+                <span className="party-label">LOCATION</span>
+                <span className="party-val">Utah</span>
+              </div>
+              <div className="party-col">
+                <span className="party-label">TYPE</span>
+                <span className="party-val">Liquidity Event</span>
+              </div>
+            </div>
+            <div className="party-rule" />
+            <div className="party-terms">
+              <p><strong>10% of portfolio value</strong> is the dividend pool.</p>
+              <p>Withdrawable at the party, or reinvestable into Q3.</p>
+              <p>Flight compensation covered by the pool.</p>
+            </div>
           </div>
-          <div className="bp-arrow">→</div>
-          <div className="bp-col">
-            <span className="bp-label">TO</span>
-            <span className="bp-value">JUN 21</span>
+          <div className="party-tear">
+            <div className="party-tear-hole party-tear-top" />
+            <div className="party-tear-line" />
+            <div className="party-tear-hole party-tear-bottom" />
+          </div>
+          <div className="party-right">
+            <div className="party-barcode">
+              {Array.from({ length: 24 }).map((_, i) => (
+                <div key={i} className="party-bar" style={{ height: `${12 + ((i * 7 + 3) % 19)}px` }} />
+              ))}
+            </div>
+            <div className="party-seat">DIVIDEND<br />PASS</div>
           </div>
         </div>
-        <div className="bp-detail-row">
-          <div className="bp-col">
-            <span className="bp-label">PASSENGER</span>
-            <span className="bp-value-sm">HOLDER</span>
+        <p className="party-footnote">
+          the party is the liquidity event.
+        </p>
+      </section>
+
+      {/* ═══════ 6. THE STAKE ═══════ */}
+      <section className="s s-stake" ref={setRef(5)}>
+        <div className="stake-eyebrow">investment · cap table</div>
+        <h2 className="stake-title">How the stake works</h2>
+        <div className="stake-grid">
+          <div className="stake-card">
+            <div className="stake-card-icon">⏱</div>
+            <h3>Earliness × Size</h3>
+            <p>
+              Your stake is proportional to <em>when</em> you invest and <em>how much</em>.
+              Earlier money earns a higher multiplier. The cap table rewards conviction, not just capital.
+            </p>
           </div>
-          <div className="bp-col">
-            <span className="bp-label">CLASS</span>
-            <span className="bp-value-sm">{card.body}</span>
+          <div className="stake-card">
+            <div className="stake-card-icon">💰</div>
+            <h3>$100 invested externally</h3>
+            <p>
+              External capital invested into the portfolio. Tracked on the ledger,
+              visible on aureliex.com/invest. Every dollar accounted for.
+            </p>
           </div>
-          <div className="bp-col">
-            <span className="bp-label">GATE</span>
-            <span className="bp-value-sm">10%</span>
+          <div className="stake-card">
+            <div className="stake-card-icon">🥚</div>
+            <h3>$66 gifted as easter eggs</h3>
+            <p>
+              Hidden across the site. Found by paying attention.
+              Long-press the wordmark. Type &ldquo;PARTY&rdquo;.
+              Click the ornament five times in two seconds.
+              The attention is the labor.
+            </p>
           </div>
         </div>
-      </div>
-      <div className="bp-tear" />
-      <div className="bp-right">
-        <div className="bp-barcode">
-          {Array.from({ length: 20 }).map((_, i) => (
-            <div key={i} className="bp-bar" style={{ height: `${14 + Math.random() * 20}px` }} />
+        <div className="stake-totals">
+          <div className="stake-total-row">
+            <span>External investment</span>
+            <span className="stake-total-val">$100.00</span>
+          </div>
+          <div className="stake-total-row">
+            <span>Easter egg rewards</span>
+            <span className="stake-total-val">$66.00</span>
+          </div>
+          <div className="stake-total-row stake-total-final">
+            <span>Total outside capital</span>
+            <span className="stake-total-val">$166.00</span>
+          </div>
+        </div>
+        <p className="stake-note">
+          Stake is settled on June 21. Proportional to earliness × size.<br />
+          <em>The earlier you believed, the more it&rsquo;s worth.</em>
+        </p>
+      </section>
+
+      {/* ═══════ 7. THE DOORS ═══════ */}
+      <section className="s s-doors" ref={setRef(6)}>
+        <div className="doors-eyebrow">departures · all times live</div>
+        <h2 className="doors-title">aureliex</h2>
+        <div className="doors-board">
+          {[
+            { route: "/", label: "the cover", status: "live", desc: "portfolio + thesis" },
+            { route: "/argument", label: "the argument", status: "live", desc: "5 agents, 1 question, daily" },
+            { route: "/positions", label: "the positions", status: "live", desc: "holdings + P&L" },
+            { route: "/letters/round-0", label: "round 0", status: "published", desc: "the pre-mortem" },
+            { route: "/about-the-method", label: "the method", status: "published", desc: "panel, scoring, kill-switches" },
+            { route: "/art", label: "twelve plates", status: "live", desc: "salon wall · opening bids" },
+            { route: "/green-credit", label: "green credit", status: "published", desc: "project 2 · the manifesto" },
+            { route: "/archive", label: "the archive", status: "live", desc: "the rest of the magazine" },
+            { route: "/statement", label: "the statement", status: "published", desc: "saathvikpai.com" },
+          ].map((door) => (
+            <a key={door.route} href={`https://aureliex.com${door.route}`} className="door-row" target="_blank" rel="noopener noreferrer">
+              <span className="door-route">{door.route}</span>
+              <span className="door-label">{door.label}</span>
+              <span className="door-desc">{door.desc}</span>
+              <span className={`door-status door-${door.status}`}>{door.status}</span>
+            </a>
           ))}
         </div>
-        <span className="bp-seat">STAKE</span>
-      </div>
+        <div className="doors-footer">
+          <p>attention is what matters the most.</p>
+        </div>
+      </section>
     </div>
   );
 }
 
-function ReceiptCard({ card }: { card: ContentCard }) {
-  return (
-    <div className="skin-receipt">
-      <div className="rcpt-header">{card.title}</div>
-      <pre className="rcpt-body">{card.body}</pre>
-    </div>
-  );
-}
+/* ── styles ── */
+const css = `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* ── Styles ── */
-const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=SF+Pro+Display:wght@300;400;500;600&display=swap');
+  .draft {
+    --paper: #F4EFE6;
+    --ink: #1C1A17;
+    --graphite: #6B6560;
+    --rust: #8B3A2E;
+    --shadow-blue: #3E4852;
+    --rule: rgba(28,26,23,0.22);
+    --gold: #C9A84C;
 
-  .draft-root {
-    position: fixed; inset: 0;
-    background: #000;
-    color: #fff;
-    font-family: 'Inter', -apple-system, sans-serif;
-    overflow: hidden;
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
   }
+  .draft *, .draft *::before, .draft *::after { box-sizing: border-box; margin: 0; }
+  .draft button, .draft input { font-family: inherit; }
 
-  /* ── INTRO ── */
-  .intro-screen {
-    position: absolute; inset: 0;
+  .s {
+    min-height: 100svh;
+    scroll-snap-align: start;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 24px; padding: 40px;
-    cursor: pointer;
-    z-index: 10;
+    padding: 40px 24px;
+    position: relative;
   }
-  .intro-line {
-    font-size: 22px; font-weight: 300;
-    letter-spacing: 0.02em; line-height: 1.6;
-    color: #fff; text-align: center;
-    opacity: 0; transform: translateY(12px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-    max-width: 600px;
+
+  /* ── NAV DOTS ── */
+  .draft-nav {
+    position: fixed; right: 20px; top: 50%;
+    transform: translateY(-50%); z-index: 100;
+    display: flex; flex-direction: column; gap: 12px;
   }
-  .intro-line.visible {
+  .draft-dot {
+    width: 24px; height: 24px;
+    background: none; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+  }
+  .draft-dot-pip {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
+  }
+  .draft-dot.active .draft-dot-pip {
+    width: 8px; height: 8px;
+    background: var(--rust);
+    box-shadow: 0 0 8px rgba(139,58,46,0.5);
+  }
+
+  /* ═══ 1. SIGNAL ═══ */
+  .s-signal {
+    background: #000; color: #fff;
+    font-family: 'EB Garamond', Georgia, serif;
+    overflow: hidden;
+  }
+  .noise-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.15;
+    image-rendering: pixelated;
+  }
+  .signal-text {
+    position: relative; z-index: 1;
+    text-align: center; max-width: 520px;
+  }
+  .signal-line {
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 400; line-height: 1.7;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+  }
+  .signal-text.on .signal-line {
     opacity: 1; transform: translateY(0);
   }
-  .intro-line.fading {
-    opacity: 0.15;
-    transition: opacity 1.2s ease;
+  .signal-delay-1 { transition-delay: 1.2s; }
+  .signal-delay-2 { transition-delay: 2.4s; }
+  .signal-delay-3 { transition-delay: 4s; }
+  .signal-accent {
+    font-style: normal; font-weight: 500;
+    color: rgba(255,255,255,0.95);
+    margin-top: 16px;
   }
-  .skip-hint {
+  .signal-scroll {
     position: absolute; bottom: 32px;
-    font-size: 12px; color: #444; letter-spacing: 0.1em; text-transform: uppercase;
+    background: none; border: none; color: rgba(255,255,255,0.2);
+    cursor: pointer; animation: signal-bob 2s ease infinite;
+    animation-delay: 6s;
+    opacity: 0; animation-fill-mode: forwards;
+  }
+  @keyframes signal-bob {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateY(6px); opacity: 1; }
+    100% { transform: translateY(0); opacity: 1; }
   }
 
-  /* ── FLASH ── */
-  .flash-screen {
-    position: absolute; inset: 0; z-index: 20;
-    background: #fff;
-    animation: flashAnim 0.6s ease-out forwards;
-  }
-  @keyframes flashAnim {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-
-  /* ── CANVAS ── */
-  .canvas-viewport {
-    position: absolute; inset: 0;
-    overflow: hidden;
-    transition: opacity 0.8s ease;
-    background: #0a0a0a;
-    touch-action: none;
-    user-select: none;
-  }
-  .canvas-world {
-    position: absolute;
-    width: 0; height: 0;
-  }
-
-  /* ── CARDS ── */
-  .card-wrapper {
-    position: absolute;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0s;
-    cursor: pointer;
-  }
-  .card-wrapper:hover {
-    transform: rotate(0deg) scale(1.04) !important;
-    z-index: 50 !important;
-  }
-  .card-selected {
-    z-index: 100 !important;
-  }
-  .card-enter {
-    opacity: 0;
-    animation: cardEnter 0.8s ease forwards;
-  }
-  @keyframes cardEnter {
-    from { opacity: 0; transform: scale(0.7) rotate(0deg); }
-    to { opacity: 1; }
-  }
-
-  /* ── YOUTUBE SKIN ── */
-  .skin-youtube {
-    background: #0f0f0f; border-radius: 12px; overflow: hidden;
+  /* ═══ 2. CHANNEL ═══ */
+  .s-channel {
+    background: #0f0f0f; color: #f1f1f1;
     font-family: 'Roboto', Arial, sans-serif;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.6);
+    gap: 24px;
   }
-  .yt-thumb-area {
-    position: relative; width: 100%; aspect-ratio: 16/9;
-    background: #1a1a2e; overflow: hidden;
-  }
-  .yt-thumb-img { width: 100%; height: 100%; object-fit: cover; }
-  .yt-thumb-placeholder {
-    width: 100%; height: 100%;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-  }
-  .yt-play-btn {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0.85;
-  }
-  .yt-info { display: flex; gap: 12px; padding: 12px; }
-  .yt-avatar-dot {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: #333; flex-shrink: 0;
-  }
-  .yt-text { min-width: 0; }
-  .yt-vid-title {
-    font-size: 14px; font-weight: 500; line-height: 1.3;
-    margin: 0 0 4px; color: #f1f1f1;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  }
-  .yt-vid-channel { font-size: 12px; color: #aaa; margin: 0; }
-  .yt-vid-meta { font-size: 12px; color: #aaa; margin: 0; }
-
-  /* ── iMESSAGE SKIN ── */
-  .skin-imessage {
-    background: #1c1c1e; border-radius: 20px; overflow: hidden;
-    font-family: -apple-system, 'SF Pro Display', sans-serif;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.6);
-  }
-  .im-header {
-    display: flex; align-items: center; gap: 10px;
-    padding: 14px 16px; border-bottom: 1px solid #2c2c2e;
-  }
-  .im-avatar {
-    width: 32px; height: 32px; border-radius: 50%;
-    background: #636366; color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 600;
-  }
-  .im-name { font-size: 15px; font-weight: 600; flex: 1; }
-  .im-time { font-size: 11px; color: #8e8e93; }
-  .im-thread {
-    padding: 12px 16px; display: flex; flex-direction: column; gap: 6px;
-  }
-  .im-bubble {
-    max-width: 85%; padding: 8px 14px; border-radius: 18px;
-    font-size: 15px; line-height: 1.35;
-  }
-  .im-sent {
-    align-self: flex-end; background: #0b84fe; color: #fff;
-    border-bottom-right-radius: 4px;
-  }
-  .im-received {
-    align-self: flex-start; background: #3a3a3c; color: #fff;
-    border-bottom-left-radius: 4px;
-  }
-
-  /* ── POLAROID SKIN ── */
-  .skin-polaroid {
-    background: #f5f0e8; padding: 12px 12px 20px; border-radius: 4px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.5), 2px 2px 0 rgba(0,0,0,0.1);
-  }
-  .pol-image {
-    width: 100%; aspect-ratio: 1; background: #ddd; overflow: hidden;
-    margin-bottom: 12px;
-  }
-  .pol-image img { width: 100%; height: 100%; object-fit: cover; }
-  .pol-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #d4c5a9, #e8dcc8); }
-  .pol-caption { text-align: center; }
-  .pol-title { font-size: 14px; font-weight: 600; color: #2a2a2a; margin: 0 0 2px; font-family: 'Georgia', serif; }
-  .pol-body { font-size: 11px; color: #666; margin: 0 0 4px; }
-  .pol-meta { font-size: 10px; color: #999; margin: 0; font-style: italic; }
-
-  /* ── TERMINAL SKIN ── */
-  .skin-terminal {
-    background: #1a1b26; border-radius: 10px; overflow: hidden;
-    font-family: 'JetBrains Mono', 'SF Mono', monospace;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.6);
-    border: 1px solid #2a2b36;
-  }
-  .term-titlebar {
-    display: flex; align-items: center; gap: 12px;
-    padding: 10px 14px; background: #16171f;
-    border-bottom: 1px solid #2a2b36;
-  }
-  .term-dots { display: flex; gap: 6px; }
-  .term-dot { width: 12px; height: 12px; border-radius: 50%; }
-  .term-dot.red { background: #ff5f57; }
-  .term-dot.yellow { background: #febc2e; }
-  .term-dot.green { background: #28c840; }
-  .term-path { font-size: 12px; color: #565f89; }
-  .term-body {
-    padding: 14px; font-size: 12px; line-height: 1.5;
-    color: #a9b1d6; margin: 0; white-space: pre-wrap;
+  .channel-chrome {
+    width: 100%; max-width: 800px;
+    background: #0f0f0f; border-radius: 12px;
     overflow: hidden;
   }
-
-  /* ── APPLE NOTE SKIN ── */
-  .skin-apple-note {
-    background: #1c1c1e; border-radius: 12px; overflow: hidden;
-    font-family: -apple-system, 'SF Pro Display', sans-serif;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.6);
-    padding: 20px;
+  .channel-topbar {
+    padding: 12px 16px;
+    display: flex; align-items: center;
   }
-  .an-header { margin-bottom: 8px; }
-  .an-date { font-size: 12px; color: #8e8e93; }
-  .an-title {
-    font-size: 22px; font-weight: 700; margin: 0 0 12px;
-    color: #fff; letter-spacing: -0.3px;
+  .channel-player {
+    width: 100%; aspect-ratio: 16/9;
+    background: #000; position: relative;
   }
-  .an-body {
-    font-size: 15px; line-height: 1.5; color: #d1d1d6;
-    margin: 0; white-space: pre-wrap;
+  .channel-iframe {
+    width: 100%; height: 100%; border: none;
   }
-
-  /* ── NOTIFICATION SKIN ── */
-  .skin-notification {
-    background: rgba(50, 50, 50, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 16px; padding: 14px 16px;
-    display: flex; gap: 12px; align-items: flex-start;
-    font-family: -apple-system, 'SF Pro Display', sans-serif;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-    border: 1px solid rgba(255,255,255,0.08);
+  .channel-poster {
+    width: 100%; height: 100%; cursor: pointer;
+    position: relative;
   }
-  .notif-icon {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: #333; color: #fff;
+  .channel-poster-img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .channel-play {
+    position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 700; flex-shrink: 0;
+    background: none; border: none; cursor: pointer;
   }
-  .notif-content { flex: 1; min-width: 0; }
-  .notif-top { display: flex; justify-content: space-between; margin-bottom: 2px; }
-  .notif-app { font-size: 13px; font-weight: 600; color: #aaa; }
-  .notif-time { font-size: 12px; color: #666; }
-  .notif-body { font-size: 14px; color: #fff; margin: 0; line-height: 1.35; }
+  .channel-play svg { opacity: 0.85; }
+  .channel-poster:hover .channel-play svg { opacity: 1; }
+  .channel-meta { padding: 16px; }
+  .channel-title {
+    font-size: 18px; font-weight: 600;
+    margin: 0 0 8px; line-height: 1.3;
+  }
+  .channel-info {
+    display: flex; gap: 8px; font-size: 13px; color: #aaa;
+  }
+  .channel-ch { font-weight: 500; color: #f1f1f1; }
+  .channel-aside {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 16px; line-height: 1.8;
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    font-style: italic;
+  }
+  .channel-aside em {
+    color: rgba(255,255,255,0.6);
+    font-style: normal;
+  }
 
-  /* ── TWEET SKIN ── */
-  .skin-tweet {
-    background: #000; border: 1px solid #2f3336;
-    border-radius: 16px; padding: 16px;
-    font-family: -apple-system, 'Segoe UI', sans-serif;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  /* ═══ 3. WAGER ═══ */
+  .s-wager {
+    background: var(--paper); color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    gap: 16px;
   }
-  .tw-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .tw-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: #1d9bf0; color: #fff;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 700;
+  .wager-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--graphite);
   }
-  .tw-names { flex: 1; }
-  .tw-display { display: block; font-size: 15px; font-weight: 700; color: #e7e9ea; }
-  .tw-handle { font-size: 14px; color: #71767b; }
-  .tw-x-logo { margin-left: auto; }
-  .tw-body {
-    font-size: 15px; line-height: 1.45; color: #e7e9ea;
-    margin: 0 0 10px; white-space: pre-wrap;
+  .wager-amount {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(36px, 7vw, 72px);
+    font-weight: 300; letter-spacing: -0.02em;
+    line-height: 1.1;
   }
-  .tw-meta { font-size: 13px; color: #71767b; }
+  .wager-deadline {
+    font-size: 18px; color: var(--graphite);
+    font-style: italic;
+  }
+  .wager-countdown {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+    margin: 8px 0;
+  }
+  .wager-count-num {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 56px; font-weight: 300;
+    color: var(--rust); line-height: 1;
+  }
+  .wager-count-label {
+    font-size: 12px; color: var(--graphite);
+    text-transform: uppercase; letter-spacing: 0.15em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .wager-stats {
+    display: flex; gap: 32px; margin: 16px 0;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .wager-stat { text-align: center; }
+  .wager-stat-val {
+    display: block; font-size: 22px; font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .wager-stat-label {
+    display: block; font-size: 12px; color: var(--graphite);
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .wager-quote {
+    max-width: 480px; text-align: center;
+    font-size: 18px; font-style: italic;
+    color: var(--graphite); line-height: 1.6;
+    border-left: 2px solid var(--rust);
+    padding-left: 20px; margin: 8px 0;
+    text-align: left;
+  }
+  .wager-quote em { font-style: normal; color: var(--ink); }
+  .wager-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: var(--rust);
+    text-decoration: none; letter-spacing: 0.05em;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .wager-link:hover { border-color: var(--rust); }
 
-  /* ── VINYL SKIN ── */
-  .skin-vinyl {
-    display: flex; flex-direction: column; align-items: center;
-    padding: 20px;
+  /* ═══ 4. AUCTION ═══ */
+  .s-auction {
+    background: #0a0a0a; color: #e8e4dc;
+    font-family: 'EB Garamond', Georgia, serif;
+    gap: 20px;
   }
-  .vinyl-disc {
-    width: 180px; height: 180px; border-radius: 50%;
-    background: conic-gradient(from 0deg, #111 0%, #222 15%, #111 30%, #1a1a1a 45%, #111 60%, #222 75%, #111 90%, #1a1a1a 100%);
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-    animation: vinylSpin 8s linear infinite;
-    margin-bottom: 16px;
+  .auction-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.2em; color: #666;
   }
-  @keyframes vinylSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+  .auction-layout {
+    display: flex; gap: 40px; max-width: 900px;
+    width: 100%; align-items: flex-start;
+    flex-wrap: wrap;
   }
-  .vinyl-label {
-    width: 60px; height: 60px; border-radius: 50%;
-    background: linear-gradient(135deg, #c4302b, #e74c3c);
-    display: flex; align-items: center; justify-content: center;
+  .auction-image {
+    flex: 1; min-width: 280px; max-width: 400px;
+    position: relative; border-radius: 4px; overflow: hidden;
   }
-  .vinyl-hole {
-    width: 8px; height: 8px; border-radius: 50%; background: #000;
+  .auction-image img { width: 100%; display: block; }
+  .auction-badge {
+    position: absolute; top: 12px; right: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: #e74c3c; background: rgba(0,0,0,0.8);
+    padding: 4px 10px; border-radius: 4px;
+    animation: pulse-live 2s ease infinite;
   }
-  .vinyl-sleeve { text-align: center; }
-  .vinyl-title {
-    font-size: 14px; font-weight: 600; margin: 0 0 4px; color: #fff;
-  }
-  .vinyl-body {
-    font-size: 12px; color: #aaa; margin: 0 0 6px;
-    font-style: italic; line-height: 1.4;
-  }
-  .vinyl-meta { font-size: 11px; color: #555; }
-
-  /* ── AUCTION SKIN ── */
-  .skin-auction {
-    background: #0c0c0c; border-radius: 4px; overflow: hidden;
-    border: 1px solid #2a2a2a;
-    font-family: 'Inter', -apple-system, sans-serif;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.6);
-  }
-  .auc-header {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 16px; border-bottom: 1px solid #1a1a1a;
-  }
-  .auc-house {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.2em;
-    color: #888; text-transform: uppercase;
-  }
-  .auc-live {
-    font-size: 11px; font-weight: 600; color: #e74c3c;
-    animation: livePulse 2s ease infinite;
-  }
-  @keyframes livePulse {
+  @keyframes pulse-live {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.4; }
   }
-  .auc-image {
-    width: 100%; aspect-ratio: 4/3; overflow: hidden;
-    background: #1a1a1a;
+  .auction-details { flex: 1; min-width: 300px; }
+  .auction-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 32px; font-weight: 400; margin: 0 0 8px;
   }
-  .auc-image img { width: 100%; height: 100%; object-fit: cover; }
-  .auc-body { padding: 16px; }
-  .auc-lot {
-    font-size: 16px; font-weight: 700; margin: 0 0 10px;
-    color: #fff; letter-spacing: 0.02em;
+  .auction-medium {
+    font-size: 14px; color: #888; font-style: italic;
+    margin: 0 0 16px;
   }
-  .auc-desc {
-    font-size: 12px; line-height: 1.55; color: #999;
-    margin: 0 0 16px; white-space: pre-wrap;
+  .auction-rule {
+    height: 1px; background: rgba(255,255,255,0.1);
+    margin: 16px 0;
   }
-  .auc-bid-row {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: 6px 0; border-top: 1px solid #1a1a1a;
+  .auction-row {
+    display: flex; justify-content: space-between;
+    align-items: baseline; padding: 8px 0;
+    font-size: 14px; color: #999;
   }
-  .auc-bid-label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.08em; }
-  .auc-bid-amount { font-size: 20px; font-weight: 700; color: #fff; }
-  .auc-bid-backing { font-size: 14px; font-weight: 600; color: #c9a84c; }
-  .auc-place-bid {
-    width: 100%; margin-top: 14px; padding: 12px;
-    background: #fff; color: #000; border: none; border-radius: 4px;
-    font-size: 14px; font-weight: 700; cursor: pointer;
-    letter-spacing: 0.06em; text-transform: uppercase;
-    transition: background 0.15s;
+  .auction-price {
+    font-size: 28px; font-weight: 400; color: #fff;
+    font-family: 'Cormorant Garamond', Georgia, serif;
   }
-  .auc-place-bid:hover { background: #e0e0e0; }
-
-  /* ── BOARDING PASS SKIN ── */
-  .skin-boarding {
-    display: flex; overflow: hidden;
-    background: #faf8f4; color: #1a1a1a; border-radius: 12px;
-    font-family: 'Inter', -apple-system, sans-serif;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-    min-height: 180px;
+  .auction-backing {
+    font-size: 16px; color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
   }
-  .bp-left { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
-  .bp-airline {
-    font-size: 10px; font-weight: 700; letter-spacing: 0.15em;
-    color: #c4302b; text-transform: uppercase;
+  .auction-explain {
+    font-size: 15px; line-height: 1.6; color: #aaa;
+    margin: 0 0 12px;
   }
-  .bp-main { display: flex; align-items: center; gap: 16px; }
-  .bp-arrow { font-size: 24px; color: #ccc; }
-  .bp-col { display: flex; flex-direction: column; gap: 2px; }
-  .bp-label { font-size: 9px; font-weight: 600; color: #999; letter-spacing: 0.1em; text-transform: uppercase; }
-  .bp-value { font-size: 22px; font-weight: 800; color: #1a1a1a; letter-spacing: -0.5px; }
-  .bp-detail-row { display: flex; gap: 20px; }
-  .bp-value-sm { font-size: 13px; font-weight: 700; color: #1a1a1a; }
-  .bp-tear {
-    width: 1px; background: repeating-linear-gradient(
-      to bottom, #ddd 0px, #ddd 4px, transparent 4px, transparent 8px
-    );
-    margin: 10px 0; position: relative;
+  .auction-math {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: #777; line-height: 1.8;
+    margin: 0 0 12px;
   }
-  .bp-tear::before, .bp-tear::after {
-    content: ''; position: absolute; left: -6px;
-    width: 12px; height: 12px; border-radius: 50%;
-    background: #0a0a0a;
+  .auction-thesis {
+    font-size: 16px; color: #ccc; margin: 0 0 20px;
   }
-  .bp-tear::before { top: -6px; }
-  .bp-tear::after { bottom: -6px; }
-  .bp-right {
-    width: 80px; padding: 16px 12px;
-    display: flex; flex-direction: column; align-items: center;
-    justify-content: center; gap: 10px;
-    background: #f5f2ec;
+  .auction-bid-area {
+    display: flex; gap: 12px; align-items: stretch;
   }
-  .bp-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
-  .bp-bar { width: 2px; background: #1a1a1a; border-radius: 1px; }
-  .bp-seat {
-    font-size: 10px; font-weight: 800; letter-spacing: 0.15em;
-    color: #1a1a1a; transform: rotate(90deg);
+  .auction-bid-input {
+    display: flex; align-items: center;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px; padding: 0 12px;
+    flex: 1;
+  }
+  .auction-dollar {
+    font-size: 18px; color: #666;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+  .auction-input {
+    background: none; border: none; color: #fff;
+    font-size: 18px; padding: 12px 8px; width: 100%;
+    outline: none;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+  .auction-btn {
+    background: #fff; color: #000;
+    border: none; border-radius: 4px;
+    padding: 12px 24px; font-size: 13px;
+    font-weight: 600; cursor: pointer;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    transition: opacity 0.15s;
     white-space: nowrap;
   }
+  .auction-btn:hover { opacity: 0.85; }
+  .auction-confirm {
+    margin-top: 12px; padding: 10px 14px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 4px; font-size: 13px;
+    color: #aaa; display: flex; justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .auction-confirm button {
+    background: none; border: none; color: #666;
+    cursor: pointer; font-size: 16px;
+  }
 
-  /* ── RECEIPT SKIN ── */
-  .skin-receipt {
-    background: #faf8f2; color: #2a2a2a; border-radius: 2px;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
-    padding: 0;
+  /* ═══ 5. PARTY ═══ */
+  .s-party {
+    background: var(--paper); color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    gap: 20px;
+  }
+  .party-pass {
+    display: flex; max-width: 680px; width: 100%;
+    background: #faf8f4;
+    border-radius: 16px; overflow: visible;
+    box-shadow: 0 2px 24px rgba(28,26,23,0.12);
     position: relative;
   }
-  .skin-receipt::after {
-    content: ''; position: absolute; bottom: -6px; left: 0; right: 0;
-    height: 12px;
-    background: linear-gradient(135deg, #faf8f2 33.33%, transparent 33.33%) 0 0,
-                linear-gradient(225deg, #faf8f2 33.33%, transparent 33.33%) 0 0;
-    background-size: 12px 12px;
+  .party-left { flex: 1; padding: 32px; }
+  .party-airline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.25em; color: var(--rust);
+    margin-bottom: 20px;
   }
-  .rcpt-header {
-    text-align: center; padding: 16px 16px 8px;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
-    border-bottom: 1px dashed #ccc;
+  .party-route {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 24px;
   }
-  .rcpt-body {
-    padding: 12px 16px 20px; font-size: 11px; line-height: 1.6;
-    margin: 0; white-space: pre-wrap; color: #333;
+  .party-arrow { color: var(--graphite); opacity: 0.4; }
+  .party-col { display: flex; flex-direction: column; gap: 2px; }
+  .party-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 600;
+    letter-spacing: 0.15em; color: var(--graphite);
+    text-transform: uppercase;
+  }
+  .party-city {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 28px; font-weight: 400;
+    letter-spacing: -0.5px;
+  }
+  .party-grid {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .party-val {
+    font-size: 14px; font-weight: 500;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .party-rule {
+    height: 1px;
+    background: repeating-linear-gradient(90deg, var(--rule) 0, var(--rule) 4px, transparent 4px, transparent 8px);
+    margin: 16px 0;
+  }
+  .party-terms { font-size: 14px; line-height: 1.7; color: var(--graphite); }
+  .party-terms p { margin: 4px 0; }
+  .party-terms strong { color: var(--ink); }
+  .party-tear {
+    width: 1px; position: relative;
+    margin: 0; flex-shrink: 0;
+  }
+  .party-tear-line {
+    position: absolute; top: 16px; bottom: 16px; left: 0;
+    border-left: 1px dashed var(--rule);
+  }
+  .party-tear-hole {
+    position: absolute; left: -8px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--paper);
+  }
+  .party-tear-top { top: -8px; }
+  .party-tear-bottom { bottom: -8px; }
+  .party-right {
+    width: 80px; padding: 24px 12px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px;
+  }
+  .party-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
+  .party-bar { width: 2px; background: var(--ink); border-radius: 1px; opacity: 0.7; }
+  .party-seat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 700;
+    letter-spacing: 0.2em; text-align: center;
+    color: var(--graphite);
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
+  }
+  .party-footnote {
+    font-size: 14px; font-style: italic;
+    color: var(--graphite);
   }
 
-  /* ── MINIMAP ── */
-  .minimap {
-    position: fixed; bottom: 60px; right: 20px;
-    width: 140px; height: 100px;
-    background: rgba(20, 20, 20, 0.85);
-    border: 1px solid #333; border-radius: 8px;
-    overflow: hidden; z-index: 200;
-    backdrop-filter: blur(8px);
+  /* ═══ 6. STAKE ═══ */
+  .s-stake {
+    background: #0f0f0f; color: #e8e4dc;
+    font-family: 'EB Garamond', Georgia, serif;
+    gap: 24px;
   }
-  .minimap-inner {
-    position: relative; width: 100%; height: 100%;
+  .stake-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.2em; color: #555;
   }
-  .minimap-dot {
-    position: absolute; width: 4px; height: 4px;
-    border-radius: 50%; transform: translate(-50%, -50%);
+  .stake-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 32px; font-weight: 400;
   }
-  .minimap-dot-youtube { background: #ff0000; }
-  .minimap-dot-imessage { background: #0b84fe; }
-  .minimap-dot-polaroid { background: #f5f0e8; }
-  .minimap-dot-terminal { background: #28c840; }
-  .minimap-dot-apple-note { background: #ffd60a; }
-  .minimap-dot-notification { background: #888; }
-  .minimap-dot-tweet { background: #1d9bf0; }
-  .minimap-dot-vinyl { background: #e74c3c; }
-  .minimap-viewport {
-    position: absolute;
-    border: 1px solid rgba(255,255,255,0.4);
-    border-radius: 2px;
-    background: rgba(255,255,255,0.05);
+  .stake-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px; max-width: 800px; width: 100%;
   }
+  .stake-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 24px;
+  }
+  .stake-card-icon { font-size: 24px; margin-bottom: 12px; }
+  .stake-card h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 18px; font-weight: 500; margin: 0 0 8px;
+  }
+  .stake-card p {
+    font-size: 14px; line-height: 1.6; color: #999; margin: 0;
+  }
+  .stake-card em { font-style: italic; color: #ccc; }
+  .stake-totals {
+    max-width: 400px; width: 100%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .stake-total-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: #888;
+  }
+  .stake-total-val { color: #ccc; font-weight: 500; }
+  .stake-total-final {
+    border-top: 1px solid rgba(255,255,255,0.15);
+    border-bottom: none; color: #fff;
+    font-weight: 600; margin-top: 4px;
+    padding-top: 12px;
+  }
+  .stake-total-final .stake-total-val { color: var(--gold); }
+  .stake-note {
+    font-size: 15px; color: #777; text-align: center;
+    line-height: 1.7;
+  }
+  .stake-note em { color: #ccc; }
 
-  /* ── NAV HINT ── */
-  .nav-hint {
-    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 12px; align-items: center;
-    font-size: 12px; color: #444; letter-spacing: 0.05em;
-    z-index: 200;
-    animation: fadeInHint 1s ease 1s forwards;
-    opacity: 0;
+  /* ═══ 7. DOORS ═══ */
+  .s-doors {
+    background: var(--paper); color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    gap: 20px;
   }
-  @keyframes fadeInHint {
-    to { opacity: 1; }
+  .doors-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--graphite);
   }
-
-  /* ── WATERMARK ── */
-  .watermark {
-    position: fixed; top: 20px; left: 24px;
-    font-size: 14px; font-weight: 600; letter-spacing: 0.15em;
-    color: #222; z-index: 200;
-    text-transform: lowercase;
+  .doors-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 36px; font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+  .doors-board {
+    max-width: 640px; width: 100%;
+    border-top: 1px solid var(--rule);
+  }
+  .door-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr auto;
+    gap: 12px; padding: 12px 8px;
+    border-bottom: 1px solid var(--rule);
+    text-decoration: none; color: var(--ink);
+    font-size: 14px; align-items: baseline;
+    transition: background 0.15s;
+  }
+  .door-row:hover { background: rgba(139,58,46,0.04); }
+  .door-route {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: var(--graphite);
+  }
+  .door-label { font-weight: 500; }
+  .door-desc {
+    font-size: 13px; color: var(--graphite);
+    font-style: italic;
+  }
+  .door-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .door-live { color: #3a7a3a; }
+  .door-published { color: var(--graphite); }
+  .doors-footer {
+    margin-top: 24px; text-align: center;
+  }
+  .doors-footer p {
+    font-size: 16px; font-style: italic;
+    color: var(--graphite);
   }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
-    .intro-line { font-size: 18px; }
-    .minimap { display: none; }
-    .nav-hint { font-size: 10px; gap: 8px; }
+    .draft-nav { right: 10px; }
+    .draft-dot-pip { width: 5px; height: 5px; }
+    .auction-layout { flex-direction: column; }
+    .auction-image { max-width: 100%; }
+    .party-pass { flex-direction: column; }
+    .party-right {
+      width: 100%; flex-direction: row;
+      padding: 16px 24px; writing-mode: initial;
+    }
+    .party-seat { writing-mode: initial; transform: none; }
+    .party-tear { display: none; }
+    .door-row { grid-template-columns: 1fr 1fr; }
+    .door-route, .door-desc { display: none; }
+    .stake-grid { grid-template-columns: 1fr; }
+    .wager-stats { gap: 20px; }
   }
 `;
