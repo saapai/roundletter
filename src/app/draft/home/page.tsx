@@ -236,10 +236,23 @@ export default function DraftHomePage() {
         </a>
       </nav>
 
-      {/* ═══════ CLOSER ═══════ */}
+      {/* ═══════ CLOSER — CMIYGL poster energy ═══════ */}
       <footer className="R-closer R-reveal">
-        <p className="R-closer-q"><em>call me if you get lost.</em></p>
-        <p className="R-sig">aureliex<span className="R-dot">.</span></p>
+        <p className="R-closer-q">
+          {"call me if you get lost.".split("").map((ch, i) => (
+            <span key={i} className="R-rainbow" style={{ ["--i" as string]: i }}>
+              {ch === " " ? "\u00A0" : ch}
+            </span>
+          ))}
+        </p>
+        <p className="R-sig">
+          {"aureliex.".split("").map((ch, i) => (
+            <span key={i} className="R-rainbow" style={{ ["--i" as string]: i }}>
+              {ch}
+            </span>
+          ))}
+        </p>
+        <span className="R-closer-phone">+1 (385) 368-7238</span>
       </footer>
     </div>
   );
@@ -694,25 +707,60 @@ const CSS = `
   /* ── CLOSER ── */
   .R-closer {
     text-align: center;
-    padding-top: clamp(1rem, 3vw, 2rem);
+    padding-top: clamp(2rem, 4vw, 3rem);
+    padding-bottom: 1rem;
   }
   .R-closer-q {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
     font-style: italic;
-    margin: 0 0 2rem;
-    opacity: 0.45;
+    font-weight: 500;
+    margin: 0 0 1.5rem;
+    letter-spacing: 0.02em;
   }
   .R-sig {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     font-style: italic;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -0.01em;
-    opacity: 0.7;
-    margin: 0;
+    margin: 0 0 1.5rem;
   }
-  .R-dot { color: #8B3A2E; }
+  .R-closer-phone {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    opacity: 0.25; display: block; margin-top: 8px;
+  }
+
+  /* Per-character rainbow coloring */
+  .R-rainbow {
+    display: inline-block;
+  }
+
+  /* "call me if you get lost" — star pastels */
+  .R-closer-q .R-rainbow {
+    --colors: #E8A0B4, #B8D8C8, #5CC0D0, #C8A848, #E8A0B4, #B8D8C8, #5CC0D0, #C8A848;
+    color: var(--c);
+  }
+  .R-closer-q .R-rainbow:nth-child(8n+1) { color: #E8A0B4; }
+  .R-closer-q .R-rainbow:nth-child(8n+2) { color: #B8D8C8; }
+  .R-closer-q .R-rainbow:nth-child(8n+3) { color: #5CC0D0; }
+  .R-closer-q .R-rainbow:nth-child(8n+4) { color: #C8A848; }
+  .R-closer-q .R-rainbow:nth-child(8n+5) { color: #E8A0B4; }
+  .R-closer-q .R-rainbow:nth-child(8n+6) { color: #B8D8C8; }
+  .R-closer-q .R-rainbow:nth-child(8n+7) { color: #5CC0D0; }
+  .R-closer-q .R-rainbow:nth-child(8n+8) { color: #C8A848; }
+
+  /* "aureliex." — painting palette (red, blue, purple, orange, cyan) */
+  .R-sig .R-rainbow:nth-child(1) { color: #CC2222; }  /* a — red sky */
+  .R-sig .R-rainbow:nth-child(2) { color: #1a3a8a; }  /* u — deep blue */
+  .R-sig .R-rainbow:nth-child(3) { color: #7B2D8E; }  /* r — purple cloud */
+  .R-sig .R-rainbow:nth-child(4) { color: #E06020; }  /* e — orange sun */
+  .R-sig .R-rainbow:nth-child(5) { color: #1a3a8a; }  /* l — blue */
+  .R-sig .R-rainbow:nth-child(6) { color: #CC2222; }  /* i — red */
+  .R-sig .R-rainbow:nth-child(7) { color: #E06020; }  /* e — orange */
+  .R-sig .R-rainbow:nth-child(8) { color: #40B0C0; }  /* x — cyan buildings */
+  .R-sig .R-rainbow:nth-child(9) { color: #C8A848; }  /* . — gold splatter */
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
