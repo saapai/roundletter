@@ -71,7 +71,7 @@ export default function DraftHomeClient() {
       className={`R ${phase === "warm" ? "R--warm" : ""}`}
       ref={rootRef}
       style={{
-        backgroundColor: phase === "warm" ? "#F4EFE6" : "#0a0908",
+        backgroundColor: phase === "warm" ? "#EDE5D5" : "#0a0908",
         color: phase === "warm" ? "#1C1A17" : "#e8e4dc",
         transition: "background-color 2.5s cubic-bezier(0.22, 1, 0.36, 1), color 2.5s cubic-bezier(0.22, 1, 0.36, 1)",
       }}
@@ -272,7 +272,7 @@ const CSS = `
                 color 2.5s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .R--warm {
-    background-color: #F4EFE6 !important;
+    background-color: #EDE5D5 !important;
     color: #1C1A17;
   }
 
@@ -532,7 +532,7 @@ const CSS = `
   }
   .R--warm .R-painting-bid:hover {
     background: #1C1A17;
-    color: #F4EFE6;
+    color: #EDE5D5;
     border-color: #1C1A17;
   }
 
@@ -565,7 +565,7 @@ const CSS = `
       radial-gradient(ellipse 50% 40% at 50% 45%, rgba(229,221,210,0.10) 0%, transparent 100%),
       linear-gradient(
         155deg,
-        #F4EFE6  0%,
+        #EDE5D5  0%,
         #EDE5D5  4%,
         #DDD0BA  10%,
         #C4A882  18%,
