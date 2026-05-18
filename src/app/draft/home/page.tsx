@@ -54,10 +54,10 @@ export default function DraftHomePage() {
   const pct = ((total / 100_000) * 100).toFixed(1);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  /* Phase: dark → warm transition */
-  const [phase, setPhase] = useState<"dark" | "warm">("dark");
+  /* Phase: initial flash → settled */
+  const [phase, setPhase] = useState<"intro" | "settled">("intro");
   useEffect(() => {
-    const t = setTimeout(() => setPhase("warm"), 2800);
+    const t = setTimeout(() => setPhase("settled"), 2800);
     return () => clearTimeout(t);
   }, []);
 
@@ -76,7 +76,7 @@ export default function DraftHomePage() {
   }, []);
 
   return (
-    <div className={`R ${phase === "warm" ? "R--warm" : ""}`} ref={rootRef}>
+    <div className={`R ${phase === "settled" ? "R--settled" : ""}`} ref={rootRef}>
       <style>{CSS}</style>
 
       {/* ═══════ WAVE 1: Golden flash (bridge from video) ═══════ */}
@@ -151,65 +151,60 @@ export default function DraftHomePage() {
 
       <div className="R-rule" />
 
-      {/* ═══════ DARK ZONE — party + ticket + backed-by ═══════ */}
-      <div className="R-dark-zone">
-
-        {/* THE PARTY — full-bleed gradient hero */}
-        <section className="R-party-hero R-reveal">
-          <div className="R-party-hero-inner">
-            <span className="R-party-presents">aureliex presents</span>
-            <h2 className="R-party-title">the party.</h2>
-            <span className="R-party-sub">the liquidity event · june 20 · 2026</span>
-            <div className="R-party-rule" />
-            <p className="R-party-tagline">june 20 · salt lake city</p>
-            <span className="R-party-details">
-              10% of portfolio → flights &amp; costs
-            </span>
-            <span className="R-party-details">
-              proportional to who invested the most, earliest
-            </span>
-          </div>
-        </section>
-
-        {/* THE TICKET — compact, solid dark (no gradient) */}
-        <div className="R-ticket-wrap">
-          <a href="/invest" className="R-ticket">
-            <div className="R-ticket-main">
-              <span className="R-ticket-event">the liquidity event</span>
-              <div className="R-ticket-meta">
-                <span>june 20, 2026</span>
-                <span>salt lake city</span>
-              </div>
-              <span className="R-ticket-cta">rsvp →</span>
-            </div>
-            <div className="R-ticket-tear">
-              <div className="R-ticket-hole R-ticket-hole-t" />
-              <div className="R-ticket-perf" />
-              <div className="R-ticket-hole R-ticket-hole-b" />
-            </div>
-            <div className="R-ticket-stub">
-              <div className="R-ticket-barcode">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <div key={i} className="R-ticket-bar" style={{ height: `${6 + ((i * 7 + 3) % 12)}px` }} />
-                ))}
-              </div>
-              <span className="R-ticket-admit">ADMIT ONE</span>
-            </div>
-          </a>
+      {/* ═══════ THE PARTY — full-bleed gradient hero ═══════ */}
+      <section className="R-party-hero R-reveal">
+        <div className="R-party-hero-inner">
+          <span className="R-party-presents">aureliex presents</span>
+          <h2 className="R-party-title">the party.</h2>
+          <span className="R-party-sub">the liquidity event · june 20 · 2026</span>
+          <div className="R-party-rule" />
+          <p className="R-party-tagline">june 20 · salt lake city</p>
+          <span className="R-party-details">
+            10% of portfolio → flights &amp; costs
+          </span>
+          <span className="R-party-details">
+            proportional to who invested the most, earliest
+          </span>
         </div>
+      </section>
 
-        {/* BACKED BY */}
-        <div className="R-backed R-reveal">
-          <span className="R-backed-label">backed by</span>
-          <div className="R-backed-names">
-            <span>Franco Cachay</span>
-            <span>Elijah Bautista</span>
-            <span>Yashas Shashidara</span>
-            <span>an anonymous donor</span>
+      {/* THE TICKET */}
+      <div className="R-ticket-wrap">
+        <a href="/invest" className="R-ticket">
+          <div className="R-ticket-main">
+            <span className="R-ticket-event">the liquidity event</span>
+            <div className="R-ticket-meta">
+              <span>june 20, 2026</span>
+              <span>salt lake city</span>
+            </div>
+            <span className="R-ticket-cta">rsvp →</span>
           </div>
-        </div>
+          <div className="R-ticket-tear">
+            <div className="R-ticket-hole R-ticket-hole-t" />
+            <div className="R-ticket-perf" />
+            <div className="R-ticket-hole R-ticket-hole-b" />
+          </div>
+          <div className="R-ticket-stub">
+            <div className="R-ticket-barcode">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className="R-ticket-bar" style={{ height: `${6 + ((i * 7 + 3) % 12)}px` }} />
+              ))}
+            </div>
+            <span className="R-ticket-admit">ADMIT ONE</span>
+          </div>
+        </a>
+      </div>
 
-      </div>{/* end dark zone */}
+      {/* BACKED BY */}
+      <div className="R-backed R-reveal">
+        <span className="R-backed-label">backed by</span>
+        <div className="R-backed-names">
+          <span>Franco Cachay</span>
+          <span>Elijah Bautista</span>
+          <span>Yashas Shashidara</span>
+          <span>an anonymous donor</span>
+        </div>
+      </div>
 
       {/* ═══════ FOUR REVOLUTIONS ═══════ */}
       <nav className="R-rooms R-reveal">
@@ -260,7 +255,7 @@ export default function DraftHomePage() {
 const CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap');
 
-  /* ── ROOT ── */
+  /* ── ROOT — dark throughout ── */
   .R {
     min-height: 100vh;
     background: #0a0908;
@@ -271,12 +266,6 @@ const CSS = `
     padding: clamp(2rem, 5vw, 3.5rem) clamp(1.25rem, 4vw, 2rem) 3rem;
     overflow-y: auto;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 2.5s cubic-bezier(0.22, 1, 0.36, 1),
-                color 2.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .R--warm {
-    background: #F4EFE6;
-    color: #1C1A17;
   }
 
   .R > * {
@@ -284,7 +273,7 @@ const CSS = `
     max-width: 44rem;
   }
 
-  /* ── GOLDEN FLASH (bridge from video) ── */
+  /* ── GOLDEN FLASH ── */
   .R-flash {
     position: relative;
     margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
@@ -303,9 +292,9 @@ const CSS = `
     z-index: 2;
     animation: r-flash-in 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .R--warm .R-flash-text {
-    color: #8B6B20;
-    text-shadow: 0 1px 12px rgba(139,107,32,0.12);
+  .R--settled .R-flash-text {
+    color: #C9A020;
+    text-shadow: 0 1px 20px rgba(201,160,32,0.15);
   }
   .R-flash-glow {
     position: absolute;
@@ -348,8 +337,8 @@ const CSS = `
     letter-spacing: -0.03em;
     line-height: 1;
     margin-bottom: 0.25rem;
+    color: #e8e4dc;
   }
-  .R--warm .R-number { color: #1C1A17; }
   .R-currency {
     font-size: 0.5em;
     font-weight: 400;
@@ -364,7 +353,6 @@ const CSS = `
     color: #4ade80;
     margin-top: 0.2rem;
   }
-  .R--warm .R-delta { color: #5a7a48; }
 
   .R-target {
     display: flex;
@@ -377,7 +365,7 @@ const CSS = `
     opacity: 0.3;
     margin-top: 0.15rem;
   }
-  .R-arrow { color: #8B6B20; opacity: 0.5; }
+  .R-arrow { color: #C9A020; opacity: 0.5; }
   .R-sep { opacity: 0.3; }
   .R-days { opacity: 0.7; }
   .R-live-dot {
@@ -390,8 +378,8 @@ const CSS = `
     font-size: 0.55rem;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    color: #5a7a48;
-    opacity: 0.7;
+    color: #4ade80;
+    opacity: 0.5;
   }
   @keyframes r-pulse {
     0%, 100% { opacity: 1; }
@@ -413,9 +401,8 @@ const CSS = `
     height: 5px;
     border-radius: 2px;
     overflow: hidden;
+    background: rgba(232,228,220,0.08);
   }
-  .R--warm .R-trace-bar { background: rgba(28,26,23,0.12); }
-  .R:not(.R--warm) .R-trace-bar { background: rgba(232,228,220,0.08); }
   .R-trace-fill {
     height: 100%;
     border-radius: 1px;
@@ -434,9 +421,8 @@ const CSS = `
     margin-bottom: clamp(2.5rem, 5vw, 4rem);
     opacity: 0;
     animation: r-up 1.5s ease 3s forwards;
+    color: rgba(232,228,220,0.55);
   }
-  .R--warm .R-invite { color: #3A3530; }
-  .R:not(.R--warm) .R-invite { color: rgba(232,228,220,0.55); }
 
   /* ── THE PAINTING ── */
   .R-painting {
@@ -447,13 +433,8 @@ const CSS = `
     border-radius: 2px;
     overflow: hidden;
     box-shadow:
-      0 4px 24px rgba(0,0,0,0.08),
-      0 1px 4px rgba(0,0,0,0.04);
-  }
-  .R--warm .R-painting-frame {
-    box-shadow:
-      0 8px 40px rgba(28,26,23,0.1),
-      0 2px 8px rgba(28,26,23,0.06);
+      0 8px 40px rgba(0,0,0,0.4),
+      0 2px 8px rgba(0,0,0,0.2);
   }
   .R-painting-img {
     display: block;
@@ -473,6 +454,7 @@ const CSS = `
     font-size: 1.1rem;
     font-style: italic;
     font-weight: 500;
+    color: rgba(232,228,220,0.7);
   }
   .R-painting-terms {
     display: flex; gap: 32px;
@@ -489,9 +471,10 @@ const CSS = `
   .R-painting-value {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 1.5rem; font-weight: 500;
+    color: rgba(232,228,220,0.8);
   }
   .R-painting-value--live {
-    color: var(--rust, #8B3A2E);
+    color: #C9952A;
   }
   .R-painting-meta {
     font-family: 'JetBrains Mono', monospace;
@@ -512,68 +495,28 @@ const CSS = `
     border-radius: 2px;
     transition: all 0.4s ease;
     width: fit-content;
-  }
-  .R--warm .R-painting-bid {
-    color: #1C1A17;
-    border: 1px solid rgba(28,26,23,0.2);
-  }
-  .R--warm .R-painting-bid:hover {
-    background: #1C1A17;
-    color: #F4EFE6;
-    border-color: #1C1A17;
-  }
-  .R:not(.R--warm) .R-painting-bid {
     color: #e8e4dc;
     border: 1px solid rgba(232,228,220,0.15);
   }
-  .R:not(.R--warm) .R-painting-bid:hover {
-    background: #e8e4dc;
-    color: #0a0908;
+  .R-painting-bid:hover {
+    background: rgba(201,160,32,0.12);
+    border-color: rgba(201,160,32,0.3);
+    color: #C9A020;
   }
 
   /* ── RULE ── */
   .R-rule {
     border: none;
-    border-top: 1px solid rgba(28,26,23,0.12);
-    margin: 0 0 clamp(2rem, 5vw, 3rem);
-  }
-  .R:not(.R--warm) .R-rule {
-    border-color: rgba(232,228,220,0.08);
+    border-top: 1px solid rgba(232,228,220,0.06);
+    margin: clamp(1rem, 3vw, 2rem) 0;
   }
 
-  /* ── DARK ZONE — wraps party hero + ticket + backed-by ── */
-  .R-dark-zone {
+  /* ── PARTY HERO — the shaft of light ── */
+  .R-party-hero {
+    position: relative;
     width: 100vw !important;
     max-width: none !important;
     margin-left: calc(-50vw + 50%);
-    background: #0a0908;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  /* paper → dark fade */
-  .R-dark-zone::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 60px;
-    background: linear-gradient(to bottom, #F4EFE6, #0a0908);
-    flex-shrink: 0;
-  }
-  /* dark → paper fade */
-  .R-dark-zone::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 80px;
-    background: linear-gradient(to bottom, #0a0908, #F4EFE6);
-    flex-shrink: 0;
-  }
-
-  /* ── PARTY HERO — gradient inside dark zone ── */
-  .R-party-hero {
-    position: relative;
-    width: 100%;
     min-height: clamp(28rem, 60vh, 40rem);
     display: flex;
     align-items: center;
@@ -674,11 +617,11 @@ const CSS = `
     margin-top: 4px;
   }
 
-  /* ── TICKET — compact, solid dark (contrasts with gradient hero) ── */
+  /* ── TICKET ── */
   .R-ticket-wrap {
     display: flex;
     justify-content: center;
-    padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 3vw, 2rem);
     width: 100%;
     max-width: 44rem;
   }
@@ -775,10 +718,10 @@ const CSS = `
     text-transform: uppercase;
   }
 
-  /* ── BACKED BY (inside dark zone) ── */
+  /* ── BACKED BY ── */
   .R-backed {
     text-align: center;
-    padding: 32px 0 clamp(2.5rem, 5vw, 4rem);
+    padding: 0 0 clamp(2.5rem, 5vw, 4rem);
     width: 100%;
     max-width: 44rem;
   }
@@ -802,36 +745,38 @@ const CSS = `
     color: rgba(229,221,210,0.55);
   }
 
-  /* ── ROOMS (four revolutions) ── */
+  /* ── ROOMS (four revolutions) — dark cards ── */
   .R-rooms {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 1px; width: 100%;
-    background: rgba(28,26,23,0.06);
+    background: rgba(232,228,220,0.04);
     border-radius: 8px; overflow: hidden;
     margin-bottom: 48px;
   }
   .R-room {
     display: flex; flex-direction: column; gap: 8px;
     padding: 28px 24px;
-    background: var(--paper, #F4EFE6);
+    background: #12110f;
     text-decoration: none;
+    color: #e8e4dc;
     transition: background 0.3s;
   }
-  .R-room:hover { background: #ede5d5; }
+  .R-room:hover { background: #1a1815; }
   .R-room-n {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.2rem; color: var(--rust, #8B3A2E);
-    opacity: 0.4;
+    font-size: 1.2rem; color: #C9952A;
+    opacity: 0.5;
   }
   .R-room-name {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 1.1rem; font-weight: 600; font-style: italic;
-    color: var(--ink, #1C1A17);
+    color: rgba(232,228,220,0.85);
   }
   .R-room-sub {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem; opacity: 0.35;
+    font-size: 0.6rem; opacity: 0.3;
     letter-spacing: 0.05em;
+    color: rgba(232,228,220,0.5);
   }
 
   /* ── CLOSER ── */
@@ -859,7 +804,7 @@ const CSS = `
   .R-closer-phone {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.65rem; letter-spacing: 0.1em;
-    opacity: 0.25; display: block; margin-top: 8px;
+    opacity: 0.2; display: block; margin-top: 8px;
   }
 
   /* Per-character rainbow coloring */
@@ -867,24 +812,23 @@ const CSS = `
     display: inline-block;
   }
 
-  /* "call me if you get lost" — pencil on parchment (warm stone tonal drift) */
-  .R-closer-q .R-rainbow:nth-child(4n+1) { color: #B5A393; }
-  .R-closer-q .R-rainbow:nth-child(4n+2) { color: #A89888; }
-  .R-closer-q .R-rainbow:nth-child(4n+3) { color: #B0A090; }
-  .R-closer-q .R-rainbow:nth-child(4n)   { color: #AE9E8E; }
-  /* period gets amber warmth */
-  .R-closer-q .R-rainbow:last-child      { color: #C8A878; }
+  /* "call me if you get lost" — warm gold tonal drift on dark */
+  .R-closer-q .R-rainbow:nth-child(4n+1) { color: #8B7A65; }
+  .R-closer-q .R-rainbow:nth-child(4n+2) { color: #9A8A72; }
+  .R-closer-q .R-rainbow:nth-child(4n+3) { color: #7E6E58; }
+  .R-closer-q .R-rainbow:nth-child(4n)   { color: #8A7960; }
+  .R-closer-q .R-rainbow:last-child      { color: #C9A020; }
 
-  /* "aureliex." — oil-paint palette (muted, earthy, aged) */
-  .R-sig .R-rainbow:nth-child(1) { color: #9B3B35; }  /* a — aged red */
-  .R-sig .R-rainbow:nth-child(2) { color: #2D4A6B; }  /* u — dark slate blue */
-  .R-sig .R-rainbow:nth-child(3) { color: #7B4E8A; }  /* r — dusty violet */
-  .R-sig .R-rainbow:nth-child(4) { color: #B47830; }  /* e — raw sienna */
-  .R-sig .R-rainbow:nth-child(5) { color: #3A6A7A; }  /* l — weathered teal */
-  .R-sig .R-rainbow:nth-child(6) { color: #C4785A; }  /* i — terracotta */
-  .R-sig .R-rainbow:nth-child(7) { color: #8B3A2E; }  /* e — rust */
-  .R-sig .R-rainbow:nth-child(8) { color: #C8A050; }  /* x — antique gold */
-  .R-sig .R-rainbow:nth-child(9) { color: #6B2020; }  /* . — deep oxblood */
+  /* "aureliex." — oil-paint palette (brighter on dark) */
+  .R-sig .R-rainbow:nth-child(1) { color: #C04A42; }  /* a — warm red */
+  .R-sig .R-rainbow:nth-child(2) { color: #4A7AAE; }  /* u — steel blue */
+  .R-sig .R-rainbow:nth-child(3) { color: #9B6AAE; }  /* r — violet */
+  .R-sig .R-rainbow:nth-child(4) { color: #D49A40; }  /* e — gold */
+  .R-sig .R-rainbow:nth-child(5) { color: #5A9AAE; }  /* l — teal */
+  .R-sig .R-rainbow:nth-child(6) { color: #DA8A6A; }  /* i — terracotta */
+  .R-sig .R-rainbow:nth-child(7) { color: #B04A3E; }  /* e — rust */
+  .R-sig .R-rainbow:nth-child(8) { color: #D4B460; }  /* x — antique gold */
+  .R-sig .R-rainbow:nth-child(9) { color: #8A3030; }  /* . — oxblood */
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
