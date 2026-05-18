@@ -45,10 +45,18 @@ export default function DraftHomeClient() {
   const rootRef = useRef<HTMLDivElement>(null);
   const d = daysLeft();
 
-  /* Phase: dark flash → warm paper */
+  /* Phase: dark flash → warm paper (via DOM, immune to React re-renders) */
   const [phase, setPhase] = useState<"dark" | "warm">("dark");
   useEffect(() => {
-    const t = setTimeout(() => setPhase("warm"), 2800);
+    const t = setTimeout(() => {
+      setPhase("warm");
+      // Also set directly on DOM to survive any React reconciliation
+      if (rootRef.current) {
+        rootRef.current.style.background = "#F4EFE6";
+        rootRef.current.style.color = "#1C1A17";
+        rootRef.current.classList.add("R--warm");
+      }
+    }, 2800);
     return () => clearTimeout(t);
   }, []);
 
