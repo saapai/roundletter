@@ -109,6 +109,7 @@ export default function DraftPage() {
   const [isMobile, setIsMobile] = useState(false);
   const [likeIsValue, setLikeIsValue] = useState(false);
   const [showFinalContent, setShowFinalContent] = useState(false);
+  const [showBBQ, setShowBBQ] = useState(false);
 
   /* ── YouTube IFrame API setup ── */
   useEffect(() => {
@@ -288,6 +289,13 @@ export default function DraftPage() {
         setShowFinalContent(true);
       }
 
+      // Barbecue sauce moment at ~2:42
+      if (ct >= 162 && ct < 165 && !triggeredRef.current.has(600)) {
+        triggeredRef.current.add(600);
+        setShowBBQ(true);
+        setTimeout(() => setShowBBQ(false), 2500);
+      }
+
       if (newPhase !== phaseRef.current) {
         phaseRef.current = newPhase;
         setPhase(newPhase);
@@ -375,6 +383,11 @@ export default function DraftPage() {
               </button>
             )}
           </div>
+
+          {/* Barbecue sauce flash */}
+          {showBBQ && (
+            <div className="D-bbq">barbecue sauce</div>
+          )}
 
           {/* ── FAKE YOUTUBE CHROME (desktop only) ── */}
           {!isMobile && (
@@ -466,62 +479,70 @@ export default function DraftPage() {
             </div>
           )}
 
-          {/* ── PHASE 5 FINAL CONTENT — the funnel ── */}
+          {/* ── PHASE 5 FINAL CONTENT ── */}
           {showFinalContent && (
             <div className="D-final">
-              <h1 className="D-final-value">{fmt(total)}</h1>
-              <p className="D-final-target">→ $100,000 · {d} days</p>
-              <p className="D-final-question">do you think he makes it?</p>
+              {/* Wave 1: The golden flash */}
+              <div className="D-drinks-flash">
+                <span className="D-drinks-text">drinks are on me.</span>
+                <div className="D-drinks-flare" />
+              </div>
 
-              {/* Two primary funnels */}
-              <div className="D-funnels">
-                <a href="/art" className="D-funnel">
-                  <div className="D-funnel-img">
-                    <img src="/art/auction-piece.jpg" alt="LOT 001" />
+              {/* Wave 2: The score */}
+              <div className="D-score-block">
+                <div className="D-score-number">{fmt(total)}</div>
+                <div className="D-score-meta">
+                  <span className="D-score-arrow">→</span>
+                  <span className="D-score-target">$100,000</span>
+                  <span className="D-score-sep">·</span>
+                  <span className="D-score-days">{d} days</span>
+                </div>
+                <p className="D-score-question">do you think he makes it?</p>
+              </div>
+
+              {/* Wave 3: Two actions — editorial rows */}
+              <div className="D-actions-block">
+                <a href="/art" className="D-action-row">
+                  <span className="D-action-num">001</span>
+                  <span className="D-action-div" />
+                  <div className="D-action-body">
+                    <span className="D-action-name">the art piece</span>
+                    <span className="D-action-detail">opening bid $25 · backed by 10% of portfolio</span>
                   </div>
-                  <div className="D-funnel-text">
-                    <span className="D-funnel-eyebrow">// lot 001 · auction</span>
-                    <span className="D-funnel-title">the art piece</span>
-                    <span className="D-funnel-sub">opening bid $25 · backed by 10% of portfolio</span>
-                  </div>
+                  <span className="D-action-go">→</span>
                 </a>
-                <a href="/invest" className={`D-funnel ${videoEnded ? "D-funnel--pulse" : ""}`}>
-                  <div className="D-funnel-icon">
-                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="rgba(240,216,144,0.4)" strokeWidth="1">
-                      <rect x="2" y="7" width="20" height="14" rx="2" />
-                      <path d="M16 7V5a4 4 0 00-8 0v2" />
-                    </svg>
+                <a href="/invest" className={`D-action-row ${videoEnded ? "D-action-row--glow" : ""}`}>
+                  <span className="D-action-num">002</span>
+                  <span className="D-action-div" />
+                  <div className="D-action-body">
+                    <span className="D-action-name">the party</span>
+                    <span className="D-action-detail">june 21 · 10% dividend · flight comp · stake ∝ earliness</span>
                   </div>
-                  <div className="D-funnel-text">
-                    <span className="D-funnel-eyebrow">// june 21 · liquidity event</span>
-                    <span className="D-funnel-title">the party</span>
-                    <span className="D-funnel-sub">10% dividend pool · flight comp · stake ∝ earliness × size</span>
-                  </div>
+                  <span className="D-action-go">→</span>
                 </a>
               </div>
 
-              {/* Four revolutions */}
-              <div className="D-revolutions">
-                <a href="https://aureliex.com/green-credit" className="D-rev">
-                  <span className="D-rev-label">the financial revolution</span>
+              {/* Four doors */}
+              <div className="D-doors-grid">
+                <a href="https://aureliex.com/green-credit" className="D-door-panel">
+                  <span className="D-door-roman">I</span>
+                  <span className="D-door-name">the financial<br/>revolution</span>
                 </a>
-                <a href="https://aureliex.com/archive" className="D-rev">
-                  <span className="D-rev-label">the art revolution</span>
+                <a href="https://aureliex.com/archive" className="D-door-panel">
+                  <span className="D-door-roman">II</span>
+                  <span className="D-door-name">the art<br/>revolution</span>
                 </a>
-                <a href="https://aureliex.com/letters/round-1" className="D-rev">
-                  <span className="D-rev-label">the socialism revolution</span>
+                <a href="https://aureliex.com/letters/round-1" className="D-door-panel">
+                  <span className="D-door-roman">III</span>
+                  <span className="D-door-name">the socialist<br/>revolution</span>
                 </a>
-                <a href="https://aureliex.com/letters/entrenched-coils" className="D-rev">
-                  <span className="D-rev-label">the ai revolution</span>
+                <a href="https://aureliex.com/letters/entrenched-coils" className="D-door-panel">
+                  <span className="D-door-roman">IV</span>
+                  <span className="D-door-name">the ai<br/>revolution</span>
                 </a>
               </div>
 
-              {/* "drinks on me" — echoes the video's last line */}
-              {videoEnded && (
-                <a href="/invest" className="D-drinks">drinks are on me.</a>
-              )}
-
-              <p className="D-final-sig">aureliex.com</p>
+              <p className="D-sig">aureliex.com</p>
             </div>
           )}
         </div>
@@ -861,197 +882,207 @@ const CSS = `
     margin: 0;
   }
 
-  /* ── PHASE 5: FINAL CONTENT ── */
+  /* ══ PHASE 5: FINAL REVEAL ══ */
   .D-final {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    z-index: 50;
+    position: fixed; inset: 0; z-index: 50;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 48px 10vw 32px;
     overflow-y: auto;
-    padding: 40px 16px;
-  }
-  .D-final > * {
-    opacity: 0;
-    animation: final-child-in 1.2s ease forwards;
-  }
-  .D-final > *:nth-child(1) { animation-delay: 0s; }
-  .D-final > *:nth-child(2) { animation-delay: 0.5s; }
-  .D-final > *:nth-child(3) { animation-delay: 1.2s; }
-  .D-final > *:nth-child(4) { animation-delay: 2.5s; }
-  .D-final > *:nth-child(5) { animation-delay: 4s; }
-  .D-final > *:nth-child(6) { animation-delay: 4s; }
-  .D-final > *:nth-child(7) { animation-delay: 5.5s; }
-  @keyframes final-child-in {
-    from { opacity: 0; transform: translateY(12px); filter: blur(2px); }
-    to { opacity: 1; transform: translateY(0); filter: blur(0); }
-  }
-  .D-final-value {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: clamp(48px, 10vw, 80px);
-    font-weight: 500;
-    color: #dbb645;
-    letter-spacing: -0.02em;
-    margin: 0;
-    line-height: 1;
-  }
-  .D-final-target {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: rgba(232,228,220,0.3);
-    margin: 0;
-  }
-  .D-final-question {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 24px;
-    font-style: italic;
-    color: rgba(232,228,220,0.7);
-    margin: 32px 0 0;
-    letter-spacing: 0.01em;
-  }
-  .D-final-nav {
-    display: flex;
-    gap: 4px;
-    margin-top: 24px;
-  }
-  .D-final-nav a {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: rgba(232,228,220,0.15);
-    text-decoration: none;
-    padding: 6px 10px;
-    transition: color 0.2s;
-  }
-  .D-final-nav a:hover { color: #e8e4dc; }
-  .D-funnel--pulse {
-    border-color: rgba(201,168,76,0.4) !important;
-    background: rgba(201,168,76,0.06) !important;
-    animation: funnel-pulse 2s ease 1;
-  }
-  @keyframes funnel-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
-    30% { box-shadow: 0 0 24px 6px rgba(201,168,76,0.2); }
-    60% { box-shadow: 0 0 12px 2px rgba(201,168,76,0.1); }
-    100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
-  }
-  .D-drinks {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 20px; font-style: italic;
-    color: #dbb645; margin-top: 32px;
-    text-decoration: none; position: relative;
-    animation: drinks-entrance 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-  .D-drinks::after {
-    content: ''; position: absolute;
-    bottom: -4px; left: 50%; transform: translateX(-50%);
-    width: 0; height: 1px;
-    background: linear-gradient(90deg, transparent, #dbb645, transparent);
-    animation: drinks-line 1.5s ease 1s forwards;
-  }
-  .D-drinks::before {
-    content: ''; position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 200px; height: 60px;
-    background: radial-gradient(ellipse, rgba(219,182,69,0.08) 0%, transparent 70%);
-    animation: drinks-glow 3s ease forwards;
-    pointer-events: none; z-index: -1;
-  }
-  @keyframes drinks-entrance {
-    0% { opacity: 0; transform: translateY(16px); letter-spacing: 0.3em; filter: blur(4px); }
-    60% { opacity: 0.9; letter-spacing: 0.05em; filter: blur(0); }
-    100% { opacity: 1; transform: translateY(0); letter-spacing: 0.02em; }
-  }
-  @keyframes drinks-line { from { width: 0; } to { width: 100%; } }
-  @keyframes drinks-glow {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-    40% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
-    100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-  }
-  .D-final-sig {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: rgba(232,228,220,0.06);
-    margin-top: 32px;
-    letter-spacing: 0.15em;
   }
 
-  /* ── FUNNELS ── */
-  .D-funnels {
-    display: flex; gap: 20px;
-    margin-top: 28px; width: 100%; max-width: 600px;
+  /* ── DRINKS FLASH ── */
+  .D-drinks-flash {
+    position: relative; width: 100%;
+    margin-bottom: 48px;
   }
-  .D-funnel {
-    flex: 1; display: flex; flex-direction: column;
-    gap: 12px; padding: 20px;
-    border: 1px solid rgba(240,216,144,0.12);
-    border-radius: 8px;
-    text-decoration: none; color: #e8e4dc;
-    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-    background: rgba(240,216,144,0.02);
-  }
-  .D-funnel:hover {
-    border-color: rgba(240,216,144,0.2);
-    background: rgba(240,216,144,0.03);
-    box-shadow: 0 2px 16px rgba(240,216,144,0.06);
-  }
-  .D-funnel-img {
-    width: 100%; aspect-ratio: 4/3;
-    border-radius: 3px; overflow: hidden;
-  }
-  .D-funnel-img img {
-    width: 100%; height: 100%; object-fit: cover;
-    filter: brightness(0.85) contrast(1.1);
-    transition: filter 0.3s;
-  }
-  .D-funnel:hover .D-funnel-img img {
-    filter: brightness(1) contrast(1.1);
-  }
-  .D-funnel-icon {
-    display: flex; align-items: center; justify-content: center;
-    height: 80px;
-  }
-  .D-funnel-text {
-    display: flex; flex-direction: column; gap: 4px;
-  }
-  .D-funnel-eyebrow {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 0.15em;
-    color: rgba(201,168,76,0.4);
-  }
-  .D-funnel-title {
+  .D-drinks-text {
+    display: block;
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 18px; font-weight: 500;
-    color: #e8e4dc;
+    font-size: clamp(42px, 8vw, 96px);
+    font-style: italic; font-weight: 400;
+    color: #dbb645; letter-spacing: -0.02em;
+    line-height: 1; position: relative; z-index: 2;
+    animation: drinks-in 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-  .D-funnel-sub {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; color: rgba(232,228,220,0.25);
-    line-height: 1.5;
+  .D-drinks-flare {
+    position: absolute; top: 50%; left: 0;
+    width: 100%; height: 200%;
+    transform: translateY(-50%);
+    background: radial-gradient(ellipse 60% 50% at 30% 50%, rgba(219,182,69,0.15) 0%, rgba(219,182,69,0.04) 40%, transparent 70%);
+    pointer-events: none; z-index: 1;
+    animation: flare-pulse 3s ease forwards;
+  }
+  @keyframes drinks-in {
+    0% { opacity: 0; transform: scale(1.6) translateY(-10%); filter: blur(12px); color: #f5e6a3; }
+    15% { opacity: 1; filter: blur(0); color: #f5e6a3; }
+    40% { transform: scale(1.0); color: #dbb645; }
+    100% { opacity: 1; transform: scale(1) translateY(0); color: #dbb645; }
+  }
+  @keyframes flare-pulse {
+    0% { opacity: 0; transform: translateY(-50%) scaleX(0.3); }
+    20% { opacity: 1; transform: translateY(-50%) scaleX(1.1); }
+    100% { opacity: 0.3; transform: translateY(-50%) scaleX(1); }
   }
 
-  /* ── REVOLUTIONS ── */
-  .D-revolutions {
-    display: flex; gap: 0; margin-top: 24px;
-    flex-wrap: wrap; justify-content: center;
+  /* ── SCORE ── */
+  .D-score-block {
+    margin-bottom: 40px; opacity: 0;
+    animation: score-in 1.5s ease 1.8s forwards;
   }
-  .D-rev {
-    text-decoration: none;
-    padding: 8px 14px;
-  }
-  .D-rev-label {
+  .D-score-number {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 14px; font-style: italic;
-    color: rgba(232,228,220,0.3);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 500; color: #e8e4dc;
+    letter-spacing: -0.02em; line-height: 1;
+    margin-bottom: 8px;
+  }
+  .D-score-meta {
+    display: flex; align-items: baseline; gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px; color: rgba(232,228,220,0.25);
+    margin-bottom: 20px;
+  }
+  .D-score-arrow { color: rgba(219,182,69,0.4); }
+  .D-score-target { color: rgba(232,228,220,0.35); }
+  .D-score-sep { color: rgba(232,228,220,0.12); }
+  .D-score-days { color: rgba(232,228,220,0.2); }
+  .D-score-question {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 22px; font-style: italic;
+    color: rgba(232,228,220,0.5); margin: 0;
+  }
+  @keyframes score-in {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── ACTIONS (editorial rows) ── */
+  .D-actions-block {
+    display: flex; flex-direction: column; gap: 0;
+    width: 100%; max-width: 560px;
+    margin-bottom: 40px; opacity: 0;
+    animation: actions-in 1.2s ease 3.2s forwards;
+  }
+  .D-action-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 20px 0; text-decoration: none; color: #e8e4dc;
+    border-top: 1px solid rgba(232,228,220,0.06);
+    transition: all 0.4s ease; cursor: pointer;
+  }
+  .D-action-row:last-child { border-bottom: 1px solid rgba(232,228,220,0.06); }
+  .D-action-row:hover { padding-left: 12px; border-color: rgba(219,182,69,0.15); }
+  .D-action-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em;
+    color: rgba(219,182,69,0.3); width: 36px; flex-shrink: 0;
+  }
+  .D-action-div {
+    width: 1px; height: 32px;
+    background: rgba(232,228,220,0.06); flex-shrink: 0;
+  }
+  .D-action-body { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .D-action-name {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 20px; font-weight: 500; color: #e8e4dc;
     transition: color 0.3s;
-    border-bottom: 1px solid rgba(232,228,220,0.06);
-    padding-bottom: 2px;
   }
-  .D-rev:hover .D-rev-label {
-    color: rgba(240,216,144,0.5);
+  .D-action-row:hover .D-action-name { color: #dbb645; }
+  .D-action-detail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: rgba(232,228,220,0.2); line-height: 1.5;
+  }
+  .D-action-go {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 20px; color: rgba(232,228,220,0.1);
+    transition: color 0.3s, transform 0.3s; flex-shrink: 0;
+  }
+  .D-action-row:hover .D-action-go { color: rgba(219,182,69,0.5); transform: translateX(4px); }
+  .D-action-row--glow { animation: action-glow 2.5s ease 4.5s 1; }
+  @keyframes action-glow {
+    0% { background: transparent; }
+    20% { background: rgba(219,182,69,0.04); }
+    100% { background: transparent; }
+  }
+  @keyframes actions-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── DOORS ── */
+  .D-doors-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2px; width: 100%; max-width: 480px;
+    margin-bottom: 24px; opacity: 0;
+    animation: doors-in 1.5s ease 4s forwards;
+  }
+  .D-door-panel {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; padding: 24px 8px;
+    text-decoration: none;
+    border: 1px solid rgba(232,228,220,0.04);
+    border-radius: 2px;
+    transition: all 0.5s ease; cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .D-door-panel::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(219,182,69,0.03) 0%, transparent 100%);
+    opacity: 0; transition: opacity 0.5s ease;
+  }
+  .D-door-panel:hover::before { opacity: 1; }
+  .D-door-panel:hover { border-color: rgba(219,182,69,0.15); transform: translateY(-2px); }
+  .D-door-roman {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 24px; font-weight: 400;
+    color: rgba(219,182,69,0.25);
+    transition: color 0.4s; position: relative; z-index: 1;
+  }
+  .D-door-panel:hover .D-door-roman { color: rgba(219,182,69,0.6); }
+  .D-door-name {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 12px; font-style: italic;
+    color: rgba(232,228,220,0.2); text-align: center;
+    line-height: 1.5; transition: color 0.4s;
+    position: relative; z-index: 1;
+  }
+  .D-door-panel:hover .D-door-name { color: rgba(232,228,220,0.5); }
+  @keyframes doors-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SIG ── */
+  .D-sig {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: rgba(232,228,220,0.06);
+    letter-spacing: 0.15em; margin-top: auto;
+    opacity: 0; animation: sig-in 1s ease 5.5s forwards;
+  }
+  @keyframes sig-in { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── BARBECUE SAUCE ── */
+  .D-bbq {
+    position: fixed; inset: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    animation: bbq-flash 2.5s ease forwards;
+  }
+  .D-bbq {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: clamp(48px, 12vw, 120px);
+    font-weight: 500; font-style: italic;
+    color: #c4622d;
+    text-shadow: 0 0 60px rgba(196,98,45,0.3);
+    letter-spacing: -0.02em;
+  }
+  @keyframes bbq-flash {
+    0% { opacity: 0; transform: scale(0.8); filter: blur(8px); }
+    12% { opacity: 1; filter: blur(0); transform: scale(1.05); }
+    30% { opacity: 1; transform: scale(1); }
+    70% { opacity: 0.8; }
+    100% { opacity: 0; transform: scale(0.95); filter: blur(4px); }
   }
 
   /* ── MOBILE ── */
@@ -1065,22 +1096,19 @@ const CSS = `
       top: 12px;
       right: 12px;
     }
-    .D-final {
-      padding: 24px 16px;
-    }
-    .D-final-value {
-      font-size: clamp(36px, 12vw, 56px);
-    }
-    .D-final-question {
-      font-size: 18px;
-      padding: 0 24px;
-      text-align: center;
-    }
-    .D-funnels { flex-direction: column; }
-    .D-revolutions { flex-direction: column; align-items: center; gap: 0; }
     .D-aure-content {
       width: 90vw;
       padding: 24px 0;
     }
+    .D-final { padding: 32px 24px 24px; align-items: flex-start; }
+    .D-drinks-text { font-size: clamp(32px, 10vw, 52px); }
+    .D-score-number { font-size: clamp(28px, 9vw, 44px); }
+    .D-score-question { font-size: 18px; }
+    .D-actions-block { max-width: 100%; }
+    .D-action-row { gap: 12px; padding: 16px 0; }
+    .D-action-name { font-size: 17px; }
+    .D-action-num, .D-action-div { display: none; }
+    .D-doors-grid { grid-template-columns: repeat(2, 1fr); max-width: 100%; }
+    .D-door-panel { padding: 20px 8px; }
   }
 `;
