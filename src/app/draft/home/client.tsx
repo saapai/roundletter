@@ -609,7 +609,7 @@ const CSS = `
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.62rem; letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: #8B6040;
+    color: #C44B6C;
     margin-bottom: 28px;
   }
   .R-party-title {
