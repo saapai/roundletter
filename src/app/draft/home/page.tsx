@@ -38,7 +38,7 @@ function useLive(): number {
 }
 
 function fmt(n: number) { return "$" + Math.round(n).toLocaleString(); }
-function daysLeft() { return Math.max(0, Math.ceil((new Date("2026-06-21").getTime() - Date.now()) / 86_400_000)); }
+function daysLeft() { return Math.max(0, Math.ceil((new Date("2026-06-20").getTime() - Date.now()) / 86_400_000)); }
 
 /* ══════════════════════════════════════
    THE REVEAL — what appears after the
@@ -148,29 +148,45 @@ export default function DraftHomePage() {
       {/* ═══════ THE PARTY ═══════ */}
       <section className="R-party R-reveal">
         <div className="R-party-head">
-          <span className="R-party-date">june 20 · utah · birthday</span>
+          <span className="R-party-date">june 20 · salt lake city</span>
           <h2 className="R-party-line">the party is the liquidity event.</h2>
         </div>
-        <div className="R-party-details">
-          <div className="R-perk">
-            <span className="R-perk-n">01</span>
-            <span className="R-perk-text">10% of the portfolio goes back to the room</span>
+        <div className="R-party-ticket">
+          <div className="R-ticket-left">
+            <div className="R-ticket-from">
+              <span className="R-ticket-label">FROM</span>
+              <span className="R-ticket-city">NOW</span>
+            </div>
+            <div className="R-ticket-arrow">
+              <svg viewBox="0 0 60 12" width="48" height="10">
+                <line x1="0" y1="6" x2="48" y2="6" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 2" />
+                <polygon points="48,3 54,6 48,9" fill="currentColor" />
+              </svg>
+            </div>
+            <div className="R-ticket-to">
+              <span className="R-ticket-label">TO</span>
+              <span className="R-ticket-city">JUN 20</span>
+            </div>
           </div>
-          <div className="R-perk">
-            <span className="R-perk-n">02</span>
-            <span className="R-perk-text">flights reimbursed for holders who show up</span>
+          <div className="R-ticket-perks">
+            <span>10% of portfolio → the room</span>
+            <span>flights covered</span>
+            <span>sealed predictions open at 6pm</span>
+            <span>early money carries more weight</span>
           </div>
-          <div className="R-perk">
-            <span className="R-perk-n">03</span>
-            <span className="R-perk-text">five sealed predictions open at 6 pm</span>
-          </div>
-          <div className="R-perk">
-            <span className="R-perk-n">04</span>
-            <span className="R-perk-text">early money carries more weight</span>
-          </div>
+          <a href="/invest" className="R-ticket-cta">rsvp →</a>
         </div>
-        <a href="/invest" className="R-party-cta">come to the party →</a>
       </section>
+
+      <div className="R-backed R-reveal">
+        <span className="R-backed-label">backed by</span>
+        <div className="R-backed-names">
+          <span>Franco Cachay</span>
+          <span>Elijah Bautista</span>
+          <span>Yashas Shashidara</span>
+          <span>an anonymous donor</span>
+        </div>
+      </div>
 
       <div className="R-rule" />
 
@@ -495,102 +511,106 @@ const CSS = `
     line-height: 1.25;
     margin: 0;
   }
-  .R-party-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin-bottom: 1.5rem;
+  .R-party-ticket {
+    background: var(--ink, #1C1A17);
+    color: #F4EFE6;
+    border-radius: 12px;
+    padding: 32px;
+    margin-top: 20px;
+    max-width: 480px;
   }
-  .R-perk {
-    display: flex;
-    align-items: baseline;
-    gap: 1rem;
-    padding: 0.75rem 0;
+  .R-ticket-left {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 24px;
   }
-  .R--warm .R-perk { border-bottom: 1px solid rgba(28,26,23,0.06); }
-  .R:not(.R--warm) .R-perk { border-bottom: 1px solid rgba(232,228,220,0.04); }
-  .R-perk:last-child { border-bottom: none; }
-  .R-perk-n {
+  .R-ticket-from, .R-ticket-to {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .R-ticket-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    opacity: 0.25;
-    min-width: 1.5rem;
-    flex-shrink: 0;
+    font-size: 0.55rem; letter-spacing: 0.15em;
+    opacity: 0.4; text-transform: uppercase;
   }
-  .R-perk-text {
+  .R-ticket-city {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.05rem;
-    line-height: 1.5;
+    font-size: 1.5rem; font-weight: 500;
+    letter-spacing: -0.02em;
   }
-  .R-party-cta {
+  .R-ticket-arrow { color: rgba(244,239,230,0.25); }
+  .R-ticket-perks {
+    display: flex; flex-direction: column; gap: 8px;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 0.95rem; opacity: 0.6;
+    padding: 16px 0;
+    border-top: 1px solid rgba(244,239,230,0.08);
+    border-bottom: 1px solid rgba(244,239,230,0.08);
+    margin-bottom: 20px;
+  }
+  .R-ticket-cta {
     display: inline-block;
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1rem; font-style: italic;
+    color: rgba(244,239,230,0.5);
     text-decoration: none;
-    padding: 0.65rem 2rem;
-    border-radius: 2px;
-    letter-spacing: 0.01em;
-    transition: all 0.4s ease;
+    transition: color 0.3s;
   }
-  .R--warm .R-party-cta {
-    background: #1C1A17;
-    color: #F4EFE6;
+  .R-ticket-cta:hover { color: #F4EFE6; }
+
+  /* ── BACKED BY ── */
+  .R-backed {
+    text-align: center;
+    padding: 40px 0;
   }
-  .R--warm .R-party-cta:hover {
-    background: #dbb645;
-    color: #1C1A17;
+  .R-backed-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.3;
+    display: block;
+    margin-bottom: 16px;
   }
-  .R:not(.R--warm) .R-party-cta {
-    background: #e8e4dc;
-    color: #0a0908;
+  .R-backed-names {
+    display: flex; gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  .R:not(.R--warm) .R-party-cta:hover {
-    background: #dbb645;
-    color: #0a0908;
+  .R-backed-names span {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.5;
   }
 
   /* ── ROOMS (four revolutions) ── */
   .R-rooms {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px; width: 100%;
+    background: rgba(28,26,23,0.06);
+    border-radius: 8px; overflow: hidden;
+    margin-bottom: 48px;
   }
   .R-room {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding: 1.25rem 1rem;
+    display: flex; flex-direction: column; gap: 8px;
+    padding: 28px 24px;
+    background: var(--paper, #F4EFE6);
     text-decoration: none;
-    transition: all 0.4s ease;
-    position: relative;
+    transition: background 0.3s;
   }
-  .R--warm .R-room { color: #1C1A17; border: 1px solid rgba(28,26,23,0.06); }
-  .R--warm .R-room:hover { border-color: rgba(28,26,23,0.2); background: rgba(28,26,23,0.02); }
-  .R:not(.R--warm) .R-room { color: #e8e4dc; border: 1px solid rgba(232,228,220,0.04); }
-  .R:not(.R--warm) .R-room:hover { border-color: rgba(232,228,220,0.12); }
+  .R-room:hover { background: #ede5d5; }
   .R-room-n {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.3rem;
-    font-weight: 400;
-    opacity: 0.2;
-    transition: opacity 0.3s;
+    font-size: 1.2rem; color: var(--rust, #8B3A2E);
+    opacity: 0.4;
   }
-  .R-room:hover .R-room-n { opacity: 0.5; }
   .R-room-name {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.95rem;
-    font-style: italic;
-    font-weight: 500;
-    line-height: 1.3;
+    font-size: 1.1rem; font-weight: 600; font-style: italic;
+    color: var(--ink, #1C1A17);
   }
   .R-room-sub {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.575rem;
-    opacity: 0.3;
-    line-height: 1.5;
+    font-size: 0.6rem; opacity: 0.35;
+    letter-spacing: 0.05em;
   }
 
   /* ── CLOSER ── */
@@ -639,7 +659,6 @@ const CSS = `
     .R-flash-text { font-size: clamp(2.2rem, 10vw, 3.2rem); }
     .R-number { font-size: clamp(2.5rem, 12vw, 3.5rem); }
     .R-rooms { grid-template-columns: 1fr; }
-    .R-room { padding: 1rem 0.75rem; }
-    .R-perk { gap: 0.75rem; }
+    .R-backed-names { flex-direction: column; align-items: center; gap: 12px; }
   }
 `;
