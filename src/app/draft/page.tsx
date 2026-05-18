@@ -2,20 +2,14 @@
 
 import { useState, useRef, useEffect } from "react";
 
-/* ── portfolio ── */
-const HOLDINGS = [
-  { ticker: "QTUM", shares: 5.584, ev: 679.74 },
-  { ticker: "MSFT", shares: 1.036, ev: 407.87 },
-  { ticker: "GOOG", shares: 1.235, ev: 407.17 },
-  { ticker: "IONQ", shares: 9.489, ev: 416.85 },
-  { ticker: "IBM",  shares: 1.553, ev: 373.33 },
-  { ticker: "NVDA", shares: 1.773, ev: 344.49 },
-  { ticker: "CEG",  shares: 1.148, ev: 339.05 },
-  { ticker: "RGTI", shares: 9.938, ev: 169.50 },
-  { ticker: "SGOV", shares: 2.625, ev: 263.94 },
-  { ticker: "QBTS", shares: 5.951, ev: 101.65 },
+/* ── live portfolio ── */
+const H = [
+  { t: "QTUM", s: 5.584, e: 679.74 }, { t: "MSFT", s: 1.036, e: 407.87 },
+  { t: "GOOG", s: 1.235, e: 407.17 }, { t: "IONQ", s: 9.489, e: 416.85 },
+  { t: "IBM",  s: 1.553, e: 373.33 }, { t: "NVDA", s: 1.773, e: 344.49 },
+  { t: "CEG",  s: 1.148, e: 339.05 }, { t: "RGTI", s: 9.938, e: 169.50 },
+  { t: "SGOV", s: 2.625, e: 263.94 }, { t: "QBTS", s: 5.951, e: 101.65 },
 ];
-
 function useLive() {
   const [v, setV] = useState<number | null>(null);
   useEffect(() => {
@@ -26,16 +20,15 @@ function useLive() {
         if (!r.ok || !on) return;
         const j = await r.json();
         if (!j?.hasData || !on) return;
-        let s = 46.57 + 250; // pending_cash + prediction offset
-        for (const h of HOLDINGS) {
-          const d = j.data[h.ticker];
-          s += d?.closes?.length > 0 ? h.shares * d.closes[d.closes.length - 1] : h.ev;
+        let s = 296.57; // pending_cash + prediction offset
+        for (const h of H) {
+          const d = j.data[h.t];
+          s += d?.closes?.length > 0 ? h.s * d.closes[d.closes.length - 1] : h.e;
         }
         setV(s);
       } catch {}
     };
-    go();
-    const id = setInterval(go, 30_000);
+    go(); const id = setInterval(go, 30_000);
     return () => { on = false; clearInterval(id); };
   }, []);
   return v;
@@ -45,230 +38,18 @@ function days() {
   return Math.max(0, Math.ceil((new Date("2026-06-21").getTime() - Date.now()) / 86_400_000));
 }
 
-/* ═══════════════════════════════════════════════
-   PARTICLE SYSTEM — crystallizes into the number
-   ═══════════════════════════════════════════════ */
-
-interface P {
-  x: number; y: number;
-  homeX: number; homeY: number;
-  tx: number; ty: number;
-  sz: number; ph: number;
-  alpha: number;
-  hasTarget: boolean;
-}
-
-function sampleText(text: string, w: number, h: number): Array<[number, number]> {
-  const c = document.createElement("canvas");
-  const sz = Math.min(w * 0.8, 1200);
-  const fontSize = Math.min(sz / (text.length * 0.55), 200);
-  c.width = w; c.height = h;
-  const ctx = c.getContext("2d")!;
-  ctx.fillStyle = "#fff";
-  ctx.font = `300 ${fontSize}px "Helvetica Neue", "Arial", sans-serif`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.letterSpacing = `${-fontSize * 0.04}px`;
-  ctx.fillText(text, w / 2, h / 2);
-  const img = ctx.getImageData(0, 0, w, h);
-  const pts: Array<[number, number]> = [];
-  const step = Math.max(3, Math.floor(Math.min(w, h) / 200));
-  for (let y = 0; y < h; y += step) {
-    for (let x = 0; x < w; x += step) {
-      if (img.data[(y * w + x) * 4 + 3] > 128) {
-        pts.push([x, y]);
-      }
-    }
-  }
-  return pts;
-}
-
-function useCanvas(scroll: number, liveValue: number | null) {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const ps = useRef<P[]>([]);
-  const mouse = useRef({ x: -9999, y: -9999 });
-  const dim = useRef({ w: 0, h: 0 });
-  const t = useRef(0);
-  const lastText = useRef("");
-  const textPts = useRef<Array<[number, number]>>([]);
-
-  useEffect(() => {
-    const cv = ref.current;
-    if (!cv) return;
-    const ctx = cv.getContext("2d")!;
-    const dpr = window.devicePixelRatio || 1;
-
-    const resize = () => {
-      dim.current.w = window.innerWidth;
-      dim.current.h = window.innerHeight;
-      cv.width = dim.current.w * dpr;
-      cv.height = dim.current.h * dpr;
-      ctx.scale(dpr, dpr);
-      cv.style.width = dim.current.w + "px";
-      cv.style.height = dim.current.h + "px";
-    };
-
-    const init = () => {
-      const n = Math.min(1000, Math.floor((dim.current.w * dim.current.h) / 1800));
-      const arr: P[] = [];
-      for (let i = 0; i < n; i++) {
-        const x = Math.random() * dim.current.w;
-        const y = Math.random() * dim.current.h;
-        arr.push({
-          x, y, homeX: x, homeY: y, tx: x, ty: y,
-          sz: 0.8 + Math.random() * 1.8,
-          ph: Math.random() * Math.PI * 2,
-          alpha: 0.06 + Math.random() * 0.12,
-          hasTarget: false,
-        });
-      }
-      ps.current = arr;
-    };
-
-    const onM = (e: MouseEvent) => { mouse.current = { x: e.clientX, y: e.clientY }; };
-    const onL = () => { mouse.current = { x: -9999, y: -9999 }; };
-
-    resize(); init();
-    window.addEventListener("resize", () => { resize(); init(); });
-    window.addEventListener("mousemove", onM);
-    window.addEventListener("mouseleave", onL);
-
-    let raf: number;
-    const draw = () => {
-      t.current += 0.006;
-      const T = t.current;
-      const { w, h } = dim.current;
-      const sp = scroll;
-      const mx = mouse.current.x;
-      const my = mouse.current.y;
-      ctx.clearRect(0, 0, w, h);
-
-      // Update text targets when in crystallize phase
-      const text = liveValue ? "$" + Math.round(liveValue).toLocaleString() : "";
-      const inCrystallize = sp > 0.12 && sp < 0.42;
-
-      if (inCrystallize && text && text !== lastText.current) {
-        textPts.current = sampleText(text, w, h);
-        lastText.current = text;
-      }
-
-      // Assign text targets to particles
-      const pts = textPts.current;
-      const particles = ps.current;
-
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-
-        if (inCrystallize && i < pts.length && pts.length > 0) {
-          // This particle forms part of the number
-          p.tx = pts[i][0];
-          p.ty = pts[i][1];
-          p.hasTarget = true;
-        } else if (sp < 0.12) {
-          // Scene 1: scattered, dim, drifting — behind the video
-          p.tx = p.homeX + Math.sin(T * 0.3 + p.ph) * 40;
-          p.ty = p.homeY + Math.cos(T * 0.2 + p.ph * 1.3) * 30;
-          p.hasTarget = false;
-        } else if (sp >= 0.42 && sp < 0.65) {
-          // Scene 3: art — particles drift to edges, frame the center
-          const edge = Math.random() > 0.5;
-          if (!p.hasTarget) {
-            const side = p.ph % 4;
-            if (side < 1) { p.tx = Math.random() * w * 0.15; p.ty = Math.random() * h; }
-            else if (side < 2) { p.tx = w - Math.random() * w * 0.15; p.ty = Math.random() * h; }
-            else if (side < 3) { p.tx = Math.random() * w; p.ty = Math.random() * h * 0.12; }
-            else { p.tx = Math.random() * w; p.ty = h - Math.random() * h * 0.12; }
-            p.hasTarget = true;
-          }
-          p.tx += Math.sin(T * 0.4 + p.ph) * 3;
-          p.ty += Math.cos(T * 0.3 + p.ph) * 3;
-        } else if (sp >= 0.65 && sp < 0.85) {
-          // Scene 4: party — particles converge to a slow orbit
-          const cx = w * 0.5;
-          const cy = h * 0.5;
-          const a = p.ph + T * 0.08;
-          const r = 200 + Math.sin(p.ph * 3) * 100;
-          p.tx = cx + Math.cos(a) * r;
-          p.ty = cy + Math.sin(a) * r;
-          p.hasTarget = false;
-        } else {
-          // Scene 5: settle into grid
-          p.tx = p.homeX + Math.sin(T * 0.15 + p.ph) * 4;
-          p.ty = p.homeY + Math.cos(T * 0.1 + p.ph) * 4;
-          p.hasTarget = false;
-        }
-
-        // Mouse repulsion
-        const dx = p.x - mx;
-        const dy = p.y - my;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        let repelX = 0, repelY = 0;
-        if (dist < 120) {
-          const f = (120 - dist) / 120;
-          repelX = (dx / dist) * f * 60;
-          repelY = (dy / dist) * f * 60;
-        }
-
-        // Interpolate
-        const speed = p.hasTarget && inCrystallize ? 0.06 : 0.025;
-        p.x += (p.tx + repelX - p.x) * speed;
-        p.y += (p.ty + repelY - p.y) * speed;
-
-        // Alpha
-        let targetA = 0.08;
-        if (inCrystallize && i < pts.length) targetA = 0.6 + Math.sin(T * 2 + p.ph) * 0.2;
-        else if (sp < 0.12) targetA = 0.04 + Math.sin(T * 0.5 + p.ph) * 0.03;
-        else if (sp > 0.42) targetA = 0.1 + Math.sin(T * 0.5 + p.ph) * 0.05;
-        if (dist < 120) targetA = Math.min(1, targetA + (120 - dist) / 120 * 0.5);
-        p.alpha += (targetA - p.alpha) * 0.04;
-
-        // Color: cool → warm as scroll progresses
-        const hue = sp < 0.2 ? 220 : sp < 0.5 ? 40 : 25;
-        const sat = sp < 0.2 ? 5 : sp < 0.5 ? 30 : 50;
-        const lum = inCrystallize && i < pts.length ? 75 : 55;
-        const sz = dist < 100 ? p.sz * (1 + (100 - dist) / 100 * 0.6) : p.sz;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, sz, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(${hue},${sat}%,${lum}%,${p.alpha})`;
-        ctx.fill();
-
-        // Glow on crystallized particles
-        if (inCrystallize && i < pts.length && p.alpha > 0.3) {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, sz * 4, 0, Math.PI * 2);
-          ctx.fillStyle = `hsla(${hue},${sat}%,${lum}%,${p.alpha * 0.06})`;
-          ctx.fill();
-        }
-      }
-
-      raf = requestAnimationFrame(draw);
-    };
-
-    raf = requestAnimationFrame(draw);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("mousemove", onM);
-      window.removeEventListener("mouseleave", onL);
-    };
-  }, [scroll, liveValue]);
-
-  return ref;
-}
-
-/* ═══════════════════════════════
-   PAGE — sticky-swap film strip
-   ═══════════════════════════════ */
+/* ═══════════════════════════════════════
+   PAGE — a visual mixtape in 5 moments
+   ═══════════════════════════════════════ */
 
 export default function DraftPage() {
   const [sp, setSp] = useState(0);
+  const railRef = useRef<HTMLDivElement>(null);
   const total = useLive();
   const d = days();
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useCanvas(sp, total);
 
   useEffect(() => {
-    const el = scrollRef.current;
+    const el = railRef.current;
     if (!el) return;
     const onScroll = () => {
       const max = el.scrollHeight - el.clientHeight;
@@ -278,328 +59,383 @@ export default function DraftPage() {
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Determine which scene is active
-  const scene = sp < 0.12 ? 0 : sp < 0.42 ? 1 : sp < 0.65 ? 2 : sp < 0.85 ? 3 : 4;
+  // Scene thresholds
+  const scene = sp < 0.18 ? 0 : sp < 0.38 ? 1 : sp < 0.58 ? 2 : sp < 0.78 ? 3 : 4;
+
+  // Background color shifts per scene (baked references)
+  // 0: black (Wesley Wang — negative space)
+  // 1: Chungking Express blue-amber (#1a3a5c → warm)
+  // 2: Ted Lasso warm gold (#2a1f0a)
+  // 3: EEAO multiverse (dark with color bleeds)
+  // 4: back to black (resolve)
+  const bgColors = ["#000", "#0a1520", "#12100a", "#0a0510", "#000"];
+  const bg = bgColors[scene];
 
   return (
-    <div className="D">
+    <div className="D" style={{ background: bg }}>
       <style>{css}</style>
 
-      {/* particle canvas — always visible, behind everything */}
-      <canvas ref={canvasRef} className="D-cv" />
-
-      {/* scroll rail — 500vh tall, drives everything */}
-      <div className="D-rail" ref={scrollRef}>
-        <div className="D-spacer" />
+      {/* scroll rail */}
+      <div className="D-rail" ref={railRef}>
+        <div style={{ height: "500vh" }} />
       </div>
 
-      {/* sticky viewport — content swaps based on scene */}
-      <div className="D-frame">
-
-        {/* SCENE 0 — the video */}
-        <div className={`D-scene ${scene === 0 ? "on" : ""}`}>
-          <div className="D-vid-layout">
-            <div className="D-vid-wrap">
-              <iframe
-                src="https://www.youtube.com/embed/hif5eI5pBxo?rel=0&modestbranding=1&iv_load_policy=3&color=white"
-                className="D-vid"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                title="nothing, except everything."
-              />
-            </div>
-            <div className="D-vid-attr">
-              <p>&ldquo;nothing, except everything.&rdquo;</p>
-              <span>wesley wang</span>
-            </div>
+      {/* ── MOMENT 1: Wesley Wang — nothing, except everything ── */}
+      <div className={`D-m ${scene === 0 ? "on" : ""}`}>
+        <div className="m1">
+          <div className="m1-video">
+            <iframe
+              src="https://www.youtube.com/embed/hif5eI5pBxo?rel=0&modestbranding=1&iv_load_policy=3&color=white"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              title="nothing, except everything."
+            />
           </div>
         </div>
+      </div>
 
-        {/* SCENE 1 — the number (particles form it, DOM is fallback/mobile) */}
-        <div className={`D-scene ${scene === 1 ? "on" : ""}`}>
-          <div className="D-num-block">
-            <span className="D-num-eye">live</span>
-            {/* DOM fallback for mobile / before crystallization */}
-            <h1 className="D-num" aria-live="polite">
+      {/* ── MOMENT 2: Chungking Express — the number in neon ──
+           Blue and amber. Motion blur. The loneliness of a number. */}
+      <div className={`D-m ${scene === 1 ? "on" : ""}`}>
+        <div className="m2">
+          <div className="m2-glow" />
+          <div className="m2-content">
+            <p className="m2-above">every day it changes. every day it&rsquo;s real.</p>
+            <h1 className="m2-number">
               {total ? "$" + Math.round(total).toLocaleString() : "..."}
             </h1>
-            <div className="D-num-goal">→ $100,000</div>
-            <p className="D-num-days">
-              <span className="D-num-d">{d}</span> days
-            </p>
+            <div className="m2-target">
+              <span className="m2-arrow">→</span>
+              <span className="m2-goal">$100,000</span>
+            </div>
+            <p className="m2-days">{d} days left</p>
           </div>
+          {/* Chungking blur streaks */}
+          <div className="m2-streak m2-streak-1" />
+          <div className="m2-streak m2-streak-2" />
+          <div className="m2-streak m2-streak-3" />
         </div>
+      </div>
 
-        {/* SCENE 2 — the art */}
-        <div className={`D-scene ${scene === 2 ? "on" : ""}`}>
-          <div className="D-art">
-            <img src="/art/auction-piece.jpg" alt="The Tarantula" className="D-art-img" />
-            <div className="D-art-info">
-              <span className="D-art-lot">LOT 001</span>
-              <h2>The Tarantula</h2>
-              <p>backed by 10% · {total ? "$" + Math.round(total * 0.1).toLocaleString() : "..."}</p>
-              <span className="D-art-bid">opening bid $25</span>
+      {/* ── MOMENT 3: Ted Lasso — BELIEVE ──
+           The handmade sign. Yellow tape. The optimist's bet. */}
+      <div className={`D-m ${scene === 2 ? "on" : ""}`}>
+        <div className="m3">
+          <div className="m3-sign">
+            <div className="m3-tape m3-tape-tl" />
+            <div className="m3-tape m3-tape-tr" />
+            <div className="m3-tape m3-tape-bl" />
+            <div className="m3-tape m3-tape-br" />
+            <h2 className="m3-word">BELIEVE</h2>
+          </div>
+          <p className="m3-sub">
+            $3,453 → $100,000 by my 20th birthday.<br />
+            five AI agents argue every trade.<br />
+            the monte carlo says 0.000000%.
+          </p>
+        </div>
+      </div>
+
+      {/* ── MOMENT 4: EEAO — everything, all at once ──
+           The painting + the auction + the party. Layered. Dense. */}
+      <div className={`D-m ${scene === 3 ? "on" : ""}`}>
+        <div className="m4">
+          <div className="m4-painting">
+            <img src="/art/auction-piece.jpg" alt="Cityscape" />
+            <div className="m4-overlay">
+              <span className="m4-lot">LOT 001 — opening bid $25</span>
+              <p className="m4-backed">
+                backed by 10% of the portfolio
+                {total ? ` — currently $${Math.round(total * 0.1).toLocaleString()}` : ""}
+              </p>
             </div>
           </div>
-        </div>
-
-        {/* SCENE 3 — the party */}
-        <div className={`D-scene ${scene === 3 ? "on" : ""}`}>
-          <div className="D-party">
-            <p className="D-party-date">june 21, 2026</p>
-            <h2 className="D-party-line">the party is the<br />liquidity event.</h2>
-            <div className="D-party-row">
-              <div className="D-party-n"><span>$100</span>invested</div>
-              <div className="D-party-n"><span>$66</span>easter eggs</div>
-              <div className="D-party-n">
-                <span>{total ? "$" + Math.round(total * 0.1).toLocaleString() : "..."}</span>
-                dividend pool
-              </div>
+          <div className="m4-side">
+            <p className="m4-date">june 21, 2026</p>
+            <p className="m4-party">the party is the<br />liquidity event.</p>
+            <div className="m4-stats">
+              <span><strong>$100</strong> invested</span>
+              <span><strong>$66</strong> easter eggs</span>
+              <span><strong>{total ? "$" + Math.round(total * 0.1).toLocaleString() : "..."}</strong> dividend pool</span>
             </div>
-            <p className="D-party-stake">stake proportional to earliness × size</p>
+            <p className="m4-stake">stake ∝ earliness × size</p>
           </div>
         </div>
+      </div>
 
-        {/* SCENE 4 — the close */}
-        <div className={`D-scene ${scene === 4 ? "on" : ""}`}>
-          <div className="D-close">
-            <a href="https://aureliex.com" target="_blank" rel="noopener noreferrer" className="D-close-word">
-              aureliex
-            </a>
-            <p className="D-close-line">attention is what matters the most.</p>
-          </div>
+      {/* ── MOMENT 5: The resolve — just the word ── */}
+      <div className={`D-m ${scene === 4 ? "on" : ""}`}>
+        <div className="m5">
+          <a href="https://aureliex.com" className="m5-word" target="_blank" rel="noopener noreferrer">
+            aureliex
+          </a>
+          <p className="m5-line">attention is what matters the most.</p>
+          <nav className="m5-nav">
+            {["/argument", "/about-the-method", "/art", "/archive", "/letters/round-0"].map(r => (
+              <a key={r} href={`https://aureliex.com${r}`} target="_blank" rel="noopener noreferrer">
+                {r.split("/").pop()}
+              </a>
+            ))}
+          </nav>
         </div>
-
       </div>
     </div>
   );
 }
 
+/* ── styles ── */
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
 
   .D {
     position: fixed; inset: 0;
-    background: #050505; color: #e8e4dc;
+    color: #e8e4dc;
+    transition: background 0.8s ease;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
-  /* particle canvas */
-  .D-cv {
-    position: fixed; inset: 0; z-index: 0;
-    pointer-events: none;
-  }
-
-  /* invisible scroll rail */
   .D-rail {
-    position: fixed; inset: 0; z-index: 3;
-    overflow-y: auto;
-    scrollbar-width: none;
+    position: fixed; inset: 0; z-index: 10;
+    overflow-y: auto; scrollbar-width: none;
   }
   .D-rail::-webkit-scrollbar { display: none; }
-  .D-spacer { height: 500vh; }
 
-  /* sticky viewport */
-  .D-frame {
-    position: fixed; inset: 0; z-index: 2;
-    pointer-events: none;
-  }
-
-  /* scenes — hard cut */
-  .D-scene {
-    position: absolute; inset: 0;
+  .D-m {
+    position: fixed; inset: 0; z-index: 5;
     display: flex; align-items: center; justify-content: center;
-    opacity: 0;
-    transition: opacity 0.15s ease;
+    opacity: 0; transition: opacity 0.4s ease;
     pointer-events: none;
   }
-  .D-scene.on {
-    opacity: 1;
-    pointer-events: auto;
+  .D-m.on { opacity: 1; pointer-events: auto; }
+
+  /* ═══ MOMENT 1 — Wesley Wang ═══
+     Black. The video. Nothing else. */
+  .m1 { width: 100%; padding: 0 10%; }
+  .m1-video {
+    width: 100%; max-width: 860px; margin: 0 auto;
+    aspect-ratio: 16/9; border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 0 120px rgba(0,0,0,0.6);
+  }
+  .m1-video iframe { width: 100%; height: 100%; border: none; }
+
+  /* ═══ MOMENT 2 — Chungking Express ═══
+     Neon blue + amber. Motion blur. Loneliness. */
+  .m2 {
+    position: relative; text-align: center;
+    width: 100%; overflow: hidden;
+  }
+  .m2-glow {
+    position: absolute; top: 50%; left: 50%;
+    width: 600px; height: 600px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle,
+      rgba(30, 80, 140, 0.15) 0%,
+      rgba(200, 140, 50, 0.08) 40%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    animation: m2-breathe 4s ease infinite;
+  }
+  @keyframes m2-breathe {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  }
+  .m2-content { position: relative; z-index: 2; }
+  .m2-above {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 15px; font-style: italic;
+    color: rgba(200, 160, 100, 0.4);
+    margin: 0 0 24px;
+  }
+  .m2-number {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: clamp(56px, 14vw, 160px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0;
+    color: #e8e4dc;
+    text-shadow: 0 0 80px rgba(30, 80, 140, 0.3),
+                 0 0 160px rgba(200, 140, 50, 0.1);
+  }
+  .m2-target {
+    margin-top: 16px;
+    display: flex; align-items: center;
+    justify-content: center; gap: 12px;
+  }
+  .m2-arrow {
+    font-size: 28px; color: rgba(200, 160, 100, 0.25);
+    font-family: 'EB Garamond', Georgia, serif;
+  }
+  .m2-goal {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: clamp(24px, 5vw, 40px);
+    font-weight: 400; color: rgba(232, 228, 220, 0.2);
+  }
+  .m2-days {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: rgba(200, 160, 100, 0.3);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-top: 20px;
+  }
+  /* Motion blur streaks — Chungking Express neon trails */
+  .m2-streak {
+    position: absolute; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(80, 140, 200, 0.15), transparent);
+    animation: m2-drift 8s linear infinite;
+  }
+  .m2-streak-1 { top: 30%; left: -20%; width: 140%; animation-duration: 7s; }
+  .m2-streak-2 { top: 55%; left: -10%; width: 120%; animation-duration: 11s; animation-delay: -3s;
+    background: linear-gradient(90deg, transparent, rgba(200, 140, 50, 0.1), transparent);
+  }
+  .m2-streak-3 { top: 72%; left: -15%; width: 130%; animation-duration: 9s; animation-delay: -5s; }
+  @keyframes m2-drift {
+    from { transform: translateX(-10%); }
+    to { transform: translateX(10%); }
   }
 
-  /* ── SCENE 0: VIDEO ── */
-  .D-vid-layout {
+  /* ═══ MOMENT 3 — Ted Lasso BELIEVE ═══
+     Yellow paper sign. Tape corners. Warm. */
+  .m3 {
+    text-align: center;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 32px;
+  }
+  .m3-sign {
+    position: relative;
+    background: #f5e6a3;
+    padding: 28px 56px;
+    border-radius: 2px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+    transform: rotate(-0.8deg);
+  }
+  .m3-word {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: clamp(40px, 10vw, 80px);
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+  .m3-tape {
+    position: absolute;
+    width: 40px; height: 16px;
+    background: rgba(200, 190, 150, 0.6);
+    border-radius: 1px;
+  }
+  .m3-tape-tl { top: -6px; left: 12px; transform: rotate(-15deg); }
+  .m3-tape-tr { top: -6px; right: 12px; transform: rotate(12deg); }
+  .m3-tape-bl { bottom: -6px; left: 16px; transform: rotate(8deg); }
+  .m3-tape-br { bottom: -6px; right: 14px; transform: rotate(-10deg); }
+  .m3-sub {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 16px; line-height: 1.8;
+    color: rgba(232, 228, 220, 0.4);
+    font-style: italic;
+    max-width: 400px;
+  }
+
+  /* ═══ MOMENT 4 — EEAO — everything at once ═══
+     The painting + the numbers. Layered. Color bleeds. */
+  .m4 {
     display: flex; align-items: center; gap: 40px;
-    padding: 0 8%;
-    width: 100%;
+    padding: 0 6%;
+    width: 100%; max-width: 1000px;
   }
-  .D-vid-wrap {
-    flex: 0 0 65%; aspect-ratio: 16/9;
-    border-radius: 2px; overflow: hidden;
-    box-shadow: 0 0 100px rgba(0,0,0,0.5);
+  .m4-painting {
+    flex: 0 0 55%; position: relative;
+    border-radius: 3px; overflow: hidden;
+    box-shadow:
+      0 0 60px rgba(140, 40, 30, 0.2),
+      0 0 120px rgba(40, 40, 140, 0.15);
   }
-  .D-vid { width: 100%; height: 100%; border: none; }
-  .D-vid-attr {
+  .m4-painting img {
+    width: 100%; display: block;
+    filter: contrast(1.1) saturate(1.2);
+  }
+  .m4-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+  }
+  .m4-lot {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    color: #C9A84C;
+  }
+  .m4-backed {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 13px; color: #aaa;
+    font-style: italic; margin: 6px 0 0;
+  }
+  .m4-side {
     flex: 1;
     font-family: 'EB Garamond', Georgia, serif;
   }
-  .D-vid-attr p {
-    font-size: 18px; font-style: italic;
-    color: rgba(232,228,220,0.3);
-    margin: 0 0 8px; line-height: 1.5;
+  .m4-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.25em;
+    color: #444; text-transform: uppercase;
+    margin: 0 0 12px;
   }
-  .D-vid-attr span {
-    font-size: 13px; color: rgba(232,228,220,0.15);
-    font-style: normal;
+  .m4-party {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 500; line-height: 1.35;
+    margin: 0 0 20px;
+    color: #e8e4dc;
+  }
+  .m4-stats {
+    display: flex; flex-direction: column; gap: 8px;
+    font-size: 14px; color: #777;
+  }
+  .m4-stats strong {
+    color: #e8e4dc; font-weight: 500;
+    margin-right: 6px;
+  }
+  .m4-stake {
+    font-size: 13px; color: #444;
+    font-style: italic; margin: 16px 0 0;
   }
 
-  /* ── SCENE 1: NUMBER ── */
-  .D-num-block {
+  /* ═══ MOMENT 5 — resolve ═══ */
+  .m5 {
     text-align: center;
     display: flex; flex-direction: column;
-    align-items: center;
+    align-items: center; gap: 16px;
   }
-  .D-num-eye {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.35em;
-    text-transform: uppercase; color: #333;
-    margin-bottom: 16px;
-  }
-  .D-num {
-    font-family: "Helvetica Neue", "Arial", sans-serif;
-    font-size: clamp(64px, 18vw, 260px);
-    font-weight: 300;
-    letter-spacing: -0.04em;
-    line-height: 0.9;
-    margin: 0;
-    color: transparent;
-    /* particles render the number — DOM is invisible on desktop */
-  }
-  .D-num-goal {
-    font-family: "Helvetica Neue", "Arial", sans-serif;
-    font-size: clamp(20px, 4vw, 40px);
-    font-weight: 300;
-    color: #222;
-    margin-top: 12px;
-    letter-spacing: -0.02em;
-  }
-  .D-num-days {
+  .m5-word {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 15px; color: #333;
-    font-style: italic; margin-top: 20px;
-  }
-  .D-num-d {
-    font-family: "Helvetica Neue", sans-serif;
-    font-size: 22px; font-weight: 400;
-    color: #8B3A2E; font-style: normal;
-    margin-right: 4px;
-  }
-
-  /* ── SCENE 2: ART ── */
-  .D-art {
-    position: relative;
-    width: min(480px, 80vw);
-    cursor: crosshair;
-  }
-  .D-art-img {
-    width: 100%; display: block;
-    border-radius: 2px;
-    filter: brightness(0.8) contrast(1.05);
-    transition: filter 0.6s;
-  }
-  .D-art:hover .D-art-img {
-    filter: brightness(0.5) contrast(1.1);
-  }
-  .D-art-info {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 32px;
-    opacity: 0; transition: opacity 0.4s;
-    background: linear-gradient(transparent, rgba(0,0,0,0.8));
-    font-family: 'EB Garamond', Georgia, serif;
-  }
-  .D-art:hover .D-art-info { opacity: 1; }
-  .D-art-lot {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; letter-spacing: 0.2em; color: #888;
-    display: block; margin-bottom: 8px;
-  }
-  .D-art-info h2 {
-    font-size: 28px; font-weight: 400; margin: 0 0 8px;
-    font-family: "Helvetica Neue", sans-serif;
-    letter-spacing: -0.02em;
-  }
-  .D-art-info p {
-    font-size: 14px; color: #aaa; margin: 0 0 6px;
-    font-style: italic;
-  }
-  .D-art-bid {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: #C9A84C;
-    letter-spacing: 0.05em;
-  }
-
-  /* ── SCENE 3: PARTY ── */
-  .D-party {
-    text-align: center;
-    max-width: 500px;
-  }
-  .D-party-date {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.3em;
-    color: #333; text-transform: uppercase;
-    margin: 0 0 20px;
-  }
-  .D-party-line {
-    font-family: "Helvetica Neue", "Arial", sans-serif;
-    font-size: clamp(24px, 5vw, 40px);
-    font-weight: 300;
-    line-height: 1.25;
-    letter-spacing: -0.02em;
-    margin: 0 0 32px;
-  }
-  .D-party-row {
-    display: flex; gap: 32px; justify-content: center;
-    margin-bottom: 24px;
-  }
-  .D-party-n {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; color: #555;
-    text-transform: uppercase; letter-spacing: 0.1em;
-    display: flex; flex-direction: column; gap: 6px;
-    align-items: center;
-  }
-  .D-party-n span {
-    font-family: "Helvetica Neue", sans-serif;
-    font-size: 24px; font-weight: 300;
-    color: #e8e4dc; letter-spacing: -0.02em;
-  }
-  .D-party-stake {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 14px; color: #444;
-    font-style: italic; margin: 0;
-  }
-
-  /* ── SCENE 4: CLOSE ── */
-  .D-close {
-    text-align: center;
-  }
-  .D-close-word {
-    font-family: "Helvetica Neue", "Arial", sans-serif;
-    font-size: 18px; font-weight: 400;
-    letter-spacing: 0.15em; color: #333;
+    font-size: 22px; font-weight: 500;
+    letter-spacing: 0.12em; color: #444;
     text-decoration: none;
     transition: color 0.3s;
-    display: block; margin-bottom: 20px;
   }
-  .D-close-word:hover { color: #e8e4dc; }
-  .D-close-line {
+  .m5-word:hover { color: #e8e4dc; }
+  .m5-line {
     font-family: 'EB Garamond', Georgia, serif;
     font-size: 15px; font-style: italic;
-    color: #222; margin: 0;
+    color: #2a2a2a; margin: 0;
   }
+  .m5-nav {
+    display: flex; gap: 4px; margin-top: 16px; flex-wrap: wrap;
+    justify-content: center;
+  }
+  .m5-nav a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: #333;
+    text-decoration: none; padding: 6px 10px;
+    border-radius: 3px;
+    transition: color 0.2s;
+  }
+  .m5-nav a:hover { color: #e8e4dc; }
 
-  /* ── RESPONSIVE ── */
+  /* ── responsive ── */
   @media (max-width: 768px) {
-    .D-vid-layout {
-      flex-direction: column; gap: 20px;
-      padding: 0 16px;
-    }
-    .D-vid-wrap { flex: none; width: 100%; }
-    .D-vid-attr { text-align: center; }
-    .D-num { color: rgba(232,228,220,0.8); font-size: clamp(48px, 14vw, 120px); }
-    /* mobile: show DOM text since particles don't crystallize */
-    .D-party-row { gap: 20px; flex-wrap: wrap; }
+    .m1 { padding: 0 4%; }
+    .m4 { flex-direction: column; gap: 24px; padding: 0 16px; }
+    .m4-painting { flex: none; width: 100%; }
+    .m3-sign { padding: 20px 32px; }
   }
 `;
