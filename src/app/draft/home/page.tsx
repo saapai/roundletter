@@ -151,58 +151,65 @@ export default function DraftHomePage() {
 
       <div className="R-rule" />
 
-      {/* ═══════ THE PARTY — full-bleed gradient hero ═══════ */}
-      <section className="R-party-hero R-reveal">
-        <div className="R-party-hero-inner">
-          <span className="R-party-presents">aureliex presents</span>
-          <h2 className="R-party-title">the liquidity event.</h2>
-          <span className="R-party-sub">the dividend party · 2026</span>
-          <div className="R-party-rule" />
-          <p className="R-party-tagline">june 20 · salt lake city</p>
-          <span className="R-party-details">
-            10% of portfolio → flights &amp; costs
-          </span>
-        </div>
-      </section>
+      {/* ═══════ DARK ZONE — party + ticket + backed-by ═══════ */}
+      <div className="R-dark-zone">
 
-      {/* ═══════ THE TICKET — small elegant stub ═══════ */}
-      <div className="R-ticket-wrap">
-        <a href="/invest" className="R-ticket">
-          <div className="R-ticket-main">
-            <span className="R-ticket-event">the liquidity event</span>
-            <div className="R-ticket-meta">
-              <span>june 20, 2026</span>
-              <span>salt lake city</span>
+        {/* THE PARTY — full-bleed gradient hero */}
+        <section className="R-party-hero R-reveal">
+          <div className="R-party-hero-inner">
+            <span className="R-party-presents">aureliex presents</span>
+            <h2 className="R-party-title">the liquidity event.</h2>
+            <span className="R-party-sub">the dividend party · 2026</span>
+            <div className="R-party-rule" />
+            <p className="R-party-tagline">june 20 · salt lake city</p>
+            <span className="R-party-details">
+              10% of portfolio → flights &amp; costs
+            </span>
+            <span className="R-party-details">
+              proportional to who invested the most, earliest
+            </span>
+          </div>
+        </section>
+
+        {/* THE TICKET — compact, solid dark (no gradient) */}
+        <div className="R-ticket-wrap">
+          <a href="/invest" className="R-ticket">
+            <div className="R-ticket-main">
+              <span className="R-ticket-event">the liquidity event</span>
+              <div className="R-ticket-meta">
+                <span>june 20, 2026</span>
+                <span>salt lake city</span>
+              </div>
+              <span className="R-ticket-cta">rsvp →</span>
             </div>
-            <span className="R-ticket-phone">+1 (385) 368-7238</span>
-          </div>
-          <div className="R-ticket-tear">
-            <div className="R-ticket-hole R-ticket-hole-t" />
-            <div className="R-ticket-perf" />
-            <div className="R-ticket-hole R-ticket-hole-b" />
-          </div>
-          <div className="R-ticket-stub">
-            <div className="R-ticket-barcode">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <div key={i} className="R-ticket-bar" style={{ height: `${6 + ((i * 7 + 3) % 12)}px` }} />
-              ))}
+            <div className="R-ticket-tear">
+              <div className="R-ticket-hole R-ticket-hole-t" />
+              <div className="R-ticket-perf" />
+              <div className="R-ticket-hole R-ticket-hole-b" />
             </div>
-            <span className="R-ticket-admit">ADMIT ONE</span>
-          </div>
-        </a>
-      </div>
-
-      <div className="R-backed R-reveal">
-        <span className="R-backed-label">backed by</span>
-        <div className="R-backed-names">
-          <span>Franco Cachay</span>
-          <span>Elijah Bautista</span>
-          <span>Yashas Shashidara</span>
-          <span>an anonymous donor</span>
+            <div className="R-ticket-stub">
+              <div className="R-ticket-barcode">
+                {Array.from({ length: 12 }).map((_, i) => (
+                  <div key={i} className="R-ticket-bar" style={{ height: `${6 + ((i * 7 + 3) % 12)}px` }} />
+                ))}
+              </div>
+              <span className="R-ticket-admit">ADMIT ONE</span>
+            </div>
+          </a>
         </div>
-      </div>
 
-      <div className="R-rule" />
+        {/* BACKED BY */}
+        <div className="R-backed R-reveal">
+          <span className="R-backed-label">backed by</span>
+          <div className="R-backed-names">
+            <span>Franco Cachay</span>
+            <span>Elijah Bautista</span>
+            <span>Yashas Shashidara</span>
+            <span>an anonymous donor</span>
+          </div>
+        </div>
+
+      </div>{/* end dark zone */}
 
       {/* ═══════ FOUR REVOLUTIONS ═══════ */}
       <nav className="R-rooms R-reveal">
@@ -534,12 +541,21 @@ const CSS = `
     border-color: rgba(232,228,220,0.08);
   }
 
-  /* ── PARTY HERO — full-bleed gradient (archive energy) ── */
-  .R-party-hero {
-    position: relative;
+  /* ── DARK ZONE — wraps party hero + ticket + backed-by ── */
+  .R-dark-zone {
     width: 100vw !important;
     max-width: none !important;
     margin-left: calc(-50vw + 50%);
+    background: #0a0908;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── PARTY HERO — gradient inside dark zone ── */
+  .R-party-hero {
+    position: relative;
+    width: 100%;
     min-height: clamp(28rem, 60vh, 40rem);
     display: flex;
     align-items: center;
@@ -595,15 +611,16 @@ const CSS = `
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem; letter-spacing: 0.32em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.48);
+    color: rgba(229,221,210,0.55);
+    text-shadow: 0 1px 4px rgba(6,6,8,0.4);
     margin-bottom: 20px;
   }
   .R-party-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(2.8rem, 9vw, 4.4rem);
     font-weight: 400; font-style: italic;
-    color: #1C1A17;
-    text-shadow: 0 2px 12px rgba(6,6,8,0.08);
+    color: #E5DDD2;
+    text-shadow: 0 2px 16px rgba(6,6,8,0.5);
     line-height: 1.1;
     letter-spacing: -0.01em;
     margin: 0 0 12px;
@@ -612,7 +629,8 @@ const CSS = `
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem; letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.42);
+    color: rgba(229,221,210,0.5);
+    text-shadow: 0 1px 4px rgba(6,6,8,0.4);
     margin-bottom: 28px;
   }
   .R-party-rule {
@@ -624,8 +642,8 @@ const CSS = `
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: clamp(1.35rem, 3.8vw, 2.1rem);
     font-style: italic;
-    color: rgba(229,221,210,0.85);
-    text-shadow: 0 1px 8px rgba(6,6,8,0.35);
+    color: #E5DDD2;
+    text-shadow: 0 1px 12px rgba(6,6,8,0.5);
     max-width: 22ch;
     letter-spacing: 0.01em;
     line-height: 1.3;
@@ -634,21 +652,24 @@ const CSS = `
   .R-party-details {
     font-family: 'JetBrains Mono', monospace;
     font-size: clamp(0.55rem, 1.4vw, 0.65rem);
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.4);
+    color: rgba(229,221,210,0.5);
+    text-shadow: 0 1px 4px rgba(6,6,8,0.35);
+    margin-top: 4px;
   }
 
-  /* ── TICKET — compact elegant stub ── */
+  /* ── TICKET — compact, solid dark (contrasts with gradient hero) ── */
   .R-ticket-wrap {
     display: flex;
     justify-content: center;
-    margin-top: clamp(1.5rem, 3vw, 2.5rem);
-    margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+    width: 100%;
+    max-width: 44rem;
   }
   .R-ticket {
     display: flex;
-    max-width: 420px;
+    max-width: 400px;
     width: 100%;
     border-radius: 4px;
     overflow: visible;
@@ -656,58 +677,46 @@ const CSS = `
     color: inherit;
     transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
     cursor: pointer;
-    box-shadow:
-      0 4px 20px -6px rgba(0,0,0,0.18),
-      0 1px 4px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 20px -6px rgba(0,0,0,0.3);
   }
   .R-ticket:hover {
     transform: translateY(-2px);
-    box-shadow:
-      0 12px 36px -10px rgba(0,0,0,0.3),
-      0 2px 8px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 36px -10px rgba(0,0,0,0.5);
   }
   .R-ticket-main {
     flex: 1;
-    background:
-      radial-gradient(ellipse 70% 55% at 80% 80%, rgba(139,74,62,0.15) 0%, transparent 100%),
-      radial-gradient(ellipse 50% 40% at 10% 10%, rgba(40,22,38,0.2) 0%, transparent 100%),
-      linear-gradient(
-        155deg,
-        #1a0c18  0%,
-        #3d1f23  20%,
-        #9b6a64  40%,
-        #dbbcae  55%,
-        #E5DDD2  65%,
-        #d8b8a8  75%,
-        #6b3038  90%,
-        #1a0c18  100%
-      );
+    background: linear-gradient(135deg, #1a1418 0%, #261a20 50%, #1a1418 100%);
+    border: 1px solid rgba(229,221,210,0.08);
+    border-right: none;
     border-radius: 4px 0 0 4px;
     padding: 20px 24px;
     display: flex; flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: 8px;
   }
   .R-ticket-event {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-style: italic; font-weight: 500;
     color: #E5DDD2;
-    text-shadow: 0 1px 8px rgba(6,6,8,0.5);
     line-height: 1.2;
   }
   .R-ticket-meta {
-    display: flex; gap: 12px;
+    display: flex; gap: 16px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.5rem; letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.5);
+    color: rgba(229,221,210,0.45);
   }
-  .R-ticket-phone {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem; letter-spacing: 0.08em;
-    color: rgba(229,221,210,0.28);
-    margin-top: 2px;
+  .R-ticket-cta {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 0.85rem; font-style: italic;
+    color: rgba(229,221,210,0.4);
+    margin-top: 4px;
+    transition: color 0.3s;
+  }
+  .R-ticket:hover .R-ticket-cta {
+    color: rgba(229,221,210,0.7);
   }
 
   /* Tear */
@@ -717,22 +726,22 @@ const CSS = `
   }
   .R-ticket-perf {
     position: absolute; top: 10px; bottom: 10px; left: 0;
-    border-left: 1px dashed rgba(229,221,210,0.1);
+    border-left: 1px dashed rgba(229,221,210,0.08);
   }
   .R-ticket-hole {
     position: absolute; left: -6px;
     width: 12px; height: 12px; border-radius: 50%;
-    background: var(--paper, #F4EFE6);
+    background: #0a0908;
   }
   .R-ticket-hole-t { top: -6px; }
   .R-ticket-hole-b { bottom: -6px; }
 
   /* Stub */
   .R-ticket-stub {
-    width: 56px;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(40,22,38,0.15) 0%, transparent 100%),
-      linear-gradient(155deg, #0e090b 0%, #1f1114 40%, #2a1418 70%, #0e090b 100%);
+    width: 52px;
+    background: linear-gradient(135deg, #14101a 0%, #1a1418 50%, #14101a 100%);
+    border: 1px solid rgba(229,221,210,0.08);
+    border-left: none;
     border-radius: 0 4px 4px 0;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
@@ -740,27 +749,29 @@ const CSS = `
   }
   .R-ticket-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
   .R-ticket-bar {
-    width: 1.5px; background: rgba(229,221,210,0.3); border-radius: 1px;
+    width: 1.5px; background: rgba(229,221,210,0.25); border-radius: 1px;
   }
   .R-ticket-admit {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.4rem; letter-spacing: 0.15em;
-    color: rgba(229,221,210,0.2);
+    color: rgba(229,221,210,0.18);
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     text-transform: uppercase;
   }
 
-  /* ── BACKED BY ── */
+  /* ── BACKED BY (inside dark zone) ── */
   .R-backed {
     text-align: center;
-    padding: 40px 0;
+    padding: 32px 0 clamp(2.5rem, 5vw, 4rem);
+    width: 100%;
+    max-width: 44rem;
   }
   .R-backed-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.2em;
+    font-size: 0.6rem; letter-spacing: 0.25em;
     text-transform: uppercase;
-    opacity: 0.3;
+    color: rgba(229,221,210,0.35);
     display: block;
     margin-bottom: 16px;
   }
@@ -773,7 +784,7 @@ const CSS = `
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 1rem;
     font-weight: 500;
-    opacity: 0.5;
+    color: rgba(229,221,210,0.55);
   }
 
   /* ── ROOMS (four revolutions) ── */
