@@ -276,15 +276,15 @@ const CSS = `
   /* ── GOLDEN FLASH (bridge from video) ── */
   .R-flash {
     position: relative;
-    margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+    margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
     text-align: center;
   }
   .R-flash-text {
     display: block;
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    font-size: clamp(3rem, 9vw, 6rem);
     font-style: italic;
-    font-weight: 500;
+    font-weight: 400;
     color: #dbb645;
     letter-spacing: -0.02em;
     line-height: 1;
@@ -293,8 +293,8 @@ const CSS = `
     animation: r-flash-in 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
   .R--warm .R-flash-text {
-    color: #A67C2E;
-    text-shadow: 0 1px 8px rgba(166,124,46,0.15);
+    color: #8B6B20;
+    text-shadow: 0 1px 12px rgba(139,107,32,0.12);
   }
   .R-flash-glow {
     position: absolute;
@@ -326,34 +326,34 @@ const CSS = `
   /* ── THE NUMBER ── */
   .R-hero {
     text-align: center;
-    margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+    margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
     opacity: 0;
     animation: r-up 1.8s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
   }
   .R-number {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(3rem, 10vw, 5rem);
+    font-size: clamp(3.5rem, 12vw, 6rem);
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
   }
   .R--warm .R-number { color: #1C1A17; }
   .R-currency {
-    font-size: 0.55em;
+    font-size: 0.5em;
     font-weight: 400;
-    vertical-align: 0.15em;
+    vertical-align: 0.18em;
     margin-right: 0.04em;
-    opacity: 0.5;
+    opacity: 0.4;
   }
   .R-delta {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.06em;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
     color: #4ade80;
-    margin-top: 0.35rem;
+    margin-top: 0.2rem;
   }
-  .R--warm .R-delta { color: #3a8a55; }
+  .R--warm .R-delta { color: #5a7a48; }
 
   .R-target {
     display: flex;
@@ -361,25 +361,26 @@ const CSS = `
     justify-content: center;
     gap: 0.5rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    opacity: 0.35;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    opacity: 0.3;
+    margin-top: 0.15rem;
   }
-  .R-arrow { color: #dbb645; opacity: 0.6; }
+  .R-arrow { color: #8B6B20; opacity: 0.5; }
   .R-sep { opacity: 0.3; }
   .R-days { opacity: 0.7; }
   .R-live-dot {
-    width: 6px; height: 6px;
+    width: 5px; height: 5px;
     border-radius: 50%;
     background: #4ade80;
     animation: r-pulse 2s ease-in-out infinite;
   }
   .R-live {
-    font-size: 0.625rem;
+    font-size: 0.55rem;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #4ade80;
-    opacity: 0.8;
+    letter-spacing: 0.18em;
+    color: #5a7a48;
+    opacity: 0.7;
   }
   @keyframes r-pulse {
     0%, 100% { opacity: 1; }
@@ -391,15 +392,15 @@ const CSS = `
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.625rem;
-    opacity: 0.5;
+    font-size: 0.58rem;
+    opacity: 0.4;
   }
   .R-trace-bar {
     flex: 1;
-    height: 4px;
-    border-radius: 1px;
+    height: 5px;
+    border-radius: 2px;
     overflow: hidden;
   }
   .R--warm .R-trace-bar { background: rgba(28,26,23,0.12); }
@@ -423,7 +424,7 @@ const CSS = `
     opacity: 0;
     animation: r-up 1.5s ease 3s forwards;
   }
-  .R--warm .R-invite { color: #4A4540; }
+  .R--warm .R-invite { color: #3A3530; }
   .R:not(.R--warm) .R-invite { color: rgba(232,228,220,0.55); }
 
   /* ── THE PAINTING ── */
@@ -553,87 +554,129 @@ const CSS = `
     line-height: 1.25;
     margin: 0;
   }
-  /* ── CMIYGL POSTER TICKET ── */
-  /* ── TICKET — archive gradient stub ── */
+  /* ── TICKET — archive diagonal light-shaft ── */
   .R-ticket {
     display: flex;
-    margin-top: 24px;
-    max-width: 580px;
+    margin-top: 28px;
+    max-width: 620px;
     width: 100%;
-    border-radius: 8px;
+    border-radius: 6px;
     overflow: visible;
     text-decoration: none;
     color: inherit;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
     cursor: pointer;
+    box-shadow: 0 4px 24px -8px rgba(0,0,0,0.18);
   }
   .R-ticket:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px -12px rgba(0,0,0,0.25);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px -16px rgba(0,0,0,0.35);
   }
   .R-ticket-inner {
     flex: 1;
+    position: relative;
     background:
-      radial-gradient(ellipse 90% 50% at 30% 40%, rgba(255,240,220,0.3) 0%, transparent 60%),
-      linear-gradient(135deg, #1D1815 0%, #2A2018 20%, #6B5032 45%, #A88F65 65%, #C9B287 80%, #E4D4A8 95%);
-    border-radius: 8px 0 0 8px;
-    padding: 32px 28px;
+      /* rose-gold bloom bottom-right */
+      radial-gradient(ellipse 65% 50% at 82% 85%, rgba(196,138,122,0.2) 0%, transparent 100%),
+      /* deep plum wash top-left */
+      radial-gradient(ellipse 55% 45% at 8% 6%, rgba(52,18,40,0.35) 0%, transparent 100%),
+      /* warm gold center bloom */
+      radial-gradient(ellipse 40% 30% at 55% 48%, rgba(200,168,72,0.08) 0%, transparent 100%),
+      /* diagonal light shaft — pink-gold */
+      linear-gradient(
+        155deg,
+        #0a0610  0%,
+        #14091a  8%,
+        #2a1028  17%,
+        #4a1a34  25%,
+        #7a3048  33%,
+        #b06068  39%,
+        #d4928c  44%,
+        #e4b8a0  48%,
+        #ecd4b8  52%,
+        #f0dcc0  55%,
+        #e4c0a0  59%,
+        #d09878  65%,
+        #a06058  72%,
+        #6a2840  80%,
+        #2a1020  89%,
+        #0a0610  100%
+      );
+    border-radius: 6px 0 0 6px;
+    padding: 40px 32px;
     display: flex; flex-direction: column;
     align-items: center; text-align: center;
     gap: 0;
   }
+  /* grain overlay */
+  .R-ticket-inner::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 6px 0 0 6px;
+    opacity: 0.04;
+    mix-blend-mode: soft-light;
+    background-image:
+      radial-gradient(rgba(229,221,210,0.5) 1px, transparent 1px),
+      radial-gradient(rgba(0,0,0,0.4) 1px, transparent 1px);
+    background-size: 3px 3px, 5px 5px;
+    background-position: 0 0, 2px 2px;
+    pointer-events: none;
+  }
   .R-ticket-presents {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem; letter-spacing: 0.25em;
+    font-size: 0.55rem; letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: rgba(244,239,230,0.4);
-    margin-bottom: 16px;
+    color: rgba(229,221,210,0.5);
+    margin-bottom: 18px;
   }
   .R-ticket-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.8rem, 5vw, 2.4rem);
-    font-weight: 500; font-style: italic;
-    color: #F4EFE6;
+    font-size: clamp(2rem, 5.5vw, 2.8rem);
+    font-weight: 400; font-style: italic;
+    color: #E5DDD2;
+    text-shadow: 0 2px 16px rgba(6,6,8,0.45);
     line-height: 1.15;
-    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
   }
   .R-ticket-sub {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem; letter-spacing: 0.2em;
+    font-size: 0.5rem; letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: rgba(244,239,230,0.3);
-    margin-bottom: 20px;
+    color: rgba(229,221,210,0.35);
+    margin-bottom: 24px;
   }
   .R-ticket-rule {
-    width: 40px; height: 1px;
-    background: rgba(244,239,230,0.15);
-    margin-bottom: 20px;
+    width: 36px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(224,148,120,0.3), transparent);
+    margin-bottom: 24px;
   }
   .R-ticket-info {
-    display: flex; flex-direction: column; gap: 6px;
+    display: flex; flex-direction: column; gap: 7px;
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.85rem;
-    color: rgba(244,239,230,0.5);
+    font-size: 0.9rem;
+    color: rgba(229,221,210,0.6);
     line-height: 1.5;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
   .R-ticket-phone {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 0.08em;
-    color: rgba(244,239,230,0.35);
-    margin-bottom: 16px;
+    font-size: 0.65rem; letter-spacing: 0.1em;
+    color: rgba(229,221,210,0.3);
+    margin-bottom: 18px;
   }
   .R-ticket-rsvp {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 1rem; font-style: italic;
-    color: rgba(244,239,230,0.5);
-    border: 1px solid rgba(244,239,230,0.15);
-    padding: 8px 24px; border-radius: 2px;
-    transition: all 0.3s;
+    color: rgba(229,221,210,0.55);
+    border: 1px solid rgba(229,221,210,0.18);
+    padding: 10px 28px; border-radius: 2px;
+    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .R-ticket:hover .R-ticket-rsvp {
-    color: #F4EFE6;
-    border-color: rgba(244,239,230,0.4);
+    color: #E5DDD2;
+    border-color: rgba(229,221,210,0.45);
+    background: rgba(229,221,210,0.06);
   }
 
   /* Tear */
@@ -643,33 +686,35 @@ const CSS = `
   }
   .R-ticket-perf {
     position: absolute; top: 16px; bottom: 16px; left: 0;
-    border-left: 1px dashed rgba(244,239,230,0.12);
+    border-left: 1px dashed rgba(229,221,210,0.1);
   }
   .R-ticket-hole {
-    position: absolute; left: -6px;
-    width: 12px; height: 12px; border-radius: 50%;
+    position: absolute; left: -7px;
+    width: 14px; height: 14px; border-radius: 50%;
     background: var(--paper, #F4EFE6);
   }
-  .R-ticket-hole-t { top: -6px; }
-  .R-ticket-hole-b { bottom: -6px; }
+  .R-ticket-hole-t { top: -7px; }
+  .R-ticket-hole-b { bottom: -7px; }
 
   /* Stub */
   .R-ticket-stub {
-    width: 64px;
-    background: linear-gradient(135deg, #1D1815 0%, #2A2018 50%, #3D2F1F 100%);
-    border-radius: 0 8px 8px 0;
+    width: 72px;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(52,18,40,0.2) 0%, transparent 100%),
+      linear-gradient(155deg, #0a0610 0%, #14091a 30%, #2a1028 60%, #1a0c18 85%, #0a0610 100%);
+    border-radius: 0 6px 6px 0;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 12px; padding: 16px 8px;
+    gap: 14px; padding: 18px 10px;
   }
   .R-ticket-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
   .R-ticket-bar {
-    width: 1.5px; background: rgba(244,239,230,0.4); border-radius: 1px;
+    width: 1.5px; background: rgba(229,221,210,0.35); border-radius: 1px;
   }
   .R-ticket-admit {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.45rem; letter-spacing: 0.15em;
-    color: rgba(244,239,230,0.3);
+    font-size: 0.45rem; letter-spacing: 0.18em;
+    color: rgba(229,221,210,0.25);
     writing-mode: vertical-lr;
     transform: rotate(180deg);
     text-transform: uppercase;
@@ -776,30 +821,26 @@ const CSS = `
     display: inline-block;
   }
 
-  /* "call me if you get lost" — star pastels */
-  .R-closer-q .R-rainbow {
-    --colors: #E8A0B4, #B8D8C8, #5CC0D0, #C8A848, #E8A0B4, #B8D8C8, #5CC0D0, #C8A848;
-    color: var(--c);
-  }
-  .R-closer-q .R-rainbow:nth-child(8n+1) { color: #E8A0B4; }
-  .R-closer-q .R-rainbow:nth-child(8n+2) { color: #B8D8C8; }
-  .R-closer-q .R-rainbow:nth-child(8n+3) { color: #5CC0D0; }
-  .R-closer-q .R-rainbow:nth-child(8n+4) { color: #C8A848; }
-  .R-closer-q .R-rainbow:nth-child(8n+5) { color: #E8A0B4; }
-  .R-closer-q .R-rainbow:nth-child(8n+6) { color: #B8D8C8; }
-  .R-closer-q .R-rainbow:nth-child(8n+7) { color: #5CC0D0; }
-  .R-closer-q .R-rainbow:nth-child(8n+8) { color: #C8A848; }
+  /* "call me if you get lost" — pink-gold ticket palette */
+  .R-closer-q .R-rainbow:nth-child(8n+1) { color: #b06068; }
+  .R-closer-q .R-rainbow:nth-child(8n+2) { color: #d4928c; }
+  .R-closer-q .R-rainbow:nth-child(8n+3) { color: #c8a060; }
+  .R-closer-q .R-rainbow:nth-child(8n+4) { color: #a06058; }
+  .R-closer-q .R-rainbow:nth-child(8n+5) { color: #7a3048; }
+  .R-closer-q .R-rainbow:nth-child(8n+6) { color: #d09878; }
+  .R-closer-q .R-rainbow:nth-child(8n+7) { color: #e4b8a0; }
+  .R-closer-q .R-rainbow:nth-child(8n+8) { color: #8a4050; }
 
-  /* "aureliex." — painting palette (red, blue, purple, orange, cyan) */
-  .R-sig .R-rainbow:nth-child(1) { color: #CC2222; }  /* a — red sky */
-  .R-sig .R-rainbow:nth-child(2) { color: #1a3a8a; }  /* u — deep blue */
-  .R-sig .R-rainbow:nth-child(3) { color: #7B2D8E; }  /* r — purple cloud */
-  .R-sig .R-rainbow:nth-child(4) { color: #E06020; }  /* e — orange sun */
-  .R-sig .R-rainbow:nth-child(5) { color: #1a3a8a; }  /* l — blue */
-  .R-sig .R-rainbow:nth-child(6) { color: #CC2222; }  /* i — red */
-  .R-sig .R-rainbow:nth-child(7) { color: #E06020; }  /* e — orange */
-  .R-sig .R-rainbow:nth-child(8) { color: #40B0C0; }  /* x — cyan buildings */
-  .R-sig .R-rainbow:nth-child(9) { color: #C8A848; }  /* . — gold splatter */
+  /* "aureliex." — rose-gold palette (ticket harmony) */
+  .R-sig .R-rainbow:nth-child(1) { color: #b06068; }  /* a — rose */
+  .R-sig .R-rainbow:nth-child(2) { color: #4a1a34; }  /* u — deep plum */
+  .R-sig .R-rainbow:nth-child(3) { color: #d4928c; }  /* r — blush */
+  .R-sig .R-rainbow:nth-child(4) { color: #c8a060; }  /* e — gold */
+  .R-sig .R-rainbow:nth-child(5) { color: #7a3048; }  /* l — wine */
+  .R-sig .R-rainbow:nth-child(6) { color: #e4b8a0; }  /* i — peach */
+  .R-sig .R-rainbow:nth-child(7) { color: #a06058; }  /* e — terracotta */
+  .R-sig .R-rainbow:nth-child(8) { color: #d09878; }  /* x — warm copper */
+  .R-sig .R-rainbow:nth-child(9) { color: #c8a060; }  /* . — gold */
 
   /* ── SCROLL REVEAL ── */
   .R-reveal {
