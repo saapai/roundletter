@@ -152,50 +152,26 @@ export default function DraftHomePage() {
           <h2 className="R-party-line">the party is the liquidity event.</h2>
         </div>
         <div className="R-ticket">
-          <div className="R-ticket-gold-stripe" />
-          <div className="R-ticket-main">
-            <div className="R-ticket-top">
-              <span className="R-ticket-airline">AURELIEX</span>
-              <span className="R-ticket-class">DIVIDEND PASS</span>
+          <div className="R-ticket-stars" />
+          <div className="R-ticket-content">
+            <div className="R-ticket-eyebrow">aureliex presents</div>
+            <div className="R-ticket-title">THE<br/>LIQUIDITY<br/>EVENT</div>
+            <div className="R-ticket-details">
+              <span className="R-ticket-detail">june 20</span>
+              <span className="R-ticket-detail-sep">/</span>
+              <span className="R-ticket-detail">salt lake city</span>
             </div>
-            <div className="R-ticket-route">
-              <div className="R-ticket-col">
-                <span className="R-ticket-label">FROM</span>
-                <span className="R-ticket-city">NOW</span>
-              </div>
-              <div className="R-ticket-flight-line">
-                <svg viewBox="0 0 80 12" width="64" height="10">
-                  <line x1="0" y1="6" x2="68" y2="6" stroke="currentColor" strokeWidth="0.5" strokeDasharray="3 2" />
-                  <polygon points="68,3 74,6 68,9" fill="currentColor" />
-                </svg>
-              </div>
-              <div className="R-ticket-col">
-                <span className="R-ticket-label">TO</span>
-                <span className="R-ticket-city">JUN 20</span>
-              </div>
-              <div className="R-ticket-col R-ticket-col--right">
-                <span className="R-ticket-label">DIVIDEND</span>
-                <span className="R-ticket-city">10%</span>
-              </div>
+            <div className="R-ticket-dividend">
+              <span className="R-ticket-dividend-pct">10%</span>
+              <span className="R-ticket-dividend-text">of the portfolio<br/>distributed as dividends</span>
             </div>
-            <p className="R-ticket-desc">
-              10% of the portfolio covers flights and costs.<br />
-              distributed proportionally by who invested the most, earliest.<br />
-              <em>dividends with a twist.</em>
+            <p className="R-ticket-fine">
+              covers flights &amp; costs · proportional to<br/>
+              who invested the most, earliest
             </p>
-          </div>
-          <div className="R-ticket-tear">
-            <div className="R-ticket-hole R-ticket-hole--top" />
-            <div className="R-ticket-perforation" />
-            <div className="R-ticket-hole R-ticket-hole--bottom" />
-          </div>
-          <div className="R-ticket-stub">
-            <div className="R-ticket-barcode">
-              {Array.from({ length: 18 }).map((_, i) => (
-                <div key={i} className="R-ticket-bar" style={{ height: `${10 + ((i * 7 + 3) % 14)}px` }} />
-              ))}
-            </div>
-            <a href="/invest" className="R-ticket-cta">rsvp</a>
+            <div className="R-ticket-phone">+1 (385) 368-7238</div>
+            <a href="/invest" className="R-ticket-cta">rsvp →</a>
+            <div className="R-ticket-tag">— a dividend party · 2026</div>
           </div>
         </div>
       </section>
@@ -546,106 +522,136 @@ const CSS = `
     line-height: 1.25;
     margin: 0;
   }
+  /* ── CMIYGL POSTER TICKET ── */
   .R-ticket {
-    display: flex;
-    margin-top: 20px;
-    max-width: 560px;
-    background: var(--ink, #1C1A17);
-    color: #F4EFE6;
-    border-radius: 12px;
-    overflow: hidden;
     position: relative;
+    aspect-ratio: 5 / 7;
+    max-width: 380px;
+    margin-top: 20px;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1.75rem;
+    background:
+      radial-gradient(ellipse 80% 40% at 50% 60%, rgba(255, 180, 90, 0.55), transparent 75%),
+      linear-gradient(180deg, #8b4a70 0%, #d97a57 40%, #e8b547 72%, #6b5020 100%);
+    color: #3a2214;
+    border-radius: 4px;
+    font-family: Impact, "Haettenschweiler", "Arial Black", sans-serif;
+    box-shadow:
+      0 1px 0 rgba(0,0,0,0.08),
+      0 18px 40px -18px rgba(0,0,0,0.35);
+    overflow: hidden;
   }
-  .R-ticket-gold-stripe {
-    position: absolute; top: 0; left: 0;
-    width: 4px; height: 100%;
-    background: linear-gradient(180deg, #dbb645, #C9A84C, #8B6914);
+  .R-ticket-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><path d='M12 2 L14.2 8.8 L21 9 L15.5 13.3 L17.5 20 L12 15.8 L6.5 20 L8.5 13.3 L3 9 L9.8 8.8 Z'/></svg>"),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><path d='M12 2 L14.2 8.8 L21 9 L15.5 13.3 L17.5 20 L12 15.8 L6.5 20 L8.5 13.3 L3 9 L9.8 8.8 Z'/></svg>"),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233a2214'><path d='M12 2 L14.2 8.8 L21 9 L15.5 13.3 L17.5 20 L12 15.8 L6.5 20 L8.5 13.3 L3 9 L9.8 8.8 Z'/></svg>");
+    background-size: 88px 88px, 68px 68px, 52px 52px;
+    background-position: 18% 14%, 84% 22%, 12% 78%;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    z-index: 1;
   }
-  .R-ticket-main {
-    flex: 1; padding: 28px 28px 28px 32px;
+  .R-ticket-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+    width: 100%;
   }
-  .R-ticket-top {
-    display: flex; justify-content: space-between;
-    align-items: baseline; margin-bottom: 20px;
+  .R-ticket-eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, #3a2214 70%, transparent);
+    margin-bottom: 1rem;
   }
-  .R-ticket-airline {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem; letter-spacing: 0.25em;
-    color: #C9A84C; text-transform: uppercase;
+  .R-ticket-title {
+    font-size: clamp(2.4rem, 8vw, 3.6rem);
+    line-height: 0.88;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    font-weight: 900;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    margin-bottom: 1.25rem;
   }
-  .R-ticket-class {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem; letter-spacing: 0.2em;
-    opacity: 0.3; text-transform: uppercase;
-  }
-  .R-ticket-route {
-    display: flex; align-items: center; gap: 16px;
-    margin-bottom: 20px;
-  }
-  .R-ticket-col {
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .R-ticket-col--right { margin-left: auto; }
-  .R-ticket-label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.5rem; letter-spacing: 0.15em;
-    opacity: 0.35; text-transform: uppercase;
-  }
-  .R-ticket-city {
+  .R-ticket-details {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.4rem; font-weight: 500;
-    letter-spacing: -0.02em;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 1.25rem;
   }
-  .R-ticket-flight-line { color: rgba(244,239,230,0.2); }
-  .R-ticket-desc {
+  .R-ticket-detail-sep { opacity: 0.4; }
+  .R-ticket-dividend {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .R-ticket-dividend-pct {
+    font-size: clamp(2.2rem, 6vw, 3rem);
+    line-height: 1;
+    font-weight: 900;
+    color: #2a1808;
+  }
+  .R-ticket-dividend-text {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 0.85rem; opacity: 0.45;
-    line-height: 1.7; margin: 0;
-    padding-top: 16px;
-    border-top: 1px solid rgba(244,239,230,0.06);
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: left;
+    line-height: 1.4;
+    color: color-mix(in srgb, #3a2214 80%, transparent);
   }
-  .R-ticket-desc em { opacity: 0.7; }
-
-  /* Tear perforation */
-  .R-ticket-tear {
-    width: 1px; position: relative;
-    flex-shrink: 0; margin: 12px 0;
+  .R-ticket-fine {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    line-height: 1.8;
+    color: color-mix(in srgb, #3a2214 55%, transparent);
+    margin: 0 0 1.25rem;
   }
-  .R-ticket-perforation {
-    position: absolute; top: 16px; bottom: 16px; left: 0;
-    border-left: 1px dashed rgba(244,239,230,0.12);
-  }
-  .R-ticket-hole {
-    position: absolute; left: -6px;
-    width: 12px; height: 12px; border-radius: 50%;
-    background: var(--paper, #F4EFE6);
-  }
-  .R-ticket-hole--top { top: -6px; }
-  .R-ticket-hole--bottom { bottom: -6px; }
-
-  /* Stub */
-  .R-ticket-stub {
-    width: 72px; padding: 20px 12px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 12px;
-  }
-  .R-ticket-barcode {
-    display: flex; gap: 1.5px; align-items: flex-end;
-  }
-  .R-ticket-bar {
-    width: 1.5px; background: rgba(244,239,230,0.5);
-    border-radius: 1px;
+  .R-ticket-phone {
+    font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+    letter-spacing: 0.01em;
+    color: color-mix(in srgb, #3a2214 88%, transparent);
+    margin-bottom: 1rem;
   }
   .R-ticket-cta {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.55rem; letter-spacing: 0.15em;
-    color: rgba(244,239,230,0.4);
-    text-decoration: none; text-transform: uppercase;
-    writing-mode: vertical-lr;
-    transform: rotate(180deg);
-    transition: color 0.3s;
+    display: inline-block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: #3a2214;
+    border: 1.5px solid #3a2214;
+    padding: 0.45rem 2rem;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    margin-bottom: 0.75rem;
   }
-  .R-ticket-cta:hover { color: #C9A84C; }
+  .R-ticket-cta:hover {
+    background: #3a2214;
+    color: #ffe2b4;
+  }
+  .R-ticket-tag {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, #3a2214 50%, transparent);
+  }
 
   /* ── BACKED BY ── */
   .R-backed {
