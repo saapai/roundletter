@@ -189,18 +189,20 @@ export default function DraftPage() {
       const now = Date.now();
       let newPhase = 0;
 
-      if (ct < 90) {
-        newPhase = 0;
-      } else if (ct < 120) {
-        newPhase = 1;
-      } else if (ct < 150) {
-        newPhase = 2;
-      } else if (ct < 205) {
-        newPhase = 3; // 2:30 - 3:25
-      } else if (ct < 277) {
-        newPhase = 5; // 3:25 - 4:37
+      // v2 reel timestamps (3:01 total):
+      // 0:00-0:40 Wesley Wang | 0:40-1:05 WKW | 1:06-1:42 Rocks | 1:42-3:01 Ted Lasso
+      if (ct < 35) {
+        newPhase = 0;       // Pure YouTube
+      } else if (ct < 66) {
+        newPhase = 1;       // 0:35 — like count ticking
+      } else if (ct < 102) {
+        newPhase = 2;       // 1:06 — dip-to-black, progress bar goes gold
+      } else if (ct < 140) {
+        newPhase = 3;       // 1:42 — smash cut to Lasso, chrome dissolves
+      } else if (ct < 175) {
+        newPhase = 5;       // 2:20 — PIP + full reveal
       } else {
-        newPhase = 6; // 4:37+
+        newPhase = 6;       // 2:55+ — "drinks on me" freeze + end
       }
 
       // Phase 1: like count resolving
@@ -489,7 +491,7 @@ export default function DraftPage() {
                     <span className="D-funnel-sub">opening bid $25 · backed by 10% of portfolio</span>
                   </div>
                 </a>
-                <a href="/invest" className="D-funnel">
+                <a href="/invest" className={`D-funnel ${videoEnded ? "D-funnel--pulse" : ""}`}>
                   <div className="D-funnel-icon">
                     <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="rgba(240,216,144,0.4)" strokeWidth="1">
                       <rect x="2" y="7" width="20" height="14" rx="2" />
@@ -519,6 +521,11 @@ export default function DraftPage() {
                   <span className="D-rev-label">the ai revolution</span>
                 </a>
               </div>
+
+              {/* "drinks on me" — echoes the video's last line */}
+              {videoEnded && (
+                <p className="D-drinks">drinks are on me.</p>
+              )}
 
               <p className="D-final-sig">aureliex.com</p>
             </div>
@@ -859,6 +866,28 @@ const CSS = `
     transition: color 0.2s;
   }
   .D-final-nav a:hover { color: #e8e4dc; }
+  .D-funnel--pulse {
+    border-color: rgba(201,168,76,0.4) !important;
+    background: rgba(201,168,76,0.06) !important;
+    animation: funnel-pulse 2s ease 1;
+  }
+  @keyframes funnel-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(201,168,76,0.3); }
+    50% { box-shadow: 0 0 20px 4px rgba(201,168,76,0.15); }
+    100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+  }
+  .D-drinks {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+    color: #C9A84C;
+    margin-top: 24px;
+    animation: drinks-fade 1.5s ease forwards;
+  }
+  @keyframes drinks-fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
   .D-final-sig {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
