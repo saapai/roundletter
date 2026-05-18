@@ -151,27 +151,31 @@ export default function DraftHomePage() {
 
       <div className="R-rule" />
 
-      {/* ═══════ THE PARTY ═══════ */}
-      <section className="R-party R-reveal">
-        <div className="R-party-head">
-          <span className="R-party-date">june 20 · salt lake city</span>
-          <h2 className="R-party-line">the party is the liquidity event.</h2>
+      {/* ═══════ THE PARTY — full-bleed gradient hero ═══════ */}
+      <section className="R-party-hero R-reveal">
+        <div className="R-party-hero-inner">
+          <span className="R-party-presents">aureliex presents</span>
+          <h2 className="R-party-title">the liquidity event.</h2>
+          <span className="R-party-sub">the dividend party · 2026</span>
+          <div className="R-party-rule" />
+          <p className="R-party-tagline">june 20 · salt lake city</p>
+          <span className="R-party-details">
+            10% of portfolio → flights &amp; costs
+          </span>
         </div>
+      </section>
+
+      {/* ═══════ THE TICKET — small elegant stub ═══════ */}
+      <div className="R-ticket-wrap">
         <a href="/invest" className="R-ticket">
-          <div className="R-ticket-inner">
-            <span className="R-ticket-presents">aureliex presents</span>
-            <h3 className="R-ticket-title">the liquidity event.</h3>
-            <span className="R-ticket-sub">the dividend party · 2026</span>
-            <div className="R-ticket-rule" />
-            <div className="R-ticket-info">
-              <span>june 20 · salt lake city</span>
-              <span>10% of portfolio → flights &amp; costs</span>
-              <span>proportional to who invested the most, earliest</span>
+          <div className="R-ticket-main">
+            <span className="R-ticket-event">the liquidity event</span>
+            <div className="R-ticket-meta">
+              <span>june 20, 2026</span>
+              <span>salt lake city</span>
             </div>
             <span className="R-ticket-phone">+1 (385) 368-7238</span>
-            <span className="R-ticket-rsvp">rsvp →</span>
           </div>
-          {/* Tear perforation on right */}
           <div className="R-ticket-tear">
             <div className="R-ticket-hole R-ticket-hole-t" />
             <div className="R-ticket-perf" />
@@ -179,14 +183,14 @@ export default function DraftHomePage() {
           </div>
           <div className="R-ticket-stub">
             <div className="R-ticket-barcode">
-              {Array.from({ length: 16 }).map((_, i) => (
-                <div key={i} className="R-ticket-bar" style={{ height: `${8 + ((i * 7 + 3) % 14)}px` }} />
+              {Array.from({ length: 12 }).map((_, i) => (
+                <div key={i} className="R-ticket-bar" style={{ height: `${6 + ((i * 7 + 3) % 12)}px` }} />
               ))}
             </div>
             <span className="R-ticket-admit">ADMIT ONE</span>
           </div>
         </a>
-      </section>
+      </div>
 
       <div className="R-backed R-reveal">
         <span className="R-backed-label">backed by</span>
@@ -530,93 +534,44 @@ const CSS = `
     border-color: rgba(232,228,220,0.08);
   }
 
-  /* ── THE PARTY ── */
-  .R-party {
-    margin-bottom: clamp(2rem, 5vw, 3rem);
-  }
-  .R-party-head {
-    margin-bottom: 1.5rem;
-  }
-  .R-party-date {
-    display: block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    opacity: 0.35;
-    margin-bottom: 0.5rem;
-  }
-  .R-party-line {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.4rem, 3vw, 1.85rem);
-    font-style: italic;
-    font-weight: 500;
-    line-height: 1.25;
-    margin: 0;
-  }
-  /* ── TICKET — archive poster meets party ticket ── */
-  .R-ticket {
-    display: flex;
-    margin-top: 28px;
-    max-width: 660px;
-    width: 100%;
-    border-radius: 6px;
-    overflow: visible;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
-    cursor: pointer;
-    box-shadow:
-      0 8px 32px -8px rgba(0,0,0,0.25),
-      0 2px 8px rgba(0,0,0,0.08);
-  }
-  .R-ticket:hover {
-    transform: translateY(-3px);
-    box-shadow:
-      0 20px 56px -16px rgba(0,0,0,0.4),
-      0 4px 12px rgba(0,0,0,0.12);
-  }
-  .R-ticket-inner {
-    flex: 1;
+  /* ── PARTY HERO — full-bleed gradient (archive energy) ── */
+  .R-party-hero {
     position: relative;
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(-50vw + 50%);
+    min-height: clamp(28rem, 60vh, 40rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
     background:
-      /* rose-gold bloom bottom-right */
-      radial-gradient(ellipse 65% 50% at 82% 85%, rgba(196,138,122,0.2) 0%, transparent 100%),
-      /* deep plum wash top-left */
-      radial-gradient(ellipse 55% 45% at 8% 6%, rgba(52,18,40,0.35) 0%, transparent 100%),
-      /* warm gold center bloom */
-      radial-gradient(ellipse 40% 30% at 55% 48%, rgba(200,168,72,0.08) 0%, transparent 100%),
-      /* diagonal light shaft — pink-gold */
+      radial-gradient(ellipse 80% 60% at 88% 92%, rgba(139,74,62,0.22) 0%, transparent 100%),
+      radial-gradient(ellipse 60% 50% at 8% 6%, rgba(40,22,38,0.30) 0%, transparent 100%),
+      radial-gradient(ellipse 45% 35% at 50% 50%, rgba(194,138,122,0.08) 0%, transparent 100%),
       linear-gradient(
         160deg,
-        #0a0610  0%,
-        #14091a  8%,
-        #2a1028  17%,
-        #4a1a34  25%,
-        #7a3048  33%,
-        #b06068  39%,
-        #d4928c  44%,
-        #e4b8a0  48%,
-        #ecd4b8  52%,
-        #f0dcc0  55%,
-        #e4c0a0  59%,
-        #d09878  65%,
-        #a06058  72%,
-        #6a2840  80%,
-        #2a1020  89%,
-        #0a0610  100%
+        #060608  0%,
+        #0e090b  8%,
+        #1f1114  17%,
+        #3d1f23  26%,
+        #6b3a3e  34%,
+        #9b6a64  40%,
+        #c49a90  46%,
+        #dbbcae  50%,
+        #E5DDD2  54%,
+        #E5DDD2  57%,
+        #d8b8a8  62%,
+        #b07a6c  69%,
+        #6b3038  78%,
+        #2a1418  87%,
+        #0e090b  94%,
+        #060608  100%
       );
-    border-radius: 6px 0 0 6px;
-    padding: clamp(48px, 8vw, 72px) clamp(28px, 5vw, 48px);
-    display: flex; flex-direction: column;
-    align-items: center; text-align: center;
-    gap: 0;
   }
-  /* grain overlay — matches archive */
-  .R-ticket-inner::after {
+  .R-party-hero::after {
     content: '';
     position: absolute; inset: 0;
-    border-radius: 6px 0 0 6px;
     opacity: 0.045;
     mix-blend-mode: soft-light;
     background-image:
@@ -626,64 +581,133 @@ const CSS = `
     background-position: 0 0, 2px 2px;
     pointer-events: none;
   }
-  .R-ticket-presents {
+  .R-party-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: clamp(3rem, 8vh, 5rem) clamp(1.5rem, 5vw, 3rem);
+    gap: 0;
+  }
+  .R-party-presents {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.6rem; letter-spacing: 0.32em;
     text-transform: uppercase;
     color: rgba(229,221,210,0.48);
     margin-bottom: 20px;
   }
-  .R-ticket-title {
+  .R-party-title {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2.4rem, 7vw, 3.6rem);
+    font-size: clamp(2.8rem, 9vw, 4.4rem);
     font-weight: 400; font-style: italic;
     color: #1C1A17;
-    text-shadow: 0 2px 12px rgba(229,221,210,0.3);
+    text-shadow: 0 2px 12px rgba(6,6,8,0.08);
     line-height: 1.1;
     letter-spacing: -0.01em;
-    margin-bottom: 12px;
+    margin: 0 0 12px;
   }
-  .R-ticket-sub {
+  .R-party-sub {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.55rem; letter-spacing: 0.25em;
     text-transform: uppercase;
     color: rgba(229,221,210,0.42);
     margin-bottom: 28px;
   }
-  .R-ticket-rule {
-    width: min(280px, 50%); height: 1px;
+  .R-party-rule {
+    width: min(320px, 55%); height: 1px;
     background: linear-gradient(90deg, transparent, rgba(194,97,78,0.35), transparent);
     margin-bottom: 28px;
   }
-  .R-ticket-info {
-    display: flex; flex-direction: column; gap: 6px;
+  .R-party-tagline {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+    font-size: clamp(1.35rem, 3.8vw, 2.1rem);
     font-style: italic;
     color: rgba(229,221,210,0.85);
     text-shadow: 0 1px 8px rgba(6,6,8,0.35);
-    line-height: 1.5;
-    margin-bottom: 28px;
+    max-width: 22ch;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+    margin: 0 0 12px;
+  }
+  .R-party-details {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(0.55rem, 1.4vw, 0.65rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(229,221,210,0.4);
+  }
+
+  /* ── TICKET — compact elegant stub ── */
+  .R-ticket-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+  }
+  .R-ticket {
+    display: flex;
+    max-width: 420px;
+    width: 100%;
+    border-radius: 4px;
+    overflow: visible;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+    cursor: pointer;
+    box-shadow:
+      0 4px 20px -6px rgba(0,0,0,0.18),
+      0 1px 4px rgba(0,0,0,0.06);
+  }
+  .R-ticket:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 12px 36px -10px rgba(0,0,0,0.3),
+      0 2px 8px rgba(0,0,0,0.08);
+  }
+  .R-ticket-main {
+    flex: 1;
+    background:
+      radial-gradient(ellipse 70% 55% at 80% 80%, rgba(139,74,62,0.15) 0%, transparent 100%),
+      radial-gradient(ellipse 50% 40% at 10% 10%, rgba(40,22,38,0.2) 0%, transparent 100%),
+      linear-gradient(
+        155deg,
+        #1a0c18  0%,
+        #3d1f23  20%,
+        #9b6a64  40%,
+        #dbbcae  55%,
+        #E5DDD2  65%,
+        #d8b8a8  75%,
+        #6b3038  90%,
+        #1a0c18  100%
+      );
+    border-radius: 4px 0 0 4px;
+    padding: 20px 24px;
+    display: flex; flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .R-ticket-event {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.15rem;
+    font-style: italic; font-weight: 500;
+    color: #E5DDD2;
+    text-shadow: 0 1px 8px rgba(6,6,8,0.5);
+    line-height: 1.2;
+  }
+  .R-ticket-meta {
+    display: flex; gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5rem; letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(229,221,210,0.5);
   }
   .R-ticket-phone {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem; letter-spacing: 0.12em;
-    color: rgba(229,221,210,0.35);
-    margin-bottom: 20px;
-  }
-  .R-ticket-rsvp {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(229,221,210,0.55);
-    border: 1px solid rgba(229,221,210,0.2);
-    padding: 12px 32px; border-radius: 2px;
-    transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .R-ticket:hover .R-ticket-rsvp {
-    color: #E5DDD2;
-    border-color: rgba(229,221,210,0.5);
-    background: rgba(229,221,210,0.08);
+    font-size: 0.5rem; letter-spacing: 0.08em;
+    color: rgba(229,221,210,0.28);
+    margin-top: 2px;
   }
 
   /* Tear */
@@ -692,27 +716,27 @@ const CSS = `
     flex-shrink: 0;
   }
   .R-ticket-perf {
-    position: absolute; top: 20px; bottom: 20px; left: 0;
+    position: absolute; top: 10px; bottom: 10px; left: 0;
     border-left: 1px dashed rgba(229,221,210,0.1);
   }
   .R-ticket-hole {
-    position: absolute; left: -8px;
-    width: 16px; height: 16px; border-radius: 50%;
+    position: absolute; left: -6px;
+    width: 12px; height: 12px; border-radius: 50%;
     background: var(--paper, #F4EFE6);
   }
-  .R-ticket-hole-t { top: -8px; }
-  .R-ticket-hole-b { bottom: -8px; }
+  .R-ticket-hole-t { top: -6px; }
+  .R-ticket-hole-b { bottom: -6px; }
 
   /* Stub */
   .R-ticket-stub {
-    width: 76px;
+    width: 56px;
     background:
-      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(52,18,40,0.2) 0%, transparent 100%),
-      linear-gradient(160deg, #0a0610 0%, #14091a 30%, #2a1028 60%, #1a0c18 85%, #0a0610 100%);
-    border-radius: 0 6px 6px 0;
+      radial-gradient(ellipse 80% 60% at 50% 50%, rgba(40,22,38,0.15) 0%, transparent 100%),
+      linear-gradient(155deg, #0e090b 0%, #1f1114 40%, #2a1418 70%, #0e090b 100%);
+    border-radius: 0 4px 4px 0;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 16px; padding: 20px 10px;
+    gap: 10px; padding: 12px 6px;
   }
   .R-ticket-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
   .R-ticket-bar {
@@ -720,7 +744,7 @@ const CSS = `
   }
   .R-ticket-admit {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.45rem; letter-spacing: 0.18em;
+    font-size: 0.4rem; letter-spacing: 0.15em;
     color: rgba(229,221,210,0.2);
     writing-mode: vertical-lr;
     transform: rotate(180deg);
