@@ -152,7 +152,7 @@ export default function DraftHomePage() {
       <div className="R-rule" />
 
       {/* ═══════ THE PARTY — full-bleed gradient hero ═══════ */}
-      <section className="R-party-hero R-reveal">
+      <section className="R-party-hero">
         <div className="R-party-hero-inner">
           <span className="R-party-presents">aureliex presents</span>
           <h2 className="R-party-title">the party.</h2>
@@ -561,27 +561,28 @@ const CSS = `
     justify-content: center;
     margin-bottom: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 88% 92%, rgba(139,74,62,0.22) 0%, transparent 100%),
-      radial-gradient(ellipse 60% 50% at 8% 6%, rgba(40,22,38,0.30) 0%, transparent 100%),
+      radial-gradient(ellipse 80% 60% at 88% 92%, rgba(139,74,62,0.18) 0%, transparent 100%),
+      radial-gradient(ellipse 60% 50% at 8% 6%, rgba(40,22,38,0.20) 0%, transparent 100%),
       radial-gradient(ellipse 45% 35% at 50% 50%, rgba(194,138,122,0.08) 0%, transparent 100%),
       linear-gradient(
-        160deg,
-        #060608  0%,
-        #0e090b  8%,
-        #1f1114  17%,
-        #3d1f23  26%,
-        #6b3a3e  34%,
-        #9b6a64  40%,
-        #c49a90  46%,
-        #dbbcae  50%,
-        #E5DDD2  54%,
-        #E5DDD2  57%,
-        #d8b8a8  62%,
-        #b07a6c  69%,
-        #6b3038  78%,
-        #2a1418  87%,
-        #0e090b  94%,
-        #060608  100%
+        to bottom,
+        #F4EFE6  0%,
+        #E8DDD0  4%,
+        #d8c4b0  10%,
+        #c4a08a  18%,
+        #b07a6c  26%,
+        #9b6a64  32%,
+        #c49a90  40%,
+        #dbbcae  46%,
+        #E5DDD2  50%,
+        #dbbcae  54%,
+        #c49a90  60%,
+        #9b6a64  68%,
+        #6b3a3e  76%,
+        #3d1f23  84%,
+        #1f1114  90%,
+        #0e090b  96%,
+        #0a0908  100%
       );
   }
   .R-party-hero::after {
@@ -801,7 +802,9 @@ const CSS = `
   /* ── ROOMS (four revolutions) — dark cards ── */
   .R-rooms {
     display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1px; width: 100%;
+    gap: 1px;
+    width: 100%;
+    max-width: 44rem;
     background: rgba(232,228,220,0.04);
     border-radius: 8px; overflow: hidden;
     margin-bottom: 48px;
