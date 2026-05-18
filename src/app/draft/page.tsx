@@ -591,7 +591,7 @@ const CSS = `
     position: relative;
     width: 80vw;
     max-width: 800px;
-    max-height: 55vh;
+    max-height: 65vh;
     aspect-ratio: 16 / 9;
     border-radius: 12px;
     overflow: hidden;
