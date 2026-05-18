@@ -770,28 +770,29 @@ const CSS = `
   /* ── BACKED BY ── */
   .R-backed {
     text-align: center;
-    padding: 0 0 clamp(2.5rem, 5vw, 4rem);
+    padding: 0 0 clamp(4rem, 8vw, 7rem);
     width: 100%;
     max-width: 44rem;
   }
   .R-backed-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.25em;
+    font-size: 0.55rem; letter-spacing: 0.35em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.35);
+    color: rgba(229,221,210,0.2);
     display: block;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
   .R-backed-names {
-    display: flex; gap: 32px;
+    display: flex; gap: 40px;
     justify-content: center;
     flex-wrap: wrap;
   }
   .R-backed-names span {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    color: rgba(229,221,210,0.55);
+    color: rgba(229,221,210,0.35);
+    letter-spacing: 0.04em;
   }
 
   /* ── ROOMS (four revolutions) — dark cards ── */
@@ -800,63 +801,65 @@ const CSS = `
     gap: 1px;
     width: 100%;
     max-width: 44rem;
-    background: rgba(232,228,220,0.04);
-    border-radius: 8px; overflow: hidden;
-    margin-bottom: 48px;
+    background: rgba(232,228,220,0.03);
+    border-radius: 4px; overflow: hidden;
+    margin-bottom: 0;
   }
   .R-room {
-    display: flex; flex-direction: column; gap: 8px;
-    padding: 28px 24px;
-    background: #12110f;
+    display: flex; flex-direction: column; gap: 6px;
+    padding: 32px 28px;
+    background: #0e0d0b;
     text-decoration: none;
     color: #e8e4dc;
-    transition: background 0.3s;
+    transition: background 0.4s ease;
   }
-  .R-room:hover { background: #1a1815; }
+  .R-room:hover { background: #161412; }
   .R-room-n {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.2rem; color: #C9952A;
-    opacity: 0.5;
+    font-size: 1.1rem; color: #C9952A;
+    opacity: 0.35;
   }
   .R-room-name {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 1.1rem; font-weight: 600; font-style: italic;
-    color: rgba(232,228,220,0.85);
+    font-size: 1.05rem; font-weight: 600; font-style: italic;
+    color: rgba(232,228,220,0.7);
   }
   .R-room-sub {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.6rem; opacity: 0.3;
-    letter-spacing: 0.05em;
-    color: rgba(232,228,220,0.5);
+    font-size: 0.55rem; opacity: 0.25;
+    letter-spacing: 0.06em;
+    color: rgba(232,228,220,0.4);
+    margin-top: 2px;
   }
 
   /* ── CLOSER ── */
   .R-closer {
     text-align: center;
-    padding-top: clamp(2rem, 4vw, 3rem);
-    padding-bottom: 1rem;
+    padding-top: clamp(6rem, 14vw, 12rem);
+    padding-bottom: clamp(4rem, 8vw, 6rem);
   }
   .R-closer-q {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    font-size: clamp(3rem, 8vw, 5.5rem);
     font-style: italic;
-    font-weight: 400;
-    margin: 0 0 1.5rem;
-    letter-spacing: 0.01em;
+    font-weight: 300;
+    margin: 0 0 clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
   }
   .R-sig {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-size: clamp(0.85rem, 1.8vw, 1.1rem);
     font-style: italic;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    margin: 0 0 1.5rem;
-    opacity: 0.5;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    margin: 0 0 clamp(2rem, 4vw, 3rem);
+    opacity: 0.3;
   }
   .R-closer-phone {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem; letter-spacing: 0.1em;
-    opacity: 0.2; display: block; margin-top: 8px;
+    font-size: 0.55rem; letter-spacing: 0.18em;
+    opacity: 0.1; display: block; margin-top: 0;
   }
 
   /* Per-character rainbow coloring */
@@ -864,12 +867,12 @@ const CSS = `
     display: inline-block;
   }
 
-  /* "call me if you get lost" — warm gold tonal drift on dark */
-  .R-closer-q .R-rainbow:nth-child(4n+1) { color: #8B7A65; }
-  .R-closer-q .R-rainbow:nth-child(4n+2) { color: #9A8A72; }
-  .R-closer-q .R-rainbow:nth-child(4n+3) { color: #7E6E58; }
-  .R-closer-q .R-rainbow:nth-child(4n)   { color: #8A7960; }
-  .R-closer-q .R-rainbow:last-child      { color: #C9A020; }
+  /* "call me if you get lost" — muted warm tonal drift, nearly monochrome */
+  .R-closer-q .R-rainbow:nth-child(4n+1) { color: #a09484; }
+  .R-closer-q .R-rainbow:nth-child(4n+2) { color: #b0a290; }
+  .R-closer-q .R-rainbow:nth-child(4n+3) { color: #968a7a; }
+  .R-closer-q .R-rainbow:nth-child(4n)   { color: #a89c8a; }
+  .R-closer-q .R-rainbow:last-child      { color: #c9a840; }
 
   /* "aureliex." — warm ember gradient: gold → amber → rust */
   .R-sig .R-rainbow:nth-child(1) { color: #C9952A; }  /* a — gold */
