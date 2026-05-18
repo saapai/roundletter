@@ -197,17 +197,19 @@ function stepPhysarum(
     }
   }
 
-  // Mouse injection
+  // Mouse injection — dramatic radius + deposit for visible interaction
   if (mouseActive && mouseX >= 0 && mouseX < W && mouseY >= 0 && mouseY < H) {
-    const r = 12;
+    const r = 28;
     const mix = Math.floor(mouseX);
     const miy = Math.floor(mouseY);
     for (let dy = -r; dy <= r; dy++) {
       for (let dx = -r; dx <= r; dx++) {
-        if (dx * dx + dy * dy > r * r) continue;
+        const d2 = dx * dx + dy * dy;
+        if (d2 > r * r) continue;
         const px = mix + dx, py = miy + dy;
         if (px >= 0 && px < W && py >= 0 && py < H) {
-          trail[py * W + px] = Math.min(1, trail[py * W + px] + 0.3);
+          const falloff = 1 - Math.sqrt(d2) / r;
+          trail[py * W + px] = Math.min(1, trail[py * W + px] + 1.2 * falloff);
         }
       }
     }
@@ -498,6 +500,16 @@ export default function DraftPage() {
     <div className="D">
       <style>{CSS}</style>
 
+      {/* cursor glow — follows mouse, makes physarum interaction visible */}
+      <div
+        className="D-cursor-glow"
+        style={{
+          left: mouseRef.current.x >= 0 ? `${mouseRef.current.x / (canvasRef.current?.width || 1) * 100}%` : "-9999px",
+          top: mouseRef.current.y >= 0 ? `${mouseRef.current.y / (canvasRef.current?.height || 1) * 100}%` : "-9999px",
+          opacity: mouseRef.current.active ? 1 : 0,
+        }}
+      />
+
       {/* physarum canvas — fixed behind everything */}
       <canvas
         ref={canvasRef}
@@ -522,6 +534,16 @@ export default function DraftPage() {
           transform: `translate(${videoTranslateX}%, ${videoTranslateY}%) scale(${videoScale})`,
         }}
       >
+        {/* Letterbox bars — 2.39:1 widescreen */}
+        <div className="D-video-letterbox D-video-letterbox--top" />
+        <div className="D-video-letterbox D-video-letterbox--bot" />
+        {/* Vignette overlay */}
+        <div className="D-video-vignette" />
+        {/* Film grain */}
+        <svg className="D-video-grain" aria-hidden="true">
+          <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" /></filter>
+          <rect width="100%" height="100%" filter="url(#grain)" opacity="0.04" />
+        </svg>
         <iframe
           src={`https://www.youtube.com/embed/${VIDEO_ID}?rel=0&modestbranding=1&iv_load_policy=3&color=white&autoplay=1&mute=1`}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -549,23 +571,8 @@ export default function DraftPage() {
         </div>
       </div>
 
-      {/* ── PHASE 3: THE SUBSTANCE (30-50%) ── */}
-      <div className="D-layer D-layer--right" style={{ opacity: substanceOpacity, pointerEvents: substanceOpacity > 0.3 ? "auto" : "none" }}>
-        <div className="ph3">
-          <span className="ph3-eyebrow">// lot 001</span>
-          <h2 className="ph3-title">The Tarantula &middot; opening bid $25</h2>
-          <p className="ph3-backed">backed by 10%{total ? ` · $${Math.round(total * 0.1).toLocaleString()} live` : ""}</p>
-          <div className="ph3-details">
-            <p>june 21, 2026</p>
-            <p className="ph3-party">the party is the liquidity event.</p>
-            <p>10% dividend pool &middot; flight comp &middot; stake = earliness &times; size</p>
-            <p>$100 invested externally &middot; $66 gifted as easter eggs</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ── PHASE 4: THE METHOD (50-70%) ── */}
-      <div className="D-layer" style={{ opacity: methodOpacity, pointerEvents: "none" }}>
+      {/* ── PHASE 3: THE METHOD (30-50%) — earn the ask ── */}
+      <div className="D-layer" style={{ opacity: substanceOpacity, pointerEvents: "none" }}>
         <div className="ph4">
           <p className="ph4-line">five AI agents argue every trade.</p>
           <p className="ph4-line">the monte carlo says 0.000%.</p>
@@ -582,27 +589,25 @@ export default function DraftPage() {
         </div>
       </div>
 
-      {/* ── PHASE 5: THE QUESTION (70-85%) ── */}
-      <div className="D-layer" style={{ opacity: questionOpacity, pointerEvents: questionOpacity > 0.3 ? "auto" : "none" }}>
+      {/* ── PHASE 4: THE SUBSTANCE (50-70%) — now you've earned it ── */}
+      <div className="D-layer D-layer--right" style={{ opacity: methodOpacity, pointerEvents: methodOpacity > 0.3 ? "auto" : "none" }}>
+        <div className="ph3">
+          <span className="ph3-eyebrow">// lot 001</span>
+          <h2 className="ph3-title">The Tarantula &middot; opening bid $25</h2>
+          <p className="ph3-backed">backed by 10%{total ? ` · $${Math.round(total * 0.1).toLocaleString()} live` : ""}</p>
+          <div className="ph3-details">
+            <p>june 21, 2026</p>
+            <p className="ph3-party">the party is the liquidity event.</p>
+            <p>10% dividend pool &middot; flight comp &middot; stake = earliness &times; size</p>
+            <p>$100 invested externally &middot; $66 gifted as easter eggs</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── PHASE 5: THE QUESTION (70-85%) — unanswered ── */}
+      <div className="D-layer" style={{ opacity: questionOpacity, pointerEvents: "none" }}>
         <div className="ph5">
           <p className="ph5-q">do you think he makes it?</p>
-          <div className="ph5-btns">
-            <button
-              className={`ph5-btn ${voted === "yes" ? "ph5-btn--active" : ""}`}
-              onClick={() => castVote("yes")}
-              disabled={!!voted}
-            >
-              yes{voted ? ` (${votes.yes})` : ""}
-            </button>
-            <button
-              className={`ph5-btn ${voted === "no" ? "ph5-btn--active" : ""}`}
-              onClick={() => castVote("no")}
-              disabled={!!voted}
-            >
-              no{voted ? ` (${votes.no})` : ""}
-            </button>
-          </div>
-          {voted && <p className="ph5-thanks">noted.</p>}
         </div>
       </div>
 
@@ -639,6 +644,16 @@ const CSS = `
     -webkit-font-smoothing: antialiased;
   }
 
+  /* ── cursor glow ── */
+  .D-cursor-glow {
+    position: fixed; z-index: 2;
+    width: 300px; height: 300px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(240,216,144,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
   /* ── physarum canvas ── */
   .D-phys {
     position: fixed; inset: 0;
@@ -673,7 +688,23 @@ const CSS = `
   }
   .D-video iframe {
     width: 100%; height: 100%; border: none;
-    display: block;
+    display: block; position: relative; z-index: 1;
+  }
+  .D-video-letterbox {
+    position: absolute; left: 0; right: 0; z-index: 2;
+    background: #000; height: 13%; pointer-events: none;
+  }
+  .D-video-letterbox--top { top: 0; }
+  .D-video-letterbox--bot { bottom: 0; }
+  .D-video-vignette {
+    position: absolute; inset: 0; z-index: 3;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.5) 100%);
+    pointer-events: none;
+  }
+  .D-video-grain {
+    position: absolute; inset: 0; z-index: 4;
+    width: 100%; height: 100%; pointer-events: none;
+    mix-blend-mode: overlay;
   }
 
   /* ── content layers ── */
