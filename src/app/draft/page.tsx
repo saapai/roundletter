@@ -1,181 +1,621 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
-/* ── live portfolio ── */
-const H = [
-  { t: "QTUM", s: 5.584, e: 679.74 }, { t: "MSFT", s: 1.036, e: 407.87 },
-  { t: "GOOG", s: 1.235, e: 407.17 }, { t: "IONQ", s: 9.489, e: 416.85 },
-  { t: "IBM",  s: 1.553, e: 373.33 }, { t: "NVDA", s: 1.773, e: 344.49 },
-  { t: "CEG",  s: 1.148, e: 339.05 }, { t: "RGTI", s: 9.938, e: 169.50 },
-  { t: "SGOV", s: 2.625, e: 263.94 }, { t: "QBTS", s: 5.951, e: 101.65 },
+/* ── portfolio holdings ── */
+const HOLDINGS = [
+  { t: "QTUM", s: 5.584, fb: 679.74 },
+  { t: "MSFT", s: 1.036, fb: 407.87 },
+  { t: "GOOG", s: 1.235, fb: 407.17 },
+  { t: "IONQ", s: 9.489, fb: 416.85 },
+  { t: "IBM",  s: 1.553, fb: 373.33 },
+  { t: "NVDA", s: 1.773, fb: 344.49 },
+  { t: "CEG",  s: 1.148, fb: 339.05 },
+  { t: "RGTI", s: 9.938, fb: 169.50 },
+  { t: "SGOV", s: 2.625, fb: 263.94 },
+  { t: "QBTS", s: 5.951, fb: 101.65 },
 ];
-function useLive() {
+const PENDING_CASH = 46.57;
+const PREDICTION_OFFSET = 250;
+const TARGET = 100_000;
+const DEADLINE = new Date("2026-06-21");
+const VIDEO_ID = "REPLACE_WITH_VIDEO_ID";
+
+/* ── live price hook ── */
+function useLive(): number | null {
   const [v, setV] = useState<number | null>(null);
   useEffect(() => {
-    let on = true;
-    const go = async () => {
+    let alive = true;
+    const poll = async () => {
       try {
         const r = await fetch("/api/prices", { cache: "no-store" });
-        if (!r.ok || !on) return;
+        if (!r.ok || !alive) return;
         const j = await r.json();
-        if (!j?.hasData || !on) return;
-        let s = 296.57; // pending_cash + prediction offset
-        for (const h of H) {
+        if (!j?.hasData || !alive) return;
+        let sum = PENDING_CASH + PREDICTION_OFFSET;
+        for (const h of HOLDINGS) {
           const d = j.data[h.t];
-          s += d?.closes?.length > 0 ? h.s * d.closes[d.closes.length - 1] : h.e;
+          sum += d?.closes?.length > 0 ? h.s * d.closes[d.closes.length - 1] : h.fb;
         }
-        setV(s);
-      } catch {}
+        if (alive) setV(sum);
+      } catch { /* swallow */ }
     };
-    go(); const id = setInterval(go, 30_000);
-    return () => { on = false; clearInterval(id); };
+    poll();
+    const id = setInterval(poll, 30_000);
+    return () => { alive = false; clearInterval(id); };
   }, []);
   return v;
 }
 
-function days() {
-  return Math.max(0, Math.ceil((new Date("2026-06-21").getTime() - Date.now()) / 86_400_000));
+function daysLeft(): number {
+  return Math.max(0, Math.ceil((DEADLINE.getTime() - Date.now()) / 86_400_000));
 }
 
-/* ═══════════════════════════════════════
-   PAGE — a visual mixtape in 5 moments
-   ═══════════════════════════════════════ */
+/* ── lerp / clamp helpers ── */
+function lerp(a: number, b: number, t: number): number { return a + (b - a) * t; }
+function clamp01(x: number): number { return Math.max(0, Math.min(1, x)); }
+function remap(x: number, inLo: number, inHi: number, outLo: number, outHi: number): number {
+  return lerp(outLo, outHi, clamp01((x - inLo) / (inHi - inLo)));
+}
+
+/* ══════════════════════════════════════════════════════
+   PHYSARUM SIMULATION
+   ══════════════════════════════════════════════════════ */
+
+interface PhysarumState {
+  width: number;
+  height: number;
+  agentCount: number;
+  ax: Float32Array; // x positions
+  ay: Float32Array; // y positions
+  aa: Float32Array; // angles
+  trail: Float32Array; // trail map (width * height)
+  trailB: Float32Array; // diffusion buffer
+}
+
+function createPhysarum(w: number, h: number, count: number): PhysarumState {
+  const ax = new Float32Array(count);
+  const ay = new Float32Array(count);
+  const aa = new Float32Array(count);
+  const cx = w / 2, cy = h / 2;
+  for (let i = 0; i < count; i++) {
+    const r = Math.random() * Math.min(w, h) * 0.4;
+    const a = Math.random() * Math.PI * 2;
+    ax[i] = cx + Math.cos(a) * r;
+    ay[i] = cy + Math.sin(a) * r;
+    aa[i] = Math.random() * Math.PI * 2;
+  }
+  return {
+    width: w, height: h, agentCount: count,
+    ax, ay, aa,
+    trail: new Float32Array(w * h),
+    trailB: new Float32Array(w * h),
+  };
+}
+
+function resizePhysarum(ps: PhysarumState, newCount: number): void {
+  if (newCount <= ps.agentCount) {
+    ps.agentCount = newCount;
+    return;
+  }
+  const cx = ps.width / 2, cy = ps.height / 2;
+  if (newCount > ps.ax.length) {
+    const nax = new Float32Array(newCount);
+    const nay = new Float32Array(newCount);
+    const naa = new Float32Array(newCount);
+    nax.set(ps.ax); nay.set(ps.ay); naa.set(ps.aa);
+    for (let i = ps.ax.length; i < newCount; i++) {
+      const r = Math.random() * Math.min(ps.width, ps.height) * 0.4;
+      const a = Math.random() * Math.PI * 2;
+      nax[i] = cx + Math.cos(a) * r;
+      nay[i] = cy + Math.sin(a) * r;
+      naa[i] = Math.random() * Math.PI * 2;
+    }
+    ps.ax = nax; ps.ay = nay; ps.aa = naa;
+  } else {
+    for (let i = ps.agentCount; i < newCount; i++) {
+      const r = Math.random() * Math.min(ps.width, ps.height) * 0.4;
+      const a = Math.random() * Math.PI * 2;
+      ps.ax[i] = cx + Math.cos(a) * r;
+      ps.ay[i] = cy + Math.sin(a) * r;
+      ps.aa[i] = Math.random() * Math.PI * 2;
+    }
+  }
+  ps.agentCount = newCount;
+}
+
+function stepPhysarum(
+  ps: PhysarumState,
+  videoRect: { x: number; y: number; w: number; h: number } | null,
+  textMask: Uint8Array | null,
+  mouseX: number, mouseY: number, mouseActive: boolean,
+  depositBurst: boolean,
+): void {
+  const { width: W, height: H, trail, agentCount } = ps;
+  const sensorDist = 9;
+  const sensorAngle = 0.3;
+  const stepSize = 1.2;
+  const depositAmt = depositBurst ? 1.5 : 0.5;
+
+  // Step agents
+  for (let i = 0; i < agentCount; i++) {
+    let x = ps.ax[i], y = ps.ay[i], a = ps.aa[i];
+
+    // Sense at three forward points
+    const sl = senseAt(trail, W, H, x, y, a - sensorAngle, sensorDist);
+    const sc = senseAt(trail, W, H, x, y, a, sensorDist);
+    const sr = senseAt(trail, W, H, x, y, a + sensorAngle, sensorDist);
+
+    if (sc >= sl && sc >= sr) {
+      // keep going
+    } else if (sl > sr) {
+      a -= sensorAngle * 0.5;
+    } else if (sr > sl) {
+      a += sensorAngle * 0.5;
+    } else {
+      a += (Math.random() - 0.5) * sensorAngle;
+    }
+
+    // Random jitter
+    a += (Math.random() - 0.5) * 0.1;
+
+    let nx = x + Math.cos(a) * stepSize;
+    let ny = y + Math.sin(a) * stepSize;
+
+    // Wrap at edges
+    if (nx < 0) nx += W;
+    if (nx >= W) nx -= W;
+    if (ny < 0) ny += H;
+    if (ny >= H) ny -= H;
+
+    // Video mask: bounce agents away from video rect
+    if (videoRect) {
+      const vx = videoRect.x, vy = videoRect.y, vw = videoRect.w, vh = videoRect.h;
+      const margin = 4;
+      if (nx >= vx - margin && nx <= vx + vw + margin && ny >= vy - margin && ny <= vy + vh + margin) {
+        a = Math.random() * Math.PI * 2;
+        nx = x;
+        ny = y;
+      }
+    }
+
+    ps.ax[i] = nx;
+    ps.ay[i] = ny;
+    ps.aa[i] = a;
+
+    // Deposit
+    const ix = Math.floor(nx) | 0;
+    const iy = Math.floor(ny) | 0;
+    if (ix >= 0 && ix < W && iy >= 0 && iy < H) {
+      const idx = iy * W + ix;
+      let dep = depositAmt;
+      // Text mask: deposit more near text
+      if (textMask && textMask[idx] > 0) {
+        dep *= 2.5;
+      }
+      trail[idx] = Math.min(1, trail[idx] + dep);
+    }
+  }
+
+  // Mouse injection
+  if (mouseActive && mouseX >= 0 && mouseX < W && mouseY >= 0 && mouseY < H) {
+    const r = 12;
+    const mix = Math.floor(mouseX);
+    const miy = Math.floor(mouseY);
+    for (let dy = -r; dy <= r; dy++) {
+      for (let dx = -r; dx <= r; dx++) {
+        if (dx * dx + dy * dy > r * r) continue;
+        const px = mix + dx, py = miy + dy;
+        if (px >= 0 && px < W && py >= 0 && py < H) {
+          trail[py * W + px] = Math.min(1, trail[py * W + px] + 0.3);
+        }
+      }
+    }
+  }
+
+  // Diffuse + decay
+  const { trailB } = ps;
+  const decay = 0.97;
+  for (let y = 1; y < H - 1; y++) {
+    for (let x = 1; x < W - 1; x++) {
+      const idx = y * W + x;
+      let sum = trail[idx] * 4
+        + trail[idx - 1] + trail[idx + 1]
+        + trail[idx - W] + trail[idx + W];
+      sum /= 8;
+      // Text mask: slower decay near text
+      const d = (textMask && textMask[idx] > 0) ? 0.99 : decay;
+      trailB[idx] = sum * d;
+    }
+  }
+  // Swap
+  ps.trail = trailB;
+  ps.trailB = trail;
+}
+
+function senseAt(trail: Float32Array, W: number, H: number, x: number, y: number, angle: number, dist: number): number {
+  const sx = Math.floor(x + Math.cos(angle) * dist);
+  const sy = Math.floor(y + Math.sin(angle) * dist);
+  if (sx < 0 || sx >= W || sy < 0 || sy >= H) return 0;
+  return trail[sy * W + sx];
+}
+
+function renderTrail(ctx: CanvasRenderingContext2D, trail: Float32Array, W: number, H: number): void {
+  const img = ctx.createImageData(W, H);
+  const d = img.data;
+  // Color ramp: #0a0a0a → #1a1408 → #8b6914 → #f0d890
+  for (let i = 0; i < W * H; i++) {
+    const v = trail[i];
+    const o = i * 4;
+    if (v < 0.01) {
+      d[o] = 10; d[o + 1] = 10; d[o + 2] = 10;
+    } else if (v < 0.15) {
+      const t = v / 0.15;
+      d[o]     = lerp(10, 26, t) | 0;
+      d[o + 1] = lerp(10, 20, t) | 0;
+      d[o + 2] = lerp(10, 8, t) | 0;
+    } else if (v < 0.5) {
+      const t = (v - 0.15) / 0.35;
+      d[o]     = lerp(26, 139, t) | 0;
+      d[o + 1] = lerp(20, 105, t) | 0;
+      d[o + 2] = lerp(8, 20, t) | 0;
+    } else {
+      const t = (v - 0.5) / 0.5;
+      d[o]     = lerp(139, 240, t) | 0;
+      d[o + 1] = lerp(105, 216, t) | 0;
+      d[o + 2] = lerp(20, 144, t) | 0;
+    }
+    d[o + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+/* ══════════════════════════════════════════════════════
+   PAGE COMPONENT
+   ══════════════════════════════════════════════════════ */
 
 export default function DraftPage() {
-  const [sp, setSp] = useState(0);
-  const railRef = useRef<HTMLDivElement>(null);
   const total = useLive();
-  const d = days();
+  const d = daysLeft();
 
+  /* refs */
+  const railRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const textCanvasRef = useRef<HTMLCanvasElement>(null);
+  const videoWrapRef = useRef<HTMLDivElement>(null);
+  const psRef = useRef<PhysarumState | null>(null);
+  const spRef = useRef(0);
+  const mouseRef = useRef({ x: -1, y: -1, active: false });
+  const burstRef = useRef(0); // burst timer (frames)
+  const rafRef = useRef(0);
+
+  /* vote state */
+  const [voted, setVoted] = useState<string | null>(null);
+  const [votes, setVotes] = useState({ yes: 47, no: 12 });
+  const [sp, setSp] = useState(0);
+
+  // Load vote from localStorage
+  useEffect(() => {
+    const v = localStorage.getItem("draft-vote");
+    if (v) setVoted(v);
+    const vc = localStorage.getItem("draft-votes");
+    if (vc) {
+      try { setVotes(JSON.parse(vc)); } catch { /* ignore */ }
+    }
+  }, []);
+
+  const castVote = useCallback((choice: string) => {
+    if (voted) return;
+    setVoted(choice);
+    localStorage.setItem("draft-vote", choice);
+    const nv = { ...votes, [choice]: votes[choice as keyof typeof votes] + 1 };
+    setVotes(nv);
+    localStorage.setItem("draft-votes", JSON.stringify(nv));
+    burstRef.current = 120; // 2 seconds at 60fps
+  }, [voted, votes]);
+
+  /* scroll tracking */
   useEffect(() => {
     const el = railRef.current;
     if (!el) return;
     const onScroll = () => {
       const max = el.scrollHeight - el.clientHeight;
-      setSp(max > 0 ? el.scrollTop / max : 0);
+      const s = max > 0 ? el.scrollTop / max : 0;
+      spRef.current = s;
+      setSp(s);
     };
     el.addEventListener("scroll", onScroll, { passive: true });
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Scene thresholds
-  const scene = sp < 0.18 ? 0 : sp < 0.38 ? 1 : sp < 0.58 ? 2 : sp < 0.78 ? 3 : 4;
+  /* mouse tracking (for physarum injection) */
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const c = canvasRef.current;
+      if (!c) return;
+      const rect = c.getBoundingClientRect();
+      const scaleX = c.width / rect.width;
+      const scaleY = c.height / rect.height;
+      mouseRef.current = {
+        x: (e.clientX - rect.left) * scaleX,
+        y: (e.clientY - rect.top) * scaleY,
+        active: true,
+      };
+    };
+    const onLeave = () => { mouseRef.current.active = false; };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("mouseleave", onLeave);
+    return () => { window.removeEventListener("mousemove", onMove); window.removeEventListener("mouseleave", onLeave); };
+  }, []);
 
-  // Background color shifts per scene (baked references)
-  // 0: black (Wesley Wang — negative space)
-  // 1: Chungking Express blue-amber (#1a3a5c → warm)
-  // 2: Ted Lasso warm gold (#2a1f0a)
-  // 3: EEAO multiverse (dark with color bleeds)
-  // 4: back to black (resolve)
-  const bgColors = ["#000", "#0a1520", "#12100a", "#0a0510", "#000"];
-  const bg = bgColors[scene];
+  /* text mask for physarum */
+  const buildTextMask = useCallback((W: number, H: number, numStr: string): Uint8Array => {
+    const mask = new Uint8Array(W * H);
+    const tc = textCanvasRef.current;
+    if (!tc) return mask;
+    tc.width = W;
+    tc.height = H;
+    const ctx = tc.getContext("2d");
+    if (!ctx) return mask;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = "#fff";
+    ctx.font = `500 ${Math.floor(W * 0.14)}px "EB Garamond", Georgia, serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(numStr, W / 2, H / 2);
+    const id = ctx.getImageData(0, 0, W, H);
+    for (let i = 0; i < W * H; i++) {
+      if (id.data[i * 4 + 3] > 128) mask[i] = 1;
+    }
+    return mask;
+  }, []);
+
+  /* main animation loop */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return;
+
+    // Size canvas to CSS pixel grid (half-res for perf)
+    const resize = () => {
+      const w = Math.floor(window.innerWidth * 0.5);
+      const h = Math.floor(window.innerHeight * 0.5);
+      canvas.width = w;
+      canvas.height = h;
+      if (!psRef.current) {
+        psRef.current = createPhysarum(w, h, 500);
+      } else {
+        // Rebuild trail maps on resize
+        const ps = psRef.current;
+        ps.width = w;
+        ps.height = h;
+        ps.trail = new Float32Array(w * h);
+        ps.trailB = new Float32Array(w * h);
+      }
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    let lastTextMask: Uint8Array | null = null;
+    let lastTextStr = "";
+
+    const loop = () => {
+      const ps = psRef.current;
+      if (!ps) { rafRef.current = requestAnimationFrame(loop); return; }
+      const s = spRef.current;
+
+      // Determine agent count based on scroll
+      const targetCount = Math.floor(lerp(500, 5000, clamp01(remap(s, 0.05, 0.3, 0, 1))));
+      if (targetCount !== ps.agentCount) {
+        resizePhysarum(ps, targetCount);
+      }
+
+      // Video rect in canvas coords
+      let videoRect: { x: number; y: number; w: number; h: number } | null = null;
+      const vw = videoWrapRef.current;
+      if (vw && s < 0.85) {
+        const vr = vw.getBoundingClientRect();
+        const cRect = canvas.getBoundingClientRect();
+        const sx = canvas.width / cRect.width;
+        const sy = canvas.height / cRect.height;
+        videoRect = {
+          x: (vr.left - cRect.left) * sx,
+          y: (vr.top - cRect.top) * sy,
+          w: vr.width * sx,
+          h: vr.height * sy,
+        };
+      }
+
+      // Text mask when number is visible (15-50%)
+      const numStr = total ? "$" + Math.round(total).toLocaleString() : "";
+      if (s >= 0.15 && s <= 0.50 && numStr) {
+        if (numStr !== lastTextStr) {
+          lastTextMask = buildTextMask(ps.width, ps.height, numStr);
+          lastTextStr = numStr;
+        }
+      } else {
+        lastTextMask = null;
+        lastTextStr = "";
+      }
+
+      // Burst
+      const isBurst = burstRef.current > 0;
+      if (isBurst) burstRef.current--;
+
+      const m = mouseRef.current;
+      stepPhysarum(ps, videoRect, lastTextMask, m.x, m.y, m.active, isBurst);
+      renderTrail(ctx, ps.trail, ps.width, ps.height);
+
+      rafRef.current = requestAnimationFrame(loop);
+    };
+
+    rafRef.current = requestAnimationFrame(loop);
+
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("resize", resize);
+    };
+  }, [total, buildTextMask]);
+
+  /* ── derived scroll values ── */
+  // Video transforms
+  const videoOpacity = sp < 0.10 ? 1
+    : sp < 0.30 ? remap(sp, 0.10, 0.30, 1, 0.4)
+    : sp < 0.50 ? remap(sp, 0.30, 0.50, 0.4, 0.3)
+    : sp < 0.70 ? remap(sp, 0.50, 0.70, 0.3, 0.15)
+    : sp < 0.85 ? remap(sp, 0.70, 0.85, 0.15, 0)
+    : 0;
+
+  const videoScale = sp < 0.30 ? 1
+    : sp < 0.50 ? remap(sp, 0.30, 0.50, 1, 0.55)
+    : remap(sp, 0.50, 0.70, 0.55, 0.35);
+
+  // Video position: center → left → top-right PIP
+  const videoTranslateX = sp < 0.30 ? 0
+    : sp < 0.50 ? remap(sp, 0.30, 0.50, 0, -25) // percent
+    : remap(sp, 0.50, 0.70, -25, 40);
+  const videoTranslateY = sp < 0.50 ? 0
+    : remap(sp, 0.50, 0.70, 0, -35);
+
+  // Physarum canvas opacity
+  const physarumOpacity = sp < 0.70 ? 1
+    : sp < 0.85 ? remap(sp, 0.70, 0.85, 1, 0.3)
+    : remap(sp, 0.85, 1, 0.3, 0.05);
+
+  // Phase visibility
+  const nothingTextOpacity = remap(sp, 0.08, 0.12, 0, 0.35) * (sp < 0.15 ? 1 : remap(sp, 0.15, 0.20, 1, 0));
+  const numberOpacity = remap(sp, 0.15, 0.20, 0, 1) * (sp < 0.30 ? 1 : remap(sp, 0.30, 0.38, 1, 0));
+  const substanceOpacity = remap(sp, 0.30, 0.36, 0, 1) * (sp < 0.50 ? 1 : remap(sp, 0.50, 0.56, 1, 0));
+  const methodOpacity = remap(sp, 0.50, 0.56, 0, 1) * (sp < 0.70 ? 1 : remap(sp, 0.70, 0.76, 1, 0));
+  const questionOpacity = remap(sp, 0.70, 0.76, 0, 1) * (sp < 0.85 ? 1 : remap(sp, 0.85, 0.90, 1, 0));
+  const resolveOpacity = remap(sp, 0.85, 0.92, 0, 1);
+
+  const tickers = HOLDINGS.map(h => h.t).join("  ");
+  const progressPct = total ? Math.min(100, (total / TARGET) * 100) : 0;
 
   return (
-    <div className="D" style={{ background: bg }}>
-      <style>{css}</style>
+    <div className="D">
+      <style>{CSS}</style>
+
+      {/* physarum canvas — fixed behind everything */}
+      <canvas
+        ref={canvasRef}
+        className="D-phys"
+        style={{ opacity: physarumOpacity }}
+      />
+
+      {/* hidden canvas for text mask */}
+      <canvas ref={textCanvasRef} style={{ display: "none" }} />
 
       {/* scroll rail */}
       <div className="D-rail" ref={railRef}>
         <div style={{ height: "500vh" }} />
       </div>
 
-      {/* ── MOMENT 1: Wesley Wang — nothing, except everything ── */}
-      <div className={`D-m ${scene === 0 ? "on" : ""}`}>
-        <div className="m1">
-          <div className="m1-video">
-            <iframe
-              src="https://www.youtube.com/embed/hif5eI5pBxo?rel=0&modestbranding=1&iv_load_policy=3&color=white"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              title="nothing, except everything."
-            />
+      {/* ── STICKY VIDEO ── */}
+      <div
+        ref={videoWrapRef}
+        className="D-video"
+        style={{
+          opacity: videoOpacity,
+          transform: `translate(${videoTranslateX}%, ${videoTranslateY}%) scale(${videoScale})`,
+        }}
+      >
+        <iframe
+          src={`https://www.youtube.com/embed/${VIDEO_ID}?rel=0&modestbranding=1&iv_load_policy=3&color=white&autoplay=1&mute=1`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          title="draft"
+        />
+      </div>
+
+      {/* ── PHASE 1: THE NOTHING (0-15%) ── */}
+      <div className="D-layer" style={{ opacity: nothingTextOpacity, pointerEvents: "none" }}>
+        <p className="ph1-text">nothing, except everything.</p>
+      </div>
+
+      {/* ── PHASE 2: THE NUMBER CRACKS THROUGH (15-30%) ── */}
+      <div className="D-layer" style={{ opacity: numberOpacity, pointerEvents: "none" }}>
+        <div className="ph2">
+          <h1 className="ph2-number">
+            {total ? "$" + Math.round(total).toLocaleString() : "..."}
+          </h1>
+          <div className="ph2-target">
+            <span className="ph2-arrow">&rarr;</span>
+            <span className="ph2-goal">$100,000</span>
+          </div>
+          <p className="ph2-days">{d} days left</p>
+        </div>
+      </div>
+
+      {/* ── PHASE 3: THE SUBSTANCE (30-50%) ── */}
+      <div className="D-layer D-layer--right" style={{ opacity: substanceOpacity, pointerEvents: substanceOpacity > 0.3 ? "auto" : "none" }}>
+        <div className="ph3">
+          <span className="ph3-eyebrow">// lot 001</span>
+          <h2 className="ph3-title">The Tarantula &middot; opening bid $25</h2>
+          <p className="ph3-backed">backed by 10%{total ? ` · $${Math.round(total * 0.1).toLocaleString()} live` : ""}</p>
+          <div className="ph3-details">
+            <p>june 21, 2026</p>
+            <p className="ph3-party">the party is the liquidity event.</p>
+            <p>10% dividend pool &middot; flight comp &middot; stake = earliness &times; size</p>
+            <p>$100 invested externally &middot; $66 gifted as easter eggs</p>
           </div>
         </div>
       </div>
 
-      {/* ── MOMENT 2: Chungking Express — the number in neon ──
-           Blue and amber. Motion blur. The loneliness of a number. */}
-      <div className={`D-m ${scene === 1 ? "on" : ""}`}>
-        <div className="m2">
-          <div className="m2-glow" />
-          <div className="m2-content">
-            <p className="m2-above">every day it changes. every day it&rsquo;s real.</p>
-            <h1 className="m2-number">
-              {total ? "$" + Math.round(total).toLocaleString() : "..."}
-            </h1>
-            <div className="m2-target">
-              <span className="m2-arrow">→</span>
-              <span className="m2-goal">$100,000</span>
+      {/* ── PHASE 4: THE METHOD (50-70%) ── */}
+      <div className="D-layer" style={{ opacity: methodOpacity, pointerEvents: "none" }}>
+        <div className="ph4">
+          <p className="ph4-line">five AI agents argue every trade.</p>
+          <p className="ph4-line">the monte carlo says 0.000%.</p>
+          <p className="ph4-line ph4-real">every dollar is real.</p>
+          <div className="ph4-tickers">{tickers}</div>
+          <div className="ph4-progress">
+            <div className="ph4-bar">
+              <div className="ph4-fill" style={{ width: `${progressPct}%` }} />
             </div>
-            <p className="m2-days">{d} days left</p>
-          </div>
-          {/* Chungking blur streaks */}
-          <div className="m2-streak m2-streak-1" />
-          <div className="m2-streak m2-streak-2" />
-          <div className="m2-streak m2-streak-3" />
-        </div>
-      </div>
-
-      {/* ── MOMENT 3: Ted Lasso — BELIEVE ──
-           The handmade sign. Yellow tape. The optimist's bet. */}
-      <div className={`D-m ${scene === 2 ? "on" : ""}`}>
-        <div className="m3">
-          <div className="m3-sign">
-            <div className="m3-tape m3-tape-tl" />
-            <div className="m3-tape m3-tape-tr" />
-            <div className="m3-tape m3-tape-bl" />
-            <div className="m3-tape m3-tape-br" />
-            <h2 className="m3-word">BELIEVE</h2>
-          </div>
-          <p className="m3-sub">
-            $3,453 → $100,000 by my 20th birthday.<br />
-            five AI agents argue every trade.<br />
-            the monte carlo says 0.000000%.
-          </p>
-        </div>
-      </div>
-
-      {/* ── MOMENT 4: EEAO — everything, all at once ──
-           The painting + the auction + the party. Layered. Dense. */}
-      <div className={`D-m ${scene === 3 ? "on" : ""}`}>
-        <div className="m4">
-          <div className="m4-painting">
-            <img src="/art/auction-piece.jpg" alt="Cityscape" />
-            <div className="m4-overlay">
-              <span className="m4-lot">LOT 001 — opening bid $25</span>
-              <p className="m4-backed">
-                backed by 10% of the portfolio
-                {total ? ` — currently $${Math.round(total * 0.1).toLocaleString()}` : ""}
-              </p>
-            </div>
-          </div>
-          <div className="m4-side">
-            <p className="m4-date">june 21, 2026</p>
-            <p className="m4-party">the party is the<br />liquidity event.</p>
-            <div className="m4-stats">
-              <span><strong>$100</strong> invested</span>
-              <span><strong>$66</strong> easter eggs</span>
-              <span><strong>{total ? "$" + Math.round(total * 0.1).toLocaleString() : "..."}</strong> dividend pool</span>
-            </div>
-            <p className="m4-stake">stake ∝ earliness × size</p>
+            <span className="ph4-label">
+              {total ? "$" + Math.round(total).toLocaleString() : "..."} / $100,000
+            </span>
           </div>
         </div>
       </div>
 
-      {/* ── MOMENT 5: The resolve — just the word ── */}
-      <div className={`D-m ${scene === 4 ? "on" : ""}`}>
-        <div className="m5">
-          <a href="https://aureliex.com" className="m5-word" target="_blank" rel="noopener noreferrer">
+      {/* ── PHASE 5: THE QUESTION (70-85%) ── */}
+      <div className="D-layer" style={{ opacity: questionOpacity, pointerEvents: questionOpacity > 0.3 ? "auto" : "none" }}>
+        <div className="ph5">
+          <p className="ph5-q">do you think he makes it?</p>
+          <div className="ph5-btns">
+            <button
+              className={`ph5-btn ${voted === "yes" ? "ph5-btn--active" : ""}`}
+              onClick={() => castVote("yes")}
+              disabled={!!voted}
+            >
+              yes{voted ? ` (${votes.yes})` : ""}
+            </button>
+            <button
+              className={`ph5-btn ${voted === "no" ? "ph5-btn--active" : ""}`}
+              onClick={() => castVote("no")}
+              disabled={!!voted}
+            >
+              no{voted ? ` (${votes.no})` : ""}
+            </button>
+          </div>
+          {voted && <p className="ph5-thanks">noted.</p>}
+        </div>
+      </div>
+
+      {/* ── PHASE 6: THE RESOLVE (85-100%) ── */}
+      <div className="D-layer" style={{ opacity: resolveOpacity, pointerEvents: resolveOpacity > 0.3 ? "auto" : "none" }}>
+        <div className="ph6">
+          <a href="https://aureliex.com" className="ph6-word" target="_blank" rel="noopener noreferrer">
             aureliex
           </a>
-          <p className="m5-line">attention is what matters the most.</p>
-          <nav className="m5-nav">
-            {["/argument", "/about-the-method", "/art", "/archive", "/letters/round-0"].map(r => (
-              <a key={r} href={`https://aureliex.com${r}`} target="_blank" rel="noopener noreferrer">
-                {r.split("/").pop()}
-              </a>
-            ))}
+          <nav className="ph6-nav">
+            <a href="https://aureliex.com/positions">/positions</a>
+            <a href="https://aureliex.com/argument">/argument</a>
+            <a href="https://aureliex.com/archive">/archive</a>
           </nav>
         </div>
       </div>
@@ -183,259 +623,301 @@ export default function DraftPage() {
   );
 }
 
-/* ── styles ── */
-const css = `
-  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+/* ══════════════════════════════════════════════════════
+   STYLES
+   ══════════════════════════════════════════════════════ */
 
+const CSS = `
+  @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  /* ── base ── */
   .D {
     position: fixed; inset: 0;
+    background: #000;
     color: #e8e4dc;
-    transition: background 0.8s ease;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
   }
 
+  /* ── physarum canvas ── */
+  .D-phys {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    image-rendering: auto;
+    transition: opacity 0.5s ease;
+  }
+
+  /* ── scroll rail ── */
   .D-rail {
-    position: fixed; inset: 0; z-index: 10;
-    overflow-y: auto; scrollbar-width: none;
+    position: fixed; inset: 0; z-index: 100;
+    overflow-y: auto;
+    scrollbar-width: none;
   }
   .D-rail::-webkit-scrollbar { display: none; }
 
-  .D-m {
-    position: fixed; inset: 0; z-index: 5;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.4s ease;
-    pointer-events: none;
-  }
-  .D-m.on { opacity: 1; pointer-events: auto; }
-
-  /* ═══ MOMENT 1 — Wesley Wang ═══
-     Black. The video. Nothing else. */
-  .m1 { width: 100%; padding: 0 10%; }
-  .m1-video {
-    width: 100%; max-width: 860px; margin: 0 auto;
-    aspect-ratio: 16/9; border-radius: 2px;
+  /* ── sticky video ── */
+  .D-video {
+    position: fixed;
+    top: 50%; left: 50%;
+    width: 85vw; max-width: 900px;
+    aspect-ratio: 16 / 9;
+    margin-left: calc(-1 * min(85vw, 900px) / 2);
+    margin-top: calc(-1 * min(85vw, 900px) * 9 / 16 / 2);
+    z-index: 5;
+    border-radius: 3px;
     overflow: hidden;
+    transform-origin: center center;
+    transition: opacity 0.15s ease;
     box-shadow: 0 0 120px rgba(0,0,0,0.6);
   }
-  .m1-video iframe { width: 100%; height: 100%; border: none; }
+  .D-video iframe {
+    width: 100%; height: 100%; border: none;
+    display: block;
+  }
 
-  /* ═══ MOMENT 2 — Chungking Express ═══
-     Neon blue + amber. Motion blur. Loneliness. */
-  .m2 {
-    position: relative; text-align: center;
-    width: 100%; overflow: hidden;
+  /* ── content layers ── */
+  .D-layer {
+    position: fixed; inset: 0;
+    z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.1s linear;
   }
-  .m2-glow {
-    position: absolute; top: 50%; left: 50%;
-    width: 600px; height: 600px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle,
-      rgba(30, 80, 140, 0.15) 0%,
-      rgba(200, 140, 50, 0.08) 40%,
-      transparent 70%
-    );
-    border-radius: 50%;
-    animation: m2-breathe 4s ease infinite;
+  .D-layer--right {
+    justify-content: flex-end;
+    padding-right: 8%;
   }
-  @keyframes m2-breathe {
-    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-    50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
-  }
-  .m2-content { position: relative; z-index: 2; }
-  .m2-above {
+
+  /* ── PHASE 1: THE NOTHING ── */
+  .ph1-text {
+    position: absolute;
+    top: 18%; left: 50%;
+    transform: translateX(-50%);
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 15px; font-style: italic;
-    color: rgba(200, 160, 100, 0.4);
-    margin: 0 0 24px;
+    font-size: 15px;
+    font-style: italic;
+    color: rgba(240, 216, 144, 0.35);
+    margin: 0;
+    white-space: nowrap;
   }
-  .m2-number {
+
+  /* ── PHASE 2: THE NUMBER ── */
+  .ph2 {
+    text-align: center;
+    z-index: 2;
+  }
+  .ph2-number {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: clamp(56px, 14vw, 160px);
+    font-size: clamp(64px, 14vw, 140px);
     font-weight: 500;
+    color: #f0d890;
     letter-spacing: -0.03em;
     line-height: 1;
     margin: 0;
-    color: #e8e4dc;
-    text-shadow: 0 0 80px rgba(30, 80, 140, 0.3),
-                 0 0 160px rgba(200, 140, 50, 0.1);
+    animation: ph2-breathe 5s ease-in-out infinite;
   }
-  .m2-target {
-    margin-top: 16px;
+  @keyframes ph2-breathe {
+    0%, 100% { transform: scale(0.995); }
+    50% { transform: scale(1.005); }
+  }
+  .ph2-target {
     display: flex; align-items: center;
-    justify-content: center; gap: 12px;
+    justify-content: center; gap: 10px;
+    margin-top: 16px;
   }
-  .m2-arrow {
-    font-size: 28px; color: rgba(200, 160, 100, 0.25);
-    font-family: 'EB Garamond', Georgia, serif;
-  }
-  .m2-goal {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: clamp(24px, 5vw, 40px);
-    font-weight: 400; color: rgba(232, 228, 220, 0.2);
-  }
-  .m2-days {
+  .ph2-arrow {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: rgba(200, 160, 100, 0.3);
-    letter-spacing: 0.2em; text-transform: uppercase;
-    margin-top: 20px;
+    font-size: 16px;
+    color: rgba(240, 216, 144, 0.2);
   }
-  /* Motion blur streaks — Chungking Express neon trails */
-  .m2-streak {
-    position: absolute; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(80, 140, 200, 0.15), transparent);
-    animation: m2-drift 8s linear infinite;
+  .ph2-goal {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    color: rgba(240, 216, 144, 0.2);
   }
-  .m2-streak-1 { top: 30%; left: -20%; width: 140%; animation-duration: 7s; }
-  .m2-streak-2 { top: 55%; left: -10%; width: 120%; animation-duration: 11s; animation-delay: -3s;
-    background: linear-gradient(90deg, transparent, rgba(200, 140, 50, 0.1), transparent);
-  }
-  .m2-streak-3 { top: 72%; left: -15%; width: 130%; animation-duration: 9s; animation-delay: -5s; }
-  @keyframes m2-drift {
-    from { transform: translateX(-10%); }
-    to { transform: translateX(10%); }
+  .ph2-days {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(240, 216, 144, 0.15);
+    letter-spacing: 0.15em;
+    margin-top: 12px;
   }
 
-  /* ═══ MOMENT 3 — Ted Lasso BELIEVE ═══
-     Yellow paper sign. Tape corners. Warm. */
-  .m3 {
+  /* ── PHASE 3: THE SUBSTANCE ── */
+  .ph3 {
+    max-width: 420px;
+  }
+  .ph3-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(201, 168, 76, 0.5);
+    letter-spacing: 0.15em;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .ph3-title {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 500;
+    color: #e8e4dc;
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .ph3-backed {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(240, 216, 144, 0.35);
+    margin: 0 0 24px;
+  }
+  .ph3-details {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 15px;
+    line-height: 1.9;
+    color: rgba(232, 228, 220, 0.35);
+  }
+  .ph3-details p { margin: 0; }
+  .ph3-party {
+    font-style: italic;
+    color: rgba(240, 216, 144, 0.3) !important;
+  }
+
+  /* ── PHASE 4: THE METHOD ── */
+  .ph4 {
+    text-align: center;
+    max-width: 480px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 12px;
+  }
+  .ph4-line {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: clamp(16px, 3vw, 22px);
+    color: rgba(232, 228, 220, 0.4);
+    margin: 0;
+    line-height: 1.6;
+  }
+  .ph4-real {
+    color: rgba(240, 216, 144, 0.5);
+    font-style: italic;
+  }
+  .ph4-tickers {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: rgba(232, 228, 220, 0.12);
+    margin-top: 16px;
+    word-spacing: 8px;
+  }
+  .ph4-progress {
+    margin-top: 12px;
+    width: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 6px;
+  }
+  .ph4-bar {
+    width: 200px; height: 2px;
+    background: rgba(232, 228, 220, 0.08);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .ph4-fill {
+    height: 100%;
+    background: rgba(240, 216, 144, 0.3);
+    border-radius: 1px;
+    transition: width 1s ease;
+  }
+  .ph4-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: rgba(232, 228, 220, 0.15);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── PHASE 5: THE QUESTION ── */
+  .ph5 {
     text-align: center;
     display: flex; flex-direction: column;
-    align-items: center; gap: 32px;
+    align-items: center; gap: 24px;
   }
-  .m3-sign {
-    position: relative;
-    background: #f5e6a3;
-    padding: 28px 56px;
-    border-radius: 2px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
-    transform: rotate(-0.8deg);
-  }
-  .m3-word {
+  .ph5-q {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: clamp(40px, 10vw, 80px);
-    font-weight: 600;
-    color: #1a1a1a;
-    letter-spacing: 0.02em;
+    font-size: clamp(20px, 5vw, 32px);
+    font-style: italic;
+    color: #e8e4dc;
     margin: 0;
   }
-  .m3-tape {
-    position: absolute;
-    width: 40px; height: 16px;
-    background: rgba(200, 190, 150, 0.6);
-    border-radius: 1px;
+  .ph5-btns {
+    display: flex; gap: 80px;
   }
-  .m3-tape-tl { top: -6px; left: 12px; transform: rotate(-15deg); }
-  .m3-tape-tr { top: -6px; right: 12px; transform: rotate(12deg); }
-  .m3-tape-bl { bottom: -6px; left: 16px; transform: rotate(8deg); }
-  .m3-tape-br { bottom: -6px; right: 14px; transform: rotate(-10deg); }
-  .m3-sub {
+  .ph5-btn {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 16px; line-height: 1.8;
-    color: rgba(232, 228, 220, 0.4);
-    font-style: italic;
-    max-width: 400px;
+    font-size: 20px;
+    color: rgba(232, 228, 220, 0.35);
+    background: none; border: none;
+    cursor: pointer;
+    padding: 12px 24px;
+    transition: color 0.3s;
+    letter-spacing: 0.05em;
+  }
+  .ph5-btn:hover:not(:disabled) {
+    color: #f0d890;
+  }
+  .ph5-btn:disabled {
+    cursor: default;
+  }
+  .ph5-btn--active {
+    color: #f0d890 !important;
+  }
+  .ph5-thanks {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(240, 216, 144, 0.2);
+    margin: 0;
+    letter-spacing: 0.2em;
   }
 
-  /* ═══ MOMENT 4 — EEAO — everything at once ═══
-     The painting + the numbers. Layered. Color bleeds. */
-  .m4 {
-    display: flex; align-items: center; gap: 40px;
-    padding: 0 6%;
-    width: 100%; max-width: 1000px;
-  }
-  .m4-painting {
-    flex: 0 0 55%; position: relative;
-    border-radius: 3px; overflow: hidden;
-    box-shadow:
-      0 0 60px rgba(140, 40, 30, 0.2),
-      0 0 120px rgba(40, 40, 140, 0.15);
-  }
-  .m4-painting img {
-    width: 100%; display: block;
-    filter: contrast(1.1) saturate(1.2);
-  }
-  .m4-overlay {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 20px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
-  }
-  .m4-lot {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.15em;
-    color: #C9A84C;
-  }
-  .m4-backed {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 13px; color: #aaa;
-    font-style: italic; margin: 6px 0 0;
-  }
-  .m4-side {
-    flex: 1;
-    font-family: 'EB Garamond', Georgia, serif;
-  }
-  .m4-date {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.25em;
-    color: #444; text-transform: uppercase;
-    margin: 0 0 12px;
-  }
-  .m4-party {
-    font-size: clamp(20px, 3vw, 28px);
-    font-weight: 500; line-height: 1.35;
-    margin: 0 0 20px;
-    color: #e8e4dc;
-  }
-  .m4-stats {
-    display: flex; flex-direction: column; gap: 8px;
-    font-size: 14px; color: #777;
-  }
-  .m4-stats strong {
-    color: #e8e4dc; font-weight: 500;
-    margin-right: 6px;
-  }
-  .m4-stake {
-    font-size: 13px; color: #444;
-    font-style: italic; margin: 16px 0 0;
-  }
-
-  /* ═══ MOMENT 5 — resolve ═══ */
-  .m5 {
+  /* ── PHASE 6: THE RESOLVE ── */
+  .ph6 {
     text-align: center;
     display: flex; flex-direction: column;
-    align-items: center; gap: 16px;
+    align-items: center; gap: 24px;
   }
-  .m5-word {
+  .ph6-word {
     font-family: 'EB Garamond', Georgia, serif;
-    font-size: 22px; font-weight: 500;
-    letter-spacing: 0.12em; color: #444;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: rgba(232, 228, 220, 0.3);
     text-decoration: none;
     transition: color 0.3s;
   }
-  .m5-word:hover { color: #e8e4dc; }
-  .m5-line {
-    font-family: 'EB Garamond', Georgia, serif;
-    font-size: 15px; font-style: italic;
-    color: #2a2a2a; margin: 0;
-  }
-  .m5-nav {
-    display: flex; gap: 4px; margin-top: 16px; flex-wrap: wrap;
+  .ph6-word:hover { color: #e8e4dc; }
+  .ph6-nav {
+    display: flex; gap: 4px; flex-wrap: wrap;
     justify-content: center;
   }
-  .m5-nav a {
+  .ph6-nav a {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: #333;
-    text-decoration: none; padding: 6px 10px;
-    border-radius: 3px;
+    font-size: 11px;
+    color: rgba(232, 228, 220, 0.15);
+    text-decoration: none;
+    padding: 6px 10px;
     transition: color 0.2s;
   }
-  .m5-nav a:hover { color: #e8e4dc; }
+  .ph6-nav a:hover { color: #e8e4dc; }
 
   /* ── responsive ── */
   @media (max-width: 768px) {
-    .m1 { padding: 0 4%; }
-    .m4 { flex-direction: column; gap: 24px; padding: 0 16px; }
-    .m4-painting { flex: none; width: 100%; }
-    .m3-sign { padding: 20px 32px; }
+    .D-video {
+      width: 92vw;
+      margin-left: calc(-1 * min(92vw, 900px) / 2);
+      margin-top: calc(-1 * min(92vw, 900px) * 9 / 16 / 2);
+    }
+    .D-layer--right {
+      justify-content: center;
+      padding-right: 0;
+      padding: 0 16px;
+    }
+    .ph3 { max-width: 100%; }
+    .ph5-btns { gap: 48px; }
   }
 `;
