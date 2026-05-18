@@ -10,10 +10,10 @@ const HOLDINGS = [
   { ticker: "IONQ", shares: 9.489, entry_value: 416.85 },
   { ticker: "IBM",  shares: 1.553, entry_value: 373.33 },
   { ticker: "NVDA", shares: 1.773, entry_value: 344.49 },
-  { ticker: "CEG",  shares: 1.119, entry_value: 267.84 },
-  { ticker: "RGTI", shares: 18.429, entry_value: 209.79 },
-  { ticker: "SGOV", shares: 1.589, entry_value: 159.06 },
-  { ticker: "QBTS", shares: 28.923, entry_value: 187.69 },
+  { ticker: "CEG",  shares: 1.148, entry_value: 339.05 },
+  { ticker: "RGTI", shares: 9.938, entry_value: 169.50 },
+  { ticker: "SGOV", shares: 2.625, entry_value: 263.94 },
+  { ticker: "QBTS", shares: 5.951, entry_value: 101.65 },
 ];
 const PENDING_CASH = 46.57;
 const PREDICTION_OFFSET = 250;
