@@ -67,7 +67,15 @@ export default function DraftHomeClient() {
   }, []);
 
   return (
-    <div className={`R ${phase === "warm" ? "R--warm" : ""}`} ref={rootRef}>
+    <div
+      className={`R ${phase === "warm" ? "R--warm" : ""}`}
+      ref={rootRef}
+      style={{
+        background: phase === "warm" ? "#F4EFE6" : "#0a0908",
+        color: phase === "warm" ? "#1C1A17" : "#e8e4dc",
+        transition: "background-color 2.5s cubic-bezier(0.22, 1, 0.36, 1), color 2.5s cubic-bezier(0.22, 1, 0.36, 1)",
+      }}
+    >
       <style>{CSS}</style>
 
       {/* ═══════ WAVE 1: Golden flash (bridge from video) ═══════ */}
