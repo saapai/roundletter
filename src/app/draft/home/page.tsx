@@ -110,7 +110,7 @@ export default function DraftHomePage() {
 
       {/* ═══════ WAVE 3: The invitation ═══════ */}
       <p className="R-invite">
-        the party is june 21. the painting starts at $25.<br />
+        the party is june 20. the painting starts at $25.<br />
         you{"\u2019"}re invited.
       </p>
 
@@ -126,8 +126,18 @@ export default function DraftHomePage() {
         </div>
         <div className="R-painting-caption">
           <span className="R-painting-title">cityscape with splatter</span>
+          <div className="R-painting-terms">
+            <div className="R-painting-term">
+              <span className="R-painting-label">current bid</span>
+              <span className="R-painting-value">$25</span>
+            </div>
+            <div className="R-painting-term">
+              <span className="R-painting-label">cashout value · june 20</span>
+              <span className="R-painting-value R-painting-value--live">{fmt(total * 0.1)}</span>
+            </div>
+          </div>
           <span className="R-painting-meta">
-            opening bid $25 · backed by 10% of portfolio · the floor moves with the number above
+            the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.
           </span>
           <a href="/art" className="R-painting-bid">bid →</a>
         </div>
@@ -138,7 +148,7 @@ export default function DraftHomePage() {
       {/* ═══════ THE PARTY ═══════ */}
       <section className="R-party R-reveal">
         <div className="R-party-head">
-          <span className="R-party-date">june 21 · utah · birthday</span>
+          <span className="R-party-date">june 20 · utah · birthday</span>
           <h2 className="R-party-line">the party is the liquidity event.</h2>
         </div>
         <div className="R-party-details">
@@ -394,12 +404,32 @@ const CSS = `
     font-style: italic;
     font-weight: 500;
   }
+  .R-painting-terms {
+    display: flex; gap: 32px;
+    margin: 12px 0 8px;
+  }
+  .R-painting-term {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .R-painting-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.1em;
+    text-transform: uppercase; opacity: 0.35;
+  }
+  .R-painting-value {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.5rem; font-weight: 500;
+  }
+  .R-painting-value--live {
+    color: var(--rust, #8B3A2E);
+  }
   .R-painting-meta {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     letter-spacing: 0.02em;
     line-height: 1.6;
-    opacity: 0.4;
+    opacity: 0.35;
+    margin-top: 4px;
   }
   .R-painting-bid {
     display: inline-block;
