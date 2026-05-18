@@ -835,17 +835,18 @@ const CSS = `
   /* ── CLOSER ── */
   .R-closer {
     text-align: center;
-    padding-top: clamp(6rem, 14vw, 12rem);
-    padding-bottom: clamp(4rem, 8vw, 6rem);
+    padding-top: clamp(4rem, 10vw, 8rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
   }
   .R-closer-q {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
     font-style: italic;
     font-weight: 300;
-    margin: 0 0 clamp(2.5rem, 5vw, 4rem);
-    letter-spacing: -0.01em;
-    line-height: 1.1;
+    margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    opacity: 0.55;
   }
   .R-sig {
     font-family: 'Cormorant Garamond', Georgia, serif;
@@ -904,21 +905,103 @@ const CSS = `
 
   /* ── MOBILE ── */
   @media (max-width: 640px) {
-    .R { padding: 1.5rem 1.25rem 2rem; }
-    .R-flash-text { font-size: clamp(2.2rem, 10vw, 3.2rem); }
-    .R-number { font-size: clamp(2.5rem, 12vw, 3.5rem); }
+    /* root */
+    .R { padding: 1.5rem 1.25rem 0; }
+
+    /* cream zone — flash, number, invite */
+    .R-flash { margin-bottom: 1.2rem; }
+    .R-flash-text { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+    .R-flash-glow { width: 140%; height: 350%; }
+    .R-hero { margin-bottom: 2rem; }
+    .R-number { font-size: clamp(3rem, 14vw, 4.2rem); }
+    .R-currency { font-size: 0.4em; }
+    .R-delta { font-size: 0.6rem; letter-spacing: 0.1em; }
+    .R-target { font-size: 0.5rem; gap: 0.35rem; flex-wrap: wrap; justify-content: center; }
+    .R-trace { font-size: 0.5rem; gap: 0.5rem; }
+    .R-invite {
+      font-size: clamp(1.1rem, 4.5vw, 1.35rem);
+      line-height: 1.55;
+      margin-bottom: 2rem;
+    }
+
+    /* painting */
+    .R-painting-title { font-size: 1rem; }
+    .R-painting-terms { gap: 24px; }
+    .R-painting-value { font-size: 1.3rem; }
+    .R-painting-label { font-size: 0.55rem; }
+    .R-painting-meta { font-size: 0.55rem; }
+    .R-painting-bid {
+      padding: 0.65rem 1.8rem;
+      font-size: 0.95rem;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* rule */
+    .R-rule { margin: 1.5rem 0; }
+
+    /* party hero — full bleed, less height */
     .R-party-hero {
       width: calc(100% + 2 * 1.25rem) !important;
       margin-left: -1.25rem;
       margin-right: -1.25rem;
       border-radius: 0;
+      min-height: clamp(28rem, 70vh, 40rem);
     }
+    .R-party-hero-inner { padding: clamp(3.5rem, 10vh, 6rem) 1.25rem; }
+    .R-party-presents { font-size: 0.55rem; letter-spacing: 0.28em; margin-bottom: 20px; }
+    .R-party-title { font-size: clamp(2.6rem, 9vw, 3.8rem); margin: 0 0 18px; }
+    .R-party-sub { font-size: 0.55rem; letter-spacing: 0.18em; margin-bottom: 28px; }
+    .R-party-rule { width: min(260px, 60%); margin-bottom: 28px; }
+    .R-party-tagline { font-size: clamp(1.2rem, 3.8vw, 1.8rem); margin: 0 0 16px; }
+    .R-party-details { font-size: 0.55rem; }
+
+    /* dark zone — full bleed */
     .R-dark-zone {
       width: calc(100% + 2 * 1.25rem) !important;
       margin-left: -1.25rem;
       margin-right: -1.25rem;
     }
-    .R-rooms { grid-template-columns: 1fr; }
-    .R-backed-names { flex-direction: column; align-items: center; gap: 12px; }
+
+    /* ticket */
+    .R-ticket-wrap { padding: 2rem 1.25rem; }
+    .R-ticket { max-width: 100%; }
+    .R-ticket-main { padding: 18px 16px; }
+    .R-ticket-event { font-size: 1.05rem; }
+    .R-ticket-meta { font-size: 0.48rem; gap: 12px; }
+
+    /* backed by */
+    .R-backed { padding: 0 1.25rem clamp(3rem, 6vw, 5rem); }
+    .R-backed-label { font-size: 0.5rem; letter-spacing: 0.3em; }
+    .R-backed-names { flex-direction: column; align-items: center; gap: 14px; }
+    .R-backed-names span { font-size: 0.85rem; }
+
+    /* rooms */
+    .R-rooms { grid-template-columns: 1fr; border-radius: 0; margin-left: -1.25rem; margin-right: -1.25rem; width: calc(100% + 2.5rem) !important; max-width: none !important; }
+    .R-room { padding: 24px 20px; min-height: 44px; }
+    .R-room-n { font-size: 0.95rem; }
+    .R-room-name { font-size: 0.95rem; }
+    .R-room-sub { font-size: 0.5rem; }
+
+    /* closer */
+    .R-closer {
+      padding: clamp(3rem, 8vw, 5rem) 1.25rem clamp(2.5rem, 5vw, 4rem);
+    }
+    .R-closer-q {
+      font-size: 1.6rem;
+      line-height: 1.15;
+      margin: 0 0 1.5rem;
+    }
+    .R-sig {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      opacity: 0.25;
+      margin: 0 0 1.5rem;
+    }
+    .R-closer-phone { font-size: 0.5rem; opacity: 0.08; }
+
+    /* softer reveals on mobile */
+    .R-reveal { transform: translateY(16px); }
   }
 `;
