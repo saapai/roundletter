@@ -81,7 +81,7 @@ export default function DraftHomePage() {
 
       {/* ═══════ WAVE 1: Golden flash (bridge from video) ═══════ */}
       <div className="R-flash">
-        <span className="R-flash-text">drinks are on me.</span>
+        <span className="R-flash-text">barbecue sauce.</span>
         <div className="R-flash-glow" />
       </div>
 
