@@ -913,7 +913,7 @@ const CSS = `
   /* ── MOBILE ── */
   @media (max-width: 640px) {
     /* root */
-    .R { padding: 1.5rem 1.25rem 0; }
+    .R { padding: 1.5rem 1.25rem 0; overflow-x: hidden; }
 
     /* cream zone — flash, number, invite */
     .R-flash { margin-bottom: 1.2rem; }
@@ -964,11 +964,15 @@ const CSS = `
     .R-party-tagline { font-size: clamp(1.2rem, 3.8vw, 1.8rem); margin: 0 0 16px; }
     .R-party-details { font-size: 0.55rem; }
 
-    /* dark zone — full bleed */
+    /* dark zone — full bleed with inner padding */
     .R-dark-zone {
       width: calc(100% + 2 * 1.25rem) !important;
       margin-left: -1.25rem;
       margin-right: -1.25rem;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      box-sizing: border-box;
+      overflow-x: hidden;
     }
 
     /* ticket */
@@ -984,12 +988,20 @@ const CSS = `
     .R-backed-names { flex-direction: column; align-items: center; gap: 14px; }
     .R-backed-names span { font-size: 0.85rem; }
 
-    /* rooms */
-    .R-rooms { grid-template-columns: 1fr; border-radius: 0; margin-left: -1.25rem; margin-right: -1.25rem; width: calc(100% + 2.5rem) !important; max-width: none !important; }
-    .R-room { padding: 24px 20px; min-height: 44px; }
+    /* rooms — stay inside dark zone padding, no breakout */
+    .R-rooms {
+      grid-template-columns: 1fr;
+      border-radius: 0;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-left: 0;
+      margin-right: 0;
+      box-sizing: border-box;
+    }
+    .R-room { padding: 22px 20px; min-height: 44px; }
     .R-room-n { font-size: 0.95rem; }
-    .R-room-name { font-size: 0.95rem; }
-    .R-room-sub { font-size: 0.5rem; }
+    .R-room-name { font-size: 0.95rem; word-break: break-word; }
+    .R-room-sub { font-size: 0.5rem; word-break: break-word; }
 
     /* closer */
     .R-closer {
