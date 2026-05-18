@@ -174,7 +174,7 @@ export default function DraftHomePage() {
                 <span className="R-ticket-city">JUN 20</span>
               </div>
               <div className="R-ticket-col R-ticket-col--right">
-                <span className="R-ticket-label">GATE</span>
+                <span className="R-ticket-label">DIVIDEND</span>
                 <span className="R-ticket-city">10%</span>
               </div>
             </div>
