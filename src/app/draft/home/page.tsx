@@ -551,6 +551,24 @@ const CSS = `
     flex-direction: column;
     align-items: center;
   }
+  /* paper → dark fade */
+  .R-dark-zone::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(to bottom, #F4EFE6, #0a0908);
+    flex-shrink: 0;
+  }
+  /* dark → paper fade */
+  .R-dark-zone::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(to bottom, #0a0908, #F4EFE6);
+    flex-shrink: 0;
+  }
 
   /* ── PARTY HERO — gradient inside dark zone ── */
   .R-party-hero {
@@ -685,8 +703,8 @@ const CSS = `
   }
   .R-ticket-main {
     flex: 1;
-    background: linear-gradient(135deg, #1a1418 0%, #261a20 50%, #1a1418 100%);
-    border: 1px solid rgba(229,221,210,0.08);
+    background: #141210;
+    border: 1px solid rgba(201,149,42,0.12);
     border-right: none;
     border-radius: 4px 0 0 4px;
     padding: 20px 24px;
@@ -698,7 +716,7 @@ const CSS = `
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 1.2rem;
     font-style: italic; font-weight: 500;
-    color: #E5DDD2;
+    color: #C9952A;
     line-height: 1.2;
   }
   .R-ticket-meta {
@@ -706,17 +724,17 @@ const CSS = `
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.5rem; letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: rgba(229,221,210,0.45);
+    color: rgba(229,221,210,0.4);
   }
   .R-ticket-cta {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 0.85rem; font-style: italic;
-    color: rgba(229,221,210,0.4);
+    color: rgba(201,149,42,0.5);
     margin-top: 4px;
     transition: color 0.3s;
   }
   .R-ticket:hover .R-ticket-cta {
-    color: rgba(229,221,210,0.7);
+    color: #C9952A;
   }
 
   /* Tear */
@@ -739,8 +757,8 @@ const CSS = `
   /* Stub */
   .R-ticket-stub {
     width: 52px;
-    background: linear-gradient(135deg, #14101a 0%, #1a1418 50%, #14101a 100%);
-    border: 1px solid rgba(229,221,210,0.08);
+    background: #111010;
+    border: 1px solid rgba(201,149,42,0.08);
     border-left: none;
     border-radius: 0 4px 4px 0;
     display: flex; flex-direction: column;
