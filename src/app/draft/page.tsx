@@ -470,17 +470,56 @@ export default function DraftPage() {
             </div>
           )}
 
-          {/* ── PHASE 5 FINAL CONTENT ── */}
+          {/* ── PHASE 5 FINAL CONTENT — the funnel ── */}
           {showFinalContent && (
             <div className="D-final">
               <h1 className="D-final-value">{fmt(total)}</h1>
               <p className="D-final-target">→ $100,000 · {d} days</p>
               <p className="D-final-question">do you think he makes it?</p>
-              <nav className="D-final-nav">
-                <a href="/positions">/positions</a>
-                <a href="/argument">/argument</a>
-                <a href="/archive">/archive</a>
-              </nav>
+
+              {/* Two primary funnels */}
+              <div className="D-funnels">
+                <a href="/art" className="D-funnel">
+                  <div className="D-funnel-img">
+                    <img src="/art/auction-piece.jpg" alt="LOT 001" />
+                  </div>
+                  <div className="D-funnel-text">
+                    <span className="D-funnel-eyebrow">// lot 001 · auction</span>
+                    <span className="D-funnel-title">the art piece</span>
+                    <span className="D-funnel-sub">opening bid $25 · backed by 10% of portfolio</span>
+                  </div>
+                </a>
+                <a href="/invest" className="D-funnel">
+                  <div className="D-funnel-icon">
+                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="rgba(240,216,144,0.4)" strokeWidth="1">
+                      <rect x="2" y="7" width="20" height="14" rx="2" />
+                      <path d="M16 7V5a4 4 0 00-8 0v2" />
+                    </svg>
+                  </div>
+                  <div className="D-funnel-text">
+                    <span className="D-funnel-eyebrow">// june 21 · liquidity event</span>
+                    <span className="D-funnel-title">the party</span>
+                    <span className="D-funnel-sub">10% dividend pool · flight comp · stake ∝ earliness × size</span>
+                  </div>
+                </a>
+              </div>
+
+              {/* Four revolutions */}
+              <div className="D-revolutions">
+                <a href="https://aureliex.com/green-credit" className="D-rev">
+                  <span className="D-rev-label">the financial revolution</span>
+                </a>
+                <a href="https://aureliex.com/archive" className="D-rev">
+                  <span className="D-rev-label">the art revolution</span>
+                </a>
+                <a href="https://aureliex.com/letters/round-1" className="D-rev">
+                  <span className="D-rev-label">the socialism revolution</span>
+                </a>
+                <a href="https://aureliex.com/letters/entrenched-coils" className="D-rev">
+                  <span className="D-rev-label">the ai revolution</span>
+                </a>
+              </div>
+
               <p className="D-final-sig">aureliex.com</p>
             </div>
           )}
@@ -828,6 +867,78 @@ const CSS = `
     letter-spacing: 0.15em;
   }
 
+  /* ── FUNNELS ── */
+  .D-funnels {
+    display: flex; gap: 20px;
+    margin-top: 28px; width: 100%; max-width: 600px;
+  }
+  .D-funnel {
+    flex: 1; display: flex; flex-direction: column;
+    gap: 12px; padding: 16px;
+    border: 1px solid rgba(240,216,144,0.08);
+    border-radius: 6px;
+    text-decoration: none; color: #e8e4dc;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: pointer;
+  }
+  .D-funnel:hover {
+    border-color: rgba(240,216,144,0.2);
+    background: rgba(240,216,144,0.03);
+  }
+  .D-funnel-img {
+    width: 100%; aspect-ratio: 4/3;
+    border-radius: 3px; overflow: hidden;
+  }
+  .D-funnel-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.85) contrast(1.1);
+    transition: filter 0.3s;
+  }
+  .D-funnel:hover .D-funnel-img img {
+    filter: brightness(1) contrast(1.1);
+  }
+  .D-funnel-icon {
+    display: flex; align-items: center; justify-content: center;
+    height: 80px;
+  }
+  .D-funnel-text {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .D-funnel-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.15em;
+    color: rgba(201,168,76,0.4);
+  }
+  .D-funnel-title {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 18px; font-weight: 500;
+    color: #e8e4dc;
+  }
+  .D-funnel-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: rgba(232,228,220,0.25);
+    line-height: 1.5;
+  }
+
+  /* ── REVOLUTIONS ── */
+  .D-revolutions {
+    display: flex; gap: 0; margin-top: 24px;
+    flex-wrap: wrap; justify-content: center;
+  }
+  .D-rev {
+    text-decoration: none;
+    padding: 8px 14px;
+  }
+  .D-rev-label {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 13px; font-style: italic;
+    color: rgba(232,228,220,0.18);
+    transition: color 0.3s;
+  }
+  .D-rev:hover .D-rev-label {
+    color: rgba(240,216,144,0.5);
+  }
+
   /* ── MOBILE ── */
   @media (max-width: 768px) {
     .D-video {
@@ -847,6 +958,8 @@ const CSS = `
       padding: 0 24px;
       text-align: center;
     }
+    .D-funnels { flex-direction: column; }
+    .D-revolutions { flex-direction: column; align-items: center; gap: 0; }
     .D-aure-content {
       width: 90vw;
       padding: 24px 0;
