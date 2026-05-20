@@ -14,23 +14,48 @@ const SLUG_RE = /^[a-z0-9][a-z0-9-/]{0,63}$/;
 // list still increments its own abacus key but doesn't contribute to
 // the footer headline.
 const TRACKED_SLUGS = [
+  // ── main ──
   "home",
-  "let-down",
+  "letters",
+  "archive",
+  "about-the-method",
+  "personal-letters",
+
+  // ── letters (short slugs — SiteViewTracker normalises /letters/X → X) ──
+  "round-0",
+  "round-1",
+  "v1",
+  "math",
+  "paradigm",
+  "gradient",
+  "tension-field",
+  "entrenched-coils",
+
+  // ── pages ──
+  "statement",
+  "statement-panel",
+  "pitch",
   "arc",
-  "positions",
   "argument",
+  "attention",
+  "canvas",
+  "art",
+  "let-down",
+  "friday",
+  "6969",
+  "external",
+  "closed",
+  "closed-medicine",
+
+  // ── markets & portfolio ──
   "market",
   "trades",
-  "canvas",
-  "archives",
+  "positions",
   "green-credit",
-  "pitch",
-  "statement",
-  "6969",
-  "round-0",
-  "paradigm",
-  "math",
-  "v1",
+  "portfolio",
+  "prediction",
+  "stocks",
+  "invest",
 ];
 
 function normaliseSlug(raw: unknown): string | null {

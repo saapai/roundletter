@@ -13,7 +13,7 @@ import { usePathname } from "next/navigation";
 // Slug rules: "/" → "home"; nested paths flatten to dashes.
 // Bare surfaces (/17, /keys, /api) are skipped.
 
-const SKIP_PREFIXES = ["/17", "/keys", "/api"];
+const SKIP_PREFIXES = ["/17", "/keys", "/api", "/draft", "/eggs", "/luhn"];
 
 export default function SiteViewTracker() {
   const pathname = usePathname();
@@ -23,9 +23,15 @@ export default function SiteViewTracker() {
     if (!pathname) return;
     if (SKIP_PREFIXES.some((p) => pathname === p || pathname.startsWith(p + "/"))) return;
 
+    // Normalise path → slug.
+    // Letters use their short name so SiteViewTracker and per-page
+    // ViewTracker both resolve to the same abacus key (e.g. "round-0",
+    // not "letters-round-0"), letting the server's IP+hour dedup work.
     const slug = pathname === "/"
       ? "home"
-      : pathname.replace(/^\//, "").replace(/\/+/g, "-");
+      : pathname.startsWith("/letters/")
+        ? pathname.replace(/^\/letters\//, "").replace(/\/+/g, "-")
+        : pathname.replace(/^\//, "").replace(/\/+/g, "-");
     if (!slug) return;
     // only dedup on the IDENTICAL slug sent IN THIS MOUNT — i.e., avoid
     // firing twice for an effect-rerun. real cross-session dedup happens
