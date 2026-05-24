@@ -8,13 +8,13 @@ type Props = {
   holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
   pendingCash: number;
   entryValue: number;
-  predictionValue: number;
+  nonStockValue: number; // prediction + external + art — everything not priced via /api/prices
 };
 
 function LiveValue({
-  holdings, pendingCash, predictionValue, fallback, entryValue, revealed,
+  holdings, pendingCash, nonStockValue, fallback, entryValue, revealed,
 }: {
-  holdings: Props["holdings"]; pendingCash: number; predictionValue: number;
+  holdings: Props["holdings"]; pendingCash: number; nonStockValue: number;
   fallback: number; entryValue: number; revealed: boolean;
 }) {
   const [total, setTotal] = useState<number | null>(null);
@@ -29,7 +29,7 @@ function LiveValue({
         if (!r.ok || !alive) return;
         const j = await r.json();
         if (!j?.hasData || !alive) return;
-        let sum = pendingCash + predictionValue;
+        let sum = pendingCash + nonStockValue;
         for (const h of holdings) {
           const s = j.data[h.ticker];
           if (s?.closes?.length > 0) sum += h.shares * s.closes[s.closes.length - 1];
@@ -46,7 +46,7 @@ function LiveValue({
     pull();
     const id = setInterval(pull, 30_000);
     return () => { alive = false; clearInterval(id); };
-  }, [holdings, pendingCash, predictionValue]);
+  }, [holdings, pendingCash, nonStockValue]);
 
   const value = total ?? fallback;
   const gain = value - entryValue;
@@ -71,7 +71,7 @@ function LiveValue({
 }
 
 export default function HomeCover({
-  totalNow, daysToBirthday, holdings, pendingCash, entryValue, predictionValue,
+  totalNow, daysToBirthday, holdings, pendingCash, entryValue, nonStockValue,
 }: Props) {
   const [phase, setPhase] = useState<"void" | "brand" | "number" | "full">("void");
   const rootRef = useRef<HTMLDivElement>(null);
@@ -147,7 +147,7 @@ export default function HomeCover({
         <div className={`rl-num-block ${numVis ? "rl-vis" : ""}`}>
           <LiveValue
             holdings={holdings} pendingCash={pendingCash}
-            predictionValue={predictionValue}
+            nonStockValue={nonStockValue}
             fallback={totalNow} entryValue={entryValue}
             revealed={fullVis}
           />
