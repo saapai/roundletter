@@ -5,20 +5,18 @@
 // break. Revalidates every 5 minutes.
 
 const ENTRY_VALUE = 3453.83;
-const PENDING_CASH = 46.57;
+const PENDING_CASH = 1.28;
 const GOAL = 100_000;
 
 const HOLDINGS: Array<{ ticker: string; shares: number; entry: number }> = [
-  { ticker: "QTUM", shares: 5.584,  entry: 679.74 },
-  { ticker: "MSFT", shares: 1.036,  entry: 407.87 },
-  { ticker: "GOOG", shares: 1.235,  entry: 407.17 },
-  { ticker: "IONQ", shares: 9.489,  entry: 416.85 },
-  { ticker: "IBM",  shares: 1.553,  entry: 373.33 },
-  { ticker: "NVDA", shares: 1.773,  entry: 344.49 },
-  { ticker: "CEG",  shares: 1.148,  entry: 339.05 },
+  { ticker: "QBTS", shares: 44.751, entry: 959.13 },
+  { ticker: "NVDA", shares: 3.773,  entry: 757.09 },
+  { ticker: "MU",   shares: 0.92,   entry: 679.35 },
+  { ticker: "IONQ", shares: 9.489,  entry: 447.18 },
+  { ticker: "QTUM", shares: 2.584,  entry: 314.89 },
+  { ticker: "NXPI", shares: 0.889,  entry: 262.45 },
   { ticker: "RGTI", shares: 9.938,  entry: 169.50 },
-  { ticker: "SGOV", shares: 2.625,  entry: 263.94 },
-  { ticker: "QBTS", shares: 5.951,  entry: 101.65 },
+  { ticker: "GOOG", shares: 0.485,  entry: 159.94 },
 ];
 
 export type LivePortfolio = {

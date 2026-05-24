@@ -11,27 +11,25 @@
   "peak_value": 4825.03,
   "peak_date": "2026-01-31",
   "drawdown_pct_from_peak": -28.3,
-  "_note_positions": "positions do not change. when saapai adds/removes money it changes pending_cash only (the money-market sleeve, SPAXX at $1/share). live total = Σ(shares × last close) + pending_cash. set current_value_today to a number to pin a ground-truth value; null lets the live price engine compute. exception: the 22 apr external $50 was distributed proportionally across all 10 positions — share counts + entry_values below reflect post-distribution state (matches fidelity brokerage).",
-  "pending_cash": 46.57,
+  "_note_positions": "post-may-8-rebalance: sold MSFT, IBM, CEG, SGOV. added MU + NXPI. massively increased QBTS. reduced QTUM + GOOG. share counts and blended entries reflect all transactions through 2026-05-08. live total = Σ(shares × last close) + pending_cash.",
+  "pending_cash": 1.28,
   "current_value_today": null,
   "buckets": {
-    "A_bigtech_quantum":  { "label": "Big-tech quantum (survivorship)", "target_pct": 45, "owner_agents": ["bear", "bull", "historian"] },
-    "B_theme_etf":        { "label": "Thematic ETF (diversified theme)", "target_pct": 20, "owner_agents": ["historian", "flow"] },
-    "C_pureplay":         { "label": "Pure-play quantum (asymmetric)", "target_pct": 20, "owner_agents": ["bull"] },
-    "D_power_macro":      { "label": "Power-for-compute (macro)", "target_pct": 10, "owner_agents": ["macro"] },
-    "E_drypowder":        { "label": "Dry powder", "target_pct": 5, "owner_agents": ["bear"] }
+    "A_bigtech_semi":     { "label": "Big-tech + semis (quality growth)", "target_pct": 40, "owner_agents": ["bear", "bull", "historian"] },
+    "B_theme_etf":        { "label": "Thematic ETF (diversified theme)", "target_pct": 10, "owner_agents": ["historian", "flow"] },
+    "C_pureplay":         { "label": "Pure-play quantum (asymmetric)", "target_pct": 40, "owner_agents": ["bull"] },
+    "D_auto_nxpi":        { "label": "Auto/industrial semi (LightGBM signal)", "target_pct": 7, "owner_agents": ["macro"] },
+    "E_drypowder":        { "label": "Dry powder", "target_pct": 3, "owner_agents": ["bear"] }
   },
   "holdings": [
-    { "ticker": "QTUM", "name": "Defiance Quantum ETF",        "bucket": "B_theme_etf",       "owner_agent": "historian", "shares": 5.584,  "entry_price": 121.73,   "entry_value": 679.74, "target_pct": 20.0, "tier": "core" },
-    { "ticker": "MSFT", "name": "Microsoft",                   "bucket": "A_bigtech_quantum", "owner_agent": "bear",      "shares": 1.036,  "entry_price": 393.70,   "entry_value": 407.87, "target_pct": 12.0, "tier": "core" },
-    { "ticker": "GOOG", "name": "Alphabet",                    "bucket": "A_bigtech_quantum", "owner_agent": "bear",      "shares": 1.235,  "entry_price": 329.69,   "entry_value": 407.17, "target_pct": 12.0, "tier": "core" },
-    { "ticker": "IONQ", "name": "IonQ (trapped-ion)",          "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 9.489, "entry_price": 43.93,    "entry_value": 416.85, "target_pct": 12.0, "tier": "satellite", "note": "trimmed 2 sh on 24 apr · rule-based pureplay-above-12% cap" },
-    { "ticker": "IBM",  "name": "IBM",                         "bucket": "A_bigtech_quantum", "owner_agent": "historian", "shares": 1.553,  "entry_price": 240.39,   "entry_value": 373.33, "target_pct": 11.0, "tier": "core" },
-    { "ticker": "NVDA", "name": "NVIDIA",                      "bucket": "A_bigtech_quantum", "owner_agent": "bull",      "shares": 1.773,  "entry_price": 194.30,   "entry_value": 344.49, "target_pct": 10.0, "tier": "core" },
-    { "ticker": "CEG",  "name": "Constellation Energy",        "bucket": "D_power_macro",     "owner_agent": "macro",     "shares": 1.148,  "entry_price": 295.34,   "entry_value": 339.05, "target_pct": 10.0, "tier": "satellite" },
-    { "ticker": "RGTI", "name": "Rigetti (superconducting)",   "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 9.938,  "entry_price": 17.06,    "entry_value": 169.50, "target_pct": 5.0,  "tier": "satellite" },
-    { "ticker": "SGOV", "name": "T-bill ETF (dry powder)",     "bucket": "E_drypowder",       "owner_agent": "bear",      "shares": 2.625,  "entry_price": 100.55,   "entry_value": 263.94, "target_pct": 5.0,  "tier": "reserve", "note": "added 0.941 sh on 24 apr from IONQ rule-trim proceeds" },
-    { "ticker": "QBTS", "name": "D-Wave (annealing)",          "bucket": "C_pureplay",        "owner_agent": "bull",      "shares": 5.951,  "entry_price": 17.08,    "entry_value": 101.65, "target_pct": 3.0,  "tier": "lottery" }
+    { "ticker": "QBTS", "name": "D-Wave (annealing)",          "bucket": "C_pureplay",    "owner_agent": "bull",      "shares": 44.751, "entry_price": 21.43,  "entry_value": 959.13, "target_pct": 25.0, "tier": "core",      "note": "massive add May 8 — LightGBM STRONG_BUY #3, 116% vol. blended entry from 5.951 orig + ~39 added at ~$22" },
+    { "ticker": "NVDA", "name": "NVIDIA",                      "bucket": "A_bigtech_semi","owner_agent": "bull",      "shares": 3.773,  "entry_price": 200.66, "entry_value": 757.09, "target_pct": 21.0, "tier": "core",      "note": "added ~2 sh May 6 at ~$208. blended from 1.773 orig at $194.30" },
+    { "ticker": "MU",   "name": "Micron Technology",           "bucket": "A_bigtech_semi","owner_agent": "historian", "shares": 0.92,   "entry_price": 738.42, "entry_value": 679.35, "target_pct": 17.0, "tier": "core",      "note": "new position May 8 — LightGBM STRONG_BUY #2" },
+    { "ticker": "IONQ", "name": "IonQ (trapped-ion)",          "bucket": "C_pureplay",    "owner_agent": "bull",      "shares": 9.489,  "entry_price": 47.13,  "entry_value": 447.18, "target_pct": 12.0, "tier": "satellite", "note": "added back shares — blended entry ~$47" },
+    { "ticker": "NXPI", "name": "NXP Semiconductors",          "bucket": "D_auto_nxpi",   "owner_agent": "macro",     "shares": 0.889,  "entry_price": 295.22, "entry_value": 262.45, "target_pct": 7.0,  "tier": "satellite", "note": "new position May 8 — LightGBM STRONG_BUY #1, auto/industrial diversifier" },
+    { "ticker": "QTUM", "name": "Defiance Quantum ETF",        "bucket": "B_theme_etf",   "owner_agent": "historian", "shares": 2.584,  "entry_price": 121.86, "entry_value": 314.89, "target_pct": 7.0,  "tier": "core",      "note": "reduced from 5.584 sh — sold ~3 sh May 5 to fund concentration" },
+    { "ticker": "RGTI", "name": "Rigetti (superconducting)",   "bucket": "C_pureplay",    "owner_agent": "bull",      "shares": 9.938,  "entry_price": 17.06,  "entry_value": 169.50, "target_pct": 5.0,  "tier": "satellite" },
+    { "ticker": "GOOG", "name": "Alphabet",                    "bucket": "A_bigtech_semi","owner_agent": "bear",      "shares": 0.485,  "entry_price": 329.77, "entry_value": 159.94, "target_pct": 5.0,  "tier": "satellite", "note": "trimmed from 1.235 sh — sold ~0.75 sh May 8. quality anchor, reduced weight" }
   ],
   "triggers": {
     "trim_single_name_above_pct": 15.0,
@@ -39,7 +37,8 @@
     "deploy_drypowder_on_qtum_drawdown_pct": -30.0,
     "sell_half_on_price_multiple": 10.0,
     "kill_position_on_ATM_offering": true,
-    "panel_kill_switch_trades_per_year": 2
+    "panel_kill_switch_trades_per_year": 2,
+    "hard_stop_loss_pct": -10.0
   },
   "history": {
     "account_value_jan_2025_start": 1296.08,
@@ -48,7 +47,8 @@
     "account_value_mar_2026_end":   3348.94,
     "realized_gain_loss_ytd_2026_pre_reset": 638.27,
     "approximate_realized_today_reset":     -1050.00,
-    "approximate_realized_ytd_2026_post_reset": -411.73
+    "approximate_realized_ytd_2026_post_reset": -411.73,
+    "may_8_rebalance": "sold MSFT ($407), IBM ($373), CEG ($339), SGOV ($264). reduced GOOG (-0.75 sh), QTUM (-3 sh). added QBTS (+39 sh), NVDA (+2 sh). new positions: MU (1.05 sh), NXPI (0.905 sh). net: concentrated from 10 positions to 8, quantum+semi heavy."
   },
   "external_entries": [
     {
@@ -64,7 +64,14 @@
       "label": "external stock investment",
       "amount": 36.00,
       "date": "2026-04-27",
-      "status": "yet to be synced — will distribute proportionally across positions at 28 apr open"
+      "status": "live · distributed proportionally at 28 apr open (settled)"
+    },
+    {
+      "id": "ext-stock-2026-05-04",
+      "label": "external stock investment",
+      "amount": 55.00,
+      "date": "2026-05-04",
+      "status": "live · deployed into rebalance trades May 5-8 (settled)"
     }
   ]
 }

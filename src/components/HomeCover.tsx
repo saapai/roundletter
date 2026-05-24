@@ -8,16 +8,14 @@ type Props = {
   holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
   pendingCash: number;
   entryValue: number;
+  predictionValue: number;
 };
 
-/* prediction markets are not in /api/prices — add as static offset */
-const PREDICTION_OFFSET = 250; // $200 polymarket + $50 kalshi
-
 function LiveValue({
-  holdings, pendingCash, fallback, entryValue, revealed,
+  holdings, pendingCash, predictionValue, fallback, entryValue, revealed,
 }: {
-  holdings: Props["holdings"]; pendingCash: number; fallback: number;
-  entryValue: number; revealed: boolean;
+  holdings: Props["holdings"]; pendingCash: number; predictionValue: number;
+  fallback: number; entryValue: number; revealed: boolean;
 }) {
   const [total, setTotal] = useState<number | null>(null);
   const [flash, setFlash] = useState<"up" | "down" | null>(null);
@@ -31,7 +29,7 @@ function LiveValue({
         if (!r.ok || !alive) return;
         const j = await r.json();
         if (!j?.hasData || !alive) return;
-        let sum = pendingCash + PREDICTION_OFFSET;
+        let sum = pendingCash + predictionValue;
         for (const h of holdings) {
           const s = j.data[h.ticker];
           if (s?.closes?.length > 0) sum += h.shares * s.closes[s.closes.length - 1];
@@ -48,7 +46,7 @@ function LiveValue({
     pull();
     const id = setInterval(pull, 30_000);
     return () => { alive = false; clearInterval(id); };
-  }, [holdings, pendingCash]);
+  }, [holdings, pendingCash, predictionValue]);
 
   const value = total ?? fallback;
   const gain = value - entryValue;
@@ -73,7 +71,7 @@ function LiveValue({
 }
 
 export default function HomeCover({
-  totalNow, daysToBirthday, holdings, pendingCash, entryValue,
+  totalNow, daysToBirthday, holdings, pendingCash, entryValue, predictionValue,
 }: Props) {
   const [phase, setPhase] = useState<"void" | "brand" | "number" | "full">("void");
   const rootRef = useRef<HTMLDivElement>(null);
@@ -149,6 +147,7 @@ export default function HomeCover({
         <div className={`rl-num-block ${numVis ? "rl-vis" : ""}`}>
           <LiveValue
             holdings={holdings} pendingCash={pendingCash}
+            predictionValue={predictionValue}
             fallback={totalNow} entryValue={entryValue}
             revealed={fullVis}
           />

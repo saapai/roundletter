@@ -48,6 +48,7 @@ export default async function HomePage() {
       holdings={HOLDINGS}
       pendingCash={PENDING_CASH}
       entryValue={ENTRY_VALUE}
+      predictionValue={data.categories.prediction.current_value}
     />
   );
 }
