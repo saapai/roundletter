@@ -17,7 +17,8 @@ function daysFromNowTo(iso: string): number {
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
-  const live = fmtMoney(data.total);
+  const realTotal = data.categories.personal.current_value + data.categories.prediction.breakdown.kalshi.total;
+  const live = fmtMoney(realTotal);
   return {
     title: `aureliex · ${live} now → $100,000 by june 21`,
     description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
@@ -43,15 +44,13 @@ export default async function HomePage() {
   const data = await getPortfolioData();
   return (
     <HomeCover
-      totalNow={data.total}
+      totalNow={data.categories.personal.current_value + data.categories.prediction.breakdown.kalshi.total}
       daysToBirthday={daysFromNowTo(BIRTHDAY_ISO)}
       holdings={HOLDINGS}
       pendingCash={PENDING_CASH}
       entryValue={ENTRY_VALUE}
       nonStockValue={
-        data.categories.prediction.current_value +
-        data.categories.external.current_value +
-        data.categories.art.current_value
+        data.categories.prediction.breakdown.kalshi.total
       }
     />
   );
