@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { kv } from "@vercel/kv";
+import { getKalshiBalance } from "@/lib/kalshi-api";
 
 // Snapshot loader for live position dumps (Kalshi + Polymarket).
 //
@@ -265,7 +266,28 @@ type KVKalshiBlob = RawKalshiFile & { pushed_at?: string };
 type KVPolymarketBlob = RawPolymarketFile & { pushed_at?: string };
 
 export async function getLatestKalshiSnapshotLive(): Promise<KalshiSnapshot | null> {
-  // KV creds aren't set in local dev; skip cleanly when missing.
+  // 1. Try direct Kalshi API (live balance, ~5 min cache).
+  try {
+    const live = await getKalshiBalance();
+    if (live) {
+      const today = new Date().toISOString().slice(0, 10);
+      return {
+        date: today,
+        cash: live.cash_dollars,
+        portfolio_value: live.portfolio_value_dollars,
+        total: live.total_dollars,
+        pulled_at: new Date().toISOString(),
+        event_positions: [],
+        market_positions: [],
+        fills_count: 0,
+        fills: [],
+      };
+    }
+  } catch (e) {
+    console.warn("[snapshots] Kalshi API failed:", (e as Error).message);
+  }
+
+  // 2. Try KV (pushed by polytrader bot).
   if (process.env.KV_REST_API_URL || process.env.KV_URL) {
     try {
       const raw = await kv.get<KVKalshiBlob>(KV_KEY_KALSHI);
@@ -286,10 +308,11 @@ export async function getLatestKalshiSnapshotLive(): Promise<KalshiSnapshot | nu
         return parseKalshiRaw({ date, cash, portfolio_value, raw, fills });
       }
     } catch (e) {
-      // Silent fallback — KV blip shouldn't take the page down.
       console.warn("[snapshots] KV kalshi read failed:", (e as Error).message);
     }
   }
+
+  // 3. Fall back to vendored filesystem snapshots.
   return getLatestKalshiSnapshot();
 }
 
