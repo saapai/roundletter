@@ -194,8 +194,12 @@ export default function V9Client({
               <span className="v9-proof-v v9-proof-live">${fmt(total)}</span>
             </div>
             <div className="v9-proof-row">
-              <span className="v9-proof-l">needs</span>
+              <span className="v9-proof-l">needed</span>
               <span className="v9-proof-v">29&times;</span>
+            </div>
+            <div className="v9-proof-row">
+              <span className="v9-proof-l">needs</span>
+              <span className="v9-proof-v">{Math.ceil(100000 / total)}&times;</span>
             </div>
             <div className="v9-proof-row">
               <span className="v9-proof-l">monte carlo</span>
@@ -311,6 +315,73 @@ export default function V9Client({
             </Link>
           </div>
 
+          {/* ═══════ ADDENDUM ═══════ */}
+          <div className="v9-addendum-rule" />
+          <div className="v9-addendum-tag v9-reveal">addendum — filed may 26, twenty-six days out</div>
+
+          <p className="v9-reveal">
+            When I wrote the marathon line I had no idea what was actually going
+            to get built. The pre-mortem filed on April 26 lists four failure
+            modes, a birthday party, and a vague belief that the art would
+            &ldquo;eventually clear.&rdquo; What it does not list: a 37-page
+            research paper that six AI agents stress-tested across 100-year
+            datasets. A local multi-model debate system running for free on my
+            laptop. Twelve pieces of art that actually repriced when the
+            portfolio started doing things. A party with real backers &mdash;
+            Franco, Elijah, Yashas &mdash; and an anonymous fourth who I still
+            do not know how to thank without sounding like a Kickstarter
+            update. None of that was planned. All of it was downstream of one
+            thing I did that should not have been upstream: I told people about
+            a birthday party and filed the reasoning before the result.
+          </p>
+
+          <p className="v9-reveal">
+            Let me be honest about what the numbers actually say. I&rsquo;m at
+            ${fmt(total)}. I need $100,000. The models still say 0.000000% &mdash;
+            same as before. I&rsquo;ve built a trading system, a multi-agent
+            debate framework, a paper on memory architectures, and a party. The
+            gap between here and there is not a chapter in a comeback story.
+            It&rsquo;s a mathematical fact. Twenty-six days left.
+          </p>
+
+          <p className="v9-reveal">
+            So I&rsquo;m hiding 5% of the portfolio as easter eggs across this
+            site. Not links to art. Not discount codes. Actual value, hidden in
+            the scroll behavior, in the source code, in routes that aren&rsquo;t
+            in the nav. The first person to find each egg gets the most. The
+            more eggs get found, the less each subsequent one is worth. I know
+            exactly what this is: I&rsquo;m paying you to pay attention to me.
+            Phil Ivey didn&rsquo;t count cards. He found a game where the house
+            had structured the payout wrong and he sat there and bled them.
+            I&rsquo;m doing the same thing with attention. Except I&rsquo;m the
+            house. And I might be the one getting bled.
+          </p>
+
+          <p className="v9-reveal">
+            The letter argued that art needs two things: consensus on value and
+            a limitation that creates scarcity. NFTs failed the second &mdash;
+            the limitation was arbitrary, everyone knew it, so the consensus
+            collapsed. But an easter egg that degrades in value each time
+            someone finds one has a real limitation. It is not
+            &ldquo;only 10,000 exist.&rdquo; It is: the faster you find it, the
+            more it is worth. Every platform does a version of this dishonestly.
+            Twitter gives early posters more reach and calls it an algorithm.
+            Substack gives early subscribers a price lock and calls it loyalty.
+            I&rsquo;m just making the mechanic explicit.
+          </p>
+
+          <p className="v9-reveal">
+            I said this is my 3:20 marathon. I still mean it. What I did not
+            know when I wrote it is that a marathon has aid stations, and the
+            aid stations are the agents, and the paper, and the backers, and
+            the twelve pieces of art that somebody has touched with their hands,
+            and the easter eggs that are already placed and waiting. The promise
+            is the same &mdash; June 21, no quiet revisions to what
+            &ldquo;basically counts.&rdquo; The outcome box at the bottom of
+            this page is still blank. I put it there to fill in. I still
+            don&rsquo;t know what I&rsquo;m going to write.
+          </p>
+
         </article>
       </section>
 
@@ -327,12 +398,16 @@ export default function V9Client({
             <div className="v9-painting-terms">
               <div className="v9-painting-term">
                 <span className="v9-painting-label">current bid</span>
-                <span className="v9-painting-value">$25</span>
+                <span className="v9-painting-value">$20</span>
               </div>
               <div className="v9-painting-term">
                 <span className="v9-painting-label">cashout value · june 20</span>
                 <span className="v9-painting-value v9-painting-live">${fmt(total * 0.1)}</span>
               </div>
+            </div>
+            <div className="v9-first-bid">
+              <span className="v9-first-bid-name">Aryan Dutta Baruah</span>
+              <span className="v9-first-bid-msg">&ldquo;agi needs to be built&rdquo;</span>
             </div>
             <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
             <Link href="/art" className="v9-painting-bid">bid →</Link>
@@ -772,6 +847,17 @@ const CSS = `
 }
 
 /* Links */
+/* Addendum */
+.v9-addendum-rule {
+  margin: 3rem 0 1.5rem;
+  border-top: 1px solid rgba(139,58,46,0.2);
+}
+.v9-addendum-tag {
+  font-family: 'JetBrains Mono',monospace;
+  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--rust); opacity: 0.7; margin-bottom: 1.5rem;
+}
+
 .v9-letter a, .v9-link {
   color: var(--ink); text-decoration: none;
   border-bottom: 1px solid rgba(139,58,46,0.3); padding-bottom: 1px;
@@ -834,6 +920,18 @@ const CSS = `
   transition: all 0.4s ease;
 }
 .v9-painting-bid:hover { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.5); color: var(--amber); }
+.v9-first-bid {
+  display: flex; flex-direction: column; gap: 2px; margin: 10px 0 8px;
+}
+.v9-first-bid-name {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 0.9rem; color: rgba(232,228,220,0.6);
+}
+.v9-first-bid-msg {
+  font-family: var(--font-body,'EB Garamond'),Georgia,serif;
+  font-style: italic; font-size: 0.85rem; color: rgba(232,228,220,0.35);
+  letter-spacing: 0.01em;
+}
 
 /* ═══════ THE PARTY ═══════ */
 .v9-party {
@@ -892,8 +990,13 @@ const CSS = `
 .v9-ticket:hover .v9-ticket-cta { color: #C9952A; }
 .v9-ticket-tear { width: 1px; position: relative; flex-shrink: 0; }
 .v9-ticket-perf { position: absolute; top: 10px; bottom: 10px; left: 0; border-left: 1px dashed rgba(229,221,210,0.08); }
-.v9-ticket-hole { position: absolute; left: -6px; width: 12px; height: 12px; border-radius: 50%; background: var(--dark); }
-.v9-hole-t { top: -6px; } .v9-hole-b { bottom: -6px; }
+.v9-ticket-hole { position: absolute; left: -6px; width: 14px; height: 14px; border-radius: 50%; z-index: 2; }
+.v9-hole-t { top: -7px; } .v9-hole-b { bottom: -7px; }
+/* Punch-through: match the party gradient behind the ticket */
+.v9-ticket-hole {
+  background: radial-gradient(circle, rgba(80,50,25,0.9) 0%, rgba(40,25,12,0.95) 100%);
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+}
 .v9-ticket-stub { width: 52px; background: #111010; border: 1px solid rgba(201,149,42,0.08); border-left: none; border-radius: 0 4px 4px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 12px 6px; }
 .v9-ticket-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
 .v9-ticket-bar { width: 1.5px; background: rgba(229,221,210,0.25); border-radius: 1px; }
