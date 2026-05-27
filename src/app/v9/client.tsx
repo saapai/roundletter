@@ -487,7 +487,7 @@ export default function V9Client({
             </div>
             <div className="v9-first-bid">
               <span className="v9-first-bid-name">Aryan Dutta Baruah</span>
-              <span className="v9-first-bid-msg">&ldquo;agi needs to be built&rdquo;</span>
+              <span className="v9-first-bid-msg">&ldquo;get agi pilled&rdquo;</span>
             </div>
             <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
             <Link href="/art" className="v9-painting-bid">bid →</Link>
