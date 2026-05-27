@@ -15,6 +15,7 @@ const BARE_PATHS = new Set([
   "/statement",
   "/letters/entrenched-coils",
   "/draft",
+  "/v9",
 ]);
 
 // Path PREFIXES that are bare (e.g. all /portfolio/*).
