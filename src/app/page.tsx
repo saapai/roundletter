@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { fmtMoney } from "@/lib/portfolio-live";
 import { getPortfolioData } from "@/lib/portfolio-aggregate";
 import portfolio from "@/data/portfolio.json";
-import HomeCover from "@/components/HomeCover";
+import V9Client from "@/app/v9/client";
 
 const HOLDINGS = (portfolio as {
   holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
       url: "https://aureliex.com",
       siteName: "aureliex",
-      images: [{ url: "/hero/cityscape.png", width: 1376, height: 768 }],
+      images: [{ url: "/hero/rocks.webp", width: 1400, height: 788 }],
       type: "article",
     },
     twitter: {
@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: `aureliex · ${live} now → $100,000 by june 21`,
       description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
       creator: "@saapai",
-      images: ["/hero/cityscape.png"],
+      images: ["/hero/rocks.webp"],
     },
   };
 }
@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function HomePage() {
   const data = await getPortfolioData();
   return (
-    <HomeCover
+    <V9Client
       totalNow={data.categories.personal.current_value + data.categories.prediction.breakdown.kalshi.total}
       daysToBirthday={daysFromNowTo(BIRTHDAY_ISO)}
       holdings={HOLDINGS}

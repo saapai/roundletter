@@ -385,7 +385,7 @@ export default function V9Client({
 
           {/* ═══════ ADDENDUM ═══════ */}
           <div className="v9-addendum-rule" />
-          <div className="v9-addendum-tag v9-reveal">addendum — filed may 26, twenty-six days out</div>
+          <div className="v9-addendum-tag v9-reveal">addendum — {daysToBirthday} days out</div>
 
           <p className="v9-reveal">
             When I wrote the marathon line I had no idea what was actually going
@@ -409,7 +409,7 @@ export default function V9Client({
             same as before. I&rsquo;ve built a trading system, a multi-agent
             debate framework, a paper on memory architectures, and a party. The
             gap between here and there is not a chapter in a comeback story.
-            It&rsquo;s a mathematical fact. Twenty-six days left.
+            It&rsquo;s a mathematical fact. {daysToBirthday} days left.
           </p>
 
           <p className="v9-reveal">
@@ -728,7 +728,7 @@ const CSS = `
   color: rgba(240,235,226,0.2);
 }
 .v9-trace-bar { flex: 1; height: 3px; border-radius: 1.5px; background: rgba(240,235,226,0.06); overflow: hidden; }
-.v9-trace-fill { height: 100%; border-radius: 1.5px; background: var(--amber); transition: width 1.5s ease; }
+.v9-trace-fill { height: 100%; border-radius: 1.5px; background: var(--amber); transition: width 1.5s ease; min-width: 4px; }
 .v9-cue { margin-top: 2rem; display: flex; justify-content: center; }
 .v9-cue span {
   display: block; width: 1px; height: 24px; background: rgba(240,235,226,0.3);
