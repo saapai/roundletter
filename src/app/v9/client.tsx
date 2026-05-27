@@ -132,28 +132,6 @@ export default function V9Client({
     return () => window.removeEventListener("mousemove", onMove);
   }, [phase]);
 
-  /* 3D tilt on revolution cards */
-  useEffect(() => {
-    const cards = rootRef.current?.querySelectorAll(".v9-rev") as NodeListOf<HTMLElement> | undefined;
-    if (!cards) return;
-    const handlers: Array<() => void> = [];
-    cards.forEach((card) => {
-      const onMove = (e: MouseEvent) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width - 0.5;
-        const y = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `perspective(800px) rotateX(${y * -10}deg) rotateY(${x * 10}deg) translateZ(4px)`;
-      };
-      const onLeave = () => { card.style.transform = ""; };
-      card.addEventListener("mousemove", onMove, { passive: true });
-      card.addEventListener("mouseleave", onLeave);
-      handlers.push(() => {
-        card.removeEventListener("mousemove", onMove);
-        card.removeEventListener("mouseleave", onLeave);
-      });
-    });
-    return () => handlers.forEach((h) => h());
-  }, []);
 
   const showNumber = phase === "revealed" || phase === "full";
   const showFull = phase === "full";
@@ -169,7 +147,7 @@ export default function V9Client({
         <div className="v9-lens" />
 
         <div className={`v9-hero-eye ${showFull ? "v9-vis" : ""}`}>
-          <span className="v9-eye">a public wager · {daysToBirthday} days left</span>
+          <span className="v9-eye">a public wager · {daysToBirthday} days to my 20th birthday</span>
         </div>
 
         <div className={`v9-hero-num ${showNumber ? "v9-vis" : ""}`}>
@@ -235,6 +213,15 @@ export default function V9Client({
           </p>
 
           <p className="v9-reveal">This project started with the same thesis.</p>
+
+          <p className="v9-reveal">
+            On April 14 I sold everything &mdash; penny stocks, speculative junk,
+            companies I couldn&rsquo;t explain to anyone &mdash; and bought
+            conviction. Quantum computing, semiconductors, AI. The account went
+            from noise to a thesis in one morning. The{" "}
+            <Link href="/letters/round-0" className="v9-link">pre-mortem</Link>
+            {" "}was published the same day, before the trades settled.
+          </p>
 
           {/* The numbers — marginalia box */}
           <div className="v9-proof v9-reveal">
@@ -508,33 +495,7 @@ export default function V9Client({
         </div>
       </section>
 
-      {/* ═══════ WORLD 3: DEEP NIGHT ═══════ */}
-
-      {/* Four revolutions */}
-      <nav className="v9-revs v9-reveal">
-        <Link href="/green-credit" className="v9-rev">
-          <span className="v9-rev-n">I</span>
-          <span className="v9-rev-name">the financial revolution</span>
-          <span className="v9-rev-sub">green credit · bet on the bet</span>
-        </Link>
-        <Link href="/archive" className="v9-rev">
-          <span className="v9-rev-n">II</span>
-          <span className="v9-rev-name">the art revolution</span>
-          <span className="v9-rev-sub">12 pieces · salon wall · auction</span>
-        </Link>
-        <Link href="/letters/round-1" className="v9-rev">
-          <span className="v9-rev-n">III</span>
-          <span className="v9-rev-name">the socialist revolution</span>
-          <span className="v9-rev-sub">round 1 · what the attention built</span>
-        </Link>
-        <Link href="/letters/entrenched-coils" className="v9-rev">
-          <span className="v9-rev-n">IV</span>
-          <span className="v9-rev-name">the ai revolution</span>
-          <span className="v9-rev-sub">entrenched coils · tension-weighted memory</span>
-        </Link>
-      </nav>
-
-      {/* Door — rocks return, dark */}
+      {/* ═══════ WORLD 3: DEEP NIGHT — THE DOOR ═══════ */}
       <section className="v9-door">
         <div className="v9-door-rocks" />
         <div className="v9-door-fade" />
@@ -551,10 +512,30 @@ export default function V9Client({
             {" · "}
             <span>personally guaranteed</span>
           </p>
-          <div className="v9-outcome">
-            <span>Outcome:</span>
-            <span className="v9-outcome-blank" />
-            <span>June 21, 2026</span>
+          {/* Outcome row — not just one number */}
+          <div className="v9-outcomes">
+            <div className="v9-outcome-row">
+              <span className="v9-outcome-label">portfolio</span>
+              <span className="v9-outcome-blank" />
+            </div>
+            <div className="v9-outcome-row">
+              <span className="v9-outcome-label">paper published</span>
+              <span className="v9-outcome-val">37 pages</span>
+            </div>
+            <div className="v9-outcome-row">
+              <span className="v9-outcome-label">artworks completed</span>
+              <span className="v9-outcome-val">12</span>
+            </div>
+            <div className="v9-outcome-row">
+              <span className="v9-outcome-label">party attendance</span>
+              <span className="v9-outcome-blank" />
+            </div>
+            <div className="v9-outcome-row">
+              <span className="v9-outcome-label">easter eggs found</span>
+              <span className="v9-outcome-blank" />
+            </div>
+            <div className="v9-outcome-date">June 21, 2026</div>
+            <p className="v9-outcome-note">This number is final. Everything else on this page is still going.</p>
           </div>
         </div>
 
@@ -583,6 +564,8 @@ export default function V9Client({
           <Link href="/positions">positions</Link>
           <Link href="/argument">the argument</Link>
           <Link href="/art">art</Link>
+          <Link href="/green-credit">green credit</Link>
+          <Link href="/letters/entrenched-coils">entrenched coils</Link>
           <Link href="/archive">archives</Link>
         </nav>
       </section>
@@ -1231,43 +1214,6 @@ const CSS = `
   .it-title { font-size: 1.1rem; }
 }
 
-/* ═══════ FOUR REVOLUTIONS ═══════ */
-.v9-revs { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; overflow: hidden; }
-.v9-rev {
-  display: flex; flex-direction: column; gap: 8px; padding: 36px 32px;
-  background: #0e0d0b; text-decoration: none; color: #e8e4dc;
-  border-left: 2px solid transparent;
-  transition: background 0.35s ease, border-color 0.35s ease, transform 0.12s ease-out;
-  position: relative;
-  transform-style: preserve-3d;
-}
-.v9-rev::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), transparent 60%);
-  opacity: 0; transition: opacity 0.3s ease;
-}
-.v9-rev:hover::after { opacity: 1; }
-.v9-rev:hover { background: #161412; }
-/* I — financial: gold */
-.v9-rev:nth-child(1):hover { border-color: #C9952A; }
-.v9-rev:nth-child(1):hover .v9-rev-n { opacity: 1; color: #C9952A; }
-/* II — art: dusty rose */
-.v9-rev:nth-child(2):hover { border-color: #C08080; }
-.v9-rev:nth-child(2):hover .v9-rev-n { opacity: 1; color: #C08080; }
-/* III — socialist: muted red */
-.v9-rev:nth-child(3):hover { border-color: #B54040; }
-.v9-rev:nth-child(3):hover .v9-rev-n { opacity: 1; color: #B54040; }
-/* IV — AI: cold steel blue */
-.v9-rev:nth-child(4):hover { border-color: #5A8AB0; }
-.v9-rev:nth-child(4):hover .v9-rev-n { opacity: 1; color: #5A8AB0; }
-.v9-rev-n {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-size: 1.1rem; color: #C9952A; opacity: 0.35;
-  transition: opacity 0.35s ease, color 0.35s ease;
-}
-.v9-rev-name { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 1.05rem; font-weight: 600; font-style: italic; color: rgba(232,228,220,0.7); }
-.v9-rev-sub { font-family: 'JetBrains Mono',monospace; font-size: 0.55rem; opacity: 0.25; letter-spacing: 0.06em; color: rgba(232,228,220,0.4); margin-top: 4px; }
-
 /* ═══════ WORLD 3: THE DOOR ═══════ */
 .v9-door { position: relative; min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: clamp(4rem,10vw,8rem) clamp(1.25rem,4vw,2rem); overflow: hidden; }
 .v9-door-rocks {
@@ -1289,8 +1235,29 @@ const CSS = `
 .v9-door-rail a { color: rgba(240,235,226,0.3); text-decoration: none; transition: color 200ms ease; }
 .v9-door-rail a:hover { color: rgba(240,235,226,0.6); }
 
-.v9-outcome { display: flex; align-items: baseline; justify-content: center; gap: 0.5rem; margin-top: 2rem; font-family: 'JetBrains Mono',monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(240,235,226,0.18); }
-.v9-outcome-blank { display: inline-block; width: 8rem; border-bottom: 0.5px solid rgba(240,235,226,0.15); }
+/* Outcome row */
+.v9-outcomes {
+  margin-top: 2.5rem; max-width: 20rem; margin-left: auto; margin-right: auto;
+  font-family: 'JetBrains Mono',monospace; font-size: 0.58rem; letter-spacing: 0.06em;
+  color: rgba(240,235,226,0.2);
+}
+.v9-outcome-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 0.4rem 0; border-bottom: 1px solid rgba(240,235,226,0.06);
+}
+.v9-outcome-label { text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.6; }
+.v9-outcome-val { color: rgba(240,235,226,0.4); }
+.v9-outcome-blank { display: inline-block; width: 5rem; border-bottom: 0.5px solid rgba(240,235,226,0.12); }
+.v9-outcome-date {
+  text-align: center; margin-top: 1rem; font-size: 0.52rem;
+  letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.3;
+}
+.v9-outcome-note {
+  text-align: center; margin-top: 0.75rem;
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 0.85rem; color: rgba(240,235,226,0.3);
+  letter-spacing: 0.01em;
+}
 
 /* CMIYGL closer */
 .v9-closer { position: relative; z-index: 1; text-align: center; padding-top: clamp(4rem,10vw,8rem); padding-bottom: 1rem; }
@@ -1354,8 +1321,6 @@ const CSS = `
   .v9-party-title { font-size: clamp(2.6rem,9vw,3.8rem); }
   .v9-backed { padding: 0 1.25rem 3rem; }
   .v9-backed-names { flex-direction: column; align-items: center; gap: 14px; }
-  .v9-revs { grid-template-columns: 1fr; }
-  .v9-rev { padding: 26px 20px; }
   .v9-door { min-height: 50vh; padding: 3rem 1.25rem; }
   .v9-door-line { font-size: 1.6rem; }
   .v9-closer { padding-top: 3rem; }
