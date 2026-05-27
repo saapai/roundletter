@@ -99,6 +99,7 @@ export default function V9Client({
     setTimeout(() => setPhase("full"), 4200);
   }, []);
 
+  /* scroll-reveal */
   useEffect(() => {
     const els = rootRef.current?.querySelectorAll(".v9-reveal");
     if (!els) return;
@@ -110,6 +111,45 @@ export default function V9Client({
     );
     els.forEach((el) => obs.observe(el));
     return () => obs.disconnect();
+  }, []);
+
+  /* mouse parallax on hero — rocks drift opposite, number drifts with */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const rocks = rootRef.current?.querySelector(".v9-rocks") as HTMLElement | null;
+    const num = rootRef.current?.querySelector(".v9-hero-num") as HTMLElement | null;
+    if (!rocks || !num) return;
+    const onMove = (e: MouseEvent) => {
+      const nx = (e.clientX / window.innerWidth - 0.5);
+      const ny = (e.clientY / window.innerHeight - 0.5);
+      rocks.style.transform = `scale(1.04) translate(${nx * -14}px, ${ny * -10}px)`;
+      num.style.transform = `translate(${nx * 5}px, ${ny * 3}px)`;
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, [phase]);
+
+  /* 3D tilt on revolution cards */
+  useEffect(() => {
+    const cards = rootRef.current?.querySelectorAll(".v9-rev") as NodeListOf<HTMLElement> | undefined;
+    if (!cards) return;
+    const handlers: Array<() => void> = [];
+    cards.forEach((card) => {
+      const onMove = (e: MouseEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(800px) rotateX(${y * -10}deg) rotateY(${x * 10}deg) translateZ(4px)`;
+      };
+      const onLeave = () => { card.style.transform = ""; };
+      card.addEventListener("mousemove", onMove, { passive: true });
+      card.addEventListener("mouseleave", onLeave);
+      handlers.push(() => {
+        card.removeEventListener("mousemove", onMove);
+        card.removeEventListener("mouseleave", onLeave);
+      });
+    });
+    return () => handlers.forEach((h) => h());
   }, []);
 
   const showNumber = phase === "revealed" || phase === "full";
@@ -410,36 +450,6 @@ export default function V9Client({
         </article>
       </section>
 
-      {/* ═══════ THE PAINTING — bleeds from warm paper into dusk ═══════ */}
-      <section className="v9-painting v9-reveal">
-        <div className="v9-painting-glow" />
-        <div className="v9-painting-inner">
-          <div className="v9-painting-frame">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/art/auction-piece.jpg" alt="Cityscape with splatter — oil on canvas" className="v9-painting-img" />
-          </div>
-          <div className="v9-painting-caption">
-            <span className="v9-painting-title">cityscape with splatter</span>
-            <div className="v9-painting-terms">
-              <div className="v9-painting-term">
-                <span className="v9-painting-label">current bid</span>
-                <span className="v9-painting-value">$20</span>
-              </div>
-              <div className="v9-painting-term">
-                <span className="v9-painting-label">cashout value · june 20</span>
-                <span className="v9-painting-value v9-painting-live">${fmt(total * 0.1)}</span>
-              </div>
-            </div>
-            <div className="v9-first-bid">
-              <span className="v9-first-bid-name">Aryan Dutta Baruah</span>
-              <span className="v9-first-bid-msg">&ldquo;agi needs to be built&rdquo;</span>
-            </div>
-            <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
-            <Link href="/art" className="v9-painting-bid">bid →</Link>
-          </div>
-        </div>
-      </section>
-
       {/* ═══════ THE PARTY — amber gradient descent ═══════ */}
       <section className="v9-party">
         <div className="v9-party-inner v9-reveal">
@@ -480,6 +490,36 @@ export default function V9Client({
           <span className="v9-backed-label">backed by</span>
           <div className="v9-backed-names">
             <span>Franco Cachay</span><span>Elijah Bautista</span><span>Yashas Shashidara</span><span>an anonymous donor</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ THE PAINTING — the only piece ═══════ */}
+      <section className="v9-painting v9-reveal">
+        <div className="v9-painting-glow" />
+        <div className="v9-painting-inner">
+          <div className="v9-painting-frame">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/art/auction-piece.jpg" alt="Cityscape with splatter — oil on canvas" className="v9-painting-img" />
+          </div>
+          <div className="v9-painting-caption">
+            <span className="v9-painting-title">cityscape with splatter</span>
+            <div className="v9-painting-terms">
+              <div className="v9-painting-term">
+                <span className="v9-painting-label">current bid</span>
+                <span className="v9-painting-value">$20</span>
+              </div>
+              <div className="v9-painting-term">
+                <span className="v9-painting-label">cashout value · june 20</span>
+                <span className="v9-painting-value v9-painting-live">${fmt(total * 0.1)}</span>
+              </div>
+            </div>
+            <div className="v9-first-bid">
+              <span className="v9-first-bid-name">Aryan Dutta Baruah</span>
+              <span className="v9-first-bid-msg">&ldquo;agi needs to be built&rdquo;</span>
+            </div>
+            <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
+            <Link href="/art" className="v9-painting-bid">bid →</Link>
           </div>
         </div>
       </section>
@@ -597,7 +637,8 @@ const CSS = `
 
 /* ═══════ WORLD 1: DARK EARTH ═══════ */
 .v9-hero {
-  position: relative;
+  position: sticky;
+  top: 0;
   height: 100svh;
   min-height: 600px;
   display: flex;
@@ -605,6 +646,7 @@ const CSS = `
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  z-index: 0;
 }
 .v9-rocks {
   position: absolute;
@@ -659,7 +701,14 @@ const CSS = `
   font-size: clamp(4rem,14vw,7.5rem); font-weight: 300; letter-spacing: -0.015em;
   line-height: 1; color: var(--gold-num); display: block;
   transition: color 0.6s ease, text-shadow 0.8s ease;
+  animation: v9-float 8s ease-in-out infinite;
+  will-change: transform;
 }
+@keyframes v9-float {
+  0%, 100% { transform: translateY(0); text-shadow: 0 0 60px rgba(212,169,76,0.20), 0 2px 20px rgba(6,4,2,0.5); }
+  50% { transform: translateY(-4px); text-shadow: 0 0 80px rgba(212,169,76,0.30), 0 4px 28px rgba(6,4,2,0.4); }
+}
+.v9-up, .v9-dn { animation-play-state: paused; }
 .v9-dollar { font-size: 0.36em; vertical-align: 0.38em; margin-right: 0.05em; opacity: 0.55; }
 .v9-up { color: #7dba6a !important; text-shadow: 0 0 60px rgba(125,186,106,0.25); }
 .v9-dn { color: #c45a5a !important; text-shadow: 0 0 60px rgba(196,90,90,0.25); }
@@ -715,12 +764,13 @@ const CSS = `
 .v9-bridge-1 {
   height: clamp(80px,15vh,160px);
   background: linear-gradient(to bottom, rgba(4,3,2,0.9) 0%, var(--paper) 100%);
-  position: relative; z-index: 1;
+  position: relative; z-index: 2;
+  box-shadow: 0 -40px 80px rgba(10,9,8,0.5);
 }
 
 /* ═══════ WORLD 2: WARM PAPER ═══════ */
 .v9-paper {
-  position: relative; z-index: 1;
+  position: relative; z-index: 2;
   background:
     radial-gradient(ellipse 120% 60% at 85% 20%, var(--navy-ghost) 0%, transparent 70%),
     radial-gradient(ellipse 80% 40% at 15% 70%, var(--gold-ghost) 0%, transparent 60%),
@@ -787,7 +837,18 @@ const CSS = `
   display: flex; flex-direction: column; gap: 2px;
   padding: 0.7rem 0.6rem;
   background: rgba(61,43,15,0.04);
+  opacity: 0;
+  transform: perspective(600px) rotateX(-45deg) translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
 }
+.v9-stocks.v9-in .v9-stock { opacity: 1; transform: perspective(600px) rotateX(0deg) translateY(0); }
+.v9-stocks.v9-in .v9-stock:nth-child(2) { transition-delay: 60ms; }
+.v9-stocks.v9-in .v9-stock:nth-child(3) { transition-delay: 120ms; }
+.v9-stocks.v9-in .v9-stock:nth-child(4) { transition-delay: 180ms; }
+.v9-stocks.v9-in .v9-stock:nth-child(5) { transition-delay: 240ms; }
+.v9-stocks.v9-in .v9-stock:nth-child(6) { transition-delay: 300ms; }
+.v9-stocks.v9-in .v9-stock:nth-child(7) { transition-delay: 360ms; }
+.v9-stocks.v9-in .v9-stock:nth-child(8) { transition-delay: 420ms; }
 .v9-stock-ticker {
   font-family: 'JetBrains Mono',monospace; font-size: 0.55rem;
   font-weight: 600; letter-spacing: 0.08em; color: var(--ink); opacity: 0.5;
@@ -919,34 +980,51 @@ const CSS = `
 .v9-painting {
   position: relative;
   background:
-    radial-gradient(ellipse 150% 80% at 60% 40%, rgba(27,58,107,0.12) 0%, transparent 70%),
-    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(107,77,138,0.08) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(200,169,74,0.10) 0%, transparent 50%),
+    radial-gradient(ellipse 150% 80% at 60% 40%, rgba(27,58,107,0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(107,77,138,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(200,169,74,0.12) 0%, transparent 50%),
     #1a1208;
-  padding: clamp(4rem,8vw,6rem) clamp(1.25rem,4vw,2rem);
+  padding: clamp(5rem,10vw,8rem) clamp(1.25rem,4vw,2rem);
   color: #e8e4dc;
 }
 .v9-painting-glow {
   position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 70% 50% at 50% 30%, rgba(200,169,74,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 50% 35%, rgba(200,169,74,0.10) 0%, transparent 70%);
+  transition: opacity 0.6s ease;
 }
-.v9-painting-inner { max-width: 44rem; margin: 0 auto; position: relative; z-index: 1; }
+.v9-painting:hover .v9-painting-glow { opacity: 1.4; }
+.v9-painting-inner {
+  max-width: 58rem; margin: 0 auto; position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,4vw,3.5rem); align-items: start;
+}
 .v9-painting-frame {
   border-radius: 2px; overflow: hidden; padding: clamp(10px,2vw,18px);
   background: linear-gradient(145deg, #2a2218, #1e1810);
   box-shadow:
-    0 0 0 1px rgba(200,169,74,0.25),
-    0 0 60px rgba(200,169,74,0.12),
-    0 0 120px rgba(27,58,107,0.1),
-    0 20px 60px rgba(0,0,0,0.5);
+    0 0 0 1px rgba(200,169,74,0.28),
+    0 0 80px rgba(200,169,74,0.14),
+    0 0 160px rgba(27,58,107,0.12),
+    0 28px 80px rgba(0,0,0,0.6);
+  perspective: 800px;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1), box-shadow 0.6s ease;
+  cursor: default;
+}
+.v9-painting:hover .v9-painting-frame {
+  transform: rotateY(-2deg) rotateX(1deg) translateZ(8px);
+  box-shadow:
+    0 0 0 1px rgba(200,169,74,0.38),
+    0 0 100px rgba(200,169,74,0.20),
+    0 0 200px rgba(27,58,107,0.15),
+    0 40px 100px rgba(0,0,0,0.7);
 }
 .v9-painting-img { display: block; width: 100%; height: auto; }
-.v9-painting-caption { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1.25rem; }
+.v9-painting-caption { display: flex; flex-direction: column; gap: 0.5rem; padding-top: clamp(10px,2vw,18px); }
 .v9-painting-title {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-size: 1.1rem; font-style: italic; font-weight: 500; color: rgba(232,228,220,0.7);
+  font-size: 1.25rem; font-style: italic; font-weight: 500; color: rgba(232,228,220,0.7);
 }
-.v9-painting-terms { display: flex; gap: 32px; margin: 14px 0 10px; }
+.v9-painting-terms { display: flex; flex-direction: column; gap: 18px; margin: 20px 0 12px; }
 .v9-painting-term { display: flex; flex-direction: column; gap: 2px; }
 .v9-painting-label {
   font-family: 'JetBrains Mono',monospace; font-size: 0.58rem;
@@ -954,22 +1032,22 @@ const CSS = `
 }
 .v9-painting-value {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-size: 1.5rem; font-weight: 500; color: rgba(232,228,220,0.8);
+  font-size: 1.7rem; font-weight: 500; color: rgba(232,228,220,0.8);
 }
 .v9-painting-live { color: var(--amber); }
 .v9-painting-meta {
   font-family: 'JetBrains Mono',monospace; font-size: 0.58rem;
-  letter-spacing: 0.02em; line-height: 1.6; opacity: 0.3; margin-top: 6px;
+  letter-spacing: 0.02em; line-height: 1.7; opacity: 0.3; margin-top: 8px;
 }
 .v9-painting-bid {
-  display: inline-block; margin-top: 1rem;
+  display: inline-block; margin-top: 1.25rem;
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
   font-size: 1rem; font-weight: 500; text-decoration: none;
-  padding: 0.55rem 1.5rem; border-radius: 2px;
-  color: rgba(232,228,220,0.8); border: 1px solid rgba(200,169,74,0.25);
+  padding: 0.6rem 1.75rem; border-radius: 2px;
+  color: rgba(232,228,220,0.8); border: 1px solid rgba(200,169,74,0.28);
   transition: all 0.4s ease;
 }
-.v9-painting-bid:hover { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.5); color: var(--amber); }
+.v9-painting-bid:hover { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.55); color: var(--amber); }
 .v9-first-bid {
   display: flex; flex-direction: column; gap: 2px; margin: 10px 0 8px;
 }
@@ -984,12 +1062,28 @@ const CSS = `
 }
 
 /* ═══════ THE PARTY ═══════ */
+@keyframes v9-spotlight {
+  0%   { opacity: 0.5; transform: scale(1) translateY(0); }
+  50%  { opacity: 0.85; transform: scale(1.06) translateY(-2%); }
+  100% { opacity: 0.5; transform: scale(1) translateY(0); }
+}
+@keyframes v9-presents-in {
+  from { opacity: 0; letter-spacing: 0.6em; }
+  to   { opacity: 1; letter-spacing: 0.32em; }
+}
 .v9-party {
-  position: relative;
+  position: relative; overflow: hidden;
   background:
-    radial-gradient(ellipse 80% 60% at 85% 90%, rgba(168,120,60,0.16) 0%, transparent 100%),
-    radial-gradient(ellipse 60% 50% at 10% 8%, rgba(60,36,20,0.20) 0%, transparent 100%),
     linear-gradient(155deg, #1a1208 0%, #3D2B0F 8%, #8B6248 20%, #C4A882 32%, #A88060 42%, #C9A882 52%, #8B6248 65%, #4A2A1A 80%, var(--dark) 100%);
+}
+.v9-party::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 70% at 50% 38%, rgba(212,175,80,0.18) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 85% 90%, rgba(168,120,60,0.14) 0%, transparent 100%),
+    radial-gradient(ellipse 60% 50% at 10% 8%, rgba(60,36,20,0.18) 0%, transparent 100%);
+  animation: v9-spotlight 8s ease-in-out infinite;
 }
 .v9-party-inner {
   position: relative; z-index: 1; display: flex; flex-direction: column;
@@ -999,7 +1093,9 @@ const CSS = `
 .v9-party-presents {
   font-family: 'JetBrains Mono',monospace; font-size: 0.62rem;
   letter-spacing: 0.32em; text-transform: uppercase; color: #C44B6C; margin-bottom: 28px;
+  animation: v9-presents-in 1.4s cubic-bezier(0.22,1,0.36,1) both;
 }
+.v9-party-inner.v9-in .v9-party-presents { animation-delay: 0.1s; }
 .v9-party-title {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
   font-size: clamp(3.5rem,10vw,5.5rem); font-weight: 400; font-style: italic;
@@ -1021,14 +1117,18 @@ const CSS = `
 }
 
 /* Ticket */
-.v9-ticket-wrap { display: flex; justify-content: center; padding: clamp(2.5rem,5vw,4rem) clamp(1rem,3vw,2rem); }
+.v9-ticket-wrap { display: flex; justify-content: center; padding: clamp(2.5rem,5vw,4rem) clamp(1rem,3vw,2rem); perspective: 600px; }
 .v9-ticket {
   display: flex; max-width: 400px; width: 100%; border-radius: 4px;
   overflow: visible; text-decoration: none; color: #e8e4dc; cursor: pointer;
-  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s ease;
   box-shadow: 0 4px 20px -6px rgba(0,0,0,0.3);
 }
-.v9-ticket:hover { transform: translateY(-2px); box-shadow: 0 12px 36px -10px rgba(0,0,0,0.5); }
+.v9-ticket:hover {
+  transform: rotateY(-4deg) rotateX(2deg) translateY(-4px) translateZ(12px);
+  box-shadow: 8px 18px 48px -8px rgba(0,0,0,0.6), 0 0 40px rgba(201,149,42,0.08);
+}
 .v9-ticket-main {
   flex: 1; background: #141210; border: 1px solid rgba(201,149,42,0.12);
   border-right: none; border-radius: 4px 0 0 4px; padding: 20px 24px;
@@ -1060,16 +1160,50 @@ const CSS = `
 
 /* ═══════ FOUR REVOLUTIONS ═══════ */
 .v9-revs { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; overflow: hidden; }
-.v9-rev { display: flex; flex-direction: column; gap: 8px; padding: 36px 32px; background: #0e0d0b; text-decoration: none; color: #e8e4dc; transition: background 0.4s ease; }
+.v9-rev {
+  display: flex; flex-direction: column; gap: 8px; padding: 36px 32px;
+  background: #0e0d0b; text-decoration: none; color: #e8e4dc;
+  border-left: 2px solid transparent;
+  transition: background 0.35s ease, border-color 0.35s ease, transform 0.12s ease-out;
+  position: relative;
+  transform-style: preserve-3d;
+}
+.v9-rev::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), transparent 60%);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.v9-rev:hover::after { opacity: 1; }
 .v9-rev:hover { background: #161412; }
-.v9-rev-n { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 1.1rem; color: #C9952A; opacity: 0.35; }
+/* I — financial: gold */
+.v9-rev:nth-child(1):hover { border-color: #C9952A; }
+.v9-rev:nth-child(1):hover .v9-rev-n { opacity: 1; color: #C9952A; }
+/* II — art: dusty rose */
+.v9-rev:nth-child(2):hover { border-color: #C08080; }
+.v9-rev:nth-child(2):hover .v9-rev-n { opacity: 1; color: #C08080; }
+/* III — socialist: muted red */
+.v9-rev:nth-child(3):hover { border-color: #B54040; }
+.v9-rev:nth-child(3):hover .v9-rev-n { opacity: 1; color: #B54040; }
+/* IV — AI: cold steel blue */
+.v9-rev:nth-child(4):hover { border-color: #5A8AB0; }
+.v9-rev:nth-child(4):hover .v9-rev-n { opacity: 1; color: #5A8AB0; }
+.v9-rev-n {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-size: 1.1rem; color: #C9952A; opacity: 0.35;
+  transition: opacity 0.35s ease, color 0.35s ease;
+}
 .v9-rev-name { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 1.05rem; font-weight: 600; font-style: italic; color: rgba(232,228,220,0.7); }
 .v9-rev-sub { font-family: 'JetBrains Mono',monospace; font-size: 0.55rem; opacity: 0.25; letter-spacing: 0.06em; color: rgba(232,228,220,0.4); margin-top: 4px; }
 
 /* ═══════ WORLD 3: THE DOOR ═══════ */
 .v9-door { position: relative; min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: clamp(4rem,10vw,8rem) clamp(1.25rem,4vw,2rem); overflow: hidden; }
-.v9-door-rocks { position: absolute; inset: 0; background: url('/hero/rocks.webp') center 55% / cover no-repeat; filter: brightness(0.22) saturate(0.35) contrast(1.1); }
-.v9-door-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(10,9,8,0.92) 0%, rgba(10,9,8,0.4) 18%, transparent 40%, transparent 75%, rgba(4,3,2,1) 100%); }
+.v9-door-rocks {
+  position: absolute; inset: -4%;
+  background: url('/hero/rocks.webp') center 55% / cover no-repeat;
+  filter: brightness(0.35) saturate(0.45) contrast(1.08);
+  animation: v9-drift 60s linear infinite alternate;
+}
+.v9-door-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(10,9,8,0.88) 0%, rgba(10,9,8,0.3) 18%, transparent 40%, transparent 75%, rgba(4,3,2,1) 100%); }
 
 .v9-door-content { position: relative; z-index: 1; text-align: center; }
 .v9-door-line { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-style: italic; font-size: clamp(1.8rem,5vw,2.8rem); color: rgba(240,235,226,0.7); margin: 0 0 1.5rem; }
@@ -1138,9 +1272,11 @@ const CSS = `
   .v9-stocks { grid-template-columns: repeat(2, 1fr); }
   .v9-ways { grid-template-columns: 1fr; }
   .v9-painting { padding: 2.5rem 1.25rem; }
-  .v9-painting-terms { gap: 24px; }
+  .v9-painting-inner { grid-template-columns: 1fr; gap: 1.5rem; max-width: 100%; }
+  .v9-painting-terms { flex-direction: row; gap: 24px; }
   .v9-painting-value { font-size: 1.3rem; }
   .v9-painting-bid { padding: 0.65rem 1.8rem; min-height: 44px; display: inline-flex; align-items: center; }
+  .v9-painting:hover .v9-painting-frame { transform: none; }
   .v9-party-inner { padding: 3.5rem 1.25rem; }
   .v9-party-title { font-size: clamp(2.6rem,9vw,3.8rem); }
   .v9-ticket-wrap { padding: 2rem 1.25rem; }
@@ -1160,10 +1296,15 @@ const CSS = `
 /* ═══════ REDUCED MOTION ═══════ */
 @media (prefers-reduced-motion: reduce) {
   .v9-rocks { animation: none !important; filter: brightness(0.62) saturate(0.88) contrast(1.06) sepia(0.10) !important; }
+  .v9-door-rocks { animation: none !important; }
   .v9-dot { animation: none !important; opacity: 0.7; }
   .v9-cue span { animation: none !important; }
+  .v9-party::before { animation: none !important; }
+  .v9-party-presents { animation: none !important; }
   .v9-reveal { opacity: 1; transform: none; transition: none; }
   .v9-hero-eye, .v9-hero-num { opacity: 1; transform: none; transition: none; }
   .v9-hero-foot { opacity: 1; animation: none !important; }
+  .v9-painting:hover .v9-painting-frame { transform: none !important; }
+  .v9-rev:hover { transform: none !important; }
 }
 `;
