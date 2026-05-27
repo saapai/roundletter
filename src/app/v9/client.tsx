@@ -21,6 +21,8 @@ type Props = {
   nonStockValue: number;
 };
 
+type StockGain = { ticker: string; current: number; entry: number; pct: number };
+
 function useLiveTotal(
   holdings: Props["holdings"],
   pendingCash: number,
@@ -29,6 +31,7 @@ function useLiveTotal(
 ) {
   const [total, setTotal] = useState<number>(fallback);
   const [flash, setFlash] = useState<"up" | "down" | null>(null);
+  const [stocks, setStocks] = useState<StockGain[]>([]);
   const prevRef = useRef<number>(fallback);
 
   useEffect(() => {
@@ -40,17 +43,24 @@ function useLiveTotal(
         const j = await r.json();
         if (!j?.hasData || !alive) return;
         let sum = pendingCash + nonStockValue;
+        const gains: StockGain[] = [];
         for (const h of holdings) {
           const s = j.data[h.ticker];
-          if (s?.closes?.length > 0) sum += h.shares * s.closes[s.closes.length - 1];
-          else sum += h.entry_value;
+          const cur = s?.closes?.length > 0 ? h.shares * s.closes[s.closes.length - 1] : h.entry_value;
+          sum += cur;
+          gains.push({
+            ticker: h.ticker,
+            current: cur,
+            entry: h.entry_value,
+            pct: h.entry_value > 0 ? ((cur - h.entry_value) / h.entry_value) * 100 : 0,
+          });
         }
         if (sum !== prevRef.current) {
           setFlash(sum >= prevRef.current ? "up" : "down");
           setTimeout(() => setFlash(null), 800);
         }
         prevRef.current = sum;
-        if (alive) setTotal(sum);
+        if (alive) { setTotal(sum); setStocks(gains); }
       } catch { /* noop */ }
     };
     pull();
@@ -58,7 +68,7 @@ function useLiveTotal(
     return () => { alive = false; clearInterval(id); };
   }, [holdings, pendingCash, nonStockValue]);
 
-  return { total, flash };
+  return { total, flash, stocks };
 }
 
 function fmt(n: number) {
@@ -68,7 +78,7 @@ function fmt(n: number) {
 export default function V9Client({
   totalNow, daysToBirthday, holdings, pendingCash, entryValue, nonStockValue,
 }: Props) {
-  const { total, flash } = useLiveTotal(holdings, pendingCash, nonStockValue, totalNow);
+  const { total, flash, stocks } = useLiveTotal(holdings, pendingCash, nonStockValue, totalNow);
   const rootRef = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<"void" | "develop" | "revealed" | "full">("void");
 
@@ -210,6 +220,21 @@ export default function V9Client({
               <span className="v9-proof-v">before the first trade</span>
             </div>
           </div>
+
+          {/* Stock gains grid */}
+          {stocks.length > 0 && (
+            <div className="v9-stocks v9-reveal">
+              {stocks.sort((a, b) => b.pct - a.pct).map((s) => (
+                <div key={s.ticker} className="v9-stock">
+                  <span className="v9-stock-ticker">{s.ticker}</span>
+                  <span className={`v9-stock-pct ${s.pct >= 0 ? "v9-stock-up" : "v9-stock-dn"}`}>
+                    {s.pct >= 0 ? "+" : ""}{s.pct.toFixed(1)}%
+                  </span>
+                  <span className="v9-stock-val">${fmt(s.current)}</span>
+                </div>
+              ))}
+            </div>
+          )}
 
           <p className="v9-reveal">
             A month and a half ago, I made a public bet that I could turn 3.5k
@@ -753,6 +778,31 @@ const CSS = `
 .v9-proof-live { color: var(--deep-amber); }
 .v9-proof-zero { color: var(--rust); font-weight: 700; font-size: 0.75rem; }
 
+/* Stock gains grid */
+.v9-stocks {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
+  margin: 1.5rem 0; border-radius: 3px; overflow: hidden;
+}
+.v9-stock {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 0.7rem 0.6rem;
+  background: rgba(61,43,15,0.04);
+}
+.v9-stock-ticker {
+  font-family: 'JetBrains Mono',monospace; font-size: 0.55rem;
+  font-weight: 600; letter-spacing: 0.08em; color: var(--ink); opacity: 0.5;
+}
+.v9-stock-pct {
+  font-family: 'JetBrains Mono',monospace; font-size: 0.72rem;
+  font-weight: 700; letter-spacing: 0.02em;
+}
+.v9-stock-up { color: #5a7a48; }
+.v9-stock-dn { color: var(--rust); }
+.v9-stock-val {
+  font-family: 'JetBrains Mono',monospace; font-size: 0.5rem;
+  color: var(--ink); opacity: 0.3;
+}
+
 /* Agent bracket */
 .v9-bracket {
   margin: 1.5rem 0; border-left: 2px solid rgba(61,43,15,0.1); padding-left: 1rem;
@@ -1085,6 +1135,7 @@ const CSS = `
   .v9-pull { font-size: 1.1rem !important; padding: 1.5rem 0.5rem; max-width: 100%; }
   .v9-proof { padding: 1rem; font-size: 0.6rem; }
   .v9-proof-row { flex-direction: column; gap: 2px; padding: 0.45rem 0; }
+  .v9-stocks { grid-template-columns: repeat(2, 1fr); }
   .v9-ways { grid-template-columns: 1fr; }
   .v9-painting { padding: 2.5rem 1.25rem; }
   .v9-painting-terms { gap: 24px; }
