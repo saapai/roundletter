@@ -2,6 +2,9 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const InteractiveTicket = dynamic(() => import("./InteractiveTicket"), { ssr: false });
 
 /* ═══════════════════════════════════════════════════════
    v9 — THE ROCKS (iteration 2)
@@ -461,28 +464,9 @@ export default function V9Client({
           <span className="v9-party-detail">10% of portfolio → flights &amp; reimbursements</span>
         </div>
 
-        {/* Ticket */}
-        <div className="v9-ticket-wrap v9-reveal">
-          <Link href="/invest" className="v9-ticket">
-            <div className="v9-ticket-main">
-              <span className="v9-ticket-event">the liquidity event</span>
-              <div className="v9-ticket-meta"><span>june 20, 2026</span><span>salt lake city</span></div>
-              <span className="v9-ticket-cta">rsvp →</span>
-            </div>
-            <div className="v9-ticket-tear">
-              <div className="v9-ticket-hole v9-hole-t" />
-              <div className="v9-ticket-perf" />
-              <div className="v9-ticket-hole v9-hole-b" />
-            </div>
-            <div className="v9-ticket-stub">
-              <div className="v9-ticket-barcode">
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <div key={i} className="v9-ticket-bar" style={{ height: `${6 + ((i * 7 + 3) % 12)}px` }} />
-                ))}
-              </div>
-              <span className="v9-ticket-admit">ADMIT ONE</span>
-            </div>
-          </Link>
+        {/* Interactive Ticket */}
+        <div className="v9-reveal">
+          <InteractiveTicket />
         </div>
 
         {/* Backed by */}
@@ -1117,46 +1101,135 @@ const CSS = `
 }
 
 /* Ticket */
-.v9-ticket-wrap { display: flex; justify-content: center; padding: clamp(2.5rem,5vw,4rem) clamp(1rem,3vw,2rem); perspective: 600px; }
-.v9-ticket {
-  display: flex; max-width: 400px; width: 100%; border-radius: 4px;
-  overflow: visible; text-decoration: none; color: #e8e4dc; cursor: pointer;
-  transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s ease;
-  box-shadow: 0 4px 20px -6px rgba(0,0,0,0.3);
-}
-.v9-ticket:hover {
-  transform: rotateY(-4deg) rotateX(2deg) translateY(-4px) translateZ(12px);
-  box-shadow: 8px 18px 48px -8px rgba(0,0,0,0.6), 0 0 40px rgba(201,149,42,0.08);
-}
-.v9-ticket-main {
-  flex: 1; background: #141210; border: 1px solid rgba(201,149,42,0.12);
-  border-right: none; border-radius: 4px 0 0 4px; padding: 20px 24px;
-  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
-}
-.v9-ticket-event { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 1.2rem; font-style: italic; font-weight: 500; color: #C9952A; line-height: 1.2; }
-.v9-ticket-meta { display: flex; gap: 16px; font-family: 'JetBrains Mono',monospace; font-size: 0.5rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(229,221,210,0.4); }
-.v9-ticket-cta { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 0.85rem; font-style: italic; color: rgba(201,149,42,0.5); margin-top: 4px; transition: color 0.3s; }
-.v9-ticket:hover .v9-ticket-cta { color: #C9952A; }
-.v9-ticket-tear { width: 1px; position: relative; flex-shrink: 0; }
-.v9-ticket-perf { position: absolute; top: 10px; bottom: 10px; left: 0; border-left: 1px dashed rgba(229,221,210,0.08); }
-.v9-ticket-hole { position: absolute; left: -6px; width: 14px; height: 14px; border-radius: 50%; z-index: 2; }
-.v9-hole-t { top: -7px; } .v9-hole-b { bottom: -7px; }
-/* Punch-through: match the party gradient behind the ticket */
-.v9-ticket-hole {
-  background: radial-gradient(circle, rgba(80,50,25,0.9) 0%, rgba(40,25,12,0.95) 100%);
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
-}
-.v9-ticket-stub { width: 52px; background: #111010; border: 1px solid rgba(201,149,42,0.08); border-left: none; border-radius: 0 4px 4px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 12px 6px; }
-.v9-ticket-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
-.v9-ticket-bar { width: 1.5px; background: rgba(229,221,210,0.25); border-radius: 1px; }
-.v9-ticket-admit { font-family: 'JetBrains Mono',monospace; font-size: 0.4rem; letter-spacing: 0.15em; color: rgba(229,221,210,0.18); writing-mode: vertical-lr; transform: rotate(180deg); text-transform: uppercase; }
-
 /* Backed by */
 .v9-backed { text-align: center; padding: 0 0 clamp(3rem,6vw,5rem); }
 .v9-backed-label { font-family: 'JetBrains Mono',monospace; font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(229,221,210,0.2); display: block; margin-bottom: 20px; }
 .v9-backed-names { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
 .v9-backed-names span { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 0.95rem; font-weight: 500; color: rgba(229,221,210,0.35); letter-spacing: 0.04em; }
+
+/* ═══════ INTERACTIVE TICKET ═══════ */
+.it-stage {
+  display: flex; flex-direction: column; align-items: center;
+  padding: clamp(2rem,4vw,3.5rem) 1rem; user-select: none; overflow: visible;
+  position: relative; min-height: 280px;
+}
+.it-hint {
+  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.12em;
+  color: rgba(229,221,210,0.2); text-align: center; margin-bottom: 1.5rem;
+}
+.it-wrap {
+  will-change: transform; cursor: grab; touch-action: none;
+}
+.it-wrap:active { cursor: grabbing; }
+.it {
+  position: relative; width: min(480px, 85vw); height: 170px;
+  perspective: 1200px; transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  border-radius: 4px; will-change: transform, clip-path;
+}
+.it--flipped { transform: rotateX(180deg); }
+.it-face {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; border-radius: inherit; overflow: hidden;
+}
+.it-front { background: #141210; display: flex; }
+.it-back {
+  background: #1a1810; transform: rotateX(180deg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.it-watermark {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 1.8rem; color: rgba(229,221,210,0.1); letter-spacing: 0.08em;
+}
+.it-back-note {
+  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.14em;
+  color: rgba(229,221,210,0.2); text-transform: uppercase;
+}
+.it-scene { flex: 1; display: flex; flex-direction: column; }
+.it-top {
+  flex: 1; display: flex; align-items: flex-end;
+  background: #141210; will-change: transform; border-radius: 4px 0 0 0;
+  position: relative;
+}
+.it-top::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: rgba(201,149,42,0.08);
+}
+.it-bottom { flex: 1; display: flex; background: #141210; border-radius: 0 0 0 4px; }
+.it-body-top, .it-body-bottom {
+  flex: 1; display: flex; flex-direction: column; padding: 0 1.25rem;
+}
+.it-body-top { justify-content: flex-end; padding-bottom: 0.5rem; }
+.it-body-bottom { justify-content: flex-start; padding-top: 0.5rem; cursor: pointer; }
+.it-eyebrow {
+  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(229,221,210,0.3); margin-bottom: 0.2rem;
+}
+.it-title {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 1.3rem; font-weight: 500; color: #C9952A; line-height: 1.1;
+}
+.it-date {
+  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: rgba(229,221,210,0.35); margin-bottom: 0.4rem;
+}
+.it-cta {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 0.85rem; color: rgba(201,149,42,0.5);
+}
+/* Tear line */
+.it-tear {
+  position: absolute; top: 0; bottom: 0; right: 80px; width: 1px;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  z-index: 5; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(229,221,210,0.12) 0px, rgba(229,221,210,0.12) 4px, transparent 4px, transparent 8px);
+  transition: opacity 0.3s ease;
+}
+.it-tear-hole {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(80,50,25,0.9), rgba(40,25,12,0.95));
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  flex-shrink: 0; position: relative; left: 0;
+}
+.it-tear-t { margin-top: -6px; }
+.it-tear-b { margin-bottom: -6px; }
+.it-tear-dash { flex: 1; }
+/* Stub */
+.it-stub {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 80px;
+  background: #111010; border-left: 1px solid rgba(201,149,42,0.08);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  cursor: grab; touch-action: none; will-change: transform, box-shadow;
+  border-radius: 0 4px 4px 0; transform-origin: left center; z-index: 20;
+}
+.it-stub:active { cursor: grabbing; }
+.it-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
+.it-bar { width: 1.5px; background: rgba(229,221,210,0.25); border-radius: 1px; }
+.it-admit {
+  font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: 0.15em;
+  color: rgba(229,221,210,0.18); text-transform: uppercase;
+  writing-mode: vertical-lr; transform: rotate(180deg);
+}
+/* Torn edge */
+.it-body--torn::after {
+  content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 10px;
+  background: linear-gradient(to right, transparent, rgba(229,221,210,0.06) 50%, transparent);
+  clip-path: polygon(0% 0%,100% 2%,95% 8%,100% 15%,92% 22%,100% 30%,96% 38%,100% 45%,93% 52%,100% 60%,97% 68%,100% 75%,94% 82%,100% 90%,98% 100%,0% 100%);
+  pointer-events: none;
+}
+/* Front face paper texture */
+.it-front::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='0.4' fill='%23EDE5D5' fill-opacity='0.5'/%3E%3C/svg%3E");
+}
+
+@media (max-width: 640px) {
+  .it { width: min(340px, 90vw); height: 150px; }
+  .it-stub { width: 60px; }
+  .it-tear { right: 60px; }
+  .it-title { font-size: 1.1rem; }
+}
 
 /* ═══════ FOUR REVOLUTIONS ═══════ */
 .v9-revs { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; overflow: hidden; }
@@ -1279,8 +1352,6 @@ const CSS = `
   .v9-painting:hover .v9-painting-frame { transform: none; }
   .v9-party-inner { padding: 3.5rem 1.25rem; }
   .v9-party-title { font-size: clamp(2.6rem,9vw,3.8rem); }
-  .v9-ticket-wrap { padding: 2rem 1.25rem; }
-  .v9-ticket { max-width: 100%; }
   .v9-backed { padding: 0 1.25rem 3rem; }
   .v9-backed-names { flex-direction: column; align-items: center; gap: 14px; }
   .v9-revs { grid-template-columns: 1fr; }
