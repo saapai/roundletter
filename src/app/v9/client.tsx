@@ -238,7 +238,22 @@ export default function V9Client({
           <p className="v9-short v9-reveal">2. A limitation that creates scarcity.</p>
           <p className="v9-reveal">
             The second component is the reason that a lot of art or
-            sports memorabilia skyrocket in value after someone&rsquo;s death.
+            sports memorabilia skyrocket in value after someone&rsquo;s
+            death (which is a very intriguing materialist phenomenon).
+          </p>
+
+          <p className="v9-reveal">
+            On June 21, I will guarantee cashout of the art in this project
+            for 10% of the portfolio. This means if the portfolio is worth
+            25k, the art is worth 2.5k. For all the art, cashout can be up
+            to 100% and only a majority holder gets to keep the actual
+            physical art, which means you can sell back as much of each art
+            piece as you want.
+          </p>
+
+          <p className="v9-reveal">
+            So you can cashout 73% of the art piece. But you don&rsquo;t
+            keep the art. You can cash out 49% of a piece and keep the art.
           </p>
 
           <p className="v9-reveal">
@@ -252,6 +267,9 @@ export default function V9Client({
           </p>
           <p className="v9-closing-line v9-reveal">
             This is my 3:20 marathon.
+          </p>
+          <p className="v9-closing-line v9-reveal">
+            The auction is below.
           </p>
 
         </article>
