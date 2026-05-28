@@ -172,24 +172,32 @@ export default function V9Client({
         <article className="v9-letter">
 
           <p className="v9-lede v9-reveal">
-            <span className="v9-drop">D</span>elusion makes the statistically
-            impossible possible. That&rsquo;s my hypothesis.
+            <span className="v9-drop">I</span>f someone would pay you 100
+            million dollars to run a 3:20 marathon by the end of the year could
+            you do it? The pace seems a bit less absurd when you realize
+            you&rsquo;d be setting yourself up for generations. What about 1
+            million? Probably similar decision calculus.
           </p>
 
+          <p className="v9-short v9-reveal">100k?</p>
+
+          <p className="v9-short v9-reveal">10k?</p>
+
           <p className="v9-reveal">
-            If someone would pay you 100 million dollars to run a 3:20 marathon
-            by the end of the year could you do it? The pace seems a bit less
-            absurd when you realize you&rsquo;d be setting yourself up for
-            generations. What about 100k? 10k? Now it kinda gets interesting,
-            because that&rsquo;s not financial freedom, so the idea of dropping
-            everything to just train is far less feasible.
+            Hmmm now it kinda gets interesting, because that&rsquo;s not
+            financial freedom, so the idea of dropping everything to just train
+            is far less feasible.
           </p>
 
           <p className="v9-reveal">
             But there&rsquo;s a point at which the stakes become just enough
-            for you to bend reality to make it work. This project started with
-            the same thesis.
+            for you to bend reality to make it work. For 10k maybe you run
+            once or twice a week just to see what sticks. For 100 mil you
+            probably run every day, watch videos on techniques, get training,
+            maybe even drop everything else you&rsquo;re doing except running.
           </p>
+
+          <p className="v9-reveal">This project started with the same thesis.</p>
 
           <p className="v9-reveal">
             I figured the best way to force myself to commit to a project was
@@ -208,9 +216,17 @@ export default function V9Client({
             believed in or death. I wanted to avoid the second.
           </p>
 
+          <p className="v9-reveal">
+            My mind started to also drift to adjacent questions. What if you
+            could make NFTs that are actually sustainable? What if art could be
+            accessible to everyone? What if art wasn&rsquo;t some vague status
+            symbol?
+          </p>
+
           <p className="v9-pull v9-reveal">
-            What if art could be accessible to everyone? What if art
-            wasn&rsquo;t some vague status symbol?
+            I think if any of these things were possible you get something a
+            lot cooler than 100k: democratized art, but I think it&rsquo;s
+            also very easy to make 100k as a result.
           </p>
 
           <p className="v9-reveal">
@@ -530,6 +546,8 @@ const CSS = `
 }
 .v9-letter p:first-of-type, .v9-lede, .v9-lede + p,
 .v9-pull, .v9-closing-line { text-indent: 0; }
+/* Short rhetorical lines — no indent, tighter spacing */
+.v9-letter p.v9-short { text-indent: 0; margin-top: 0.6rem; }
 
 .v9-lede {
   font-size: clamp(1.08rem,1rem+0.4vw,1.22rem) !important;
@@ -548,7 +566,7 @@ const CSS = `
   font-style: italic;
   font-size: clamp(1.2rem,1rem+0.8vw,1.45rem) !important;
   line-height: 1.45 !important; text-align: center; letter-spacing: 0.01em;
-  color: var(--ink); max-width: 34ch; margin: 2.8rem auto !important;
+  color: var(--ink); max-width: 38ch; margin: 2.8rem auto !important;
   padding: 2rem 1rem;
   border-top: 1.5px solid rgba(200,169,110,0.55);
   border-bottom: 1.5px solid rgba(200,169,110,0.55);
@@ -559,7 +577,7 @@ const CSS = `
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif !important;
   font-style: italic; font-size: 1.2rem !important;
   color: var(--deep-amber); margin-top: 2.8rem !important;
-  text-align: center;
+  text-align: center; max-width: 30ch; margin-left: auto; margin-right: auto;
 }
 
 /* Links */
@@ -888,7 +906,6 @@ const CSS = `
 @media (max-width: 640px) {
   .v9-painting { padding: 2.5rem 1.25rem; }
   .v9-painting-inner { grid-template-columns: 1fr; gap: 1.5rem; max-width: 100%; }
-  .v9-painting-terms { flex-direction: row; gap: 24px; }
   .v9-painting-value { font-size: 1.3rem; }
   .v9-painting-bid { padding: 0.65rem 1.8rem; min-height: 44px; display: inline-flex; align-items: center; }
   .v9-painting:hover .v9-painting-frame { transform: none; }
@@ -906,9 +923,12 @@ const CSS = `
   .v9-trace { font-size: 0.5rem; }
   .v9-paper { padding: 2rem 1.25rem 1.5rem; }
   .v9-drop { font-size: 3.5rem; padding: 0.15rem 0.4rem 0 0; }
-  .v9-letter p { font-size: 1rem; }
+  .v9-letter p { font-size: 1rem; margin-top: 1.4rem; }
   .v9-lede { font-size: 1rem !important; }
-  .v9-pull { font-size: 1.1rem !important; padding: 1.5rem 0.5rem; max-width: 100%; }
+  .v9-pull { font-size: 1.1rem !important; padding: 1.5rem 0.5rem; max-width: 100%; margin: 2rem auto !important; }
+  .v9-closing-line { font-size: 1.05rem !important; }
+  .v9-painting-terms { flex-direction: row; gap: 16px; }
+  .v9-painting-label { font-size: 0.52rem; }
   .v9-party-inner { padding: 3.5rem 1.25rem; }
   .v9-party-title { font-size: clamp(2.6rem,9vw,3.8rem); }
   .v9-backed { padding: 0 1.25rem 3rem; }
