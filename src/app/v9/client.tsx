@@ -165,9 +165,6 @@ export default function V9Client({
         )}
       </section>
 
-      {/* ═══════ BRIDGE: dark → warm ═══════ */}
-      <div className="v9-bridge-1" />
-
       {/* ═══════ WORLD 2: WARM PAPER — THE LETTER ═══════ */}
       <section className="v9-paper">
         <div className="v9-grain" />
@@ -226,9 +223,6 @@ export default function V9Client({
 
         </article>
       </section>
-
-      {/* ═══════ BRIDGE: paper → party ═══════ */}
-      <div className="v9-bridge-2" />
 
       {/* ═══════ THE PARTY ═══════ */}
       <section className="v9-party">
@@ -605,6 +599,115 @@ const CSS = `
 .v9-backed-names { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
 .v9-backed-names span { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 0.95rem; font-weight: 500; color: rgba(229,221,210,0.52); letter-spacing: 0.04em; }
 
+/* ═══════ INTERACTIVE TICKET ═══════ */
+.it-stage {
+  display: flex; flex-direction: column; align-items: center;
+  padding: clamp(2rem,4vw,3.5rem) 1rem; user-select: none; overflow: visible;
+  position: relative; min-height: 280px;
+}
+.it-wrap {
+  will-change: transform; cursor: grab; touch-action: none;
+}
+.it-wrap:active { cursor: grabbing; }
+.it {
+  position: relative; width: min(480px, 85vw); height: 170px;
+  perspective: 1200px; transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  border-radius: 4px; will-change: transform, clip-path;
+}
+.it--flipped { transform: rotateX(180deg); }
+.it-face {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  -webkit-backface-visibility: hidden; border-radius: inherit; overflow: hidden;
+}
+.it-front { background: #141210; display: flex; }
+.it-back {
+  background: #1a1810; transform: rotateX(180deg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+}
+.it-watermark {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 1.8rem; color: rgba(229,221,210,0.1); letter-spacing: 0.08em;
+}
+.it-back-note {
+  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.14em;
+  color: rgba(229,221,210,0.2); text-transform: uppercase;
+}
+.it-scene { flex: 1; display: flex; flex-direction: column; }
+.it-top {
+  flex: 1; display: flex; align-items: flex-end;
+  background: #141210; will-change: transform; border-radius: 4px 0 0 0;
+  position: relative;
+}
+.it-top::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: rgba(201,149,42,0.08);
+}
+.it-bottom { flex: 1; display: flex; background: #141210; border-radius: 0 0 0 4px; }
+.it-body-top, .it-body-bottom {
+  flex: 1; display: flex; flex-direction: column; padding: 0 1.25rem;
+}
+.it-body-top { justify-content: flex-end; padding-bottom: 0.5rem; }
+.it-body-bottom { justify-content: flex-start; padding-top: 0.5rem; cursor: pointer; }
+.it-eyebrow {
+  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.22em;
+  text-transform: uppercase; color: rgba(229,221,210,0.3); margin-bottom: 0.2rem;
+}
+.it-title {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 1.3rem; font-weight: 500; color: #C9952A; line-height: 1.1;
+}
+.it-date {
+  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: rgba(229,221,210,0.35); margin-bottom: 0.4rem;
+}
+.it-cta {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 0.85rem; color: rgba(201,149,42,0.5);
+}
+.it-tear {
+  position: absolute; top: 0; bottom: 0; right: 80px; width: 1px;
+  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+  z-index: 5; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(229,221,210,0.12) 0px, rgba(229,221,210,0.12) 4px, transparent 4px, transparent 8px);
+  transition: opacity 0.3s ease;
+}
+.it-tear-hole {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(80,50,25,0.9), rgba(40,25,12,0.95));
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  flex-shrink: 0; position: relative; left: 0;
+}
+.it-tear-t { margin-top: -6px; }
+.it-tear-b { margin-bottom: -6px; }
+.it-tear-dash { flex: 1; }
+.it-stub {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 80px;
+  background: #111010; border-left: 1px solid rgba(201,149,42,0.08);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  cursor: grab; touch-action: none; will-change: transform, box-shadow;
+  border-radius: 0 4px 4px 0; transform-origin: left center; z-index: 20;
+}
+.it-stub:active { cursor: grabbing; }
+.it-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
+.it-bar { width: 1.5px; background: rgba(229,221,210,0.25); border-radius: 1px; }
+.it-admit {
+  font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: 0.15em;
+  color: rgba(229,221,210,0.18); text-transform: uppercase;
+  writing-mode: vertical-lr; transform: rotate(180deg);
+}
+.it-body--torn::after {
+  content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 10px;
+  background: linear-gradient(to right, transparent, rgba(229,221,210,0.06) 50%, transparent);
+  clip-path: polygon(0% 0%,100% 2%,95% 8%,100% 15%,92% 22%,100% 30%,96% 38%,100% 45%,93% 52%,100% 60%,97% 68%,100% 75%,94% 82%,100% 90%,98% 100%,0% 100%);
+  pointer-events: none;
+}
+.it-front::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='0.4' fill='%23EDE5D5' fill-opacity='0.5'/%3E%3C/svg%3E");
+}
+
 /* ═══════ WORLD 3: THE DOOR ═══════ */
 .v9-door { position: relative; min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: clamp(4rem,10vw,8rem) clamp(1.25rem,4vw,2rem); overflow: hidden; }
 .v9-door-rocks {
@@ -661,6 +764,10 @@ const CSS = `
 
 /* ═══════ MOBILE ═══════ */
 @media (max-width: 640px) {
+  .it { width: min(340px, 90vw); height: 150px; }
+  .it-stub { width: 60px; }
+  .it-tear { right: 60px; }
+  .it-title { font-size: 1.1rem; }
   .v9-mob { display: flex; }
   .v9-eye { font-size: 0.52rem; letter-spacing: 0.22em; }
   .v9-num { font-size: clamp(3rem,14vw,5rem); }
