@@ -359,7 +359,7 @@ export default function V9Client({
       {/* Mobile nav */}
       <nav className="v9-mob">
         <Link href="/positions">stocks</Link>
-        <Link href="/letters/round-0">letters</Link>
+        <Link href="/letters">letters</Link>
         <Link href="/invest">invest</Link>
       </nav>
     </div>
