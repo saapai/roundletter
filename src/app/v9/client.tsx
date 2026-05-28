@@ -459,8 +459,8 @@ const CSS = `
 
 /* ═══════ BRIDGE: rocks → paper ═══════ */
 .v9-bridge-1 {
-  height: clamp(80px,15vh,160px);
-  background: linear-gradient(to bottom, #040302 0%, var(--paper) 100%);
+  height: clamp(40px,8vh,80px);
+  background: linear-gradient(to bottom, rgba(4,3,2,0.95) 0%, var(--paper) 100%);
   position: relative; z-index: 2;
   box-shadow: 0 -40px 80px rgba(10,9,8,0.5);
 }
@@ -538,8 +538,8 @@ const CSS = `
 
 /* ═══════ BRIDGE: paper → party ═══════ */
 .v9-bridge-2 {
-  height: clamp(100px,18vh,200px);
-  background: linear-gradient(to bottom, var(--paper) 0%, #D4C4A8 20%, #8B7350 45%, #3D2A14 70%, #0d0906 100%);
+  height: clamp(40px,8vh,80px);
+  background: linear-gradient(to bottom, var(--paper) 0%, #0d0906 100%);
   position: relative; z-index: 2;
 }
 
