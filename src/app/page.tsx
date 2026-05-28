@@ -44,13 +44,13 @@ export default async function HomePage() {
   const data = await getPortfolioData();
   return (
     <V9Client
-      totalNow={data.categories.personal.current_value + data.categories.prediction.breakdown.kalshi.total}
+      totalNow={data.categories.personal.current_value + data.categories.prediction.breakdown.kalshi.total + 150}
       daysToBirthday={daysFromNowTo(BIRTHDAY_ISO)}
       holdings={HOLDINGS}
       pendingCash={PENDING_CASH}
       entryValue={ENTRY_VALUE}
       nonStockValue={
-        data.categories.prediction.breakdown.kalshi.total
+        data.categories.prediction.breakdown.kalshi.total + 150
       }
     />
   );
