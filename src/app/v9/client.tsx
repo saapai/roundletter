@@ -171,6 +171,8 @@ export default function V9Client({
 
         <article className="v9-letter">
 
+          <h2 className="v9-letter-title v9-reveal">I&rsquo;m refunding my art for $470 dollars.</h2>
+
           <p className="v9-lede v9-reveal">
             <span className="v9-drop">I</span>f someone would pay you 100
             million dollars to run a 3:20 marathon by the end of the year could
@@ -548,6 +550,14 @@ const CSS = `
 .v9-pull, .v9-closing-line { text-indent: 0; }
 /* Short rhetorical lines — no indent, tighter spacing */
 .v9-letter p.v9-short { text-indent: 0; margin-top: 0.6rem; }
+
+.v9-letter-title {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-weight: 400;
+  font-size: clamp(1.6rem,1.2rem+1.5vw,2.2rem);
+  line-height: 1.25; color: var(--ink); margin: 0 0 2.5rem;
+  text-align: center; letter-spacing: -0.01em;
+}
 
 .v9-lede {
   font-size: clamp(1.08rem,1rem+0.4vw,1.22rem) !important;
