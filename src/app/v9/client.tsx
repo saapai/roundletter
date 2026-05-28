@@ -177,67 +177,31 @@ export default function V9Client({
           </p>
 
           <p className="v9-reveal">
-            If someone would pay you 100 million dollars to run a 3:20 marathon
-            by the end of the year could you do it? The pace seems a bit less
-            absurd when you realize you&rsquo;d be setting yourself up for
-            generations. What about 1 million? Probably similar decision
-            calculus. 100k? 10k? Hmmm now it kinda gets interesting, because
-            that&rsquo;s not financial freedom, so the idea of dropping
-            everything to just train is far less feasible.
+            There&rsquo;s a point at which the stakes become just enough for
+            you to bend reality to make it work. This project started with the
+            same thesis.
           </p>
 
           <p className="v9-reveal">
-            But there&rsquo;s a point at which the stakes become just enough
-            for you to bend reality to make it work. For 10k maybe you run
-            once or twice a week just to see what sticks. For 100 mil you
-            probably think about running all the time, watch videos on
-            techniques, get training, maybe even drop everything else
-            you&rsquo;re doing except just run.
-          </p>
-
-          <p className="v9-reveal">This project started with the same thesis.</p>
-
-          <p className="v9-reveal">
-            I figured the best way to force myself to commit to a project was
-            to make it unaffordable to quit. I didn&rsquo;t really want to put
-            myself in debt or physical harm, so instead public embarrassment
-            was my choice of poison. It would be way cooler to have 100k on my
-            birthday than not, so just that factor alone means my odds of 100k
-            are higher.
+            I figured the best way to force myself to commit was to make it
+            unaffordable to quit. Public embarrassment was my choice of poison.
+            It would be way cooler to have 100k on my birthday than not, so
+            just that factor alone means my odds are higher.
           </p>
 
           <p className="v9-reveal">
-            Through the last few weeks, I realized that my methods were not
-            nearly enough, and my mind started to always drift to insane
-            stories, like Gamestop, Bitcoin, NFTs, and art in general. The
-            crazy money movements were tied either to a narrative people
+            The crazy money movements were tied either to a narrative people
             believed in or death. I wanted to avoid the second.
           </p>
 
-          <p className="v9-reveal">
-            My mind started to also drift to adjacent questions. What if you
-            could make NFTs that are actually sustainable? What if art could be
-            accessible to everyone? What if art wasn&rsquo;t some vague status
-            symbol?
-          </p>
-
           <p className="v9-pull v9-reveal">
-            I think if any of these things were possible you get something a
-            lot cooler than 100k: democratized art, but I think it&rsquo;s
-            also very easy to make 100k as a result.
+            What if art could be accessible to everyone? What if art
+            wasn&rsquo;t some vague status symbol?
           </p>
 
           <p className="v9-reveal">
-            One thing I think NFTs proved is that art has 2 dimensions.
-            A consensus on the value of the art. And a limitation that creates
-            scarcity. The second component is the reason that a lot of art or
-            sports memorabilia skyrocket in value after someone&rsquo;s death.
-          </p>
-
-          <p className="v9-reveal">
-            So I&rsquo;m doubling down on the project, with a two-fold purpose.
-            Figure out how to make art with taste. And figure out how to make
-            the valuation of art favorable for all parties involved.
+            Art has 2 dimensions. A consensus on the value. And a limitation
+            that creates scarcity.
           </p>
 
           <p className="v9-closing-line v9-reveal">
