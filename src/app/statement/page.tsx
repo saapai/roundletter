@@ -102,28 +102,23 @@ export default async function Statement() {
             <span className={s.roomName}>the bank</span>
             <span className={s.roomMeta}>live · daily marks</span>
           </a>
-          <a href="https://aureliex.com/art" className={s.room}>
-            <span className={s.roomEy}>02</span>
-            <span className={s.roomName}>the art</span>
-            <span className={s.roomMeta}>15 pieces · auction</span>
-          </a>
           <a href="https://aureliex.com/letters/round-0" className={s.room}>
-            <span className={s.roomEy}>03</span>
+            <span className={s.roomEy}>02</span>
             <span className={s.roomName}>round 0</span>
             <span className={s.roomMeta}>the article</span>
           </a>
           <a href="https://aureliex.com/archives" className={s.room}>
-            <span className={s.roomEy}>04</span>
+            <span className={s.roomEy}>03</span>
             <span className={s.roomName}>archives</span>
             <span className={s.roomMeta}>eggs included</span>
           </a>
           <a href="https://aureliex.com/letters/tension-field" className={s.room}>
-            <span className={s.roomEy}>05</span>
+            <span className={s.roomEy}>04</span>
             <span className={s.roomName}>tension field</span>
             <span className={s.roomMeta}>65 experiments · may 13</span>
           </a>
           <a href="https://aureliex.com/letters/gradient" className={s.room}>
-            <span className={s.roomEy}>06</span>
+            <span className={s.roomEy}>05</span>
             <span className={s.roomName}>the gradient</span>
             <span className={s.roomMeta}>the formula · may 14</span>
           </a>

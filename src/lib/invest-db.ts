@@ -1,4 +1,3 @@
-import Stripe from "stripe";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 
@@ -13,28 +12,14 @@ export function daysUntilParty(): number {
   return Math.max(0, Math.ceil((party.getTime() - now.getTime()) / 86_400_000));
 }
 
-export function computeFees(amountCents: number): {
-  stripeFee: number;
-  aureliexFee: number;
-  totalCharge: number;
-} {
-  // Stripe: 2.9% + $0.30, aureliex: 1%
-  // customer_pays = (amount + 30) / (1 - 0.029 - 0.01)
-  const totalCharge = Math.ceil((amountCents + 30) / (1 - 0.039));
-  const stripeFee = Math.ceil(totalCharge * 0.029) + 30;
-  const aureliexFee = Math.ceil(totalCharge * 0.01);
-  return { stripeFee, aureliexFee, totalCharge };
-}
-
 export type Investment = {
   name: string;
   amountCents: number;
   feeCents: number;
-  method: "stripe" | "venmo" | "direct";
+  method: "venmo" | "direct";
   investedAt: string;
   daysBeforeParty: number;
   weight: number;
-  stripeSessionId?: string;
 };
 
 export type PoolState = {
@@ -78,39 +63,9 @@ export function recordManualInvestment(inv: Omit<Investment, "weight" | "daysBef
   }
 }
 
-// Get pool state from Stripe completed sessions + manual investments
+// Get pool state from manual investments only
 export async function getPoolState(): Promise<PoolState> {
-  const stripeKey = process.env.STRIPE_SECRET_KEY;
-  const manualInvestments = getManualInvestments();
-
-  let stripeInvestments: Investment[] = [];
-
-  if (stripeKey) {
-    try {
-      const stripe = new Stripe(stripeKey);
-      const sessions = await stripe.checkout.sessions.list({
-        limit: 100,
-        status: "complete",
-      });
-
-      stripeInvestments = sessions.data
-        .filter((s) => s.metadata?.base_amount_cents)
-        .map((s) => ({
-          name: s.metadata!.investor_name || "anonymous",
-          amountCents: parseInt(s.metadata!.base_amount_cents, 10),
-          feeCents: parseInt(s.metadata!.fee_cents || "0", 10),
-          method: "stripe" as const,
-          investedAt: new Date(s.created * 1000).toISOString(),
-          daysBeforeParty: parseInt(s.metadata!.days_before_party || "0", 10),
-          weight: parseInt(s.metadata!.weight || "0", 10),
-          stripeSessionId: s.id,
-        }));
-    } catch (err) {
-      console.error("Failed to fetch Stripe sessions:", err);
-    }
-  }
-
-  const all = [...stripeInvestments, ...manualInvestments];
+  const all = getManualInvestments();
   const totalWeight = all.reduce((s, r) => s + r.weight, 0);
   const totalInvested = all.reduce((s, r) => s + r.amountCents, 0);
 

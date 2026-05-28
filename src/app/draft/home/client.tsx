@@ -119,37 +119,6 @@ export default function DraftHomeClient() {
         you{"\u2019"}re invited.
       </p>
 
-      {/* ═══════ THE PAINTING ═══════ */}
-      <section className="R-painting R-reveal">
-        <div className="R-painting-frame">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/art/auction-piece.jpg"
-            alt="Cityscape with splatter — oil on canvas"
-            className="R-painting-img"
-          />
-        </div>
-        <div className="R-painting-caption">
-          <span className="R-painting-title">cityscape with splatter</span>
-          <div className="R-painting-terms">
-            <div className="R-painting-term">
-              <span className="R-painting-label">current bid</span>
-              <span className="R-painting-value">$25</span>
-            </div>
-            <div className="R-painting-term">
-              <span className="R-painting-label">cashout value · june 20</span>
-              <span className="R-painting-value R-painting-value--live">{fmt(total * 0.1)}</span>
-            </div>
-          </div>
-          <span className="R-painting-meta">
-            the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.
-          </span>
-          <a href="/art" className="R-painting-bid">bid →</a>
-        </div>
-      </section>
-
-      <div className="R-rule" />
-
       {/* ═══════ THE PARTY — full-bleed gradient hero ═══════ */}
       <section className="R-party-hero">
         <div className="R-party-hero-inner">

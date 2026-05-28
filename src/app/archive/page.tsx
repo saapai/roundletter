@@ -4,7 +4,6 @@ import curation from "@/data/curation.json";
 import hookDebate from "@/data/hook-debate.json";
 import ApparatusThumb from "@/components/ApparatusThumb";
 import OpenBets from "@/components/OpenBets";
-import ArtPortfolio from "@/components/ArtPortfolio";
 import FavoriteNumber from "@/components/FavoriteNumber";
 import YouTubeCard from "@/components/YouTubeCard";
 import LaunchTrailer from "@/components/LaunchTrailer";
@@ -116,11 +115,9 @@ export default function ArchivePage() {
         <Link href="/" className="home-bridge-wordmark" aria-label="aureliex — home">
           aureliex<span className="home-bridge-wordmark-dot">.</span>
         </Link>
-        <div className="home-bridge-sub">the archive</div>
-        <div className="home-bridge-kicker">everything below the cover</div>
         <div className="home-bridge-line">the rest of the magazine.</div>
-        <div className="home-bridge-arrow" aria-hidden="true">↓</div>
         <div className="home-bridge-rule" aria-hidden="true" />
+        <div className="home-bridge-sub">markets &middot; auctions &middot; trailers &middot; eggs</div>
       </section>
 
       <div className="home-stack">
@@ -257,8 +254,6 @@ export default function ArchivePage() {
           </p>
         </section>
 
-        {/* art portfolio · full fourteen-piece gallery */}
-        <ArtPortfolio />
 
         {/* ai's favorite number */}
         <FavoriteNumber />

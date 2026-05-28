@@ -68,7 +68,6 @@ export default async function PortfolioPage() {
   }> = [
     { key: "personal",   label: "Personal",   href: "/stocks" },
     { key: "external",   label: "External",   href: "/external" },
-    { key: "art",        label: "Art",        href: "/art" },
     { key: "prediction", label: "Prediction", href: "/prediction" },
   ];
 
@@ -109,10 +108,10 @@ export default async function PortfolioPage() {
       <section className="alloc-section" aria-label="allocation">
         <div className="alloc-head">
           <div className="alloc-eyebrow">allocation</div>
-          <div className="alloc-meta">{fmtMoney(data.total)} across {(["personal","external","art","prediction"] as const).filter(k => cats[k].current_value > 0).length} categories</div>
+          <div className="alloc-meta">{fmtMoney(data.total)} across {(["personal","external","prediction"] as const).filter(k => cats[k].current_value > 0).length} categories</div>
         </div>
         <div className="alloc-bar" role="img" aria-label="allocation across categories">
-          {(["personal","external","art","prediction"] as const).map((key) => {
+          {(["personal","external","prediction"] as const).map((key) => {
             const v = cats[key].current_value;
             const pct = (v / Math.max(data.total, 1)) * 100;
             if (v <= 0) return null;
@@ -131,7 +130,6 @@ export default async function PortfolioPage() {
             [
               { key: "personal" as const,   label: "stocks",     href: "/stocks" },
               { key: "external" as const,   label: "external",   href: "/external" },
-              { key: "art" as const,        label: "art",        href: "/art" },
               { key: "prediction" as const, label: "prediction", href: "/prediction" },
             ]
           ).map(({ key, label, href }) => {

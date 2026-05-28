@@ -118,7 +118,6 @@ export default function HomeContent({
 
         {/* Nav — top right, over the city */}
         <nav className="hx-nav">
-          <Link href="/art">art</Link>
           <Link href="/prediction">prediction</Link>
           <Link href="/stocks">investments</Link>
           <Link href="/panel">panel</Link>
@@ -195,7 +194,6 @@ export default function HomeContent({
       {/* ═══ FOOTER ═══ */}
       <footer className="hx-foot">
         <nav>
-          <Link href="/art">art</Link>
           <Link href="/prediction">prediction</Link>
           <Link href="/stocks">investments</Link>
           <Link href="/panel">panel</Link>

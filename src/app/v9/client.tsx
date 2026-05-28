@@ -7,12 +7,10 @@ import dynamic from "next/dynamic";
 const InteractiveTicket = dynamic(() => import("./InteractiveTicket"), { ssr: false });
 
 /* ═══════════════════════════════════════════════════════
-   v9 — THE ROCKS (iteration 2)
+   v9 — THE ROCKS
 
-   3 worlds: Dark Earth → Warm Paper → Deep Night
-   Real letter.txt as body content
-   Cityscape painting only, no art grid
-   Ghost color bleeding from painting into paper
+   2 worlds: Dark Earth → Warm Paper → Deep Night
+   Text-first letter. No grids, no cards, no widgets.
    ═══════════════════════════════════════════════════════ */
 
 type Props = {
@@ -24,8 +22,6 @@ type Props = {
   nonStockValue: number;
 };
 
-type StockGain = { ticker: string; current: number; entry: number; pct: number };
-
 function useLiveTotal(
   holdings: Props["holdings"],
   pendingCash: number,
@@ -34,7 +30,6 @@ function useLiveTotal(
 ) {
   const [total, setTotal] = useState<number>(fallback);
   const [flash, setFlash] = useState<"up" | "down" | null>(null);
-  const [stocks, setStocks] = useState<StockGain[]>([]);
   const prevRef = useRef<number>(fallback);
 
   useEffect(() => {
@@ -46,24 +41,16 @@ function useLiveTotal(
         const j = await r.json();
         if (!j?.hasData || !alive) return;
         let sum = pendingCash + nonStockValue;
-        const gains: StockGain[] = [];
         for (const h of holdings) {
           const s = j.data[h.ticker];
-          const cur = s?.closes?.length > 0 ? h.shares * s.closes[s.closes.length - 1] : h.entry_value;
-          sum += cur;
-          gains.push({
-            ticker: h.ticker,
-            current: cur,
-            entry: h.entry_value,
-            pct: h.entry_value > 0 ? ((cur - h.entry_value) / h.entry_value) * 100 : 0,
-          });
+          sum += s?.closes?.length > 0 ? h.shares * s.closes[s.closes.length - 1] : h.entry_value;
         }
         if (sum !== prevRef.current) {
           setFlash(sum >= prevRef.current ? "up" : "down");
           setTimeout(() => setFlash(null), 800);
         }
         prevRef.current = sum;
-        if (alive) { setTotal(sum); setStocks(gains); }
+        if (alive) setTotal(sum);
       } catch { /* noop */ }
     };
     pull();
@@ -71,7 +58,7 @@ function useLiveTotal(
     return () => { alive = false; clearInterval(id); };
   }, [holdings, pendingCash, nonStockValue]);
 
-  return { total, flash, stocks };
+  return { total, flash };
 }
 
 function fmt(n: number) {
@@ -81,7 +68,7 @@ function fmt(n: number) {
 export default function V9Client({
   totalNow, daysToBirthday, holdings, pendingCash, entryValue, nonStockValue,
 }: Props) {
-  const { total, flash, stocks } = useLiveTotal(holdings, pendingCash, nonStockValue, totalNow);
+  const { total, flash } = useLiveTotal(holdings, pendingCash, nonStockValue, totalNow);
   const rootRef = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState<"void" | "develop" | "revealed" | "full">("void");
 
@@ -116,7 +103,7 @@ export default function V9Client({
     return () => obs.disconnect();
   }, []);
 
-  /* mouse parallax on hero — rocks drift opposite, number drifts with */
+  /* mouse parallax on hero */
   useEffect(() => {
     if (typeof window === "undefined") return;
     const rocks = rootRef.current?.querySelector(".v9-rocks") as HTMLElement | null;
@@ -131,7 +118,6 @@ export default function V9Client({
     window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
   }, [phase]);
-
 
   const showNumber = phase === "revealed" || phase === "full";
   const showFull = phase === "full";
@@ -186,7 +172,6 @@ export default function V9Client({
       <section className="v9-paper">
         <div className="v9-grain" />
 
-        {/* The letter — real content from letter.txt */}
         <article className="v9-letter">
 
           <p className="v9-lede v9-reveal">
@@ -196,251 +181,56 @@ export default function V9Client({
 
           <p className="v9-reveal">
             If someone would pay you 100 million dollars to run a 3:20 marathon
-            by the end of the year could you do it? The pace seems a bit less
-            absurd when you realize you&rsquo;d be setting yourself up for
-            generations. What about 1 million? Probably similar decision calculus.
-            100k? 10k? Hmmm now it kinda gets interesting, because that&rsquo;s
-            not financial freedom, so the idea of dropping everything to just
-            train is far less feasible.
+            by the end of the year could you do it? Probably. What about 10k?
+            Now it gets interesting &mdash; that&rsquo;s not enough to drop
+            everything, but it&rsquo;s enough to make you try. There&rsquo;s a
+            point where the stakes are just enough to bend reality.
           </p>
 
           <p className="v9-reveal">
-            But there&rsquo;s a point at which the stakes become just enough for
-            you to bend reality to make it work. For 10k maybe you run once or
-            twice a week just to see what sticks. For 100 mil you probably think
-            about running all the time, watch videos on techniques, get training,
-            maybe even drop everything else you&rsquo;re doing except just run.
-          </p>
-
-          <p className="v9-reveal">This project started with the same thesis.</p>
-
-          <p className="v9-reveal">
-            On April 14 I sold everything &mdash; penny stocks, speculative junk,
-            companies I couldn&rsquo;t explain to anyone &mdash; and bought
+            On April 14 I sold everything &mdash; penny stocks, speculative
+            junk, companies I couldn&rsquo;t explain &mdash; and bought
             conviction. Quantum computing, semiconductors, AI. The account went
             from noise to a thesis in one morning. The{" "}
             <Link href="/letters/round-0" className="v9-link">pre-mortem</Link>
             {" "}was published the same day, before the trades settled.
-          </p>
-
-          {/* The numbers — marginalia box */}
-          <div className="v9-proof v9-reveal">
-            <div className="v9-proof-row">
-              <span className="v9-proof-l">opened</span>
-              <span className="v9-proof-v">$3,453</span>
-            </div>
-            <div className="v9-proof-row">
-              <span className="v9-proof-l">now</span>
-              <span className="v9-proof-v v9-proof-live">${fmt(total)}</span>
-            </div>
-            <div className="v9-proof-row">
-              <span className="v9-proof-l">needed</span>
-              <span className="v9-proof-v">29&times;</span>
-            </div>
-            <div className="v9-proof-row">
-              <span className="v9-proof-l">needs</span>
-              <span className="v9-proof-v">{Math.ceil(100000 / total)}&times;</span>
-            </div>
-            <div className="v9-proof-row">
-              <span className="v9-proof-l">monte carlo</span>
-              <span className="v9-proof-v v9-proof-zero">0.000000%</span>
-            </div>
-            <div className="v9-proof-row">
-              <span className="v9-proof-l">published</span>
-              <span className="v9-proof-v">before the first trade</span>
-            </div>
-          </div>
-
-          {/* Stock gains grid */}
-          {stocks.length > 0 && (
-            <div className="v9-stocks v9-reveal">
-              {stocks.sort((a, b) => b.pct - a.pct).map((s) => (
-                <div key={s.ticker} className="v9-stock">
-                  <span className="v9-stock-ticker">{s.ticker}</span>
-                  <span className={`v9-stock-pct ${s.pct >= 0 ? "v9-stock-up" : "v9-stock-dn"}`}>
-                    {s.pct >= 0 ? "+" : ""}{s.pct.toFixed(1)}%
-                  </span>
-                  <span className="v9-stock-val">${fmt(s.current)}</span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <p className="v9-reveal">
-            A month and a half ago, I made a public bet that I could turn 3.5k
-            into 100k. I would need to 20x in less than a month to hit my goal.
-            But at the start of the project I needed a 29x. All the models
-            estimated my probability to be 0.000000000%.
+            $3,453 → $100,000 by my 20th birthday. The models say
+            0.000000%.
           </p>
 
           <p className="v9-reveal">
-            I figured the best way to force myself to commit to a project was
-            to make it unaffordable to quit. I didn&rsquo;t really want to put
-            myself in debt or physical harm, so instead public embarrassment was
-            my choice of poison. It would be way cooler to have 100k on my
-            birthday than not, so just that factor alone means my odds of 100k
-            are higher.
-          </p>
-
-          {/* Agent bracket — proof of real disagreement */}
-          <div className="v9-bracket v9-reveal">
-            <div className="v9-bracket-line">
-              <span className="v9-bracket-tag v9-tag-bear">bear</span>
-              <span>That is not a strategy. That is Thanksgiving.</span>
-            </div>
-            <div className="v9-bracket-line">
-              <span className="v9-bracket-tag v9-tag-hist">historian</span>
-              <span>The 0.000000% is the probability before the letter. The probability after is unknowable.</span>
-            </div>
-          </div>
-
-          <p className="v9-reveal">
-            Through the last few weeks, I realized that my methods were not
-            nearly enough, and my mind started to always drift to insane stories,
-            like Gamestop, Bitcoin, NFTs, and art in general. The crazy money
-            movements were tied either to a narrative people believed in or
-            death. I wanted to avoid the second.
-          </p>
-
-          <p className="v9-reveal">
-            My mind started to also drift to adjacent questions. What if you
-            could make NFTs that are actually sustainable? What if art could be
-            accessible to everyone? What if art wasn&rsquo;t some vague status
-            symbol?
+            I figured the best commitment device was public embarrassment.
+            It would be way cooler to have 100k on my birthday than not,
+            so just that factor alone raises my odds.
           </p>
 
           <p className="v9-pull v9-reveal">
-            I think if any of these things were possible you get something a lot
-            cooler than 100k: democratized art, but I think it&rsquo;s also very
-            easy to make 100k as a result.
+            The odds are the honesty. The bet is the product.
           </p>
 
           <p className="v9-reveal">
-            One thing I think NFTs proved is that art has 2 dimensions.
-            A consensus on the value of the art. And a limitation that creates
-            scarcity. The second component is the reason that a lot of art or
-            sports memorabilia skyrocket in value after someone&rsquo;s death.
+            I&rsquo;m at ${fmt(total)}. I need $100,000. The gap is not a
+            chapter in a comeback story &mdash; it&rsquo;s a mathematical fact.
+            {daysToBirthday} days left. Five AI agents{" "}
+            <Link href="/argument" className="v9-link">argue every trade</Link>
+            {" "}before I touch it. A 37-page{" "}
+            <a href="https://saathvikpai.com" className="v9-link">research paper</a>
+            {" "}on agent memory got written along the way. A party with real
+            backers materialized. None of it was planned. All of it was
+            downstream of filing the reasoning before the result.
           </p>
-
-          <p className="v9-reveal">
-            So I&rsquo;m doubling down on the project, with a two-fold purpose.
-            Figure out how to make art with taste. And figure out how to make
-            the valuation of art favorable for all parties involved.
-          </p>
-
-          {/* The mechanism */}
-          <div className="v9-mechanism v9-reveal">
-            <p className="v9-mech-head">On June 21, I will guarantee cashout of the art for 10% of the portfolio.</p>
-            <ul className="v9-wins">
-              <li>The portfolio grows so much that losing 10% to the art doesn&rsquo;t matter.</li>
-              <li>I make money with the bids to make up for any loss in the art cashout.</li>
-              <li>The most interesting: people overbid for the art because they believe in the art or the portfolio, or they just want the art that bad. And they keep most of it.</li>
-            </ul>
-          </div>
 
           <p className="v9-closing-line v9-reveal">
-            This is my promise to make my art worth 10k by June 21.<br />
             This is my 3:20 marathon.
-          </p>
-
-          {/* Sealed hash */}
-          <div className="v9-seal v9-reveal">
-            <span className="v9-seal-tag">sealed</span>
-            <span className="v9-seal-hash">commitment · a8f7c2············</span>
-            <span className="v9-seal-when">reveal 19 jun 2026 · 18:00 PT</span>
-          </div>
-
-          {/* Ways in */}
-          <div className="v9-ways v9-reveal">
-            <Link href="/invest" className="v9-way">
-              <span className="v9-way-name">The wager →</span>
-              <span className="v9-way-sub">bet on the bet</span>
-            </Link>
-            <Link href="/argument" className="v9-way">
-              <span className="v9-way-name">The argument →</span>
-              <span className="v9-way-sub">5 agents disagree daily</span>
-            </Link>
-            <a href="https://saathvikpai.com" className="v9-way">
-              <span className="v9-way-name">The paper →</span>
-              <span className="v9-way-sub">37 pages on agent memory</span>
-            </a>
-            <Link href="/art" className="v9-way">
-              <span className="v9-way-name">The art →</span>
-              <span className="v9-way-sub">12 originals, starting at $1</span>
-            </Link>
-          </div>
-
-          {/* ═══════ ADDENDUM ═══════ */}
-          <div className="v9-addendum-rule" />
-          <div className="v9-addendum-tag v9-reveal">addendum — {daysToBirthday} days out</div>
-
-          <p className="v9-reveal">
-            When I wrote the marathon line I had no idea what was actually going
-            to get built. The pre-mortem filed on April 26 lists four failure
-            modes, a birthday party, and a vague belief that the art would
-            &ldquo;eventually clear.&rdquo; What it does not list: a 37-page
-            research paper that six AI agents stress-tested across 100-year
-            datasets. A local multi-model debate system running for free on my
-            laptop. Twelve pieces of art that actually repriced when the
-            portfolio started doing things. A party with real backers &mdash;
-            Franco, Elijah, Yashas &mdash; and an anonymous fourth who I still
-            do not know how to thank without sounding like a Kickstarter
-            update. None of that was planned. All of it was downstream of one
-            thing I did that should not have been upstream: I told people about
-            a birthday party and filed the reasoning before the result.
-          </p>
-
-          <p className="v9-reveal">
-            Let me be honest about what the numbers actually say. I&rsquo;m at
-            ${fmt(total)}. I need $100,000. The models still say 0.000000% &mdash;
-            same as before. I&rsquo;ve built a trading system, a multi-agent
-            debate framework, a paper on memory architectures, and a party. The
-            gap between here and there is not a chapter in a comeback story.
-            It&rsquo;s a mathematical fact. {daysToBirthday} days left.
-          </p>
-
-          <p className="v9-reveal">
-            So I&rsquo;m hiding 5% of the portfolio as easter eggs across this
-            site. Not links to art. Not discount codes. Actual value, hidden in
-            the scroll behavior, in the source code, in routes that aren&rsquo;t
-            in the nav. The first person to find each egg gets the most. The
-            more eggs get found, the less each subsequent one is worth. I know
-            exactly what this is: I&rsquo;m paying you to pay attention to me.
-            Phil Ivey didn&rsquo;t count cards. He found a game where the house
-            had structured the payout wrong and he sat there and bled them.
-            I&rsquo;m doing the same thing with attention. Except I&rsquo;m the
-            house. And I might be the one getting bled.
-          </p>
-
-          <p className="v9-reveal">
-            The letter argued that art needs two things: consensus on value and
-            a limitation that creates scarcity. NFTs failed the second &mdash;
-            the limitation was arbitrary, everyone knew it, so the consensus
-            collapsed. But an easter egg that degrades in value each time
-            someone finds one has a real limitation. It is not
-            &ldquo;only 10,000 exist.&rdquo; It is: the faster you find it, the
-            more it is worth. Every platform does a version of this dishonestly.
-            Twitter gives early posters more reach and calls it an algorithm.
-            Substack gives early subscribers a price lock and calls it loyalty.
-            I&rsquo;m just making the mechanic explicit.
-          </p>
-
-          <p className="v9-reveal">
-            I said this is my 3:20 marathon. I still mean it. What I did not
-            know when I wrote it is that a marathon has aid stations, and the
-            aid stations are the agents, and the paper, and the backers, and
-            the twelve pieces of art that somebody has touched with their hands,
-            and the easter eggs that are already placed and waiting. The promise
-            is the same &mdash; June 21, no quiet revisions to what
-            &ldquo;basically counts.&rdquo; The outcome box at the bottom of
-            this page is still blank. I put it there to fill in. I still
-            don&rsquo;t know what I&rsquo;m going to write.
           </p>
 
         </article>
       </section>
 
-      {/* ═══════ THE PARTY — amber gradient descent ═══════ */}
+      {/* ═══════ BRIDGE: paper → party ═══════ */}
+      <div className="v9-bridge-2" />
+
+      {/* ═══════ THE PARTY ═══════ */}
       <section className="v9-party">
         <div className="v9-party-inner v9-reveal">
           <span className="v9-party-presents">aureliex presents</span>
@@ -448,7 +238,6 @@ export default function V9Client({
           <span className="v9-party-sub">the liquidity event · june 20 · 2026</span>
           <div className="v9-party-rule" />
           <p className="v9-party-tagline">june 20 · salt lake city</p>
-          <span className="v9-party-detail">10% of portfolio → flights &amp; reimbursements</span>
         </div>
 
         {/* Interactive Ticket */}
@@ -456,41 +245,10 @@ export default function V9Client({
           <InteractiveTicket />
         </div>
 
-        {/* Backed by */}
         <div className="v9-backed v9-reveal">
           <span className="v9-backed-label">backed by</span>
           <div className="v9-backed-names">
             <span>Franco Cachay</span><span>Elijah Bautista</span><span>Yashas Shashidara</span><span>an anonymous donor</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════ THE PAINTING — the only piece ═══════ */}
-      <section className="v9-painting v9-reveal">
-        <div className="v9-painting-glow" />
-        <div className="v9-painting-inner">
-          <div className="v9-painting-frame">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/art/auction-piece.jpg" alt="Cityscape with splatter — oil on canvas" className="v9-painting-img" />
-          </div>
-          <div className="v9-painting-caption">
-            <span className="v9-painting-title">cityscape with splatter</span>
-            <div className="v9-painting-terms">
-              <div className="v9-painting-term">
-                <span className="v9-painting-label">current bid</span>
-                <span className="v9-painting-value">$20</span>
-              </div>
-              <div className="v9-painting-term">
-                <span className="v9-painting-label">cashout value · june 20</span>
-                <span className="v9-painting-value v9-painting-live">${fmt(total * 0.1)}</span>
-              </div>
-            </div>
-            <div className="v9-first-bid">
-              <span className="v9-first-bid-name">Aryan Dutta Baruah</span>
-              <span className="v9-first-bid-msg">&ldquo;get agi pilled&rdquo;</span>
-            </div>
-            <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
-            <Link href="/art" className="v9-painting-bid">bid →</Link>
           </div>
         </div>
       </section>
@@ -512,34 +270,8 @@ export default function V9Client({
             {" · "}
             <span>personally guaranteed</span>
           </p>
-          {/* Outcome row — not just one number */}
-          <div className="v9-outcomes">
-            <div className="v9-outcome-row">
-              <span className="v9-outcome-label">portfolio</span>
-              <span className="v9-outcome-blank" />
-            </div>
-            <div className="v9-outcome-row">
-              <span className="v9-outcome-label">paper published</span>
-              <span className="v9-outcome-val">37 pages</span>
-            </div>
-            <div className="v9-outcome-row">
-              <span className="v9-outcome-label">artworks completed</span>
-              <span className="v9-outcome-val">12</span>
-            </div>
-            <div className="v9-outcome-row">
-              <span className="v9-outcome-label">party attendance</span>
-              <span className="v9-outcome-blank" />
-            </div>
-            <div className="v9-outcome-row">
-              <span className="v9-outcome-label">easter eggs found</span>
-              <span className="v9-outcome-blank" />
-            </div>
-            <div className="v9-outcome-date">June 21, 2026</div>
-            <p className="v9-outcome-note">This number is final. Everything else on this page is still going.</p>
-          </div>
         </div>
 
-        {/* CMIYGL closer */}
         <footer className="v9-closer v9-reveal">
           <p className="v9-cmiygl">
             {"call me if you get lost.".split("").map((ch, i) => (
@@ -563,7 +295,6 @@ export default function V9Client({
           <Link href="/letters/round-1">round 1</Link>
           <Link href="/positions">positions</Link>
           <Link href="/argument">the argument</Link>
-          <Link href="/art">art</Link>
           <Link href="/green-credit">green credit</Link>
           <Link href="/letters/entrenched-coils">entrenched coils</Link>
           <Link href="/archive">archives</Link>
@@ -574,7 +305,6 @@ export default function V9Client({
       <nav className="v9-mob">
         <Link href="/positions">stocks</Link>
         <Link href="/letters/round-0">letters</Link>
-        <Link href="/art">art</Link>
         <Link href="/invest">invest</Link>
       </nav>
     </div>
@@ -730,7 +460,7 @@ const CSS = `
 /* ═══════ BRIDGE: rocks → paper ═══════ */
 .v9-bridge-1 {
   height: clamp(80px,15vh,160px);
-  background: linear-gradient(to bottom, rgba(4,3,2,0.9) 0%, var(--paper) 100%);
+  background: linear-gradient(to bottom, #040302 0%, var(--paper) 100%);
   position: relative; z-index: 2;
   box-shadow: 0 -40px 80px rgba(10,9,8,0.5);
 }
@@ -756,12 +486,12 @@ const CSS = `
 
 .v9-letter {
   position: relative; z-index: 1;
-  max-width: 42rem; margin: 0 auto;
+  max-width: 36rem; margin: 0 auto;
 }
 .v9-letter p {
   font-family: var(--font-body,'EB Garamond'),Georgia,serif;
   font-size: clamp(1.05rem,0.95rem+0.4vw,1.18rem);
-  line-height: 1.85; margin-top: 1.5rem; color: var(--ink);
+  line-height: 1.82; margin-top: 1.8rem; color: var(--ink);
   text-indent: 1.5em;
 }
 .v9-letter p:first-of-type, .v9-lede, .v9-lede + p,
@@ -769,173 +499,36 @@ const CSS = `
 
 .v9-lede {
   font-size: clamp(1.08rem,1rem+0.4vw,1.22rem) !important;
-  line-height: 1.8 !important; margin-top: 0 !important;
+  line-height: 1.78 !important; margin-top: 0 !important;
 }
 .v9-drop {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
   font-style: italic; font-weight: 300; float: left;
-  font-size: 4.5rem; line-height: 0.78; padding: 0.22rem 0.55rem 0 0;
-  color: var(--rust);
+  font-size: 4.5rem; line-height: 0.76; padding: 0.24rem 0.55rem 0 0;
+  color: var(--deep-amber);
 }
-
-/* Proof box */
-.v9-proof {
-  margin: 2rem 0; padding: 1.2rem 1.5rem;
-  border-left: 4px solid var(--rust);
-  background: linear-gradient(135deg, rgba(139,58,46,0.06) 0%, rgba(200,169,110,0.06) 100%);
-  font-family: 'JetBrains Mono',monospace; font-size: 0.65rem; letter-spacing: 0.04em;
-}
-.v9-proof-row {
-  display: flex; justify-content: space-between; padding: 0.4rem 0;
-  border-bottom: 1px solid rgba(61,43,15,0.08);
-}
-.v9-proof-row:last-child { border-bottom: none; }
-.v9-proof-l { text-transform: uppercase; letter-spacing: 0.1em; color: rgba(61,43,15,0.5); }
-.v9-proof-v { color: var(--ink); font-weight: 500; }
-.v9-proof-live { color: var(--deep-amber); }
-.v9-proof-zero { color: var(--rust); font-weight: 700; font-size: 0.75rem; }
-
-/* Stock gains grid */
-.v9-stocks {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
-  margin: 1.5rem 0; border-radius: 3px; overflow: hidden;
-}
-.v9-stock {
-  display: flex; flex-direction: column; gap: 2px;
-  padding: 0.7rem 0.6rem;
-  background: rgba(61,43,15,0.04);
-  opacity: 0;
-  transform: perspective(600px) rotateX(-45deg) translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
-}
-.v9-stocks.v9-in .v9-stock { opacity: 1; transform: perspective(600px) rotateX(0deg) translateY(0); }
-.v9-stocks.v9-in .v9-stock:nth-child(2) { transition-delay: 60ms; }
-.v9-stocks.v9-in .v9-stock:nth-child(3) { transition-delay: 120ms; }
-.v9-stocks.v9-in .v9-stock:nth-child(4) { transition-delay: 180ms; }
-.v9-stocks.v9-in .v9-stock:nth-child(5) { transition-delay: 240ms; }
-.v9-stocks.v9-in .v9-stock:nth-child(6) { transition-delay: 300ms; }
-.v9-stocks.v9-in .v9-stock:nth-child(7) { transition-delay: 360ms; }
-.v9-stocks.v9-in .v9-stock:nth-child(8) { transition-delay: 420ms; }
-.v9-stock-ticker {
-  font-family: 'JetBrains Mono',monospace; font-size: 0.55rem;
-  font-weight: 600; letter-spacing: 0.08em; color: var(--ink); opacity: 0.5;
-}
-.v9-stock-pct {
-  font-family: 'JetBrains Mono',monospace; font-size: 0.72rem;
-  font-weight: 700; letter-spacing: 0.02em;
-}
-.v9-stock-up { color: #5a7a48; }
-.v9-stock-dn { color: var(--rust); }
-.v9-stock-val {
-  font-family: 'JetBrains Mono',monospace; font-size: 0.5rem;
-  color: var(--ink); opacity: 0.3;
-}
-
-/* Agent bracket */
-.v9-bracket {
-  margin: 1.5rem 0; border-left: 2px solid rgba(61,43,15,0.1); padding-left: 1rem;
-}
-.v9-bracket-line {
-  padding: 0.5rem 0;
-  font-family: var(--font-body,'EB Garamond'),Georgia,serif;
-  font-size: 0.95rem; font-style: italic; line-height: 1.65;
-  color: rgba(61,43,15,0.7);
-}
-.v9-bracket-tag {
-  font-family: 'JetBrains Mono',monospace; font-size: 0.52rem; font-style: normal;
-  font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
-  display: inline-block; margin-right: 0.5rem; padding: 2px 6px; border-radius: 2px;
-}
-.v9-tag-bear { color: #b54040; background: rgba(181,64,64,0.08); }
-.v9-tag-hist { color: #6B6560; background: rgba(107,101,96,0.08); }
 
 /* Pull quote */
 .v9-pull {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif !important;
   font-style: italic;
   font-size: clamp(1.2rem,1rem+0.8vw,1.45rem) !important;
-  line-height: 1.45 !important; text-align: center;
-  color: var(--ink); max-width: 34ch; margin: 2.5rem auto !important;
+  line-height: 1.45 !important; text-align: center; letter-spacing: 0.01em;
+  color: var(--ink); max-width: 34ch; margin: 2.8rem auto !important;
   padding: 2rem 1rem;
-  border-top: 2px solid rgba(200,169,110,0.4);
-  border-bottom: 2px solid rgba(200,169,110,0.4);
-}
-
-/* Art mechanism box */
-.v9-mechanism {
-  margin: 2rem 0; padding: 1.5rem;
-  background: rgba(200,169,110,0.08); border-radius: 3px;
-}
-.v9-mech-head {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-style: italic; font-size: 1.1rem; font-weight: 500;
-  color: var(--deep-amber); margin: 0 0 1rem; text-indent: 0 !important;
-}
-.v9-wins {
-  list-style: none; padding: 0; margin: 0;
-}
-.v9-wins li {
-  font-family: var(--font-body,'EB Garamond'),Georgia,serif;
-  font-size: 0.98rem; line-height: 1.7; color: var(--ink);
-  padding: 0.5rem 0 0.5rem 1.2rem; position: relative;
-}
-.v9-wins li::before {
-  content: '·'; position: absolute; left: 0;
-  color: var(--amber); font-weight: 700;
+  border-top: 1.5px solid rgba(200,169,110,0.55);
+  border-bottom: 1.5px solid rgba(200,169,110,0.55);
 }
 
 /* Closing line */
 .v9-closing-line {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif !important;
   font-style: italic; font-size: 1.2rem !important;
-  color: var(--deep-amber); margin-top: 2rem !important;
+  color: var(--deep-amber); margin-top: 2.8rem !important;
   text-align: center;
 }
 
-/* Seal */
-.v9-seal {
-  display: flex; flex-direction: column; gap: 0.3rem;
-  margin: 2rem 0; padding: 0.8rem 1rem;
-  border-left: 2px solid var(--rust);
-  background: rgba(139,58,46,0.04);
-  font-family: 'JetBrains Mono',monospace;
-}
-.v9-seal-tag { font-size: 0.52rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); }
-.v9-seal-hash { font-size: 0.6rem; color: rgba(61,43,15,0.4); letter-spacing: 0.04em; }
-.v9-seal-when { font-size: 0.52rem; color: rgba(61,43,15,0.3); letter-spacing: 0.06em; }
-
-/* Ways in */
-.v9-ways {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-  margin: 2.5rem 0 0; border-radius: 3px; overflow: hidden;
-}
-.v9-way {
-  display: flex; flex-direction: column; gap: 4px; padding: 1.1rem 1rem;
-  background: rgba(61,43,15,0.04); text-decoration: none; color: var(--ink);
-  transition: background 0.3s ease;
-}
-.v9-way:hover { background: rgba(61,43,15,0.09); }
-.v9-way-name {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-style: italic; font-weight: 500; font-size: 1rem;
-}
-.v9-way-sub {
-  font-family: 'JetBrains Mono',monospace; font-size: 0.5rem;
-  letter-spacing: 0.06em; color: rgba(61,43,15,0.4);
-}
-
 /* Links */
-/* Addendum */
-.v9-addendum-rule {
-  margin: 3rem 0 1.5rem;
-  border-top: 1px solid rgba(139,58,46,0.2);
-}
-.v9-addendum-tag {
-  font-family: 'JetBrains Mono',monospace;
-  font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--rust); opacity: 0.7; margin-bottom: 1.5rem;
-}
-
 .v9-letter a, .v9-link {
   color: var(--ink); text-decoration: none;
   border-bottom: 1px solid rgba(139,58,46,0.3); padding-bottom: 1px;
@@ -943,89 +536,11 @@ const CSS = `
 }
 .v9-letter a:hover, .v9-link:hover { color: var(--rust); border-bottom-color: var(--rust); }
 
-/* ═══════ THE PAINTING ═══════ */
-.v9-painting {
-  position: relative;
-  background:
-    radial-gradient(ellipse 150% 80% at 60% 40%, rgba(27,58,107,0.14) 0%, transparent 70%),
-    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(107,77,138,0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(200,169,74,0.12) 0%, transparent 50%),
-    #1a1208;
-  padding: clamp(5rem,10vw,8rem) clamp(1.25rem,4vw,2rem);
-  color: #e8e4dc;
-}
-.v9-painting-glow {
-  position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 80% 60% at 50% 35%, rgba(200,169,74,0.10) 0%, transparent 70%);
-  transition: opacity 0.6s ease;
-}
-.v9-painting:hover .v9-painting-glow { opacity: 1.4; }
-.v9-painting-inner {
-  max-width: 58rem; margin: 0 auto; position: relative; z-index: 1;
-  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,4vw,3.5rem); align-items: start;
-}
-.v9-painting-frame {
-  border-radius: 2px; overflow: hidden; padding: clamp(10px,2vw,18px);
-  background: linear-gradient(145deg, #2a2218, #1e1810);
-  box-shadow:
-    0 0 0 1px rgba(200,169,74,0.28),
-    0 0 80px rgba(200,169,74,0.14),
-    0 0 160px rgba(27,58,107,0.12),
-    0 28px 80px rgba(0,0,0,0.6);
-  perspective: 800px;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1), box-shadow 0.6s ease;
-  cursor: default;
-}
-.v9-painting:hover .v9-painting-frame {
-  transform: rotateY(-2deg) rotateX(1deg) translateZ(8px);
-  box-shadow:
-    0 0 0 1px rgba(200,169,74,0.38),
-    0 0 100px rgba(200,169,74,0.20),
-    0 0 200px rgba(27,58,107,0.15),
-    0 40px 100px rgba(0,0,0,0.7);
-}
-.v9-painting-img { display: block; width: 100%; height: auto; }
-.v9-painting-caption { display: flex; flex-direction: column; gap: 0.5rem; padding-top: clamp(10px,2vw,18px); }
-.v9-painting-title {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-size: 1.25rem; font-style: italic; font-weight: 500; color: rgba(232,228,220,0.7);
-}
-.v9-painting-terms { display: flex; flex-direction: column; gap: 18px; margin: 20px 0 12px; }
-.v9-painting-term { display: flex; flex-direction: column; gap: 2px; }
-.v9-painting-label {
-  font-family: 'JetBrains Mono',monospace; font-size: 0.58rem;
-  letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.35;
-}
-.v9-painting-value {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-size: 1.7rem; font-weight: 500; color: rgba(232,228,220,0.8);
-}
-.v9-painting-live { color: var(--amber); }
-.v9-painting-meta {
-  font-family: 'JetBrains Mono',monospace; font-size: 0.58rem;
-  letter-spacing: 0.02em; line-height: 1.7; opacity: 0.3; margin-top: 8px;
-}
-.v9-painting-bid {
-  display: inline-block; margin-top: 1.25rem;
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-size: 1rem; font-weight: 500; text-decoration: none;
-  padding: 0.6rem 1.75rem; border-radius: 2px;
-  color: rgba(232,228,220,0.8); border: 1px solid rgba(200,169,74,0.28);
-  transition: all 0.4s ease;
-}
-.v9-painting-bid:hover { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.55); color: var(--amber); }
-.v9-first-bid {
-  display: flex; flex-direction: column; gap: 2px; margin: 10px 0 8px;
-}
-.v9-first-bid-name {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-style: italic; font-size: 0.9rem; color: rgba(232,228,220,0.6);
-}
-.v9-first-bid-msg {
-  font-family: var(--font-body,'EB Garamond'),Georgia,serif;
-  font-style: italic; font-size: 0.85rem; color: rgba(232,228,220,0.35);
-  letter-spacing: 0.01em;
+/* ═══════ BRIDGE: paper → party ═══════ */
+.v9-bridge-2 {
+  height: clamp(100px,18vh,200px);
+  background: linear-gradient(to bottom, var(--paper) 0%, #D4C4A8 20%, #8B7350 45%, #3D2A14 70%, #0d0906 100%);
+  position: relative; z-index: 2;
 }
 
 /* ═══════ THE PARTY ═══════ */
@@ -1041,15 +556,15 @@ const CSS = `
 .v9-party {
   position: relative; overflow: hidden;
   background:
-    linear-gradient(155deg, #1a1208 0%, #3D2B0F 8%, #8B6248 20%, #C4A882 32%, #A88060 42%, #C9A882 52%, #8B6248 65%, #4A2A1A 80%, var(--dark) 100%);
+    linear-gradient(155deg, #0d0906 0%, #1e1508 8%, #4a3320 20%, #6b4e30 32%, #5a4028 42%, #6b4e30 52%, #4a3320 65%, #241508 80%, var(--dark) 100%);
 }
 .v9-party::before {
   content: '';
   position: absolute; inset: 0; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(ellipse 55% 70% at 50% 38%, rgba(212,175,80,0.18) 0%, transparent 65%),
-    radial-gradient(ellipse 80% 60% at 85% 90%, rgba(168,120,60,0.14) 0%, transparent 100%),
-    radial-gradient(ellipse 60% 50% at 10% 8%, rgba(60,36,20,0.18) 0%, transparent 100%);
+    radial-gradient(ellipse 55% 70% at 50% 38%, rgba(212,175,80,0.12) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 85% 90%, rgba(168,120,60,0.08) 0%, transparent 100%),
+    radial-gradient(ellipse 60% 50% at 10% 8%, rgba(60,36,20,0.12) 0%, transparent 100%);
   animation: v9-spotlight 8s ease-in-out infinite;
 }
 .v9-party-inner {
@@ -1066,16 +581,17 @@ const CSS = `
 .v9-party-title {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
   font-size: clamp(3.5rem,10vw,5.5rem); font-weight: 400; font-style: italic;
-  color: #EDE5D5; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 24px;
+  color: #F2EDE0; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 24px;
+  text-shadow: 0 2px 30px rgba(212,169,76,0.25), 0 1px 2px rgba(0,0,0,0.4);
 }
 .v9-party-sub {
   font-family: 'JetBrains Mono',monospace; font-size: 0.6rem;
-  letter-spacing: 0.2em; text-transform: uppercase; color: rgba(237,229,213,0.5); margin-bottom: 48px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: rgba(237,229,213,0.65); margin-bottom: 48px;
 }
 .v9-party-rule { width: min(320px,55%); height: 2px; background: linear-gradient(90deg, transparent, var(--amber), transparent); margin-bottom: 48px; }
 .v9-party-tagline {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-size: clamp(1.5rem,4vw,2.4rem); font-style: italic; color: #EDE5D5;
+  font-size: clamp(1.5rem,4vw,2.4rem); font-style: italic; color: rgba(242,237,224,0.85);
   letter-spacing: 0.01em; line-height: 1.3; margin: 0 0 24px;
 }
 .v9-party-detail {
@@ -1083,136 +599,11 @@ const CSS = `
   letter-spacing: 0.18em; text-transform: uppercase; color: rgba(237,229,213,0.4); margin-top: 4px;
 }
 
-/* Ticket */
 /* Backed by */
 .v9-backed { text-align: center; padding: 0 0 clamp(3rem,6vw,5rem); }
-.v9-backed-label { font-family: 'JetBrains Mono',monospace; font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(229,221,210,0.2); display: block; margin-bottom: 20px; }
+.v9-backed-label { font-family: 'JetBrains Mono',monospace; font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(229,221,210,0.38); display: block; margin-bottom: 20px; }
 .v9-backed-names { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
-.v9-backed-names span { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 0.95rem; font-weight: 500; color: rgba(229,221,210,0.35); letter-spacing: 0.04em; }
-
-/* ═══════ INTERACTIVE TICKET ═══════ */
-.it-stage {
-  display: flex; flex-direction: column; align-items: center;
-  padding: clamp(2rem,4vw,3.5rem) 1rem; user-select: none; overflow: visible;
-  position: relative; min-height: 280px;
-}
-.it-hint {
-  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.12em;
-  color: rgba(229,221,210,0.2); text-align: center; margin-bottom: 1.5rem;
-}
-.it-wrap {
-  will-change: transform; cursor: grab; touch-action: none;
-}
-.it-wrap:active { cursor: grabbing; }
-.it {
-  position: relative; width: min(480px, 85vw); height: 170px;
-  perspective: 1200px; transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
-  border-radius: 4px; will-change: transform, clip-path;
-}
-.it--flipped { transform: rotateX(180deg); }
-.it-face {
-  position: absolute; inset: 0; backface-visibility: hidden;
-  -webkit-backface-visibility: hidden; border-radius: inherit; overflow: hidden;
-}
-.it-front { background: #141210; display: flex; }
-.it-back {
-  background: #1a1810; transform: rotateX(180deg);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
-}
-.it-watermark {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-style: italic; font-size: 1.8rem; color: rgba(229,221,210,0.1); letter-spacing: 0.08em;
-}
-.it-back-note {
-  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.14em;
-  color: rgba(229,221,210,0.2); text-transform: uppercase;
-}
-.it-scene { flex: 1; display: flex; flex-direction: column; }
-.it-top {
-  flex: 1; display: flex; align-items: flex-end;
-  background: #141210; will-change: transform; border-radius: 4px 0 0 0;
-  position: relative;
-}
-.it-top::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-  background: rgba(201,149,42,0.08);
-}
-.it-bottom { flex: 1; display: flex; background: #141210; border-radius: 0 0 0 4px; }
-.it-body-top, .it-body-bottom {
-  flex: 1; display: flex; flex-direction: column; padding: 0 1.25rem;
-}
-.it-body-top { justify-content: flex-end; padding-bottom: 0.5rem; }
-.it-body-bottom { justify-content: flex-start; padding-top: 0.5rem; cursor: pointer; }
-.it-eyebrow {
-  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.22em;
-  text-transform: uppercase; color: rgba(229,221,210,0.3); margin-bottom: 0.2rem;
-}
-.it-title {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-style: italic; font-size: 1.3rem; font-weight: 500; color: #C9952A; line-height: 1.1;
-}
-.it-date {
-  font-family: 'JetBrains Mono',monospace; font-size: 9px; letter-spacing: 0.15em;
-  text-transform: uppercase; color: rgba(229,221,210,0.35); margin-bottom: 0.4rem;
-}
-.it-cta {
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-style: italic; font-size: 0.85rem; color: rgba(201,149,42,0.5);
-}
-/* Tear line */
-.it-tear {
-  position: absolute; top: 0; bottom: 0; right: 80px; width: 1px;
-  display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-  z-index: 5; pointer-events: none;
-  background: repeating-linear-gradient(to bottom, rgba(229,221,210,0.12) 0px, rgba(229,221,210,0.12) 4px, transparent 4px, transparent 8px);
-  transition: opacity 0.3s ease;
-}
-.it-tear-hole {
-  width: 12px; height: 12px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(80,50,25,0.9), rgba(40,25,12,0.95));
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
-  flex-shrink: 0; position: relative; left: 0;
-}
-.it-tear-t { margin-top: -6px; }
-.it-tear-b { margin-bottom: -6px; }
-.it-tear-dash { flex: 1; }
-/* Stub */
-.it-stub {
-  position: absolute; top: 0; right: 0; bottom: 0; width: 80px;
-  background: #111010; border-left: 1px solid rgba(201,149,42,0.08);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
-  cursor: grab; touch-action: none; will-change: transform, box-shadow;
-  border-radius: 0 4px 4px 0; transform-origin: left center; z-index: 20;
-}
-.it-stub:active { cursor: grabbing; }
-.it-barcode { display: flex; gap: 1.5px; align-items: flex-end; }
-.it-bar { width: 1.5px; background: rgba(229,221,210,0.25); border-radius: 1px; }
-.it-admit {
-  font-family: 'JetBrains Mono',monospace; font-size: 7px; letter-spacing: 0.15em;
-  color: rgba(229,221,210,0.18); text-transform: uppercase;
-  writing-mode: vertical-lr; transform: rotate(180deg);
-}
-/* Torn edge */
-.it-body--torn::after {
-  content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 10px;
-  background: linear-gradient(to right, transparent, rgba(229,221,210,0.06) 50%, transparent);
-  clip-path: polygon(0% 0%,100% 2%,95% 8%,100% 15%,92% 22%,100% 30%,96% 38%,100% 45%,93% 52%,100% 60%,97% 68%,100% 75%,94% 82%,100% 90%,98% 100%,0% 100%);
-  pointer-events: none;
-}
-/* Front face paper texture */
-.it-front::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='0.4' fill='%23EDE5D5' fill-opacity='0.5'/%3E%3C/svg%3E");
-}
-
-@media (max-width: 640px) {
-  .it { width: min(340px, 90vw); height: 150px; }
-  .it-stub { width: 60px; }
-  .it-tear { right: 60px; }
-  .it-title { font-size: 1.1rem; }
-}
+.v9-backed-names span { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 0.95rem; font-weight: 500; color: rgba(229,221,210,0.52); letter-spacing: 0.04em; }
 
 /* ═══════ WORLD 3: THE DOOR ═══════ */
 .v9-door { position: relative; min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: clamp(4rem,10vw,8rem) clamp(1.25rem,4vw,2rem); overflow: hidden; }
@@ -1225,7 +616,7 @@ const CSS = `
 .v9-door-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(10,9,8,0.88) 0%, rgba(10,9,8,0.3) 18%, transparent 40%, transparent 75%, rgba(4,3,2,1) 100%); }
 
 .v9-door-content { position: relative; z-index: 1; text-align: center; }
-.v9-door-line { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-style: italic; font-size: clamp(1.8rem,5vw,2.8rem); color: rgba(240,235,226,0.7); margin: 0 0 1.5rem; }
+.v9-door-line { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-style: italic; font-size: clamp(1.8rem,5vw,2.8rem); color: rgba(240,235,226,0.88); text-shadow: 0 1px 20px rgba(0,0,0,0.3); margin: 0 0 1.5rem; }
 .v9-door-acts { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
 .v9-btn { display: inline-block; padding: 0.7rem 2rem; font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-style: italic; font-size: 1rem; color: var(--paper); background: color-mix(in srgb, var(--amber) 85%, var(--dark)); text-decoration: none; border-radius: 2px; transition: background 250ms ease; }
 .v9-btn:hover { background: var(--amber); }
@@ -1235,42 +626,18 @@ const CSS = `
 .v9-door-rail a { color: rgba(240,235,226,0.3); text-decoration: none; transition: color 200ms ease; }
 .v9-door-rail a:hover { color: rgba(240,235,226,0.6); }
 
-/* Outcome row */
-.v9-outcomes {
-  margin-top: 2.5rem; max-width: 20rem; margin-left: auto; margin-right: auto;
-  font-family: 'JetBrains Mono',monospace; font-size: 0.58rem; letter-spacing: 0.06em;
-  color: rgba(240,235,226,0.2);
-}
-.v9-outcome-row {
-  display: flex; justify-content: space-between; align-items: baseline;
-  padding: 0.4rem 0; border-bottom: 1px solid rgba(240,235,226,0.06);
-}
-.v9-outcome-label { text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.6; }
-.v9-outcome-val { color: rgba(240,235,226,0.4); }
-.v9-outcome-blank { display: inline-block; width: 5rem; border-bottom: 0.5px solid rgba(240,235,226,0.12); }
-.v9-outcome-date {
-  text-align: center; margin-top: 1rem; font-size: 0.52rem;
-  letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.3;
-}
-.v9-outcome-note {
-  text-align: center; margin-top: 0.75rem;
-  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
-  font-style: italic; font-size: 0.85rem; color: rgba(240,235,226,0.3);
-  letter-spacing: 0.01em;
-}
-
 /* CMIYGL closer */
 .v9-closer { position: relative; z-index: 1; text-align: center; padding-top: clamp(4rem,10vw,8rem); padding-bottom: 1rem; }
-.v9-cmiygl { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: clamp(1.8rem,4.5vw,3rem); font-style: italic; font-weight: 300; margin: 0 0 1.5rem; line-height: 1.2; opacity: 0.5; }
-.v9-sig { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: clamp(0.85rem,1.8vw,1.1rem); font-style: italic; letter-spacing: 0.15em; margin: 0 0 2rem; opacity: 0.38; }
+.v9-cmiygl { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: clamp(1.8rem,4.5vw,3rem); font-style: italic; font-weight: 300; margin: 0 0 1.5rem; line-height: 1.2; opacity: 0.75; }
+.v9-sig { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: clamp(0.85rem,1.8vw,1.1rem); font-style: italic; letter-spacing: 0.15em; margin: 0 0 2rem; opacity: 0.52; }
 .v9-phone { font-family: 'JetBrains Mono',monospace; font-size: 0.55rem; letter-spacing: 0.18em; opacity: 0.12; display: block; color: rgba(240,235,226,0.5); }
 
 .v9-rc { display: inline-block; }
-.v9-cmiygl .v9-rc:nth-child(4n+1) { color: #a09484; }
-.v9-cmiygl .v9-rc:nth-child(4n+2) { color: #b0a290; }
-.v9-cmiygl .v9-rc:nth-child(4n+3) { color: #968a7a; }
-.v9-cmiygl .v9-rc:nth-child(4n)   { color: #a89c8a; }
-.v9-cmiygl .v9-rc:last-child      { color: #c9a840; }
+.v9-cmiygl .v9-rc:nth-child(4n+1) { color: #c4b8a6; }
+.v9-cmiygl .v9-rc:nth-child(4n+2) { color: #d0c4b0; }
+.v9-cmiygl .v9-rc:nth-child(4n+3) { color: #b8ac9a; }
+.v9-cmiygl .v9-rc:nth-child(4n)   { color: #c8bcaa; }
+.v9-cmiygl .v9-rc:last-child      { color: #dbb840; }
 .v9-rw { display: inline-block; }
 .v9-rw:nth-child(1) { color: #C9952A; } .v9-rw:nth-child(2) { color: #D4A040; }
 .v9-rw:nth-child(3) { color: #C4884A; } .v9-rw:nth-child(4) { color: #B8784A; }
@@ -1307,16 +674,6 @@ const CSS = `
   .v9-letter p { font-size: 1rem; }
   .v9-lede { font-size: 1rem !important; }
   .v9-pull { font-size: 1.1rem !important; padding: 1.5rem 0.5rem; max-width: 100%; }
-  .v9-proof { padding: 1rem; font-size: 0.6rem; }
-  .v9-proof-row { flex-direction: column; gap: 2px; padding: 0.45rem 0; }
-  .v9-stocks { grid-template-columns: repeat(2, 1fr); }
-  .v9-ways { grid-template-columns: 1fr; }
-  .v9-painting { padding: 2.5rem 1.25rem; }
-  .v9-painting-inner { grid-template-columns: 1fr; gap: 1.5rem; max-width: 100%; }
-  .v9-painting-terms { flex-direction: row; gap: 24px; }
-  .v9-painting-value { font-size: 1.3rem; }
-  .v9-painting-bid { padding: 0.65rem 1.8rem; min-height: 44px; display: inline-flex; align-items: center; }
-  .v9-painting:hover .v9-painting-frame { transform: none; }
   .v9-party-inner { padding: 3.5rem 1.25rem; }
   .v9-party-title { font-size: clamp(2.6rem,9vw,3.8rem); }
   .v9-backed { padding: 0 1.25rem 3rem; }
@@ -1340,7 +697,5 @@ const CSS = `
   .v9-reveal { opacity: 1; transform: none; transition: none; }
   .v9-hero-eye, .v9-hero-num { opacity: 1; transform: none; transition: none; }
   .v9-hero-foot { opacity: 1; animation: none !important; }
-  .v9-painting:hover .v9-painting-frame { transform: none !important; }
-  .v9-rev:hover { transform: none !important; }
 }
 `;

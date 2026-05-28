@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 const NAV: Array<{ href: string; label: string; emph?: boolean }> = [
   { href: "/stocks",          label: "the portfolio" },
   { href: "/prediction",      label: "odds" },
-  { href: "/art",             label: "art" },
   { href: "/argument",        label: "the panel" },
   { href: "/letters/round-0", label: "letters" },
   { href: "/invest",          label: "invest", emph: true },

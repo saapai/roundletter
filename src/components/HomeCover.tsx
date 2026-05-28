@@ -233,8 +233,7 @@ export default function HomeCover({
             The bet produced:{" "}
             <Link href="/invest" className="rl-ink-link">a prediction market</Link>,
             a sports-trading bot, twelve{" "}
-            <Link href="/art" className="rl-ink-link">original artworks</Link>,
-            and a{" "}
+original artworks, and a{" "}
             <a href="https://saathvikpai.com" className="rl-ink-link">research paper</a>
             {" "}on agent memory. Thirty-seven pages. None planned.
           </p>
@@ -333,10 +332,6 @@ export default function HomeCover({
               <span className="rl-way-name">Green Credit →</span>
               <span className="rl-way-desc">Bet on the bet</span>
             </Link>
-            <Link href="/art" className="rl-way">
-              <span className="rl-way-name">Bid on the art →</span>
-              <span className="rl-way-desc">12 originals, starting at $1</span>
-            </Link>
             <Link href="/argument" className="rl-way">
               <span className="rl-way-name">Watch the argument →</span>
               <span className="rl-way-desc">5 agents disagree daily</span>
@@ -389,8 +384,6 @@ export default function HomeCover({
             <Link href="/argument" className="rl-ink-link">the argument</Link>
             {" "}·{" "}
             <Link href="/positions" className="rl-ink-link">positions</Link>
-            {" "}·{" "}
-            <Link href="/art" className="rl-ink-link">art</Link>
           </p>
         </div>
       </div>
@@ -416,7 +409,6 @@ export default function HomeCover({
         <nav className="rl-col-nav">
           <Link href="/positions">stocks</Link>
           <Link href="/letters/round-0">letters</Link>
-          <Link href="/art">art</Link>
           <Link href="/argument">panel</Link>
           <Link href="/invest">invest</Link>
           <Link href="/archives">archives</Link>
@@ -429,7 +421,6 @@ export default function HomeCover({
       <nav className="rl-mob-nav">
         <Link href="/positions">stocks</Link>
         <Link href="/letters/round-0">letters</Link>
-        <Link href="/art">art</Link>
         <Link href="/invest">invest</Link>
       </nav>
     </div>

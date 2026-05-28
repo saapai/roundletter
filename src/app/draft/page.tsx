@@ -502,17 +502,8 @@ export default function DraftPage() {
 
               {/* Wave 3: Two actions — editorial rows */}
               <div className="D-actions-block">
-                <a href="/art" className="D-action-row">
-                  <span className="D-action-num">001</span>
-                  <span className="D-action-div" />
-                  <div className="D-action-body">
-                    <span className="D-action-name">the art piece</span>
-                    <span className="D-action-detail">opening bid $25 · backed by 10% of portfolio</span>
-                  </div>
-                  <span className="D-action-go">→</span>
-                </a>
                 <a href="/invest" className={`D-action-row ${videoEnded ? "D-action-row--glow" : ""}`}>
-                  <span className="D-action-num">002</span>
+                  <span className="D-action-num">001</span>
                   <span className="D-action-div" />
                   <div className="D-action-body">
                     <span className="D-action-name">the party</span>

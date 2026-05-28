@@ -12,13 +12,6 @@ function daysUntil(): number {
   return Math.max(0, Math.ceil((PARTY_DATE.getTime() - Date.now()) / 86_400_000));
 }
 
-function computeFees(amountCents: number) {
-  const totalCharge = Math.ceil((amountCents + 30) / (1 - 0.029));
-  const stripeFee = Math.ceil(totalCharge * 0.029) + 30;
-  const aureliexFee = Math.ceil(totalCharge * 0.01);
-  return { stripeFee, aureliexFee, totalCharge, youPay: totalCharge };
-}
-
 type PoolState = {
   totalInvested: number;
   totalWeight: number;
@@ -38,8 +31,6 @@ export default function InvestPage() {
   const [amount, setAmount] = useState(50);
   const [custom, setCustom] = useState("");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
   const [pool, setPool] = useState<PoolState | null>(null);
   const [discount, setDiscount] = useState(0);
   const [success, setSuccess] = useState(false);
@@ -60,8 +51,6 @@ export default function InvestPage() {
 
   const days = daysUntil();
   const effectiveAmount = amount * 100; // cents
-  const discountCents = discount * 100;
-  const fees = computeFees(Math.max(effectiveAmount - discountCents, 100));
   const weight = effectiveAmount * days;
 
   const [gainPct, setGainPct] = useState<number | null>(null);
@@ -76,37 +65,6 @@ export default function InvestPage() {
       })
       .catch(() => {});
   }, []);
-
-  const [showPay, setShowPay] = useState(false);
-  const [stripeError, setStripeError] = useState<string | null>(null);
-
-  const handleStripeCheckout = async () => {
-    setLoading(true);
-    setStripeError(null);
-    try {
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          amountCents: effectiveAmount,
-          name: name || "anonymous",
-          email: email || undefined,
-          discount: discountCents,
-        }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        setStripeError(data.error || "Checkout failed. Try Venmo or Zelle instead.");
-        setLoading(false);
-      }
-    } catch (err) {
-      console.error(err);
-      setStripeError("Connection failed. Try Venmo or Zelle instead.");
-      setLoading(false);
-    }
-  };
 
   if (success) {
     return (
@@ -210,7 +168,7 @@ export default function InvestPage() {
         </div>
       )}
 
-      {/* Name / email */}
+      {/* Name */}
       <div className="invest-fields">
         <input
           type="text"
@@ -219,77 +177,40 @@ export default function InvestPage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <input
-          type="email"
-          className="invest-field"
-          placeholder="email (optional, for confirmation)"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
       </div>
 
-      {/* Payment — single CTA that reveals options */}
-      {!showPay ? (
-        <div className="invest-cta-wrap">
-          <button
-            className="invest-btn invest-btn-primary invest-btn-cta"
-            onClick={() => setShowPay(true)}
-          >
-            Invest ${amount.toLocaleString()}
-          </button>
-        </div>
-      ) : (
-        <div className="invest-pay-reveal">
-          <p className="invest-pay-heading">Choose how to pay</p>
-          <a
-            href={`https://venmo.com/${VENMO_HANDLE}?txn=pay&amount=${amount}&note=aureliex+pool+investment`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="invest-pay-option"
-          >
-            <span className="invest-pay-option-left">
-              <span className="invest-pay-option-name">Venmo</span>
-              <span className="invest-pay-option-sub">@{VENMO_HANDLE}</span>
-            </span>
-            <span className="invest-pay-option-right">
-              <span className="invest-pay-option-amount">${amount}</span>
-              <span className="invest-pay-option-tag invest-pay-option-tag--free">no fees</span>
-            </span>
-          </a>
-          <a
-            href={`sms:${PHONE}&body=Investing $${amount} in the aureliex pool. Name: ${encodeURIComponent(name || "anonymous")}`}
-            className="invest-pay-option"
-          >
-            <span className="invest-pay-option-left">
-              <span className="invest-pay-option-name">Text / Zelle</span>
-              <span className="invest-pay-option-sub">{PHONE.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}</span>
-            </span>
-            <span className="invest-pay-option-right">
-              <span className="invest-pay-option-amount">${amount}</span>
-              <span className="invest-pay-option-tag invest-pay-option-tag--free">no fees</span>
-            </span>
-          </a>
-          <button
-            className="invest-pay-option"
-            onClick={handleStripeCheckout}
-            disabled={loading}
-          >
-            <span className="invest-pay-option-left">
-              <span className="invest-pay-option-name">{loading ? "Redirecting..." : "Card"}</span>
-              <span className="invest-pay-option-sub">via Stripe</span>
-            </span>
-            <span className="invest-pay-option-right">
-              <span className="invest-pay-option-amount">${(fees.youPay / 100).toFixed(2)}</span>
-              <span className="invest-pay-option-tag">includes fees</span>
-            </span>
-          </button>
-          {stripeError && (
-            <p style={{ color: "var(--rust, #C44325)", fontSize: "0.88rem", marginTop: "0.75rem", textAlign: "center" }}>
-              {stripeError}
-            </p>
-          )}
-        </div>
-      )}
+      {/* Payment — Venmo + Zelle only */}
+      <div className="invest-pay-reveal">
+        <p className="invest-pay-heading">Choose how to pay</p>
+        <a
+          href={`https://venmo.com/${VENMO_HANDLE}?txn=pay&amount=${amount}&note=aureliex+pool+investment`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="invest-pay-option"
+        >
+          <span className="invest-pay-option-left">
+            <span className="invest-pay-option-name">Venmo</span>
+            <span className="invest-pay-option-sub">@{VENMO_HANDLE}</span>
+          </span>
+          <span className="invest-pay-option-right">
+            <span className="invest-pay-option-amount">${amount}</span>
+            <span className="invest-pay-option-tag invest-pay-option-tag--free">no fees</span>
+          </span>
+        </a>
+        <a
+          href={`sms:${PHONE}&body=Investing $${amount} in the aureliex pool. Name: ${encodeURIComponent(name || "anonymous")}`}
+          className="invest-pay-option"
+        >
+          <span className="invest-pay-option-left">
+            <span className="invest-pay-option-name">Text / Zelle</span>
+            <span className="invest-pay-option-sub">{PHONE.replace(/(\d{3})(\d{3})(\d{4})/, "($1) $2-$3")}</span>
+          </span>
+          <span className="invest-pay-option-right">
+            <span className="invest-pay-option-amount">${amount}</span>
+            <span className="invest-pay-option-tag invest-pay-option-tag--free">no fees</span>
+          </span>
+        </a>
+      </div>
 
       {/* Pool state */}
       {pool && pool.investorCount > 0 && (

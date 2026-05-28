@@ -13,7 +13,6 @@ const ROUTES = [
   { href: "/portfolio", label: "portfolio" },
   { href: "/stocks", label: "stocks" },
   { href: "/prediction", label: "prediction" },
-  { href: "/art", label: "art" },
   { href: "/letters", label: "letters" },
   { href: "/eggs", label: "eggs" },
 ];

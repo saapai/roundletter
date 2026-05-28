@@ -245,7 +245,7 @@ export default function InteractiveTicket() {
 
   return (
     <div className="it-stage">
-      <p className="it-hint">drag & throw · pull stub to tear · double-click to fold · long-press to crush · press F to flip</p>
+      {/* hint removed — let the ticket speak for itself */}
       <div
         ref={wrapRef}
         className="it-wrap"

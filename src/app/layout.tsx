@@ -92,7 +92,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div className="rule" />
             <nav className="nav">
               <Link href="/stocks">investments</Link>
-              <Link href="/art">art</Link>
               <Link href="/prediction">prediction</Link>
               <Link href="/panel">panel</Link>
               <Link href="/buy">buy</Link>
