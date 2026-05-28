@@ -56,11 +56,16 @@ export default function InvestPage() {
   const [gainPct, setGainPct] = useState<number | null>(null);
 
   useEffect(() => {
+    // Match homepage: personal + kalshi only (not external/art)
     fetch("/api/portfolio")
       .then((r) => r.json())
       .then((j) => {
-        if (j?.total && j?.baseline) {
-          setGainPct(((j.total - j.baseline) / j.baseline) * 100);
+        const personal = j?.categories?.personal?.current_value;
+        const kalshi = j?.categories?.prediction?.breakdown?.kalshi?.total;
+        const baseline = j?.baseline;
+        if (personal != null && baseline) {
+          const total = personal + (kalshi ?? 0);
+          setGainPct(((total - baseline) / baseline) * 100);
         }
       })
       .catch(() => {});
