@@ -233,8 +233,9 @@ export default function V9Client({
 
           <p className="v9-reveal">
             One thing I think NFTs proved is that art has 2 dimensions.
-            A consensus on the value of the art. And a limitation that creates
-            scarcity. The second component is the reason that a lot of art or
+            1. A consensus on the value of the art.
+            2. A limitation that creates scarcity.
+            The second component is the reason that a lot of art or
             sports memorabilia skyrocket in value after someone&rsquo;s death.
           </p>
 
@@ -246,6 +247,8 @@ export default function V9Client({
 
           <p className="v9-closing-line v9-reveal">
             This is my promise to make my art worth 10k by June 21.
+          </p>
+          <p className="v9-closing-line v9-reveal">
             This is my 3:20 marathon.
           </p>
 
