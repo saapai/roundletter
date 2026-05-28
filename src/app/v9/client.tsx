@@ -178,46 +178,70 @@ export default function V9Client({
 
           <p className="v9-reveal">
             If someone would pay you 100 million dollars to run a 3:20 marathon
-            by the end of the year could you do it? Probably. What about 10k?
-            Now it gets interesting &mdash; that&rsquo;s not enough to drop
-            everything, but it&rsquo;s enough to make you try. There&rsquo;s a
-            point where the stakes are just enough to bend reality.
+            by the end of the year could you do it? The pace seems a bit less
+            absurd when you realize you&rsquo;d be setting yourself up for
+            generations. What about 1 million? Probably similar decision
+            calculus. 100k? 10k? Hmmm now it kinda gets interesting, because
+            that&rsquo;s not financial freedom, so the idea of dropping
+            everything to just train is far less feasible.
           </p>
 
           <p className="v9-reveal">
-            On April 14 I sold everything &mdash; penny stocks, speculative
-            junk, companies I couldn&rsquo;t explain &mdash; and bought
-            conviction. Quantum computing, semiconductors, AI. The account went
-            from noise to a thesis in one morning. The{" "}
-            <Link href="/letters/round-0" className="v9-link">pre-mortem</Link>
-            {" "}was published the same day, before the trades settled.
-            $3,453 → $100,000 by my 20th birthday. The models say
-            0.000000%.
+            But there&rsquo;s a point at which the stakes become just enough
+            for you to bend reality to make it work. For 10k maybe you run
+            once or twice a week just to see what sticks. For 100 mil you
+            probably think about running all the time, watch videos on
+            techniques, get training, maybe even drop everything else
+            you&rsquo;re doing except just run.
+          </p>
+
+          <p className="v9-reveal">This project started with the same thesis.</p>
+
+          <p className="v9-reveal">
+            I figured the best way to force myself to commit to a project was
+            to make it unaffordable to quit. I didn&rsquo;t really want to put
+            myself in debt or physical harm, so instead public embarrassment
+            was my choice of poison. It would be way cooler to have 100k on my
+            birthday than not, so just that factor alone means my odds of 100k
+            are higher.
           </p>
 
           <p className="v9-reveal">
-            I figured the best commitment device was public embarrassment.
-            It would be way cooler to have 100k on my birthday than not,
-            so just that factor alone raises my odds.
+            Through the last few weeks, I realized that my methods were not
+            nearly enough, and my mind started to always drift to insane
+            stories, like Gamestop, Bitcoin, NFTs, and art in general. The
+            crazy money movements were tied either to a narrative people
+            believed in or death. I wanted to avoid the second.
+          </p>
+
+          <p className="v9-reveal">
+            My mind started to also drift to adjacent questions. What if you
+            could make NFTs that are actually sustainable? What if art could be
+            accessible to everyone? What if art wasn&rsquo;t some vague status
+            symbol?
           </p>
 
           <p className="v9-pull v9-reveal">
-            The odds are the honesty. The bet is the product.
+            I think if any of these things were possible you get something a
+            lot cooler than 100k: democratized art, but I think it&rsquo;s
+            also very easy to make 100k as a result.
           </p>
 
           <p className="v9-reveal">
-            I&rsquo;m at ${fmt(total)}. I need $100,000. The gap is not a
-            chapter in a comeback story &mdash; it&rsquo;s a mathematical fact.
-            {daysToBirthday} days left. Five AI agents{" "}
-            <Link href="/argument" className="v9-link">argue every trade</Link>
-            {" "}before I touch it. A 37-page{" "}
-            <a href="https://saathvikpai.com" className="v9-link">research paper</a>
-            {" "}on agent memory got written along the way. A party with real
-            backers materialized. None of it was planned. All of it was
-            downstream of filing the reasoning before the result.
+            One thing I think NFTs proved is that art has 2 dimensions.
+            A consensus on the value of the art. And a limitation that creates
+            scarcity. The second component is the reason that a lot of art or
+            sports memorabilia skyrocket in value after someone&rsquo;s death.
+          </p>
+
+          <p className="v9-reveal">
+            So I&rsquo;m doubling down on the project, with a two-fold purpose.
+            Figure out how to make art with taste. And figure out how to make
+            the valuation of art favorable for all parties involved.
           </p>
 
           <p className="v9-closing-line v9-reveal">
+            This is my promise to make my art worth 10k by June 21.
             This is my 3:20 marathon.
           </p>
 
