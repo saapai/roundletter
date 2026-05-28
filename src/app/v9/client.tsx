@@ -552,7 +552,7 @@ const CSS = `
 .v9-letter p:first-of-type, .v9-lede, .v9-lede + p,
 .v9-pull, .v9-closing-line { text-indent: 0; }
 /* Short rhetorical lines — no indent, tighter spacing */
-.v9-letter p.v9-short { text-indent: 0; margin-top: 0.6rem; }
+.v9-letter p.v9-short { text-indent: 1.5em; margin-top: 0.6rem; }
 
 .v9-letter-title {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
