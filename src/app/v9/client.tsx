@@ -177,20 +177,34 @@ export default function V9Client({
           </p>
 
           <p className="v9-reveal">
-            There&rsquo;s a point at which the stakes become just enough for
-            you to bend reality to make it work. This project started with the
-            same thesis.
+            If someone would pay you 100 million dollars to run a 3:20 marathon
+            by the end of the year could you do it? The pace seems a bit less
+            absurd when you realize you&rsquo;d be setting yourself up for
+            generations. What about 100k? 10k? Now it kinda gets interesting,
+            because that&rsquo;s not financial freedom, so the idea of dropping
+            everything to just train is far less feasible.
           </p>
 
           <p className="v9-reveal">
-            I figured the best way to force myself to commit was to make it
-            unaffordable to quit. Public embarrassment was my choice of poison.
-            It would be way cooler to have 100k on my birthday than not, so
-            just that factor alone means my odds are higher.
+            But there&rsquo;s a point at which the stakes become just enough
+            for you to bend reality to make it work. This project started with
+            the same thesis.
           </p>
 
           <p className="v9-reveal">
-            The crazy money movements were tied either to a narrative people
+            I figured the best way to force myself to commit to a project was
+            to make it unaffordable to quit. I didn&rsquo;t really want to put
+            myself in debt or physical harm, so instead public embarrassment
+            was my choice of poison. It would be way cooler to have 100k on my
+            birthday than not, so just that factor alone means my odds of 100k
+            are higher.
+          </p>
+
+          <p className="v9-reveal">
+            Through the last few weeks, I realized that my methods were not
+            nearly enough, and my mind started to always drift to insane
+            stories, like Gamestop, Bitcoin, NFTs, and art in general. The
+            crazy money movements were tied either to a narrative people
             believed in or death. I wanted to avoid the second.
           </p>
 
@@ -200,8 +214,16 @@ export default function V9Client({
           </p>
 
           <p className="v9-reveal">
-            Art has 2 dimensions. A consensus on the value. And a limitation
-            that creates scarcity.
+            One thing I think NFTs proved is that art has 2 dimensions.
+            A consensus on the value of the art. And a limitation that creates
+            scarcity. The second component is the reason that a lot of art or
+            sports memorabilia skyrocket in value after someone&rsquo;s death.
+          </p>
+
+          <p className="v9-reveal">
+            So I&rsquo;m doubling down on the project, with a two-fold purpose.
+            Figure out how to make art with taste. And figure out how to make
+            the valuation of art favorable for all parties involved.
           </p>
 
           <p className="v9-closing-line v9-reveal">
@@ -231,6 +253,36 @@ export default function V9Client({
           <span className="v9-backed-label">backed by</span>
           <div className="v9-backed-names">
             <span>Franco Cachay</span><span>Elijah Bautista</span><span>Yashas Shashidara</span><span>an anonymous donor</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ THE PAINTING — the only piece ═══════ */}
+      <section className="v9-painting v9-reveal">
+        <div className="v9-painting-glow" />
+        <div className="v9-painting-inner">
+          <div className="v9-painting-frame">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/art/auction-piece.jpg" alt="Cityscape with splatter — oil on canvas" className="v9-painting-img" />
+          </div>
+          <div className="v9-painting-caption">
+            <span className="v9-painting-title">cityscape with splatter</span>
+            <div className="v9-painting-terms">
+              <div className="v9-painting-term">
+                <span className="v9-painting-label">current bid</span>
+                <span className="v9-painting-value">$20</span>
+              </div>
+              <div className="v9-painting-term">
+                <span className="v9-painting-label">cashout value · june 20</span>
+                <span className="v9-painting-value v9-painting-live">${fmt(total * 0.1)}</span>
+              </div>
+            </div>
+            <div className="v9-first-bid">
+              <span className="v9-first-bid-name">Aryan Dutta Baruah</span>
+              <span className="v9-first-bid-msg">&ldquo;get agi pilled&rdquo;</span>
+            </div>
+            <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
+            <a href="sms:3853687238&amp;body=Bid on cityscape with splatter" className="v9-painting-bid">bid →</a>
           </div>
         </div>
       </section>
@@ -587,6 +639,88 @@ const CSS = `
 .v9-backed-names { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
 .v9-backed-names span { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 0.95rem; font-weight: 500; color: rgba(229,221,210,0.52); letter-spacing: 0.04em; }
 
+/* ═══════ THE PAINTING ═══════ */
+.v9-painting {
+  position: relative;
+  background:
+    radial-gradient(ellipse 150% 80% at 60% 40%, rgba(27,58,107,0.14) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(107,77,138,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(200,169,74,0.12) 0%, transparent 50%),
+    #1a1208;
+  padding: clamp(5rem,10vw,8rem) clamp(1.25rem,4vw,2rem);
+  color: #e8e4dc;
+}
+.v9-painting-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 80% 60% at 50% 35%, rgba(200,169,74,0.10) 0%, transparent 70%);
+  transition: opacity 0.6s ease;
+}
+.v9-painting:hover .v9-painting-glow { opacity: 1.4; }
+.v9-painting-inner {
+  max-width: 58rem; margin: 0 auto; position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,4vw,3.5rem); align-items: start;
+}
+.v9-painting-frame {
+  border-radius: 2px; overflow: hidden; padding: clamp(10px,2vw,18px);
+  background: linear-gradient(145deg, #2a2218, #1e1810);
+  box-shadow:
+    0 0 0 1px rgba(200,169,74,0.28),
+    0 0 80px rgba(200,169,74,0.14),
+    0 0 160px rgba(27,58,107,0.12),
+    0 28px 80px rgba(0,0,0,0.6);
+  perspective: 800px; transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1), box-shadow 0.6s ease;
+  cursor: default;
+}
+.v9-painting:hover .v9-painting-frame {
+  transform: rotateY(-2deg) rotateX(1deg) translateZ(8px);
+  box-shadow:
+    0 0 0 1px rgba(200,169,74,0.38),
+    0 0 100px rgba(200,169,74,0.20),
+    0 0 200px rgba(27,58,107,0.15),
+    0 40px 100px rgba(0,0,0,0.7);
+}
+.v9-painting-img { display: block; width: 100%; height: auto; }
+.v9-painting-caption { display: flex; flex-direction: column; gap: 0.5rem; padding-top: clamp(10px,2vw,18px); }
+.v9-painting-title {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-size: 1.25rem; font-style: italic; font-weight: 500; color: rgba(232,228,220,0.7);
+}
+.v9-painting-terms { display: flex; flex-direction: column; gap: 18px; margin: 20px 0 12px; }
+.v9-painting-term { display: flex; flex-direction: column; gap: 2px; }
+.v9-painting-label {
+  font-family: 'JetBrains Mono',monospace; font-size: 0.58rem;
+  letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.35;
+}
+.v9-painting-value {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-size: 1.7rem; font-weight: 500; color: rgba(232,228,220,0.8);
+}
+.v9-painting-live { color: var(--amber); }
+.v9-painting-meta {
+  font-family: 'JetBrains Mono',monospace; font-size: 0.58rem;
+  letter-spacing: 0.02em; line-height: 1.7; opacity: 0.3; margin-top: 8px;
+}
+.v9-painting-bid {
+  display: inline-block; margin-top: 1.25rem;
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-size: 1rem; font-weight: 500; text-decoration: none;
+  padding: 0.6rem 1.75rem; border-radius: 2px;
+  color: rgba(232,228,220,0.8); border: 1px solid rgba(200,169,74,0.28);
+  transition: all 0.4s ease;
+}
+.v9-painting-bid:hover { background: rgba(200,169,74,0.15); border-color: rgba(200,169,74,0.55); color: var(--amber); }
+.v9-first-bid { display: flex; flex-direction: column; gap: 2px; margin: 10px 0 8px; }
+.v9-first-bid-name {
+  font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
+  font-style: italic; font-size: 0.9rem; color: rgba(232,228,220,0.6);
+}
+.v9-first-bid-msg {
+  font-family: var(--font-body,'EB Garamond'),Georgia,serif;
+  font-style: italic; font-size: 0.85rem; color: rgba(232,228,220,0.35);
+  letter-spacing: 0.01em;
+}
+
 /* ═══════ INTERACTIVE TICKET ═══════ */
 .it-stage {
   display: flex; flex-direction: column; align-items: center;
@@ -752,6 +886,12 @@ const CSS = `
 
 /* ═══════ MOBILE ═══════ */
 @media (max-width: 640px) {
+  .v9-painting { padding: 2.5rem 1.25rem; }
+  .v9-painting-inner { grid-template-columns: 1fr; gap: 1.5rem; max-width: 100%; }
+  .v9-painting-terms { flex-direction: row; gap: 24px; }
+  .v9-painting-value { font-size: 1.3rem; }
+  .v9-painting-bid { padding: 0.65rem 1.8rem; min-height: 44px; display: inline-flex; align-items: center; }
+  .v9-painting:hover .v9-painting-frame { transform: none; }
   .it { width: min(340px, 90vw); height: 150px; }
   .it-stub { width: 60px; }
   .it-tear { right: 60px; }
