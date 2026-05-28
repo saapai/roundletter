@@ -580,13 +580,13 @@ const CSS = `
 }
 .v9-party-sub {
   font-family: 'JetBrains Mono',monospace; font-size: 0.6rem;
-  letter-spacing: 0.2em; text-transform: uppercase; color: rgba(237,229,213,0.65); margin-bottom: 48px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: rgba(237,229,213,0.65); margin-bottom: 28px;
 }
-.v9-party-rule { width: min(320px,55%); height: 2px; background: linear-gradient(90deg, transparent, var(--amber), transparent); margin-bottom: 48px; }
+.v9-party-rule { width: min(320px,55%); height: 2px; background: linear-gradient(90deg, transparent, var(--amber), transparent); margin-bottom: 28px; }
 .v9-party-tagline {
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
   font-size: clamp(1.5rem,4vw,2.4rem); font-style: italic; color: rgba(242,237,224,0.85);
-  letter-spacing: 0.01em; line-height: 1.3; margin: 0 0 24px;
+  letter-spacing: 0.01em; line-height: 1.3; margin: 0;
 }
 .v9-party-detail {
   font-family: 'JetBrains Mono',monospace; font-size: clamp(0.58rem,1.5vw,0.68rem);
