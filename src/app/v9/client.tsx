@@ -225,7 +225,7 @@ export default function V9Client({
             symbol?
           </p>
 
-          <p className="v9-pull v9-reveal">
+          <p className="v9-reveal">
             I think if any of these things were possible you get something a
             lot cooler than 100k: democratized art, but I think it&rsquo;s
             also very easy to make 100k as a result.
