@@ -122,6 +122,20 @@ export default function V9Client({
   const showNumber = phase === "revealed" || phase === "full";
   const showFull = phase === "full";
 
+  /* Rotating CTA */
+  const CTAS = [
+    { href: "/archive", label: "The archive →", cls: "v9-btn v9-btn--archive" },
+    { href: "/green-credit", label: "Green credit →", cls: "v9-btn v9-btn--green" },
+    { href: "/letters", label: "The letters →", cls: "v9-btn v9-btn--letters" },
+    { href: "/letters/entrenched-coils", label: "Entrenched coils →", cls: "v9-btn v9-btn--coils" },
+  ];
+  const [ctaIdx, setCtaIdx] = useState(0);
+  useEffect(() => {
+    setCtaIdx(Math.floor(Math.random() * CTAS.length));
+    const id = setInterval(() => setCtaIdx((i) => (i + 1) % CTAS.length), 8000);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <div className="v9" data-phase={phase} ref={rootRef}>
       <style>{CSS}</style>
@@ -335,7 +349,7 @@ export default function V9Client({
         <div className="v9-door-content v9-reveal">
           <p className="v9-door-line">The door is open.</p>
           <div className="v9-door-acts">
-            <Link href="/invest" className="v9-btn">The wager →</Link>
+            <Link href={CTAS[ctaIdx].href} className={CTAS[ctaIdx].cls}>{CTAS[ctaIdx].label}</Link>
             <Link href="/argument" className="v9-link-dim">Five agents disagree about this →</Link>
           </div>
           <p className="v9-door-rail">
@@ -896,6 +910,14 @@ const CSS = `
 .v9-door-acts { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
 .v9-btn { display: inline-block; padding: 0.7rem 2rem; font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-style: italic; font-size: 1rem; color: var(--paper); background: color-mix(in srgb, var(--amber) 85%, var(--dark)); text-decoration: none; border-radius: 2px; transition: background 250ms ease; }
 .v9-btn:hover { background: var(--amber); }
+.v9-btn--archive { background: rgba(139,58,46,0.7); }
+.v9-btn--archive:hover { background: rgba(139,58,46,0.9); }
+.v9-btn--green { background: rgba(90,122,72,0.7); }
+.v9-btn--green:hover { background: rgba(90,122,72,0.9); }
+.v9-btn--letters { background: rgba(107,101,96,0.7); }
+.v9-btn--letters:hover { background: rgba(107,101,96,0.9); }
+.v9-btn--coils { background: rgba(107,77,138,0.7); }
+.v9-btn--coils:hover { background: rgba(107,77,138,0.9); }
 .v9-link-dim { font-family: var(--font-body,'EB Garamond'),Georgia,serif; font-style: italic; font-size: 0.9rem; color: rgba(240,235,226,0.4); text-decoration: none; transition: color 200ms ease; }
 .v9-link-dim:hover { color: rgba(240,235,226,0.75); }
 .v9-door-rail { font-family: 'JetBrains Mono',monospace; font-size: 0.55rem; letter-spacing: 0.08em; color: rgba(240,235,226,0.2); margin-top: 0.5rem; }
