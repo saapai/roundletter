@@ -437,21 +437,61 @@ export default function ECBenchmarkPaper() {
 
         {/* ── THE MATH ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>Why contradiction-first might be optimal</h2>
+          <h2>The theory</h2>
+
+          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>The Crossover Theorem</h3>
           <p>
-            There is an information-theoretic argument for why retrieving disagreements should be more useful than retrieving agreements, at least when the goal is calibration rather than recall.
+            Let <em>p</em> be the agent&rsquo;s current belief, <em>p*</em> the true base rate, and <em>&alpha;</em> the memory strength. Agreement retrieval shifts belief toward certainty: <code>p + &alpha;(1 &minus; p)</code>. Contradiction retrieval shifts toward uncertainty: <code>p(1 &minus; &alpha;)</code>.
           </p>
           <p>
-            Shannon entropy is maximized at maximum uncertainty. A memory that agrees with your current belief reduces entropy. A memory that disagrees <em>preserves</em> entropy. If your goal is to maintain calibrated uncertainty (which it should be, when facing stochastic or adversarial environments), then the entropy-preserving retrieval is the better default.
+            <strong>Theorem.</strong> For any <em>p*</em> and <em>&alpha;</em>, there exists a unique crossover point <em>p&#770;</em> such that agreement retrieval minimizes expected Brier score when <em>p &lt; p&#770;</em>, and contradiction retrieval minimizes it when <em>p &gt; p&#770;</em>. The crossover is:
+          </p>
+          <p style={{
+            textAlign: "center",
+            fontFamily: "var(--font-display, Georgia), serif",
+            fontStyle: "italic",
+            fontSize: "1.1em",
+            color: "var(--rust, #8B3A2E)",
+            margin: "1.5rem 0",
+          }}>
+            p&#770; = p* / (1 + &alpha;(1 &minus; 2p*))
           </p>
           <p>
-            More formally: the KL divergence between your belief distribution and reality is minimized when you have access to the strongest evidence <em>against</em> your current belief, because that evidence has the highest potential to move your posterior toward the true distribution. Retrieving agreements moves your posterior further from reality when your prior is wrong, and does nothing when your prior is right.
+            <strong>Corollary.</strong> When <em>p* = 0.5</em> (maximum uncertainty about truth), the crossover is exactly 0.5. The agent should retrieve contradictions whenever it is more than 50% confident. This is what the benchmark confirms: on domains where the model might be wrong (adversarial, counterfactual), contradiction-first helps. On domains where the model is likely right (factual QA, drift stress with correct framing), agreement helps.
+          </p>
+
+          <h3 style={{ marginTop: "2.5rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>The Friston Inversion</h3>
+          <p>
+            Karl Friston&rsquo;s Free Energy Principle says organisms minimize surprise&mdash;they retrieve what they expect and update when surprised. EC inverts this: it retrieves surprises first. Which is right?
           </p>
           <p>
-            This is related to the <em>value of information</em> concept in decision theory. The information that changes your decision has the highest expected value. Contradictions, by definition, are the memories most likely to change your mind. Agreements are the memories least likely to do so.
+            Both. The Crossover Theorem resolves the apparent conflict:
           </p>
-          <p style={{ fontSize: "0.85rem", color: "var(--graphite, #6B6560)" }}>
-            The caveat: this argument assumes your current belief may be wrong. In domains where the agent is reliably correct (factual QA with high base accuracy), contradiction-first retrieval injects noise into a correct prior. Hence Finding 3.
+          <ul style={{ fontSize: "0.9rem", lineHeight: 1.8 }}>
+            <li>When belief &asymp; truth (small KL divergence): Friston is correct. Agreement retrieval reduces free energy by reinforcing a correct model.</li>
+            <li>When belief &ne; truth (large KL divergence): EC is correct. Contradiction retrieval reduces free energy by exposing model error.</li>
+            <li>The agent cannot know which regime it occupies without metacognition&mdash;a model of its own reliability.</li>
+          </ul>
+          <p style={{ fontStyle: "italic", color: "var(--graphite, #6B6560)", marginTop: "1rem" }}>
+            This means EC&rsquo;s core innovation is not biologically inspired in the way the original paper claimed. The brain does not retrieve contradictions by default. EC does something the brain does <em>not</em> do&mdash;and the benchmark shows it is useful precisely in the domains where the brain&rsquo;s default strategy (retrieve expectations) would fail.
+          </p>
+
+          <h3 style={{ marginTop: "2.5rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>The Adaptive Criterion</h3>
+          <p>
+            The optimal retrieval weight is a blend:
+          </p>
+          <p style={{
+            textAlign: "center",
+            fontFamily: "var(--font-display, Georgia), serif",
+            fontStyle: "italic",
+            fontSize: "0.95em",
+            color: "var(--rust, #8B3A2E)",
+            margin: "1.5rem 0",
+          }}>
+            w = P(correct) &middot; w<sub>agree</sub> + (1 &minus; P(correct)) &middot; w<sub>contra</sub>
+          </p>
+          <p>
+            When <em>P(correct) &asymp; 0.5</em>&mdash;maximum uncertainty about your own correctness&mdash;the optimal strategy is to hold both agreement and contradiction memories in superposition. Let them interfere. This maps to what the quantum abduction framework (2025) calls &ldquo;hypotheses as interfering amplitudes.&rdquo; You don&rsquo;t pick a side. You hold the tension.
           </p>
         </section>
 
