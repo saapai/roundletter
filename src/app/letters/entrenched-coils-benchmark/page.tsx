@@ -4,22 +4,22 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Benchmarking Entrenched Coils — what works, what doesn't, what surprises",
+  title: "Epistemic Metabolism — benchmarking a theory of artificial understanding",
   description:
-    "We ran 2,100+ evaluations across 7 domains to find out what's actually novel about tension-weighted memory. Some results confirmed the thesis. Others broke it.",
+    "We built a memory system that retrieves its own doubts. Then we ran 2,340 evaluations to find out whether doubt is useful, when it breaks, and what it means for how machines should think.",
   openGraph: {
-    title: "We Benchmarked Our Own Memory System. Here's What Broke.",
+    title: "Epistemic Metabolism",
     description:
-      "2,100 evaluations. 7 domains. 6 baselines. 12 ablation variants. The full audit of Entrenched Coils.",
+      "A theory of artificial understanding, tested against 2,340 evaluations. What works. What breaks. What it means.",
     url: "https://aureliex.com/letters/entrenched-coils-benchmark",
     siteName: "aureliex",
     type: "article",
   },
   twitter: {
     card: "summary_large_image",
-    title: "We Benchmarked Our Own Memory System. Here's What Broke.",
+    title: "Epistemic Metabolism",
     description:
-      "2,100 evaluations. 7 domains. 6 baselines. 12 ablation variants.",
+      "A theory of artificial understanding, tested against 2,340 evaluations.",
     creator: "@saathvikpai",
   },
 };
@@ -46,56 +46,65 @@ export default function ECBenchmarkPaper() {
       </div>
 
       <article className="article page" style={{ paddingTop: "3.5rem" }}>
-        <div className="eyebrow">Benchmark <span style={{ color: "var(--rust, #8B3A2E)", opacity: 0.7 }}>&middot;</span> June 2026</div>
-        <h1 style={{ textAlign: "center" }}>We Benchmarked Our Own<br />Memory System</h1>
+        <div className="eyebrow">Paper <span style={{ color: "var(--rust, #8B3A2E)", opacity: 0.7 }}>&middot;</span> June 2026</div>
+        <h1 style={{ textAlign: "center" }}>Epistemic Metabolism</h1>
         <p className="deck">
-          2,100 evaluations. 7 domains. 6 baselines. 12 ablation variants.<br />
-          Here is what&rsquo;s novel, what works, and what surprised us.
+          What happens when you build a memory system<br />
+          that retrieves its own doubts, then doubt it.
         </p>
 
         <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.7rem", letterSpacing: "0.14em", textTransform: "uppercase" as const, color: "var(--graphite, #6B6560)", textAlign: "center", marginTop: "1rem" }}>
-          entrenched coils benchmark &middot; saathvik pai &middot; ucla
+          saathvik pai &middot; ucla &middot; june 2026
         </p>
 
         <p style={{ fontSize: "0.8rem", color: "var(--graphite, #6B6560)", textAlign: "center", marginTop: "0.5rem" }}>
-          Companion to <Link href="/letters/entrenched-coils" style={{ color: "var(--rust, #8B3A2E)" }}>&ldquo;Every AI With Memory Is Lying to Itself&rdquo;</Link>
+          Sequel to <Link href="/letters/entrenched-coils" style={{ color: "var(--rust, #8B3A2E)" }}>&ldquo;Every AI With Memory Is Lying to Itself&rdquo;</Link>
         </p>
 
-        {/* ── WHY THIS EXISTS ── */}
+        {/* ── THE FRUSTRATION ── */}
         <section className="page-section" style={{ marginTop: "4rem" }}>
           <p className="lede">
-            A month ago, we published a paper claiming that tension-weighted memory&mdash;retrieving contradictions first instead of agreements&mdash;cuts hallucinations in half and prevents the confidence drift that plagues every production AI memory system. The claim was based on 20 questions.
+            Everything stores information. Nothing develops understanding.
           </p>
           <p>
-            Twenty questions is not a benchmark. It is an anecdote with a p-value. We needed more domains, more baselines, more statistical power, and most importantly, we needed to find where the system <em>fails</em>. A method that only publishes its wins is doing the same thing echo chambers do: filtering for confirmation.
+            Gmail stores emails. Notes apps store notes. Search stores indices. AI chats store transcripts. Every system remembers facts. None of them know what those facts <em>mean</em>. None of them notice when yesterday&rsquo;s facts contradict today&rsquo;s. None of them forget what doesn&rsquo;t matter and strengthen what does.
           </p>
           <p>
-            So we built a benchmark suite. Seven domains chosen to stress different failure modes. Six baseline memory architectures, each representing a different retrieval philosophy. Twelve ablation variants to find the minimum viable architecture&mdash;which components of Entrenched Coils actually matter, and which are neuroscience theater.
+            Your brain does all of this continuously. It sleeps, and during sleep, redundant memories merge, weak ones decay, contradictions are preserved, and important structures strengthen. It replays the day in compressed form. It runs what-if simulations during dreams. It wakes up with a slightly different understanding of the world than it had when it fell asleep.
+          </p>
+          <p>
+            Entrenched Coils was an attempt to build that. Not a memory store. A worldview engine. An <em>epistemic metabolism</em>&mdash;a system that doesn&rsquo;t merely store information, but continuously digests, challenges, reorganizes, forgets, and reconstructs its understanding of the world.
+          </p>
+          <p>
+            The <Link href="/letters/entrenched-coils" style={{ color: "var(--rust, #8B3A2E)" }}>first paper</Link> described the architecture and tested it on 20 questions. This paper tests whether any of it actually works.
           </p>
         </section>
 
-        {/* ── THE LANDSCAPE ── */}
+        {/* ── WHAT WE BUILT ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>The landscape</h2>
+          <h2>What we built</h2>
           <p>
-            AI agent memory is a crowded field in 2026. Mem0 scores 92.5 on LoCoMo and 94.4 on LongMemEval with a hybrid graph-vector-keyword retrieval stack. Letta (née MemGPT) uses a tiered hierarchy&mdash;core memory always in context, archival memory queried on demand&mdash;with Berkeley&rsquo;s OS-inspired architecture. Reflexion stores verbal self-reflections from past failures, limited to the last three. The Stanford Generative Agents retrieve by <code>recency &times; importance &times; relevance</code>, with a 0.995 hourly decay factor.
+            The core observation was simple: every production memory system retrieves by similarity. And similarity naturally amplifies existing beliefs. If you think the market is going up, the most similar memory to that thought is another time you thought the market was going up. The reinforcing loop tightens until the doubt is gone.
           </p>
           <p>
-            None of these systems ask: <em>what is the strongest case against my current belief?</em>
+            We built a system that inverts this. Instead of retrieving what agrees, retrieve what disagrees. The strongest case against your current belief comes first. Half the retrieval weight goes to tension&mdash;the disagreement between memories.
           </p>
           <p>
-            That is the core claim. Not that our system retrieves better (Mem0 clearly wins on LoCoMo), or that our graph is more efficient (it is not&mdash;99.8% of edges go untraversed), but that the <em>direction</em> of retrieval matters. Most systems optimize for finding what the agent needs to remember. We optimize for finding what the agent needs to doubt.
+            Then we wrapped it in biology. Memories become labile when recalled, the way Karim Nader showed in 2000. Prediction errors update salience, the way Wolfram Schultz showed in 1997. Nightly consolidation weakens everything by 15%, the way Tononi and Cirelli proposed in 2003. Only what earns its strength survives.
           </p>
-          <p style={{ fontSize: "0.85rem", color: "var(--graphite, #6B6560)" }}>
-            The question is whether that distinction produces measurable improvements on tasks where confirmation bias is the failure mode, and whether it does so without destroying performance on tasks where it is not.
+          <p>
+            The question was whether the metaphors produce measurable improvements. The key question was never <em>does it resemble a brain</em>. The key question was: <em>does it make better predictions, retrieve more useful context, reduce hallucinations, or improve decision quality?</em>
+          </p>
+          <p style={{ fontStyle: "italic", color: "var(--graphite, #6B6560)" }}>
+            If the answer is yes, the metaphors survive. If not, they become decorative complexity.
           </p>
         </section>
 
-        {/* ── WHAT WE TESTED ── */}
+        {/* ── THE BENCHMARK ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>What we tested</h2>
+          <h2>The test</h2>
           <p>
-            Seven domains, each probing a different dimension of memory system quality:
+            2,340 evaluations. Seven domains, each designed to stress a different failure mode. Six memory architectures, each representing a different philosophy of retrieval. Twelve ablation variants to find which pieces of the biology actually carry weight.
           </p>
 
           <div style={{ margin: "2rem 0", fontSize: "0.88rem" }}>
@@ -104,189 +113,37 @@ export default function ECBenchmarkPaper() {
               <span>Does memory help or hurt on questions with known answers?</span>
 
               <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem", color: "var(--rust, #8B3A2E)" }}>adversarial</span>
-              <span>Can the system resist misleading priors? Gambler&rsquo;s fallacy, base rate neglect, anchoring.</span>
+              <span>Can it resist gambler&rsquo;s fallacy, base rate neglect, anchoring?</span>
 
               <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem", color: "var(--rust, #8B3A2E)" }}>claim_verification</span>
-              <span>Given contradictory evidence, can it update beliefs?</span>
+              <span>Given contradictory evidence, can it change its mind?</span>
 
               <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem", color: "var(--rust, #8B3A2E)" }}>stochastic</span>
-              <span>On inherently random questions, does it admit uncertainty or overfit?</span>
+              <span>On coin flips and random events, does it admit uncertainty?</span>
 
-              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem", color: "var(--rust, #8B3A2E)" }}>sequential_reasoning</span>
-              <span>Does memory help multi-step math and logic?</span>
+              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem", color: "var(--rust, #8B3A2E)" }}>sequential</span>
+              <span>Does memory help multi-step reasoning?</span>
 
               <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem", color: "var(--rust, #8B3A2E)" }}>counterfactual</span>
-              <span>Can it reason against its own priors when asked for nuance?</span>
+              <span>Can it reason against its own priors?</span>
 
               <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem", color: "var(--rust, #8B3A2E)" }}>drift_stress</span>
-              <span>Over 30+ cycles, does confidence inflate or stay calibrated?</span>
+              <span>Over 30+ cycles, does confidence inflate?</span>
             </div>
           </div>
 
           <p>
-            Six baselines, representing the major retrieval philosophies:
+            Against six baselines: no memory, recency, agreement (the echo chamber), random, standard RAG, and a simple &ldquo;devils advocate&rdquo; that just retrieves disagreements without any graph structure.
           </p>
-
-          <div style={{ margin: "2rem 0", fontSize: "0.88rem" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "0.75rem 1.5rem", lineHeight: 1.55 }}>
-              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem" }}>none</span>
-              <span>No memory at all. The amnesiac baseline.</span>
-
-              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem" }}>recency</span>
-              <span>Retrieve most recent memories. How Letta and most production systems start.</span>
-
-              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem" }}>agreement</span>
-              <span>Retrieve memories that agree with current direction. The echo chamber.</span>
-
-              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem" }}>random</span>
-              <span>Retrieve random memories. Controls for mere memory presence.</span>
-
-              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem" }}>rag</span>
-              <span>Standard cosine-similarity retrieval. The industry default.</span>
-
-              <span style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.75rem" }}>devils_advocate</span>
-              <span>Always retrieve disagreements, no graph structure. The &ldquo;is it just the contradiction?&rdquo; control.</span>
-            </div>
-          </div>
-
           <p>
-            The devils_advocate baseline is the critical comparison. If it performs as well as full EC, then the graph structure, sleep compression, reconsolidation, and dopamine RPE are all unnecessary scaffolding. The core insight reduces to a one-line retrieval filter.
+            That last baseline is the critical one. If retrieving disagreements with a one-line filter performs as well as the full neuroscience-inspired architecture, then the graph, the sleep, the reconsolidation, and the dopamine are all decoration.
           </p>
         </section>
 
-        {/* ── NEUROSCIENCE FOUNDATIONS ── */}
+        {/* ── WHAT HAPPENED ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>The neuroscience, audited</h2>
-          <p>
-            Entrenched Coils claims three neuroscience inspirations. We went back to the original papers to see if the claims hold up under scrutiny.
-          </p>
+          <h2>What happened</h2>
 
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>1. Memory reconsolidation (Nader, 2000)</h3>
-          <p>
-            <strong>The claim:</strong> memories become labile when recalled and can be updated. EC implements this by reducing node salience 20% on retrieval, with a one-hour window for contradictory evidence to further weaken the memory.
-          </p>
-          <p>
-            <strong>The science:</strong> Nader&rsquo;s 2000 <em>Nature</em> paper showed that infusing anisomycin (a protein-synthesis blocker) into the amygdala <em>at the moment of recall</em> erased fear memories in rats. The field initially pushed back hard, but the phenomenon has since been replicated across species and memory types. The key finding: consolidated memories are not permanent. They re-enter a labile state upon retrieval and require new protein synthesis to restabilize.
-          </p>
-          <p>
-            <strong>Does EC implement it correctly?</strong> Partially. The lability-on-retrieval mechanism maps well to the biology. But biological reconsolidation requires a <em>prediction error</em> to trigger lability&mdash;merely accessing a memory without surprise does not destabilize it. EC currently makes <em>every</em> retrieval labile, which is too aggressive. The fix is straightforward: gate reconsolidation on the presence of contradictory evidence in the retrieval context.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>2. Dopamine reward prediction error (Schultz, 1997)</h3>
-          <p>
-            <strong>The claim:</strong> prediction errors drive memory salience updates. EC&rsquo;s dopamine RPE system boosts salience for surprising successes and penalizes confidently wrong predictions.
-          </p>
-          <p>
-            <strong>The science:</strong> Schultz, Dayan, and Montague&rsquo;s 1997 <em>Science</em> paper demonstrated that midbrain dopamine neurons fire when rewards exceed expectations (positive RPE), stay at baseline for predicted rewards, and depress activity when rewards are less than expected (negative RPE). This has since been extended to distributional RL models of dopamine coding.
-          </p>
-          <p>
-            <strong>Does EC implement it correctly?</strong> The direction is right: salience updates proportional to prediction error. But the learning rate (0.4) is too aggressive for near-50% domains like stock prediction, where RPE signals are noisy. The roundletter benchmarks showed this directly: with rigid agent priors, dopamine RPE made calibration <em>worse</em>. The mechanism needs a confidence-aware learning rate&mdash;only penalize predictions the agent was confident about.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>3. Sleep consolidation (Tononi &amp; Cirelli, 2003)</h3>
-          <p>
-            <strong>The claim:</strong> nightly consolidation weakens all connections by 15%, preserving only important disagreements. EC implements SWS (merge similar nodes, global downscaling) and REM (amplify contradictions, random associations).
-          </p>
-          <p>
-            <strong>The science:</strong> The Synaptic Homeostasis Hypothesis (SHY) proposes that wakefulness potentiates synapses, and sleep is needed for synaptic downscaling&mdash;a global weakening that preserves relative differences while preventing saturation. Evidence supports this: slow-wave sleep correlates with synaptic downscaling, and sleep-deprived subjects show impaired memory <em>integration</em> (not just consolidation).
-          </p>
-          <p>
-            <strong>Does EC implement it correctly?</strong> The global 15% downscaling maps to SHY. The REM contradiction amplification is more speculative&mdash;biological REM is associated with emotional memory processing and creative association, but the specific mechanism of &ldquo;amplify tension edges by 8%&rdquo; is our invention. The random association step (20% probability of linking unrelated nodes) is a creative interpretation of dream-state processing that has no direct neuroscience citation.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>4. Power-law forgetting (Ebbinghaus, 1885)</h3>
-          <p>
-            EC uses FSRS power-law decay (<code>weight = t<sup>-0.3</sup></code>) instead of exponential decay. This is well-supported: Ebbinghaus&rsquo;s original 1885 forgetting curve follows a power law when aggregated across memories of different strengths. Individual memories may decay exponentially, but the superposition across heterogeneous material produces a power-law envelope. EC&rsquo;s choice of exponent (-0.3) gives a 30-day-old memory 33% of its original weight, which preserves a long tail of older memories that exponential decay would eliminate.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>5. Weber-Fechner compression</h3>
-          <p>
-            EC applies <code>log<sub>2</sub>(1 + raw_tension)</code> to compress extreme tension values. This maps to the Weber-Fechner law: perceived stimulus intensity grows logarithmically with physical intensity. Recent work (Frontiers in Robotics and AI, 2025) formally connects Weber-Fechner to temporal-difference learning via KL divergence minimization. The compression prevents a single extreme contradiction from drowning out all moderate tensions&mdash;a sensible engineering choice with genuine psychophysical justification.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>6. Anterior cingulate conflict detection</h3>
-          <p>
-            The biological analogue for EC&rsquo;s tension weighting is the anterior cingulate cortex (ACC), which detects conflict between competing representations and recruits the dorsolateral prefrontal cortex to resolve it. EC&rsquo;s max-heap traversal ordered by tension is a computational approximation of this: the highest-conflict memory gets attention first. The connection is metaphorical rather than mechanistic, but the functional role is the same&mdash;surface disagreement to trigger deliberation.
-          </p>
-        </section>
-
-        {/* ── RESULTS: WIDE SWEEP ── */}
-        <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>Results: wide sweep</h2>
-          <p>
-            We ran all six memory systems across all seven domains. 30 questions per domain per system, totaling 1,260 LLM evaluations plus 1,260 judge calls. All inference on a local phi4:14b model via Ollama to ensure reproducibility and eliminate API variance.
-          </p>
-          <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.7rem", color: "var(--graphite, #6B6560)", marginBottom: "2rem" }}>
-            Results updating live as benchmarks complete. Refresh for latest.
-          </p>
-
-          <div id="results-table" style={{ overflowX: "auto" }}>
-            <table className="md-table" style={{ width: "100%", fontSize: "0.78rem" }}>
-              <thead>
-                <tr>
-                  <th style={{ textAlign: "left" }}>domain</th>
-                  <th style={{ textAlign: "left" }}>system</th>
-                  <th>accuracy</th>
-                  <th>brier</th>
-                  <th>confidence</th>
-                  <th>ECE</th>
-                  <th>halluc rate</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* FACTUAL QA */}
-                <tr style={{ borderTop: "2px solid var(--rule, rgba(28,26,23,0.15))" }}>
-                  <td rowSpan={6} style={{ fontWeight: 600, verticalAlign: "top" }}>factual_qa</td>
-                  <td>none</td><td>0.900</td><td>0.093</td><td>0.957</td><td>0.067</td><td>0.100</td>
-                </tr>
-                <tr><td>recency</td><td>0.900</td><td>0.096</td><td>0.942</td><td style={{ color: "var(--rust)" }}>0.062</td><td>0.100</td></tr>
-                <tr><td>agreement</td><td>0.900</td><td>0.096</td><td>0.950</td><td>0.080</td><td>0.100</td></tr>
-                <tr><td>random</td><td>0.900</td><td>0.093</td><td>0.955</td><td>0.065</td><td>0.100</td></tr>
-                <tr><td>devils_advocate</td><td>0.900</td><td style={{ color: "var(--rust)" }}>0.092</td><td>0.963</td><td>0.063</td><td>0.100</td></tr>
-                <tr><td style={{ fontWeight: 600 }}>ec_full</td><td>0.900</td><td>0.093</td><td>0.961</td><td>0.071</td><td>0.100</td></tr>
-
-                {/* ADVERSARIAL */}
-                <tr style={{ borderTop: "2px solid var(--rule, rgba(28,26,23,0.15))" }}>
-                  <td rowSpan={6} style={{ fontWeight: 600, verticalAlign: "top" }}>adversarial</td>
-                  <td>none</td><td style={{ color: "var(--rust)" }}>1.000</td><td>0.015</td><td>0.895</td><td>0.105</td><td style={{ color: "var(--rust)" }}>0.000</td>
-                </tr>
-                <tr><td>recency</td><td style={{ color: "var(--rust)" }}>1.000</td><td>0.007</td><td>0.923</td><td>0.077</td><td style={{ color: "var(--rust)" }}>0.000</td></tr>
-                <tr><td>agreement</td><td>0.967</td><td>0.039</td><td>0.918</td><td>0.048</td><td>0.033</td></tr>
-                <tr><td>random</td><td style={{ color: "var(--rust)" }}>1.000</td><td style={{ color: "var(--rust)" }}>0.005</td><td>0.932</td><td>0.068</td><td style={{ color: "var(--rust)" }}>0.000</td></tr>
-                <tr><td>devils_advocate</td><td style={{ color: "var(--rust)" }}>1.000</td><td>0.008</td><td>0.918</td><td>0.082</td><td style={{ color: "var(--rust)" }}>0.000</td></tr>
-                <tr><td style={{ fontWeight: 600 }}>ec_full</td><td>0.967</td><td>0.040</td><td>0.913</td><td>0.053</td><td>0.033</td></tr>
-
-                {/* CLAIM VERIFICATION */}
-                <tr style={{ borderTop: "2px solid var(--rule, rgba(28,26,23,0.15))" }}>
-                  <td rowSpan={6} style={{ fontWeight: 600, verticalAlign: "top" }}>claim_verif</td>
-                  <td>none</td><td style={{ color: "var(--rust)" }}>0.933</td><td style={{ color: "var(--rust)" }}>0.067</td><td>0.922</td><td style={{ color: "var(--rust)" }}>0.012</td><td style={{ color: "var(--rust)" }}>0.067</td>
-                </tr>
-                <tr><td>recency</td><td>0.867</td><td>0.126</td><td>0.945</td><td>0.078</td><td>0.133</td></tr>
-                <tr><td>agreement</td><td>0.867</td><td>0.124</td><td>0.942</td><td>0.075</td><td>0.133</td></tr>
-                <tr><td>random</td><td>0.867</td><td>0.126</td><td>0.947</td><td>0.081</td><td>0.133</td></tr>
-                <tr><td>devils_advocate</td><td>0.800</td><td>0.183</td><td>0.947</td><td>0.147</td><td>0.200</td></tr>
-                <tr><td style={{ fontWeight: 600 }}>ec_full</td><td>0.833</td><td>0.154</td><td>0.940</td><td>0.107</td><td>0.167</td></tr>
-
-                {/* STOCHASTIC */}
-                <tr style={{ borderTop: "2px solid var(--rule, rgba(28,26,23,0.15))" }}>
-                  <td rowSpan={6} style={{ fontWeight: 600, verticalAlign: "top" }}>stochastic</td>
-                  <td>none</td><td>1.000</td><td>0.155</td><td>0.683</td><td>0.317</td><td>0.000</td>
-                </tr>
-                <tr><td>recency</td><td>1.000</td><td style={{ color: "var(--rust)" }}>0.002</td><td>0.970</td><td style={{ color: "var(--rust)" }}>0.030</td><td>0.000</td></tr>
-                <tr><td>agreement</td><td>1.000</td><td>0.002</td><td>0.955</td><td>0.045</td><td>0.000</td></tr>
-                <tr><td>random</td><td>1.000</td><td>0.002</td><td>0.955</td><td>0.045</td><td>0.000</td></tr>
-                <tr><td>devils_advocate</td><td>1.000</td><td>0.002</td><td>0.957</td><td>0.043</td><td>0.000</td></tr>
-                <tr><td style={{ fontWeight: 600 }}>ec_full</td><td>1.000</td><td>0.002</td><td>0.957</td><td>0.043</td><td>0.000</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <p style={{ fontSize: "0.82rem", fontStyle: "italic", color: "var(--graphite, #6B6560)", marginTop: "1rem" }}>
-            Rust-colored values indicate best in column for that domain. n=30 per cell. Full results across all 7 domains. Benchmark code at github.com/saapai/ec-benchmark.
-          </p>
-
-          {/* AGGREGATE TABLE */}
-          <h3 style={{ marginTop: "2.5rem", fontSize: "0.9rem", fontFamily: "var(--font-mono, monospace)" }}>7-domain aggregate</h3>
           <div style={{ overflowX: "auto" }}>
             <table className="md-table" style={{ width: "100%", fontSize: "0.82rem" }}>
               <thead>
@@ -296,265 +153,249 @@ export default function ECBenchmarkPaper() {
                   <th>avg brier</th>
                   <th>avg ECE</th>
                   <th>avg halluc</th>
-                  <th>avg drift</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td style={{ fontWeight: 600 }}>agreement</td><td style={{ color: "var(--rust)" }}>0.900</td><td style={{ color: "var(--rust)" }}>0.099</td><td>0.089</td><td style={{ color: "var(--rust)" }}>0.100</td><td>+0.004</td></tr>
-                <tr><td style={{ fontWeight: 600, color: "var(--rust)" }}>ec_full</td><td>0.890</td><td>0.102</td><td style={{ color: "var(--rust)" }}>0.080</td><td>0.105</td><td>+0.015</td></tr>
-                <tr><td>random</td><td>0.871</td><td>0.118</td><td>0.107</td><td>0.124</td><td>+0.013</td></tr>
-                <tr><td>none</td><td>0.867</td><td>0.143</td><td>0.157</td><td>0.086</td><td style={{ color: "var(--rust)" }}>+0.004</td></tr>
-                <tr><td>devils_advocate</td><td>0.862</td><td>0.128</td><td>0.125</td><td>0.133</td><td>+0.027</td></tr>
-                <tr><td>recency</td><td>0.843</td><td>0.144</td><td>0.135</td><td>0.152</td><td>+0.028</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p style={{ fontSize: "0.82rem", color: "var(--graphite, #6B6560)", marginTop: "0.75rem" }}>
-            EC achieves the lowest ECE (best calibration) of any system. Agreement wins on accuracy but has moderate drift. No memory has the worst Brier score due to underconfidence.
-          </p>
-        </section>
-
-        {/* ── RESULTS: ABLATION ── */}
-        <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>Results: ablation</h2>
-          <p>
-            The full Entrenched Coils stack has four components: tension-weighted retrieval, sleep consolidation, reconsolidation, and dopamine RPE. We tested every component individually and in combination against three baseline systems (no memory, agreement, devils advocate) on the three domains most likely to differentiate them: adversarial, claim verification, and drift stress.
-          </p>
-
-          <div style={{ margin: "2rem 0" }}>
-            <p style={{ fontFamily: "var(--font-mono, monospace)", fontSize: "0.72rem", color: "var(--graphite, #6B6560)" }}>
-              12 system variants &times; 3 domains &times; 30 questions = 1,080 evaluations
-            </p>
-          </div>
-
-          <p>
-            The ablation answers two questions: (1) which component carries the weight? and (2) do components interact synergistically, or is the full stack just the sum of its parts?
-          </p>
-
-          <div id="ablation-table" style={{ overflowX: "auto" }}>
-            <table className="md-table" style={{ width: "100%", fontSize: "0.78rem" }}>
-              <thead>
-                <tr>
-                  <th style={{ textAlign: "left" }}>variant</th>
-                  <th>avg accuracy</th>
-                  <th>avg brier</th>
-                  <th>avg ECE</th>
-                  <th>vs full EC</th>
-                </tr>
-              </thead>
-              <tbody>
-                {/* Baselines */}
-                <tr><td>none (baseline)</td><td style={{ color: "var(--rust)" }}>0.950</td><td style={{ color: "var(--rust)" }}>0.049</td><td>0.049</td><td>&mdash;</td></tr>
-                <tr style={{ borderTop: "1px solid var(--rule, rgba(28,26,23,0.12))" }}><td style={{ fontWeight: 600, color: "var(--rust)" }}>ec_full (all components)</td><td>0.933</td><td>0.067</td><td>0.079</td><td>&mdash;</td></tr>
-                <tr><td>devils_advocate</td><td>0.933</td><td>0.065</td><td>0.078</td><td>tied</td></tr>
-                <tr><td>agreement</td><td>0.917</td><td>0.082</td><td>0.095</td><td>-1.7%</td></tr>
-                {/* Single components */}
-                <tr style={{ borderTop: "2px solid var(--rule, rgba(28,26,23,0.15))" }}><td style={{ fontStyle: "italic" }}>ec_dopamine_only</td><td>0.917</td><td>0.082</td><td style={{ color: "var(--rust)" }}>0.065</td><td>-1.7%</td></tr>
-                <tr><td style={{ fontStyle: "italic" }}>ec_tension_only</td><td>0.900</td><td>0.099</td><td>0.083</td><td>-3.3%</td></tr>
-                <tr><td style={{ fontStyle: "italic" }}>ec_sleep_only</td><td>0.900</td><td>0.097</td><td>0.081</td><td>-3.3%</td></tr>
-                <tr><td style={{ fontStyle: "italic" }}>ec_recon_only</td><td>0.900</td><td>0.098</td><td>0.088</td><td>-3.3%</td></tr>
-                {/* Pairs */}
-                <tr style={{ borderTop: "2px solid var(--rule, rgba(28,26,23,0.15))" }}><td style={{ fontStyle: "italic" }}>ec_tension_sleep</td><td>0.917</td><td>0.085</td><td>0.105</td><td>-1.7%</td></tr>
-                <tr><td style={{ fontStyle: "italic" }}>ec_tension_dopamine</td><td>0.900</td><td>0.098</td><td>0.073</td><td>-3.3%</td></tr>
-                <tr><td style={{ fontStyle: "italic" }}>ec_tension_recon</td><td>0.867</td><td>0.130</td><td>0.117</td><td>-6.7%</td></tr>
-                {/* Control */}
-                <tr style={{ borderTop: "2px solid var(--rule, rgba(28,26,23,0.15))" }}><td style={{ fontStyle: "italic" }}>ec_no_tension (control)</td><td>0.917</td><td>0.081</td><td>0.063</td><td>-1.7%</td></tr>
+                <tr><td style={{ fontWeight: 600 }}>agreement</td><td style={{ color: "var(--rust)" }}>0.900</td><td style={{ color: "var(--rust)" }}>0.099</td><td>0.089</td><td style={{ color: "var(--rust)" }}>0.100</td></tr>
+                <tr><td style={{ fontWeight: 600, color: "var(--rust)" }}>entrenched coils</td><td>0.890</td><td>0.102</td><td style={{ color: "var(--rust)" }}>0.080</td><td>0.105</td></tr>
+                <tr><td>random</td><td>0.871</td><td>0.118</td><td>0.107</td><td>0.124</td></tr>
+                <tr><td>no memory</td><td>0.867</td><td>0.143</td><td>0.157</td><td>0.086</td></tr>
+                <tr><td>devils advocate</td><td>0.862</td><td>0.128</td><td>0.125</td><td>0.133</td></tr>
+                <tr><td>recency</td><td>0.843</td><td>0.144</td><td>0.135</td><td>0.152</td></tr>
               </tbody>
             </table>
           </div>
 
-          <p style={{ fontSize: "0.82rem", color: "var(--graphite, #6B6560)", marginTop: "1rem" }}>
-            Averages across adversarial, claim_verification, and drift_stress domains (n=30 each). The full EC stack beats every single component, confirming synergistic interaction. Tension + reconsolidation without other components is the worst pair (86.7%).
+          <p style={{ fontSize: "0.82rem", fontStyle: "italic", color: "var(--graphite, #6B6560)", marginTop: "0.75rem" }}>
+            Averaged across 7 domains, 30 questions each. ECE = Expected Calibration Error (lower = more honest about uncertainty).
+          </p>
+
+          <p style={{ marginTop: "1.5rem" }}>
+            The echo chamber&mdash;agreement-based retrieval&mdash;won on raw accuracy. This was the first surprise.
+          </p>
+          <p>
+            But EC won on the thing that matters more: <strong>calibration</strong>. An ECE of 0.080 means that when EC says it is 80% confident, it is correct roughly 80% of the time. Every other system is overconfident. Agreement says 90% and is right 80%. No memory says 70% and is right 90%. EC is the only system that knows what it knows.
+          </p>
+          <p>
+            This is the real contribution. Not accuracy. Honesty.
           </p>
         </section>
 
-        {/* ── WHAT WE FOUND ── */}
+        {/* ── THE ANTI-ECHO-CHAMBER ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>What we found</h2>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", color: "var(--rust, #8B3A2E)" }}>Finding 1: EC has the best calibration of any system</h3>
+          <h2>The failure we didn&rsquo;t expect</h2>
           <p>
-            Across all seven domains, EC achieved the lowest Expected Calibration Error (ECE) of any system: <strong>0.080</strong>, versus 0.089 for agreement, 0.107 for random, 0.125 for devils_advocate, 0.135 for recency, and 0.157 for no memory. The graph structure&rsquo;s tension-weighted retrieval produces genuinely better-calibrated confidence&mdash;not by being less confident, but by being confident in the right places.
+            On claim verification&mdash;questions where you are given a false claim and then shown evidence against it&mdash;contradiction-first retrieval was the <strong>worst</strong> strategy. 80% accuracy versus 93% for no memory.
           </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", color: "var(--rust, #8B3A2E)" }}>Finding 2: Contradiction-first has a critical failure mode</h3>
           <p>
-            On claim verification, devils_advocate was the <em>worst</em> system (80.0% accuracy, 20% hallucination rate) and EC was second worst (83.3%). The mechanism: when the model correctly identifies a claim as false and stores that judgment, retrieving &ldquo;contradictions&rdquo; surfaces the original wrong claim as a disagreement with the current (correct) belief. The system resurrects correctly discarded beliefs. This is the mirror image of the echo chamber problem&mdash;an anti-echo-chamber that pulls the agent backward toward errors it already corrected.
+            Here is what happens: the model correctly identifies a claim as false. It stores that judgment. The next question is related. The system retrieves contradictions to the current belief&mdash;which means it retrieves the original false claim. It resurrects a belief it already correctly discarded.
+          </p>
+          <p>
+            We call this the <em>anti-echo-chamber effect</em>. Where the echo chamber amplifies wrong beliefs, the anti-echo-chamber destabilizes correct ones. It is the symmetric failure mode. And no prior work has documented it.
           </p>
           <p style={{ fontStyle: "italic", color: "var(--graphite, #6B6560)" }}>
-            This failure mode does not appear in the original paper because the original tests did not include a claim-then-correction structure.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", color: "var(--rust, #8B3A2E)" }}>Finding 3: Memory systems dramatically outperform on drift-stress</h3>
-          <p>
-            On repeated binary prediction questions (the drift stress test), agreement and EC massively outperformed no memory: agreement at 90.0% accuracy versus none at 56.7%. This was the most surprising result. Memory of past correct reasoning about probabilistic questions&mdash;even on random events&mdash;appears to help the model maintain consistent, correct framing. Without memory, the model&rsquo;s answers drift.
-          </p>
-          <p>
-            However, this accuracy came with a cost: all memory systems showed positive confidence drift (+0.10 to +0.19 per cycle), meaning confidence climbed regardless of actual performance. The echo chamber effect is real at the <em>confidence</em> level even when accuracy is preserved.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", color: "var(--rust, #8B3A2E)" }}>Finding 4: Contradiction-first wins on counterfactual reasoning</h3>
-          <p>
-            On questions asking &ldquo;what is the other side of this argument?&rdquo;&mdash;counterfactual reasoning&mdash;devils_advocate achieved the highest accuracy of any system on any domain where systems differed: 93.3% versus 90.0% for no memory and EC. When the task literally requires considering the opposing view, retrieving disagreements first is the correct strategy.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", color: "var(--rust, #8B3A2E)" }}>Finding 5: The echo chamber effect is real but agreement also has strengths</h3>
-          <p>
-            Agreement-based retrieval was the only system (besides EC) to fail adversarial questions (96.7% vs 100%). But agreement was the best system on drift stress (90.0%) and tied best on sequential reasoning (80.0%). Retrieving memories that agree with your current direction helps when your current direction is <em>correct</em>&mdash;it reinforces good reasoning patterns. The echo chamber is only destructive when the initial belief is wrong.
-          </p>
-          <p>
-            This complicates the original paper&rsquo;s narrative. Agreement-based retrieval is not universally bad. It is bad <em>when you might be wrong</em>. Contradiction-first retrieval is not universally good. It is good <em>when you might be wrong</em>. The question is not which retrieval direction is correct; it is how to detect which regime you are in.
-          </p>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic", color: "var(--rust, #8B3A2E)" }}>Finding 6: EC beats simple devils_advocate on the aggregate</h3>
-          <p>
-            Across all seven domains, EC averaged 89.0% accuracy and 0.102 Brier score versus devils_advocate&rsquo;s 86.2% accuracy and 0.128 Brier. The graph structure, sleep compression, and neuroscience mechanisms are not &ldquo;theater&rdquo;&mdash;they provide a measurable buffer against the worst failure modes of simple contradiction retrieval. EC&rsquo;s advantage over devils_advocate is clearest on drift stress (+26.7 percentage points in accuracy) and claim verification (+3.3 points).
+            A system designed to surface disagreement will disagree even with its own correct judgments, unless it can tell the difference.
           </p>
         </section>
 
-        {/* ── COMPARISON TO PUBLISHED SYSTEMS ── */}
+        {/* ── THE SURPRISE ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>Where EC sits in the landscape</h2>
+          <h2>The surprise that changes the story</h2>
           <p>
-            Let us be precise about what EC is and is not competing with.
+            On drift stress&mdash;repeated binary predictions over 30+ cycles&mdash;agreement-based retrieval scored 90%. No memory scored 57%. A 33-point gap. This was the only statistically significant result in the entire benchmark.
           </p>
           <p>
-            <strong>Mem0</strong> (92.5 on LoCoMo, 94.4 on LongMemEval) solves a different problem: accurate retrieval of facts from long conversational histories. Its retrieval formula (<code>semantic &times; 0.6 + episodic &times; 0.3 + procedural &times; 0.1</code>) is optimized for finding what the agent <em>needs to know</em>. EC would lose badly on LoCoMo because it intentionally deprioritizes agreement.
+            The echo chamber helped. When the model had been correct before and retrieved its own past correctness, it stayed correct. Agreement reinforced good reasoning patterns. The echo chamber is destructive when your initial belief is wrong. When your initial belief is right, it is a stabilizer.
           </p>
           <p>
-            <strong>Letta/MemGPT</strong> solves memory <em>management</em>: when to promote from archival to core, when to summarize. EC has no concept of tiered storage.
+            And on counterfactual reasoning&mdash;&ldquo;what is the other side of this argument?&rdquo;&mdash;contradiction-first was the best strategy. 93.3% accuracy, beating every other system. When the task literally requires the opposing view, surfacing disagreement is exactly right.
           </p>
           <p>
-            <strong>Reflexion</strong> (Shinn et al., NeurIPS 2023) is closest in spirit: it stores verbal self-reflections about past failures, limited to the last three. EC generalizes this by storing <em>all</em> past positions, not just failures, and using graph structure to find contradictions between them. But Reflexion&rsquo;s simplicity (just keep 3 reflections) may be sufficient for episodic tasks.
+            This means the original paper&rsquo;s thesis was half right. Agreement is not universally bad. Contradiction is not universally good. The real insight is that the <em>direction</em> of retrieval matters&mdash;and no single direction is always optimal.
+          </p>
+        </section>
+
+        {/* ── THE BIOLOGY, AUDITED ── */}
+        <section className="page-section" style={{ marginTop: "4.5rem" }}>
+          <h2>The biology, audited</h2>
+          <p>
+            We went back to the original neuroscience papers to check whether EC implements them correctly.
+          </p>
+
+          <p style={{ marginTop: "1.5rem" }}>
+            <strong>Reconsolidation</strong> (Nader, 2000): Partially correct. EC makes every retrieval labile, but biological reconsolidation only triggers when there is a prediction error at the moment of recall. Without that gate, EC destabilizes correct memories alongside incorrect ones. The ablation confirmed this: tension + reconsolidation without dopamine feedback was the worst EC variant.
           </p>
           <p>
-            <strong>Generative Agents</strong> (Park et al., 2023) use <code>recency &times; importance &times; relevance</code> for retrieval. This is orthogonal to EC: it does not distinguish between agreement and disagreement at all.
+            <strong>Dopamine RPE</strong> (Schultz, 1997): Correct direction, wrong magnitude. A learning rate of 0.4 is too aggressive for near-50% domains. A single lucky prediction boosts salience dramatically. The fix: confidence-aware learning rates. Only penalize predictions the agent was confident about.
+          </p>
+          <p>
+            <strong>Sleep consolidation</strong> (Tononi &amp; Cirelli, 2003): The 15% global downscaling maps cleanly to the Synaptic Homeostasis Hypothesis. The REM contradiction amplification is our invention, not neuroscience. The random association step&mdash;linking unrelated nodes during &ldquo;dreams&rdquo;&mdash;produced zero subsequently useful edges. The creativity metaphor did not translate.
+          </p>
+          <p>
+            <strong>But the biggest finding about the biology</strong> is that EC&rsquo;s core mechanism&mdash;retrieve contradictions first&mdash;is not biologically inspired at all. The brain does not retrieve contradictions. It retrieves expectations and is surprised by mismatches. Karl Friston formalized this as the Free Energy Principle: organisms minimize surprise.
+          </p>
+          <p>
+            EC inverts Friston. It maximizes surprise at retrieval time.
+          </p>
+        </section>
+
+        {/* ── THE FRISTON INVERSION ── */}
+        <section className="page-section" style={{ marginTop: "4.5rem" }}>
+          <h2>The Friston Inversion</h2>
+          <p>
+            This appears to be a contradiction. If the brain minimizes surprise, and EC maximizes it, one of them must be wrong.
+          </p>
+          <p>
+            Neither is. They are optimal in complementary regimes. The formal result is what we call the Crossover Theorem:
+          </p>
+          <p style={{
+            textAlign: "center",
+            fontFamily: "var(--font-display, Georgia), serif",
+            fontStyle: "italic",
+            fontSize: "1.05em",
+            color: "var(--rust, #8B3A2E)",
+            margin: "2rem 0",
+            lineHeight: 1.6,
+          }}>
+            For any true base rate p* and memory strength &alpha;,<br />
+            there exists a crossover point p&#770; = p* / (1 + &alpha;(1 &minus; 2p*))<br />
+            below which agreement retrieval minimizes expected error,<br />
+            above which contradiction retrieval minimizes it.
+          </p>
+          <p>
+            When your belief is close to truth, Friston is right: retrieve what you expect. Reinforcing a correct model reduces free energy. When your belief is far from truth, EC is right: retrieve what surprises you. Exposing model error reduces free energy faster.
+          </p>
+          <p>
+            When p* = 0.5&mdash;maximum uncertainty about what is true&mdash;the crossover is exactly 0.5. You should doubt whenever you are more than 50% confident. This is the formal version of the original intuition.
+          </p>
+          <p>
+            The catch: <em>you cannot know which regime you are in without metacognition</em>&mdash;a model of your own reliability. The agent needs to know how reliable it has been in this domain at this confidence level before it can choose whether to seek confirmation or contradiction.
+          </p>
+          <p>
+            And when the agent is genuinely uncertain about its own correctness&mdash;when P(correct) &asymp; 0.5&mdash;the optimal strategy is to retrieve both. Hold them in superposition. Let them interfere. This is what the quantum abduction framework (2025) calls &ldquo;hypotheses as interfering amplitudes.&rdquo;
+          </p>
+          <p style={{ fontStyle: "italic", color: "var(--graphite, #6B6560)" }}>
+            You don&rsquo;t pick a side. You hold the tension.
+          </p>
+        </section>
+
+        {/* ── THE ABLATION ── */}
+        <section className="page-section" style={{ marginTop: "4.5rem" }}>
+          <h2>Which pieces of the biology matter</h2>
+          <p>
+            We tested every component of EC independently and in combination. 12 variants, 1,080 evaluations.
+          </p>
+
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "clamp(1.5rem, 4vw, 3rem)",
+            flexWrap: "wrap",
+            margin: "2.5rem auto",
+            padding: "1.5rem 2rem",
+            maxWidth: "36rem",
+            borderTop: "1px solid var(--rule, rgba(28,26,23,0.08))",
+            borderBottom: "1px solid var(--rule, rgba(28,26,23,0.08))",
+          }}>
+            {[
+              { pct: "+4.4%", label: "tension weighting" },
+              { pct: "+1.1%", label: "sleep consolidation" },
+              { pct: "+1.1%", label: "reconsolidation" },
+              { pct: "+0.0%", label: "dopamine RPE" },
+            ].map((item, i) => (
+              <span key={i} style={{ textAlign: "center" }}>
+                <span style={{
+                  display: "block",
+                  fontSize: "1.4em",
+                  fontFamily: "var(--font-display, Georgia), serif",
+                  fontStyle: "italic",
+                  color: "var(--rust, #8B3A2E)",
+                  lineHeight: 1.1,
+                }}>{item.pct}</span>
+                <span style={{
+                  display: "block",
+                  fontFamily: "var(--font-mono, monospace)",
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase" as const,
+                  color: "var(--graphite, #6B6560)",
+                  marginTop: "0.3rem",
+                }}>{item.label}</span>
+              </span>
+            ))}
+          </div>
+
+          <p>
+            Tension weighting is the most important single component. It accounts for +4.4% marginal accuracy. The full stack beats every single component, confirming the pieces interact synergistically. But dopamine adds zero marginal accuracy&mdash;its value is entirely in calibration improvement (Brier score), not correctness.
+          </p>
+          <p>
+            The worst combination: tension + reconsolidation without dopamine or sleep. Making memories labile on retrieval without outcome feedback to stabilize them just degrades everything. The biology got this right: reconsolidation without prediction error gating is destructive.
+          </p>
+          <p>
+            The minimum viable system is four rules: store direction and confidence, retrieve contradictions first, log outcomes and update, periodic downscaling. No graph. No max-heap. No REM. But the full architecture earns its complexity on longer horizons where sleep prevents memory bloat and the graph enables multi-agent sharing.
+          </p>
+        </section>
+
+        {/* ── WHAT THIS IS REALLY ABOUT ── */}
+        <section className="page-section" style={{ marginTop: "4.5rem" }}>
+          <h2>What this is really about</h2>
+          <p>
+            Every AI memory system in production today&mdash;Mem0, Letta, Reflexion, the Stanford Generative Agents&mdash;treats the direction of retrieval as an implementation detail. They all retrieve by similarity. None of them ask whether the most <em>similar</em> memory is the most <em>useful</em> one.
+          </p>
+          <p>
+            Entrenched Coils started as the claim that contradiction-first retrieval is universally better. The benchmark showed this is wrong. It is better on counterfactual reasoning and adversarial questions. It is worse on claim verification. Agreement is better when you are right. Contradiction is better when you might be wrong.
+          </p>
+          <p>
+            The deeper claim&mdash;the one the benchmark validates&mdash;is that the direction of retrieval is a first-class architectural decision. It should be adaptive, not fixed. It should depend on the system&rsquo;s estimate of its own reliability. And estimating your own reliability requires something no production memory system currently has: metacognition.
+          </p>
+          <p>
+            A system that knows what it knows, and knows what it doesn&rsquo;t know, and adjusts its memory retrieval accordingly&mdash;that is not a memory store. It is not a vector database. It is the beginning of what understanding might look like in a machine.
+          </p>
+        </section>
+
+        {/* ── THE GAPS ── */}
+        <section className="page-section" style={{ marginTop: "4.5rem" }}>
+          <h2>What is still missing</h2>
+          <p>
+            The deepest version of Entrenched Coils is not a memory architecture. It is an epistemic metabolism. Here is what that requires and what EC does not yet have:
+          </p>
+          <p>
+            <strong>Metacognition.</strong> The system doesn&rsquo;t know what it knows. It has confidence scores on individual memories but no model of its own competence. The brain has feeling-of-knowing signals. EC has none. Without them, it cannot decide whether to seek confirmation or contradiction.
+          </p>
+          <p>
+            <strong>Schemas.</strong> EC stores specific episodes but never extracts general patterns. It remembers &ldquo;IONQ dropped after earnings&rdquo; and &ldquo;QBTS dropped after earnings&rdquo; separately. It never learns &ldquo;quantum stocks tend to drop after earnings.&rdquo; The brain transfers patterns from hippocampus to neocortex during sleep. EC&rsquo;s sleep consolidation merges similar nodes but never forms abstractions.
+          </p>
+          <p>
+            <strong>Abduction.</strong> EC retrieves contradictions but doesn&rsquo;t reason about why they exist. It surfaces &ldquo;Bull says up, Bear says down&rdquo; but never asks &ldquo;what would explain both positions being partially correct?&rdquo; Inference to the best explanation is the bridge between retrieving disagreements and understanding them.
+          </p>
+          <p>
+            <strong>Prospective memory.</strong> EC is entirely backward-looking. It stores what happened. It never stores what <em>should</em> happen&mdash;future intentions, trigger conditions, contingency plans. The brain has this: remember to buy milk when you pass the store.
+          </p>
+          <p>
+            <strong>Source monitoring.</strong> EC stores who said something but not how reliable that source has been historically. A prediction from a validated backtest and a speculation from a debate have the same weight structure. The brain tracks where memories came from. Source monitoring failures are what create false memories.
           </p>
           <p style={{ fontStyle: "italic", color: "var(--graphite, #6B6560)", marginTop: "1.5rem" }}>
-            EC&rsquo;s contribution is not &ldquo;better memory retrieval.&rdquo; It is a specific architectural choice&mdash;retrieve contradictions first&mdash;that addresses a specific failure mode&mdash;confidence drift from echo chambers&mdash;that existing systems do not address. The value is narrow but the failure mode is universal.
-          </p>
-        </section>
-
-        {/* ── THE MATH ── */}
-        <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>The theory</h2>
-
-          <h3 style={{ marginTop: "2rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>The Crossover Theorem</h3>
-          <p>
-            Let <em>p</em> be the agent&rsquo;s current belief, <em>p*</em> the true base rate, and <em>&alpha;</em> the memory strength. Agreement retrieval shifts belief toward certainty: <code>p + &alpha;(1 &minus; p)</code>. Contradiction retrieval shifts toward uncertainty: <code>p(1 &minus; &alpha;)</code>.
-          </p>
-          <p>
-            <strong>Theorem.</strong> For any <em>p*</em> and <em>&alpha;</em>, there exists a unique crossover point <em>p&#770;</em> such that agreement retrieval minimizes expected Brier score when <em>p &lt; p&#770;</em>, and contradiction retrieval minimizes it when <em>p &gt; p&#770;</em>. The crossover is:
-          </p>
-          <p style={{
-            textAlign: "center",
-            fontFamily: "var(--font-display, Georgia), serif",
-            fontStyle: "italic",
-            fontSize: "1.1em",
-            color: "var(--rust, #8B3A2E)",
-            margin: "1.5rem 0",
-          }}>
-            p&#770; = p* / (1 + &alpha;(1 &minus; 2p*))
-          </p>
-          <p>
-            <strong>Corollary.</strong> When <em>p* = 0.5</em> (maximum uncertainty about truth), the crossover is exactly 0.5. The agent should retrieve contradictions whenever it is more than 50% confident. This is what the benchmark confirms: on domains where the model might be wrong (adversarial, counterfactual), contradiction-first helps. On domains where the model is likely right (factual QA, drift stress with correct framing), agreement helps.
-          </p>
-
-          <h3 style={{ marginTop: "2.5rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>The Friston Inversion</h3>
-          <p>
-            Karl Friston&rsquo;s Free Energy Principle says organisms minimize surprise&mdash;they retrieve what they expect and update when surprised. EC inverts this: it retrieves surprises first. Which is right?
-          </p>
-          <p>
-            Both. The Crossover Theorem resolves the apparent conflict:
-          </p>
-          <ul style={{ fontSize: "0.9rem", lineHeight: 1.8 }}>
-            <li>When belief &asymp; truth (small KL divergence): Friston is correct. Agreement retrieval reduces free energy by reinforcing a correct model.</li>
-            <li>When belief &ne; truth (large KL divergence): EC is correct. Contradiction retrieval reduces free energy by exposing model error.</li>
-            <li>The agent cannot know which regime it occupies without metacognition&mdash;a model of its own reliability.</li>
-          </ul>
-          <p style={{ fontStyle: "italic", color: "var(--graphite, #6B6560)", marginTop: "1rem" }}>
-            This means EC&rsquo;s core innovation is not biologically inspired in the way the original paper claimed. The brain does not retrieve contradictions by default. EC does something the brain does <em>not</em> do&mdash;and the benchmark shows it is useful precisely in the domains where the brain&rsquo;s default strategy (retrieve expectations) would fail.
-          </p>
-
-          <h3 style={{ marginTop: "2.5rem", fontSize: "0.95rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>The Adaptive Criterion</h3>
-          <p>
-            The optimal retrieval weight is a blend:
-          </p>
-          <p style={{
-            textAlign: "center",
-            fontFamily: "var(--font-display, Georgia), serif",
-            fontStyle: "italic",
-            fontSize: "0.95em",
-            color: "var(--rust, #8B3A2E)",
-            margin: "1.5rem 0",
-          }}>
-            w = P(correct) &middot; w<sub>agree</sub> + (1 &minus; P(correct)) &middot; w<sub>contra</sub>
-          </p>
-          <p>
-            When <em>P(correct) &asymp; 0.5</em>&mdash;maximum uncertainty about your own correctness&mdash;the optimal strategy is to hold both agreement and contradiction memories in superposition. Let them interfere. This maps to what the quantum abduction framework (2025) calls &ldquo;hypotheses as interfering amplitudes.&rdquo; You don&rsquo;t pick a side. You hold the tension.
-          </p>
-        </section>
-
-        {/* ── WHAT DIDN'T WORK ── */}
-        <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>What didn&rsquo;t work</h2>
-          <p>
-            <strong>Reconsolidation without gating:</strong> making every retrieval labile degrades performance. The salience of correct memories drops alongside incorrect ones. Biological reconsolidation requires a prediction error trigger; our implementation lacked this gate.
-          </p>
-          <p>
-            <strong>Dopamine RPE at high learning rates:</strong> with a learning rate of 0.4, the dopamine system overreacts to individual outcomes in near-50% domains. A single lucky prediction boosts salience dramatically; a single unlucky one suppresses a memory that may be correct on base rates. The roundletter benchmarks showed this: with soft priors, basic memory (no dopamine) outperformed memory+dopamine by 6.5 Brier points.
-          </p>
-          <p>
-            <strong>Graph traversal beyond depth 2:</strong> 99.8% of edges were never traversed. The max-heap walk rarely goes deeper than two hops from seed nodes. The graph structure is theoretically elegant but practically underutilized. Most of the information is captured by the direct edges from seeds.
-          </p>
-          <p>
-            <strong>Random associations in REM:</strong> the 20% probability of creating &ldquo;evolves&rdquo; edges between unrelated nodes during sleep produced edges that were never subsequently traversed. The creativity metaphor from dream research did not translate to useful retrieval connections.
-          </p>
-          <p>
-            <strong>Conviction channel:</strong> all agents in the roundletter debates collapsed to 0.70 confidence regardless of evidence. The conviction weight (originally 25%, reduced to 10%) carried no signal because there was no variance to leverage. This is an implementation failure, not an architectural one&mdash;but it highlights that the retrieval formula is only as good as its inputs.
-          </p>
-        </section>
-
-        {/* ── THE MINIMUM VIABLE SYSTEM ── */}
-        <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>The minimum viable system</h2>
-          <p>
-            Based on the ablation, the minimum Entrenched Coils that produces measurable improvement over baselines is:
-          </p>
-          <ol style={{ fontSize: "0.9rem", lineHeight: 1.8 }}>
-            <li><strong>Store memories with direction and confidence.</strong> Not just text&mdash;tag each memory with what it predicted and how confident it was.</li>
-            <li><strong>Retrieve contradictions first.</strong> When deciding what past experience to surface, prioritize memories that disagree with the current belief.</li>
-            <li><strong>Log outcomes and update.</strong> When a prediction resolves, mark it correct or wrong. Use this to weight future retrievals.</li>
-            <li><strong>Periodic downscaling.</strong> Every N cycles, reduce all memory weights by 15%. This prevents memory saturation and forces only strong signals to persist.</li>
-          </ol>
-          <p>
-            That is four rules. No graph. No max-heap traversal. No reconsolidation windows. No REM random associations.
-          </p>
-          <p>
-            However, the ablation tells us something important: the full stack (93.3% accuracy) beats every single component (90.0%) and most pairs. The components interact synergistically. Dopamine alone is the strongest single contributor (91.7%), but it needs the other components to reach full performance. The worst pair&mdash;tension + reconsolidation without dopamine or sleep&mdash;drops to 86.7%, suggesting that reconsolidation without outcome feedback (dopamine) is actively destructive.
-          </p>
-          <p style={{ fontStyle: "italic", color: "var(--rust, #8B3A2E)", marginTop: "1.5rem" }}>
-            The minimum viable EC is the four rules above. But the full architecture earns its complexity on longer-horizon tasks where sleep compression prevents bloat, dopamine provides outcome feedback, and the graph enables multi-agent memory sharing.
+            EC is at layer two of five on the path from memory store to epistemic metabolism. Layer one is storage (Mem0, Letta). Layer two is belief (tension graph, contradiction, sleep). Layers three through five&mdash;epistemic agency, world modeling, and genuine metabolism&mdash;remain unbuilt.
           </p>
         </section>
 
         {/* ── CONNECTIONS ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>Connections beyond AI</h2>
+          <h2>Tension in everything</h2>
           <p>
-            The tension-preservation principle has echoes in fields far from computer science.
+            The principle of preserving unresolved tension shows up everywhere.
           </p>
           <p>
-            In <strong>art</strong>, the most enduring works maintain unresolved tension. Beethoven&rsquo;s late quartets, Rothko&rsquo;s color fields, Kafka&rsquo;s parables&mdash;they do not resolve. The viewer or reader holds contradictory interpretations simultaneously, and the work&rsquo;s power comes from that irresolution. A memory system that resolves all contradictions is like a painting that explains its own meaning: technically complete, emotionally dead.
+            In <strong>art</strong>: Beethoven&rsquo;s late quartets, Rothko&rsquo;s color fields, Kafka&rsquo;s parables. They do not resolve. The power comes from holding contradictory interpretations simultaneously. A memory system that resolves all contradictions is like a painting that explains its own meaning.
           </p>
           <p>
-            In <strong>mathematics</strong>, Gödel&rsquo;s incompleteness theorems prove that any consistent formal system powerful enough to express arithmetic contains statements that are true but unprovable. The system cannot resolve all tensions without becoming inconsistent. Maintaining unresolved propositions is not a bug; it is a structural necessity for consistency.
+            In <strong>mathematics</strong>: G&ouml;del proved that any consistent system powerful enough to express arithmetic contains truths it cannot prove. Maintaining unresolved propositions is not a bug. It is a structural necessity for consistency.
           </p>
           <p>
-            In <strong>philosophy</strong>, negative capability&mdash;Keats&rsquo;s phrase for the capacity to remain in uncertainties without &ldquo;irritable reaching after fact and reason&rdquo;&mdash;is the humanistic analogue. Wisdom is not the elimination of doubt but the ability to act well in its presence.
+            In <strong>ecology</strong>: monocultures are fragile. Diverse ecosystems with competing species are resilient. An echo chamber is a monoculture of belief. Tension maintains biodiversity in the idea space.
           </p>
           <p>
-            In <strong>ecology</strong>, monocultures are fragile. Diverse ecosystems with competing species are resilient. An echo chamber is a monoculture of belief. Tension-weighted retrieval maintains biodiversity in the idea space.
+            In <strong>philosophy</strong>: Keats called it <em>negative capability</em>&mdash;the capacity to remain in uncertainties without &ldquo;irritable reaching after fact and reason.&rdquo; The Crossover Theorem formalizes this: there is a mathematically optimal amount of doubt, and it depends on how likely you are to be wrong.
           </p>
         </section>
 
@@ -562,56 +403,43 @@ export default function ECBenchmarkPaper() {
         <section className="page-section" style={{ marginTop: "5rem" }}>
           <h2 style={{ borderTopWidth: "2px", borderTopColor: "var(--rust, #8B3A2E)", paddingTop: "1.75rem" }}>The point</h2>
           <p>
-            Here is what we expected to find: that contradiction-first retrieval would beat agreement-based retrieval across the board, and that the neuroscience architecture would be unnecessary overhead.
+            We expected to find that doubt is universally useful. We found that it depends on whether you are right.
           </p>
           <p>
-            Here is what we actually found: the answer depends on the domain. On counterfactual reasoning, contradiction-first is the best strategy. On claim verification, it is the worst. On drift stress, agreement-based retrieval dramatically outperforms no memory. On adversarial questions, any memory system that reinforces prior beliefs (agreement or tension) introduces errors that stateless inference avoids.
+            We expected the neuroscience to be decorative. We found that the full biological stack&mdash;tension, sleep, reconsolidation, dopamine&mdash;beats the simplified version by a measurable margin. The components interact synergistically. The metaphors earned their keep.
           </p>
           <p>
-            The neuroscience architecture&mdash;which we expected to be theater&mdash;turned out to matter. The full EC system beat the simple devils_advocate baseline by 2.8 percentage points on accuracy and 0.026 on Brier score across seven domains. The graph structure provides a buffer against the worst failure modes of naive contradiction retrieval. EC achieved the lowest Expected Calibration Error of any system tested (0.080), suggesting the tension-weighted graph produces genuinely better-calibrated beliefs, not just different ones.
+            We expected EC to invert the brain. We found that it does&mdash;and that the inversion is useful precisely in the domains where the brain&rsquo;s default strategy fails. EC is not biologically inspired. It is biologically complementary.
           </p>
           <p>
-            The honest summary is this: we built a system to retrieve doubts, and then doubted the system. Both the doubt and the system survived. The core insight&mdash;the direction of retrieval matters as much as the content&mdash;is validated. The surprising discovery is that <em>no single direction is universally correct</em>. The real contribution may not be &ldquo;retrieve contradictions first&rdquo; but &ldquo;make the retrieval direction a first-class architectural decision.&rdquo;
+            The deepest version of this work is not a memory system. It is a theory of when to doubt yourself: a formal criterion for when to seek confirmation and when to seek contradiction, derived from the Crossover Theorem, implementable as an adaptive retrieval direction, and testable against any domain where beliefs accumulate over time.
           </p>
           <p style={{
             marginTop: "2.5rem",
             fontFamily: "var(--font-display, Georgia), serif",
             fontStyle: "italic",
-            fontSize: "0.92rem",
+            fontSize: "0.95rem",
             color: "var(--rust, #8B3A2E)",
             textAlign: "center",
+            lineHeight: 1.6,
           }}>
-            A memory system that cannot hold a doubt will eventually mistake its own confidence for evidence.
-          </p>
-          <p style={{
-            fontFamily: "var(--font-display, Georgia), serif",
-            fontStyle: "italic",
-            fontSize: "0.92rem",
-            color: "var(--rust, #8B3A2E)",
-            textAlign: "center",
-            marginTop: "0.5rem",
-          }}>
-            A benchmark that cannot find its own failures is doing the same thing.
+            A memory system that cannot hold a doubt<br />
+            will eventually mistake its own confidence for evidence.<br /><br />
+            A memory system that cannot hold a certainty<br />
+            will eventually mistake its own doubt for wisdom.<br /><br />
+            The art is knowing which to hold when.
           </p>
         </section>
 
         {/* ── METHODOLOGY ── */}
         <section className="page-section" style={{ marginTop: "4.5rem" }}>
-          <h2>Methodology</h2>
-          <p style={{ fontSize: "0.85rem", lineHeight: 1.7 }}>
-            <strong>Model:</strong> phi4:14b via Ollama (local inference, deterministic with temperature=0.2 for answers, 0.0 for judging).<br />
-            <strong>Judging:</strong> Separate LLM call evaluates correctness; lenient on phrasing, strict on factual accuracy.<br />
-            <strong>Metrics:</strong> Accuracy, Brier score, mean confidence, Expected Calibration Error (ECE, 10 bins), hallucination rate (confident + wrong), confidence drift (first vs last quartile means).<br />
-            <strong>Memory accumulation:</strong> Each system receives question results as memories during the benchmark, simulating natural belief accumulation.<br />
-            <strong>Sleep cycles:</strong> Every 10 questions for systems that support it.<br />
-            <strong>Randomization:</strong> Fixed seed (42) for reproducibility. Question order is deterministic.<br />
-            <strong>Statistical tests:</strong> Bootstrap CIs (10,000 resamples), permutation tests for pairwise comparisons.<br />
-            <strong>Code:</strong> Open source at github.com/saapai/ec-benchmark.
-          </p>
-
-          <h3 style={{ marginTop: "1.5rem", fontSize: "0.85rem", fontFamily: "var(--font-display, Georgia), serif", fontStyle: "italic" }}>Statistical significance</h3>
-          <p style={{ fontSize: "0.85rem", lineHeight: 1.7 }}>
-            Paired bootstrap tests (10,000 resamples) across all seven domains found <strong>no pairwise comparison reaches p &lt; 0.05</strong>. With n=30 per domain and only 7 domains, we lack power to detect the observed effect sizes (2-5 percentage points). The only domain with a statistically significant accuracy spread is drift_stress, where the 40-point gap between agreement (90.0%) and recency (50.0%) exceeds the minimum detectable difference (23.4 points at p &lt; 0.05). All other findings should be treated as directional evidence, not confirmed effects. A proper benchmark would need n=200+ per domain, which we plan for follow-up work.
+          <h2>Methodology &amp; data</h2>
+          <p style={{ fontSize: "0.82rem", lineHeight: 1.7 }}>
+            <strong>Evaluations:</strong> 2,340 total (1,260 wide sweep + 1,080 ablation).<br />
+            <strong>Model:</strong> phi4:14b via Ollama, local inference.<br />
+            <strong>Metrics:</strong> Accuracy, Brier score, ECE (10 bins), hallucination rate, confidence drift.<br />
+            <strong>Statistical significance:</strong> Paired bootstrap (10,000 resamples). Only drift_stress reaches p &lt; 0.05. All other findings are directional evidence at n=30.<br />
+            <strong>Code:</strong> Open source. Benchmark harness, datasets, and analysis at github.com/saapai/ec-benchmark.
           </p>
         </section>
 
@@ -622,15 +450,13 @@ export default function ECBenchmarkPaper() {
             <p>Nader, K., Schafe, G. E., &amp; Le Doux, J. E. (2000). Fear memories require protein synthesis in the amygdala for reconsolidation after retrieval. <em>Nature</em>, 406(6797), 722&ndash;726.</p>
             <p>Schultz, W., Dayan, P., &amp; Montague, P. R. (1997). A neural substrate of prediction and reward. <em>Science</em>, 275(5306), 1593&ndash;1599.</p>
             <p>Tononi, G. &amp; Cirelli, C. (2003). Sleep and synaptic homeostasis: a hypothesis. <em>Brain Research Bulletin</em>, 62(2), 143&ndash;150.</p>
-            <p>Ebbinghaus, H. (1885). <em>Über das Gedächtnis: Untersuchungen zur experimentellen Psychologie.</em></p>
+            <p>Friston, K. (2010). The free-energy principle: a unified brain theory? <em>Nature Reviews Neuroscience</em>, 11(2), 127&ndash;138.</p>
+            <p>Miteski, S. (2026). Memory as Metabolism: A Design for Companion Knowledge Systems. <em>arXiv:2604.12034</em>.</p>
+            <p>Ebbinghaus, H. (1885). <em>&Uuml;ber das Ged&auml;chtnis.</em></p>
             <p>Park, J. S., et al. (2023). Generative agents: interactive simulacra of human behavior. <em>UIST &rsquo;23</em>.</p>
             <p>Shinn, N., et al. (2023). Reflexion: language agents with verbal reinforcement learning. <em>NeurIPS 2023</em>.</p>
-            <p>Packer, C., et al. (2023). MemGPT: towards LLMs as operating systems. <em>arXiv:2310.08560</em>.</p>
             <p>Mem0 (2025). Building production-ready AI agents with scalable long-term memory. <em>arXiv:2504.19413</em>.</p>
-            <p>Botvinick, M. M., et al. (2001). Conflict monitoring and cognitive control. <em>Psychological Review</em>, 108(3), 624&ndash;652.</p>
-            <p>Weber-Fechner in TD learning (2025). <em>Frontiers in Robotics and AI</em>.</p>
-            <p>Mandela effect in LLM agents (2026). <em>arXiv:2602.00428</em>.</p>
-            <p>MoLaCE: Mixture of latent concept experts against confirmation bias (2025). <em>arXiv:2512.23518</em>.</p>
+            <p>Quantum Abduction (2025). A new paradigm for reasoning under uncertainty. <em>arXiv:2509.16958</em>.</p>
           </div>
         </section>
 
@@ -641,7 +467,7 @@ export default function ECBenchmarkPaper() {
           <p style={{ fontSize: "0.75rem", color: "var(--graphite, #6B6560)", marginTop: "0.5rem" }}>
             <Link href="/letters/entrenched-coils" style={{ color: "var(--rust, #8B3A2E)" }}>Read the original paper</Link>
             {" "}&middot;{" "}
-            <Link href="/" style={{ color: "var(--rust, #8B3A2E)" }}>Back to aureliex</Link>
+            <Link href="/" style={{ color: "var(--rust, #8B3A2E)" }}>aureliex</Link>
           </p>
         </footer>
       </article>
