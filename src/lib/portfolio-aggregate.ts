@@ -17,11 +17,82 @@ export type SeriesPoint = { ts: number; value: number };
 export type ExternalEntry = {
   id?: string;
   label?: string;
+  investor?: string;
   amount: number;
   date: string;
   status?: string;
+  type?: string;
   book_at_entry?: number;
+  portfolio_value_at_entry?: number;
 };
+
+export type Shareholder = {
+  name: string;
+  slug: string;
+  entries: Array<{
+    id: string;
+    amount: number;
+    date: string;
+    type: string;
+    portfolio_value_at_entry: number;
+    ownership_pct: number;
+    current_value: number;
+  }>;
+  total_invested: number;
+  total_ownership_pct: number;
+  total_current_value: number;
+  total_gain: number;
+  total_return_pct: number;
+};
+
+export function getShareholders(currentPortfolioValue: number): Shareholder[] {
+  const entries = getExternalEntries();
+  const byName = new Map<string, Shareholder>();
+
+  for (const e of entries) {
+    const name = e.investor;
+    if (!name) continue;
+    const slug = name.split(" ")[0].toLowerCase();
+    const pvAtEntry = e.portfolio_value_at_entry ?? currentPortfolioValue;
+    const ownershipPct = (e.amount / pvAtEntry) * 100;
+    const currentValue = (e.amount / pvAtEntry) * currentPortfolioValue;
+
+    if (!byName.has(name)) {
+      byName.set(name, {
+        name,
+        slug,
+        entries: [],
+        total_invested: 0,
+        total_ownership_pct: 0,
+        total_current_value: 0,
+        total_gain: 0,
+        total_return_pct: 0,
+      });
+    }
+    const sh = byName.get(name)!;
+    sh.entries.push({
+      id: e.id ?? slug,
+      amount: e.amount,
+      date: e.date,
+      type: e.type ?? "cash",
+      portfolio_value_at_entry: pvAtEntry,
+      ownership_pct: ownershipPct,
+      current_value: currentValue,
+    });
+    sh.total_invested += e.amount;
+    sh.total_ownership_pct += ownershipPct;
+    sh.total_current_value += currentValue;
+  }
+
+  for (const sh of byName.values()) {
+    sh.total_gain = sh.total_current_value - sh.total_invested;
+    sh.total_return_pct = sh.total_invested > 0
+      ? ((sh.total_current_value - sh.total_invested) / sh.total_invested) * 100
+      : 0;
+  }
+
+  return Array.from(byName.values());
+}
 
 export type ArtPiece = {
   id: string;

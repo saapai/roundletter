@@ -13,6 +13,12 @@ const InteractiveTicket = dynamic(() => import("./InteractiveTicket"), { ssr: fa
    Text-first letter. No grids, no cards, no widgets.
    ═══════════════════════════════════════════════════════ */
 
+type ShareholderSummary = {
+  name: string;
+  slug: string;
+  total_current_value: number;
+};
+
 type Props = {
   totalNow: number;
   daysToBirthday: number;
@@ -20,6 +26,7 @@ type Props = {
   pendingCash: number;
   entryValue: number;
   nonStockValue: number;
+  shareholders?: ShareholderSummary[];
 };
 
 function useLiveTotal(
@@ -66,7 +73,7 @@ function fmt(n: number) {
 }
 
 export default function V9Client({
-  totalNow, daysToBirthday, holdings, pendingCash, entryValue, nonStockValue,
+  totalNow, daysToBirthday, holdings, pendingCash, entryValue, nonStockValue, shareholders = [],
 }: Props) {
   const { total, flash } = useLiveTotal(holdings, pendingCash, nonStockValue, totalNow);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -307,7 +314,17 @@ export default function V9Client({
         <div className="v9-backed v9-reveal">
           <span className="v9-backed-label">backed by</span>
           <div className="v9-backed-names">
-            <span>Franco Cachay</span><span>Elijah Bautista</span><span>Yashas Shashidara</span><span>Navya Rawal</span>
+            {shareholders.length > 0 ? shareholders.map((s) => (
+              <Link key={s.slug} href={`/shareholder/${s.slug}`} className="v9-backed-link">
+                <span className="v9-backed-name">{s.name}</span>
+                <span className="v9-backed-val">${fmt(s.total_current_value)}</span>
+              </Link>
+            )) : (
+              <>
+                <span>Franco Cachay</span><span>Elijah Bautista</span>
+                <span>Yashas Shashidara</span><span>Navya Rawal</span>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -703,6 +720,12 @@ const CSS = `
 .v9-backed-label { font-family: 'JetBrains Mono',monospace; font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(229,221,210,0.38); display: block; margin-bottom: 20px; }
 .v9-backed-names { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
 .v9-backed-names span { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 0.95rem; font-weight: 500; color: rgba(229,221,210,0.52); letter-spacing: 0.04em; }
+.v9-backed-link { display: flex; flex-direction: column; align-items: center; gap: 4px; text-decoration: none; transition: transform 200ms ease; }
+.v9-backed-link:hover { transform: translateY(-2px); }
+.v9-backed-link .v9-backed-name { font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif; font-size: 0.95rem; font-weight: 500; color: rgba(229,221,210,0.52); letter-spacing: 0.04em; transition: color 200ms ease; }
+.v9-backed-link:hover .v9-backed-name { color: rgba(229,221,210,0.85); }
+.v9-backed-link .v9-backed-val { font-family: 'JetBrains Mono',monospace; font-size: 0.5rem; letter-spacing: 0.08em; color: rgba(212,169,76,0.4); transition: color 200ms ease; }
+.v9-backed-link:hover .v9-backed-val { color: rgba(212,169,76,0.7); }
 
 /* ═══════ THE PAINTING ═══════ */
 .v9-painting {
@@ -987,7 +1010,7 @@ const CSS = `
   .v9-party-inner { padding: 3.5rem 1.25rem; }
   .v9-party-title { font-size: clamp(2.6rem,9vw,3.8rem); }
   .v9-backed { padding: 0 1.25rem 3rem; }
-  .v9-backed-names { flex-direction: column; align-items: center; gap: 14px; }
+  .v9-backed-names { flex-direction: column; align-items: center; gap: 18px; }
   .v9-door { min-height: 50vh; padding: 3rem 1.25rem; }
   .v9-door-line { font-size: 1.6rem; }
   .v9-closer { padding-top: 3rem; }
