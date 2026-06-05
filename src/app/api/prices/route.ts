@@ -10,14 +10,16 @@ export const runtime = "nodejs";
 export const revalidate = 900;
 
 const TICKERS = [
-  "QBTS",
   "NVDA",
   "MU",
-  "IONQ",
+  "AMD",
+  "QBTS",
   "QTUM",
   "NXPI",
-  "RGTI",
+  "GOOGL",
   "GOOG",
+  "CF",
+  "KTOS",
 ];
 
 type Series = { timestamps: number[]; closes: number[] };

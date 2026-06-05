@@ -11,9 +11,9 @@
   "peak_value": 4844.76,
   "peak_date": "2026-06-01",
   "drawdown_pct_from_peak": 0,
-  "_note_positions": "from Fidelity screenshot 2026-06-01 5:50 PM ET. MU up to $1035, NVDA $224. QBTS down -3.19%. portfolio at new ATH $4844.76.",
-  "pending_cash": 304.72,
-  "current_value_today": 4844.76,
+  "_note_positions": "from Fidelity screenshot 2026-06-05 7:24 PM ET. Jun-02 rebalance: sold IONQ, trimmed QBTS, added GOOGL/CF/KTOS.",
+  "pending_cash": 616.44,
+  "current_value_today": 4442.20,
   "buckets": {
     "A_bigtech_semi":     { "label": "Big-tech + semis (quality growth)", "target_pct": 44, "owner_agents": ["bear", "bull", "historian"] },
     "B_theme_etf":        { "label": "Thematic ETF (diversified theme)", "target_pct": 9, "owner_agents": ["historian", "flow"] },
@@ -22,14 +22,16 @@
     "E_drypowder":        { "label": "Dry powder", "target_pct": 11, "owner_agents": ["bear"] }
   },
   "holdings": [
-    { "ticker": "NVDA", "name": "NVIDIA",                      "bucket": "A_bigtech_semi","owner_agent": "bull",      "shares": 3.773,  "entry_price": 200.66, "entry_value": 757.09, "target_pct": 17.0, "tier": "core",      "note": "blended from 1.773 orig + 2 added May 6" },
-    { "ticker": "QBTS", "name": "D-Wave (annealing)",          "bucket": "C_pureplay",    "owner_agent": "bull",      "shares": 26.851, "entry_price": 22.10,  "entry_value": 593.41, "target_pct": 16.0, "tier": "core",      "note": "trimmed from 44.75 sh late May" },
-    { "ticker": "MU",   "name": "Micron Technology",           "bucket": "A_bigtech_semi","owner_agent": "historian", "shares": 0.736,  "entry_price": 738.42, "entry_value": 543.48, "target_pct": 16.0, "tier": "core",      "note": "LightGBM STRONG_BUY #2 May 8. now $1035 +40%" },
-    { "ticker": "IONQ", "name": "IonQ (trapped-ion)",          "bucket": "C_pureplay",    "owner_agent": "bull",      "shares": 9.489,  "entry_price": 47.13,  "entry_value": 447.18, "target_pct": 14.0, "tier": "satellite", "note": "all 4 debates bearish. CEO sold entire position. excluded from $2B quantum initiative." },
-    { "ticker": "AMD",  "name": "Advanced Micro Devices",      "bucket": "A_bigtech_semi","owner_agent": "macro",     "shares": 1.2,    "entry_price": 508.88, "entry_value": 610.66, "target_pct": 13.0, "tier": "core",      "note": "added ~May 2026" },
-    { "ticker": "QTUM", "name": "Defiance Quantum ETF",        "bucket": "B_theme_etf",   "owner_agent": "historian", "shares": 2.584,  "entry_price": 121.86, "entry_value": 314.89, "target_pct": 9.0,  "tier": "core",      "note": "reduced from 5.584 sh" },
-    { "ticker": "NXPI", "name": "NXP Semiconductors",          "bucket": "D_auto_nxpi",   "owner_agent": "macro",     "shares": 0.889,  "entry_price": 295.22, "entry_value": 262.45, "target_pct": 6.0,  "tier": "satellite", "note": "LightGBM STRONG_BUY #1" },
-    { "ticker": "GOOG", "name": "Alphabet",                    "bucket": "A_bigtech_semi","owner_agent": "bear",      "shares": 0.485,  "entry_price": 329.77, "entry_value": 159.94, "target_pct": 4.0,  "tier": "satellite", "note": "quality anchor" }
+    { "ticker": "NVDA",  "name": "NVIDIA",                     "bucket": "A_bigtech_semi","owner_agent": "bull",      "shares": 3.773,  "entry_price": 200.66, "entry_value": 757.09, "target_pct": 17.4, "tier": "core",      "note": "blended from 1.773 orig + 2 added May 6" },
+    { "ticker": "MU",    "name": "Micron Technology",           "bucket": "A_bigtech_semi","owner_agent": "historian", "shares": 0.736,  "entry_price": 1003.29,"entry_value": 738.42, "target_pct": 14.3, "tier": "core",      "note": "LightGBM STRONG_BUY #2 May 8" },
+    { "ticker": "AMD",   "name": "Advanced Micro Devices",     "bucket": "A_bigtech_semi","owner_agent": "macro",     "shares": 1.2,    "entry_price": 508.88, "entry_value": 610.66, "target_pct": 12.6, "tier": "core",      "note": "added May 27" },
+    { "ticker": "QBTS",  "name": "D-Wave (annealing)",         "bucket": "C_pureplay",    "owner_agent": "bull",      "shares": 21.851, "entry_price": 22.10,  "entry_value": 482.91, "target_pct": 11.7, "tier": "core",      "note": "trimmed from 44.75→26.85→21.85. sold 5sh Jun 2" },
+    { "ticker": "QTUM",  "name": "Defiance Quantum ETF",       "bucket": "B_theme_etf",   "owner_agent": "historian", "shares": 2.584,  "entry_price": 121.86, "entry_value": 314.89, "target_pct": 8.9,  "tier": "core",      "note": "reduced from 5.584 sh" },
+    { "ticker": "NXPI",  "name": "NXP Semiconductors",         "bucket": "D_auto_nxpi",   "owner_agent": "macro",     "shares": 0.889,  "entry_price": 295.22, "entry_value": 262.45, "target_pct": 5.9,  "tier": "satellite", "note": "LightGBM STRONG_BUY #1" },
+    { "ticker": "GOOGL", "name": "Alphabet (Class A)",         "bucket": "A_bigtech_semi","owner_agent": "bear",      "shares": 0.543,  "entry_price": 366.33, "entry_value": 198.92, "target_pct": 4.5,  "tier": "satellite", "note": "added Jun 2, ex-div play" },
+    { "ticker": "GOOG",  "name": "Alphabet (Class C)",         "bucket": "A_bigtech_semi","owner_agent": "bear",      "shares": 0.485,  "entry_price": 329.77, "entry_value": 159.94, "target_pct": 4.0,  "tier": "satellite", "note": "quality anchor" },
+    { "ticker": "CF",    "name": "CF Industries",              "bucket": "A_bigtech_semi","owner_agent": "macro",     "shares": 1.42,   "entry_price": 114.34, "entry_value": 162.36, "target_pct": 3.6,  "tier": "satellite", "note": "added Jun 2" },
+    { "ticker": "KTOS",  "name": "Kratos Defense",             "bucket": "A_bigtech_semi","owner_agent": "macro",     "shares": 2.37,   "entry_price": 63.45,  "entry_value": 150.38, "target_pct": 3.1,  "tier": "satellite", "note": "added Jun 2" }
   ],
   "triggers": {
     "trim_single_name_above_pct": 15.0,
@@ -50,7 +52,9 @@
     "approximate_realized_ytd_2026_post_reset": -411.73,
     "may_8_rebalance": "sold MSFT, IBM, CEG, SGOV. added QBTS, NVDA, MU, NXPI. concentrated quantum+semi.",
     "may_28_rebalance": "sold RGTI (+58%). trimmed QBTS 44→27. trimmed MU 0.92→0.736. added AMD 1.2sh. raised $304 cash.",
-    "jun_1_status": "new ATH $4844.76. MU $1035 (+40%), NVDA $224 (+12%). QBTS -3.19% on day. IONQ -3.88%."
+    "jun_1_status": "new ATH $4844.76. MU $1035 (+40%), NVDA $224 (+12%). QBTS -3.19% on day. IONQ -3.88%.",
+    "jun_2_rebalance": "sold IONQ (all 9.489sh). trimmed QBTS 26.85→21.85. added GOOGL 0.543sh, CF 1.42sh, KTOS 2.37sh. cash up to $616.",
+    "jun_5_status": "$4,442.20. down -7.86% on day (-$379). MU $864, NVDA $205, AMD $466, QBTS $24."
   },
   "external_entries": [
     { "id": "navya",    "investor": "Navya Rawal",         "amount": 50.00, "date": "2026-04-21", "status": "settled", "type": "cash",        "portfolio_value_at_entry": 3454 },
