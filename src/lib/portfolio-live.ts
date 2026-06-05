@@ -1,23 +1,20 @@
 // Live portfolio value (Yahoo Finance aggregator) — shared by /
 // (page.tsx + LaunchTrailer copy) and opengraph-image.tsx.
 //
-// Falls back to baseline when Yahoo rate-limits / errors so renders never
-// break. Revalidates every 5 minutes.
+// Reads holdings from portfolio.json so there's a single source of truth.
+// Falls back to entry values when Yahoo rate-limits / errors so renders
+// never break. Revalidates every 5 minutes.
 
-const ENTRY_VALUE = 3453.83;
-const PENDING_CASH = 1.28;
+import portfolio from "@/data/portfolio.json";
+
+const ENTRY_VALUE =
+  (portfolio as { account_value_at_entry?: number }).account_value_at_entry ?? 3453.83;
+const PENDING_CASH = (portfolio as { pending_cash?: number }).pending_cash ?? 0;
 const GOAL = 100_000;
 
-const HOLDINGS: Array<{ ticker: string; shares: number; entry: number }> = [
-  { ticker: "QBTS", shares: 44.751, entry: 959.13 },
-  { ticker: "NVDA", shares: 3.773,  entry: 757.09 },
-  { ticker: "MU",   shares: 0.92,   entry: 679.35 },
-  { ticker: "IONQ", shares: 9.489,  entry: 447.18 },
-  { ticker: "QTUM", shares: 2.584,  entry: 314.89 },
-  { ticker: "NXPI", shares: 0.889,  entry: 262.45 },
-  { ticker: "RGTI", shares: 9.938,  entry: 169.50 },
-  { ticker: "GOOG", shares: 0.485,  entry: 159.94 },
-];
+const HOLDINGS: Array<{ ticker: string; shares: number; entry: number }> =
+  ((portfolio as { holdings?: Array<{ ticker: string; shares: number; entry_value: number }> }).holdings ?? [])
+    .map((h) => ({ ticker: h.ticker, shares: h.shares, entry: h.entry_value }));
 
 export type LivePortfolio = {
   baseline: number;
@@ -58,41 +55,18 @@ export async function getLivePortfolio(): Promise<LivePortfolio> {
   let value = ENTRY_VALUE;
   let live = false;
 
-  // Ground-truth override — src/data/portfolio.json carries a
-  // current_value_today field saapai updates from the real brokerage.
-  // When present + fresh (same calendar day in America/Los_Angeles),
-  // it's the source of truth. Live-price sum is only the fallback.
   try {
-    const portfolio = (await import("@/data/portfolio.json")) as unknown as {
-      current_value_today?: number;
-      as_of?: string;
-    };
-    if (
-      typeof portfolio.current_value_today === "number" &&
-      Number.isFinite(portfolio.current_value_today) &&
-      portfolio.current_value_today > 0
-    ) {
-      value = portfolio.current_value_today;
+    const priced = await Promise.all(HOLDINGS.map(async (h) => {
+      const c = await lastClose(h.ticker);
+      return c == null ? h.entry : h.shares * c;
+    }));
+    const total = priced.reduce((acc, v) => acc + v, 0) + PENDING_CASH;
+    if (Number.isFinite(total) && total > 0) {
+      value = total;
       live = true;
     }
   } catch {
-    /* missing file → fall through to live pricing */
-  }
-
-  if (!live) {
-    try {
-      const priced = await Promise.all(HOLDINGS.map(async (h) => {
-        const c = await lastClose(h.ticker);
-        return c == null ? h.entry : h.shares * c;
-      }));
-      const total = priced.reduce((acc, v) => acc + v, 0) + PENDING_CASH;
-      if (Number.isFinite(total) && total > 0) {
-        value = total;
-        live = true;
-      }
-    } catch {
-      // swallow — fall back to baseline
-    }
+    // swallow — fall back to baseline
   }
   const delta = value - ENTRY_VALUE;
   const pct = (delta / ENTRY_VALUE) * 100;
