@@ -173,7 +173,7 @@ export default function DraftHomeClient() {
             <span>Franco Cachay</span>
             <span>Elijah Bautista</span>
             <span>Yashas Shashidara</span>
-            <span>an anonymous donor</span>
+            <span>Navya Rawal</span>
           </div>
         </div>
 

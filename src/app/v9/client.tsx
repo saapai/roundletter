@@ -307,7 +307,7 @@ export default function V9Client({
         <div className="v9-backed v9-reveal">
           <span className="v9-backed-label">backed by</span>
           <div className="v9-backed-names">
-            <span>Franco Cachay</span><span>Elijah Bautista</span><span>Yashas Shashidara</span><span>an anonymous donor</span>
+            <span>Franco Cachay</span><span>Elijah Bautista</span><span>Yashas Shashidara</span><span>Navya Rawal</span>
           </div>
         </div>
       </section>
