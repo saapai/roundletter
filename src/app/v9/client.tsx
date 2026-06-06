@@ -351,7 +351,7 @@ export default function V9Client({
             </div>
             <div className="v9-first-bid">
               <span className="v9-first-bid-name">Navya Rawal</span>
-              <span className="v9-first-bid-msg">&ldquo;scammer got scammed&rdquo;</span>
+              <span className="v9-first-bid-msg">&ldquo;scammer get scammed&rdquo;</span>
             </div>
             <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
             <a href="sms:3853687238&amp;body=Bid on cityscape with splatter" className="v9-painting-bid">bid →</a>
