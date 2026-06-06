@@ -192,7 +192,7 @@ export default function V9Client({
 
         <article className="v9-letter">
 
-          <h2 className="v9-letter-title v9-reveal">I&rsquo;m refunding my art for $485 dollars.</h2>
+          <h2 className="v9-letter-title v9-reveal">I&rsquo;m refunding my art for ${fmt(Math.round(total * 0.1))} dollars.</h2>
 
           <p className="v9-lede v9-reveal">
             <span className="v9-drop">I</span>f someone would pay you 100
