@@ -342,7 +342,7 @@ export default function V9Client({
             <div className="v9-painting-terms">
               <div className="v9-painting-term">
                 <span className="v9-painting-label">current bid</span>
-                <span className="v9-painting-value">$20</span>
+                <span className="v9-painting-value">$32</span>
               </div>
               <div className="v9-painting-term">
                 <span className="v9-painting-label">cashout value · june 20</span>
@@ -350,8 +350,8 @@ export default function V9Client({
               </div>
             </div>
             <div className="v9-first-bid">
-              <span className="v9-first-bid-name">Aryan Dutta Baruah</span>
-              <span className="v9-first-bid-msg">&ldquo;get agi pilled&rdquo;</span>
+              <span className="v9-first-bid-name">Navya Rawal</span>
+              <span className="v9-first-bid-msg">&ldquo;scammer got scammed&rdquo;</span>
             </div>
             <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
             <a href="sms:3853687238&amp;body=Bid on cityscape with splatter" className="v9-painting-bid">bid →</a>
