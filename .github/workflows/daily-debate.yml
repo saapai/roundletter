@@ -1,9 +1,9 @@
 name: daily debate
 
 on:
-  schedule:
-    # 13:00 UTC daily = ~6a Pacific, ~9a Eastern
-    - cron: "0 13 * * *"
+  # schedule disabled — re-enable by uncommenting the cron line
+  # schedule:
+  #   - cron: "0 13 * * *"
   workflow_dispatch:
     inputs:
       ticker:

@@ -1,9 +1,9 @@
 name: 5h argument
 
 on:
-  schedule:
-    # Every 5 hours on the :00 — 00:00, 05:00, 10:00, 15:00, 20:00 UTC
-    - cron: "0 */5 * * *"
+  # schedule disabled — re-enable by uncommenting the cron line
+  # schedule:
+  #   - cron: "0 */5 * * *"
   workflow_dispatch:
     inputs:
       axis:

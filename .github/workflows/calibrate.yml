@@ -1,8 +1,9 @@
 name: calibrate
 
 on:
-  schedule:
-    - cron: "0 12 * * *"
+  # schedule disabled — re-enable by uncommenting the cron line
+  # schedule:
+  #   - cron: "0 12 * * *"
   workflow_dispatch:
 
 concurrency:
