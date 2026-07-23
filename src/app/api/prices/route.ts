@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import portfolio from "@/data/portfolio.json";
 
 // GET /api/prices — fetches Yahoo Finance chart data for each portfolio ticker
 // in parallel. Returns { data: { TICKER: { timestamps: number[], closes: number[] } }, fetchedAt }.
@@ -9,18 +10,11 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 export const revalidate = 900;
 
-const TICKERS = [
-  "NVDA",
-  "MU",
-  "AMD",
-  "QBTS",
-  "QTUM",
-  "NXPI",
-  "GOOGL",
-  "GOOG",
-  "CF",
-  "KTOS",
-];
+// Tickers come from portfolio.json so the price feed can never drift from
+// the live book again (the project-0 list was hardcoded here and went stale).
+const TICKERS = (
+  (portfolio as { holdings?: Array<{ ticker: string }> }).holdings ?? []
+).map((h) => h.ticker);
 
 type Series = { timestamps: number[]; closes: number[] };
 

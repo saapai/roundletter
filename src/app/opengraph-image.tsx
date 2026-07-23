@@ -1,84 +1,15 @@
 import { ImageResponse } from "next/og";
 
+// Social card for / — THE RECORD, second edition.
+// Static by design: the verdict is the message, not the tick.
+
 export const runtime = "edge";
-export const revalidate = 300;
-export const alt = "aureliex — live portfolio snapshot toward $100,000 by my birthday";
+export const revalidate = 3600;
+export const alt = "aureliex — project 0 failed. this is project 1.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const ENTRY_VALUE = 3453.83;
-const PENDING_CASH = 1.28;
-const GOAL = 100_000;
-const ROUND_START_ISO = "2026-04-12T00:00:00-04:00";
-const BIRTHDAY_ISO = "2026-06-21T00:00:00-04:00";
-
-const HOLDINGS: Array<{ ticker: string; shares: number; entry: number }> = [
-  { ticker: "QBTS", shares: 44.751, entry: 959.13 },
-  { ticker: "NVDA", shares: 3.773,  entry: 757.09 },
-  { ticker: "MU",   shares: 0.92,   entry: 679.35 },
-  { ticker: "IONQ", shares: 9.489,  entry: 447.18 },
-  { ticker: "QTUM", shares: 2.584,  entry: 314.89 },
-  { ticker: "NXPI", shares: 0.889,  entry: 262.45 },
-  { ticker: "RGTI", shares: 9.938,  entry: 169.50 },
-  { ticker: "GOOG", shares: 0.485,  entry: 159.94 },
-];
-
-async function lastClose(ticker: string): Promise<number | null> {
-  try {
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}?interval=30m&range=1d&includePrePost=false`;
-    const r = await fetch(url, {
-      headers: {
-        "user-agent": "Mozilla/5.0 (compatible; aureliex/1.0)",
-        accept: "application/json",
-      },
-      next: { revalidate: 300 },
-    });
-    if (!r.ok) return null;
-    const j: any = await r.json();
-    const closes: Array<number | null> = j?.chart?.result?.[0]?.indicators?.quote?.[0]?.close ?? [];
-    for (let i = closes.length - 1; i >= 0; i--) {
-      const c = closes[i];
-      if (c != null && Number.isFinite(c)) return c as number;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-async function livePortfolioValue(): Promise<number | null> {
-  try {
-    const priced = await Promise.all(HOLDINGS.map(async (h) => {
-      const c = await lastClose(h.ticker);
-      return c == null ? h.entry : h.shares * c;
-    }));
-    const total = priced.reduce((acc, v) => acc + v, 0) + PENDING_CASH;
-    return Number.isFinite(total) && total > 0 ? total : null;
-  } catch {
-    return null;
-  }
-}
-
-function fmtMoney(n: number): string {
-  return `$${Math.round(n).toLocaleString("en-US")}`;
-}
-
 export default async function Image() {
-  const now = new Date();
-  const roundStart = new Date(ROUND_START_ISO);
-  const birthday = new Date(BIRTHDAY_ISO);
-
-  const live = await livePortfolioValue();
-  const value = live ?? ENTRY_VALUE;
-  const delta = value - ENTRY_VALUE;
-  const pct = (delta / ENTRY_VALUE) * 100;
-  const up = delta >= 0;
-  const sign = up ? "+" : "−";
-  const dayNumber = Math.max(1, Math.ceil((now.getTime() - roundStart.getTime()) / 86_400_000));
-  const daysToBirthday = Math.max(0, Math.ceil((birthday.getTime() - now.getTime()) / 86_400_000));
-  const multiple = (GOAL / value).toFixed(1);
-  const deltaColor = up ? "#3B7A4A" : "#8B3A2E";
-
   return new ImageResponse(
     (
       <div
@@ -105,52 +36,48 @@ export default async function Image() {
             color: "#6B6560",
           }}
         >
-          <span>aureliex · round 0 · day {dayNumber} · live</span>
-          <span>{daysToBirthday}d to 21 jun</span>
+          <span>aureliex · the record · second edition</span>
+          <span>filed july 2026</span>
         </div>
 
-        {/* middle: live value + delta + target */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+        {/* middle: the verdict */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <span
+            style={{
+              fontSize: 118,
+              lineHeight: 1,
+              letterSpacing: -3,
+              color: "#1C1A17",
+            }}
+          >
+            project 0 failed.
+          </span>
+          <span
+            style={{
+              fontSize: 44,
+              lineHeight: 1.2,
+              fontStyle: "italic",
+              color: "#6B6560",
+            }}
+          >
+            ai could not do the impossible.
+          </span>
           <div
             style={{
               display: "flex",
               alignItems: "baseline",
-              gap: 28,
+              gap: 18,
+              marginTop: 14,
+              fontSize: 30,
+              color: "#1C1A17",
             }}
           >
-            <span
-              style={{
-                fontSize: 150,
-                lineHeight: 1,
-                fontStyle: "italic",
-                letterSpacing: -3,
-                color: "#1C1A17",
-              }}
-            >
-              {fmtMoney(value)}
+            <span style={{ color: "#8B6914" }}>$3,453.83</span>
+            <span>→</span>
+            <span style={{ textDecoration: "line-through", color: "#8B3A2E" }}>
+              $100,000
             </span>
-            <span
-              style={{
-                fontSize: 44,
-                lineHeight: 1,
-                color: deltaColor,
-                display: "flex",
-                flexDirection: "column",
-                gap: 4,
-              }}
-            >
-              <span>
-                {sign}
-                {fmtMoney(Math.abs(delta)).replace("$", "$")}
-              </span>
-              <span style={{ fontSize: 30 }}>
-                {sign}
-                {Math.abs(pct).toFixed(1)}%
-              </span>
-            </span>
-          </div>
-          <div style={{ fontSize: 34, lineHeight: 1.2, color: "#1C1A17", maxWidth: 1060 }}>
-            → $100,000 by my birthday. {multiple}× to go. {daysToBirthday} days left. live.
+            <span style={{ color: "#6B6560" }}>· closed jun 21, 2026</span>
           </div>
         </div>
 
@@ -159,11 +86,13 @@ export default async function Image() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            fontSize: 20,
+            fontSize: 22,
             color: "#6B6560",
           }}
         >
-          <span>five AI agents · no job · the pre-mortem, published before I fail</span>
+          <span>
+            this is <span style={{ color: "#0B6E84", fontStyle: "italic" }}>project 1</span> · no goal posts. yet · closes dec 31, 2026
+          </span>
           <span>aureliex.com</span>
         </div>
       </div>

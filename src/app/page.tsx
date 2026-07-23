@@ -1,62 +1,52 @@
 import type { Metadata } from "next";
-import { fmtMoney } from "@/lib/portfolio-live";
-import { getPortfolioData, getShareholders } from "@/lib/portfolio-aggregate";
 import portfolio from "@/data/portfolio.json";
-import V9Client from "@/app/v9/client";
+import RecordHome from "@/components/RecordHome";
+
+// / — THE RECORD, second edition.
+// project 0 ($3,453.83 → $100,000 by june 21) is closed: failed.
+// project 1 is open through december 31, 2026. no goal posts. yet.
+// The previous homepage (v9, "the rocks") is preserved at /v9.
 
 const HOLDINGS = (portfolio as {
   holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
 }).holdings.map((h) => ({ ticker: h.ticker, shares: h.shares, entry_value: h.entry_value }));
 const PENDING_CASH = (portfolio as { pending_cash: number }).pending_cash;
-const ENTRY_VALUE = (portfolio as { account_value_at_entry: number }).account_value_at_entry;
-const BIRTHDAY_ISO = "2026-06-21T00:00:00-07:00";
+const OPENING_VALUE =
+  (portfolio as { project_1?: { opening_value?: number } }).project_1?.opening_value ?? 4265.39;
+const P1_CLOSE_ISO = "2026-12-31T23:59:59-07:00";
 
 function daysFromNowTo(iso: string): number {
   return Math.max(0, Math.ceil((Date.parse(iso) - Date.now()) / 86_400_000));
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const data = await getPortfolioData();
-  const realTotal = data.categories.personal.current_value + data.categories.prediction.breakdown.kalshi.total + data.categories.prediction.breakdown.polymarket.bankroll + 150;
-  const live = fmtMoney(realTotal);
-  return {
-    title: `aureliex · ${live} now → $100,000 by june 21`,
-    description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
-    openGraph: {
-      title: `aureliex · ${live} now → $100,000 by june 21`,
-      description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
-      url: "https://aureliex.com",
-      siteName: "aureliex",
-      images: [{ url: "/hero/rocks.webp", width: 1400, height: 788 }],
-      type: "article",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `aureliex · ${live} now → $100,000 by june 21`,
-      description: `real money. live positions. $3,453 → $100,000 by my 20th birthday. tap to watch the number move.`,
-      creator: "@saapai",
-      images: ["/hero/rocks.webp"],
-    },
-  };
-}
+export const metadata: Metadata = {
+  title: "aureliex · project 0 failed. this is project 1.",
+  description:
+    "$3,453.83 → $100,000 was the wager. the monte carlo said 0.000000%. the record of the attempt, the painting that sold for $44, and project 1 — no goal posts yet, open through december 31, 2026.",
+  openGraph: {
+    title: "aureliex · project 0 failed. this is project 1.",
+    description:
+      "$3,453.83 → $100,000 was the wager. the monte carlo said 0.000000%. the record of the attempt, the painting that sold for $44, and project 1 — open through december 31, 2026.",
+    url: "https://aureliex.com",
+    siteName: "aureliex",
+    type: "article",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "aureliex · project 0 failed. this is project 1.",
+    description:
+      "$3,453.83 → $100,000 was the wager. the monte carlo said 0.000000%. the record, the painting that sold for $44, and project 1 — open through december 31, 2026.",
+    creator: "@saapai",
+  },
+};
 
-export default async function HomePage() {
-  const data = await getPortfolioData();
-  const pv = data.categories.personal.current_value + data.categories.prediction.breakdown.kalshi.total + data.categories.prediction.breakdown.polymarket.bankroll + 150;
-  const shareholders = getShareholders(pv).map((s) => ({
-    name: s.name, slug: s.slug, total_current_value: s.total_current_value,
-  }));
+export default function HomePage() {
   return (
-    <V9Client
-      totalNow={pv}
-      daysToBirthday={daysFromNowTo(BIRTHDAY_ISO)}
+    <RecordHome
+      totalNow={OPENING_VALUE}
       holdings={HOLDINGS}
       pendingCash={PENDING_CASH}
-      entryValue={ENTRY_VALUE}
-      nonStockValue={
-        data.categories.prediction.breakdown.kalshi.total + data.categories.prediction.breakdown.polymarket.bankroll + 150
-      }
-      shareholders={shareholders}
+      daysToClose={daysFromNowTo(P1_CLOSE_ISO)}
     />
   );
 }
