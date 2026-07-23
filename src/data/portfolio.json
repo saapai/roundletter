@@ -1,5 +1,6 @@
 {
   "round": 0,
+  "project": 1,
   "baseline_date": "2026-04-12",
   "round_start_date": "2026-04-12",
   "book_sealed_date": "2026-04-14",
@@ -11,27 +12,30 @@
   "peak_value": 4844.76,
   "peak_date": "2026-06-01",
   "drawdown_pct_from_peak": 0,
-  "_note_positions": "from Fidelity screenshot 2026-06-05 7:24 PM ET. Jun-02 rebalance: sold IONQ, trimmed QBTS, added GOOGL/CF/KTOS.",
-  "pending_cash": 616.44,
-  "current_value_today": 4442.20,
+  "project_0": {
+    "wager": "$3,453.83 → $100,000 by June 21, 2026",
+    "opened": "2026-04-12",
+    "closed": "2026-06-21",
+    "verdict": "failed. ai could not do the impossible.",
+    "final_holdings_note": "see history block below — the project 0 book (NVDA/MU/AMD/QBTS/QTUM/NXPI/GOOGL/GOOG/CF/KTOS) was liquidated after round close."
+  },
+  "project_1": {
+    "opened": "2026-07-23",
+    "closes": "2026-12-31",
+    "goal_posts": "none. yet.",
+    "opening_value": 4265.39
+  },
+  "_note_positions": "from Fidelity screenshots 2026-07-23 1:47 PM. project 1 book: NBIS / NOK / SHAZ / SPY + $1,280.03 pending.",
+  "pending_cash": 1280.03,
+  "current_value_today": 4265.39,
   "buckets": {
-    "A_bigtech_semi":     { "label": "Big-tech + semis (quality growth)", "target_pct": 44, "owner_agents": ["bear", "bull", "historian"] },
-    "B_theme_etf":        { "label": "Thematic ETF (diversified theme)", "target_pct": 9, "owner_agents": ["historian", "flow"] },
-    "C_pureplay":         { "label": "Pure-play quantum (asymmetric)", "target_pct": 30, "owner_agents": ["bull"] },
-    "D_auto_nxpi":        { "label": "Auto/industrial semi (LightGBM signal)", "target_pct": 6, "owner_agents": ["macro"] },
-    "E_drypowder":        { "label": "Dry powder", "target_pct": 11, "owner_agents": ["bear"] }
+    "P1_book": { "label": "Project 1 · the book", "target_pct": 100, "owner_agents": [] }
   },
   "holdings": [
-    { "ticker": "NVDA",  "name": "NVIDIA",                     "bucket": "A_bigtech_semi","owner_agent": "bull",      "shares": 3.773,  "entry_price": 200.66, "entry_value": 757.09, "target_pct": 17.4, "tier": "core",      "note": "blended from 1.773 orig + 2 added May 6" },
-    { "ticker": "MU",    "name": "Micron Technology",           "bucket": "A_bigtech_semi","owner_agent": "historian", "shares": 0.736,  "entry_price": 1003.29,"entry_value": 738.42, "target_pct": 14.3, "tier": "core",      "note": "LightGBM STRONG_BUY #2 May 8" },
-    { "ticker": "AMD",   "name": "Advanced Micro Devices",     "bucket": "A_bigtech_semi","owner_agent": "macro",     "shares": 1.2,    "entry_price": 508.88, "entry_value": 610.66, "target_pct": 12.6, "tier": "core",      "note": "added May 27" },
-    { "ticker": "QBTS",  "name": "D-Wave (annealing)",         "bucket": "C_pureplay",    "owner_agent": "bull",      "shares": 21.851, "entry_price": 22.10,  "entry_value": 482.91, "target_pct": 11.7, "tier": "core",      "note": "trimmed from 44.75→26.85→21.85. sold 5sh Jun 2" },
-    { "ticker": "QTUM",  "name": "Defiance Quantum ETF",       "bucket": "B_theme_etf",   "owner_agent": "historian", "shares": 2.584,  "entry_price": 121.86, "entry_value": 314.89, "target_pct": 8.9,  "tier": "core",      "note": "reduced from 5.584 sh" },
-    { "ticker": "NXPI",  "name": "NXP Semiconductors",         "bucket": "D_auto_nxpi",   "owner_agent": "macro",     "shares": 0.889,  "entry_price": 295.22, "entry_value": 262.45, "target_pct": 5.9,  "tier": "satellite", "note": "LightGBM STRONG_BUY #1" },
-    { "ticker": "GOOGL", "name": "Alphabet (Class A)",         "bucket": "A_bigtech_semi","owner_agent": "bear",      "shares": 0.543,  "entry_price": 366.33, "entry_value": 198.92, "target_pct": 4.5,  "tier": "satellite", "note": "added Jun 2, ex-div play" },
-    { "ticker": "GOOG",  "name": "Alphabet (Class C)",         "bucket": "A_bigtech_semi","owner_agent": "bear",      "shares": 0.485,  "entry_price": 329.77, "entry_value": 159.94, "target_pct": 4.0,  "tier": "satellite", "note": "quality anchor" },
-    { "ticker": "CF",    "name": "CF Industries",              "bucket": "A_bigtech_semi","owner_agent": "macro",     "shares": 1.42,   "entry_price": 114.34, "entry_value": 162.36, "target_pct": 3.6,  "tier": "satellite", "note": "added Jun 2" },
-    { "ticker": "KTOS",  "name": "Kratos Defense",             "bucket": "A_bigtech_semi","owner_agent": "macro",     "shares": 2.37,   "entry_price": 63.45,  "entry_value": 150.38, "target_pct": 3.1,  "tier": "satellite", "note": "added Jun 2" }
+    { "ticker": "NBIS", "name": "Nebius Group",        "bucket": "P1_book", "owner_agent": "saapai", "shares": 3.5,    "entry_price": 220.97, "entry_value": 773.40,  "target_pct": 25.9, "tier": "core",      "note": "project 1 book, synced from Fidelity 2026-07-23" },
+    { "ticker": "NOK",  "name": "Nokia",               "bucket": "P1_book", "owner_agent": "saapai", "shares": 102.96, "entry_price": 11.25,  "entry_value": 1157.87, "target_pct": 38.8, "tier": "core",      "note": "project 1 book, synced from Fidelity 2026-07-23" },
+    { "ticker": "SHAZ", "name": "SHAZ",                "bucket": "P1_book", "owner_agent": "saapai", "shares": 15,     "entry_price": 70.17,  "entry_value": 1052.62, "target_pct": 35.3, "tier": "core",      "note": "project 1 book, synced from Fidelity 2026-07-23" },
+    { "ticker": "SPY",  "name": "SPDR S&P 500 ETF",    "bucket": "P1_book", "owner_agent": "saapai", "shares": 0.0015, "entry_price": 986.67, "entry_value": 1.48,    "target_pct": 0.0,  "tier": "satellite", "note": "fractional remainder, synced from Fidelity 2026-07-23" }
   ],
   "triggers": {
     "trim_single_name_above_pct": 15.0,
@@ -54,7 +58,9 @@
     "may_28_rebalance": "sold RGTI (+58%). trimmed QBTS 44→27. trimmed MU 0.92→0.736. added AMD 1.2sh. raised $304 cash.",
     "jun_1_status": "new ATH $4844.76. MU $1035 (+40%), NVDA $224 (+12%). QBTS -3.19% on day. IONQ -3.88%.",
     "jun_2_rebalance": "sold IONQ (all 9.489sh). trimmed QBTS 26.85→21.85. added GOOGL 0.543sh, CF 1.42sh, KTOS 2.37sh. cash up to $616.",
-    "jun_5_status": "$4,442.20. down -7.86% on day (-$379). MU $864, NVDA $205, AMD $466, QBTS $24."
+    "jun_5_status": "$4,442.20. down -7.86% on day (-$379). MU $864, NVDA $205, AMD $466, QBTS $24.",
+    "jun_21_status": "project 0 closed on the birthday. $100,000 did not print. the monte carlo said 0.000000% and the monte carlo was right.",
+    "jul_23_status": "project 1 book synced: NBIS 3.5sh, NOK 102.96sh, SHAZ 15sh, SPY dust. $2,985.36 invested + $1,280.03 pending = $4,265.39."
   },
   "external_entries": [
     { "id": "navya",    "investor": "Navya Rawal",         "amount": 50.00, "date": "2026-04-21", "status": "settled", "type": "cash",        "portfolio_value_at_entry": 3454 },

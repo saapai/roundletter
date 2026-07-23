@@ -341,20 +341,20 @@ export default function V9Client({
             <span className="v9-painting-title">cityscape with splatter</span>
             <div className="v9-painting-terms">
               <div className="v9-painting-term">
-                <span className="v9-painting-label">current bid</span>
-                <span className="v9-painting-value">$43</span>
+                <span className="v9-painting-label">winning bid</span>
+                <span className="v9-painting-value">$44</span>
               </div>
               <div className="v9-painting-term">
-                <span className="v9-painting-label">cashout value · june 20</span>
-                <span className="v9-painting-value v9-painting-live">${fmt(total * 0.1)}</span>
+                <span className="v9-painting-label">status</span>
+                <span className="v9-painting-value">sold</span>
               </div>
             </div>
             <div className="v9-first-bid">
-              <span className="v9-first-bid-name">Aryan Dutta Baruah</span>
-              <span className="v9-first-bid-msg">&ldquo;get agi pilled&rdquo;</span>
+              <span className="v9-first-bid-name">Navya Rawal</span>
+              <span className="v9-first-bid-msg">&ldquo;scammer gets scammed&rdquo;</span>
             </div>
-            <p className="v9-painting-meta">the winning bidder can cash out 10% of the portfolio on june 20, or keep the painting.</p>
-            <a href="sms:3853687238&amp;body=Bid on cityscape with splatter" className="v9-painting-bid">bid →</a>
+            <p className="v9-painting-meta">the winning bidder cashed out 49% and kept 51% — and the painting. the full record is on the homepage.</p>
+            <Link href="/" className="v9-painting-bid">the record →</Link>
           </div>
         </div>
       </section>
