@@ -1,5 +1,7 @@
 # Green Credit — Project 2, v0
 
+*errata — the first printing of this paper numbered aureliex project 1. the record has since renumbered: the failed wager is project 0, its successor is project 1. green credit remains project 2. the text below stands as filed.*
+
 ## The lineage
 
 **Books → Movies → Reels → Green Credit.**
