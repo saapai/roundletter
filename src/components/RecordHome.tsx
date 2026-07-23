@@ -118,14 +118,14 @@ export default function RecordHome({ totalNow, holdings, pendingCash, daysToClos
               <span className="rc-imprint-body">
                 <span className="rc-money">$3,453.83</span> →{" "}
                 <span className="rc-strike"><span className="rc-money">$100,000</span></span>
-                {" "}· apr 12 – jun 21, 2026 · <em>closed</em>
+                {" "}· apr 12 – jun 21, 2026 <span className="rc-nowrap">· <em>closed</em></span>
               </span>
             </a>
           </p>
           <p>
             <a href="#project-1" className="rc-imprint-row">
               <span className="rc-imprint-no">project 1</span>
-              <span className="rc-imprint-body">no goal posts. yet · closes dec 31, 2026 · <em>open</em></span>
+              <span className="rc-imprint-body">no goal posts. yet · closes dec 31, 2026 <span className="rc-nowrap">· <em>open</em></span></span>
             </a>
           </p>
           <p>
@@ -231,8 +231,8 @@ export default function RecordHome({ totalNow, holdings, pendingCash, daysToClos
             <figcaption className="rc-caption">
               <span className="rc-label rc-caption-no">plate i</span>
               <span className="rc-sold-dot" aria-label="sold" />
-              <em>cityscape with splatter</em> · oil on canvas · the only piece
-              that sold under project 0
+              <em>cityscape with splatter</em>
+              <span>oil on canvas · the only piece that sold under project 0</span>
             </figcaption>
           </figure>
         </section>
@@ -328,7 +328,7 @@ export default function RecordHome({ totalNow, holdings, pendingCash, daysToClos
           </span>
           <span className="rc-balance-meta">
             {tickers} · ${pendingCash.toLocaleString("en-US", { minimumFractionDigits: 2 })} pending
-            · <span className="rc-live-dot" /> live
+            <span className="rc-live-unit">· <span className="rc-live-dot" /> live</span>
           </span>
           <span className="rc-balance-note">the same account project 0 died in. the count restarts; the money doesn&rsquo;t.</span>
         </div>
@@ -809,7 +809,8 @@ a.rc-imprint-row:hover .rc-imprint-body { color: var(--cyan); }
     radial-gradient(ellipse 45% 30% at 50% 46%, rgba(232,181,71,0.10), transparent 70%),
     radial-gradient(ellipse 100% 40% at 50% 0%, rgba(46,58,92,0.05), transparent 65%);
 }
-.rc-frame-empty { max-width: 20rem; margin: 0 auto 2.4rem; }
+.rc-frame-empty { max-width: none; margin: 0 auto 2.4rem; }
+.rc-frame-empty .rc-mat { max-width: 20rem; margin-inline: auto; }
 .rc-mat-empty {
   aspect-ratio: 4 / 3;
   background: radial-gradient(ellipse 70% 60% at 50% 42%, #FBF6EA, #F1EADA 85%);
@@ -828,6 +829,7 @@ a.rc-imprint-row:hover .rc-imprint-body { color: var(--cyan); }
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
   font-style: italic; font-size: clamp(1.1rem,2.8vw,1.35rem);
   color: var(--graphite); margin: 0.3rem auto; max-width: 36rem;
+  text-wrap: balance;
 }
 .rc-balance { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; margin: 2.6rem 0 0; }
 .rc-balance-label { display: block; }
@@ -846,6 +848,7 @@ a.rc-imprint-row:hover .rc-imprint-body { color: var(--cyan); }
   display: inline-flex; align-items: center; gap: 0.45em; flex-wrap: wrap; justify-content: center;
 }
 .rc-balance-note { color: var(--graphite); opacity: 0.85; }
+.rc-live-unit { display: inline-flex; align-items: center; gap: 0.45em; white-space: nowrap; }
 .rc-live-dot {
   display: inline-block; width: 5px; height: 5px; border-radius: 50%;
   background: #3B7A4A; animation: rc-pulse 4s ease-in-out infinite;
@@ -914,7 +917,8 @@ a.rc-imprint-row:hover .rc-imprint-body { color: var(--cyan); }
   flex: 1; border-bottom: 1px dotted var(--rule);
   transform: translateY(-0.3em); min-width: 1.5rem;
 }
-.rc-toc-note { color: var(--graphite); text-align: right; }
+.rc-toc-note { color: var(--graphite); text-align: right; text-wrap: balance; }
+.rc-nowrap { white-space: nowrap; }
 .rc-toc-note a { color: var(--graphite); border-bottom-color: rgba(28,26,23,0.25); }
 
 /* ── colophon — the ember (critic B, defect 12) ── */
