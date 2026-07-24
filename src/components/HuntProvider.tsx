@@ -8,7 +8,6 @@ import {
   HUNT_PHONE_DISPLAY,
   HUNT_PHONE_SMS,
   HUNT_PHONE_TEL_LINK,
-  KALSHI_URL,
   WAYMO_CODE,
   WAYMO_URL,
   BIRD_URL,
@@ -29,11 +28,6 @@ import YouTubeCard from "@/components/YouTubeCard";
 // Site-wide easter-egg hunt. Every trigger has a desktop-friendly and a
 // mobile-friendly path, and any URL hash route works as a universal backup.
 // Rendered once, from the root layout.
-//
-//   KALSHI ($25) ────────────────────
-//     desktop · konami (↑↑↓↓←→←→BA) on any page
-//     mobile  · swipe sequence ↑↑↓↓ anywhere
-//     url     · any page + #stranger
 //
 //   WAYMO ($10) ─────────────────────
 //     desktop · triple-click the rust period after aureliex.
@@ -56,18 +50,6 @@ import YouTubeCard from "@/components/YouTubeCard";
 //
 // Ledger of what the browser has found: /6969#hunt.
 
-const KONAMI: string[] = [
-  "ArrowUp",
-  "ArrowUp",
-  "ArrowDown",
-  "ArrowDown",
-  "ArrowLeft",
-  "ArrowRight",
-  "ArrowLeft",
-  "ArrowRight",
-  "b",
-  "a",
-];
 const TYPED_TARGETS: Record<string, string> = {
   bankroll: "bankroll",
   getlucky: "lucky",
@@ -81,16 +63,10 @@ const TYPED_MAX = 24; // rolling buffer of recent alpha keys
 const DOT_TRIPLE_WINDOW_MS = 700;
 const LONG_PRESS_MS = 650;
 const DOUBLE_TAP_MS = 420;
-const SWIPE_MIN_PX = 40;
-const SWIPE_TIMEOUT_MS = 4500; // 4-swipe sequence must land inside this window
-
-// mobile swipe-konami: ↑↑↓↓ anywhere triggers the kalshi egg
-const SWIPE_KONAMI: Array<"up" | "down"> = ["up", "up", "down", "down"];
 
 // url hash routes for eggs (universal, mobile-friendly)
 const HASH_ROUTES: Record<string, string> = {
   "#please": "please",
-  "#stranger": "konami",
   "#ride": "thedot",
   "#song": "lucky",
   "#lucky": "lucky",
@@ -180,7 +156,7 @@ export default function HuntProvider() {
         const hint = "color:#6B6560;font-family:serif;";
         console.log("%c// you're reading the document in the console.", tag);
         console.log(
-          "%c// there is a hunt. thirteen eggs. three pay real money (up to $50 + $20 + $5). one plays a song.",
+          "%c// there is a hunt. twelve eggs. two pay real money (up to $20 + $5). one plays a song.",
           hint,
         );
         console.log("%c// try window.__hunt.found()", hint);
@@ -193,28 +169,6 @@ export default function HuntProvider() {
       if (window.__hunt) delete window.__hunt;
     };
     // fire is stable — depending on it is safe.
-  }, [fire]);
-
-  // konami
-  useEffect(() => {
-    let i = 0;
-    const onKey = (e: KeyboardEvent) => {
-      const expected = KONAMI[i];
-      const pressed = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-      if (pressed === expected) {
-        i += 1;
-        if (i >= KONAMI.length) {
-          i = 0;
-          fire("konami");
-        }
-      } else {
-        // lenient restart: if the miskey could be the start of the sequence,
-        // reset to 1 instead of 0 so partial overlap still counts.
-        i = pressed === KONAMI[0] ? 1 : 0;
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
   }, [fire]);
 
   // typed word rolling-buffer
@@ -316,55 +270,6 @@ export default function HuntProvider() {
     return () => window.removeEventListener("click", onClick, true);
   }, [fire]);
 
-  // mobile swipe-konami: ↑↑↓↓ anywhere (kalshi)
-  useEffect(() => {
-    let start: { x: number; y: number; t: number } | null = null;
-    let seq: Array<"up" | "down"> = [];
-    let seqStartedAt = 0;
-
-    const onStart = (e: TouchEvent) => {
-      const t = e.touches[0];
-      if (!t) return;
-      start = { x: t.clientX, y: t.clientY, t: Date.now() };
-    };
-    const onEnd = (e: TouchEvent) => {
-      if (!start) return;
-      const t = e.changedTouches[0];
-      if (!t) { start = null; return; }
-      const dx = t.clientX - start.x;
-      const dy = t.clientY - start.y;
-      start = null;
-      if (Math.abs(dy) < SWIPE_MIN_PX) return;
-      if (Math.abs(dy) <= Math.abs(dx)) return; // ignore horizontal swipes
-      const dir: "up" | "down" = dy < 0 ? "up" : "down";
-      const now = Date.now();
-      if (seq.length === 0 || now - seqStartedAt > SWIPE_TIMEOUT_MS) {
-        seq = [dir];
-        seqStartedAt = now;
-      } else {
-        seq.push(dir);
-      }
-      // compare to prefix of SWIPE_KONAMI
-      for (let i = 0; i < seq.length; i++) {
-        if (seq[i] !== SWIPE_KONAMI[i]) {
-          // mismatch: restart with this swipe if it's the sequence head
-          seq = seq[seq.length - 1] === SWIPE_KONAMI[0] ? [seq[seq.length - 1]] : [];
-          seqStartedAt = now;
-          return;
-        }
-      }
-      if (seq.length >= SWIPE_KONAMI.length) {
-        seq = [];
-        fire("konami");
-      }
-    };
-    window.addEventListener("touchstart", onStart, { passive: true });
-    window.addEventListener("touchend", onEnd, { passive: true });
-    return () => {
-      window.removeEventListener("touchstart", onStart);
-      window.removeEventListener("touchend", onEnd);
-    };
-  }, [fire]);
 
   // shake detection for get lucky (mobile, best-effort — iOS requires
   // an explicit permission grant; we silently opt out if unavailable).
@@ -583,40 +488,7 @@ function HuntOverlay({
         </h2>
         <p className="hunt-card-flavor"><em>{egg.flavor}</em></p>
 
-        {egg.reward === "kalshi" ? (
-          <div className="hunt-card-payout">
-            <p className="hunt-card-payout-line">
-              this one pays twice. first, <strong>$25 from kalshi</strong> (their
-              standard referral). second — and the interesting one — every
-              successful referral under this egg contributes to a single public
-              pool. when the pool caps at <strong>$1,000</strong> (40 finders,
-              $25 each), the pool owns{" "}
-              <strong>10% of the kalshi portfolio</strong>, split evenly among
-              all finders. fewer finders → bigger share each. eight finders = each
-              owns <strong>1.25%</strong>. forty = each owns <strong>0.25%</strong>.
-            </p>
-            <a
-              className="hunt-card-cta"
-              href={KALSHI_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              open kalshi · claim $25 <span aria-hidden="true">↗</span>
-            </a>
-            <ol className="hunt-card-steps">
-              <li>sign up with the link above — the referral tag has to be on the url, not a plain kalshi.com visit.</li>
-              <li>deposit and place <em>a real trade</em>. kalshi credits{" "}
-                <strong>$25 to each of us</strong> once it settles.</li>
-              <li><a className="hunt-card-phone" href={HUNT_PHONE_SMS}>text me at {HUNT_PHONE_DISPLAY}</a> with a screenshot of your first trade and the name you want on the ledger. you&rsquo;re now a partial owner of the kalshi book.</li>
-            </ol>
-            <p className="hunt-card-rules">
-              <em>rules · kalshi side is their standard referral; terms at kalshi.com/help (regions, kyc, their changes apply). my side: 10% of the kalshi portfolio goes to finders as a group, capped at $1,000 total kalshi payouts (40 finders). good-faith sign-ups only — no self-referrals, no alt accounts. ownership math settles at each weekly rebalance and at round close. want to invest more than the referral $25 into the kalshi / polymarket / stock book? text me — negotiated one-on-one.</em>
-            </p>
-            <p className="hunt-card-lasso">
-              <em>be a goldfish. — ted lasso</em>
-            </p>
-          </div>
-        ) : egg.reward === "waymo" ? (
+        {egg.reward === "waymo" ? (
           <div className="hunt-card-payout">
             <p className="hunt-card-payout-line">
               this one pays monthly. waymo&rsquo;s promo is{" "}
@@ -787,8 +659,8 @@ function HuntOverlay({
         ) : (
           <div className="hunt-card-lore">
             <p className="hunt-card-lore-line">
-              no money on this one — yet. three of the thirteen eggs <em>do</em> pay (up to $50 on
-              kalshi, $20 on waymo, $5 on bird — their promos stacked with mine).
+              no money on this one — yet. two of the twelve eggs <em>do</em> pay (up to
+              $20 on waymo, $5 on bird — their promos stacked with mine).
               find those and you claim real bankroll.
             </p>
             <p className="hunt-card-lore-hint">

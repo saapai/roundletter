@@ -1,10 +1,11 @@
 // The hunt — site-wide easter-egg ledger.
 //
-// Two of these eggs pay out real bankroll: the Kalshi sign-up pair gives the
-// finder and me $25 each; the Waymo referral gives the finder $10 off their
-// first ride. Either way, the finder texts the phone below when the trade or
-// ride is done, and I send over cash (or the equivalent in portfolio equity,
-// their choice). The remaining eggs are lore + hints that lead to the ledger.
+// Some of these eggs pay out real bankroll: the Waymo referral gives the
+// finder $10 off their first ride; Bird gives ride credit. Either way, the
+// finder texts the phone below when the ride is done, and I send over cash
+// (or the equivalent in portfolio equity, their choice). The remaining eggs
+// are lore + hints that lead to the ledger.
+// (the kalshi sign-up egg was retired with project 0 — its book is frozen.)
 //
 // Storage is localStorage-only — no server round-trip. The finder can wipe
 // their own progress by clearing site data; nothing is published about who
@@ -17,8 +18,6 @@ export const HUNT_PHONE_DISPLAY = "+1 (385) 368-7238";
 export const HUNT_PHONE_TEL = "+13853687238";
 export const HUNT_PHONE_SMS = "sms:+13853687238";
 
-export const KALSHI_URL =
-  "https://kalshi.com/sign-up/?referral=cfbb33c1-d479-43e3-981b-b10bca851295&m=true";
 export const WAYMO_URL = "https://waymo.smart.link/4pcoqniy5?code=SAATHVS7DT";
 export const WAYMO_CODE = "SAATHVS7DT";
 
@@ -105,7 +104,6 @@ export const HUNT_PHONE_TEL_LINK = HUNT_PHONE_TEL.startsWith("tel:")
   : `tel:${HUNT_PHONE_TEL}`;
 
 export type HuntReward =
-  | "kalshi"
   | "waymo"
   | "bird"
   | "lucky"
@@ -129,15 +127,6 @@ export type HuntEgg = {
 };
 
 export const HUNT_EGGS: HuntEgg[] = [
-  {
-    id: "konami",
-    name: "the old password",
-    origin:
-      "desktop · ↑ ↑ ↓ ↓ ← → ← → b a · mobile · swipe ↑ ↑ ↓ ↓ · url · #stranger",
-    flavor: "you typed the old password. of course it still works.",
-    reward: "kalshi",
-    rarity: 3,
-  },
   {
     id: "thedot",
     name: "the rust dot",
