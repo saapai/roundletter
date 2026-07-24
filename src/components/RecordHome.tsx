@@ -785,14 +785,47 @@ a.rc-imprint-row:hover .rc-imprint-body { color: var(--cyan); }
   background: var(--rust); opacity: 0.65;
 }
 .rc-maze-mercy {
+  position: relative;
   font-family: var(--font-display,'Cormorant Garamond'),Georgia,serif;
   font-style: italic; font-size: 1.15rem; color: var(--graphite);
   background: none; border: none; padding: 0.4rem 0.8rem; cursor: pointer;
   opacity: 0; transform: translateY(6px); pointer-events: none;
-  transition: opacity 900ms ease, transform 900ms ease, color 180ms ease;
+  transition: opacity 900ms ease, transform 900ms ease;
 }
-.rc-maze-mercy--in { opacity: 1; transform: none; pointer-events: auto; }
-.rc-maze-mercy:hover { color: var(--rust); }
+.rc-maze-mercy--in {
+  opacity: 1; transform: none; pointer-events: auto;
+  background-image: linear-gradient(100deg,
+    #3B7A4A 0%, #7dba6a 18%, #e8d98a 38%, #F2C24B 48%,
+    #d97a57 64%, #C2251A 82%, #8B3A2E 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent; -webkit-text-fill-color: transparent;
+  animation: rc-mercy-shimmer 2.8s linear infinite;
+}
+.rc-maze-mercy--in:hover { transform: scale(1.05); }
+@keyframes rc-mercy-shimmer {
+  0% { background-position: 0% 0; }
+  100% { background-position: 220% 0; }
+}
+/* the ripple — two rings, green then red, fired once on arrival */
+.rc-maze-mercy--in::before, .rc-maze-mercy--in::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 16px; height: 16px; border-radius: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none; opacity: 0;
+}
+.rc-maze-mercy--in::before {
+  border: 1.5px solid rgba(59,122,74,0.55);
+  animation: rc-mercy-ripple 1.5s cubic-bezier(0.22,1,0.36,1) 0.15s 2;
+}
+.rc-maze-mercy--in::after {
+  border: 1.5px solid rgba(194,37,26,0.45);
+  animation: rc-mercy-ripple 1.5s cubic-bezier(0.22,1,0.36,1) 0.55s 2;
+}
+@keyframes rc-mercy-ripple {
+  0% { width: 16px; height: 16px; opacity: 0.9; }
+  100% { width: 300px; height: 300px; opacity: 0; }
+}
 @keyframes rc-maze-shake {
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-5px); } 40% { transform: translateX(5px); }
@@ -992,5 +1025,7 @@ a.rc-imprint-row:hover .rc-imprint-body { color: var(--cyan); }
   .rc-live-dot { animation: none; }
   .rc-maze { transition: none; }
   .rc-maze--shake .rc-maze-grid { animation: none; }
+  .rc-maze-mercy--in { animation: none; }
+  .rc-maze-mercy--in::before, .rc-maze-mercy--in::after { animation: none; }
 }
 `;

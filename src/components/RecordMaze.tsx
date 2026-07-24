@@ -21,6 +21,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
    ═══════════════════════════════════════════════════════════════ */
 
 const STORAGE_KEY = "rc_maze_solved";
+const POS_KEY = "rc_maze_pos";
 
 // 13×9 grid. 1 = wall, 0 = corridor. S at [7,0], exit at [1,12].
 const GRID: number[][] = [
@@ -59,11 +60,16 @@ export default function RecordMaze() {
   const touchYRef = useRef<number | null>(null);
   const escapeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* resolve solved state on mount */
+  /* resolve solved state + saved trace position on mount */
   useEffect(() => {
     let done = false;
     try {
       done = sessionStorage.getItem(STORAGE_KEY) === "1";
+      const saved = sessionStorage.getItem(POS_KEY);
+      if (saved) {
+        const p = JSON.parse(saved) as { r: number; c: number };
+        if (isCorridor(p.r, p.c)) setPos(p);
+      }
     } catch { /* noop */ }
     const reduced = typeof window !== "undefined" &&
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -71,6 +77,11 @@ export default function RecordMaze() {
     solvedRef.current = isSolved;
     setSolved(isSolved);
   }, []);
+
+  /* progress survives scrolling away, rebuffs, and reloads */
+  useEffect(() => {
+    try { sessionStorage.setItem(POS_KEY, JSON.stringify(pos)); } catch { /* noop */ }
+  }, [pos]);
 
   const solve = useCallback((how: string) => {
     if (solvedRef.current) return;
@@ -176,9 +187,9 @@ export default function RecordMaze() {
         return { r, c };
       }
       if (!isCorridor(r, c) && !(r === prev.r && c === prev.c)) {
+        // walls block, they don't punish — progress is never reset
         setDead(true);
         setTimeout(() => setDead(false), 300);
-        return START;
       }
       return prev;
     });
