@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { HUNT_PHONE_DISPLAY, HUNT_PHONE_SMS } from "@/lib/hunt";
 import { fmtMoneyCents } from "@/lib/portfolio-live";
-import { getPortfolioData } from "@/lib/portfolio-aggregate";
+import { getEquityBasis, getPortfolioData } from "@/lib/portfolio-aggregate";
 import { getGraphSnapshot } from "@/lib/memory/graph-snapshot";
 import CoilVisualization from "@/components/CoilVisualizationLoader";
 import TopographicMap from "@/components/TopographicMapLoader";
@@ -17,11 +17,10 @@ import s from "./statement.module.css";
 // memory/feedback_live_link_metadata.md.
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
-  const liveTotal = `$${Math.round(data.total).toLocaleString("en-US")}`;
-  const pct = (data.total / data.goal) * 100;
-  const desc = `${liveTotal} → $100,000 by 21 jun. ${pct.toFixed(2)}% of goal. one account, real money, on the page before each trade clears.`;
+  const liveTotal = `$${Math.round(getEquityBasis(data)).toLocaleString("en-US")}`;
+  const desc = `${liveTotal} carried forward. project 0 closed — the monte carlo was right. project 1 open through december 31, 2026: no goal posts. yet. one account, real money, on the page before each trade clears.`;
   return {
-    title: `saathvik pai · ${liveTotal} → $100,000`,
+    title: `saathvik pai · ${liveTotal}`,
     description: desc,
     openGraph: {
       title: `saathvik pai · ${liveTotal}`,
@@ -37,22 +36,19 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const GOAL = 100_000;
-
 export default async function Statement() {
-  // Whole-bank total (personal + external + art + prediction), not just stocks.
+  // The account is the book — same equity basis as every other surface.
   const data = await getPortfolioData();
-  const total = data.total;
-  const pct = (total / GOAL) * 100;
+  const total = getEquityBasis(data);
 
   // Live memory graph snapshot for the entrenched coils visualization
   const graph = getGraphSnapshot();
 
-  // Days remaining to 21 june goal
-  const daysToGoal = Math.max(
+  // Days remaining to project 1's close
+  const daysToClose = Math.max(
     0,
     Math.ceil(
-      (Date.parse("2026-06-21T00:00:00-07:00") - Date.now()) / 86_400_000,
+      (Date.parse("2026-12-31T23:59:59-07:00") - Date.now()) / 86_400_000,
     ),
   );
 
@@ -60,7 +56,7 @@ export default async function Statement() {
     <main className={s.root}>
       <article className={s.wrap}>
         <header className={s.masthead}>
-          <div className={s.handle}>saathvik pai · saapai · nineteen · salt lake</div>
+          <div className={s.handle}>saathvik pai · saapai · twenty · salt lake</div>
         </header>
 
         {/* Pre-mortem line is the cover. Display size, not body. */}
@@ -75,18 +71,16 @@ export default async function Statement() {
         </p>
 
         {/* One number, not three boxed cards. */}
-        <section className={s.bigNum} aria-label="the wager">
+        <section className={s.bigNum} aria-label="the account">
           <div className={s.bigNumFig}>
             {fmtMoneyCents(total)}
-            <span className={s.bigNumArrow}> → </span>
-            <span className={s.bigNumGoal}>$100,000</span>
           </div>
           <div className={s.bigNumMeta}>
-            <span>{pct.toFixed(2)}% of goal</span>
+            <span>project 0 · closed · the monte carlo was right</span>
             <span className={s.bigNumSep}>·</span>
-            <span>T−{daysToGoal} days</span>
+            <span>project 1 · no goal posts. yet</span>
             <span className={s.bigNumSep}>·</span>
-            <span>21 june · birthday</span>
+            <span>T−{daysToClose} days · dec 31</span>
           </div>
         </section>
 

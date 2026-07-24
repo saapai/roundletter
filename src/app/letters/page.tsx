@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import BankNav from "@/components/BankNav";
 import { getLetter } from "@/lib/data";
-import { getPortfolioData } from "@/lib/portfolio-aggregate";
+import { getEquityBasis, getPortfolioData } from "@/lib/portfolio-aggregate";
 
 export const dynamic = "force-dynamic";
 
@@ -21,8 +21,8 @@ const LABELS: Record<string, string> = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
-  const v = `$${Math.round(data.total).toLocaleString("en-US")}`;
-  const desc = `nine papers on memory, markets, and the math of compounding · ${v} → $100,000`;
+  const v = `$${Math.round(getEquityBasis(data)).toLocaleString("en-US")}`;
+  const desc = `nine papers on memory, markets, and the math of compounding · ${v} carried forward · project 1`;
   return {
     title: `letters · aureliex · ${v}`,
     description: desc,
