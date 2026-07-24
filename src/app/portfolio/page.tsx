@@ -4,7 +4,7 @@ import Link from "next/link";
 import PortfolioChart from "@/components/PortfolioChart";
 import CategoryCard from "@/components/CategoryCard";
 import { fmtMoney } from "@/lib/portfolio-live";
-import { getPortfolioData, getExternalEntries } from "@/lib/portfolio-aggregate";
+import { getEquityBasis, getPortfolioData, getExternalEntries } from "@/lib/portfolio-aggregate";
 import portfolio from "@/data/portfolio.json";
 
 /* ────────────────────────────────────────────────────────────
@@ -33,11 +33,10 @@ const BASELINE_TS = new Date(`${BASELINE_DATE}T14:00:00Z`).getTime();
 // memory/feedback_live_link_metadata.md.
 export async function generateMetadata(): Promise<Metadata> {
   const data = await getPortfolioData();
-  const liveTotal = `$${Math.round(data.total).toLocaleString("en-US")}`;
-  const pct = (data.total / data.goal) * 100;
-  const desc = `${liveTotal} now · ${pct.toFixed(2)}% of $100k · live, public, every trade on the record.`;
+  const liveTotal = `$${Math.round(getEquityBasis(data)).toLocaleString("en-US")}`;
+  const desc = `${liveTotal} carried forward · project 1, no goal posts yet · live, public, every trade on the record.`;
   return {
-    title: `aureliex · ${liveTotal} → $100,000`,
+    title: `aureliex · the ledger · ${liveTotal}`,
     description: desc,
     openGraph: {
       title: `aureliex · the bank · ${liveTotal}`,
@@ -71,27 +70,25 @@ export default async function PortfolioPage() {
     { key: "prediction", label: "Prediction", href: "/prediction" },
   ];
 
-  // Days remaining to 21 jun birthday goal — for hero meta
-  const goalIso = "2026-06-21T00:00:00-07:00";
-  const daysToGoal = Math.max(
+  // Days remaining to project 1's close — for hero meta
+  const closeIso = "2026-12-31T23:59:59-07:00";
+  const daysToClose = Math.max(
     0,
-    Math.ceil((Date.parse(goalIso) - Date.now()) / 86_400_000),
+    Math.ceil((Date.parse(closeIso) - Date.now()) / 86_400_000),
   );
-  const pctOfGoal = (data.total / data.goal) * 100;
+  const equity = getEquityBasis(data);
 
   return (
     <article className="article page bank-page">
       <header className="bank-hero">
-        <div className="bank-hero-eyebrow">the book</div>
+        <div className="bank-hero-eyebrow">the book · project 1</div>
         <div className="bank-hero-num">
-          {fmtMoney(data.total)}
-          <span className="bank-hero-arrow"> → </span>
-          <span className="bank-hero-goal">$100,000</span>
+          {fmtMoney(equity)}
         </div>
         <div className="bank-hero-meta">
-          <span>{pctOfGoal.toFixed(2)}% of goal</span>
+          <span>no goal posts. yet</span>
           <span className="bank-hero-meta-sep">·</span>
-          <span>T−{daysToGoal} days</span>
+          <span>closes dec 31 · T−{daysToClose} days</span>
           <span className="bank-hero-meta-sep">·</span>
           <span>{data.live ? "live" : "baseline"}</span>
         </div>
@@ -108,7 +105,7 @@ export default async function PortfolioPage() {
       <section className="alloc-section" aria-label="allocation">
         <div className="alloc-head">
           <div className="alloc-eyebrow">allocation</div>
-          <div className="alloc-meta">{fmtMoney(data.total)} across {(["personal","external","prediction"] as const).filter(k => cats[k].current_value > 0).length} categories</div>
+          <div className="alloc-meta">{fmtMoney(data.total)} on record across {(["personal","external","prediction"] as const).filter(k => cats[k].current_value > 0).length} books — the account, outside stakes, and the frozen project-0 prediction books</div>
         </div>
         <div className="alloc-bar" role="img" aria-label="allocation across categories">
           {(["personal","external","prediction"] as const).map((key) => {
