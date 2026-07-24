@@ -45,6 +45,15 @@ export type Shareholder = {
   total_return_pct: number;
 };
 
+// The equity basis for shareholder math — project 1: the account IS the
+// book (live holdings + pending cash). The frozen kalshi/polymarket books
+// and the old hardcoded $150 deposit were project-0 artifacts; adding them
+// inflated "of portfolio" on every equity page. One helper so every
+// surface (shareholder pages, /api/shareholders, /v9, /invest) agrees.
+export function getEquityBasis(data: PortfolioData): number {
+  return data.categories.personal.current_value;
+}
+
 export function getShareholders(currentPortfolioValue: number): Shareholder[] {
   const entries = getExternalEntries();
   const byName = new Map<string, Shareholder>();

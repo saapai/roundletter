@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getPortfolioData, getShareholders } from "@/lib/portfolio-aggregate";
+import { getEquityBasis, getPortfolioData, getShareholders } from "@/lib/portfolio-aggregate";
 import ShareholderClient from "./client";
 
 export const dynamic = "force-dynamic";
@@ -25,11 +25,7 @@ export default async function ShareholderPage({ params }: { params: Promise<{ na
   if (!fullName) notFound();
 
   const data = await getPortfolioData();
-  const portfolioValue =
-    data.categories.personal.current_value +
-    data.categories.prediction.breakdown.kalshi.total +
-    data.categories.prediction.breakdown.polymarket.bankroll +
-    150;
+  const portfolioValue = getEquityBasis(data);
   const shareholders = getShareholders(portfolioValue);
   const shareholder = shareholders.find((s) => s.slug === slug);
   if (!shareholder) notFound();
