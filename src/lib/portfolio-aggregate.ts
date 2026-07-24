@@ -180,6 +180,7 @@ export function getPersonalHoldings(): Array<{
   shares: number;
   entry_price?: number;
   entry_value: number;
+  no_live_quote?: boolean;
 }> {
   const h = (portfolio as unknown as {
     holdings?: Array<{
@@ -188,6 +189,7 @@ export function getPersonalHoldings(): Array<{
       shares: number;
       entry_price?: number;
       entry_value: number;
+      no_live_quote?: boolean;
     }>;
   }).holdings ?? [];
   return h;
@@ -352,7 +354,8 @@ export async function getPersonalLive(): Promise<PersonalLive | null> {
     if (!j?.hasData || !j.data) return null;
     const holdings = getPersonalHoldings();
     const positions: PositionLive[] = holdings.map((h) => {
-      const s = j.data?.[h.ticker];
+      // flagged holdings carry the book mark regardless of the feed
+      const s = h.no_live_quote ? null : j.data?.[h.ticker];
       if (!s || !s.closes || s.closes.length === 0) {
         return {
           ticker: h.ticker, name: h.name, shares: h.shares,
@@ -457,6 +460,7 @@ async function buildPersonalSeries(currentValue: number): Promise<SeriesPoint[]>
     const live: SeriesPoint[] = timestamps.map((ts, i) => {
       let total = 0;
       for (const h of holdings) {
+        if (h.no_live_quote) { total += h.entry_value; continue; }
         const s = j.data?.[h.ticker];
         if (s && s.closes[i] != null) total += h.shares * s.closes[i];
       }

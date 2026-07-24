@@ -12,7 +12,7 @@ import { getPortfolioData } from "@/lib/portfolio-aggregate";
 // Node runtime — reads vendored snapshots via fs in src/lib/snapshots.ts.
 
 export const runtime = "nodejs";
-export const revalidate = 300; // 5 min — live aggregator is the slow path
+export const dynamic = "force-dynamic"; // never ISR-cached; the inner Yahoo fetches carry their own 5-min data cache
 
 export async function GET() {
   const data = await getPortfolioData();

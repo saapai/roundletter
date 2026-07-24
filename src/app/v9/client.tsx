@@ -22,7 +22,7 @@ type ShareholderSummary = {
 type Props = {
   totalNow: number;
   daysToBirthday: number;
-  holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
+  holdings: Array<{ ticker: string; shares: number; entry_value: number; noLiveQuote?: boolean }>;
   pendingCash: number;
   entryValue: number;
   nonStockValue: number;
@@ -49,6 +49,7 @@ function useLiveTotal(
         if (!j?.hasData || !alive) return;
         let sum = pendingCash + nonStockValue;
         for (const h of holdings) {
+          if (h.noLiveQuote) { sum += h.entry_value; continue; }
           const s = j.data[h.ticker];
           sum += s?.closes?.length > 0 ? h.shares * s.closes[s.closes.length - 1] : h.entry_value;
         }

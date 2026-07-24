@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getEquityBasis, getPortfolioData, getShareholders } from "@/lib/portfolio-aggregate";
 
 export const runtime = "nodejs";
-export const revalidate = 1800; // 30 min
+export const dynamic = "force-dynamic"; // never ISR-cached — stale equity numbers outlived two fixes
 
 export async function GET() {
   const data = await getPortfolioData();

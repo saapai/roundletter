@@ -28,7 +28,7 @@ import RecordMaze from "@/components/RecordMaze";
    once — it is project 1's color. Rose = sold. One dark beat.
    ═══════════════════════════════════════════════════════════════ */
 
-type Holding = { ticker: string; shares: number; entry_value: number };
+type Holding = { ticker: string; shares: number; entry_value: number; noLiveQuote?: boolean };
 
 type Props = {
   totalNow: number;
@@ -56,6 +56,9 @@ function useLiveTotal(holdings: Holding[], pendingCash: number, fallback: number
         if (!j?.hasData || !alive) return;
         let sum = pendingCash;
         for (const h of holdings) {
+          // flagged holdings are carried at the book mark no matter what the
+          // feed says — a stale cached payload can't poison the total
+          if (h.noLiveQuote) { sum += h.entry_value; continue; }
           const s = j.data[h.ticker];
           sum += s?.closes?.length > 0 ? h.shares * s.closes[s.closes.length - 1] : h.entry_value;
         }

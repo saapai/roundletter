@@ -8,8 +8,11 @@ import RecordHome from "@/components/RecordHome";
 // The previous homepage (v9, "the rocks") is preserved at /v9.
 
 const HOLDINGS = (portfolio as {
-  holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
-}).holdings.map((h) => ({ ticker: h.ticker, shares: h.shares, entry_value: h.entry_value }));
+  holdings: Array<{ ticker: string; shares: number; entry_value: number; no_live_quote?: boolean }>;
+}).holdings.map((h) => ({
+  ticker: h.ticker, shares: h.shares, entry_value: h.entry_value,
+  noLiveQuote: !!h.no_live_quote,
+}));
 const PENDING_CASH = (portfolio as { pending_cash: number }).pending_cash;
 const OPENING_VALUE =
   (portfolio as { project_1?: { opening_value?: number } }).project_1?.opening_value ?? 4265.39;
