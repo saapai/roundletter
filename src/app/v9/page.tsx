@@ -10,8 +10,11 @@ import V9Client from "./client";
 // was retired with project 0.
 
 const HOLDINGS = (portfolio as {
-  holdings: Array<{ ticker: string; shares: number; entry_value: number }>;
-}).holdings.map((h) => ({ ticker: h.ticker, shares: h.shares, entry_value: h.entry_value }));
+  holdings: Array<{ ticker: string; shares: number; entry_value: number; no_live_quote?: boolean }>;
+}).holdings.map((h) => ({
+  ticker: h.ticker, shares: h.shares, entry_value: h.entry_value,
+  noLiveQuote: !!h.no_live_quote,
+}));
 const PENDING_CASH = (portfolio as { pending_cash: number }).pending_cash;
 const ENTRY_VALUE = (portfolio as { account_value_at_entry: number }).account_value_at_entry;
 const BIRTHDAY_ISO = "2026-06-21T00:00:00-07:00";

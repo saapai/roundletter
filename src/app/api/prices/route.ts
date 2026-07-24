@@ -8,7 +8,11 @@ import portfolio from "@/data/portfolio.json";
 // Revalidates every 15 min so the chart isn't fetching on every request.
 
 export const runtime = "nodejs";
-export const revalidate = 900;
+// force-dynamic: the route itself is never ISR-cached (Vercel persists the
+// ISR cache across deployments, which kept serving a stale ticker list after
+// the SHAZ exclusion shipped). The per-ticker Yahoo fetches below still use
+// the 15-min data cache, so this stays cheap.
+export const dynamic = "force-dynamic";
 
 // Tickers come from portfolio.json so the price feed can never drift from
 // the live book again (the project-0 list was hardcoded here and went stale).
@@ -67,6 +71,7 @@ export async function GET() {
   for (const [t, s] of entries) data[t] = s;
   const anyData = Object.values(data).some((s) => s && s.closes.length > 0);
   return NextResponse.json({
+    tickers: TICKERS,
     data,
     fetchedAt: Date.now(),
     hasData: anyData,
