@@ -12,9 +12,9 @@ const ENTRY_VALUE =
 const PENDING_CASH = (portfolio as { pending_cash?: number }).pending_cash ?? 0;
 const GOAL = 100_000;
 
-const HOLDINGS: Array<{ ticker: string; shares: number; entry: number }> =
-  ((portfolio as { holdings?: Array<{ ticker: string; shares: number; entry_value: number }> }).holdings ?? [])
-    .map((h) => ({ ticker: h.ticker, shares: h.shares, entry: h.entry_value }));
+const HOLDINGS: Array<{ ticker: string; shares: number; entry: number; noLiveQuote: boolean }> =
+  ((portfolio as { holdings?: Array<{ ticker: string; shares: number; entry_value: number; no_live_quote?: boolean }> }).holdings ?? [])
+    .map((h) => ({ ticker: h.ticker, shares: h.shares, entry: h.entry_value, noLiveQuote: !!h.no_live_quote }));
 
 export type LivePortfolio = {
   baseline: number;
@@ -57,6 +57,7 @@ export async function getLivePortfolio(): Promise<LivePortfolio> {
 
   try {
     const priced = await Promise.all(HOLDINGS.map(async (h) => {
+      if (h.noLiveQuote) return h.entry;
       const c = await lastClose(h.ticker);
       return c == null ? h.entry : h.shares * c;
     }));

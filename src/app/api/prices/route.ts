@@ -12,9 +12,14 @@ export const revalidate = 900;
 
 // Tickers come from portfolio.json so the price feed can never drift from
 // the live book again (the project-0 list was hardcoded here and went stale).
+// Holdings flagged no_live_quote are excluded — Yahoo resolves their symbol
+// to a different instrument (SHAZ), so they're carried at the last synced
+// mark; every consumer falls back to entry_value when a series is missing.
 const TICKERS = (
-  (portfolio as { holdings?: Array<{ ticker: string }> }).holdings ?? []
-).map((h) => h.ticker);
+  (portfolio as { holdings?: Array<{ ticker: string; no_live_quote?: boolean }> }).holdings ?? []
+)
+  .filter((h) => !h.no_live_quote)
+  .map((h) => h.ticker);
 
 type Series = { timestamps: number[]; closes: number[] };
 
