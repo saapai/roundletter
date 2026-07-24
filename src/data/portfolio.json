@@ -85,7 +85,8 @@
       "entry_value": 842.1,
       "target_pct": 25.9,
       "tier": "core",
-      "note": "trimmed 15\u219212 on 2026-07-23"
+      "note": "trimmed 15\u219212 on 2026-07-23. no reliable public quote feed \u2014 carried at last Fidelity mark ($70.18/sh) until each sync.",
+      "no_live_quote": true
     },
     {
       "ticker": "SPY",
