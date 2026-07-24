@@ -56,16 +56,15 @@ export default function InvestPage() {
   const [gainPct, setGainPct] = useState<number | null>(null);
 
   useEffect(() => {
-    // Match homepage: personal + kalshi only (not external/art)
+    // Match every equity surface: the account is the book (personal only —
+    // the frozen kalshi book was a project-0 artifact)
     fetch("/api/portfolio")
       .then((r) => r.json())
       .then((j) => {
         const personal = j?.categories?.personal?.current_value;
-        const kalshi = j?.categories?.prediction?.breakdown?.kalshi?.total;
         const baseline = j?.baseline;
         if (personal != null && baseline) {
-          const total = personal + (kalshi ?? 0);
-          setGainPct(((total - baseline) / baseline) * 100);
+          setGainPct(((personal - baseline) / baseline) * 100);
         }
       })
       .catch(() => {});
