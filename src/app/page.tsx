@@ -202,6 +202,9 @@ const CSS = `
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" 1, "kern" 1;
+  overflow-x: hidden;
+  word-break: break-word;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* ── MASTHEAD ── */
@@ -463,17 +466,41 @@ const CSS = `
 
 /* ── RESPONSIVE ── */
 @media (max-width: 640px) {
+  .ax-article {
+    overflow-x: hidden;
+  }
+  .ax-hero {
+    padding: 0 1rem;
+  }
   .ax-hero-crop {
-    height: clamp(110px, 32vw, 180px);
+    height: clamp(100px, 32vw, 180px);
+  }
+  .ax-body {
+    padding: 1.5rem 1rem;
   }
   .ax-h2 {
     font-size: clamp(1.6rem, 1.2rem + 3vw, 2.4rem);
+  }
+  .ax-prose {
+    font-size: 1rem;
+    line-height: 1.75;
+    overflow-wrap: break-word;
+  }
+  .ax-prose p {
+    margin: 0 0 0.15em;
   }
   .ax-article[data-editing] .ax-h2::after {
     left: -10px;
   }
   .ax-editable {
     padding: 0.8rem 1rem;
+    font-size: 1rem;
+  }
+  .ax-full-image {
+    padding: 1rem 1rem 2rem;
+  }
+  .ax-colophon {
+    padding: 2rem 1rem 3rem;
   }
 }
 
