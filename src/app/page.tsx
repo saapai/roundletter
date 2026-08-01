@@ -19,17 +19,65 @@ const INITIAL_SECTIONS: Section[] = [
   {
     id: "alcohol",
     title: "Alcohol",
-    content: "",
+    content: `I think most people are aware that alcohol is really bad for you, yet it\u2019s so normalized that people don\u2019t mind that cost to have fun at a party.
+
+
+This isn\u2019t a criticism of that mindset, but it\u2019s to establish the premise that this exists pretty much everywhere; someone with high cholesterol eats red meat regularly because they\u2019d rather live a shorter life in which they enjoyed what they ate.
+
+
+In the specific case of alcohol, it\u2019s been proven time and again that no amount of alcohol is good for you and there\u2019s no medical use case for it. In the image above you can see alcohol\u2019s harm level is on par with some of the worst drugs (crack, meth, heroin).`,
   },
   {
     id: "drugs-i-like",
     title: "The Drugs I Like",
-    content: "",
+    content: `So it confuses me when people are taken aback with my embracement of psychoactive substances (weed, shrooms, LSD).
+
+
+I\u2019ve found that these substances can often by profoundly helpful with creative lines of thought and introspection. From the above example, the negative harm of these substances to me are the equivalent of what most people would see in drinking at a party.
+
+
+Now, shrooms and especially LSD have this huge stigmatization (which seems to be reducing now). They\u2019re the \u201ccrazy\u201d drug that can do \u201ccrazy\u201d things to you. And yes, admittedly people with certain predispositions such as schizophrenia or PTSD have a risk of psychosis (basically losing contact with reality), but I view this risk as an extension of the alcohol/party example.
+
+
+I\u2019m basically willing to take the negatives of psychedelics because of the profound creativity and flow it uncovers for sober me.
+
+
+A not too uncommon result of drinking can be alcohol poisoning (getting hospitalized or your stomach pumped) or even death/killing others (drunk driving), but not too many people hold that against the act of drinking.
+
+
+Why? Because if you\u2019re not stupid when you drink most of those things never happen. A more apt analogy could also be people not drinking when they\u2019re on medication. So I view taking psychedelics the same way. You should be a little responsible with the conditions/history that you have and be responsible with the dosage/environment to avoid the negatives.
+
+
+Well what about someone taking shrooms and jumping off a building because they suddenly thought they could fly? If u take shrooms on top of a building, natural selection.
+
+
+However, most of these negatives are actually a really small edge case and in reality the average person actually has nothing to worry about when taking psychedelics. There is no physiological harm that mushrooms or LSD do to your body, and in fact no known cases of overdoses or deaths resulting from the substance being in your body.
+
+
+Also, shrooms don\u2019t affect any dopamine receptors so you cannot get chemically addicted to it, and LSD has an addiction rate of about 0.1% (for reference weed is about 10%, alcohol is 20%, and heroin is 25%).
+
+
+Now, the positive stories of psychedelics are far more interesting.
+
+
+My friend\u2019s dad had brain damage when he was younger and started to have tremors later in his life and was diagnosed with early onset Parkinson\u2019s and then entered a shrooms trial and all the tremors went away.
+
+
+I know of many cases of people whose alcohol, tobacco, and other drug addictions were cured. People whose depression gets cured.
+
+
+The far more interesting cases (to me) of beautiful music (the Beatles, Pink Floyd, A$AP Rocky, Tame Impala), literature (Aldous Huxley, Terrence Mckenna), and creations (Steve Jobs and Apple), which in my opinion had an immense ripple effect on the rest of the world just by being at the creative frontier.
+
+
+All of these psychedelics were criminalized in the 60s-70s because the government was worried they couldn\u2019t control the new wave of so called \u201chippies\u201d who just did what they wanted, which in it of itself should be a reason they are good. Because the reason the government was afraid of the substance was that people stopped fighting, stopped going to jobs they realized they hated, and stopped listening to authority they realized they didn\u2019t need.
+
+
+This is not an endorsement of shrooms or LSD as the magic drug that solves all, because I think a lot of the creative benefits come from some type of alignment with it, because I know plenty of people for whom it\u2019s just fun, but I think the world would be a better place if everyone tripped, and there\u2019s few things that deserve the same sentiment.`,
   },
   {
     id: "also",
     title: "Also",
-    content: "",
+    content: `I think my entire argument for psychedelics is reasonable even if alcohol and psychedelics were identical in their harm, but interestingly enough, they\u2019re not. So here\u2019s the full image from the beginning.`,
   },
 ];
 
