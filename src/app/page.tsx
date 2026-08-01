@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, KeyboardEvent } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 /* ═══════════════════════════════════════════════════════
    ARTICLE — "Alcohol"
@@ -68,28 +68,24 @@ export default function ArticlePage() {
   const [editing, setEditing] = useState(false);
   const [sections, updateSections] = useLocalSections("ax-article-sections", INITIAL_SECTIONS);
   const editableRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const [mounted, setMounted] = useState(false);
+  const sectionsRef = useRef(sections);
+  sectionsRef.current = sections;
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  /* sync contentEditable divs when edit mode changes */
+  /* populate contentEditable divs when entering edit mode */
   useEffect(() => {
     if (!editing) return;
-    for (const s of sections) {
+    for (const s of sectionsRef.current) {
       const el = editableRefs.current[s.id];
-      if (el && el.innerHTML !== toHtml(s.content)) {
-        el.innerHTML = toHtml(s.content);
-      }
+      if (el) el.innerText = s.content;
     }
-  }, [editing, sections]);
+  }, [editing]);
 
-  const handleInput = useCallback(
+  /* save from contentEditable to state on blur */
+  const handleBlur = useCallback(
     (id: string) => {
       const el = editableRefs.current[id];
       if (!el) return;
-      const text = fromHtml(el.innerHTML);
+      const text = el.innerText || "";
       updateSections((prev) =>
         prev.map((s) => (s.id === id ? { ...s, content: text } : s)),
       );
@@ -97,19 +93,21 @@ export default function ArticlePage() {
     [updateSections],
   );
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        document.execCommand("insertLineBreak");
-      }
-    },
-    [],
-  );
-
+  /* save all sections when exiting edit mode */
   const toggleEdit = useCallback(() => {
-    setEditing((prev) => !prev);
-  }, []);
+    setEditing((prev) => {
+      if (prev) {
+        /* leaving edit mode — flush all contentEditable text to state */
+        updateSections((old) =>
+          old.map((s) => {
+            const el = editableRefs.current[s.id];
+            return el ? { ...s, content: el.innerText || "" } : s;
+          }),
+        );
+      }
+      return !prev;
+    });
+  }, [updateSections]);
 
   return (
     <div className="ax-article" data-editing={editing || undefined}>
@@ -150,10 +148,8 @@ export default function ArticlePage() {
                 className="ax-editable"
                 contentEditable
                 suppressContentEditableWarning
-                onInput={() => handleInput(section.id)}
-                onKeyDown={handleKeyDown}
+                onBlur={() => handleBlur(section.id)}
                 data-placeholder="Start writing..."
-                dangerouslySetInnerHTML={{ __html: mounted ? toHtml(section.content) : "" }}
               />
             ) : (
               <div className="ax-prose">
@@ -192,21 +188,6 @@ export default function ArticlePage() {
       </footer>
     </div>
   );
-}
-
-/* ── helpers ── */
-function toHtml(text: string): string {
-  if (!text) return "";
-  return text
-    .split("\n")
-    .map((line) => line || "<br>")
-    .join("<br>");
-}
-
-function fromHtml(html: string): string {
-  const tmp = document.createElement("div");
-  tmp.innerHTML = html;
-  return (tmp.innerText || "").replace(/\n$/, "");
 }
 
 /* ═══════════════════════════════════════════════════════
