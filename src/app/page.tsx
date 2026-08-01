@@ -80,20 +80,6 @@ export default function ArticlePage() {
     }
   }, [editing]);
 
-  /* save from contentEditable to state on blur */
-  const handleBlur = useCallback(
-    (id: string) => {
-      const el = editableRefs.current[id];
-      if (!el) return;
-      const text = el.innerText || "";
-      updateSections((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, content: text } : s)),
-      );
-    },
-    [updateSections],
-  );
-
-  /* save all sections when exiting edit mode */
   const toggleEdit = useCallback(() => {
     setEditing((prev) => {
       if (prev) {
@@ -148,7 +134,6 @@ export default function ArticlePage() {
                 className="ax-editable"
                 contentEditable
                 suppressContentEditableWarning
-                onBlur={() => handleBlur(section.id)}
                 data-placeholder="Start writing..."
               />
             ) : (
