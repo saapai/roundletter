@@ -19,8 +19,59 @@ export function getMemoryDb(): Database.Database {
     _db = new Database(DB_PATH);
     const schema = readFileSync(SCHEMA_PATH, "utf-8");
     _db.exec(schema);
+    // Migration: add 'trade' to content_type CHECK constraint
+    // SQLite can't ALTER CHECK constraints, so we recreate the table if needed
+    migrateContentTypeCheck(_db);
   }
   return _db;
+}
+
+function migrateContentTypeCheck(db: Database.Database): void {
+  // Check if the 'trade' content_type is already allowed by attempting a test
+  try {
+    const testId = `__migration_test_${Date.now()}`;
+    db.prepare(`
+      INSERT INTO memory_nodes (id, agent_id, created_at, last_accessed, content, content_type, salience, decay_rate)
+      VALUES (?, 'portfolio-manager', datetime('now'), datetime('now'), 'migration test', 'trade', 1.0, 0.015)
+    `).run(testId);
+    // If it succeeded, the constraint already allows 'trade' — clean up
+    db.prepare(`DELETE FROM memory_nodes WHERE id = ?`).run(testId);
+  } catch {
+    // Constraint rejected 'trade' — need to rebuild the table
+    // Dynamically read existing columns to avoid mismatch with added columns (e.g. labile_until)
+    const cols = db.pragma("table_info(memory_nodes)") as Array<{ name: string; type: string; notnull: number; dflt_value: string | null; pk: number }>;
+    const colNames = cols.map((c) => c.name).join(", ");
+
+    // Build column defs, replacing the content_type CHECK constraint
+    const colDefs = cols.map((c) => {
+      let def = `${c.name} ${c.type}`;
+      if (c.pk) def += " PRIMARY KEY";
+      if (c.notnull && !c.pk) def += " NOT NULL";
+      if (c.dflt_value !== null) def += ` DEFAULT ${c.dflt_value}`;
+      if (c.name === "content_type") {
+        def += ` CHECK(content_type IN ('claim','prediction','observation','correction','identity','trade'))`;
+      } else if (c.name === "direction") {
+        def += ` CHECK(direction IN ('up','down','flat'))`;
+      }
+      return def;
+    }).join(",\n        ");
+
+    db.exec(`
+      BEGIN;
+      CREATE TABLE memory_nodes_new (
+        ${colDefs}
+      );
+      INSERT INTO memory_nodes_new SELECT ${colNames} FROM memory_nodes;
+      DROP TABLE memory_nodes;
+      ALTER TABLE memory_nodes_new RENAME TO memory_nodes;
+      CREATE INDEX IF NOT EXISTS idx_mn_agent ON memory_nodes(agent_id, created_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_mn_ticker ON memory_nodes(ticker, created_at DESC);
+      CREATE INDEX IF NOT EXISTS idx_mn_type ON memory_nodes(content_type, agent_id);
+      CREATE INDEX IF NOT EXISTS idx_mn_salience ON memory_nodes(agent_id, salience DESC);
+      CREATE INDEX IF NOT EXISTS idx_mn_unresolved ON memory_nodes(agent_id, resolved, content_type);
+      COMMIT;
+    `);
+  }
 }
 
 export function closeMemoryDb(): void {

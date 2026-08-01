@@ -22,11 +22,14 @@ export type SleepParams = {
   pruning_threshold: number;       // default 0.05 (salience below which nodes die)
 };
 
+// Tuned 2026-05-20: more aggressive pruning (712 nodes → target 200-300),
+// stronger decay (contradiction edges were near-immortal at 0.85×1.10=0.935),
+// more creativity to compensate for pruning.
 export const DEFAULT_SLEEP_PARAMS: SleepParams = {
-  consolidation_strength: 0.85,
-  emotional_boost: 0.10,
-  creativity: 0.15,
-  pruning_threshold: 0.05,
+  consolidation_strength: 0.75,  // was 0.85 — half-life drops from 4.3 to 2.4 cycles
+  emotional_boost: 0.08,         // was 0.10 — net effect on contradicts: 0.75×1.08=0.81
+  creativity: 0.20,              // was 0.15 — more random associations to maintain connectivity
+  pruning_threshold: 0.12,       // was 0.05 — never-accessed nodes die in ~20 cycles not ~28
 };
 
 // ── Sleep results (for logging and diagnostics) ─────────────────────────────

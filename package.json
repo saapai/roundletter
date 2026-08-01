@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.89.0",
+    "@types/nodemailer": "^8.0.0",
     "@vercel/kv": "^3.0.0",
     "better-sqlite3": "^12.9.0",
     "framer-motion": "^12.38.0",
     "katex": "^0.16.45",
     "next": "14.2.15",
+    "nodemailer": "^8.0.10",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "three": "^0.184.0",

@@ -10,12 +10,14 @@ import type { MemoryNode, MemoryEdge, EdgeType } from "./types";
 
 // ── Constants ───────────────────────────────────────────────────────────────
 
-// Composite weight coefficients — tension is the largest because
-// contradictions between high-confidence memories are the most informative
-const ALPHA = 0.2;  // temporal proximity
-const BETA  = 0.25; // conviction strength
-const GAMMA = 0.45; // contradiction tension
-const DELTA = 0.1;  // traversal exploration bonus
+// Composite weight coefficients — tuned 2026-05-20 after audit.
+// Conviction was dead weight (all agents predict at 0.70 flat).
+// Shifted to tension (the only discriminative channel) and exploration
+// (99.8% of edges were never traversed due to IONQ concentration).
+const ALPHA = 0.15; // temporal proximity (was 0.20)
+const BETA  = 0.10; // conviction strength (was 0.25 — dead channel with flat confidence)
+const GAMMA = 0.55; // contradiction tension (was 0.45 — primary signal)
+const DELTA = 0.20; // traversal exploration bonus (was 0.10 — forces breadth)
 
 // Temporal decay: half-life ~23 days (lambda = ln(2)/23 ≈ 0.03)
 const LAMBDA_TEMPORAL = 0.03;
@@ -23,6 +25,7 @@ const LAMBDA_TEMPORAL = 0.03;
 // Salience decay rates by content type
 export const DECAY_RATES: Record<string, number> = {
   identity:    0.001,  // effectively permanent
+  trade:       0.015,  // ~46 day half-life (trades matter longer than claims)
   prediction:  0.02,   // ~35 day half-life
   correction:  0.03,   // ~23 day half-life
   claim:       0.05,   // ~14 day half-life (default)
@@ -95,7 +98,11 @@ export function computeTensionWeight(
       if (!sourceNode.resolved && !targetNode.resolved) unresolvedMult = 1.5;  // both active
       else if (sourceNode.resolved && targetNode.resolved) unresolvedMult = 0.3;  // historical
 
-      return baseTension * (1 + resolutionBonus) * unresolvedMult;
+      const rawTension = baseTension * (1 + resolutionBonus) * unresolvedMult;
+      // Weber-Fechner: log-compress extreme tensions so moderate contradictions
+      // still compete for retrieval. Without this, one 5.0 tension edge drowns
+      // out ten 1.5 edges. log2(1+x) maps: 1→1, 2→1.58, 3→2, 5→2.58
+      return Math.log2(1 + rawTension);
     }
     case "corrects":
       return 0.5 * baseTension;
@@ -182,7 +189,9 @@ export function computeCurrentSalience(node: Pick<MemoryNode, "salience" | "deca
   const daysSinceAccess = (now - new Date(node.last_accessed).getTime()) / 86_400_000;
 
   const decayed = node.salience * Math.exp(-node.decay_rate * daysSinceCreation);
-  const accessBoost = 0.1 * node.access_count * Math.exp(-0.1 * daysSinceAccess);
+  // Weber-Fechner: log-compress access count to prevent highly-accessed nodes
+  // from dominating. access_count 50 → 0.39 instead of 5.0.
+  const accessBoost = 0.1 * Math.log(1 + node.access_count) * Math.exp(-0.1 * daysSinceAccess);
 
   return Math.max(0.01, decayed + accessBoost);  // floor at 0.01
 }

@@ -65,8 +65,9 @@ const PremiseVoteSchema = z.object({
 const ArgumentTurnSchema = z.object({
   claim: z.string().describe("one-sentence thesis on the topic"),
   warrant: z.string().describe("2-3 sentences. at least one reference from your bank, naturally"),
+  base_rate: z.string().default("not specified").describe("What is the base rate for this type of event? e.g. 'stocks beat earnings 65% of the time' or 'quantum names drop 30% within 6 months of ATM offering 80% of the time'"),
   prediction: z.enum(["up", "down", "flat"]),
-  confidence: z.number().min(0).max(1).describe("MUST NOT default to 0.70. Use the full range 0.30-0.95 based on evidence strength. 0.90+=very strong, 0.70=moderate, 0.50=uncertain, 0.30=weak thesis."),
+  confidence: z.number().min(0).max(1).describe("Your calibrated confidence AFTER considering the base rate. State why your confidence differs from the base rate. Use the FULL range: 0.90+=very strong evidence beyond base rate, 0.60-0.80=moderate, 0.40-0.55=uncertain, 0.30=weak/contrarian. If you cannot articulate why your confidence differs from the base rate, use the base rate."),
   rebuttal: z
     .string()
     .optional()
@@ -477,11 +478,38 @@ async function localArgumentScorecard(
 function checkConsensus(turns: z.infer<typeof ArgumentTurnSchema>[]): {
   reached: boolean;
   direction: "up" | "down" | "flat" | null;
+  trimmedMeanConfidence: number;
+  trimmedMeanDirection: "up" | "down" | "flat";
 } {
-  if (turns.length === 0) return { reached: false, direction: null };
+  if (turns.length === 0) return { reached: false, direction: null, trimmedMeanConfidence: 0.5, trimmedMeanDirection: "flat" };
+
+  // Original consensus: all agents agree on direction
   const set = new Set(turns.map((t) => t.prediction));
-  if (set.size === 1) return { reached: true, direction: turns[0].prediction };
-  return { reached: false, direction: null };
+  const unanimousReached = set.size === 1;
+  const unanimousDirection = unanimousReached ? turns[0].prediction : null;
+
+  // Trimmed mean aggregation (Halawi et al. 2024):
+  // Convert predictions to signed confidence: up=+conf, down=-conf, flat=0
+  // Drop highest and lowest, average the middle
+  const signed = turns.map((t) =>
+    t.prediction === "up" ? t.confidence : t.prediction === "down" ? -t.confidence : 0,
+  );
+  signed.sort((a, b) => a - b);
+
+  // Trim: drop lowest and highest (1 each for 5 agents)
+  const trimmed = signed.length > 2 ? signed.slice(1, -1) : signed;
+  const mean = trimmed.reduce((a, b) => a + b, 0) / trimmed.length;
+
+  const trimmedMeanDirection: "up" | "down" | "flat" =
+    mean > 0.05 ? "up" : mean < -0.05 ? "down" : "flat";
+  const trimmedMeanConfidence = Math.abs(mean);
+
+  return {
+    reached: unanimousReached,
+    direction: unanimousDirection,
+    trimmedMeanConfidence,
+    trimmedMeanDirection,
+  };
 }
 
 // ── Main entry point ──────────────────────────────────────────────────────
@@ -489,6 +517,7 @@ function checkConsensus(turns: z.infer<typeof ArgumentTurnSchema>[]): {
 export async function runLocalDebate(opts: {
   dayContext: string;
   newsContext?: string;       // scraped news/X data injected here
+  userTopic?: string;         // if provided, skip premise phase and debate this topic directly
   maxArgumentRounds?: number;
   models?: Partial<ModelAssignment>;
   profile?: "light" | "default" | "heavy";
@@ -510,36 +539,69 @@ export async function runLocalDebate(opts: {
   const maxRounds = opts.maxArgumentRounds ?? 3;
 
   console.log(`[local-debate] models: ${JSON.stringify(models)}`);
-  console.log(`[local-debate] starting premise phase...`);
-
-  // Phase 1 — PREMISE
-  const { votes, topic, moderatorOpener } = await runLocalPremise(
-    models,
-    opts.dayContext,
-    opts.newsContext,
-  );
 
   const turns: DebateTurn[] = [];
-  turns.push({ speaker: "moderator", phase: "premise", round: 1, text: moderatorOpener });
-  for (const v of votes) {
+  let topic: Topic;
+
+  if (opts.userTopic) {
+    // User provided a topic — skip premise phase entirely, just get moderator framing
+    console.log(`[local-debate] user topic provided, skipping premise phase...`);
+
+    const framingResult = await localParse({
+      model: models.moderator,
+      system: MODERATOR_SYSTEM,
+      userContent: [
+        `The user has chosen today's debate topic: "${opts.userTopic}"`,
+        `Context: ${opts.dayContext}`,
+        "",
+        "Frame this topic for the panel. Do NOT change the subject — use the user's topic as-is.",
+        "",
+        'Respond with ONLY: {"framing": "your 1-2 sentence abstract frame", "chosen_kind": "position", "chosen_subject": "the user topic repeated verbatim"}',
+        "",
+        "chosen_kind must be one of: position, news, macro, unknown, method, design",
+      ].join("\n"),
+      schema: ModeratorPremiseSchema,
+    });
+
+    topic = {
+      kind: framingResult.parsed.chosen_kind,
+      subject: opts.userTopic,  // use the user's topic, NOT whatever the moderator chose
+      framing: framingResult.parsed.framing,
+    };
+
+    turns.push({ speaker: "moderator", phase: "premise", round: 1, text: topic.framing });
+  } else {
+    // No user topic — run full premise phase with agent proposals
+    console.log(`[local-debate] starting premise phase...`);
+
+    const { votes, topic: premiseTopic, moderatorOpener } = await runLocalPremise(
+      models,
+      opts.dayContext,
+      opts.newsContext,
+    );
+    topic = premiseTopic;
+
+    turns.push({ speaker: "moderator", phase: "premise", round: 1, text: moderatorOpener });
+    for (const v of votes) {
+      turns.push({
+        speaker: v.agent,
+        phase: "premise",
+        round: 1,
+        topic_kind: v.topic_kind,
+        subject: v.subject,
+        why_it_matters: v.why_it_matters,
+      });
+    }
+
+    const premiseScorecard = await localPremiseScorecard(models, topic, votes);
     turns.push({
-      speaker: v.agent,
+      speaker: "moderator",
       phase: "premise",
       round: 1,
-      topic_kind: v.topic_kind,
-      subject: v.subject,
-      why_it_matters: v.why_it_matters,
+      text: premiseScorecard.reasoning,
+      scorecard: premiseScorecard,
     });
   }
-
-  const premiseScorecard = await localPremiseScorecard(models, topic, votes);
-  turns.push({
-    speaker: "moderator",
-    phase: "premise",
-    round: 1,
-    text: premiseScorecard.reasoning,
-    scorecard: premiseScorecard,
-  });
 
   console.log(`[local-debate] premise: "${topic.subject}" [${topic.kind}]`);
   console.log(`[local-debate] starting argument phase (max ${maxRounds} rounds)...`);
@@ -557,6 +619,8 @@ export async function runLocalDebate(opts: {
     const c = checkConsensus(thisRound);
     const interlude = await localModeratorInterlude(models, topic, round, thisRound, c.reached);
     turns.push({ speaker: "moderator", phase: "argument", round, text: interlude });
+    // Log trimmed mean regardless of consensus
+    console.log(`[local-debate] round ${round}: trimmed mean = ${c.trimmedMeanDirection} @ ${c.trimmedMeanConfidence.toFixed(2)}`);
     if (c.reached) {
       consensusRound = round;
       consensusDirection = c.direction;

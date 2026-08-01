@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS memory_nodes (
 
   content         TEXT NOT NULL,
   content_type    TEXT NOT NULL CHECK(content_type IN (
-    'claim', 'prediction', 'observation', 'correction', 'identity'
+    'claim', 'prediction', 'observation', 'correction', 'identity', 'trade'
   )),
 
   debate_id       TEXT,

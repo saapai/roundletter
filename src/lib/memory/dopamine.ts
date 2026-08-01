@@ -26,10 +26,12 @@ import { getMemoryDb, getNode, getOutgoingEdges, getIncomingEdges } from "./db";
 // ── Constants ───────────────────────────────────────────────────────────────
 
 // How much RPE affects salience (higher = more dramatic updates)
-const SALIENCE_LEARNING_RATE = 0.3;
+// Increased from 0.3 to 0.4: 93 wrong IONQ predictions need faster dampening
+const SALIENCE_LEARNING_RATE = 0.4;
 
 // Maximum salience change from a single RPE event
-const MAX_SALIENCE_DELTA = 0.5;
+// Increased from 0.5 to 0.7: lets moderate errors get meaningful punishment
+const MAX_SALIENCE_DELTA = 0.7;
 
 // How much RPE affects connected edge weights
 const EDGE_LEARNING_RATE = 0.2;
@@ -330,4 +332,86 @@ function parseNodeRow(row: any): MemoryNode {
     outcome_correct: row.outcome_correct === null ? null : !!row.outcome_correct,
     compressed_from: row.compressed_from ? JSON.parse(row.compressed_from) : null,
   };
+}
+
+// ── Trade RPE ───────────────────────────────────────────────────────────
+// Extends RPE to actual buy/sell trades, not just debate predictions.
+// Resolves at T+5, T+20, T+60 with increasing weight.
+
+export type TradeOutcome = {
+  tradeNodeId: string;
+  ticker: string;
+  direction: "up" | "down"; // buy = up, sell = down
+  entryPrice: number;
+  currentPrice: number;
+  daysHeld: number;
+  confidenceAtEntry: number;
+};
+
+export function computeTradeRPE(outcome: TradeOutcome): number {
+  const returnPct = (outcome.currentPrice - outcome.entryPrice) / outcome.entryPrice;
+  const directionCorrect =
+    (outcome.direction === "up" && returnPct > 0) ||
+    (outcome.direction === "down" && returnPct < 0);
+
+  // Actual reward: scaled by return magnitude, capped at ±2
+  const actualReward = directionCorrect
+    ? Math.min(2.0, Math.abs(returnPct) * 10)
+    : -Math.min(2.0, Math.abs(returnPct) * 10);
+
+  return actualReward - outcome.confidenceAtEntry;
+}
+
+// Checkpoint weights: early checks are tentative, late checks are definitive
+const CHECKPOINT_WEIGHTS: Record<number, number> = { 5: 0.2, 20: 0.5, 60: 1.0 };
+
+export function applyTradeRPE(outcome: TradeOutcome): DopamineUpdateResult & { checkpoint: number } {
+  const rpe = computeTradeRPE(outcome);
+
+  // Determine checkpoint based on days held
+  const checkpoint = outcome.daysHeld >= 60 ? 60 : outcome.daysHeld >= 20 ? 20 : 5;
+  const weight = CHECKPOINT_WEIGHTS[checkpoint] ?? 0.2;
+
+  // Scale the RPE by checkpoint weight
+  const scaledRPE = rpe * weight;
+
+  // Apply to the trade node using the existing RPE machinery
+  const result = applyDopamineUpdate({
+    nodeId: outcome.tradeNodeId,
+    predicted: outcome.direction,
+    predictedConfidence: outcome.confidenceAtEntry,
+    actual: outcome.direction === "up"
+      ? (outcome.currentPrice > outcome.entryPrice ? "up" : "down")
+      : (outcome.currentPrice < outcome.entryPrice ? "down" : "up"),
+    actualMagnitude: (outcome.currentPrice - outcome.entryPrice) / outcome.entryPrice,
+  });
+
+  // If confidently wrong at T+20+, auto-generate a correction node
+  if (scaledRPE < -0.5 && checkpoint >= 20) {
+    const returnStr = (((outcome.currentPrice - outcome.entryPrice) / outcome.entryPrice) * 100).toFixed(1);
+    const correctionContent = `${outcome.ticker} trade ${outcome.direction} @ $${outcome.entryPrice.toFixed(2)} was wrong. ` +
+      `Now $${outcome.currentPrice.toFixed(2)} (${Number(returnStr) > 0 ? "+" : ""}${returnStr}%). ` +
+      `RPE: ${scaledRPE.toFixed(2)} at T+${checkpoint}.`;
+
+    const db = getMemoryDb();
+    const corrId = `mn_portfolio-manager_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
+    db.prepare(`
+      INSERT INTO memory_nodes (id, agent_id, created_at, last_accessed, content, content_type, ticker, direction, confidence, salience, decay_rate)
+      VALUES (?, 'portfolio-manager', datetime('now'), datetime('now'), ?, 'correction', ?, ?, ?, 1.5, 0.03)
+    `).run(
+      corrId,
+      correctionContent,
+      outcome.ticker,
+      outcome.direction === "up" ? "down" : "up", // opposite direction
+      Math.min(0.9, Math.abs(scaledRPE) / 2),
+    );
+
+    // Contradiction edge: correction → original trade
+    db.prepare(`
+      INSERT INTO memory_edges (source_id, target_id, agent_id, edge_type, w_tension, weight, created_at)
+      VALUES (?, ?, 'portfolio-manager', 'contradicts', ?, ?, datetime('now'))
+    `).run(corrId, outcome.tradeNodeId, Math.abs(scaledRPE) + 1.0, Math.abs(scaledRPE));
+  }
+
+  return { ...result, checkpoint };
 }
