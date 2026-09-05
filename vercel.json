@@ -22,7 +22,7 @@
     },
     {
       "path": "/api/agents/favorite-number?source=cron",
-      "schedule": "7 * * * *"
+      "schedule": "7 12 * * *"
     }
   ]
 }
