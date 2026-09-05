@@ -1,223 +1,188 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 
 /* ═══════════════════════════════════════════════════════
-   ARTICLE — "Alcohol"
+   HOMEPAGE — The Broadsheet
 
-   Magazine-editorial article page.
-   Click "aureliex." to toggle edit mode.
+   A warm paper masthead → featured article → edition gallery
+   → atmospheric route map → colophon.
+
+   Hybrid of editorial authority and cinematic discovery.
+   Zero libraries. Pure CSS + vanilla JS.
    ═══════════════════════════════════════════════════════ */
 
-type Section = {
-  id: string;
-  title: string;
-  content: string;
-};
-
-const INITIAL_SECTIONS: Section[] = [
-  {
-    id: "alcohol",
-    title: "Alcohol",
-    content: `I think most people are aware that alcohol is really bad for you, yet it\u2019s so normalized that people don\u2019t mind that cost to have fun at a party.
-
-
-This isn\u2019t a criticism of that mindset, but it\u2019s to establish the premise that this exists pretty much everywhere; someone with high cholesterol eats red meat regularly because they\u2019d rather live a shorter life in which they enjoyed what they ate.
-
-
-In the specific case of alcohol, it\u2019s been proven time and again that no amount of alcohol is good for you and there\u2019s no medical use case for it. In the image above you can see alcohol\u2019s harm level is on par with some of the worst drugs (crack, meth, heroin).`,
-  },
-  {
-    id: "drugs-i-like",
-    title: "The Drugs I Like",
-    content: `So it confuses me when people are taken aback with my embracement of psychoactive substances (weed, shrooms, LSD).
-
-
-I\u2019ve found that these substances can often by profoundly helpful with creative lines of thought and introspection. From the above example, the negative harm of these substances to me are the equivalent of what most people would see in drinking at a party.
-
-
-Now, shrooms and especially LSD have this huge stigmatization (which seems to be reducing now). They\u2019re the \u201ccrazy\u201d drug that can do \u201ccrazy\u201d things to you. And yes, admittedly people with certain predispositions such as schizophrenia or PTSD have a risk of psychosis (basically losing contact with reality), but I view this risk as an extension of the alcohol/party example.
-
-
-I\u2019m basically willing to take the negatives of psychedelics because of the profound creativity and flow it uncovers for sober me.
-
-
-A not too uncommon result of drinking can be alcohol poisoning (getting hospitalized or your stomach pumped) or even death/killing others (drunk driving), but not too many people hold that against the act of drinking.
-
-
-Why? Because if you\u2019re not stupid when you drink most of those things never happen. A more apt analogy could also be people not drinking when they\u2019re on medication. So I view taking psychedelics the same way. You should be a little responsible with the conditions/history that you have and be responsible with the dosage/environment to avoid the negatives.
-
-
-Well what about someone taking shrooms and jumping off a building because they suddenly thought they could fly? If u take shrooms on top of a building, natural selection.
-
-
-However, most of these negatives are actually a really small edge case and in reality the average person actually has nothing to worry about when taking psychedelics. There is no physiological harm that mushrooms or LSD do to your body, and in fact no known cases of overdoses or deaths resulting from the substance being in your body.
-
-
-Also, shrooms don\u2019t affect any dopamine receptors so you cannot get chemically addicted to it, and LSD has an addiction rate of about 0.1% (for reference weed is about 10%, alcohol is 20%, and heroin is 25%).
-
-
-Now, the positive stories of psychedelics are far more interesting.
-
-
-My friend\u2019s dad had brain damage when he was younger and started to have tremors later in his life and was diagnosed with early onset Parkinson\u2019s and then entered a shrooms trial and all the tremors went away.
-
-
-I know of many cases of people whose alcohol, tobacco, and other drug addictions were cured. People whose depression gets cured.
-
-
-The far more interesting cases (to me) of beautiful music (the Beatles, Pink Floyd, A$AP Rocky, Tame Impala), literature (Aldous Huxley, Terrence Mckenna), and creations (Steve Jobs and Apple), which in my opinion had an immense ripple effect on the rest of the world just by being at the creative frontier.
-
-
-All of these psychedelics were criminalized in the 60s-70s because the government was worried they couldn\u2019t control the new wave of so called \u201chippies\u201d who just did what they wanted, which in it of itself should be a reason they are good. Because the reason the government was afraid of the substance was that people stopped fighting, stopped going to jobs they realized they hated, and stopped listening to authority they realized they didn\u2019t need.
-
-
-This is not an endorsement of shrooms or LSD as the magic drug that solves all, because I think a lot of the creative benefits come from some type of alignment with it, because I know plenty of people for whom it\u2019s just fun, but I think the world would be a better place if everyone tripped, and there\u2019s few things that deserve the same sentiment.`,
-  },
-  {
-    id: "also",
-    title: "Also",
-    content: `I think my entire argument for psychedelics is reasonable even if alcohol and psychedelics were identical in their harm, but interestingly enough, they\u2019re not. So here\u2019s the full image from the beginning.`,
-  },
+const SUBTITLES = [
+  "letters on building, taste, and what lasts",
+  "563 commits · 6 eras · one surface",
+  "a public record of thinking out loud",
+  "probably impossible. definitely public.",
+  "the name is bullshit. the product is beautiful.",
 ];
 
-function useLocalSections(key: string, fallback: Section[]) {
-  const [sections, setSections] = useState<Section[]>(fallback);
-  const loaded = useRef(false);
+type Edition = {
+  id: string;
+  issue: string;
+  title: string;
+  subtitle: string;
+  dateRange: string;
+  accent: string;
+  route: string;
+  pullQuote: string;
+};
 
+const EDITIONS: Edition[] = [
+  { id: "round-zero", issue: "001", title: "Round Zero", subtitle: "The Pre-Mortem", dateRange: "Apr 14, 2026", accent: "#6B6560", route: "/letters/round-0", pullQuote: "A satirical birthday party frame for a very serious bet." },
+  { id: "the-pitch", issue: "002", title: "The Pitch", subtitle: "Password-Gated Manifesto", dateRange: "Apr 14–22", accent: "#8B3A2E", route: "/pitch", pullQuote: "let's cut through the bullshit. together." },
+  { id: "the-drafts", issue: "003", title: "The Drafts", subtitle: "Experiments in Space", dateRange: "Apr 15 – May 18", accent: "#4A8B8B", route: "/17", pullQuote: "A pannable multiverse of familiar UIs." },
+  { id: "the-funnel", issue: "004", title: "The Funnel", subtitle: "Chart-First Public Offering", dateRange: "Apr 18 – May 26", accent: "#A89A7E", route: "/positions", pullQuote: "No owner. No curator. No fee. No exit." },
+  { id: "the-rocks", issue: "005", title: "The Rocks", subtitle: "Cinematic Materialism", dateRange: "May 26 – Jun 23", accent: "#1C1A17", route: "/home-v9", pullQuote: "probably impossible. definitely public." },
+  { id: "the-article", issue: "006", title: "The Article", subtitle: "Editorial Reset", dateRange: "Aug 1, 2026 –", accent: "#1ba4c4", route: "/editions", pullQuote: "Harm caused by drugs. 100 = maximum." },
+];
+
+const ROUTES = [
+  { href: "/letters", label: "Letters", desc: "Eight dispatches from the surface" },
+  { href: "/editions", label: "Editions", desc: "563 commits as a spatial magazine rack" },
+  { href: "/archive", label: "Archive", desc: "Every version, every era, everything" },
+  { href: "/home-v9", label: "The Rocks", desc: "The cinematic homepage, preserved as found" },
+  { href: "/argument", label: "The Argument", desc: "Five agents disagree about all of this" },
+  { href: "/green-credit", label: "Green Credit", desc: "Attention rewards better reasoning" },
+  { href: "/draft", label: "Draft", desc: "A pannable multiverse of moments" },
+  { href: "/letters/entrenched-coils", label: "Entrenched Coils", desc: "Tension-weighted memory framework" },
+];
+
+export default function HomePage() {
+  const [subtitleIdx, setSubtitleIdx] = useState(0);
+  const [entered, setEntered] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
+
+  /* Rotate subtitles */
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(key);
-      if (raw) {
-        const parsed = JSON.parse(raw) as Section[];
-        if (Array.isArray(parsed) && parsed.length === fallback.length) {
-          setSections(parsed);
-        }
-      }
-    } catch { /* noop */ }
-    loaded.current = true;
-  }, [key, fallback]);
+    setSubtitleIdx(Math.floor(Math.random() * SUBTITLES.length));
+    const id = setInterval(() => setSubtitleIdx((i) => (i + 1) % SUBTITLES.length), 6000);
+    return () => clearInterval(id);
+  }, []);
 
-  const update = useCallback(
-    (fn: (prev: Section[]) => Section[]) => {
-      setSections((prev) => {
-        const next = fn(prev);
-        try { localStorage.setItem(key, JSON.stringify(next)); } catch { /* noop */ }
-        return next;
-      });
-    },
-    [key],
-  );
-
-  return [sections, update] as const;
-}
-
-export default function ArticlePage() {
-  const [editing, setEditing] = useState(false);
-  const [sections, updateSections] = useLocalSections("ax-article-sections", INITIAL_SECTIONS);
-  const editableRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const sectionsRef = useRef(sections);
-  sectionsRef.current = sections;
-
-  /* populate contentEditable divs when entering edit mode */
+  /* Entrance animation */
   useEffect(() => {
-    if (!editing) return;
-    for (const s of sectionsRef.current) {
-      const el = editableRefs.current[s.id];
-      if (el) el.innerText = s.content;
-    }
-  }, [editing]);
+    requestAnimationFrame(() => setEntered(true));
+  }, []);
 
-  const toggleEdit = useCallback(() => {
-    setEditing((prev) => {
-      if (prev) {
-        /* leaving edit mode — flush all contentEditable text to state */
-        updateSections((old) =>
-          old.map((s) => {
-            const el = editableRefs.current[s.id];
-            return el ? { ...s, content: el.innerText || "" } : s;
-          }),
-        );
-      }
-      return !prev;
-    });
-  }, [updateSections]);
+  /* Scroll reveal */
+  useEffect(() => {
+    const els = rootRef.current?.querySelectorAll(".hm-reveal");
+    if (!els) return;
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("hm-in");
+      }),
+      { threshold: 0.08, rootMargin: "0px 0px -30px 0px" },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <div className="ax-article" data-editing={editing || undefined}>
+    <div className={`hm ${entered ? "hm-entered" : ""}`} ref={rootRef}>
       <style>{CSS}</style>
 
-      {/* ── MASTHEAD TITLE (click to toggle edit) ── */}
-      <header className="ax-mast">
-        <button className="ax-brand" onClick={toggleEdit} title={editing ? "Exit edit mode" : "Enter edit mode"}>
-          aureliex<span className="ax-dot">.</span>
-        </button>
-        {editing && <span className="ax-mode-badge">editing</span>}
-      </header>
-
-      {/* ── HERO IMAGE — cropped to top half (Alcohol) ── */}
-      <figure className="ax-hero">
-        <div className="ax-hero-crop">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/harm-chart.gif"
-            alt="Harm caused by drugs — The Lancet, David Nutt et al. Cropped to Alcohol."
-            className="ax-hero-img"
-          />
+      {/* ═══════ SECTION 1: THE MASTHEAD ═══════ */}
+      <section className="hm-mast">
+        <div className="hm-grain" />
+        <div className="hm-mast-inner">
+          <span className="hm-eyebrow">est. april 2026 · los angeles · no. 007</span>
+          <h1 className="hm-wordmark">aureliex<span className="hm-dot">.</span></h1>
+          <p className="hm-subtitle" key={subtitleIdx}>{SUBTITLES[subtitleIdx]}</p>
+          <div className="hm-mast-rule" />
         </div>
-      </figure>
+        <div className="hm-scroll-cue"><span /></div>
+      </section>
 
-      {/* ── ARTICLE BODY ── */}
-      <article className="ax-body">
-        {sections.map((section, idx) => (
-          <section key={section.id} className="ax-section">
-            <h2 className="ax-h2">
-              <span className="ax-h2-num">{String(idx + 1).padStart(2, "0")}</span>
-              {section.title}
-            </h2>
-            <div className="ax-rule" />
-            {editing ? (
-              <div
-                ref={(el) => { editableRefs.current[section.id] = el; }}
-                className="ax-editable"
-                contentEditable
-                suppressContentEditableWarning
-                data-placeholder="Start writing..."
-              />
-            ) : (
-              <div className="ax-prose">
-                {section.content ? (
-                  section.content.split("\n").map((line, i) => (
-                    <p key={i} className={line.trim() === "" ? "ax-blank" : undefined}>
-                      {line || "\u00A0"}
-                    </p>
-                  ))
-                ) : (
-                  <p className="ax-empty">&nbsp;</p>
-                )}
+      {/* ═══════ SECTION 2: FEATURED PIECE ═══════ */}
+      <section className="hm-feature hm-reveal">
+        <div className="hm-feature-inner">
+          <div className="hm-feature-meta">
+            <span className="hm-tag">Article</span>
+            <span className="hm-date">August 2026</span>
+          </div>
+          <div className="hm-feature-spread">
+            <div className="hm-feature-text">
+              <h2 className="hm-feature-title">Alcohol</h2>
+              <p className="hm-feature-deck">
+                I think most people are aware that alcohol is really bad for you,
+                yet it&rsquo;s so normalized that people don&rsquo;t mind that cost
+                to have fun at a party. This isn&rsquo;t a criticism of that mindset,
+                but it&rsquo;s to establish the premise that this exists pretty much
+                everywhere&hellip;
+              </p>
+              <Link href="/editions#the-article" className="hm-feature-link">Continue reading →</Link>
+            </div>
+            <div className="hm-feature-img-wrap">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/harm-chart.gif" alt="Drug harm chart — The Lancet" className="hm-feature-img" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ SECTION 3: THE EDITIONS ═══════ */}
+      <section className="hm-editions hm-reveal">
+        <div className="hm-editions-head">
+          <span className="hm-eyebrow">The Editions</span>
+          <p className="hm-editions-sub">Every era of the thing, cover to cover.</p>
+        </div>
+        <div className="hm-gallery" ref={galleryRef}>
+          {EDITIONS.map((ed) => (
+            <Link key={ed.id} href={ed.route} className="hm-card" style={{ "--card-accent": ed.accent } as React.CSSProperties}>
+              <div className="hm-card-band" />
+              <div className="hm-card-body">
+                <span className="hm-card-num">No. {ed.issue}</span>
+                <h3 className="hm-card-title">{ed.title}</h3>
+                <span className="hm-card-sub">{ed.subtitle}</span>
+                <p className="hm-card-quote">&ldquo;{ed.pullQuote}&rdquo;</p>
               </div>
-            )}
-          </section>
-        ))}
-      </article>
+              <div className="hm-card-foot">
+                <span>{ed.dateRange}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
 
-      {/* ── FULL IMAGE AT BOTTOM ── */}
-      <figure className="ax-full-image">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/harm-chart.gif"
-          alt="Harm caused by drugs — full chart. Source: The Lancet, David Nutt et al."
-          className="ax-full-img"
-        />
-        <figcaption className="ax-caption">
-          Source: &ldquo;Drug harms in the UK,&rdquo; by David Nutt et al. <em>The Lancet</em>
-        </figcaption>
-      </figure>
+      {/* ── Bridge: paper → dark ── */}
+      <div className="hm-bridge" />
 
-      {/* ── COLOPHON ── */}
-      <footer className="ax-colophon">
-        <div className="ax-col-rule" />
-        <span className="ax-col-mark">aureliex.</span>
+      {/* ═══════ SECTION 4: THE MAP ═══════ */}
+      <section className="hm-map">
+        <div className="hm-map-inner">
+          {ROUTES.map((r) => (
+            <Link key={r.href} href={r.href} className="hm-route hm-reveal">
+              <span className="hm-route-label">{r.label}</span>
+              <span className="hm-route-desc">{r.desc}</span>
+              <span className="hm-route-arrow">→</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ═══════ SECTION 5: COLOPHON ═══════ */}
+      <footer className="hm-colophon hm-reveal">
+        <div className="hm-col-rule" />
+        <p className="hm-cmiygl">
+          {"call me if you get lost.".split("").map((ch, i) => (
+            <span key={i} className="hm-rc" style={{ "--i": i } as React.CSSProperties}>
+              {ch === " " ? "\u00A0" : ch}
+            </span>
+          ))}
+        </p>
+        <p className="hm-sig">aureliex.</p>
+        <div className="hm-col-details">
+          <span>Saathvik Pai · Los Angeles</span>
+          <span className="hm-col-sep">·</span>
+          <a href="tel:3853687238" className="hm-col-link">385-368-7238</a>
+        </div>
       </footer>
     </div>
   );
@@ -228,21 +193,16 @@ export default function ArticlePage() {
    ═══════════════════════════════════════════════════════ */
 const CSS = `
 /* ── TOKENS ── */
-.ax-article {
+.hm {
   --paper:       #F4EFE6;
+  --paper-warm:  #FAF6F0;
   --ink:         #1C1A17;
   --graphite:    #6B6560;
   --rust:        #8B3A2E;
-  --parchment:   #EDE5D5;
-  --accent-cyan: #1ba4c4;
-  --accent-navy: #1a3a5c;
-  --rule-color:  rgba(28,26,23,0.18);
-  --hero-overlay: linear-gradient(
-    to bottom,
-    rgba(244,239,230,0) 0%,
-    rgba(244,239,230,0.03) 60%,
-    rgba(244,239,230,1) 97%
-  );
+  --teal:        #1ba4c4;
+  --navy:        #1a3a5c;
+  --dark:        #0c0a08;
+  --rule-color:  rgba(28,26,23,0.14);
 
   min-height: 100vh;
   background: var(--paper);
@@ -251,311 +211,368 @@ const CSS = `
   text-rendering: optimizeLegibility;
   font-feature-settings: "liga" 1, "kern" 1;
   overflow-x: hidden;
-  word-break: break-word;
-  -webkit-text-size-adjust: 100%;
 }
 
-/* ── MASTHEAD ── */
-.ax-mast {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: clamp(1rem, 2.5vw, 1.6rem) clamp(1.25rem, 4vw, 2rem);
-  background: rgba(244, 239, 230, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* ── SHARED ── */
+.hm-grain {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  opacity: 0.03; mix-blend-mode: multiply;
+  background-image:
+    radial-gradient(rgba(28,26,23,0.5) 1px, transparent 1px),
+    radial-gradient(rgba(28,26,23,0.3) 1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px; background-position: 0 0, 2px 2px;
 }
-.ax-brand {
-  all: unset;
-  cursor: pointer;
-  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(1.4rem, 1rem + 1.5vw, 2rem);
-  letter-spacing: 0.04em;
-  color: var(--ink);
-  transition: color 0.3s ease, transform 0.3s ease;
-  user-select: none;
-}
-.ax-brand:hover {
-  color: var(--rust);
-  transform: scale(1.02);
-}
-.ax-dot {
-  color: var(--rust);
-}
-.ax-mode-badge {
+
+.hm-eyebrow {
   font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 9px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--rust);
-  border: 1px solid rgba(139, 58, 46, 0.3);
-  padding: 3px 10px;
-  border-radius: 2px;
-  animation: ax-badge-in 0.4s ease both;
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--graphite); opacity: 0.45;
 }
-@keyframes ax-badge-in {
-  from { opacity: 0; transform: translateY(-4px); }
+
+/* ── REVEAL ── */
+.hm-reveal {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1);
+}
+.hm-reveal.hm-in { opacity: 1; transform: translateY(0); }
+
+/* ═══════ SECTION 1: MASTHEAD ═══════ */
+.hm-mast {
+  position: relative;
+  min-height: 100svh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--paper-warm);
+  padding: 2rem;
+}
+.hm-mast-inner {
+  text-align: center;
+  opacity: 0; transform: translateY(16px);
+  animation: hm-rise 1.2s cubic-bezier(0.22,1,0.36,1) 0.3s forwards;
+}
+@keyframes hm-rise {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── HERO (cropped top half) ── */
-.ax-hero {
-  margin: 0;
-  padding: 0 clamp(1.25rem, 4vw, 3rem);
-  max-width: 52rem;
-  margin: 0 auto;
-}
-.ax-hero-crop {
-  position: relative;
-  width: 100%;
-  height: clamp(140px, 28vw, 260px);
-  overflow: hidden;
-  border-radius: 3px;
-  box-shadow:
-    0 2px 20px rgba(28, 26, 23, 0.08),
-    0 0 0 1px rgba(28, 26, 23, 0.06);
-}
-.ax-hero-crop::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--hero-overlay);
-  pointer-events: none;
-}
-.ax-hero-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  object-position: top left;
-  transform: scale(1.02);
-  transition: transform 8s ease;
-}
-.ax-hero:hover .ax-hero-img {
-  transform: scale(1.0);
-}
-
-/* ── ARTICLE BODY ── */
-.ax-body {
-  max-width: 44rem;
-  margin: 0 auto;
-  padding: clamp(2rem, 5vw, 4rem) clamp(1.25rem, 4vw, 2rem);
-}
-
-/* ── SECTIONS ── */
-.ax-section {
-  margin-bottom: clamp(3rem, 6vw, 5rem);
-}
-.ax-section:last-child {
-  margin-bottom: clamp(2rem, 4vw, 3rem);
-}
-
-.ax-h2 {
+.hm-wordmark {
   font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(2rem, 1.5rem + 2.5vw, 3.4rem);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
-  color: var(--ink);
-  margin: 0 0 0.6rem;
-  position: relative;
+  font-style: italic; font-weight: 400;
+  font-size: clamp(4.5rem, 3rem + 8vw, 9rem);
+  letter-spacing: -0.03em; line-height: 1;
+  color: var(--ink); margin: 16px 0 0;
+  user-select: none;
 }
-.ax-h2-num {
-  display: block;
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--accent-cyan);
-  margin-bottom: 8px;
-  opacity: 0.7;
-}
+.hm-dot { color: var(--rust); }
 
-.ax-rule {
-  width: 48px;
-  height: 2.5px;
-  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-navy));
-  border-radius: 2px;
-  margin-bottom: clamp(1.2rem, 2.5vw, 2rem);
-  opacity: 0.6;
-}
-
-/* ── PROSE (read mode) ── */
-.ax-prose {
+.hm-subtitle {
   font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
-  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
-  line-height: 1.82;
-  color: var(--ink);
-}
-.ax-prose p {
-  margin: 0 0 0.1em;
-}
-.ax-prose .ax-blank {
-  height: 1.82em;
-}
-.ax-empty {
-  min-height: 2em;
-}
-
-/* ── EDITABLE (edit mode) ── */
-.ax-editable {
-  font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
-  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
-  line-height: 1.82;
-  color: var(--ink);
-  outline: none;
-  min-height: 4em;
-  padding: 1rem 1.25rem;
-  border-radius: 3px;
-  background: rgba(237, 229, 213, 0.5);
-  border: 1.5px solid transparent;
-  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-  cursor: text;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-.ax-editable:focus {
-  border-color: rgba(27, 164, 196, 0.35);
-  background: rgba(237, 229, 213, 0.75);
-  box-shadow: 0 0 0 3px rgba(27, 164, 196, 0.08);
-}
-.ax-editable:empty::before {
-  content: attr(data-placeholder);
-  color: var(--graphite);
-  opacity: 0.5;
   font-style: italic;
-  pointer-events: none;
-}
-
-/* Edit mode subtle indicator */
-.ax-article[data-editing] .ax-section {
-  position: relative;
-}
-.ax-article[data-editing] .ax-h2::after {
-  content: '';
-  position: absolute;
-  left: -16px;
-  top: 50%;
-  width: 3px;
-  height: 60%;
-  transform: translateY(-50%);
-  background: var(--accent-cyan);
-  border-radius: 2px;
-  opacity: 0.3;
-}
-
-/* ── FULL IMAGE ── */
-.ax-full-image {
-  margin: 0;
-  padding: clamp(1rem, 3vw, 2rem) clamp(1.25rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
-  max-width: 52rem;
-  margin: 0 auto;
-}
-.ax-full-img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 3px;
-  box-shadow:
-    0 4px 30px rgba(28, 26, 23, 0.1),
-    0 0 0 1px rgba(28, 26, 23, 0.06);
-  transition: transform 0.6s ease, box-shadow 0.6s ease;
-}
-.ax-full-img:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 8px 40px rgba(28, 26, 23, 0.14),
-    0 0 0 1px rgba(28, 26, 23, 0.08);
-}
-.ax-caption {
-  font-family: 'JetBrains Mono', ui-monospace, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.06em;
+  font-size: clamp(1rem, 0.85rem + 0.5vw, 1.2rem);
   color: var(--graphite);
-  margin-top: 12px;
-  text-align: right;
-  opacity: 0.6;
+  margin: 20px 0 0; letter-spacing: 0.01em;
+  animation: hm-fade-sub 0.6s ease both;
 }
-.ax-caption em {
-  font-style: italic;
+@keyframes hm-fade-sub {
+  from { opacity: 0; }
+  to   { opacity: 0.7; }
 }
 
-/* ── COLOPHON ── */
-.ax-colophon {
-  max-width: 44rem;
-  margin: 0 auto;
-  padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 4vw, 2rem) clamp(3rem, 6vw, 5rem);
-  text-align: center;
-}
-.ax-col-rule {
-  width: 100%;
-  height: 1px;
-  background: var(--rule-color);
-  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-}
-.ax-col-mark {
-  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 1rem;
-  letter-spacing: 0.12em;
-  color: var(--graphite);
+.hm-mast-rule {
+  width: 48px; height: 2px; margin: 28px auto 0;
+  background: linear-gradient(90deg, transparent, var(--rust), transparent);
   opacity: 0.4;
 }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 640px) {
-  .ax-article {
-    overflow-x: hidden;
-  }
-  .ax-hero {
-    padding: 0 1rem;
-  }
-  .ax-hero-crop {
-    height: clamp(100px, 32vw, 180px);
-  }
-  .ax-body {
-    padding: 1.5rem 1rem;
-  }
-  .ax-h2 {
-    font-size: clamp(1.6rem, 1.2rem + 3vw, 2.4rem);
-  }
-  .ax-prose {
-    font-size: 1rem;
-    line-height: 1.75;
-    overflow-wrap: break-word;
-  }
-  .ax-prose p {
-    margin: 0 0 0.15em;
-  }
-  .ax-article[data-editing] .ax-h2::after {
-    left: -10px;
-  }
-  .ax-editable {
-    padding: 0.8rem 1rem;
-    font-size: 1rem;
-  }
-  .ax-full-image {
-    padding: 1rem 1rem 2rem;
-  }
-  .ax-colophon {
-    padding: 2rem 1rem 3rem;
-  }
+.hm-scroll-cue {
+  position: absolute; bottom: clamp(2rem, 5vh, 3.5rem);
+  display: flex; justify-content: center; width: 100%;
+}
+.hm-scroll-cue span {
+  display: block; width: 1px; height: 28px;
+  background: rgba(28,26,23,0.2);
+  animation: hm-cue 2.5s ease-in-out 2s infinite;
+}
+@keyframes hm-cue {
+  0%, 100% { opacity: 0.2; transform: scaleY(1); }
+  50%      { opacity: 0.6; transform: scaleY(1.5); }
 }
 
-/* ── REDUCED MOTION ── */
+/* ═══════ SECTION 2: FEATURED PIECE ═══════ */
+.hm-feature {
+  position: relative;
+  background: var(--paper);
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 4vw, 2.5rem);
+  border-top: 1px solid var(--rule-color);
+}
+.hm-feature-inner {
+  max-width: 56rem; margin: 0 auto;
+}
+.hm-feature-meta {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+.hm-tag {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--rust); border: 1px solid rgba(139,58,46,0.25);
+  padding: 3px 10px; border-radius: 2px;
+}
+.hm-date {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--graphite); opacity: 0.5;
+}
+
+.hm-feature-spread {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem); align-items: start;
+}
+.hm-feature-title {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-weight: 500;
+  font-size: clamp(2.2rem, 1.5rem + 3vw, 3.8rem);
+  line-height: 1.1; letter-spacing: -0.015em;
+  color: var(--ink); margin: 0 0 clamp(1rem, 2vw, 1.8rem);
+}
+.hm-feature-deck {
+  font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
+  font-size: clamp(1rem, 0.9rem + 0.35vw, 1.12rem);
+  line-height: 1.78; color: var(--ink); margin: 0 0 1.5rem;
+}
+.hm-feature-link {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-size: 1rem;
+  color: var(--rust); text-decoration: none;
+  border-bottom: 1px solid rgba(139,58,46,0.3);
+  padding-bottom: 2px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+.hm-feature-link:hover { color: var(--ink); border-color: var(--ink); }
+
+.hm-feature-img-wrap {
+  border-radius: 3px; overflow: hidden;
+  box-shadow: 0 2px 20px rgba(28,26,23,0.08), 0 0 0 1px rgba(28,26,23,0.06);
+}
+.hm-feature-img {
+  display: block; width: 100%; height: auto;
+  transition: transform 6s ease;
+}
+.hm-feature-img-wrap:hover .hm-feature-img {
+  transform: scale(1.03);
+}
+
+/* ═══════ SECTION 3: EDITIONS ═══════ */
+.hm-editions {
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.25rem, 4vw, 2.5rem);
+  border-top: 1px solid var(--rule-color);
+  background:
+    radial-gradient(ellipse 120% 80% at 20% 30%, rgba(27,164,196,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 60% at 80% 70%, rgba(139,58,46,0.03) 0%, transparent 60%),
+    var(--paper);
+}
+.hm-editions-head {
+  text-align: center; margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+.hm-editions-sub {
+  font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
+  font-style: italic; font-size: 1rem;
+  color: var(--graphite); margin: 10px 0 0; opacity: 0.6;
+}
+
+.hm-gallery {
+  display: flex; gap: clamp(1rem, 2vw, 1.5rem);
+  overflow-x: auto; scroll-snap-type: x mandatory;
+  padding: 1rem 0 2rem;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.hm-gallery::-webkit-scrollbar { display: none; }
+
+.hm-card {
+  flex-shrink: 0;
+  width: min(220px, 70vw);
+  aspect-ratio: 3 / 4.1;
+  scroll-snap-align: center;
+  text-decoration: none; color: var(--ink);
+  display: flex; flex-direction: column;
+  background: var(--paper-warm);
+  border: 1px solid var(--rule-color);
+  border-radius: 3px; overflow: hidden;
+  box-shadow:
+    0 1px 2px rgba(28,26,23,0.05),
+    0 6px 20px rgba(28,26,23,0.07);
+  transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), box-shadow 0.45s ease;
+}
+.hm-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 4px 12px rgba(28,26,23,0.1),
+    0 18px 40px rgba(28,26,23,0.1);
+}
+
+.hm-card-band {
+  height: 6px; flex-shrink: 0;
+  background: var(--card-accent);
+}
+.hm-card-body {
+  flex: 1; display: flex; flex-direction: column;
+  padding: clamp(10px, 2vw, 16px) clamp(10px, 2vw, 14px);
+}
+.hm-card-num {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 8px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--card-accent); opacity: 0.7; margin-bottom: 6px;
+}
+.hm-card-title {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-weight: 500;
+  font-size: clamp(1.1rem, 0.9rem + 0.7vw, 1.35rem);
+  line-height: 1.15; letter-spacing: -0.01em;
+  color: var(--ink); margin: 0 0 4px;
+}
+.hm-card-sub {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 7px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--graphite); opacity: 0.5;
+}
+.hm-card-quote {
+  flex: 1; display: flex; align-items: flex-end;
+  font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(0.68rem, 0.6rem + 0.25vw, 0.78rem);
+  line-height: 1.45; color: var(--graphite);
+  margin: 8px 0 0; padding-top: 8px;
+  border-top: 1px solid var(--rule-color);
+}
+.hm-card-foot {
+  padding: 5px clamp(10px, 2vw, 14px);
+  border-top: 1px solid var(--rule-color);
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 7px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--graphite); opacity: 0.35;
+}
+
+/* ── BRIDGE ── */
+.hm-bridge {
+  height: clamp(60px, 10vh, 100px);
+  background: linear-gradient(to bottom, var(--paper) 0%, var(--dark) 100%);
+}
+
+/* ═══════ SECTION 4: THE MAP ═══════ */
+.hm-map {
+  background: var(--dark);
+  padding: clamp(5rem, 10vw, 8rem) clamp(1.25rem, 4vw, 2.5rem);
+}
+.hm-map-inner {
+  max-width: 36rem; margin: 0 auto;
+  display: flex; flex-direction: column;
+}
+.hm-route {
+  display: flex; align-items: center; gap: 1rem;
+  padding: clamp(1.2rem, 2.5vw, 1.8rem) 0;
+  border-bottom: 1px solid rgba(244,239,230,0.06);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+.hm-route:first-child {
+  border-top: 1px solid rgba(244,239,230,0.06);
+}
+.hm-route:hover { opacity: 1 !important; }
+.hm-route:hover .hm-route-label { color: rgba(244,239,230,0.95); }
+.hm-route:hover .hm-route-desc { opacity: 0.5; }
+.hm-route:hover .hm-route-arrow { opacity: 0.8; transform: translateX(4px); }
+
+.hm-route-label {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-weight: 500;
+  font-size: clamp(1.3rem, 1rem + 1.2vw, 1.8rem);
+  color: rgba(244,239,230,0.6);
+  transition: color 0.3s ease;
+  min-width: 10ch;
+}
+.hm-route-desc {
+  font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
+  font-size: 0.85rem; color: rgba(244,239,230,0.25);
+  transition: opacity 0.3s ease; flex: 1;
+}
+.hm-route-arrow {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-size: 1.2rem; color: rgba(244,239,230,0.2);
+  opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+/* ═══════ SECTION 5: COLOPHON ═══════ */
+.hm-colophon {
+  background: var(--dark);
+  padding: 0 clamp(1.25rem, 4vw, 2.5rem) clamp(4rem, 8vw, 6rem);
+  text-align: center;
+}
+.hm-col-rule {
+  width: min(200px, 50%); height: 1px; margin: 0 auto clamp(3rem, 6vw, 5rem);
+  background: linear-gradient(90deg, transparent, rgba(244,239,230,0.12), transparent);
+}
+
+.hm-cmiygl {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-size: clamp(1.3rem, 1rem + 1.5vw, 2rem);
+  color: rgba(244,239,230,0.55); margin: 0 0 1.5rem;
+  letter-spacing: 0.02em;
+}
+.hm-rc {
+  display: inline-block;
+  animation: hm-letter 3s ease-in-out calc(var(--i) * 0.08s) infinite alternate;
+}
+@keyframes hm-letter {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 0.9; }
+}
+
+.hm-sig {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-weight: 400;
+  font-size: 1.1rem; letter-spacing: 0.1em;
+  color: rgba(244,239,230,0.2); margin: 0 0 2rem;
+}
+
+.hm-col-details {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.6rem; letter-spacing: 0.08em;
+  color: rgba(244,239,230,0.2);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  flex-wrap: wrap;
+}
+.hm-col-sep { opacity: 0.3; }
+.hm-col-link {
+  color: rgba(244,239,230,0.3); text-decoration: none;
+  transition: color 0.3s ease;
+}
+.hm-col-link:hover { color: rgba(244,239,230,0.6); }
+
+/* ═══════ RESPONSIVE ═══════ */
+@media (max-width: 768px) {
+  .hm-feature-spread {
+    grid-template-columns: 1fr;
+  }
+  .hm-feature-img-wrap {
+    order: -1;
+  }
+  .hm-route-desc { display: none; }
+  .hm-route-arrow { opacity: 0.3; }
+}
+
+@media (max-width: 480px) {
+  .hm-wordmark { font-size: clamp(3.5rem, 2.5rem + 6vw, 5rem); }
+  .hm-card { width: min(180px, 75vw); }
+}
+
+/* ═══════ REDUCED MOTION ═══════ */
 @media (prefers-reduced-motion: reduce) {
-  .ax-hero-img { transition: none; transform: none; }
-  .ax-full-img { transition: none; }
-  .ax-mode-badge { animation: none; }
+  .hm-mast-inner { animation: none; opacity: 1; transform: none; }
+  .hm-subtitle { animation: none; opacity: 0.7; }
+  .hm-scroll-cue span { animation: none; }
+  .hm-rc { animation: none; opacity: 0.55; }
+  .hm-reveal { transition: none; opacity: 1; transform: none; }
+  .hm-feature-img { transition: none; }
 }
 `;

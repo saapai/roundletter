@@ -52,22 +52,22 @@ const body = EB_Garamond({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aureliex.com"),
-  title: "aureliex · issue #001 — just dropped. the name is bullshit. the product is beautiful.",
+  title: "aureliex · letters on building, taste, and what lasts",
   description:
-    "launch trailer is live. $3,453 → $100,000 by my birthday. five ai agents. one product: green credit. you'll find it.",
+    "563 commits. 6 eras. a public record of thinking out loud. by saathvik pai.",
   openGraph: {
-    title: "aureliex · issue #001 — just dropped.",
+    title: "aureliex · letters on building, taste, and what lasts",
     description:
-      "the launch trailer. $3,453 → $100,000 by 21 june. five ai agents. green credit. you'll find it.",
+      "563 commits. 6 eras. a public record of thinking out loud. by saathvik pai.",
     url: "https://aureliex.com",
     siteName: "aureliex",
     type: "article",
   },
   twitter: {
     card: "summary_large_image",
-    title: "aureliex · issue #001 — just dropped.",
+    title: "aureliex · letters on building, taste, and what lasts",
     description:
-      "the launch trailer. $3,453 → $100,000 by my birthday. five ai agents. green credit. you'll find it.",
+      "563 commits. 6 eras. a public record of thinking out loud. by saathvik pai.",
     creator: "@saapai",
   },
 };

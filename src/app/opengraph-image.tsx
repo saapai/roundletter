@@ -1,11 +1,10 @@
 import { ImageResponse } from "next/og";
 
-// Social card for / — THE RECORD, second edition.
-// Static by design: the verdict is the message, not the tick.
+// Social card for / — The Broadsheet homepage.
 
 export const runtime = "edge";
 export const revalidate = 3600;
-export const alt = "aureliex — project 0 failed. this is project 1.";
+export const alt = "aureliex — letters on building, taste, and what lasts";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -16,7 +15,7 @@ export default async function Image() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#F4EFE6",
+          background: "#FAF6F0",
           color: "#1C1A17",
           display: "flex",
           flexDirection: "column",
@@ -30,55 +29,39 @@ export default async function Image() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            fontSize: 22,
+            fontSize: 18,
             letterSpacing: 8,
             textTransform: "uppercase",
             color: "#6B6560",
           }}
         >
-          <span>aureliex · the record · second edition</span>
-          <span>filed july 2026</span>
+          <span>est. april 2026 · los angeles</span>
+          <span>563 commits · 6 eras</span>
         </div>
 
-        {/* middle: the verdict */}
+        {/* middle: the wordmark */}
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <span
             style={{
-              fontSize: 118,
+              fontSize: 140,
               lineHeight: 1,
-              letterSpacing: -3,
+              letterSpacing: -4,
+              fontStyle: "italic",
               color: "#1C1A17",
             }}
           >
-            project 0 failed.
+            aureliex<span style={{ color: "#8B3A2E" }}>.</span>
           </span>
           <span
             style={{
-              fontSize: 44,
-              lineHeight: 1.2,
+              fontSize: 32,
+              lineHeight: 1.3,
               fontStyle: "italic",
               color: "#6B6560",
             }}
           >
-            ai could not do the impossible.
+            letters on building, taste, and what lasts
           </span>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "baseline",
-              gap: 18,
-              marginTop: 14,
-              fontSize: 30,
-              color: "#1C1A17",
-            }}
-          >
-            <span style={{ color: "#8B6914" }}>$3,453.83</span>
-            <span>→</span>
-            <span style={{ textDecoration: "line-through", color: "#8B3A2E" }}>
-              $100,000
-            </span>
-            <span style={{ color: "#6B6560" }}>· closed jun 21, 2026</span>
-          </div>
         </div>
 
         {/* bottom */}
@@ -86,13 +69,11 @@ export default async function Image() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            fontSize: 22,
+            fontSize: 18,
             color: "#6B6560",
           }}
         >
-          <span>
-            this is <span style={{ color: "#0B6E84", fontStyle: "italic" }}>project 1</span> · no goal posts. yet · closes dec 31, 2026
-          </span>
+          <span>a public record of thinking out loud</span>
           <span>aureliex.com</span>
         </div>
       </div>
