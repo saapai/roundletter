@@ -55,8 +55,28 @@ const ROUTES = [
 export default function HomePage() {
   const [subtitleIdx, setSubtitleIdx] = useState(0);
   const [entered, setEntered] = useState(false);
+  const [eggRevealed, setEggRevealed] = useState(false);
+  const dotClicks = useRef(0);
+  const dotTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
+
+  /* Easter egg: click the dot 3 times to reveal the hidden article */
+  const handleDotClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    dotClicks.current++;
+    if (dotTimer.current) clearTimeout(dotTimer.current);
+    if (dotClicks.current >= 3) {
+      dotClicks.current = 0;
+      setEggRevealed(true);
+      setTimeout(() => {
+        const el = document.getElementById("hidden-article");
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    } else {
+      dotTimer.current = setTimeout(() => { dotClicks.current = 0; }, 1200);
+    }
+  };
 
   /* Rotate subtitles */
   useEffect(() => {
@@ -93,35 +113,35 @@ export default function HomePage() {
         <div className="hm-grain" />
         <div className="hm-mast-inner">
           <span className="hm-eyebrow">est. april 2026 · los angeles · no. 007</span>
-          <h1 className="hm-wordmark">aureliex<span className="hm-dot">.</span></h1>
+          <h1 className="hm-wordmark">aureliex<span className="hm-dot" onClick={handleDotClick} role="button" tabIndex={-1}>.</span></h1>
           <p className="hm-subtitle" key={subtitleIdx}>{SUBTITLES[subtitleIdx]}</p>
           <div className="hm-mast-rule" />
         </div>
         <div className="hm-scroll-cue"><span /></div>
       </section>
 
-      {/* ═══════ SECTION 2: FEATURED PIECE ═══════ */}
+      {/* ═══════ SECTION 2: FEATURED LETTER ═══════ */}
       <section className="hm-feature hm-reveal">
         <div className="hm-feature-inner">
           <div className="hm-feature-meta">
-            <span className="hm-tag">Article</span>
-            <span className="hm-date">August 2026</span>
+            <span className="hm-tag">Letter</span>
+            <span className="hm-date">June 2026</span>
           </div>
           <div className="hm-feature-spread">
             <div className="hm-feature-text">
-              <h2 className="hm-feature-title">Alcohol</h2>
+              <h2 className="hm-feature-title">Entrenched Coils</h2>
               <p className="hm-feature-deck">
-                I think most people are aware that alcohol is really bad for you,
-                yet it&rsquo;s so normalized that people don&rsquo;t mind that cost
-                to have fun at a party. This isn&rsquo;t a criticism of that mindset,
-                but it&rsquo;s to establish the premise that this exists pretty much
-                everywhere&hellip;
+                A tension-weighted memory framework. What if the things you
+                remember aren&rsquo;t the things that happened most &mdash; but the
+                things that surprised you the most? This paper proposes a
+                topographic model of memory where contradictions create trenches,
+                and retrieval follows the path of greatest epistemic tension.
               </p>
-              <Link href="/editions#the-article" className="hm-feature-link">Continue reading →</Link>
+              <Link href="/letters/entrenched-coils" className="hm-feature-link">Read the paper →</Link>
             </div>
             <div className="hm-feature-img-wrap">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/harm-chart.gif" alt="Drug harm chart — The Lancet" className="hm-feature-img" />
+              <img src="/hero/rocks.webp" alt="Landscape — aureliex" className="hm-feature-img" />
             </div>
           </div>
         </div>
@@ -179,11 +199,74 @@ export default function HomePage() {
         </p>
         <p className="hm-sig">aureliex.</p>
         <div className="hm-col-details">
-          <span>Saathvik Pai · Los Angeles</span>
+          <span>saapai · Los Angeles</span>
           <span className="hm-col-sep">·</span>
           <a href="tel:3853687238" className="hm-col-link">385-368-7238</a>
         </div>
       </footer>
+
+      {/* ═══════ EASTER EGG: THE ARTICLE ═══════ */}
+      {eggRevealed && (
+        <section className="hm-egg" id="hidden-article">
+          <div className="hm-egg-inner">
+            <span className="hm-egg-found">you found it.</span>
+            <div className="hm-egg-rule" />
+            <h2 className="hm-egg-title">Alcohol</h2>
+            <div className="hm-egg-body">
+              <p>
+                I think most people are aware that alcohol is really bad for you,
+                yet it&rsquo;s so normalized that people don&rsquo;t mind that cost
+                to have fun at a party.
+              </p>
+              <p>
+                This isn&rsquo;t a criticism of that mindset, but it&rsquo;s to
+                establish the premise that this exists pretty much everywhere;
+                someone with high cholesterol eats red meat regularly because
+                they&rsquo;d rather live a shorter life in which they enjoyed what
+                they ate.
+              </p>
+              <p>
+                In the specific case of alcohol, it&rsquo;s been proven time and
+                again that no amount of alcohol is good for you and there&rsquo;s
+                no medical use case for it.
+              </p>
+              <figure className="hm-egg-fig">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/harm-chart.gif" alt="Drug harm chart — The Lancet" className="hm-egg-img" />
+                <figcaption className="hm-egg-caption">
+                  Source: &ldquo;Drug harms in the UK,&rdquo; David Nutt et al. <em>The Lancet</em>
+                </figcaption>
+              </figure>
+              <h3 className="hm-egg-h3">The Drugs I Like</h3>
+              <p>
+                So it confuses me when people are taken aback with my embracement
+                of psychoactive substances (weed, shrooms, LSD).
+              </p>
+              <p>
+                I&rsquo;ve found that these substances can often be profoundly
+                helpful with creative lines of thought and introspection. From the
+                above example, the negative harm of these substances to me are the
+                equivalent of what most people would see in drinking at a party.
+              </p>
+              <p>
+                All of these psychedelics were criminalized in the 60s&ndash;70s
+                because the government was worried they couldn&rsquo;t control the
+                new wave of so called &ldquo;hippies&rdquo; who just did what they
+                wanted, which in it of itself should be a reason they are good.
+              </p>
+              <p>
+                This is not an endorsement of shrooms or LSD as the magic drug
+                that solves all, but I think the world would be a better place if
+                everyone tripped, and there&rsquo;s few things that deserve the
+                same sentiment.
+              </p>
+            </div>
+            <div className="hm-egg-close">
+              <span className="hm-egg-mark">aureliex.</span>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
@@ -262,7 +345,12 @@ const CSS = `
   color: var(--ink); margin: 16px 0 0;
   user-select: none;
 }
-.hm-dot { color: var(--rust); }
+.hm-dot {
+  color: var(--rust); cursor: default;
+  transition: transform 0.2s ease, color 0.2s ease;
+  display: inline-block;
+}
+.hm-dot:active { transform: scale(1.4); color: var(--teal); }
 
 .hm-subtitle {
   font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
@@ -548,6 +636,68 @@ const CSS = `
   transition: color 0.3s ease;
 }
 .hm-col-link:hover { color: rgba(244,239,230,0.6); }
+
+/* ═══════ EASTER EGG ═══════ */
+.hm-egg {
+  background: var(--paper-warm);
+  padding: clamp(4rem, 8vw, 7rem) clamp(1.25rem, 4vw, 2.5rem);
+  border-top: 1px solid var(--rule-color);
+  animation: hm-egg-in 0.8s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes hm-egg-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hm-egg-inner { max-width: 40rem; margin: 0 auto; }
+.hm-egg-found {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--teal); opacity: 0.7;
+  display: block; text-align: center; margin-bottom: 1.5rem;
+}
+.hm-egg-rule {
+  width: 32px; height: 2px; margin: 0 auto 2.5rem;
+  background: var(--teal); opacity: 0.4;
+}
+.hm-egg-title {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-weight: 500;
+  font-size: clamp(2.4rem, 1.8rem + 3vw, 3.6rem);
+  line-height: 1.1; letter-spacing: -0.015em;
+  color: var(--ink); margin: 0 0 2rem; text-align: center;
+}
+.hm-egg-h3 {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-weight: 500;
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  color: var(--ink); margin: 3rem 0 1.5rem;
+}
+.hm-egg-body p {
+  font-family: var(--font-body, 'EB Garamond'), Georgia, serif;
+  font-size: clamp(1.02rem, 0.92rem + 0.35vw, 1.14rem);
+  line-height: 1.8; color: var(--ink); margin: 0 0 1.4rem;
+}
+.hm-egg-fig {
+  margin: 2.5rem 0;
+}
+.hm-egg-img {
+  display: block; width: 100%; height: auto; border-radius: 3px;
+  box-shadow: 0 2px 20px rgba(28,26,23,0.08), 0 0 0 1px rgba(28,26,23,0.06);
+}
+.hm-egg-caption {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.6rem; letter-spacing: 0.06em;
+  color: var(--graphite); margin-top: 10px; text-align: right; opacity: 0.5;
+}
+.hm-egg-close {
+  text-align: center; margin-top: 3rem; padding-top: 2rem;
+  border-top: 1px solid var(--rule-color);
+}
+.hm-egg-mark {
+  font-family: var(--font-display, 'Cormorant Garamond'), Georgia, serif;
+  font-style: italic; font-size: 0.9rem; letter-spacing: 0.1em;
+  color: var(--graphite); opacity: 0.3;
+}
 
 /* ═══════ RESPONSIVE ═══════ */
 @media (max-width: 768px) {
