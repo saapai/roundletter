@@ -23,22 +23,34 @@
       z-index: 0;
       background: url('/art/bg-painting.jpeg') center center / cover no-repeat;
       filter: brightness(0.45) saturate(0.8);
-      transform-origin: 48% 28%;
-      will-change: transform, filter;
+      will-change: opacity;
     }
 
+    /* Vignette fades to paper-white, centered on the sketch */
     .vignette {
       position: fixed;
       inset: 0;
       z-index: 1;
       pointer-events: none;
-      will-change: background;
-      /* starts as a subtle vignette, closes in with scroll */
+      opacity: 0;
       background: radial-gradient(
-        ellipse 80% 80% at 48% 28%,
-        transparent 40%,
-        rgba(0,0,0,0.3) 100%
+        ellipse 45% 50% at 50% 50%,
+        rgba(240,237,232,0.0) 30%,
+        rgba(240,237,232,0.8) 65%,
+        rgba(240,237,232,1) 100%
       );
+      will-change: opacity;
+    }
+
+    /* Full paper color wash that fades in at the end */
+    .paper-wash {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: #F0EDE8;
+      opacity: 0;
+      will-change: opacity;
     }
 
     .gallery {
@@ -48,9 +60,8 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
-      padding: 10vh 8vw 6vh;
       box-sizing: border-box;
-      will-change: opacity, transform;
+      will-change: transform;
     }
 
     .sketch {
@@ -65,14 +76,8 @@
     }
 
     @keyframes reveal {
-      from {
-        opacity: 0;
-        transform: translateY(6px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .name {
@@ -91,6 +96,7 @@
       user-select: none;
       animation: placard-in 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) 1.8s forwards;
       will-change: opacity;
+      transition: color 0.6s ease;
     }
 
     @keyframes placard-in {
@@ -133,141 +139,119 @@
       transition: transform 0.08s ease-out, opacity 0.15s ease;
     }
 
-    .eye.blink {
-      height: 3px;
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .eye.blink .pupil {
-      opacity: 0;
-    }
+    .eye.blink { height: 3px; border-radius: 2px; overflow: hidden; }
+    .eye.blink .pupil { opacity: 0; }
 
     @media (max-width: 640px) {
-      .gallery {
-        padding: 18vh 6vw 8vh;
-      }
-
-      .sketch {
-        max-width: 88vw;
-        max-height: 60vh;
-      }
-
-      .name {
-        bottom: 1.25rem;
-        right: 1.5rem;
-        font-size: 10px;
-        letter-spacing: 0.08em;
-      }
-
-      .eyes-wrap {
-        top: 12px;
-        gap: 6px;
-      }
-
-      .eye {
-        width: 14px;
-        height: 14px;
-      }
+      .gallery { padding: 18vh 6vw 8vh; }
+      .sketch { max-width: 88vw; max-height: 60vh; }
+      .name { bottom: 1.25rem; right: 1.5rem; font-size: 10px; letter-spacing: 0.08em; }
+      .eyes-wrap { top: 12px; gap: 6px; }
+      .eye { width: 14px; height: 14px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .sketch, .name, .eyes-wrap {
-        animation: none;
-        opacity: 1;
-      }
+      .sketch, .name, .eyes-wrap { animation: none; opacity: 1; }
     }
   </style>
 </head>
 <body>
   <div class="bg" id="bg"></div>
+  <div class="paper-wash" id="paperWash"></div>
   <div class="vignette" id="vignette"></div>
 
-  <!-- Eyes that follow cursor -->
   <div class="eyes-wrap" id="eyes">
     <div class="eye"><div class="pupil"></div></div>
     <div class="eye"><div class="pupil"></div></div>
   </div>
 
   <div class="gallery" id="gallery">
-    <img class="sketch" src="/art/sketch-homepage.jpeg" alt="Pencil sketch" />
+    <img class="sketch" id="sketch" src="/art/sketch-homepage.jpeg" alt="Pencil sketch" />
   </div>
 
   <span class="name" id="nameEl">saapai</span>
 
   <script>
-    // ── Spiral scroll into the door ──
     const bg = document.getElementById('bg');
     const vignette = document.getElementById('vignette');
+    const paperWash = document.getElementById('paperWash');
     const gallery = document.getElementById('gallery');
+    const sketch = document.getElementById('sketch');
     const nameEl = document.getElementById('nameEl');
+    const eyesEl = document.getElementById('eyes');
 
     let rawScroll = 0;
-    const MAX_SCROLL = 3000;
-    const MAX_SCALE = 14;
-    const MAX_ROTATE = 240;
+    const MAX_SCROLL = 2800;
 
-    // Vertex: the door — 48% from left, 28% from top
-    const VX = 48, VY = 28;
-
-    // Bell curve rate: gaussian CDF gives slow-fast-slow progress
+    // Bell curve rate: slow → fast → slow
     function bellCurveMap(t) {
       if (t <= 0) return 0;
       if (t >= 1) return 1;
-      const sigma = 0.18;
-      const z = (t - 0.5) / sigma;
+      const z = (t - 0.5) / 0.18;
       return 1 / (1 + Math.exp(-1.7 * z * (1 + 0.044715 * z * z) * 1.5));
+    }
+
+    // Figure out how much to scale the sketch to fill viewport
+    function getSketchFillScale() {
+      const rect = sketch.getBoundingClientRect();
+      if (!rect.width || !rect.height) return 3;
+      const sx = window.innerWidth / rect.width;
+      const sy = window.innerHeight / rect.height;
+      return Math.max(sx, sy) * 1.15; // slight overfill
     }
 
     function applyScroll() {
       const t = Math.max(0, Math.min(1, rawScroll / MAX_SCROLL));
       const eased = bellCurveMap(t);
 
-      // Scale & rotate
-      const scale = 1 + eased * (MAX_SCALE - 1);
-      const rotate = eased * MAX_ROTATE;
+      const fillScale = getSketchFillScale();
 
-      // Brightness: dim → revealed as we enter the painting
-      const brightness = 0.45 + eased * 0.5;
-      const saturate = 0.8 + eased * 0.3;
+      // ── Sketch: scales up + slight spiral rotation ──
+      const sketchScale = 1 + eased * (fillScale - 1);
+      const sketchRotate = eased * 35; // gentle spiral, not violent
+      gallery.style.transform = `scale(${sketchScale}) rotate(${sketchRotate}deg)`;
 
-      bg.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
-      bg.style.filter = `brightness(${brightness}) saturate(${saturate})`;
+      // ── Background: fades out as sketch takes over ──
+      bg.style.opacity = Math.max(0, 1 - eased * 2.5); // gone by 40%
 
-      // ── Vignette: closes in as you scroll ──
-      // Start: large soft vignette. End: tight tunnel focused on vertex.
-      // Ellipse size shrinks from 80% → 15%
-      const vigSize = 80 - eased * 65; // 80% → 15%
-      // Inner transparent zone shrinks
-      const vigInner = 40 - eased * 35; // 40% → 5%
-      // Outer darkness intensifies
-      const vigAlpha = 0.3 + eased * 0.7; // 0.3 → 1.0
+      // ── Vignette: paper-colored, closes in to mask bg edges ──
+      // Fades in as bg fades, creating seamless transition
+      const vigOpacity = Math.min(1, eased * 2); // fully on by 50%
+      vignette.style.opacity = vigOpacity;
 
+      // Vignette hole shrinks: sketch grows to fill it
+      const holeSize = 50 - eased * 25; // 50% → 25% (sketch fills the rest)
       vignette.style.background = `radial-gradient(
-        ellipse ${vigSize}% ${vigSize}% at ${VX}% ${VY}%,
-        transparent ${vigInner}%,
-        rgba(0,0,0,${vigAlpha * 0.6}) ${vigInner + 20}%,
-        rgba(0,0,0,${vigAlpha}) 100%
+        ellipse ${holeSize}% ${holeSize * 1.1}% at 50% 50%,
+        transparent 60%,
+        rgba(240,237,232,0.7) 80%,
+        rgba(240,237,232,1) 100%
       )`;
 
-      // Fade out sketch + name early
-      const fadeOut = Math.max(0, 1 - t * 4);
-      gallery.style.opacity = fadeOut;
-      gallery.style.transform = `scale(${1 - t * 0.3})`;
-      nameEl.style.opacity = fadeOut * 0.6;
+      // ── Paper wash: fills in fully at the end ──
+      // Only kicks in late, covering any remaining bg peeks
+      const washOpacity = Math.max(0, (eased - 0.6) / 0.4); // 0 until 60%, then 0→1
+      paperWash.style.opacity = washOpacity;
 
-      // Fade eyes out too
-      document.getElementById('eyes').style.opacity = Math.max(0, 1 - t * 5);
+      // ── Name: transitions to dark on paper ──
+      if (eased > 0.5) {
+        nameEl.style.color = `rgba(0,0,0,0.3)`;
+      } else {
+        nameEl.style.color = `rgba(255,255,255,0.6)`;
+      }
+
+      // ── Eyes fade out early ──
+      eyesEl.style.opacity = Math.max(0, 1 - t * 5);
     }
 
-    // Wheel-driven virtual scroll
+    // Wheel
     window.addEventListener('wheel', e => {
       e.preventDefault();
       rawScroll = Math.max(0, rawScroll + e.deltaY);
       requestAnimationFrame(applyScroll);
     }, { passive: false });
 
-    // Touch support
+    // Touch
     let touchStartY = 0;
     window.addEventListener('touchstart', e => {
       touchStartY = e.touches[0].clientY;
@@ -286,7 +270,6 @@
     document.addEventListener('mousemove', e => { curX = e.clientX; curY = e.clientY; });
 
     const eyes = document.querySelectorAll('.eye');
-
     function updateEyes() {
       eyes.forEach(eye => {
         const r = eye.getBoundingClientRect();
@@ -300,20 +283,17 @@
     }
     updateEyes();
 
-    // Blink randomly
     function scheduleBlink() {
-      const delay = 2000 + Math.random() * 4000;
       setTimeout(() => {
         eyes.forEach(e => {
           e.classList.add('blink');
           setTimeout(() => e.classList.remove('blink'), 150);
         });
         scheduleBlink();
-      }, delay);
+      }, 2000 + Math.random() * 4000);
     }
     scheduleBlink();
 
-    // Blink on click anywhere
     document.addEventListener('click', () => {
       eyes.forEach(e => {
         e.classList.add('blink');
