@@ -12,7 +12,7 @@
   <style>
     html, body {
       margin: 0;
-      min-height: 100vh;
+      height: 100vh;
       overflow: hidden;
       background: #0a0a0a;
     }
@@ -23,17 +23,34 @@
       z-index: 0;
       background: url('/art/bg-painting.jpeg') center center / cover no-repeat;
       filter: brightness(0.45) saturate(0.8);
+      transform-origin: 48% 28%;
+      will-change: transform, filter;
+    }
+
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      will-change: background;
+      /* starts as a subtle vignette, closes in with scroll */
+      background: radial-gradient(
+        ellipse 80% 80% at 48% 28%,
+        transparent 40%,
+        rgba(0,0,0,0.3) 100%
+      );
     }
 
     .gallery {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      height: 100vh;
       padding: 10vh 8vw 6vh;
       box-sizing: border-box;
+      will-change: opacity, transform;
     }
 
     .sketch {
@@ -62,6 +79,7 @@
       position: fixed;
       bottom: 2rem;
       right: 2.5rem;
+      z-index: 3;
       font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: 11px;
       font-weight: 400;
@@ -72,10 +90,7 @@
       line-height: 1;
       user-select: none;
       animation: placard-in 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) 1.8s forwards;
-    }
-
-    .name {
-      z-index: 2;
+      will-change: opacity;
     }
 
     @keyframes placard-in {
@@ -161,14 +176,12 @@
         animation: none;
         opacity: 1;
       }
-      .name {
-        opacity: 1;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="bg"></div>
+  <div class="bg" id="bg"></div>
+  <div class="vignette" id="vignette"></div>
 
   <!-- Eyes that follow cursor -->
   <div class="eyes-wrap" id="eyes">
@@ -176,13 +189,98 @@
     <div class="eye"><div class="pupil"></div></div>
   </div>
 
-  <div class="gallery">
+  <div class="gallery" id="gallery">
     <img class="sketch" src="/art/sketch-homepage.jpeg" alt="Pencil sketch" />
   </div>
 
-  <span class="name">saapai</span>
+  <span class="name" id="nameEl">saapai</span>
 
   <script>
+    // ── Spiral scroll into the door ──
+    const bg = document.getElementById('bg');
+    const vignette = document.getElementById('vignette');
+    const gallery = document.getElementById('gallery');
+    const nameEl = document.getElementById('nameEl');
+
+    let rawScroll = 0;
+    const MAX_SCROLL = 3000;
+    const MAX_SCALE = 14;
+    const MAX_ROTATE = 240;
+
+    // Vertex: the door — 48% from left, 28% from top
+    const VX = 48, VY = 28;
+
+    // Bell curve rate: gaussian CDF gives slow-fast-slow progress
+    function bellCurveMap(t) {
+      if (t <= 0) return 0;
+      if (t >= 1) return 1;
+      const sigma = 0.18;
+      const z = (t - 0.5) / sigma;
+      return 1 / (1 + Math.exp(-1.7 * z * (1 + 0.044715 * z * z) * 1.5));
+    }
+
+    function applyScroll() {
+      const t = Math.max(0, Math.min(1, rawScroll / MAX_SCROLL));
+      const eased = bellCurveMap(t);
+
+      // Scale & rotate
+      const scale = 1 + eased * (MAX_SCALE - 1);
+      const rotate = eased * MAX_ROTATE;
+
+      // Brightness: dim → revealed as we enter the painting
+      const brightness = 0.45 + eased * 0.5;
+      const saturate = 0.8 + eased * 0.3;
+
+      bg.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+      bg.style.filter = `brightness(${brightness}) saturate(${saturate})`;
+
+      // ── Vignette: closes in as you scroll ──
+      // Start: large soft vignette. End: tight tunnel focused on vertex.
+      // Ellipse size shrinks from 80% → 15%
+      const vigSize = 80 - eased * 65; // 80% → 15%
+      // Inner transparent zone shrinks
+      const vigInner = 40 - eased * 35; // 40% → 5%
+      // Outer darkness intensifies
+      const vigAlpha = 0.3 + eased * 0.7; // 0.3 → 1.0
+
+      vignette.style.background = `radial-gradient(
+        ellipse ${vigSize}% ${vigSize}% at ${VX}% ${VY}%,
+        transparent ${vigInner}%,
+        rgba(0,0,0,${vigAlpha * 0.6}) ${vigInner + 20}%,
+        rgba(0,0,0,${vigAlpha}) 100%
+      )`;
+
+      // Fade out sketch + name early
+      const fadeOut = Math.max(0, 1 - t * 4);
+      gallery.style.opacity = fadeOut;
+      gallery.style.transform = `scale(${1 - t * 0.3})`;
+      nameEl.style.opacity = fadeOut * 0.6;
+
+      // Fade eyes out too
+      document.getElementById('eyes').style.opacity = Math.max(0, 1 - t * 5);
+    }
+
+    // Wheel-driven virtual scroll
+    window.addEventListener('wheel', e => {
+      e.preventDefault();
+      rawScroll = Math.max(0, rawScroll + e.deltaY);
+      requestAnimationFrame(applyScroll);
+    }, { passive: false });
+
+    // Touch support
+    let touchStartY = 0;
+    window.addEventListener('touchstart', e => {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', e => {
+      e.preventDefault();
+      const dy = touchStartY - e.touches[0].clientY;
+      touchStartY = e.touches[0].clientY;
+      rawScroll = Math.max(0, rawScroll + dy * 2.5);
+      requestAnimationFrame(applyScroll);
+    }, { passive: false });
+
     // ── Eyes follow cursor ──
     let curX = innerWidth / 2, curY = innerHeight / 2;
     document.addEventListener('mousemove', e => { curX = e.clientX; curY = e.clientY; });
