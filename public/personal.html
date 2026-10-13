@@ -166,16 +166,22 @@
     // Default origin on the sketch image: the door spot
     const DEFAULT_ORIGIN = '55% 28%';
 
-    // Diminishing returns: sqrt + late resistance
+    // Diminishing returns: linear pass-through, soft cap on big flicks,
+    // resistance only near the edges (last 30%)
     function dampenDelta(delta, currentPos) {
-      const dampened = Math.sign(delta) * Math.sqrt(Math.abs(delta)) * 2.8;
+      // Soft cap: linear up to 30, then logarithmic above that
+      const abs = Math.abs(delta);
+      const capped = abs <= 30 ? abs : 30 + Math.log(1 + abs - 30) * 8;
+      let dampened = Math.sign(delta) * capped;
+
+      // Edge resistance: only in the last 30% of travel
       let resistance = 1;
       if (delta > 0 && currentPos > 0) {
         const depth = currentPos / UP_MAX;
-        resistance = depth > 0.6 ? 1 / (1 + (depth - 0.6) * 4) : 1;
+        resistance = depth > 0.7 ? 1 / (1 + (depth - 0.7) * 6) : 1;
       } else if (delta < 0 && currentPos < 0) {
         const depth = Math.abs(currentPos) / DOWN_MAX;
-        resistance = depth > 0.6 ? 1 / (1 + (depth - 0.6) * 4) : 1;
+        resistance = depth > 0.7 ? 1 / (1 + (depth - 0.7) * 6) : 1;
       }
       return dampened * resistance;
     }
