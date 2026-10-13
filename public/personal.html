@@ -35,8 +35,8 @@
       height: 100vh;
       box-sizing: border-box;
       will-change: transform, opacity;
-      /* Dark spot next to the doorframe — right of center, upper third */
-      transform-origin: 62% 33%;
+      /* Doorframe convergence — right third, upper quarter */
+      transform-origin: 70% 30%;
     }
 
     .sketch {
@@ -161,8 +161,8 @@
     const UP_MAX = 2000;
     const DOWN_MAX = 800;
 
-    const TILT = 8; // degrees — tilts the OTHER way now (positive = CCW)
-    const MAX_SCALE_IN = 3.2;
+    const TILT = 5;
+    const MAX_SCALE_IN = 4.0;
 
     // ── Diminishing returns on scroll input ──
     // Each wheel delta gets dampened: sqrt scaling + position resistance
@@ -193,7 +193,10 @@
         const t = Math.min(1, scrollPos / UP_MAX);
 
         const scale = 1 + t * (MAX_SCALE_IN - 1);
-        const rotate = t * TILT;
+
+        // Delayed quadratic tilt: no rotation until 40%, then accelerates
+        const tiltT = Math.max(0, (t - 0.4) / 0.6);
+        const rotate = tiltT * tiltT * TILT;
         gallery.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
         gallery.style.opacity = 1;
 
@@ -205,8 +208,14 @@
         sketch.style.webkitMaskImage = `${maskH}, ${maskV}`;
         sketch.style.maskImage = `${maskH}, ${maskV}`;
 
-        // Bg dims
-        bg.style.filter = `brightness(${0.45 - t * 0.2}) saturate(${0.8 - t * 0.3})`;
+        // Bg dims through most of scroll, then painting bleeds back last 20%
+        if (t < 0.8) {
+          const bgT = t / 0.8; // 0→1 over first 80%
+          bg.style.filter = `brightness(${0.45 - bgT * 0.35}) saturate(${0.8 - bgT * 0.5})`;
+        } else {
+          const revealT = (t - 0.8) / 0.2; // 0→1 over last 20%
+          bg.style.filter = `brightness(${0.10 + revealT * 0.15}) saturate(${0.3 + revealT * 0.8})`;
+        }
 
         nameEl.style.opacity = Math.max(0, 1 - t * 3);
         eyesEl.style.opacity = Math.max(0, 1 - t * 4);
@@ -295,7 +304,7 @@
         isPinching = false;
         // Reset transform-origin to default door position after pinch ends
         if (e.touches.length === 0) {
-          gallery.style.transformOrigin = '62% 33%';
+          gallery.style.transformOrigin = '70% 30%';
         }
       }
     }, { passive: true });
