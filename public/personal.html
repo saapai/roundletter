@@ -45,6 +45,7 @@
       object-fit: contain;
       opacity: 0;
       animation: reveal 1.8s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s forwards;
+      /* JS handles transform after load — animation only does opacity */
       will-change: transform;
       /* Door spot in the IMAGE — roughly 55% from left, 28% from top of the sketch photo */
       transform-origin: 55% 28%;
@@ -60,8 +61,8 @@
     }
 
     @keyframes reveal {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .name {
