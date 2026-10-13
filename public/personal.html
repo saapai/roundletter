@@ -48,20 +48,15 @@
       object-fit: contain;
       opacity: 0;
       animation: reveal 1.8s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s forwards;
-      mask-image: radial-gradient(
-        ellipse 85% 85% at 50% 50%,
-        black 55%,
-        rgba(0,0,0,0.6) 72%,
-        rgba(0,0,0,0.2) 88%,
-        transparent 100%
-      );
-      -webkit-mask-image: radial-gradient(
-        ellipse 85% 85% at 50% 50%,
-        black 55%,
-        rgba(0,0,0,0.6) 72%,
-        rgba(0,0,0,0.2) 88%,
-        transparent 100%
-      );
+      /* Edge feather: dissolve all 4 edges into the background */
+      -webkit-mask-image:
+        linear-gradient(to right,  transparent, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.8) 10%, black 16%, black 84%, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.3) 95%, transparent),
+        linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.8) 10%, black 16%, black 84%, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.3) 95%, transparent);
+      -webkit-mask-composite: source-in;
+      mask-image:
+        linear-gradient(to right,  transparent, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.8) 10%, black 16%, black 84%, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.3) 95%, transparent),
+        linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.8) 10%, black 16%, black 84%, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.3) 95%, transparent);
+      mask-composite: intersect;
     }
 
     @keyframes reveal {
@@ -164,7 +159,7 @@
     // Smoothed scroll position — drives all transforms
     let scrollPos = 0; // negative = down (bg reveal), positive = up (into sketch)
     const UP_MAX = 2000;
-    const DOWN_MAX = 1500;
+    const DOWN_MAX = 800;
 
     const TILT = 8; // degrees — tilts the OTHER way now (positive = CCW)
     const MAX_SCALE_IN = 3.2;
@@ -202,19 +197,13 @@
         gallery.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
         gallery.style.opacity = 1;
 
-        // Relax mask as sketch fills viewport
-        const maskCore = 55 + t * 30;
-        const maskMid = 72 + t * 18;
-        const maskOuter = 88 + t * 10;
-        const maskCSS = `radial-gradient(
-          ellipse 85% 85% at 50% 50%,
-          black ${maskCore}%,
-          rgba(0,0,0,0.6) ${maskMid}%,
-          rgba(0,0,0,0.2) ${maskOuter}%,
-          transparent 100%
-        )`;
-        sketch.style.maskImage = maskCSS;
-        sketch.style.webkitMaskImage = maskCSS;
+        // Edge feather relaxes as sketch fills viewport
+        const inner = 16 - t * 13;  // 16% → 3%
+        const outer = 84 + t * 13;  // 84% → 97%
+        const maskH = `linear-gradient(to right, transparent, rgba(0,0,0,0.4) ${inner*0.4}%, black ${inner}%, black ${outer}%, rgba(0,0,0,0.4) ${outer+(100-outer)*0.5}%, transparent)`;
+        const maskV = `linear-gradient(to bottom, transparent, rgba(0,0,0,0.4) ${inner*0.4}%, black ${inner}%, black ${outer}%, rgba(0,0,0,0.4) ${outer+(100-outer)*0.5}%, transparent)`;
+        sketch.style.webkitMaskImage = `${maskH}, ${maskV}`;
+        sketch.style.maskImage = `${maskH}, ${maskV}`;
 
         // Bg dims
         bg.style.filter = `brightness(${0.45 - t * 0.2}) saturate(${0.8 - t * 0.3})`;
@@ -233,13 +222,7 @@
         gallery.style.transform = `scale(${scale}) translateY(${panY}vh)`;
         gallery.style.opacity = sketchOpacity;
 
-        // Reset mask
-        const defaultMask = `radial-gradient(
-          ellipse 85% 85% at 50% 50%,
-          black 55%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0.2) 88%, transparent 100%
-        )`;
-        sketch.style.maskImage = defaultMask;
-        sketch.style.webkitMaskImage = defaultMask;
+        // Keep default edge feather (set in CSS)
 
         // Background painting reveals with clarity
         bg.style.filter = `brightness(${0.45 + t * 0.4}) saturate(${0.8 + t * 0.25})`;
@@ -258,20 +241,64 @@
       requestAnimationFrame(applyScroll);
     }, { passive: false });
 
-    // Touch — same dampening
+    // Touch — scroll (1 finger) + pinch zoom (2 fingers)
     let touchStartY = 0;
+    let lastPinchDist = 0;
+    let isPinching = false;
+
     window.addEventListener('touchstart', e => {
-      touchStartY = e.touches[0].clientY;
+      if (e.touches.length === 2) {
+        isPinching = true;
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        lastPinchDist = Math.hypot(dx, dy);
+
+        // Set transform-origin to pinch midpoint
+        const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const my = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        const pxPct = (mx / window.innerWidth) * 100;
+        const pyPct = (my / window.innerHeight) * 100;
+        gallery.style.transformOrigin = `${pxPct}% ${pyPct}%`;
+      } else {
+        isPinching = false;
+        touchStartY = e.touches[0].clientY;
+      }
     }, { passive: true });
+
     window.addEventListener('touchmove', e => {
       e.preventDefault();
-      const dy = touchStartY - e.touches[0].clientY;
-      touchStartY = e.touches[0].clientY;
-      const effective = dampenDelta(dy * 2, scrollPos);
-      scrollPos += effective;
-      scrollPos = Math.max(-DOWN_MAX, Math.min(UP_MAX, scrollPos));
-      requestAnimationFrame(applyScroll);
+      if (e.touches.length === 2 && isPinching) {
+        // Pinch: distance change → scroll delta
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.hypot(dx, dy);
+        const delta = (dist - lastPinchDist) * 3; // pinch out = positive = zoom in
+        lastPinchDist = dist;
+
+        const effective = dampenDelta(delta, scrollPos);
+        scrollPos += effective;
+        scrollPos = Math.max(-DOWN_MAX, Math.min(UP_MAX, scrollPos));
+        requestAnimationFrame(applyScroll);
+      } else if (e.touches.length === 1 && !isPinching) {
+        // Single finger scroll
+        const dy = touchStartY - e.touches[0].clientY;
+        touchStartY = e.touches[0].clientY;
+        const effective = dampenDelta(dy * 2, scrollPos);
+        scrollPos += effective;
+        scrollPos = Math.max(-DOWN_MAX, Math.min(UP_MAX, scrollPos));
+        requestAnimationFrame(applyScroll);
+      }
     }, { passive: false });
+
+    window.addEventListener('touchend', e => {
+      if (e.touches.length < 2) {
+        isPinching = false;
+        // Reset transform-origin to default door position after pinch ends
+        if (e.touches.length === 0) {
+          gallery.style.transformOrigin = '62% 33%';
+        }
+      }
+    }, { passive: true });
 
     // ── Eyes ──
     let curX = innerWidth / 2, curY = innerHeight / 2;
