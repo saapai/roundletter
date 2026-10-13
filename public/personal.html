@@ -23,6 +23,7 @@
       z-index: 0;
       background: url('/art/bg-painting.jpeg') center center / cover no-repeat;
       filter: brightness(0.45) saturate(0.8);
+      will-change: filter;
     }
 
     .gallery {
@@ -33,9 +34,9 @@
       justify-content: center;
       height: 100vh;
       box-sizing: border-box;
-      will-change: transform;
-      /* transform-origin set to the doorframe spot on the sketch */
-      transform-origin: 42% 38%;
+      will-change: transform, opacity;
+      /* Dark spot next to the doorframe — right of center, upper third */
+      transform-origin: 62% 33%;
     }
 
     .sketch {
@@ -47,7 +48,6 @@
       object-fit: contain;
       opacity: 0;
       animation: reveal 1.8s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s forwards;
-      /* Feather edges so sketch dissolves into the background */
       mask-image: radial-gradient(
         ellipse 85% 85% at 50% 50%,
         black 55%,
@@ -91,7 +91,6 @@
       to { opacity: 1; }
     }
 
-    /* ── Eyes ── */
     .eyes-wrap {
       position: fixed;
       top: 16px;
@@ -162,37 +161,51 @@
     const nameEl = document.getElementById('nameEl');
     const eyesEl = document.getElementById('eyes');
 
-    // rawScroll: negative = scroll down (into bg), positive = scroll up (into sketch)
-    let rawScroll = 0;
-    const SCROLL_UP_MAX = 2000;   // into the sketch
-    const SCROLL_DOWN_MAX = 1500; // into the background
+    // Smoothed scroll position — drives all transforms
+    let scrollPos = 0; // negative = down (bg reveal), positive = up (into sketch)
+    const UP_MAX = 2000;
+    const DOWN_MAX = 1500;
 
-    const TILT_CORRECTION = -8;
+    const TILT = 8; // degrees — tilts the OTHER way now (positive = CCW)
     const MAX_SCALE_IN = 3.2;
 
-    // Bell curve rate: slow → fast → slow
-    function bellCurveMap(t) {
-      if (t <= 0) return 0;
-      if (t >= 1) return 1;
-      const z = (t - 0.5) / 0.18;
-      return 1 / (1 + Math.exp(-1.7 * z * (1 + 0.044715 * z * z) * 1.5));
+    // ── Diminishing returns on scroll input ──
+    // Each wheel delta gets dampened: sqrt scaling + position resistance
+    // Scrolling hard does more, but massively capped
+    function dampenDelta(delta, currentPos) {
+      // Sqrt of absolute delta — fast scroll has diminishing returns
+      const dampened = Math.sign(delta) * Math.sqrt(Math.abs(delta)) * 1.8;
+
+      // Position resistance: the further from 0, the harder to push further
+      // Going positive (into sketch): resistance increases with scrollPos
+      // Going negative (into bg): resistance increases with -scrollPos
+      let resistance = 1;
+      if (delta > 0 && currentPos > 0) {
+        // Pushing deeper into sketch — increasing resistance
+        resistance = 1 / (1 + (currentPos / UP_MAX) * 2.5);
+      } else if (delta < 0 && currentPos < 0) {
+        // Pushing deeper into bg — increasing resistance
+        resistance = 1 / (1 + (Math.abs(currentPos) / DOWN_MAX) * 2.5);
+      }
+      // Returning toward center is always easy (resistance = 1)
+
+      return dampened * resistance;
     }
 
     function applyScroll() {
-      if (rawScroll >= 0) {
-        // ── SCROLL UP: zoom into the sketch ──
-        const t = Math.min(1, rawScroll / SCROLL_UP_MAX);
-        const eased = bellCurveMap(t);
+      if (scrollPos >= 0) {
+        // ── INTO THE SKETCH ──
+        const t = Math.min(1, scrollPos / UP_MAX);
 
-        const scale = 1 + eased * (MAX_SCALE_IN - 1);
-        const rotate = eased * TILT_CORRECTION;
+        const scale = 1 + t * (MAX_SCALE_IN - 1);
+        const rotate = t * TILT;
         gallery.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
         gallery.style.opacity = 1;
 
         // Relax mask as sketch fills viewport
-        const maskCore = 55 + eased * 30;
-        const maskMid = 72 + eased * 18;
-        const maskOuter = 88 + eased * 10;
+        const maskCore = 55 + t * 30;
+        const maskMid = 72 + t * 18;
+        const maskOuter = 88 + t * 10;
         const maskCSS = `radial-gradient(
           ellipse 85% 85% at 50% 50%,
           black ${maskCore}%,
@@ -203,24 +216,24 @@
         sketch.style.maskImage = maskCSS;
         sketch.style.webkitMaskImage = maskCSS;
 
-        // Bg dims as sketch takes over
-        const bgBrightness = 0.45 - eased * 0.2;
-        bg.style.filter = `brightness(${bgBrightness}) saturate(${0.8 - eased * 0.3})`;
+        // Bg dims
+        bg.style.filter = `brightness(${0.45 - t * 0.2}) saturate(${0.8 - t * 0.3})`;
 
         nameEl.style.opacity = Math.max(0, 1 - t * 3);
         eyesEl.style.opacity = Math.max(0, 1 - t * 4);
 
       } else {
-        // ── SCROLL DOWN: dissolve sketch, reveal background painting ──
-        const t = Math.min(1, Math.abs(rawScroll) / SCROLL_DOWN_MAX);
-        const eased = bellCurveMap(t);
+        // ── PAN AWAY — reveal background painting ──
+        const t = Math.min(1, Math.abs(scrollPos) / DOWN_MAX);
 
-        // Sketch shrinks slightly and fades out
-        const scale = 1 - eased * 0.15;
-        gallery.style.transform = `scale(${scale})`;
-        gallery.style.opacity = Math.max(0, 1 - eased * 1.8);
+        // Gentle pan: sketch drifts upward and slightly shrinks
+        const panY = t * -25; // vh units worth of drift
+        const scale = 1 - t * 0.08; // barely shrinks
+        const sketchOpacity = Math.max(0, 1 - t * 1.2); // slow fade, not a snap
+        gallery.style.transform = `scale(${scale}) translateY(${panY}vh)`;
+        gallery.style.opacity = sketchOpacity;
 
-        // Reset mask to default
+        // Reset mask
         const defaultMask = `radial-gradient(
           ellipse 85% 85% at 50% 50%,
           black 55%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0.2) 88%, transparent 100%
@@ -228,27 +241,24 @@
         sketch.style.maskImage = defaultMask;
         sketch.style.webkitMaskImage = defaultMask;
 
-        // Background brightens, saturates — painting revealed
-        const bgBrightness = 0.45 + eased * 0.45; // 0.45 → 0.9
-        const bgSaturate = 0.8 + eased * 0.25;    // 0.8 → 1.05
-        bg.style.filter = `brightness(${bgBrightness}) saturate(${bgSaturate})`;
+        // Background painting reveals with clarity
+        bg.style.filter = `brightness(${0.45 + t * 0.4}) saturate(${0.8 + t * 0.25})`;
 
-        // Name fades out
-        nameEl.style.opacity = Math.max(0, 1 - t * 2.5);
-        eyesEl.style.opacity = Math.max(0, 1 - t * 3);
+        nameEl.style.opacity = Math.max(0, 1 - t * 2);
+        eyesEl.style.opacity = Math.max(0, 1 - t * 2);
       }
     }
 
-    // Wheel — bidirectional
+    // Wheel — diminishing returns on velocity
     window.addEventListener('wheel', e => {
       e.preventDefault();
-      rawScroll += e.deltaY;
-      // Clamp both directions
-      rawScroll = Math.max(-SCROLL_DOWN_MAX, Math.min(SCROLL_UP_MAX, rawScroll));
+      const effective = dampenDelta(e.deltaY, scrollPos);
+      scrollPos += effective;
+      scrollPos = Math.max(-DOWN_MAX, Math.min(UP_MAX, scrollPos));
       requestAnimationFrame(applyScroll);
     }, { passive: false });
 
-    // Touch — bidirectional
+    // Touch — same dampening
     let touchStartY = 0;
     window.addEventListener('touchstart', e => {
       touchStartY = e.touches[0].clientY;
@@ -257,12 +267,13 @@
       e.preventDefault();
       const dy = touchStartY - e.touches[0].clientY;
       touchStartY = e.touches[0].clientY;
-      rawScroll += dy * 2.5;
-      rawScroll = Math.max(-SCROLL_DOWN_MAX, Math.min(SCROLL_UP_MAX, rawScroll));
+      const effective = dampenDelta(dy * 2, scrollPos);
+      scrollPos += effective;
+      scrollPos = Math.max(-DOWN_MAX, Math.min(UP_MAX, scrollPos));
       requestAnimationFrame(applyScroll);
     }, { passive: false });
 
-    // ── Eyes follow cursor ──
+    // ── Eyes ──
     let curX = innerWidth / 2, curY = innerHeight / 2;
     document.addEventListener('mousemove', e => { curX = e.clientX; curY = e.clientY; });
 
