@@ -18,6 +18,13 @@ export function middleware(req: NextRequest) {
     return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
   }
 
+  // saathvikpai.com/fuckoff → old portfolio page
+  if (isPersonal && pathname === "/fuckoff") {
+    const url = req.nextUrl.clone();
+    url.pathname = "/fuckoff.html";
+    return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+  }
+
   // saathvikpai.com/letters → personal-styled letters index
   if (isPersonal && pathname === "/letters") {
     const url = req.nextUrl.clone();
