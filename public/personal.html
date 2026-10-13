@@ -22,7 +22,7 @@
       inset: 0;
       z-index: 0;
       background: url('/art/bg-painting.jpeg') center center / cover no-repeat;
-      filter: brightness(0.45) saturate(0.8);
+      filter: brightness(0.18) saturate(0.6);
       will-change: filter;
     }
 
@@ -34,9 +34,6 @@
       justify-content: center;
       height: 100vh;
       box-sizing: border-box;
-      will-change: transform, opacity;
-      /* Doorframe convergence — right third, upper quarter */
-      transform-origin: 70% 30%;
     }
 
     .sketch {
@@ -48,14 +45,17 @@
       object-fit: contain;
       opacity: 0;
       animation: reveal 1.8s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s forwards;
-      /* Edge feather: dissolve all 4 edges into the background */
+      will-change: transform;
+      /* Door spot in the IMAGE — roughly 55% from left, 28% from top of the sketch photo */
+      transform-origin: 55% 28%;
+      /* Subtle edge feather */
       -webkit-mask-image:
-        linear-gradient(to right,  transparent, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.8) 10%, black 16%, black 84%, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.3) 95%, transparent),
-        linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.8) 10%, black 16%, black 84%, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.3) 95%, transparent);
+        linear-gradient(to right,  transparent, black 4%, black 96%, transparent),
+        linear-gradient(to bottom, transparent, black 4%, black 96%, transparent);
       -webkit-mask-composite: source-in;
       mask-image:
-        linear-gradient(to right,  transparent, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.8) 10%, black 16%, black 84%, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.3) 95%, transparent),
-        linear-gradient(to bottom, transparent, rgba(0,0,0,0.3) 5%, rgba(0,0,0,0.8) 10%, black 16%, black 84%, rgba(0,0,0,0.8) 90%, rgba(0,0,0,0.3) 95%, transparent);
+        linear-gradient(to right,  transparent, black 4%, black 96%, transparent),
+        linear-gradient(to bottom, transparent, black 4%, black 96%, transparent);
       mask-composite: intersect;
     }
 
@@ -156,65 +156,61 @@
     const nameEl = document.getElementById('nameEl');
     const eyesEl = document.getElementById('eyes');
 
-    // Smoothed scroll position — drives all transforms
-    let scrollPos = 0; // negative = down (bg reveal), positive = up (into sketch)
+    let scrollPos = 0;
     const UP_MAX = 2000;
     const DOWN_MAX = 800;
 
     const TILT = 5;
     const MAX_SCALE_IN = 4.0;
 
-    // ── Diminishing returns on scroll input ──
-    // Each wheel delta gets dampened: sqrt scaling + position resistance
-    // Scrolling hard does more, but massively capped
-    function dampenDelta(delta, currentPos) {
-      // Sqrt of absolute delta — fast scroll has diminishing returns
-      const dampened = Math.sign(delta) * Math.sqrt(Math.abs(delta)) * 1.8;
+    // Default origin on the sketch image: the door spot
+    const DEFAULT_ORIGIN = '55% 28%';
 
-      // Position resistance: the further from 0, the harder to push further
-      // Going positive (into sketch): resistance increases with scrollPos
-      // Going negative (into bg): resistance increases with -scrollPos
+    // Diminishing returns: sqrt + late resistance
+    function dampenDelta(delta, currentPos) {
+      const dampened = Math.sign(delta) * Math.sqrt(Math.abs(delta)) * 2.8;
       let resistance = 1;
       if (delta > 0 && currentPos > 0) {
-        // Pushing deeper into sketch — increasing resistance
-        resistance = 1 / (1 + (currentPos / UP_MAX) * 2.5);
+        const depth = currentPos / UP_MAX;
+        resistance = depth > 0.6 ? 1 / (1 + (depth - 0.6) * 4) : 1;
       } else if (delta < 0 && currentPos < 0) {
-        // Pushing deeper into bg — increasing resistance
-        resistance = 1 / (1 + (Math.abs(currentPos) / DOWN_MAX) * 2.5);
+        const depth = Math.abs(currentPos) / DOWN_MAX;
+        resistance = depth > 0.6 ? 1 / (1 + (depth - 0.6) * 4) : 1;
       }
-      // Returning toward center is always easy (resistance = 1)
-
       return dampened * resistance;
     }
 
     function applyScroll() {
       if (scrollPos >= 0) {
-        // ── INTO THE SKETCH ──
+        // ── INTO THE SKETCH (transforms on sketch element directly) ──
         const t = Math.min(1, scrollPos / UP_MAX);
 
         const scale = 1 + t * (MAX_SCALE_IN - 1);
 
-        // Delayed quadratic tilt: no rotation until 40%, then accelerates
+        // Delayed quadratic tilt: nothing until 40%, then accelerates
         const tiltT = Math.max(0, (t - 0.4) / 0.6);
         const rotate = tiltT * tiltT * TILT;
-        gallery.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+
+        // Apply to SKETCH, not gallery — origin is relative to the image
+        sketch.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+        gallery.style.transform = '';
         gallery.style.opacity = 1;
 
         // Edge feather relaxes as sketch fills viewport
-        const inner = 16 - t * 13;  // 16% → 3%
-        const outer = 84 + t * 13;  // 84% → 97%
-        const maskH = `linear-gradient(to right, transparent, rgba(0,0,0,0.4) ${inner*0.4}%, black ${inner}%, black ${outer}%, rgba(0,0,0,0.4) ${outer+(100-outer)*0.5}%, transparent)`;
-        const maskV = `linear-gradient(to bottom, transparent, rgba(0,0,0,0.4) ${inner*0.4}%, black ${inner}%, black ${outer}%, rgba(0,0,0,0.4) ${outer+(100-outer)*0.5}%, transparent)`;
+        const feather = Math.max(1, 4 - t * 3); // 4% → 1%
+        const solidEnd = Math.min(99, 96 + t * 3); // 96% → 99%
+        const maskH = `linear-gradient(to right, transparent, black ${feather}%, black ${solidEnd}%, transparent)`;
+        const maskV = `linear-gradient(to bottom, transparent, black ${feather}%, black ${solidEnd}%, transparent)`;
         sketch.style.webkitMaskImage = `${maskH}, ${maskV}`;
         sketch.style.maskImage = `${maskH}, ${maskV}`;
 
-        // Bg dims through most of scroll, then painting bleeds back last 20%
-        if (t < 0.8) {
-          const bgT = t / 0.8; // 0→1 over first 80%
-          bg.style.filter = `brightness(${0.45 - bgT * 0.35}) saturate(${0.8 - bgT * 0.5})`;
+        // Bg dims, subtle warmth at the very end
+        if (t < 0.85) {
+          const bgT = t / 0.85;
+          bg.style.filter = `brightness(${0.18 - bgT * 0.14}) saturate(${0.6 - bgT * 0.4})`;
         } else {
-          const revealT = (t - 0.8) / 0.2; // 0→1 over last 20%
-          bg.style.filter = `brightness(${0.10 + revealT * 0.15}) saturate(${0.3 + revealT * 0.8})`;
+          const revealT = (t - 0.85) / 0.15;
+          bg.style.filter = `brightness(${0.04 + revealT * 0.08}) saturate(${0.2 + revealT * 0.5})`;
         }
 
         nameEl.style.opacity = Math.max(0, 1 - t * 3);
@@ -224,24 +220,25 @@
         // ── PAN AWAY — reveal background painting ──
         const t = Math.min(1, Math.abs(scrollPos) / DOWN_MAX);
 
-        // Gentle pan: sketch drifts upward and slightly shrinks
-        const panY = t * -25; // vh units worth of drift
-        const scale = 1 - t * 0.08; // barely shrinks
-        const sketchOpacity = Math.max(0, 1 - t * 1.2); // slow fade, not a snap
+        // Reset sketch transform
+        sketch.style.transform = '';
+
+        // Gentle pan: gallery drifts upward
+        const panY = t * -20;
+        const scale = 1 - t * 0.06;
+        const sketchOpacity = Math.max(0, 1 - t * 1.2);
         gallery.style.transform = `scale(${scale}) translateY(${panY}vh)`;
         gallery.style.opacity = sketchOpacity;
 
-        // Keep default edge feather (set in CSS)
-
-        // Background painting reveals with clarity
-        bg.style.filter = `brightness(${0.45 + t * 0.4}) saturate(${0.8 + t * 0.25})`;
+        // Background painting reveals
+        bg.style.filter = `brightness(${0.18 + t * 0.5}) saturate(${0.6 + t * 0.4})`;
 
         nameEl.style.opacity = Math.max(0, 1 - t * 2);
         eyesEl.style.opacity = Math.max(0, 1 - t * 2);
       }
     }
 
-    // Wheel — diminishing returns on velocity
+    // Wheel
     window.addEventListener('wheel', e => {
       e.preventDefault();
       const effective = dampenDelta(e.deltaY, scrollPos);
@@ -262,12 +259,13 @@
         const dy = e.touches[0].clientY - e.touches[1].clientY;
         lastPinchDist = Math.hypot(dx, dy);
 
-        // Set transform-origin to pinch midpoint
+        // Set transform-origin on sketch to pinch midpoint mapped to image coords
+        const rect = sketch.getBoundingClientRect();
         const mx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
         const my = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-        const pxPct = (mx / window.innerWidth) * 100;
-        const pyPct = (my / window.innerHeight) * 100;
-        gallery.style.transformOrigin = `${pxPct}% ${pyPct}%`;
+        const px = ((mx - rect.left) / rect.width) * 100;
+        const py = ((my - rect.top) / rect.height) * 100;
+        sketch.style.transformOrigin = `${Math.max(0, Math.min(100, px))}% ${Math.max(0, Math.min(100, py))}%`;
       } else {
         isPinching = false;
         touchStartY = e.touches[0].clientY;
@@ -277,11 +275,10 @@
     window.addEventListener('touchmove', e => {
       e.preventDefault();
       if (e.touches.length === 2 && isPinching) {
-        // Pinch: distance change → scroll delta
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
         const dist = Math.hypot(dx, dy);
-        const delta = (dist - lastPinchDist) * 3; // pinch out = positive = zoom in
+        const delta = (dist - lastPinchDist) * 3;
         lastPinchDist = dist;
 
         const effective = dampenDelta(delta, scrollPos);
@@ -289,7 +286,6 @@
         scrollPos = Math.max(-DOWN_MAX, Math.min(UP_MAX, scrollPos));
         requestAnimationFrame(applyScroll);
       } else if (e.touches.length === 1 && !isPinching) {
-        // Single finger scroll
         const dy = touchStartY - e.touches[0].clientY;
         touchStartY = e.touches[0].clientY;
         const effective = dampenDelta(dy * 2, scrollPos);
@@ -302,9 +298,8 @@
     window.addEventListener('touchend', e => {
       if (e.touches.length < 2) {
         isPinching = false;
-        // Reset transform-origin to default door position after pinch ends
         if (e.touches.length === 0) {
-          gallery.style.transformOrigin = '70% 30%';
+          sketch.style.transformOrigin = DEFAULT_ORIGIN;
         }
       }
     }, { passive: true });
