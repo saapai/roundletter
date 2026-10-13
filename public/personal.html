@@ -50,12 +50,12 @@
       transform-origin: 55% 28%;
       /* Subtle edge feather */
       -webkit-mask-image:
-        linear-gradient(to right,  transparent, black 4%, black 96%, transparent),
-        linear-gradient(to bottom, transparent, black 4%, black 96%, transparent);
+        linear-gradient(to right,  transparent, rgba(0,0,0,0.5) 3%, black 8%, black 92%, rgba(0,0,0,0.5) 97%, transparent),
+        linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 3%, black 8%, black 92%, rgba(0,0,0,0.5) 97%, transparent);
       -webkit-mask-composite: source-in;
       mask-image:
-        linear-gradient(to right,  transparent, black 4%, black 96%, transparent),
-        linear-gradient(to bottom, transparent, black 4%, black 96%, transparent);
+        linear-gradient(to right,  transparent, rgba(0,0,0,0.5) 3%, black 8%, black 92%, rgba(0,0,0,0.5) 97%, transparent),
+        linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 3%, black 8%, black 92%, rgba(0,0,0,0.5) 97%, transparent);
       mask-composite: intersect;
     }
 
@@ -157,8 +157,8 @@
     const eyesEl = document.getElementById('eyes');
 
     let scrollPos = 0;
-    const UP_MAX = 2000;
-    const DOWN_MAX = 800;
+    const UP_MAX = 600;
+    const DOWN_MAX = 400;
 
     const TILT = 5;
     const MAX_SCALE_IN = 4.0;
