@@ -23,45 +23,19 @@
       z-index: 0;
       background: url('/art/bg-painting.jpeg') center center / cover no-repeat;
       filter: brightness(0.45) saturate(0.8);
-      will-change: opacity;
-    }
-
-    /* Vignette fades to paper-white, centered on the sketch */
-    .vignette {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0;
-      background: radial-gradient(
-        ellipse 45% 50% at 50% 50%,
-        rgba(240,237,232,0.0) 30%,
-        rgba(240,237,232,0.8) 65%,
-        rgba(240,237,232,1) 100%
-      );
-      will-change: opacity;
-    }
-
-    /* Full paper color wash that fades in at the end */
-    .paper-wash {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background: #F0EDE8;
-      opacity: 0;
-      will-change: opacity;
     }
 
     .gallery {
       position: relative;
-      z-index: 2;
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       box-sizing: border-box;
       will-change: transform;
+      /* transform-origin set to the doorframe spot on the sketch */
+      transform-origin: 42% 38%;
     }
 
     .sketch {
@@ -73,6 +47,21 @@
       object-fit: contain;
       opacity: 0;
       animation: reveal 1.8s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s forwards;
+      /* Feather edges so sketch dissolves into the background */
+      mask-image: radial-gradient(
+        ellipse 85% 85% at 50% 50%,
+        black 55%,
+        rgba(0,0,0,0.6) 72%,
+        rgba(0,0,0,0.2) 88%,
+        transparent 100%
+      );
+      -webkit-mask-image: radial-gradient(
+        ellipse 85% 85% at 50% 50%,
+        black 55%,
+        rgba(0,0,0,0.6) 72%,
+        rgba(0,0,0,0.2) 88%,
+        transparent 100%
+      );
     }
 
     @keyframes reveal {
@@ -95,8 +84,6 @@
       line-height: 1;
       user-select: none;
       animation: placard-in 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) 1.8s forwards;
-      will-change: opacity;
-      transition: color 0.6s ease;
     }
 
     @keyframes placard-in {
@@ -143,7 +130,6 @@
     .eye.blink .pupil { opacity: 0; }
 
     @media (max-width: 640px) {
-      .gallery { padding: 18vh 6vw 8vh; }
       .sketch { max-width: 88vw; max-height: 60vh; }
       .name { bottom: 1.25rem; right: 1.5rem; font-size: 10px; letter-spacing: 0.08em; }
       .eyes-wrap { top: 12px; gap: 6px; }
@@ -157,8 +143,6 @@
 </head>
 <body>
   <div class="bg" id="bg"></div>
-  <div class="paper-wash" id="paperWash"></div>
-  <div class="vignette" id="vignette"></div>
 
   <div class="eyes-wrap" id="eyes">
     <div class="eye"><div class="pupil"></div></div>
@@ -173,15 +157,18 @@
 
   <script>
     const bg = document.getElementById('bg');
-    const vignette = document.getElementById('vignette');
-    const paperWash = document.getElementById('paperWash');
     const gallery = document.getElementById('gallery');
     const sketch = document.getElementById('sketch');
     const nameEl = document.getElementById('nameEl');
     const eyesEl = document.getElementById('eyes');
 
+    // rawScroll: negative = scroll down (into bg), positive = scroll up (into sketch)
     let rawScroll = 0;
-    const MAX_SCROLL = 2800;
+    const SCROLL_UP_MAX = 2000;   // into the sketch
+    const SCROLL_DOWN_MAX = 1500; // into the background
+
+    const TILT_CORRECTION = -8;
+    const MAX_SCALE_IN = 3.2;
 
     // Bell curve rate: slow → fast → slow
     function bellCurveMap(t) {
@@ -191,77 +178,87 @@
       return 1 / (1 + Math.exp(-1.7 * z * (1 + 0.044715 * z * z) * 1.5));
     }
 
-    // Figure out how much to scale the sketch to fill viewport
-    function getSketchFillScale() {
-      const rect = sketch.getBoundingClientRect();
-      if (!rect.width || !rect.height) return 3;
-      const sx = window.innerWidth / rect.width;
-      const sy = window.innerHeight / rect.height;
-      return Math.max(sx, sy) * 1.15; // slight overfill
-    }
-
     function applyScroll() {
-      const t = Math.max(0, Math.min(1, rawScroll / MAX_SCROLL));
-      const eased = bellCurveMap(t);
+      if (rawScroll >= 0) {
+        // ── SCROLL UP: zoom into the sketch ──
+        const t = Math.min(1, rawScroll / SCROLL_UP_MAX);
+        const eased = bellCurveMap(t);
 
-      const fillScale = getSketchFillScale();
+        const scale = 1 + eased * (MAX_SCALE_IN - 1);
+        const rotate = eased * TILT_CORRECTION;
+        gallery.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+        gallery.style.opacity = 1;
 
-      // ── Sketch: scales up + slight spiral rotation ──
-      const sketchScale = 1 + eased * (fillScale - 1);
-      const sketchRotate = eased * 35; // gentle spiral, not violent
-      gallery.style.transform = `scale(${sketchScale}) rotate(${sketchRotate}deg)`;
+        // Relax mask as sketch fills viewport
+        const maskCore = 55 + eased * 30;
+        const maskMid = 72 + eased * 18;
+        const maskOuter = 88 + eased * 10;
+        const maskCSS = `radial-gradient(
+          ellipse 85% 85% at 50% 50%,
+          black ${maskCore}%,
+          rgba(0,0,0,0.6) ${maskMid}%,
+          rgba(0,0,0,0.2) ${maskOuter}%,
+          transparent 100%
+        )`;
+        sketch.style.maskImage = maskCSS;
+        sketch.style.webkitMaskImage = maskCSS;
 
-      // ── Background: fades out as sketch takes over ──
-      bg.style.opacity = Math.max(0, 1 - eased * 2.5); // gone by 40%
+        // Bg dims as sketch takes over
+        const bgBrightness = 0.45 - eased * 0.2;
+        bg.style.filter = `brightness(${bgBrightness}) saturate(${0.8 - eased * 0.3})`;
 
-      // ── Vignette: paper-colored, closes in to mask bg edges ──
-      // Fades in as bg fades, creating seamless transition
-      const vigOpacity = Math.min(1, eased * 2); // fully on by 50%
-      vignette.style.opacity = vigOpacity;
+        nameEl.style.opacity = Math.max(0, 1 - t * 3);
+        eyesEl.style.opacity = Math.max(0, 1 - t * 4);
 
-      // Vignette hole shrinks: sketch grows to fill it
-      const holeSize = 50 - eased * 25; // 50% → 25% (sketch fills the rest)
-      vignette.style.background = `radial-gradient(
-        ellipse ${holeSize}% ${holeSize * 1.1}% at 50% 50%,
-        transparent 60%,
-        rgba(240,237,232,0.7) 80%,
-        rgba(240,237,232,1) 100%
-      )`;
-
-      // ── Paper wash: fills in fully at the end ──
-      // Only kicks in late, covering any remaining bg peeks
-      const washOpacity = Math.max(0, (eased - 0.6) / 0.4); // 0 until 60%, then 0→1
-      paperWash.style.opacity = washOpacity;
-
-      // ── Name: transitions to dark on paper ──
-      if (eased > 0.5) {
-        nameEl.style.color = `rgba(0,0,0,0.3)`;
       } else {
-        nameEl.style.color = `rgba(255,255,255,0.6)`;
-      }
+        // ── SCROLL DOWN: dissolve sketch, reveal background painting ──
+        const t = Math.min(1, Math.abs(rawScroll) / SCROLL_DOWN_MAX);
+        const eased = bellCurveMap(t);
 
-      // ── Eyes fade out early ──
-      eyesEl.style.opacity = Math.max(0, 1 - t * 5);
+        // Sketch shrinks slightly and fades out
+        const scale = 1 - eased * 0.15;
+        gallery.style.transform = `scale(${scale})`;
+        gallery.style.opacity = Math.max(0, 1 - eased * 1.8);
+
+        // Reset mask to default
+        const defaultMask = `radial-gradient(
+          ellipse 85% 85% at 50% 50%,
+          black 55%, rgba(0,0,0,0.6) 72%, rgba(0,0,0,0.2) 88%, transparent 100%
+        )`;
+        sketch.style.maskImage = defaultMask;
+        sketch.style.webkitMaskImage = defaultMask;
+
+        // Background brightens, saturates — painting revealed
+        const bgBrightness = 0.45 + eased * 0.45; // 0.45 → 0.9
+        const bgSaturate = 0.8 + eased * 0.25;    // 0.8 → 1.05
+        bg.style.filter = `brightness(${bgBrightness}) saturate(${bgSaturate})`;
+
+        // Name fades out
+        nameEl.style.opacity = Math.max(0, 1 - t * 2.5);
+        eyesEl.style.opacity = Math.max(0, 1 - t * 3);
+      }
     }
 
-    // Wheel
+    // Wheel — bidirectional
     window.addEventListener('wheel', e => {
       e.preventDefault();
-      rawScroll = Math.max(0, rawScroll + e.deltaY);
+      rawScroll += e.deltaY;
+      // Clamp both directions
+      rawScroll = Math.max(-SCROLL_DOWN_MAX, Math.min(SCROLL_UP_MAX, rawScroll));
       requestAnimationFrame(applyScroll);
     }, { passive: false });
 
-    // Touch
+    // Touch — bidirectional
     let touchStartY = 0;
     window.addEventListener('touchstart', e => {
       touchStartY = e.touches[0].clientY;
     }, { passive: true });
-
     window.addEventListener('touchmove', e => {
       e.preventDefault();
       const dy = touchStartY - e.touches[0].clientY;
       touchStartY = e.touches[0].clientY;
-      rawScroll = Math.max(0, rawScroll + dy * 2.5);
+      rawScroll += dy * 2.5;
+      rawScroll = Math.max(-SCROLL_DOWN_MAX, Math.min(SCROLL_UP_MAX, rawScroll));
       requestAnimationFrame(applyScroll);
     }, { passive: false });
 
