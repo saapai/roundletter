@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 // when going /portfolio → /.
 const BARE_PATHS = new Set([
   "/",
+  "/classic",
   "/archive",
   "/17",
   "/keys",
